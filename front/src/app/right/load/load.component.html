@@ -1,0 +1,67 @@
+<mat-toolbar>
+	Drop Your Files Here
+</mat-toolbar>
+
+<div fxLayout="column" fxLayoutAlign="space-between center" style="padding: 20px">
+
+	<div fxFill>
+		<input #inputFile (change)="inputChange($event)" accept="{{acceptedExt.join(', ')}}" hidden="true" multiple
+			   onclick="this.value=null" type="file"/>
+		<button
+			(click)="inputFile.click()"
+			color="primary"
+			fxFill
+			mat-stroked-button>
+			<span class="material-symbols-outlined">
+				upload_file
+			</span>
+			Choose [{{acceptedExt.join(', ')}}] files
+		</button>
+	</div>
+
+	<div *ngFor="let file of files; let i = index" fxFlexFill>
+
+		<div fxFlexFill fxLayout="row" fxLayoutAlign="space-between center">
+			<span style="font-size: 16px; margin: 10px; width: 100%;">{{file.name}}</span>
+			<mat-progress-bar
+				[color]="file.progress < 0 ? 'warn' : 'primary'"
+				[value]="file.progress"
+				mode="determinate"></mat-progress-bar>
+		</div>
+		<ngx-monaco-editor
+			*ngIf="files[i].text.length < 10000000"
+			[(ngModel)]="files[i].text"
+			[options]="editorOptions"
+			style="width: 50vw; height: 50vh">
+		</ngx-monaco-editor>
+	</div>
+
+	<mat-divider style="width: 100%; margin: 10px 0px"></mat-divider>
+
+	<div fxFlexFill fxLayout="row" fxLayoutAlign="space-between center">
+		<button
+			(click)="files = []"
+			[disabled]="files.length < 1"
+			mat-button>
+			Clear All
+		</button>
+
+		<button
+			*ngIf="!isLoading"
+			(click)="importFiles()"
+			[disabled]="files.length < 1"
+			color="primary"
+			mat-raised-button>
+			<span class="material-symbols-outlined">
+				exit_to_app
+			</span>
+			Load Files
+		</button>
+
+		<mat-spinner
+			*ngIf="isLoading"
+			[diameter]="30"
+			color="primary"
+		></mat-spinner>
+	</div>
+</div>

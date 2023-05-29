@@ -1,0 +1,74 @@
+<mat-toolbar>
+	<button (click)="add()"
+			color="primary"
+			mat-flat-button>
+		<span class="material-symbols-outlined">
+			add_box
+		</span>
+		Trigger
+	</button>
+</mat-toolbar>
+
+<div id="container">
+	<div *ngIf="!triggers || triggers.length < 1"
+		 style="margin: 100px; width: 100%; display: flex; place-content: center;">
+		No trigger for this table
+	</div>
+	<div *ngFor="let trigger of triggers" class="triggers">
+		<mat-card>
+			<mat-card-header>
+				<mat-card-subtitle style="display: flex">
+					<mat-form-field appearance="fill">
+						<mat-label>Name</mat-label>
+						<input [(ngModel)]="trigger.name" matInput required>
+					</mat-form-field>
+					<div class="flex-spacer"></div>
+					<div class="timing-event">
+						<mat-form-field>
+							<mat-label>Timing</mat-label>
+							<mat-select #timing [(ngModel)]="trigger.timing" required>
+								<mat-option *ngFor="let timing of timings" [value]="timing">
+									{{timing}}
+								</mat-option>
+							</mat-select>
+						</mat-form-field>
+						<mat-form-field>
+							<mat-label>Event</mat-label>
+							<mat-select #event [(ngModel)]="trigger.event" required>
+								<mat-option *ngFor="let event of events" [value]="event">
+									{{event}}
+								</mat-option>
+							</mat-select>
+						</mat-form-field>
+					</div>
+				</mat-card-subtitle>
+			</mat-card-header>
+			<mat-card-content>
+				<ngx-monaco-editor
+					[(ngModel)]="trigger.code"
+					[options]="editorOptions"
+					style="height: 50vh; width: 38vw">
+				</ngx-monaco-editor>
+			</mat-card-content>
+			<mat-card-footer fxLayout="row" fxLayoutAlign="space-around center">
+				<button (click)="replace(trigger)"
+						color="primary"
+						mat-stroked-button>
+					<span class="material-symbols-outlined">
+						device_hub
+					</span>
+					Save
+				</button>
+				<button (click)="delete(trigger)"
+						color="warn"
+						mat-button>
+				<span class="material-symbols-outlined">
+					delete
+				</span>
+					Drop
+				</button>
+			</mat-card-footer>
+		</mat-card>
+	</div>
+
+</div>

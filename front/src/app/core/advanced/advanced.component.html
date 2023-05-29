@@ -1,0 +1,119 @@
+<div style="height: calc(100vh - 112px)">
+
+	<div fxFlexFill fxLayout="column" fxLayoutAlign="space-between center">
+
+		<mat-toolbar
+			fxLayout="row"
+			fxLayoutAlign="space-between center"
+			style="padding: 20px">
+
+		<span>
+			{{selectedTable!.name}}
+		</span>
+
+			<button (click)="truncate()" *ngIf="!selectedTable?.view" color="warn" mat-stroked-button>
+				<span class="material-symbols-outlined">
+				  delete
+				</span>
+				Empty
+			</button>
+
+			<button (click)="drop()" color="warn" mat-button>
+				<span class="material-symbols-outlined">
+					delete_forever
+				</span>
+				Drop
+			</button>
+
+		</mat-toolbar>
+
+		<div fxLayout="column" fxLayoutAlign="center none" style="width: 400px;">
+
+			<mat-divider hidden></mat-divider>
+
+			<div *ngIf="!selectedTable?.view" fxLayout="row" fxLayoutAlign="space-between center">
+				<span>Index Size : {{+stats?.index_length  | round}} Mb</span>
+				<span>Data Size : {{+stats?.data_length  | round}} Mb</span>
+			</div>
+
+			<mat-divider *ngIf="!selectedTable?.view"></mat-divider>
+
+			<div *ngIf="!selectedTable?.view" fxLayout="row" fxLayoutAlign="space-between center">
+				<mat-form-field>
+					<mat-label>Copy Name</mat-label>
+					<input
+						#tableName
+						[value]="selectedTable?.name"
+						autocomplete="off"
+						matInput>
+				</mat-form-field>
+				<button (click)="duplicate(tableName.value)"
+						[disabled]="tableName.value.length < 1 || tableName.value === selectedTable?.name"
+						mat-stroked-button>
+				<span class="material-symbols-outlined">
+				  file_copy
+				</span>
+					Duplicate
+				</button>
+			</div>
+
+			<mat-divider *ngIf="!selectedTable?.view"></mat-divider>
+
+			<div *ngIf="!selectedTable?.view" fxLayout="row" fxLayoutAlign="space-between center">
+				<mat-form-field>
+					<mat-label>New Name</mat-label>
+					<input
+						#tableName
+						[value]="selectedTable?.name"
+						autocomplete="off"
+						matInput>
+				</mat-form-field>
+				<button (click)="rename(tableName.value)"
+						[disabled]="tableName.value.length < 1 || tableName.value === selectedTable?.name"
+						mat-stroked-button>
+				<span class="material-symbols-outlined">
+				  edit
+				</span>
+					Rename
+				</button>
+			</div>
+
+		</div>
+
+		<div>
+			<mat-accordion>
+				<mat-expansion-panel>
+					<mat-expansion-panel-header>
+						<mat-panel-title>
+							<span class="material-symbols-outlined">
+								tips_and_updates
+							</span>
+						</mat-panel-title>
+						<mat-panel-description>
+							Optimisation Tips
+						</mat-panel-description>
+					</mat-expansion-panel-header>
+					<ul>
+						<li>
+							Calculate to most used column and index it (RAM is ~100x speeder than disk)
+						</li>
+						<li>
+							Cache possible data into your backend, frontend or Redis
+						</li>
+						<li>
+							Use an optimized database for your need (eg. elasticsearch for fulltext search)
+						</li>
+						<li>
+							Check slow queries and profile them to know why it take time
+						</li>
+						<li>
+							Use the AI assistant for more advanced optimizations for a query performance or table
+							structure
+						</li>
+					</ul>
+				</mat-expansion-panel>
+			</mat-accordion>
+		</div>
+	</div>
+
+</div>

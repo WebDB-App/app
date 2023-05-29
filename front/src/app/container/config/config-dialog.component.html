@@ -1,0 +1,23 @@
+<div mat-dialog-title>
+	<h2>Configuration</h2>
+	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
+		<mat-icon>close</mat-icon>
+	</button>
+</div>
+<div mat-dialog-content>
+	<table>
+		<tr *ngFor="let config of configuration.configs">
+			<td>{{config.description}}</td>
+			<td>
+				<mat-form-field appearance="legacy" style="width: 100px; margin-left: 15px">
+					<mat-select #select (selectionChange)="update(config.name, select.value)"
+								[value]="configuration.getByName(config.name)?.value">
+						<mat-option *ngFor="let value of config.values" [value]="value">
+							{{value}}
+						</mat-option>
+					</mat-select>
+				</mat-form-field>
+			</td>
+		</tr>
+	</table>
+</div>

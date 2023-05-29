@@ -1,0 +1,27 @@
+#container {
+	display: flex;
+	width: 100%;
+	overflow: auto;
+
+	.triggers {
+		mat-card {
+			margin: 12px;
+
+			.mat-card-header {
+				display: block;
+
+				.timing-event {
+					margin-top: 12px;
+
+					mat-form-field {
+						width: 130px;
+					}
+				}
+			}
+
+			.mat-card-footer {
+				margin: 0px;
+			}
+		}
+	}
+}

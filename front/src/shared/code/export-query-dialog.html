@@ -1,0 +1,19 @@
+<div mat-dialog-title>
+	<h2>Export query to {{data.language}} ?</h2>
+	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
+		<mat-icon>close</mat-icon>
+	</button>
+</div>
+<div mat-dialog-content style="overflow: hidden;">
+	<ngx-monaco-editor
+		*ngIf="str.length < 1000000"
+		[(ngModel)]="str"
+		[options]="editorOptions"
+		style="width: 500px; height: 500px">
+	</ngx-monaco-editor>
+</div>
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="space-around center">
+	<button [cdkCopyToClipboard]="str" color="primary" mat-raised-button>
+		Copy
+	</button>
+</mat-dialog-actions>

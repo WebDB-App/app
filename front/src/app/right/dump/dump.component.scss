@@ -1,0 +1,25 @@
+.example-tree-invisible {
+	display: none;
+}
+
+.example-tree {
+	padding: 20px 20px 20px 0px;
+	background-color: rgba(0, 0, 0, 0.1);
+	border: 0.5px solid rgba(255, 255, 255, 0.2);
+}
+
+.example-tree ul,
+.example-tree li {
+	margin-top: 0;
+	margin-bottom: 0;
+	list-style-type: none;
+}
+
+
+.example-tree .mat-nested-tree-node div[role=group] {
+	padding-left: 40px;
+}
+
+.example-tree div[role=group] > .mat-tree-node {
+	padding-left: 40px;
+}

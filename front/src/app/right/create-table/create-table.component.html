@@ -1,0 +1,23 @@
+<div fxFlexFill fxLayout="column" fxLayoutAlign="start">
+	<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
+		<mat-form-field style="width: 50%;">
+			<mat-label>Table Name</mat-label>
+			<input
+				[(ngModel)]="form.name"
+				autocomplete="off"
+				matInput
+				required>
+		</mat-form-field>
+
+		<button (click)="create()"
+				[disabled]="form.columns.length < 1 || !form.name"
+				color="primary"
+				mat-flat-button>
+			<span class="material-symbols-outlined">
+				add
+			</span>
+			Create Table
+		</button>
+	</mat-toolbar>
+	<app-column [form]="form" [to_update]="false"></app-column>
+</div>

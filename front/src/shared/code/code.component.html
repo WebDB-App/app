@@ -1,0 +1,176 @@
+<div class="mat-elevation-z8" fxLayout="column" fxLayoutAlign="none">
+
+	<table id="editor"
+		   [ngClass]="{'queryPage': selectedTable}">
+		<tr>
+			<td>
+				<ngx-monaco-editor
+					#editor
+					(onInit)="initEditor($event)"
+					[(ngModel)]="query"
+					[options]="editorOptions">
+				</ngx-monaco-editor>
+			</td>
+			<td [hidden]="!diff">
+				<ngx-monaco-editor
+					#editor
+					[(ngModel)]="query2"
+					[options]="editorOptions">
+				</ngx-monaco-editor>
+			</td>
+		</tr>
+	</table>
+
+	<div fxLayout="row"
+		 fxLayoutAlign="space-between center"
+		 id="actions">
+
+		<button (click)="runQuery()"
+				*ngIf="!diff"
+				color="primary"
+				mat-raised-button>
+			<span class="material-symbols-outlined">play_arrow</span>
+			Execute
+		</button>
+
+		<button (click)="compareQuery()"
+				*ngIf="diff"
+				color="primary"
+				mat-raised-button>
+			<span class="material-symbols-outlined">difference</span>
+			Compare
+		</button>
+
+		<button (click)="setQuery()" mat-stroked-button>
+			<span class="material-symbols-outlined">checklist_rtl</span>
+			Format
+		</button>
+
+		<div *ngIf="selectedTable" class="prebuild">
+			<button (click)="prebuild('select')" mat-icon-button mat-stroked-button matTooltip="Select">
+				<span class="material-symbols-outlined">description</span>
+			</button>
+			<button (click)="prebuild('select_join')" mat-icon-button mat-stroked-button
+					matTooltip="Select with relations">
+				<span class="material-symbols-outlined">file_present</span>
+			</button>
+			<button (click)="prebuild('update')" mat-icon-button mat-stroked-button matTooltip="Update">
+				<span class="material-symbols-outlined">edit_document</span>
+			</button>
+			<button (click)="prebuild('insert')" mat-icon-button mat-stroked-button matTooltip="Insert">
+				<span class="material-symbols-outlined">note_add</span>
+			</button>
+			<button (click)="prebuild('delete')" mat-icon-button mat-stroked-button matTooltip="Delete">
+				<span class="material-symbols-outlined">scan_delete</span>
+			</button>
+		</div>
+
+		<div *ngIf="selectedTable">
+			<mat-slide-toggle
+				(click)="toggleDiff()"
+				color="primary">
+				Diff Mode
+			</mat-slide-toggle>
+		</div>
+
+		<div>
+			<button [matMenuTriggerFor]="advanced" mat-icon-button>
+				<mat-icon>more_vert</mat-icon>
+			</button>
+			<mat-menu #advanced="matMenu" xPosition="before">
+				<button [matMenuTriggerFor]="export" mat-menu-item>Export</button>
+				<!--<button *ngIf="selectedTable" [matMenuTriggerFor]="optimiz" mat-menu-item>Optimize</button>-->
+				<button [matMenuTriggerFor]="shortcuts" mat-menu-item>Shortcuts</button>
+			</mat-menu>
+
+			<mat-menu #shortcuts="matMenu">
+				<button mat-menu-item>Tab → <span style="color: #2196f3">Autocomplete</span></button>
+				<button mat-menu-item>Ctrl + s / Enter → <span style="color: #2196f3">Run Query</span></button>
+				<button mat-menu-item>Ctrl + f → <span style="color: #2196f3">Find and / or Replace</span></button>
+				<button mat-menu-item>Ctrl + l → <span style="color: #2196f3">Format Query</span></button>
+			</mat-menu>
+			<mat-menu #export="matMenu">
+				<button (click)="exportQuery('node')" mat-menu-item>Node.JS</button>
+				<button (click)="exportQuery('PDO')" mat-menu-item>PHP</button>
+				<button (click)="exportQuery('JDBC')" mat-menu-item>Java</button>
+			</mat-menu>
+		</div>
+
+		<mat-progress-bar
+			[hidden]="!isLoading"
+			style="position: absolute; left: 0px; right: 0px; bottom: 0px;"
+			mode="query"></mat-progress-bar>
+	</div>
+
+	<ngx-monaco-diff-editor
+		*ngIf="diff && !isLoading"
+		[modifiedModel]="modifiedResult"
+		[options]="editorOptions"
+		[originalModel]="originalResult"
+		style="min-height: 50vh"
+	></ngx-monaco-diff-editor>
+
+	<div *ngIf="!diff && dataSource?.data">
+
+		<mat-toolbar *ngIf="dataSource?.data?.length"
+					 fxLayout="row"
+					 fxLayoutAlign="space-between center"
+					 style="padding-left: 20px;"
+		>
+			<mat-form-field>
+				<mat-label>
+					Export Result
+				</mat-label>
+				<mat-select #exportResultType (selectionChange)="exportResult(exportResultType.value)">
+					<mat-option [value]="'csv'">CSV</mat-option>
+					<mat-option [value]="'json'">JSON</mat-option>
+				</mat-select>
+			</mat-form-field>
+
+			<div matTooltip="Time waited by the front to retrieve data"
+				 style="font-size: 14px; margin: 0px 20px">
+				{{ping}} ms
+			</div>
+
+			<div style="display: flex; align-items: center;">
+				<button
+					(click)="setAutoUp()"
+					[color]="autoUp ? 'primary' : null"
+					[ngClass]="{'mat-raised-button' : autoUp}"
+					mat-button
+					matTooltip="Reload data periodically">
+					<span class="material-symbols-outlined">
+						repeat
+					</span>
+				</button>
+
+				<mat-paginator hidePageSize
+							   pageSize="{{pageSize}}"
+							   showFirstLastButtons="true"></mat-paginator>
+			</div>
+		</mat-toolbar>
+
+		<div class="scrollDiv">
+
+			<mat-divider></mat-divider>
+
+			<table [dataSource]="dataSource!" class="table" mat-table>
+				<ng-container
+					*ngFor="let column of displayedColumns"
+					matColumnDef="{{column}}"
+				>
+					<th *matHeaderCellDef mat-header-cell>
+						{{column}}
+					</th>
+					<td *matCellDef="let row" mat-cell>
+						<ngx-json-viewer *ngIf="isNested(row[column])" [json]="row[column]"></ngx-json-viewer>
+						<ng-container *ngIf="!isNested(row[column])">{{row[column]}}</ng-container>
+					</td>
+				</ng-container>
+
+				<tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+				<tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+			</table>
+		</div>
+	</div>
+</div>

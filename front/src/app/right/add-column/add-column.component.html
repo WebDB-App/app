@@ -1,0 +1,23 @@
+<div fxFlexFill fxLayout="column" fxLayoutAlign="start" fxLayoutGap="20px">
+
+	<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
+		<div>Add Column for {{table?.name}}</div>
+
+		<div>
+			<button (click)="add()"
+					[disabled]="form.columns.length < 1"
+					color="accent"
+					mat-flat-button>
+				<span class="material-symbols-outlined">
+					view_column_2
+				</span>
+				Apply
+			</button>
+		</div>
+	</mat-toolbar>
+
+	<div style="padding: 20px">
+		<app-column [form]="form" [to_update]="false"></app-column>
+	</div>
+
+</div>

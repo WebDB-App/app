@@ -1,0 +1,9 @@
+<div mat-dialog-title>
+	<h2>Sure to truncate table ?</h2>
+	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
+		<mat-icon>close</mat-icon>
+	</button>
+</div>
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="space-around center">
+	<button (click)="truncate()" color="warn" mat-button>Empty Table</button>
+</mat-dialog-actions>

@@ -1,0 +1,83 @@
+<div class="container">
+
+	<div *ngFor="let column of form.columns; let i = index"
+		 class="column"
+		 fxLayout="row"
+		 fxLayoutAlign="space-around center"
+		 fxLayoutGap="20px">
+
+		<mat-form-field appearance="outline">
+			<mat-label>Column Name</mat-label>
+			<input [(ngModel)]="column.name"
+				   autocomplete="off"
+				   matInput
+				   required>
+		</mat-form-field>
+
+		<mat-form-field appearance="fill">
+			<mat-label>Type</mat-label>
+			<input [(ngModel)]="column.type"
+				   [matAutocomplete]="autoGroup"
+				   matInput
+				   pattern="^(?!.*size).*$"
+				   required
+				   type="text">
+			<mat-autocomplete #autoGroup="matAutocomplete">
+				<mat-optgroup *ngFor="let group of selectedServer!.driver.typesList" [label]="group.name">
+					<ng-container *ngIf="!this.configuration.getByName('onlyCommonType')?.value">
+						<mat-option *ngFor="let type of group.full" [value]="type">
+							{{type}}
+						</mat-option>
+					</ng-container>
+					<ng-container *ngIf="this.configuration.getByName('onlyCommonType')?.value">
+						<mat-option *ngFor="let type of group.proposition" [value]="type">
+							{{type}}
+						</mat-option>
+					</ng-container>
+				</mat-optgroup>
+			</mat-autocomplete>
+		</mat-form-field>
+
+		<mat-form-field appearance="fill" *ngIf="extraAttributes.length">
+			<mat-label>Extras</mat-label>
+			<mat-select [(ngModel)]="column.extra"
+						multiple>
+				<ng-container *ngFor="let ext of extraAttributes">
+					<mat-option
+						[value]="ext">
+						{{ext}}
+					</mat-option>
+				</ng-container>
+			</mat-select>
+		</mat-form-field>
+
+		<mat-slide-toggle
+			[(ngModel)]="column.nullable"
+			color="primary">
+			Nullable
+		</mat-slide-toggle>
+
+		<mat-form-field>
+			<mat-label>Default Value on Null</mat-label>
+			<input [(ngModel)]="column.defaut"
+				   [disabled]="!column.nullable"
+				   autocomplete="off"
+				   matInput>
+		</mat-form-field>
+
+		<button (click)="form.columns.splice(i, 1)" *ngIf="!to_update" mat-icon-button mat-raised-button>
+			<span class="material-symbols-outlined">
+				remove
+			</span>
+		</button>
+
+	</div>
+
+	<div style="text-align: center;">
+		<button (click)="addColumn()" *ngIf="!to_update" color="primary" mat-icon-button mat-stroked-button>
+			<span class="material-symbols-outlined">
+				add
+			</span>
+		</button>
+	</div>
+</div>

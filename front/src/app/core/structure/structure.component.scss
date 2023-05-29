@@ -1,0 +1,10 @@
+table {
+	th:last-child {
+		width: 0px;
+	}
+
+	::ng-deep .hoverClass {
+		border-top: 1px solid #2196f3;
+		border-bottom: 1px solid #2196f3;
+	}
+}

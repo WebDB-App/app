@@ -1,0 +1,80 @@
+#container {
+	display: flex;
+	overflow: auto;
+	place-content: space-evenly;
+	height: calc(100vh - 112px);
+
+	.driver {
+		min-width: 440px;
+
+		.logo {
+			margin: 15px auto;
+		}
+	}
+
+	.mat-expansion-panel-header {
+		height: 58px;
+	}
+}
+
+@media (max-width: 900px) {
+	#container {
+		display: inherit;
+	}
+}
+
+::ng-deep .driver {
+	margin: 15px;
+
+	.logo {
+		background-color: #ffffff;
+		border-radius: 3px;
+		text-align: center;
+		opacity: 0.6;
+
+		img {
+			vertical-align: middle;
+			padding: 10px;
+			width: 110px;
+			height: 42px;
+		}
+	}
+
+	&:hover {
+		.logo {
+			opacity: 1;
+		}
+	}
+}
+
+::ng-deep .connection {
+
+	.mat-form-field {
+		margin-bottom: -1.25em
+	}
+
+	.driver {
+		cursor: pointer;
+		align-self: center;
+	}
+
+	.mat-horizontal-stepper-content {
+		justify-content: space-evenly;
+		display: flex;
+		flex-direction: column;
+		height: 330px;
+		width: 700px;
+
+		> div {
+			place-content: space-around;
+			flex-direction: row;
+			box-sizing: border-box;
+			display: flex;
+			align-items: center;
+		}
+	}
+
+	.mat-horizontal-content-container {
+		padding: 4px;
+	}
+}

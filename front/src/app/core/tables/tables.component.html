@@ -1,0 +1,94 @@
+<mat-sidenav-container autosize fxFlexFill id="container">
+	<mat-sidenav #sidenav mode="side" opened disableClose>
+		<mat-list [ngClass]="{'extend': extend}" fxLayout="column" id="tableList">
+
+			<mat-list-item>
+				<mat-form-field style="width: 100%">
+					<input #filter
+						   (keyup)="filterChanged(filter.value)"
+						   autocomplete="off"
+						   matInput
+						   placeholder="Search Table | Column">
+					<button (click)="filter.value=''; filterChanged(filter.value)" *ngIf="filter.value"
+							aria-label="Clear" mat-button mat-icon-button
+							matSuffix>
+						<mat-icon>close</mat-icon>
+					</button>
+				</mat-form-field>
+			</mat-list-item>
+
+			<mat-list-item
+				*ngIf="!selectedDatabase || !selectedDatabase?.tables || selectedDatabase.tables!.length < 1">
+				No table
+			</mat-list-item>
+
+			<mat-selection-list [multiple]="false">
+				<mat-list-option
+					(click)="changeTable(table.name)"
+					*ngFor="let table of selectedDatabase?.tables"
+					[class.mat-list-single-selected-option]="selectedTable?.name === table.name"
+					[hidden]="table.hide"
+					[style.font-style]="table.view == true ? 'italic' : null">
+					<span
+						[matTooltip]="tooltips[table.name]"
+						matTooltipClass="columnTooltip"
+						matTooltipPosition="right">
+						{{table.name}}
+					</span>
+				</mat-list-option>
+			</mat-selection-list>
+
+			<span fxFlex></span>
+
+			<mat-list-item>
+
+				<button
+					(click)="extend = !extend"
+					mat-button>
+					<span
+						*ngIf="extend"
+						class="material-symbols-outlined">
+						keyboard_double_arrow_left
+					</span>
+					<span
+						*ngIf="!extend"
+						class="material-symbols-outlined">
+						keyboard_double_arrow_right
+					</span>
+				</button>
+
+				<button (click)="addTable()"
+						*ngIf="extend"
+						color="primary"
+						mat-stroked-button
+						style="width: 100%;">
+					<span class="material-symbols-outlined">
+						add_box
+					</span>
+					Table
+				</button>
+			</mat-list-item>
+
+		</mat-list>
+	</mat-sidenav>
+	<mat-sidenav-content [hidden]="!selectedDatabase?.tables?.length">
+		<mat-sidenav-container fxFlexFill>
+
+			<nav [tabPanel]="tabPanel" mat-tab-nav-bar>
+				<a #rla="routerLinkActive" *ngFor="let tab of tabs"
+				   [active]="rla.isActive"
+				   [routerLinkActive]="['mat-list-single-selected-option', 'mat-tab-label-active']"
+				   [routerLink]="[tab.link.toLocaleLowerCase()]"
+				   mat-tab-link
+				   style="width: 100%">
+					<span class="material-symbols-outlined">{{tab.icon}}</span>
+					{{tab.link}}
+				</a>
+			</nav>
+			<mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
+
+			<router-outlet></router-outlet>
+
+		</mat-sidenav-container>
+	</mat-sidenav-content>
+</mat-sidenav-container>

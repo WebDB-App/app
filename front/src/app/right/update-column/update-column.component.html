@@ -1,0 +1,22 @@
+<div fxFlexFill fxLayout="column" fxLayoutAlign="start" fxLayoutGap="20px">
+
+	<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
+		<div>Alter Column</div>
+
+		<div>
+			<button (click)="update()"
+					[disabled]="form.columns.length < 1"
+					color="accent"
+					mat-flat-button>
+				<span class="material-symbols-outlined">
+					drive_file_rename_outline
+				</span>
+				Apply
+			</button>
+		</div>
+	</mat-toolbar>
+
+	<div style="padding: 20px">
+		<app-column [form]="form" [to_update]="true"></app-column>
+	</div>
+</div>

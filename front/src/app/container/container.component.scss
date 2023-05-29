@@ -1,0 +1,48 @@
+mat-drawer {
+	min-width: 33vw;
+	max-width: calc(100vw - 285px);
+}
+
+#title {
+	color: #2196f3;
+	font-size: 30px;
+	vertical-align: middle;
+	font-weight: initial;
+}
+
+#serverName {
+	font-weight: lighter;
+
+	> span {
+		margin: 0px 6px;
+	}
+}
+
+#home {
+	will-change: background-color;
+	transition: background-color 1s ease-out;
+}
+
+::ng-deep .external .material-symbols-outlined {
+	margin-right: 16px;
+	vertical-align: middle;
+}
+
+.panel {
+	overflow-x: auto;
+	border-radius: 0px;
+
+	&, ::ng-deep .mat-button-toggle-button {
+		height: 100%;
+
+		.txt {
+			font-weight: lighter;
+		}
+	}
+}
+
+@media (max-width: 1250px) {
+	.panel .txt {
+		display: none;
+	}
+}
