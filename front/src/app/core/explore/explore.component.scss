@@ -1,0 +1,20 @@
+.table {
+	th:last-child {
+		width: 0px;
+	}
+
+	th:hover .filterBtn {
+		display: block;
+		position: absolute;
+		right: 3px;
+		top: 8px;
+	}
+
+	.filterBtn {
+		display: none;
+
+		.material-symbols-outlined {
+			font-size: 17px;
+		}
+	}
+}

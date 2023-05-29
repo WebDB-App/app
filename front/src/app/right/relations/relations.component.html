@@ -1,0 +1,140 @@
+<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
+	<mat-form-field>
+		<mat-label>Search Relation</mat-label>
+		<input (keyup)="applyFilter($event)"
+			   autocomplete="off"
+			   matInput>
+	</mat-form-field>
+</mat-toolbar>
+
+<div class="scrollDiv mat-elevation-z8">
+	<table [dataSource]="dataSource" class="table" mat-table>
+		<ng-container
+			*ngFor="let column of displayedColumns"
+			[stickyEnd]="column === actionColum"
+			matColumnDef="{{column}}"
+		>
+			<th *matHeaderCellDef mat-header-cell>
+				{{column === actionColum ? '' : column}}
+			</th>
+			<td *matCellDef="let row; let i = index" mat-cell>
+				<ng-container *ngIf="column === actionColum">
+					<button (click)="delete(row)"
+							mat-icon-button>
+						<span class="material-symbols-outlined">
+							delete_forever
+						</span>
+					</button>
+				</ng-container>
+
+				<ng-container *ngIf="column !== actionColum">
+					{{row[column]}}
+				</ng-container>
+			</td>
+		</ng-container>
+
+		<tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+		<tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+
+		<tr *matNoDataRow class="mat-row">
+			<td class="mat-cell" colspan="100%">No Relations</td>
+		</tr>
+	</table>
+</div>
+
+<div fxLayout="row" fxLayoutAlign="center center">
+
+	<table class="new">
+		<tr>
+			<td><h3>Source</h3></td>
+			<td>
+				<mat-form-field appearance="fill">
+					<mat-label>Table</mat-label>
+					<mat-select #sourceTable
+								[compareWith]="tableComparison">
+						<mat-option *ngFor="let table of selectedDatabase?.tables" [value]="table">
+							{{table.name}}
+						</mat-option>
+					</mat-select>
+				</mat-form-field>
+			</td>
+			<td>
+				<mat-form-field [hidden]="!sourceTable.value" appearance="fill">
+					<mat-label>Column</mat-label>
+					<mat-select #sourceColumn>
+						<ng-container *ngIf="sourceTable.value">
+							<mat-option *ngFor="let column of sourceTable.value.columns" [value]="column.name">
+								{{column.name}}
+							</mat-option>
+						</ng-container>
+					</mat-select>
+				</mat-form-field>
+			</td>
+			<td rowspan="3" style="text-align: center">
+				<button
+					(click)="add(sourceTable.value, sourceColumn.value, destTable.value, destColumn.value, update_rule.value, delete_row.value)"
+					[disabled]="!sourceColumn.value || !destColumn.value || !update_rule.value || !delete_row.value"
+					color="primary"
+					mat-raised-button>
+					<span class="material-symbols-outlined">
+						add
+					</span>
+					Relation
+				</button>
+			</td>
+		</tr>
+		<tr>
+			<td><h3>Destination</h3></td>
+			<td>
+				<mat-form-field appearance="fill">
+					<mat-label>Table</mat-label>
+					<mat-select #destTable
+								[compareWith]="tableComparison">
+						<mat-option *ngFor="let table of selectedDatabase?.tables"
+									[value]="table">
+							{{table.name}}
+						</mat-option>
+					</mat-select>
+				</mat-form-field>
+			</td>
+			<td>
+				<mat-form-field [hidden]="!destTable.value" appearance="fill">
+					<mat-label>Column</mat-label>
+					<mat-select #destColumn>
+						<ng-container *ngIf="destTable.value">
+							<mat-option *ngFor="let column of destTable.value.columns"
+										[value]="column.name">
+								{{column.name}}
+							</mat-option>
+						</ng-container>
+					</mat-select>
+				</mat-form-field>
+			</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td><h3>Constraint</h3></td>
+			<td>
+				<mat-form-field appearance="outline">
+					<mat-label>Delete</mat-label>
+					<mat-select #delete_row [value]="constraints![0]">
+						<mat-option *ngFor="let constraint of constraints" [value]="constraint">
+							{{constraint}}
+						</mat-option>
+					</mat-select>
+				</mat-form-field>
+			</td>
+			<td>
+				<mat-form-field appearance="outline">
+					<mat-label>Update</mat-label>
+					<mat-select #update_rule [value]="constraints![0]">
+						<mat-option *ngFor="let constraint of constraints" [value]="constraint">
+							{{constraint}}
+						</mat-option>
+					</mat-select>
+				</mat-form-field>
+			</td>
+			<td></td>
+		</tr>
+	</table>
+</div>

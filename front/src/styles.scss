@@ -1,0 +1,239 @@
+@use '@angular/material' as mat;
+
+@import "@angular/material/theming";
+
+@include mat.core();
+
+$angular-primary: mat.define-palette(mat.$blue-palette, 500, 100, 900);
+$angular-accent: mat.define-palette(mat.$orange-palette, 500, 100, 900);
+$angular-warn: mat.define-palette(mat.$red-palette);
+
+$angular-dark-theme: mat.define-dark-theme((
+	color: (
+		primary: $angular-primary,
+		accent: $angular-accent,
+		warn: $angular-warn,
+	),
+	density: -2,
+));
+
+$bottom-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+
+@include mat.all-component-themes($angular-dark-theme);
+
+html, body {
+	height: 100%;
+}
+
+body {
+	margin: 0;
+	font-family: Roboto, "Helvetica Neue", sans-serif;
+	font-weight: lighter !important;
+}
+
+.mat-tooltip {
+	white-space: pre-line !important;
+}
+
+[hidden] {
+	display: none !important;
+}
+
+.mat-drawer, .mat-sidenav, .mat-dialog-container {
+	background-color: #303030;
+}
+
+.table {
+	width: 100%;
+	white-space: nowrap;
+	background-color: #303030;
+
+	.mat-header-cell {
+		color: mat-color($angular-primary, 300);
+		font-size: 15px;
+
+		input {
+			width: 100%;
+
+			&::placeholder {
+				color: mat-color($angular-primary, 300);
+			}
+		}
+	}
+
+	.mat-cell, .mat-header-cell {
+		min-width: 45px;
+		padding: 0px 14px !important;
+	}
+
+	.mat-cell {
+		max-width: 350px;
+		font-size: 13px;
+		overflow-x: auto;
+		overflow-y: hidden;
+		border-top: 1px solid transparent;
+		border-bottom: 1px solid transparent;
+
+		.material-symbols-outlined {
+			font-size: 20px;
+		}
+
+		.mat-icon-button {
+			width: 36px;
+			height: 36px;
+			line-height: 36px;
+		}
+	}
+
+	.mat-checkbox {
+		margin: 0px 8px;
+	}
+
+	.mat-row:nth-child(even) {
+		background-color: rgba(0, 0, 0, 0.2);
+	}
+
+	.mat-cell:nth-child(even) {
+		background-color: rgba(0, 0, 0, 0.2);
+	}
+
+	.mat-table-sticky {
+		background-color: #1e1e1e !important;
+		box-shadow: $bottom-shadow;
+	}
+
+	tbody {
+		.mat-icon-button, .mat-checkbox {
+			opacity: 0.3;
+		}
+
+		.mat-row {
+			height: 38px;
+		}
+
+		.mat-row:hover .mat-cell, .mat-cell.selected {
+			.mat-icon-button, .mat-checkbox {
+				opacity: 1;
+			}
+		}
+
+		.mat-row:hover .mat-cell {
+			border-top: 1px solid mat-color($angular-primary, default);
+			border-bottom: 1px solid mat-color($angular-primary, default);
+		}
+
+		.mat-cell.selected {
+			background-color: #1e1e1e;
+		}
+	}
+}
+
+.mat-paginator-range-label {
+	font-size: 14px;
+}
+
+a {
+	color: mat-color($angular-primary, default)
+}
+
+.toUpdate, .toUpdate .mat-select-value {
+	color: #ff9800 !important;
+	white-space: pre;
+}
+
+.snack-error {
+	background-color: mat-color($angular-accent, default)
+}
+
+.mat-paginator {
+	background-color: inherit;
+}
+
+.mat-tooltip {
+	backdrop-filter: blur(2px);
+}
+
+.columnTooltip {
+	padding: 12px !important;
+	font-size: 14px;
+	line-height: 25px;
+}
+
+.mat-dialog-title {
+	display: flex !important;
+	justify-content: space-between;
+	border-bottom: 1px solid #555555;
+
+	h2 {
+		margin: 0px 30px 0px 0px !important;
+		align-self: center;
+	}
+}
+
+.mat-dialog-content {
+	padding-top: 10px !important;
+	padding-bottom: 10px !important;
+}
+
+.mat-autocomplete-panel, .mat-select-panel {
+	max-height: 50vh !important;
+}
+
+.flex-spacer {
+	flex: 1 1 auto;
+}
+
+.scrollDiv {
+	width: 100%;
+	overflow: auto;
+}
+
+::-webkit-scrollbar {
+	width: 10px;
+	height: 10px;
+}
+
+::-webkit-scrollbar-track {
+	border-left: 1px solid #444;
+}
+
+::-webkit-scrollbar-thumb {
+	background: #555;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: #666;
+}
+
+.mat-toolbar {
+	box-shadow: $bottom-shadow;
+	background-color: #121212;
+
+	.mat-form-field, .mat-select, .mat-slide-toggle, .mat-button-toggle-group {
+		font-size: 14px !important;
+	}
+}
+
+.cdk-overlay-dark-backdrop {
+	background-color: rgba(189, 189, 189, 0.6);
+}
+
+:root {
+	--ngx-json-array: white;
+	--ngx-json-object: white;
+	--ngx-json-toggler: white;
+	--ngx-json-key: white;
+	--ngx-json-separator: white;
+	--ngx-json-value: white;
+
+	--ngx-json-string: white;
+	--ngx-json-number: white;
+	--ngx-json-boolean: white;
+	--ngx-json-date: white;
+	--ngx-json-null: white;
+	--ngx-json-undefined: white;
+
+	--ngx-json-font-family: Roboto;
+}
+
+//https://stackoverflow.com/questions/45089178/how-to-get-primary-or-accent-color-of-currently-applied-theme-in-angular-materia

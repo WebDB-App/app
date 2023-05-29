@@ -1,0 +1,18 @@
+<div mat-dialog-title>
+	<h2>Create Database in {{server.name}}</h2>
+	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
+		<mat-icon>close</mat-icon>
+	</button>
+</div>
+<div mat-dialog-content>
+	<mat-form-field appearance="fill" style="width: 100%">
+		<mat-label>Database Name</mat-label>
+		<input #name
+			   autocomplete="off"
+			   matInput
+			   required>
+	</mat-form-field>
+</div>
+<div fxLayout="row" fxLayoutAlign="space-around center" mat-dialog-actions>
+	<button (click)="createDb(name.value)" [disabled]="!name.value" color="primary" mat-raised-button>Create</button>
+</div>

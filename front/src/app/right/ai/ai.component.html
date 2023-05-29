@@ -1,0 +1,147 @@
+<ng-container *ngIf="licence?.plan === 'free'">
+	You must get a plan to access this feature
+
+	<a href="https://webdb.app/price" mat-stroked-button target="_blank">
+		<span class="material-symbols-outlined">
+			subscriptions
+		</span>
+		Plans
+	</a>
+</ng-container>
+
+<div *ngIf="licence?.plan !== 'free'"
+	 fxFlexFill
+	 fxLayout="column"
+	 fxLayoutAlign="space-between none">
+
+	<mat-toolbar
+		fxLayout="row"
+		fxLayoutAlign="space-between center"
+		style="padding: 20px">
+
+		<div>
+			<h3>ChatGPT</h3>
+		</div>
+
+		<div>
+
+			<button
+				(click)="clearHistory()"
+				*ngIf="key && chat.length"
+				mat-button
+				matTooltip="Clear Conversation">
+				<span class="material-symbols-outlined">
+					clear_all
+				</span>
+			</button>
+
+			<a href="https://platform.openai.com/account"
+			   mat-button
+			   matTooltip="OpenAI Account Page"
+			   target="_blank">
+				<span class="material-symbols-outlined">
+					account_box
+				</span>
+			</a>
+
+			<mat-form-field [hidden]="!changing">
+				<mat-label>Key</mat-label>
+				<input #keyInput
+					   [ngModel]="key"
+					   matInput>
+			</mat-form-field>
+
+			<button
+				(click)="setKey(keyInput.value)"
+				*ngIf="changing"
+				mat-button>
+				Save
+				<span class="material-symbols-outlined">
+					save
+				</span>
+			</button>
+			<button
+				(click)="changing = !changing"
+				*ngIf="!changing"
+				mat-button
+				matTooltip="Change Key">
+				<span class="material-symbols-outlined">
+					key
+				</span>
+			</button>
+		</div>
+	</mat-toolbar>
+
+	<div
+		*ngIf="!key"
+		fxLayout="row"
+		fxLayoutAlign="center center"
+	>
+		<span>
+			First, get a Key from
+		</span>
+		<a href="https://platform.openai.com/account/api-keys"
+		   mat-raised-button
+		   target="_blank">
+			OpenAI
+		</a>
+	</div>
+
+	<div *ngIf="!key"></div>
+
+	<div *ngIf="key" id="container">
+
+		<div *ngIf="!chat.length"
+			 fxFlexFill
+			 fxLayout="column"
+			 fxLayoutAlign="center center"
+			 fxLayoutGap="8px">
+			<h3>You can try something like</h3>
+			<button (click)="sendMessage(example);"
+					*ngFor="let example of examples"
+					mat-stroked-button>
+				{{example}}
+			</button>
+		</div>
+
+		<div *ngIf="chat.length" id="chat">
+
+			<mat-card *ngFor="let ch of chat"
+					  [style.border-color]="ch.error ? '#f44336' : ch.user === Role.Assistant ? '#00a67e' : '#2196f3'">
+				<mat-card-content>
+					{{ch.txt}}
+
+					<button
+						(click)="sendMessage(ch.txt);"
+						*ngIf="ch.user === Role.User"
+						mat-icon-button
+						style="float: right; margin-top: -10px;">
+						<span class="material-symbols-outlined">
+							replay
+						</span>
+					</button>
+
+				</mat-card-content>
+			</mat-card>
+
+		</div>
+
+	</div>
+
+	<mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+
+	<div *ngIf="key" style="padding: 6px">
+		<mat-form-field (keydown.enter)="sendMessage(message.value); message.value = ''"
+						appearance="fill"
+						class="sendMessage">
+			<mat-label>Ask anything about `{{selectedDatabase?.name}}`</mat-label>
+			<input #message matInput>
+			<button (click)="sendMessage(message.value); message.value = ''"
+					[disabled]="!message.value"
+					mat-icon-button
+					matSuffix>
+				<mat-icon>send</mat-icon>
+			</button>
+		</mat-form-field>
+	</div>
+</div>

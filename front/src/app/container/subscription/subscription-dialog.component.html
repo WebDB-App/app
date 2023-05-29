@@ -1,0 +1,55 @@
+<div mat-dialog-title>
+	<span>Subscription</span>
+
+	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
+		<mat-icon>close</mat-icon>
+	</button>
+</div>
+<div class="list" mat-dialog-content style="text-align: center;">
+	<mat-card>
+		<mat-card-header>
+			<mat-card-subtitle fxLayout="row" fxLayoutAlign="space-between center">
+				<h2>{{licence?.plan}}</h2>
+				<span>Limited to {{licence?.dbLimit}} DBs</span>
+				<div>
+					<mat-icon *ngIf="licence?.valid" color="primary">check_circle</mat-icon>
+					<mat-icon *ngIf="!licence?.valid" color="warn">cancel</mat-icon>
+				</div>
+			</mat-card-subtitle>
+		</mat-card-header>
+		<mat-card-content fxLayout="row" fxLayoutAlign="space-evenly center">
+			<span>{{licence?.email}}</span>
+			<span *ngIf="licence?.expire! > 0">Expire : {{licence?.expire! * 1000 | date: 'mediumDate'}}</span>
+		</mat-card-content>
+	</mat-card>
+
+	<mat-form-field appearance="outline" style="width: 100%;">
+		<mat-label>Register a subscription with your mail</mat-label>
+		<input #mail [formControl]="email" autocomplete="off" matInput type="text">
+	</mat-form-field>
+</div>
+<div fxLayout="row" fxLayoutAlign="space-around center" mat-dialog-actions>
+	<a href="https://webdb.app/price" mat-stroked-button target="_blank">
+			<span class="material-symbols-outlined">
+				shopping_cart
+			</span>
+		Pricing
+	</a>
+
+	<a [href]="env.stripeUserLink" mat-stroked-button target="_blank">
+		<span class="material-symbols-outlined">
+			credit_card
+		</span>
+		Account
+	</a>
+
+	<button (click)="save(mail.value)"
+			[disabled]="!email.valid"
+			color="primary"
+			mat-flat-button>
+		<span class="material-symbols-outlined">
+			verified
+		</span>
+		Register
+	</button>
+</div>

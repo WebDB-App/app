@@ -1,0 +1,17 @@
+#container {
+	height: calc(100vh - 56px) !important;
+	min-height: inherit !important;
+}
+
+#tableList {
+	height: 100%;
+	width: 92px;
+
+	&.extend {
+		width: 285px;
+	}
+
+	mat-selection-list {
+		overflow: auto;
+	}
+}

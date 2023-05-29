@@ -1,0 +1,99 @@
+<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
+	<div><h2>Columns</h2></div>
+	<button (click)="addColumn()" color="primary" mat-stroked-button>
+		<span class="material-symbols-outlined">
+			view_column_2
+		</span>
+		Add Column
+	</button>
+</mat-toolbar>
+
+<table [dataSource]="structureSource" class="table mat-elevation-z8" mat-table>
+	<ng-container
+		*ngFor="let column of structureColumns"
+		[stickyEnd]="column === actionColum"
+		matColumnDef="{{column}}"
+	>
+		<th *matHeaderCellDef mat-header-cell>
+			{{column === actionColum ? '' : column}}
+		</th>
+		<td *matCellDef="let row;" [class]="'hover-' + row['name']" mat-cell>
+			<ng-container *ngIf="column === actionColum">
+
+				<button (click)="updateStructure(row)"
+						color="accent"
+						mat-icon-button>
+					<span class="material-symbols-outlined">
+						drive_file_rename_outline
+					</span>
+				</button>
+
+				<button (click)="deleteStructure(row)"
+						color="warn"
+						mat-icon-button>
+						<span class="material-symbols-outlined">
+							delete_forever
+						</span>
+				</button>
+			</ng-container>
+
+			<ng-container *ngIf="column !== actionColum">
+				<ngx-json-viewer *ngIf="isJson(row, column)" [json]="row[column]"></ngx-json-viewer>
+				<ng-container *ngIf="!isJson(row, column)">{{row[column]}}</ng-container>
+			</ng-container>
+		</td>
+	</ng-container>
+
+	<tr *matHeaderRowDef="structureColumns; sticky: true" mat-header-row></tr>
+	<tr *matRowDef="let row; columns: structureColumns;" mat-row></tr>
+
+	<tr *matNoDataRow class="mat-row">
+		<td class="mat-cell" colspan="100%">No Structure</td>
+	</tr>
+</table>
+
+
+<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center" style="margin-top: 65px;">
+	<div><h2>Indexes</h2></div>
+	<button (click)="addIndex()" color="primary" mat-stroked-button>
+		<span class="material-symbols-outlined">
+			bolt
+		</span>
+		Add Index
+	</button>
+</mat-toolbar>
+
+<table [dataSource]="indexSource" class="table mat-elevation-z8" mat-table>
+	<ng-container
+		*ngFor="let column of indexColumns"
+		[stickyEnd]="column === actionColum"
+		matColumnDef="{{column}}"
+	>
+		<th *matHeaderCellDef mat-header-cell>
+			{{column === actionColum ? '' : column}}
+		</th>
+		<td *matCellDef="let row; let i = index" [class]="getClasses(row['columns'])" mat-cell>
+			<ng-container *ngIf="column === actionColum">
+				<button (click)="deleteIndex(row)"
+						color="warn"
+						mat-icon-button>
+						<span class="material-symbols-outlined">
+							remove
+						</span>
+				</button>
+			</ng-container>
+
+			<ng-container *ngIf="column !== actionColum">
+				<ng-container>{{row[column]}}</ng-container>
+			</ng-container>
+		</td>
+	</ng-container>
+
+	<tr *matHeaderRowDef="indexColumns; sticky: true" mat-header-row></tr>
+	<tr *matRowDef="let row; columns: indexColumns;" mat-row></tr>
+
+	<tr *matNoDataRow class="mat-row">
+		<td class="mat-cell" colspan="100%">No Index</td>
+	</tr>
+
+</table>

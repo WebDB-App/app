@@ -1,0 +1,41 @@
+<div mat-dialog-title>
+	<h2>Add Index on {{table.name}}</h2>
+	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
+		<mat-icon>close</mat-icon>
+	</button>
+</div>
+<mat-dialog-content style="margin: 0px; padding: 0px !important; gap: 26px" fxLayout="column" fxLayoutAlign="space-between stretch">
+	<div style="margin: 0px auto;">
+		<mat-button-toggle-group
+			#type="matButtonToggleGroup">
+			<mat-button-toggle *ngFor="let type of types | keyvalue" [checked]="type.key === 'PRIMARY'" [value]="type.key">
+				{{type.key}} {{type.value}}
+			</mat-button-toggle>
+		</mat-button-toggle-group>
+	</div>
+	<mat-form-field appearance="fill" style="margin-bottom: -1.25em">
+		<mat-label>Column</mat-label>
+		<mat-select #columns multiple>
+			<mat-option *ngFor="let column of table.columns" [value]="column.name">
+				{{column.name}}
+			</mat-option>
+		</mat-select>
+	</mat-form-field>
+	<mat-form-field
+		appearance="outline">
+		<mat-label>Name</mat-label>
+		<input #name
+			   [value]="type.value === 'PRIMARY' ? 'PRIMARY' : type.value?.toLowerCase() + '_' + table.name + '_' + columns.value?.join('_')"
+			   autocomplete="off"
+			   matInput
+			   required>
+	</mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="space-around center">
+	<button (click)="createIndex(name.value, type.value, columns.value)"
+			[disabled]="!name.value || !type.value || !columns.value"
+			color="primary"
+			mat-stroked-button>
+		Add Index
+	</button>
+</mat-dialog-actions>

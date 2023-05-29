@@ -1,0 +1,16 @@
+::ng-deep .mat-card-header-text {
+	width: 100%;
+}
+
+h2 {
+	margin: -2px 0px;
+}
+
+.list {
+	width: 450px;
+	margin: 8px 10px;
+
+	> * {
+		margin: 8px 0px;
+	}
+}

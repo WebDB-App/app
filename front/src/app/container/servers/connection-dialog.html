@@ -1,0 +1,252 @@
+<div class="connection">
+
+	<mat-stepper [selectedIndex]="newConnection && !server.ssh.host ? 0 : 1" labelPosition="bottom">
+		<mat-step *ngIf="newConnection">
+			<ng-template matStepLabel>Driver</ng-template>
+
+			<div fxLayoutGap fxLayout="direction row" style="justify-content: space-evenly">
+				<div class="driver"
+					 (click)="changeWrapper(wrapper)"
+					 [class.mat-elevation-z12]="wrapper === server.wrapper"
+					 *ngFor="let wrapper of driverNames">
+					<div class="logo"
+						 [style.opacity]="wrapper === server.wrapper ? '1' : null">
+						<img src="/assets/drivers/{{wrapper | lowercase}}.svg">
+					</div>
+				</div>
+			</div>
+
+			<mat-divider></mat-divider>
+
+			<div>
+				<a href="https://webdb.app/compatibility"
+				   mat-raised-button
+				   target="_blank">
+					<span class="material-symbols-outlined">
+						database
+					</span>
+					Compatibility List
+				</a>
+				<button mat-stroked-button
+						[disabled]="!server.wrapper"
+						color="primary"
+						matStepperNext>Next</button>
+			</div>
+
+		</mat-step>
+		<mat-step optional>
+			<ng-template matStepLabel>SSH Tunnel</ng-template>
+			<div>
+				<mat-form-field appearance="fill">
+					<mat-label>Host / IP</mat-label>
+					<input [(ngModel)]="server.ssh.host" autocomplete="off" matInput>
+				</mat-form-field>
+				<mat-form-field appearance="fill">
+					<mat-label>Port</mat-label>
+					<input [(ngModel)]="server.ssh.port" matInput max="47000" min="1" type="number">
+				</mat-form-field>
+			</div>
+
+			<div>
+				<mat-form-field appearance="outline">
+					<mat-label>User</mat-label>
+					<input [(ngModel)]="server.ssh.user" autocomplete="off" matInput>
+				</mat-form-field>
+				<mat-form-field appearance="outline">
+					<mat-label>Password</mat-label>
+					<input [(ngModel)]="server.ssh.password"
+						   autocomplete="off"
+						   matInput
+						   type="{{!showPasswordSSH ? 'password' : 'text'}}">
+					<mat-icon (click)="showPasswordSSH = !showPasswordSSH" matSuffix
+							  style="cursor: pointer; position: absolute; right: 0px; top: -22px">
+						{{!showPassword ? 'visibility' : 'visibility_off'}}</mat-icon>
+				</mat-form-field>
+			</div>
+
+			<div>
+				<div fxLayout="row">
+					<button (click)="testSSH()"
+							[disabled]="!server.ssh.host || !server.ssh.port || !server.ssh.user"
+							[ngClass]="{'mat-flat-button' : sshStatus === 'notConnected'}"
+							color="accent"
+							mat-button>
+						Test SSH
+					</button>
+
+					<mat-progress-spinner
+						mode="indeterminate"
+						[diameter]="30"
+						color="accent"
+						*ngIf="sshStatus === 'loading'">
+					</mat-progress-spinner>
+				</div>
+
+				<button [cdkCopyToClipboard]="pubRsa"
+						(click)="snackBar.open('Copied to clipboard', '╳', {duration: 3000})"
+						color="primary"
+						mat-stroked-button>
+					<span class="material-symbols-outlined">
+						vpn_key
+					</span>
+					WebDB Public Key
+				</button>
+			</div>
+
+			<mat-divider></mat-divider>
+
+			<div>
+				<button mat-stroked-button
+						matStepperPrevious>
+					Previous
+				</button>
+				<button mat-stroked-button
+						color="primary"
+						*ngIf="server.ssh.host"
+						[disabled]="sshStatus !== 'connected'"
+						matStepperNext>
+					Next
+				</button>
+				<button mat-stroked-button
+						color="primary"
+						*ngIf="sshStatus === 'notConnected'"
+						matStepperNext>
+					Skip
+				</button>
+			</div>
+		</mat-step>
+		<mat-step>
+			<ng-template matStepLabel>Connection Infos</ng-template>
+			<div>
+				<mat-form-field appearance="fill">
+					<mat-label>Host / IP</mat-label>
+					<input [(ngModel)]="server.host" autocomplete="off" matInput required>
+				</mat-form-field>
+				<mat-form-field appearance="fill">
+					<mat-label>Port</mat-label>
+					<input [(ngModel)]="server.port" matInput max="47000" min="1" required type="number">
+				</mat-form-field>
+			</div>
+			<div>
+				<mat-form-field appearance="outline">
+					<mat-label>User</mat-label>
+					<input matInput [(ngModel)]="server.user">
+				</mat-form-field>
+				<mat-form-field appearance="outline">
+					<mat-label>Password</mat-label>
+					<input [(ngModel)]="server.password"
+						   autocomplete="off"
+						   matInput
+						   type="{{!showPassword ? 'password' : 'text'}}">
+					<mat-icon (click)="showPassword = !showPassword" matSuffix
+							  style="cursor: pointer; position: absolute; right: 0px; top: -22px">
+						{{!showPassword ? 'visibility' : 'visibility_off'}}</mat-icon>
+				</mat-form-field>
+			</div>
+
+			<ng-container *ngIf="server.driver && server.driver.disclaimerSsh && server.ssh.host">
+
+				<mat-divider></mat-divider>
+				<p style="display: flex; align-items: center; justify-content: center;">
+					<span class="material-symbols-outlined" style="margin-right: 8px">
+						warning
+					</span>
+					{{server.driver.disclaimerSsh}}
+				</p>
+			</ng-container>
+
+			<mat-divider></mat-divider>
+
+			<div>
+				<button mat-stroked-button
+						matStepperPrevious>
+					Previous
+				</button>
+				<button [disabled]="!server.host || !server.port"
+						mat-stroked-button color="primary"
+						matStepperNext>
+					Next
+				</button>
+			</div>
+		</mat-step>
+		<mat-step>
+			<ng-template matStepLabel>Driver Parameters</ng-template>
+
+			<ngx-monaco-editor
+				style="width: 90%; margin: 0px auto;"
+				[(ngModel)]="params"
+				[options]="editorOptions"
+			>
+			</ngx-monaco-editor>
+			<div>
+				<button mat-stroked-button
+						color="primary"
+						(click)="useDefault()">
+						<span class="material-symbols-outlined">
+							device_reset
+						</span>
+					Use Default Params
+				</button>
+
+				<a [href]="server.driver ? server.driver.docUrl : ''"
+				   mat-button
+				   style="margin-left: 20px"
+				   mat-stroked-button
+				   target="_blank">
+						<span class="material-symbols-outlined">
+							menu_book
+						</span>
+					{{server.wrapper}} Driver Doc for Node.JS
+				</a>
+			</div>
+
+			<mat-divider></mat-divider>
+
+			<div>
+				<button mat-stroked-button
+						matStepperPrevious>
+					Previous
+				</button>
+			</div>
+		</mat-step>
+	</mat-stepper>
+
+	<div fxLayout="row" fxLayoutAlign="space-between center" style="margin-top: 15px">
+
+		<button
+			(click)="forget()"
+			*ngIf="!newConnection"
+			color="warn"
+			mat-stroked-button>
+			<span class="material-symbols-outlined">
+				wifi_off
+			</span>
+			Forget
+		</button>
+
+		<button (click)="testServer()"
+				[disabled]="!server.host || !server.port"
+				[color]="connected ? 'accent' : 'primary'"
+				mat-stroked-button>
+			<span class="material-symbols-outlined">
+				network_wifi_2_bar
+			</span>
+			Test Connection
+		</button>
+
+		<button [disabled]="!connected"
+				(click)="saveConnection()"
+				color="primary"
+				mat-flat-button>
+			<span class="material-symbols-outlined">
+				wifi_add
+			</span>
+			Save Connection
+		</button>
+
+		<button aria-label="close dialog" mat-button mat-dialog-close>
+			<mat-icon>close</mat-icon>
+			Close
+		</button>
+	</div>
+</div>

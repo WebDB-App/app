@@ -1,0 +1,101 @@
+#hostDiagram {
+	width: 100vw;
+	height: 100%;
+	display: flex;
+	background-color: #303030;
+	background-image: linear-gradient(rgba(100, 100, 100, .2) .1em, transparent .1em),
+	linear-gradient(90deg, rgba(100, 100, 100, .2) .1em, transparent .1em);
+	background-size: 3em 3em;
+}
+
+mat-toolbar {
+	position: absolute;
+	z-index: 100;
+	top: 0px
+}
+
+:host ::ng-deep #containerDiagram {
+	flex-grow: 1;
+	position: relative;
+	margin-top: 56px;
+	overflow: hidden;
+
+	svg {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		z-index: 0;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		pointer-events: none;
+
+		> path {
+			pointer-events: all;
+		}
+	}
+
+	#scrollableDiagram {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		display: block;
+
+		&.hideDetails {
+			.details {
+				display: none;
+			}
+		}
+
+		[data-table] {
+			display: inline-block;
+			user-select: none;
+			position: absolute;
+			z-index: 1;
+
+			table {
+				line-height: 1.5em;
+				border-collapse: collapse;
+				background-color: #121212;
+				backdrop-filter: blur(2px);
+				border-radius: 4px;
+				z-index: 1;
+				box-sizing: border-box;
+				transition: box-shadow 200ms cubic-bezier(0, 0, 0.2, 1);
+				box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+
+				thead {
+					color: #2196f3;
+					cursor: move;
+
+					th {
+						padding: 0.5em;
+						border-bottom: 1px solid #2196f3;
+					}
+				}
+
+				tbody {
+					tr:hover {
+						background-color: rgba(0, 0, 0, 0.5);
+					}
+
+					td {
+						padding: 0.2em 0.3em;
+					}
+				}
+			}
+		}
+
+		[data-table]:active {
+			box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+		}
+	}
+
+	::ng-deep .hoverClass {
+		background-color: #ff9800 !important;
+		stroke: #ff9800 !important;
+	}
+}

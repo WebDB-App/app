@@ -1,0 +1,9 @@
+<div mat-dialog-title>
+	<h2>Sure ?</h2>
+	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
+		<mat-icon>close</mat-icon>
+	</button>
+</div>
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="space-around center">
+	<button (click)="remove()" color="warn" mat-button>Remove {{table.view ? 'View' : 'Table'}}</button>
+</mat-dialog-actions>

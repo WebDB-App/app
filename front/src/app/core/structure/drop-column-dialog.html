@@ -1,0 +1,12 @@
+<div mat-dialog-title>
+	<h2>Sure to drop {{column.name}} ?</h2>
+	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
+		<mat-icon>close</mat-icon>
+	</button>
+</div>
+<mat-dialog-content>
+	<span>You will loose Data</span>
+</mat-dialog-content>
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="space-around center">
+	<button (click)="dropColumn()" color="warn" mat-button>Drop Column</button>
+</mat-dialog-actions>

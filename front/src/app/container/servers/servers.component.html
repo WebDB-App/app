@@ -1,0 +1,183 @@
+<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
+	<mat-form-field style="width: 180px">
+		<mat-label>Search Server | Database</mat-label>
+		<input #filter
+			   (keyup)="filterChanged(filter.value)"
+			   autocomplete="off"
+			   matInput>
+		<button (click)="filter.value=''; filterChanged(filter.value)" *ngIf="filter.value" aria-label="Clear"
+				mat-button mat-icon-button
+				matSuffix>
+			<mat-icon>close</mat-icon>
+		</button>
+	</mat-form-field>
+
+	<button (click)="reloadList()"
+			mat-flat-button>
+		<span class="material-symbols-outlined">
+			track_changes
+		</span>
+		Refresh Connections
+	</button>
+
+	<button (click)="addServer()"
+			color="primary"
+			mat-stroked-button>
+		<span class="material-symbols-outlined">
+			wifi_add
+		</span>
+		New Connection
+	</button>
+</mat-toolbar>
+
+<mat-progress-bar *ngIf="isLoading" mode="indeterminate" style="position:absolute;"></mat-progress-bar>
+
+<div id="container">
+
+	<div *ngIf="!isLoading && servers.length < 1">
+		No Server Found
+	</div>
+
+	<ng-container *ngIf="servers.length">
+		<ng-container *ngFor="let driver of driverNames">
+			<ng-container *ngIf="getServerByDriver(driver).length">
+
+				<div class="driver">
+
+					<div class="logo">
+						<img src="/assets/drivers/{{driver.toLowerCase()}}.svg"/>
+					</div>
+
+					<mat-card
+						*ngFor="let server of getServerByDriver(driver);"
+						[hidden]="server.hide"
+						style="margin-bottom: 15px">
+
+						<h4 fxLayout="row" fxLayoutAlign="space-between center" style="padding: 0px 10px">
+							<span
+								[matTooltip]="getTooltip(server)"
+								matTooltipPosition="right"
+								class="material-symbols-outlined">
+								{{getIcon(server)}}
+							</span>
+
+							<div>
+								<span *ngIf="server.user">
+									{{server.user}} @
+								</span>
+								{{server.host}} : {{server.port}}
+							</div>
+
+							<div *ngIf="(server.scanned && server.stored) || !server.scanned" fxLayout="row"
+								 fxLayoutAlign="space-around center">
+								<button
+									(click)="editConnection(server)"
+									mat-icon-button>
+									<span class="material-symbols-outlined">
+										network_manage
+									</span>
+								</button>
+							</div>
+						</h4>
+
+						<mat-divider></mat-divider>
+
+						<mat-card-content>
+							<ng-container *ngIf="!server.connected">
+								<ng-container *ngIf="server.scanned">
+									<div (keyup.enter)="loginBtn._elementRef.nativeElement.click()">
+										<div fxLayout="row" fxLayoutAlign="space-around none" style="padding-top: 16px; gap: 10px">
+											<mat-form-field appearance="outline">
+												<mat-label>User</mat-label>
+												<input #user matInput>
+											</mat-form-field>
+											<mat-form-field appearance="outline">
+												<mat-label>Password</mat-label>
+												<input #password
+													   autocomplete="off"
+													   matInput
+													   type="{{!showPassword ? 'password' : 'text'}}">
+												<mat-icon (click)="showPassword = !showPassword" matSuffix
+														  style="cursor: pointer;">
+													{{!showPassword ? 'visibility' : 'visibility_off'}}</mat-icon>
+											</mat-form-field>
+										</div>
+										<div fxLayout="row" fxLayoutAlign="space-between none">
+											<button
+												#loginBtn
+												(click)="login(server, user.value, password.value)"
+												color="primary"
+												mat-flat-button>
+												<mat-icon>login</mat-icon>
+												Connect
+											</button>
+
+											<mat-spinner
+												*ngIf="server.isLoading"
+												[diameter]="30"
+												color="primary"
+											></mat-spinner>
+
+											<button (click)="guess(server, user.value, password.value)"
+													*ngIf="!server.isLoading"
+													mat-stroked-button
+													matTooltip="Try common user/password combination
+														If you enter a user or password input, it will guess based on
+													Caution : trigger many parallel connection">
+												<span class="material-symbols-outlined">
+													lock_open
+												</span>
+												Guess
+											</button>
+										</div>
+									</div>
+								</ng-container>
+							</ng-container>
+							<ng-container *ngIf="server.connected">
+
+								<ng-container *ngIf="server.dbs[0].schemas?.length">
+									<mat-accordion multi="true">
+										<mat-expansion-panel>
+											<mat-expansion-panel-header>
+
+											</mat-expansion-panel-header>
+
+										</mat-expansion-panel>
+									</mat-accordion>
+								</ng-container>
+
+								<mat-selection-list [multiple]="false" *ngIf="!server.dbs[0].schemas?.length">
+									<mat-list-option
+										*ngFor="let database of server.dbs"
+										[disabled]="database.tables === undefined"
+										[hidden]="database.hide"
+										[routerLinkActive]="'mat-list-single-selected-option'"
+										[style.opacity]="database.system ? '0.5' : 1"
+										routerLink="/{{server.name}}/{{database.name}}">
+										{{database.name}}
+										<ng-container *ngIf="database.tables === undefined"> [Limited]</ng-container>
+										<span matTooltip="Tables"
+											  matTooltipPosition="right"
+											  style="position: absolute; right: 20px">
+											{{database.tables?.length}}
+										</span>
+									</mat-list-option>
+								</mat-selection-list>
+
+								<div fxLayout="row" fxLayoutAlign="center center" style="margin-top: 10px;">
+									<button (click)="addDatabase(server)" color="primary" mat-stroked-button>
+										<span class="material-symbols-outlined">
+											add_box
+										</span>
+										Database
+									</button>
+								</div>
+							</ng-container>
+						</mat-card-content>
+					</mat-card>
+				</div>
+
+			</ng-container>
+		</ng-container>
+	</ng-container>
+</div>

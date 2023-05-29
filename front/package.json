@@ -1,0 +1,43 @@
+{
+	"name": "webdb",
+	"version": "PACKAGE_VERSION",
+	"scripts": {
+		"dev": "ng serve",
+		"build": "ng build",
+		"watch": "ng build --watch --configuration development"
+	},
+	"dependencies": {
+		"@angular-devkit/build-angular": "^14.2.11",
+		"@angular/animations": "^14.3.0",
+		"@angular/cdk": "^14.2.7",
+		"@angular/cli": "^14.2.11",
+		"@angular/common": "^14.3.0",
+		"@angular/compiler": "^14.3.0",
+		"@angular/compiler-cli": "^14.3.0",
+		"@angular/core": "^14.3.0",
+		"@angular/flex-layout": "^14.0.0-beta.41",
+		"@angular/forms": "^14.3.0",
+		"@angular/material": "^14.2.7",
+		"@angular/platform-browser": "^14.3.0",
+		"@angular/platform-browser-dynamic": "^14.3.0",
+		"@angular/router": "^14.3.0",
+		"@types/crypto-js": "latest",
+		"@types/file-saver": "latest",
+		"@types/js-beautify": "latest",
+		"@types/node": "latest",
+		"crypto-js": "latest",
+		"file-saver": "latest",
+		"html-to-image": "latest",
+		"js-beautify": "latest",
+		"monaco-editor": "^0.33.0",
+		"ngx-json-viewer": "latest",
+		"ngx-monaco-editor-v2": "^14.0.4",
+		"openai": "latest",
+		"rxjs": "~7.8.1",
+		"sql-formatter": "latest",
+		"sql-highlight": "latest",
+		"tslib": "^2.5.0",
+		"typescript": "~4.8.4",
+		"zone.js": "~0.12.0"
+	}
+}

@@ -1,0 +1,107 @@
+<div fxFlexFill fxLayout="column" fxLayoutAlign="space-between stretch">
+
+	<mat-toolbar
+		fxLayout="row"
+		fxLayoutAlign="space-between center"
+		style="padding: 20px">
+
+		<span>
+			{{selectedDatabase!.name}}
+		</span>
+
+		<button (click)="drop()" color="warn" mat-button>
+			<span class="material-symbols-outlined">
+				dangerous
+			</span>
+			Drop
+		</button>
+
+	</mat-toolbar>
+
+	<div style="padding: 20px">
+
+		<div fxLayout="row" fxLayoutAlign="space-between center">
+			<span>Total Index Size : {{+stats?.index_length | round}} Mb</span>
+			<span>Total Data Size : {{+stats?.data_length | round}} Mb</span>
+		</div>
+
+		<mat-divider></mat-divider>
+
+		<div fxLayout="row" fxLayoutAlign="space-between center">
+			<mat-form-field color="accent">
+				<mat-label>Collation</mat-label>
+				<mat-select #collation [value]="selectedDatabase!.collation">
+					<mat-option *ngFor="let collation of collations" [value]="collation">{{collation}}</mat-option>
+				</mat-select>
+			</mat-form-field>
+
+			<button (click)="changeCollation(collation.value)"
+					[disabled]="!collation.value"
+					color="accent"
+					mat-stroked-button>
+			<span class="material-symbols-outlined">
+			  update
+			</span>
+				Convert Entire Database
+			</button>
+		</div>
+
+		<mat-divider></mat-divider>
+
+		<div *ngIf="selectedServer?.driver?.canRename" fxLayout="row" fxLayoutAlign="space-between center">
+			<mat-form-field>
+				<input
+					#databaseName
+					[value]="selectedDatabase?.name"
+					autocomplete="off"
+					matInput
+					placeholder="Name">
+			</mat-form-field>
+			<button (click)="rename(databaseName.value)"
+					[disabled]="databaseName.value.length < 1 || databaseName.value === selectedDatabase?.name"
+					color="accent"
+					mat-stroked-button>
+			<span class="material-symbols-outlined">
+				edit_square
+			</span>
+				Rename Database
+			</button>
+		</div>
+
+	</div>
+
+	<div>
+		<mat-accordion>
+			<mat-expansion-panel>
+				<mat-expansion-panel-header>
+					<mat-panel-title>
+						<span class="material-symbols-outlined">
+							tips_and_updates
+						</span>
+					</mat-panel-title>
+					<mat-panel-description>
+						Optimisation Tips
+					</mat-panel-description>
+				</mat-expansion-panel-header>
+				<ul>
+					<li>
+						If you do >10req/sec, use unix socket or try to reduce network latency
+					</li>
+					<li>
+						Check resource (CPU, RAM, Disk I/O) usage of the server and allocate more
+					</li>
+					<li>
+						Use cloud hosted databases if you don't have time dedicated to infrastructure
+					</li>
+					<li>
+						Use the AI assistant for more advanced optimizations of the database structure or the server
+						tuning
+					</li>
+					<li>
+						Sharding, Load Balancing and Replication can help but are not simple to implement and maintain
+					</li>
+				</ul>
+			</mat-expansion-panel>
+		</mat-accordion>
+	</div>
+</div>

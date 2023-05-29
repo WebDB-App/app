@@ -1,0 +1,99 @@
+<div #fullScreen id="hostDiagram">
+	<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px">
+		<div>
+			<button (click)="diagramController!.autoPlace()" mat-button>
+				<span class="material-symbols-outlined">
+					view_cozy
+				</span>
+				Place Tables
+			</button>
+
+			<button [matMenuTriggerFor]="legend" mat-stroked-button>
+				<span class="material-symbols-outlined">
+					legend_toggle
+				</span>
+				Legend
+			</button>
+			<mat-menu #legend="matMenu">
+				Put real icon and SQL equivalent
+				<span mat-menu-item>
+					- one TO one
+				</span>
+				<span mat-menu-item>
+					-<    - one TO many
+				</span>
+				<span mat-menu-item>
+					>-    - many TO one
+				</span>
+				<span mat-menu-item>
+					>-<   - many TO many
+				</span>
+				<span mat-menu-item>
+					-0    - one TO zero or one
+				</span>
+				<span mat-menu-item>
+					0-    - zero or one TO one
+				</span>
+				<span mat-menu-item>
+					0-0   - zero or one TO zero or one
+				</span>
+				<span mat-menu-item>
+					-0<   - one TO zero or many
+				</span>
+				<span mat-menu-item>
+					>0-   - zero or many TO one
+				</span>
+			</mat-menu>
+		</div>
+
+		<div fxLayoutGap="8px">
+			<button (click)="openFullscreen()" mat-stroked-button matTooltip="Toggle Fullscreen">
+				<span class="material-symbols-outlined">
+					{{full ? 'fullscreen_exit' : 'fullscreen'}}
+				</span>
+			</button>
+			<button (click)="diagramController!.fontInc()" mat-stroked-button>
+				<span class="material-symbols-outlined">
+					text_increase
+				</span>
+			</button>
+			<button (click)="diagramController!.fontDec()" mat-stroked-button>
+				<span class="material-symbols-outlined">
+					text_decrease
+				</span>
+			</button>
+			<mat-slide-toggle
+				(click)="toggleDetail()"
+				checked
+				color="primary"
+				matTooltip="Hide columns without tags (Emoji)">
+				Details
+			</mat-slide-toggle>
+		</div>
+
+		<div>
+			<button (click)="exportPng()" mat-button>
+				<span class="material-symbols-outlined">
+					photo_camera
+				</span>
+				PNG
+			</button>
+			<button (click)="exportSvg()" mat-button>
+				<span class="material-symbols-outlined">
+					photo_camera
+				</span>
+				SVG
+			</button>
+		</div>
+
+	</mat-toolbar>
+
+	<div #container
+		 id="containerDiagram">
+		<mat-progress-bar *ngIf="diagramController?.isAutoMoving" mode="indeterminate"></mat-progress-bar>
+		<div #scrollable
+			 [ngClass]="{'hideDetails' : !showDetails}"
+			 id="scrollableDiagram"
+		></div>
+	</div>
+</div>
