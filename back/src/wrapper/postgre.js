@@ -145,21 +145,27 @@ export default class Postgre extends SQL {
 	}
 
 	async getIndexes() {
-		const indexes = await this.runCommand(`
-			SELECT
-				ns.nspname               AS schema_name,
-				idx.indrelid :: REGCLASS AS table_name,
-				i.relname                AS index_name,
-				idx.indisunique          AS unique,
-				idx.indisprimary         AS primary,
-				am.amname                AS type
-			FROM pg_index AS idx
-			JOIN pg_class AS i ON i.oid = idx.indexrelid
-			JOIN pg_am AS am ON i.relam = am.oid
-			JOIN pg_namespace AS NS ON i.relnamespace = NS.OID
-			JOIN pg_user AS U ON i.relowner = U.usesysid`);
+		const dbs = await this.getDbs();
+		const promises = [];
 
-		//each db promises
+		for (const db of dbs) {
+			promises.push(this.runCommand(`
+				SELECT
+					ns.nspname               AS schema_name,
+					idx.indrelid :: REGCLASS AS table_name,
+					i.relname                AS index_name,
+					idx.indisunique          AS unique,
+					idx.indisprimary         AS primary,
+					am.amname                AS type
+				FROM pg_index AS idx
+				JOIN pg_class AS i ON i.oid = idx.indexrelid
+				JOIN pg_am AS am ON i.relam = am.oid
+				JOIN pg_namespace AS NS ON i.relnamespace = NS.OID
+				JOIN pg_user AS U ON i.relowner = U.usesysid`, db.datname));
+		}
+
+		const indexes = await Promise.all(promises);
+
 
 		//merge colus in sql, nullable ?, cardinality
 		//name === "PRIMARY"
@@ -179,8 +185,12 @@ export default class Postgre extends SQL {
 		return {result: "Ok"};
 	}
 
+	getDbs() {
+		return this.runCommand("SELECT * FROM pg_database WHERE datistemplate = false");
+	}
+
 	async getStructure() {
-		const dbs = await this.runCommand("SELECT * FROM pg_database WHERE datistemplate = false");
+		const dbs = await this.getDbs();
 		const struct = {};
 		const promises = [];
 

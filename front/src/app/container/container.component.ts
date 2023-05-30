@@ -123,12 +123,7 @@ export class ContainerComponent implements AfterViewInit {
 	}
 
 	showSettings() {
-		const dialogRef = this.dialog.open(ConfigDialog);
-
-		dialogRef.afterClosed().subscribe(() => {
-			this.isLoading = true;
-			setTimeout(() => {this.isLoading = false});
-		});
+		this.dialog.open(ConfigDialog);
 	}
 
 	async reloadDbs() {

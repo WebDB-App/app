@@ -3,18 +3,16 @@
 		width: 0px;
 	}
 
-	th:hover .filterBtn {
-		display: block;
-		position: absolute;
-		right: 3px;
-		top: 8px;
-	}
+	.mat-header-cell .mat-form-field {
+		width: 100%;
 
-	.filterBtn {
-		display: none;
-
-		.material-symbols-outlined {
-			font-size: 17px;
+		::ng-deep .mat-form-field-infix {
+			width: inherit;
 		}
 	}
+}
+
+::ng-deep .mat-chip-list-wrapper {
+	max-height: 50px;
+	overflow: auto;
 }

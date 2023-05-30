@@ -40,6 +40,7 @@ import { SharedModule } from "../../shared/shared.module";
 import { TablesComponent } from "./tables/tables.component";
 import { NgxJsonViewerModule } from "ngx-json-viewer";
 import { MatExpansionModule } from "@angular/material/expansion";
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
 
 @NgModule({
 	declarations: [
@@ -58,42 +59,43 @@ import { MatExpansionModule } from "@angular/material/expansion";
 	exports: [
 		TableAdvancedComponent
 	],
-	imports: [
-		CommonModule,
-		CoreRoutingModule,
-		MatSidenavModule,
-		MatFormFieldModule,
-		MatSelectModule,
-		MatRadioModule,
-		MatListModule,
-		MatIconModule,
-		FlexModule,
-		MatInputModule,
-		MatButtonModule,
-		MatToolbarModule,
-		MatPaginatorModule,
-		MatTableModule,
-		MatSortModule,
-		MatCheckboxModule,
-		MatTooltipModule,
-		MatTabsModule,
-		MatProgressSpinnerModule,
-		MatProgressBarModule,
-		MatButtonToggleModule,
-		MatDialogModule,
-		MatSlideToggleModule,
-		FormsModule,
-		MatCardModule,
-		MatChipsModule,
-		MatExpansionModule,
-		ClipboardModule,
-		CodeModule,
-		MonacoEditorModule,
-		MatMenuModule,
-		DragDropModule,
-		SharedModule,
-		NgxJsonViewerModule
-	]
+    imports: [
+        CommonModule,
+        CoreRoutingModule,
+        MatSidenavModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatRadioModule,
+        MatListModule,
+        MatIconModule,
+        FlexModule,
+        MatInputModule,
+        MatButtonModule,
+        MatToolbarModule,
+        MatPaginatorModule,
+        MatTableModule,
+        MatSortModule,
+        MatCheckboxModule,
+        MatTooltipModule,
+        MatTabsModule,
+        MatProgressSpinnerModule,
+        MatProgressBarModule,
+        MatButtonToggleModule,
+        MatDialogModule,
+        MatSlideToggleModule,
+        FormsModule,
+        MatCardModule,
+        MatChipsModule,
+        MatExpansionModule,
+        ClipboardModule,
+        CodeModule,
+        MonacoEditorModule,
+        MatMenuModule,
+        DragDropModule,
+        SharedModule,
+        NgxJsonViewerModule,
+        MatAutocompleteModule
+    ]
 })
 export class CoreModule {
 }
