@@ -28,17 +28,21 @@
 
 	<mat-chip-list #chipList>
 		<ng-container
-			*ngFor="let filter of params.filter.split(';')">
-			<mat-chip
-				(removed)="removeFilter(filter)"
-				*ngIf="filter"
-				color="primary"
-				selected>
-				{{filter}}
-				<button matChipRemove>
-					<mat-icon>cancel</mat-icon>
-				</button>
-			</mat-chip>
+			*ngFor="let filter of params.filter.split(';'); let i = index">
+			<ng-container *ngIf="filter">
+				<mat-chip
+					(removed)="removeFilter(filter)"
+					color="primary"
+					selected>
+					{{filter}}
+					<button matChipRemove>
+						<mat-icon>cancel</mat-icon>
+					</button>
+				</mat-chip>
+				<ng-container *ngIf="i < params.filter.split(';').length - 2">
+					{{configuration.getByName("operand")?.value}}
+				</ng-container>
+			</ng-container>
 		</ng-container>
 	</mat-chip-list>
 
@@ -78,25 +82,21 @@
 				mat-header-cell>
 
 				<ng-container *ngIf="column !== actionColum">
-					<input (matChipInputTokenEnd)="addFilter(column, $event)"
-						   [(ngModel)]="filter[column]"
-						   [matChipInputFor]="chipList"
-						   matTooltip="{{column}}"
-						   matTooltipPosition="above"
-						   matTooltipClass="columnTooltip"
-						   placeholder="{{column}}">
-					<button mat-icon-button [matMenuTriggerFor]="menu" class="filterBtn">
-						<span class="material-symbols-outlined">
-							search
-						</span>
-					</button>
-					<mat-menu #menu="matMenu">
-						<button (click)="filter[column] = comp.symbol + ' ' + comp.example"
+					<mat-form-field appearance="legacy">
+						<mat-label>{{column}}</mat-label>
+						<input (matChipInputTokenEnd)="addFilter(column, $event)"
+							   [(ngModel)]="filter[column]"
+							   [matChipInputFor]="chipList"
+							   [matAutocomplete]="autoGroup"
+							   matInput>
+						<mat-autocomplete #autoGroup="matAutocomplete">
+							<mat-option
 								*ngFor="let comp of selectedServer!.driver.availableComparator"
-								mat-menu-item>
-							<span>{{comp.symbol}}</span>
-						</button>
-					</mat-menu>
+								(click)="filter[column] = comp.symbol + ' ' + comp.example">
+								{{comp.symbol}}
+							</mat-option>
+						</mat-autocomplete>
+					</mat-form-field>
 				</ng-container>
 
 				<ng-container *ngIf="column === actionColum">

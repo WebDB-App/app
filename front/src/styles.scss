@@ -54,15 +54,12 @@ body {
 
 		input {
 			width: 100%;
-
-			&::placeholder {
-				color: mat-color($angular-primary, 300);
-			}
+			margin: 0px;
 		}
 	}
 
 	.mat-cell, .mat-header-cell {
-		min-width: 45px;
+		min-width: 60px;
 		padding: 0px 14px !important;
 	}
 
