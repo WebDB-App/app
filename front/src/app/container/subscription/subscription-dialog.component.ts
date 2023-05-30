@@ -22,7 +22,7 @@ export class SubscriptionDialog implements OnInit {
 	}
 
 	async ngOnInit() {
-		this.licence = await Licence.get(this.request);
+		this.licence = await Licence.get(this.request, false);
 	}
 
 	async save(email: string) {

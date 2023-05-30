@@ -8,7 +8,6 @@ import { Table } from "../classes/table";
 import { Relation } from "../classes/relation";
 import { Index } from "../classes";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { Driver } from "../classes/driver";
 
 @Injectable({
 	providedIn: 'root'

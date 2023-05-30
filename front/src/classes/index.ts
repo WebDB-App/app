@@ -12,5 +12,4 @@ export class Index {
 	type!: string
 	cardinality!: number;
 	unique!: boolean;
-	nullable!: boolean;
 }

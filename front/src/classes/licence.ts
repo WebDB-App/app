@@ -25,8 +25,8 @@ export class Licence {
 		selected = new Licence(licence.dbLimit, licence.valid, licence.expire, licence.email, licence.plan);
 	}
 
-	static async get(request: RequestService): Promise<Licence> {
-		if (!selected) {
+	static async get(request: RequestService, cache = true): Promise<Licence> {
+		if (!selected || !cache) {
 			Licence.set(await request.post('subscription/list', null));
 		}
 
