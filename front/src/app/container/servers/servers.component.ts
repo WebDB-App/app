@@ -1,9 +1,9 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { environment } from "../../../environments/environment";
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { firstValueFrom } from "rxjs";
+import { firstValueFrom, Subscription } from "rxjs";
 import { Router } from "@angular/router";
 import { Server, SSH } from "../../../classes/server";
 import { RequestService } from "../../../shared/request.service";
@@ -17,8 +17,9 @@ import { ServerService } from "../../../shared/server.service";
 	templateUrl: './servers.component.html',
 	styleUrls: ['./servers.component.scss']
 })
-export class ServersComponent implements OnInit {
+export class ServersComponent implements OnInit, OnDestroy {
 
+	obs?: Subscription;
 	servers: Server[] = [];
 	showPassword = false;
 	isLoading = true;
@@ -43,12 +44,20 @@ export class ServersComponent implements OnInit {
 
 	async ngOnInit() {
 		await this.reloadList();
+
+		this.obs = this.serverService.scanServer.subscribe((servers => {
+			this.servers = servers;
+		}))
+	}
+
+	ngOnDestroy(): void {
+		this.obs?.unsubscribe();
 	}
 
 	async reloadList() {
 		this.isLoading = true;
 		this.filterChanged('');
-		this.servers = await this.serverService.scan();
+		await this.serverService.scan();
 		this.isLoading = false;
 	}
 

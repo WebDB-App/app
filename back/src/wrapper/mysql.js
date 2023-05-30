@@ -176,15 +176,12 @@ export default class MySQL extends SQL {
 	}
 
 	async getIndexes() {
-		const indexes = await this.runCommand(`SELECT TABLE_SCHEMA AS 'database', TABLE_NAME AS 'table', INDEX_NAME AS 'name', GROUP_CONCAT(COLUMN_NAME) AS 'columns', CARDINALITY AS 'cardinality', INDEX_TYPE AS 'type', NON_UNIQUE, NULLABLE AS 'nullable'
+		const indexes = await this.runCommand(`SELECT TABLE_SCHEMA AS 'database', TABLE_NAME AS 'table', INDEX_NAME AS 'name', GROUP_CONCAT(COLUMN_NAME) AS 'columns', CARDINALITY AS 'cardinality', INDEX_TYPE AS 'type', NOT NON_UNIQUE as 'unique'
 			FROM INFORMATION_SCHEMA.STATISTICS
 			GROUP BY TABLE_SCHEMA, TABLE_NAME, INDEX_NAME, CARDINALITY, INDEX_TYPE, NON_UNIQUE, NULLABLE;`);
 
 		return indexes.map(index => {
-			index.unique = !index.NON_UNIQUE
-			delete index.NON_UNIQUE;
-			index.nullable = !!index.nullable;
-
+			index.unique = !!index.unique
 			return index;
 		});
 	}

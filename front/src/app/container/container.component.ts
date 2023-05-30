@@ -31,6 +31,7 @@ export class ContainerComponent implements AfterViewInit {
 	env = environment;
 	packageJson = packageJson
 	isLoading = true;
+	servers!: Server[];
 	server!: Server;
 	database!: Database;
 
@@ -61,6 +62,10 @@ export class ContainerComponent implements AfterViewInit {
 			);
 		}
 
+		this.serverService.scanServer.subscribe((servers => {
+			this.servers = servers;
+		}));
+
 		if (router.url === '/') {
 			this.syncParams();
 			return;
@@ -80,7 +85,7 @@ export class ContainerComponent implements AfterViewInit {
 				return;
 			}
 
-			for (const server of this.serverService.servers!) {
+			for (const server of this.servers) {
 				if (server.name !== serverName || !server.dbs) {
 					continue;
 				}
@@ -108,18 +113,21 @@ export class ContainerComponent implements AfterViewInit {
 	showSubscription() {
 		const dialogRef = this.dialog.open(SubscriptionDialog);
 
-		dialogRef.afterClosed().subscribe(async result => {
-			if (result) {
-			}
+		dialogRef.afterClosed().subscribe(async () => {
+			this.isLoading = true;
+			await this.serverService.scan();
+			setTimeout(() => {
+				this.isLoading = false
+			});
 		});
 	}
 
 	showSettings() {
 		const dialogRef = this.dialog.open(ConfigDialog);
 
-		dialogRef.afterClosed().subscribe(async result => {
-			if (result) {
-			}
+		dialogRef.afterClosed().subscribe(() => {
+			this.isLoading = true;
+			setTimeout(() => {this.isLoading = false});
 		});
 	}
 

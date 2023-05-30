@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { firstValueFrom } from "rxjs";
+import { BehaviorSubject, firstValueFrom } from "rxjs";
 import { Server } from "../classes/server";
 import { environment } from "../environments/environment";
 import { HttpClient } from "@angular/common/http";
@@ -11,7 +11,8 @@ import * as drivers from '../classes/drivers';
 })
 export class ServerService {
 
-	servers?: Server[]
+	private messageSource = new BehaviorSubject<Array<Server>>([]);
+	scanServer = this.messageSource.asObservable();
 
 	constructor(
 		private http: HttpClient,
@@ -66,7 +67,6 @@ export class ServerService {
 			return Number(b.connected) - Number(a.connected)
 		});
 
-		this.servers = servers;
-		return servers;
+		this.messageSource.next(servers);
 	}
 }
