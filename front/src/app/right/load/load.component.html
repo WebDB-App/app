@@ -47,8 +47,8 @@
 		</button>
 
 		<button
-			*ngIf="!isLoading"
 			(click)="importFiles()"
+			*ngIf="!isLoading"
 			[disabled]="files.length < 1"
 			color="primary"
 			mat-raised-button>

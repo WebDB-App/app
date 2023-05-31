@@ -1,4 +1,4 @@
-import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Server } from "../../../classes/server";
@@ -12,7 +12,6 @@ import { Relation } from "../../../classes/relation";
 import { Configuration } from "../../../classes/configuration";
 import { RequestService } from "../../../shared/request.service";
 import { SelectionModel } from "@angular/cdk/collections";
-import { MatCheckboxChange, MatCheckboxClickAction } from "@angular/material/checkbox";
 
 @Component({
 	selector: 'app-explore',

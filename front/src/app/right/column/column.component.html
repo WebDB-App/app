@@ -38,7 +38,7 @@
 			</mat-autocomplete>
 		</mat-form-field>
 
-		<mat-form-field appearance="fill" *ngIf="extraAttributes.length">
+		<mat-form-field *ngIf="extraAttributes.length" appearance="fill">
 			<mat-label>Extras</mat-label>
 			<mat-select [(ngModel)]="column.extra"
 						multiple>

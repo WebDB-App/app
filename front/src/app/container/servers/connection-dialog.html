@@ -4,13 +4,13 @@
 		<mat-step *ngIf="newConnection">
 			<ng-template matStepLabel>Driver</ng-template>
 
-			<div fxLayoutGap fxLayout="direction row" style="justify-content: space-evenly">
-				<div class="driver"
-					 (click)="changeWrapper(wrapper)"
+			<div fxLayout="direction row" fxLayoutGap style="justify-content: space-evenly">
+				<div (click)="changeWrapper(wrapper)"
+					 *ngFor="let wrapper of driverNames"
 					 [class.mat-elevation-z12]="wrapper === server.wrapper"
-					 *ngFor="let wrapper of driverNames">
-					<div class="logo"
-						 [style.opacity]="wrapper === server.wrapper ? '1' : null">
+					 class="driver">
+					<div [style.opacity]="wrapper === server.wrapper ? '1' : null"
+						 class="logo">
 						<img src="/assets/drivers/{{wrapper | lowercase}}.svg">
 					</div>
 				</div>
@@ -27,10 +27,11 @@
 					</span>
 					Compatibility List
 				</a>
-				<button mat-stroked-button
-						[disabled]="!server.wrapper"
+				<button [disabled]="!server.wrapper"
 						color="primary"
-						matStepperNext>Next</button>
+						mat-stroked-button
+						matStepperNext>Next
+				</button>
 			</div>
 
 		</mat-step>
@@ -75,15 +76,15 @@
 					</button>
 
 					<mat-progress-spinner
-						mode="indeterminate"
+						*ngIf="sshStatus === 'loading'"
 						[diameter]="30"
 						color="accent"
-						*ngIf="sshStatus === 'loading'">
+						mode="indeterminate">
 					</mat-progress-spinner>
 				</div>
 
-				<button [cdkCopyToClipboard]="pubRsa"
-						(click)="snackBar.open('Copied to clipboard', '╳', {duration: 3000})"
+				<button (click)="snackBar.open('Copied to clipboard', '╳', {duration: 3000})"
+						[cdkCopyToClipboard]="pubRsa"
 						color="primary"
 						mat-stroked-button>
 					<span class="material-symbols-outlined">
@@ -100,16 +101,16 @@
 						matStepperPrevious>
 					Previous
 				</button>
-				<button mat-stroked-button
-						color="primary"
-						*ngIf="server.ssh.host"
+				<button *ngIf="server.ssh.host"
 						[disabled]="sshStatus !== 'connected'"
+						color="primary"
+						mat-stroked-button
 						matStepperNext>
 					Next
 				</button>
-				<button mat-stroked-button
+				<button *ngIf="sshStatus === 'notConnected'"
 						color="primary"
-						*ngIf="sshStatus === 'notConnected'"
+						mat-stroked-button
 						matStepperNext>
 					Skip
 				</button>
@@ -130,7 +131,7 @@
 			<div>
 				<mat-form-field appearance="outline">
 					<mat-label>User</mat-label>
-					<input matInput [(ngModel)]="server.user">
+					<input [(ngModel)]="server.user" matInput>
 				</mat-form-field>
 				<mat-form-field appearance="outline">
 					<mat-label>Password</mat-label>
@@ -163,7 +164,7 @@
 					Previous
 				</button>
 				<button [disabled]="!server.host || !server.port"
-						mat-stroked-button color="primary"
+						color="primary" mat-stroked-button
 						matStepperNext>
 					Next
 				</button>
@@ -173,15 +174,15 @@
 			<ng-template matStepLabel>Driver Parameters</ng-template>
 
 			<ngx-monaco-editor
-				style="width: 90%; margin: 0px auto;"
 				[(ngModel)]="params"
 				[options]="editorOptions"
+				style="width: 90%; margin: 0px auto;"
 			>
 			</ngx-monaco-editor>
 			<div>
-				<button mat-stroked-button
+				<button (click)="useDefault()"
 						color="primary"
-						(click)="useDefault()">
+						mat-stroked-button>
 						<span class="material-symbols-outlined">
 							device_reset
 						</span>
@@ -190,8 +191,8 @@
 
 				<a [href]="server.driver ? server.driver.docUrl : ''"
 				   mat-button
-				   style="margin-left: 20px"
 				   mat-stroked-button
+				   style="margin-left: 20px"
 				   target="_blank">
 						<span class="material-symbols-outlined">
 							menu_book
@@ -225,8 +226,8 @@
 		</button>
 
 		<button (click)="testServer()"
-				[disabled]="!server.host || !server.port"
 				[color]="connected ? 'accent' : 'primary'"
+				[disabled]="!server.host || !server.port"
 				mat-stroked-button>
 			<span class="material-symbols-outlined">
 				network_wifi_2_bar
@@ -234,8 +235,8 @@
 			Test Connection
 		</button>
 
-		<button [disabled]="!connected"
-				(click)="saveConnection()"
+		<button (click)="saveConnection()"
+				[disabled]="!connected"
 				color="primary"
 				mat-flat-button>
 			<span class="material-symbols-outlined">

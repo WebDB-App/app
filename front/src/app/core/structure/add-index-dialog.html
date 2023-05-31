@@ -4,11 +4,13 @@
 		<mat-icon>close</mat-icon>
 	</button>
 </div>
-<mat-dialog-content style="margin: 0px; padding: 0px !important; gap: 26px" fxLayout="column" fxLayoutAlign="space-between stretch">
+<mat-dialog-content fxLayout="column" fxLayoutAlign="space-between stretch"
+					style="margin: 0px; padding: 0px !important; gap: 26px">
 	<div style="margin: 0px auto;">
 		<mat-button-toggle-group
 			#type="matButtonToggleGroup">
-			<mat-button-toggle *ngFor="let type of types | keyvalue" [checked]="type.key === 'PRIMARY'" [value]="type.key">
+			<mat-button-toggle *ngFor="let type of types | keyvalue" [checked]="type.key === 'PRIMARY'"
+							   [value]="type.key">
 				{{type.key}} {{type.value}}
 			</mat-button-toggle>
 		</mat-button-toggle-group>

@@ -86,13 +86,13 @@
 						<mat-label>{{column}}</mat-label>
 						<input (matChipInputTokenEnd)="addFilter(column, $event)"
 							   [(ngModel)]="filter[column]"
-							   [matChipInputFor]="chipList"
 							   [matAutocomplete]="autoGroup"
+							   [matChipInputFor]="chipList"
 							   matInput>
 						<mat-autocomplete #autoGroup="matAutocomplete">
 							<mat-option
-								*ngFor="let comp of selectedServer!.driver.availableComparator"
-								(click)="filter[column] = comp.symbol + ' ' + comp.example">
+								(click)="filter[column] = comp.symbol + ' ' + comp.example"
+								*ngFor="let comp of selectedServer!.driver.availableComparator">
 								{{comp.symbol}}
 							</mat-option>
 						</mat-autocomplete>
@@ -103,8 +103,8 @@
 					<button (click)="removeRows()"
 							[disabled]="selection.isEmpty()"
 							color="warn"
-							style="width: 36px;"
-							mat-icon-button>
+							mat-icon-button
+							style="width: 36px;">
 						<span class="material-symbols-outlined">
 							delete
 						</span>

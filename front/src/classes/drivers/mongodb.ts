@@ -8,23 +8,14 @@ export class MongoDB implements Driver {
 	};
 
 	nameDel = '"';
-
-	nodeLib = (query: QueryParams) => "";
-
 	docUrl = "https://www.mongodb.com/docs/drivers/node/current/fundamentals/connection/connection-options/";
-
 	extraAttributes: string[] = [];
-
 	language = 'javascript';
-
 	canRename = true;
-
 	constraints = [];
-
 	availableComparator = [
 		{symbol: '>', example: ""}
 	];
-
 	typesList = [
 		{
 			name: TypeName.String,
@@ -32,10 +23,11 @@ export class MongoDB implements Driver {
 			full: ["varchar", 'longtext', 'longblob', 'char', 'binary', 'varbinary', 'blob', 'text', 'mediumblob', 'tinyblob', 'mediumtext', 'tinytext'],
 		}
 	];
-
 	acceptedExt = ['.csv', '.tsv'];
 	functions = [];
 	keywords = [];
+
+	nodeLib = (query: QueryParams) => "";
 
 	extractEnum(col: Column): string[] | false {
 		return false;
