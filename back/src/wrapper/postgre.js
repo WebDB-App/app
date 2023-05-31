@@ -102,11 +102,15 @@ export default class Postgre extends SQL {
 	}
 
 	async statsDatabase(name) {
-		return [];
+		const database = name.split(this.dbToSchemaDelimiter)[0];
+		return {
+			data_length: (await this.runCommand(`SELECT pg_database_size('${database}') AS "data_length"`, database))[0].data_length,
+			index_length: (await this.runCommand(`SELECT SUM(pg_indexes_size(relid)) as "index_length" FROM pg_catalog.pg_statio_user_tables`, database))[0].index_length
+		};
 	}
 
 	async statsTable(database, table) {
-		return [];
+		return (await this.runCommand(`SELECT pg_indexes_size (relid) AS "index_length", pg_table_size (relid) AS "data_length" FROM pg_catalog.pg_statio_user_tables WHERE relname = '${table}'`, database.split(this.dbToSchemaDelimiter)[0]))[0];
 	}
 
 	async getAvailableCollations() {
