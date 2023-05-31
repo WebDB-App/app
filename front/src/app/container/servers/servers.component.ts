@@ -198,7 +198,7 @@ export class ConnectionDialog {
 	pubRsa!: string;
 	newConnection = false;
 	connected = false;
-	sshStatus : 'notConnected' | 'loading' | 'connected' = "notConnected";
+	sshStatus: 'notConnected' | 'loading' | 'connected' = "notConnected";
 	showPassword = false;
 	showPasswordSSH = false;
 	driverNames = Object.keys(drivers);

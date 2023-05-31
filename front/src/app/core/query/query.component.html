@@ -39,9 +39,9 @@
 					[style.background-color]="element.star ? '#1e1e1e' : 'inherit'"
 					mat-cell>
 					<mat-checkbox
-						color="primary"
 						(change)="changeStar(element)"
-						[checked]="!!element.star">
+						[checked]="!!element.star"
+						color="primary">
 					</mat-checkbox>
 				</td>
 			</ng-container>

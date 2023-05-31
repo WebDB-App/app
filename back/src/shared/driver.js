@@ -2,8 +2,8 @@ import nodePortScanner from "node-port-scanner";
 
 export default class Driver {
 
-	dbToSchemaDelimiter = ", "
-	nameDel = '"';
+	dbToSchemaDelimiter = ", ";
+	nameDel = "\"";
 
 	connection;
 	port;

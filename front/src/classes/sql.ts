@@ -21,7 +21,6 @@ class TypeData {
 
 export class SQL implements Driver {
 
-	nodeLib = (query: QueryParams) => "";
 	nameDel = '"';
 	defaultParams = {};
 	docUrl = "";
@@ -167,6 +166,8 @@ export class SQL implements Driver {
 		'GROUP_CONCAT',
 		'WHEN'
 	];
+
+	nodeLib = (query: QueryParams) => "";
 
 	highlight(query: string) {
 		return highlight(query, {

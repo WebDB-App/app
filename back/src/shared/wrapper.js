@@ -37,9 +37,10 @@ class Wrapper {
 	}
 
 	async getDriver(connection) {
+		// eslint-disable-next-line no-unused-vars
 		const makeHash = (port, user, password, host, params) => {
 			return JSON.stringify(arguments);
-		}
+		};
 
 		try {
 			const forwardPort = await Tunnel.handleSsh(connection);

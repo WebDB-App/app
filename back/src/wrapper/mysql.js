@@ -1,6 +1,5 @@
 import mysql from "mysql2";
 import SQL from "../shared/sql.js";
-import {execSync} from "child_process";
 import {writeFileSync} from "fs";
 import bash from "../shared/bash.js";
 import {URL} from "url";
@@ -9,7 +8,7 @@ const dirname = new URL(".", import.meta.url).pathname;
 
 export default class MySQL extends SQL {
 
-	nameDel = '\`';
+	nameDel = "\`";
 	commonUser = ["mysql", "maria", "mariadb"];
 	commonPass = ["mysql", "my-secret-pw", "maria", "mariadb", "mypass"];
 	systemDbs = ["information_schema", "mysql", "performance_schema", "sys"];

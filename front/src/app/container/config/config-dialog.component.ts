@@ -12,7 +12,8 @@ export class ConfigDialog {
 
 	constructor(
 		private request: RequestService
-	) {}
+	) {
+	}
 
 	async update(name: string, value: string) {
 		this.configuration.update(name, value);

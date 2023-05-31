@@ -28,7 +28,7 @@ export default class Postgre extends SQL {
 		};
 
 		const promises = [];
-		const tables = await this.runCommand(`SELECT table_name FROM information_schema.tables WHERE table_schema = '${schema}'`, database)
+		const tables = await this.runCommand(`SELECT table_name FROM information_schema.tables WHERE table_schema = '${schema}'`, database);
 		for (const table of tables) {
 			promises.push(getSample(table.table_name));
 		}
@@ -46,7 +46,7 @@ export default class Postgre extends SQL {
 		if (exportType === "sql") {
 			const cmd = `pg_dump ${this.makeUri(database)}`;
 			const data = includeData ? "" : "-s -b";
-			const dbOpts = tables.length === total[0].total ? `` : `${tables.map(table => `-t ${table}`).join(" ")}`;
+			const dbOpts = tables.length === total[0].total ? "" : `${tables.map(table => `-t ${table}`).join(" ")}`;
 
 			const result = bash.runBash(`${cmd} ${dbOpts} ${data} > ${path}`);
 			if (result.error) {
@@ -69,7 +69,7 @@ export default class Postgre extends SQL {
 	}
 
 	makeUri(database = false) {
-		return `postgresql://${this.user}:${this.password}@${this.host}:${this.port}${database ? '/' + database : ''}`;
+		return `postgresql://${this.user}:${this.password}@${this.host}:${this.port}${database ? "/" + database : ""}`;
 	}
 
 	async load(filePath, dbSchema) {
@@ -198,7 +198,7 @@ export default class Postgre extends SQL {
 			promises.push(new Promise(async resolve => {
 				const [schemas, columns, tables] = await Promise.all([
 					this.runCommand("SELECT * FROM information_schema.schemata", db.datname),
-					this.runCommand(`SELECT table_schema, table_name, column_name, ordinal_position, column_default, is_nullable, data_type FROM information_schema.columns ORDER BY table_name, ordinal_position`, db.datname),
+					this.runCommand("SELECT table_schema, table_name, column_name, ordinal_position, column_default, is_nullable, data_type FROM information_schema.columns ORDER BY table_name, ordinal_position", db.datname),
 					this.runCommand("SELECT table_schema, table_name, table_type FROM information_schema.tables", db.datname)
 				]);
 
@@ -237,7 +237,7 @@ export default class Postgre extends SQL {
 					}
 				}
 				resolve();
-			}))
+			}));
 		}
 
 		await Promise.all(promises);
@@ -265,7 +265,7 @@ export default class Postgre extends SQL {
 			console.error(e);
 			return {error: e.message};
 		} finally {
-			bash.logCommand(command, (database || '') + (schema ? `,${schema}` : ''), Date.now() - start, this.port);
+			bash.logCommand(command, (database || "") + (schema ? `,${schema}` : ""), Date.now() - start, this.port);
 			connection.release();
 		}
 	}
@@ -280,7 +280,7 @@ export default class Postgre extends SQL {
 				...this.params
 			};
 			if (database) {
-				creds['database'] = database;
+				creds["database"] = database;
 			}
 
 			const pool = new Pool(creds);

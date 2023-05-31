@@ -1,7 +1,7 @@
 <div class="mat-elevation-z8" fxLayout="column" fxLayoutAlign="none">
 
-	<table id="editor"
-		   [ngClass]="{'queryPage': selectedTable}">
+	<table [ngClass]="{'queryPage': selectedTable}"
+		   id="editor">
 		<tr>
 			<td>
 				<ngx-monaco-editor
@@ -98,8 +98,8 @@
 
 		<mat-progress-bar
 			[hidden]="!isLoading"
-			style="position: absolute; left: 0px; right: 0px; bottom: 0px;"
-			mode="query"></mat-progress-bar>
+			mode="query"
+			style="position: absolute; left: 0px; right: 0px; bottom: 0px;"></mat-progress-bar>
 	</div>
 
 	<ngx-monaco-diff-editor

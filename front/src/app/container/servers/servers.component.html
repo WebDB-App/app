@@ -56,8 +56,8 @@
 						<h4 fxLayout="row" fxLayoutAlign="space-between center" style="padding: 0px 10px">
 							<span
 								[matTooltip]="getTooltip(server)"
-								matTooltipPosition="right"
-								class="material-symbols-outlined">
+								class="material-symbols-outlined"
+								matTooltipPosition="right">
 								{{getIcon(server)}}
 							</span>
 
@@ -86,7 +86,8 @@
 							<ng-container *ngIf="!server.connected">
 								<ng-container *ngIf="server.scanned">
 									<div (keyup.enter)="loginBtn._elementRef.nativeElement.click()">
-										<div fxLayout="row" fxLayoutAlign="space-around none" style="padding-top: 16px; gap: 10px">
+										<div fxLayout="row" fxLayoutAlign="space-around none"
+											 style="padding-top: 16px; gap: 10px">
 											<mat-form-field appearance="outline">
 												<mat-label>User</mat-label>
 												<input #user matInput>
@@ -146,7 +147,7 @@
 									</mat-accordion>
 								</ng-container>
 
-								<mat-selection-list [multiple]="false" *ngIf="!server.dbs[0].schemas?.length">
+								<mat-selection-list *ngIf="!server.dbs[0].schemas?.length" [multiple]="false">
 									<mat-list-option
 										*ngFor="let database of server.dbs"
 										[disabled]="database.tables === undefined"
