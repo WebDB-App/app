@@ -181,7 +181,7 @@ export default class MySQL extends SQL {
 			GROUP BY TABLE_SCHEMA, TABLE_NAME, INDEX_NAME, CARDINALITY, INDEX_TYPE, NON_UNIQUE, NULLABLE;`);
 
 		return indexes.map(index => {
-			index.unique = !!index.unique
+			index.unique = !!index.unique;
 			return index;
 		});
 	}
