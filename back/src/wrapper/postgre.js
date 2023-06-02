@@ -171,7 +171,7 @@ export default class Postgre extends SQL {
 		const indexes = await Promise.all(promises);
 
 
-		//merge colus in sql, nullable ?, cardinality
+		//merge colus in sql, cardinality
 		//name === "PRIMARY"
 		return indexes;
 	}
@@ -183,7 +183,7 @@ export default class Postgre extends SQL {
 		delete this.connection;
 		this.dbPool = {};
 
-		const res = bash.runBash(`psql ${this.makeUri()} -c 'DROP DATABASE ${this.nameDel}${name}${this.nameDel} WITH (FORCE)'`);
+		bash.runBash(`psql ${this.makeUri()} -c 'DROP DATABASE ${this.nameDel}${name}${this.nameDel} WITH (FORCE)'`);
 		await new Promise(resolve => setTimeout(resolve, 1000));
 
 		return {result: "Ok"};

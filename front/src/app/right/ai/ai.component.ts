@@ -44,7 +44,7 @@ export class AiComponent implements OnInit, OnDestroy {
 	examples = [
 		'Explain me the purpose of this database',
 		'Propose me some optimisation of the structure',
-		'What are the most efficient MySQL Performance Tuning Tips',
+		'Create a trigger ...',
 		'Give me a SQL query retrieving all users',
 		'Show me the syntax error of `SELECT * FRM users`',
 	]

@@ -74,7 +74,7 @@
 									</button>
 								</mat-form-field>
 							</mat-option>
-							<mat-optgroup *ngFor="let group of selectGroups" [label]="group.name" class="preset">
+							<mat-optgroup *ngFor="let group of generatorGroups" [label]="group.name" class="preset">
 								<ng-container *ngFor="let value of group.values">
 									<mat-option (click)="randomSource!.data[1][column] = beautify(value.fct)"
 												*ngIf="value.name.toLowerCase().includes(filterPreset.value.toLowerCase())"
