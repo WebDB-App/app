@@ -79,12 +79,11 @@
 			</button>
 			<mat-menu #advanced="matMenu" xPosition="before">
 				<button [matMenuTriggerFor]="export" mat-menu-item>Export</button>
-				<!--<button *ngIf="selectedTable" [matMenuTriggerFor]="optimiz" mat-menu-item>Optimize</button>-->
 				<button [matMenuTriggerFor]="shortcuts" mat-menu-item>Shortcuts</button>
 			</mat-menu>
 
 			<mat-menu #shortcuts="matMenu">
-				<button mat-menu-item>Tab → <span style="color: #2196f3">Autocomplete</span></button>
+				<button mat-menu-item>Alt + Space → <span style="color: #2196f3">Autocomplete</span></button>
 				<button mat-menu-item>Ctrl + s / Enter → <span style="color: #2196f3">Run Query</span></button>
 				<button mat-menu-item>Ctrl + f → <span style="color: #2196f3">Find and / or Replace</span></button>
 				<button mat-menu-item>Ctrl + l → <span style="color: #2196f3">Format Query</span></button>

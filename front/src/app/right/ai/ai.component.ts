@@ -42,11 +42,11 @@ export class AiComponent implements OnInit, OnDestroy {
 
 	Role = Role
 	examples = [
-		'Explain me the purpose of this database',
-		'Propose me some optimisation of the structure',
+		'Explain me the purpose of my database',
+		'Can you optimize : `SELECT * FROM users WHERE email LIKE ?`',
 		'Create a trigger ...',
-		'I need to store a new entity called ...',
-		'Give me the CRUD query for this new entity',
+		'I need to store a new entity called licence, with 1,1 relation with user, give me the plan to do it',
+		'Give me the CRUD query for user entity',
 	]
 	changing = false;
 	localKeyChatHistory!: string;
