@@ -119,7 +119,7 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 	}
 
 	initEditor(editor: any) {
-		editor.addCommand(monaco.KeyCode.Tab,
+		editor.addCommand(monaco.KeyMod.Alt | monaco.KeyCode.Space,
 			() => {
 				editor.trigger('', 'editor.action.triggerSuggest', '');
 			},
@@ -256,15 +256,6 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 			}, this.configuration.getByName('reloadData')?.value * 1000);
 		}
 	}
-
-	/*optimize(explainformattree: string) {
-
-		explain query
-				profile query
-				SELECT * FROM `promotion` PROCEDURE ANALYSE()
-				SELECT * FROM INFORMATION_SCHEMA.PROFILING WHERE QUERY_ID=4;
-
-	} */
 }
 
 @Component({
