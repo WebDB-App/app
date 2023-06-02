@@ -1,9 +1,6 @@
 - js autocomplete
 - tester plusieurs schemas
-
 - cloud (google, aurora, rds, digital, atlas?)
-- rm nameDel en front
--
 - Finir EDR
 
 
@@ -20,17 +17,14 @@
 
 # COM
 
-
-
-
-
-
-
 # Bin
 - https://github.com/electron/electron/issues/21457#issuecomment-1269637018
 - Node Single Executable Apps
 - ci + gitlab wiki
 - changelog en json avec opencommit et check last version
+
+# Export Query
+- tester tout
 
 # Chat
 - exemple sans clé
@@ -46,16 +40,6 @@
 - envoyer view
 - 2 videos micode
 
-# Export Query
-- tester tout
-
-# Monaco
-- crypto-js -> autocomplete
-- tell if structure changed then reload app (https://www.npmjs.com/package/sql-query-identifier)
-- full documentation from db export (help_keyword_id, etc)
-
-# Oracle
-- https://github.com/oracle/docker-images/blob/main/OracleDatabase/SingleInstance/README.md
 
 # MySQL
 - revoir crud avec  float, decimal, "bigNumber"
@@ -69,5 +53,27 @@
 - https://hub.docker.com/r/nouchka/sqlite3/
 - https://www.npmjs.com/package/better-sqlite3
 
+
+
+
+
+
+
+
+
+
+rm nameDel en front
+
 # Postgre
 - foreign table
+
+# Insert
+- finir street and fulladdress translation
+
+# Monaco
+- crypto-js -> autocomplete
+- tell if structure changed then reload app (https://www.npmjs.com/package/sql-query-identifier)
+- full documentation from db export (help_keyword_id, etc)
+
+# Oracle
+- https://github.com/oracle/docker-images/blob/main/OracleDatabase/SingleInstance/README.md
