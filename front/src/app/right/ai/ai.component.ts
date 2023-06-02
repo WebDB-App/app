@@ -45,8 +45,8 @@ export class AiComponent implements OnInit, OnDestroy {
 		'Explain me the purpose of this database',
 		'Propose me some optimisation of the structure',
 		'Create a trigger ...',
-		'Give me a SQL query retrieving all users',
-		'Show me the syntax error of `SELECT * FRM users`',
+		'I need to store a new entity called ...',
+		'Give me the CRUD query for this new entity',
 	]
 	changing = false;
 	localKeyChatHistory!: string;
