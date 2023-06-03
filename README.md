@@ -2,13 +2,7 @@
 - tester plusieurs schemas
 - cloud (google, aurora, rds, digital, atlas?)
 - Finir EDR
-
-
-
-
-
-
-
+- postgre array of type
 
 
 
@@ -49,20 +43,23 @@
 - multi type : convert to array and search inside
 - traduction (collection vs table, etc)
 
+
+
+
+
+
+
+
+
+BSON, BYAREA, BLOB
+rm nameDel en front
+
 # SQLite
 - https://hub.docker.com/r/nouchka/sqlite3/
 - https://www.npmjs.com/package/better-sqlite3
 
-
-
-
-
-
-
-
-
-
-rm nameDel en front
+# Redis
+- pub/sub
 
 # Postgre
 - foreign table
