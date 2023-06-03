@@ -36,7 +36,6 @@
 
 
 # MySQL
-- revoir crud avec  float, decimal, "bigNumber"
 - revoir load avec tunnel (essayer en bash)
 
 # MongoDB
@@ -70,7 +69,7 @@ rm nameDel en front
 # Monaco
 - crypto-js -> autocomplete
 - tell if structure changed then reload app (https://www.npmjs.com/package/sql-query-identifier)
-- full documentation from db export (help_keyword_id, etc)
+- full keyword,fct, in settings : full documentation from db export (help_keyword_id, etc)
 
 # Oracle
 - https://github.com/oracle/docker-images/blob/main/OracleDatabase/SingleInstance/README.md

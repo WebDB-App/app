@@ -131,4 +131,8 @@ export class ContainerComponent implements AfterViewInit {
 		await this.request.reloadDbs();
 		this.isLoading = false;
 	}
+
+	displayParams() {
+		return JSON.stringify(this.server.params, null, 2);
+	}
 }
