@@ -114,9 +114,23 @@ export default class SQL extends Driver {
 		return await this.runCommand(`INSERT INTO ${this.nameDel}${table}${this.nameDel} (${Object.keys(datas[0]).join(",")}) VALUES ${values.join(", ")}`, db);
 	}
 
+	getPk(indexes, row) {
+		const pks = {};
+
+		for (const index of indexes) {
+			index.columns.split(",").map(pk => {
+				pks[pk] = row[pk];
+			});
+		}
+
+		return Object.keys(pks).length > 0 ? pks : row;
+	}
+
 	async delete(db, table, rows) {
+		const indexes = (await this.getIndexes()).filter(index => index.database === db && index.table === table && index.name === "PRIMARY");
+
 		for (const row of rows) {
-			const where = this.objectToSql(row).join(" AND ");
+			const where = this.objectToSql(this.getPk(indexes, row)).join(" AND ");
 			await this.runCommand(`DELETE FROM ${this.nameDel}${table}${this.nameDel} WHERE ${where} LIMIT 1`, db);
 		}
 
@@ -124,8 +138,17 @@ export default class SQL extends Driver {
 	}
 
 	async update(db, table, old_data, new_data) {
-		let where = this.objectToSql(old_data);
-		let update = this.objectToSql(new_data);
+		const indexes = (await this.getIndexes()).filter(index => index.database === db && index.table === table && index.name === "PRIMARY");
+
+		const to_update = {};
+		for (const [key, value] of Object.entries(new_data)) {
+			if (JSON.stringify(value) !== JSON.stringify(old_data[key])) {
+				to_update[key] = value;
+			}
+		}
+
+		const update = this.objectToSql(to_update);
+		const where = this.getPk(indexes, old_data);
 
 		return await this.runCommand(`UPDATE ${this.nameDel}${table}${this.nameDel} SET ${update.join(", ")} WHERE ${where.join(" AND ")} LIMIT 1`, db);
 	}

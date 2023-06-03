@@ -22,9 +22,21 @@
 					<span style="font-size: 16px; padding-left: 16px;">v{{packageJson.version}}</span>
 				</div>
 
-				<div *ngIf="server && database" id="serverName">
-					[<span>{{server.wrapper}}</span>]<span>{{server.host}}</span>:<span>{{server.port}}</span>/<span>{{database.name}}</span>
-				</div>
+				<ng-container *ngIf="server && database">
+					<div matTooltip="wrapper: {{server.wrapper}}
+user: {{server.user}}
+params: {{displayParams()}}" id="serverName">
+						<span>{{server.host}}</span>:<span>{{server.port}}</span>/<span>{{database.name}}</span>
+					</div>
+					<button
+						mat-icon-button
+						(click)="reloadDbs()"
+					   	matTooltip="Reload Database">
+						<span class="material-symbols-outlined">
+							refresh
+						</span>
+					</button>
+				</ng-container>
 			</div>
 
 			<div class="flex-spacer"></div>
@@ -66,15 +78,6 @@
 <ng-template #iconTemplate></ng-template>
 
 <mat-menu #external="matMenu" class="external">
-	<a (click)="reloadDbs()"
-	   *ngIf="router.url !== '/'"
-	   mat-menu-item
-	   target="_blank">
-		<span class="material-symbols-outlined">
-			refresh
-		</span>
-		Reload Database
-	</a>
 	<a href="https://gitlab.com/web-db/landing/-/issues"
 	   mat-menu-item
 	   target="_blank">
