@@ -38,7 +38,12 @@ async function main() {
 		]);
 
 		this.functions = this.functions.concat([
-			'CHECK'
+			'json_array_length',
+			'json_object_keys',
+			'json_each',
+			'json_array_elements',
+			'json_object',
+			'to_json',
 		]);
 
 		this.typesList = [

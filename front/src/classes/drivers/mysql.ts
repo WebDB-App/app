@@ -43,6 +43,17 @@ async function main() {
 			'AUTO_INCREMENT',
 		]);
 
+		this.functions = this.functions.concat([
+			'JSON_ARRAY',
+			'JSON_KEYS',
+			'JSON_LENGTH',
+			'JSON_MERGE',
+			'JSON_OBJECT',
+			'JSON_CONTAINS',
+			'JSON_ARRAY_APPEND',
+			'UUID'
+		]);
+
 		this.extraAttributes = ['auto_increment', 'on update CURRENT_TIMESTAMP'];
 
 		this.typesList = [

@@ -80,6 +80,7 @@
 			<mat-menu #advanced="matMenu" xPosition="before">
 				<button [matMenuTriggerFor]="export" mat-menu-item>Export</button>
 				<button [matMenuTriggerFor]="shortcuts" mat-menu-item>Shortcuts</button>
+				<button [matMenuTriggerFor]="disclaimer" mat-menu-item>Diclaimer</button>
 			</mat-menu>
 
 			<mat-menu #shortcuts="matMenu">
@@ -92,6 +93,13 @@
 				<button (click)="exportQuery('node')" mat-menu-item>Node.JS</button>
 				<button (click)="exportQuery('PDO')" mat-menu-item>PHP</button>
 				<button (click)="exportQuery('JDBC')" mat-menu-item>Java</button>
+			</mat-menu>
+			<mat-menu #disclaimer="matMenu">
+				<p>
+					Just most keyword/function are proposed in autocomplete.
+					<br>
+					Check the official documentation for complete list
+				</p>
 			</mat-menu>
 		</div>
 
