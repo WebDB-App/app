@@ -15,21 +15,39 @@ const routes: Routes = [
 	}, {
 		path: 'explore',
 		component: ExploreComponent,
+		data: {
+			reuseRoute: true
+		}
 	}, {
 		path: 'query',
 		component: QueryComponent,
+		data: {
+			reuseRoute: true
+		}
 	}, {
 		path: 'structure',
 		component: StructureComponent,
+		data: {
+			reuseRoute: true
+		}
 	}, {
 		path: 'insert',
 		component: InsertComponent,
+		data: {
+			reuseRoute: true
+		}
 	}, {
 		path: 'trigger',
 		component: TriggerComponent,
+		data: {
+			reuseRoute: true
+		}
 	}, {
 		path: 'advanced',
 		component: TableAdvancedComponent,
+		data: {
+			reuseRoute: true
+		}
 	}
 ];
 
