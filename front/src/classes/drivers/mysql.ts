@@ -41,18 +41,30 @@ async function main() {
 
 		this.keywords = this.keywords.concat([
 			'AUTO_INCREMENT',
+			'FOR EACH ROW'
 		]);
 
-		this.functions = this.functions.concat([
-			'JSON_ARRAY',
-			'JSON_KEYS',
-			'JSON_LENGTH',
-			'JSON_MERGE',
-			'JSON_OBJECT',
-			'JSON_CONTAINS',
-			'JSON_ARRAY_APPEND',
-			'UUID'
-		]);
+		this.functions = {...this.functions, ...{
+				'LPAD': '(string, length, lpad_string)',
+				'INSTR': '(string1, string2)',
+				'GROUP_CONCAT': null,
+				'JSON_KEYS': '(json_doc[, path])',
+				'JSON_LENGTH': '(json_doc[, path])',
+				'JSON_SET': '(json_doc, path, val[, path, val] ...)',
+				'JSON_INSERT': '(json_doc, path, val[, path, val] ...)',
+				'JSON_APPEND': '(json_doc, path, val[, path, val] ...)',
+				'JSON_MERGE': '(json_doc, json_doc[, json_doc] ...)',
+				'JSON_QUOTE': '(string)',
+				'JSON_OBJECT': '([key, val[, key, val] ...])',
+				'JSON_OBJECTAGG': '(key, value) [over_clause]',
+				'JSON_CONTAINS': '(target, candidate[, path])',
+				'JSON_ARRAY': '([val[, val] ...])',
+				'JSON_ARRAY_APPEND': '(json_doc, path, val[, path, val] ...)',
+				'JSON_ARRAYAGG': null,
+				'UUID': '',
+				'AES_ENCRYPT': '(str, key_str)',
+				'AES_DECRYPT': '(crypt_str, key_str)'
+		}};
 
 		this.extraAttributes = ['auto_increment', 'on update CURRENT_TIMESTAMP'];
 

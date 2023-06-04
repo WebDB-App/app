@@ -37,14 +37,31 @@ async function main() {
 			'CREATE DOMAIN'
 		]);
 
-		this.functions = this.functions.concat([
-			'json_array_length',
-			'json_object_keys',
-			'json_each',
-			'json_array_elements',
-			'json_object',
-			'to_json',
-		]);
+		this.functions = {...this.functions, ...{
+				'ARRAY_AGG': null,
+				'ARRAY_UPPER': '(anyarray, int)',
+				'ARRAY_REPLACE': '(anyarray, anyelement, anyelement)',
+				'ARRAY_REMOVE': '(anyarray, anyelement)',
+				'ARRAY_PREPEND': '(anyelement, anyarray)',
+				'ARRAY_LOWER': '(anyarray, int)',
+				'ARRAY_LENGTH': '(anyarray, int)',
+				'ARRAY_FILL': '(anyelement, int[], [, int[]])',
+				'ARRAY_APPEND': '(anyarray, anyelement)',
+				'ARRAY_TO_STRING': '(anyarray, text [, text])',
+				'STRING_AGG': '(expression, delimiter)',
+				'STRING_TO_ARRAY': '(text, text [, text])',
+				'EVERY': '',
+				'JSON_AGG': null,
+				'JSON_OBJECT_AGG': '(name, value)',
+				'JSON_ARRAY_LENGTH': '(json)',
+				'JSON_OBJECT_KEYS': '(json)',
+				'JSON_EACH': '(json)',
+				'JSON_ARRAY_ELEMENTS': '(json)',
+				'JSON_OBJECT': '([key, value[, key, value] ...])',
+				'TO_JSON': '(anyelement)',
+				'CRYPT': '(password text, salt text)'
+			}
+		};
 
 		this.typesList = [
 			{

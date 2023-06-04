@@ -19,6 +19,18 @@ class Controller {
 
 		res.send(await driver.delete(database, table, req.body));
 	}
+
+	async download(req, res) {
+		const [driver, database, table] = await http.getLoggedDriver(req);
+
+		res.send(await driver.download(database, table, req.body));
+	}
+
+	async upload(req, res) {
+		const [driver, database, table] = await http.getLoggedDriver(req);
+
+		res.send(await driver.upload(database, table, req.body));
+	}
 }
 
 export default new Controller();

@@ -156,7 +156,7 @@ export default class Postgre extends SQL {
 			promises.push(this.runCommand(`
 				SELECT
 					ns.nspname               AS schema_name,
-					idx.indrelid :: REGCLASS AS table_name,
+					array_agg(idx.indrelid::REGCLASS) AS table_name,
 					i.relname                AS index_name,
 					idx.indisunique          AS unique,
 					idx.indisprimary         AS primary,
@@ -165,7 +165,8 @@ export default class Postgre extends SQL {
 				JOIN pg_class AS i ON i.oid = idx.indexrelid
 				JOIN pg_am AS am ON i.relam = am.oid
 				JOIN pg_namespace AS NS ON i.relnamespace = NS.OID
-				JOIN pg_user AS U ON i.relowner = U.usesysid`, db.datname));
+				JOIN pg_user AS U ON i.relowner = U.usesysid
+				GROUP BY ns.nspname, i.relname, idx.indisunique, idx.indisprimary, am.amname`, db.datname));
 		}
 
 		const indexes = await Promise.all(promises);

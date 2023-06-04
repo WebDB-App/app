@@ -24,7 +24,7 @@ export class MongoDB implements Driver {
 		}
 	];
 	acceptedExt = ['.csv', '.tsv'];
-	functions = [];
+	functions = {};
 	keywords = [];
 
 	nodeLib = (query: QueryParams) => "";

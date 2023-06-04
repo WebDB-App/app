@@ -112,7 +112,6 @@ export class SQL implements Driver {
 		'BEGIN',
 		'DECLARE',
 		'END',
-		'FOR EACH ROW',
 		'SET',
 		'IF',
 		'ELSEIF',
@@ -125,47 +124,47 @@ export class SQL implements Driver {
 		'ON DELETE',
 		'ON UPDATE',
 	];
-	functions = [
-		'SUM',
-		'MIN',
-		'MAX',
-		'AVG',
-		'COUNT',
-		'CONCAT',
-		'LENGTH',
-		'REPLACE',
-		'SUBSTRING',
-		'LEFT',
-		'RIGHT',
-		'REVERSE',
-		'TRIM',
-		'LTRIM',
-		'RTRIM',
-		'LPAD',
-		'UPPER',
-		'LOWER',
-		'UCASE',
-		'LCASE',
-		'LOCATE',
-		'REPEAT',
-		'INSTR',
-		'RAND',
-		'ROUND',
-		'DATE_FORMAT',
-		'DATEDIFF',
-		'DAYOFWEEK',
-		'MONTH',
-		'NOW',
-		'TIMEDIFF',
-		'TIMESTAMP',
-		'YEAR',
-		'MD5',
-		'CAST',
-		'ISNULL',
-		'CONVERT',
-		'GROUP_CONCAT',
-		'WHEN'
-	];
+	functions = {
+		'SUM': null,
+		'MIN': null,
+		'MAX': null,
+		'AVG': null,
+		'COUNT': null,
+		'CONCAT': null,
+		'LENGTH': null,
+		'REPLACE': '(string, old_string, new_string)',
+		'SUBSTRING': '(string, start, length)',
+		'LEFT': '(string, number_of_chars)',
+		'RIGHT': '(string, number_of_chars)',
+		'REVERSE': null,
+		'TRIM': null,
+		'LTRIM': null,
+		'RTRIM': null,
+		'UPPER': null,
+		'LOWER': null,
+		'UCASE': null,
+		'LCASE': null,
+		'LOCATE': '(substring, string, [start])',
+		'REPEAT': '(string, number)',
+		'RAND': '',
+		'ROUND': '(number, [decimals])',
+		'DATE_FORMAT': '(date, format)',
+		'DATEDIFF': '(date1, date2)',
+		'DAYOFWEEK': null,
+		'MONTH': '(date)',
+		'NOW': '',
+		'TIMEDIFF': '(time1, time2)',
+		'TIMESTAMP': '(time | date)',
+		'YEAR': '(date | datetime)',
+		'MD5': null,
+		'SHA1': null,
+		'SHA256': null,
+		'SHA512': null,
+		'CAST': null,
+		'ISNULL': null,
+		'CONVERT': '(value, type)',
+		'WHEN': ''
+	}
 
 	nodeLib = (query: QueryParams) => "";
 
@@ -243,11 +242,15 @@ export class SQL implements Driver {
 			})
 		});
 
-		this.functions.map(fct => {
+		Object.keys(this.functions).map(fct => {
+
+			// @ts-ignore
+			const detail = this.functions[fct] || '(column_name)';
 			suggestions.push({
 				label: fct,
 				kind: monaco.languages.CompletionItemKind.Module,
-				insertText: `${fct}()`
+				insertText: `${fct}()`,
+				detail
 			})
 		});
 

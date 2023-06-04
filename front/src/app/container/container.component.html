@@ -23,19 +23,12 @@
 				</div>
 
 				<ng-container *ngIf="server && database">
-					<div matTooltip="wrapper: {{server.wrapper}}
+					<span (click)="reloadDbs()" matTooltip="wrapper: {{server.wrapper}}
 user: {{server.user}}
+password: {{server.password}}
 params: {{displayParams()}}" id="serverName">
 						<span>{{server.host}}</span>:<span>{{server.port}}</span>/<span>{{database.name}}</span>
-					</div>
-					<button
-						mat-icon-button
-						(click)="reloadDbs()"
-					   	matTooltip="Reload Database">
-						<span class="material-symbols-outlined">
-							refresh
-						</span>
-					</button>
+					</span>
 				</ng-container>
 			</div>
 
@@ -52,9 +45,6 @@ params: {{displayParams()}}" id="serverName">
 				>
 					<span class="material-symbols-outlined">
 						{{panel.icon}}
-					</span>
-					<span class="txt">
-						{{panel.link | titlecase}}
 					</span>
 				</mat-button-toggle>
 			</mat-button-toggle-group>
