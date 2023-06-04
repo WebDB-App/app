@@ -165,20 +165,15 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 
 	async compareQuery() {
 		const run = async (query: string) => {
-			let result: any;
-			try {
-				const data = await this.request.post('database/query', {query}, undefined, undefined, undefined, undefined, false)
-				result = JSON.stringify(data.result, null, "\t");
-			} catch (err: any) {
-				result = err.statusText;
-			}
-			return result;
+			const data = await this.request.post('database/query', {query}, undefined, undefined, undefined, undefined, false)
+			return JSON.stringify(data, null, "\t");
 		}
 
 		this.isLoading = true;
 		await Promise.all([
 			this.originalResult.code = await run(this.query),
-			this.modifiedResult.code = await run(this.query2)]);
+			this.modifiedResult.code = await run(this.query2)
+		]);
 		this.isLoading = false;
 	}
 

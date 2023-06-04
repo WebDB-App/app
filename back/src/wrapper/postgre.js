@@ -153,28 +153,31 @@ export default class Postgre extends SQL {
 		const promises = [];
 
 		for (const db of dbs) {
-			promises.push(this.runCommand(`
-				SELECT
-					ns.nspname               AS schema_name,
-					array_agg(idx.indrelid::REGCLASS) AS table_name,
-					i.relname                AS index_name,
-					idx.indisunique          AS unique,
-					idx.indisprimary         AS primary,
-					am.amname                AS type
-				FROM pg_index AS idx
-				JOIN pg_class AS i ON i.oid = idx.indexrelid
-				JOIN pg_am AS am ON i.relam = am.oid
-				JOIN pg_namespace AS NS ON i.relnamespace = NS.OID
-				JOIN pg_user AS U ON i.relowner = U.usesysid
-				GROUP BY ns.nspname, i.relname, idx.indisunique, idx.indisprimary, am.amname`, db.datname));
+			promises.push(new Promise(async resolve => {
+				const indexes = await this.runCommand(`
+					SELECT
+						ns.nspname               AS database,
+						idx.indrelid::REGCLASS   AS table,
+						ARRAY_AGG(i.relname)     AS columns,
+						i.reltuples              AS cardinality,
+						idx.indisunique          AS unique,
+						idx.indisprimary         AS primary
+					FROM pg_index AS idx
+					JOIN pg_class AS i ON i.oid = idx.indexrelid
+					JOIN pg_am AS am ON i.relam = am.oid
+					JOIN pg_namespace AS NS ON i.relnamespace = NS.OID
+					GROUP BY ns.nspname, idx.indrelid, i.reltuples, idx.indisunique, idx.indisprimary`, db.datname);
+
+				for (const [key, index] of Object.entries(indexes)) {
+					index.database = db.datname + this.dbToSchemaDelimiter + index.database;
+					indexes[key].name = index.primary ? "PRIMARY" : index.columns;
+				}
+
+				resolve(indexes);
+			}));
 		}
 
-		const indexes = await Promise.all(promises);
-
-
-		//merge colus in sql, cardinality
-		//name === "PRIMARY"
-		return indexes;
+		return (await Promise.all(promises)).flat(1);
 	}
 
 	async dropDatabase(name) {
