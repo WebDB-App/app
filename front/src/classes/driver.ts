@@ -32,7 +32,7 @@ export interface Driver {
 	extractConditionParams: (query: string) => QueryParams;
 	generateSuggestions: (textUntilPosition: string) => string[];
 	keywords: string[];
-	functions: string[];
+	functions: {[key: string]: string | null};
 	constraints: string[];
 	acceptedExt: string[];
 	language: string;

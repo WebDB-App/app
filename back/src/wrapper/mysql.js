@@ -237,7 +237,14 @@ export default class MySQL extends SQL {
 				await connection.query(`USE \`${database}\``);
 			}
 			const [rows] = await connection.query(command);
-			return rows;
+			return rows.map(row => {
+				for (const [key, col] of Object.entries(row)) {
+					if (Buffer.isBuffer(col)) {
+						row[key] = "###BLOB###";
+					}
+				}
+				return row;
+			});
 		} catch (e) {
 			console.error(e);
 			return {error: e.sqlMessage};

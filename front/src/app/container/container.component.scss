@@ -12,6 +12,11 @@ mat-drawer {
 
 #serverName {
 	font-weight: lighter;
+	cursor: pointer;
+
+	&:hover {
+		border-bottom: 1px solid white;
+	}
 
 	> span {
 		margin: 0px 6px;
@@ -29,20 +34,11 @@ mat-drawer {
 }
 
 .panel {
-	overflow-x: auto;
 	border-radius: 0px;
+	height: 100%;
 
-	&, ::ng-deep .mat-button-toggle-button {
+	::ng-deep .mat-button-toggle-button {
 		height: 100%;
-
-		.txt {
-			font-weight: lighter;
-		}
-	}
-}
-
-@media (max-width: 1250px) {
-	.panel .txt {
-		display: none;
+		width: 55px;
 	}
 }

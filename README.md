@@ -1,9 +1,10 @@
-- js autocomplete
+- postgre array of type
 - tester plusieurs schemas
+-
+- js autocomplete
 - cloud (google, aurora, rds, digital, atlas?)
 - Finir EDR
-- postgre array of type
-
+- BLOB CRUD (download, upload)
 
 
 
@@ -49,8 +50,6 @@
 
 
 
-
-BSON, BYAREA, BLOB
 rm nameDel en front
 
 # SQLite
