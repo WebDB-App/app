@@ -39,7 +39,7 @@
 
 			<ng-container *ngIf="column !== actionColum">
 				<ngx-json-viewer *ngIf="isJson(row, column)" [json]="row[column]"></ngx-json-viewer>
-				<ng-container *ngIf="!isJson(row, column)">{{row[column]}}</ng-container>
+				<ng-container *ngIf="!isJson(row, column)">{{row[column] | boolean}}</ng-container>
 			</ng-container>
 		</td>
 	</ng-container>
@@ -83,9 +83,7 @@
 				</button>
 			</ng-container>
 
-			<ng-container *ngIf="column !== actionColum">
-				<ng-container>{{row[column]}}</ng-container>
-			</ng-container>
+			{{display(row, column)}}
 		</td>
 	</ng-container>
 

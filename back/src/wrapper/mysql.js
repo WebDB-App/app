@@ -181,6 +181,7 @@ export default class MySQL extends SQL {
 
 		return indexes.map(index => {
 			index.unique = !!index.unique;
+			index.columns = index.columns.split(",");
 			index.primary = index.name === "PRIMARY";
 			return index;
 		});

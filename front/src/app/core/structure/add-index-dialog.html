@@ -9,9 +9,9 @@
 	<div style="margin: 0px auto;">
 		<mat-button-toggle-group
 			#type="matButtonToggleGroup">
-			<mat-button-toggle *ngFor="let type of types | keyvalue" [checked]="type.key === 'PRIMARY'"
-							   [value]="type.key">
-				{{type.key}} {{type.value}}
+			<mat-button-toggle *ngFor="let symbol of symbols | keyvalue" [checked]="symbol.key === 'PRIMARY'"
+							   [value]="symbol.key">
+				{{symbol.key}} {{symbol.value}}
 			</mat-button-toggle>
 		</mat-button-toggle-group>
 	</div>

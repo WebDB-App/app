@@ -6,7 +6,7 @@ import { MatTableDataSource } from "@angular/material/table";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Column } from "../../../classes/column";
 import { RequestService } from "../../../shared/request.service";
-import { Index, TypeSymbol } from "../../../classes";
+import { Index, IndexSymbol } from "../../../classes";
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { ActivatedRoute, Router } from "@angular/router";
 import { DrawerService } from "../../../shared/drawer.service";
@@ -31,7 +31,7 @@ export class StructureComponent implements OnInit, OnDestroy, AfterViewChecked {
 	structureColumns: string[] = [];
 	structureSource!: MatTableDataSource<Column>;
 
-	indexColumns = ['columns', 'name', 'cardinality', 'primary', 'unique', this.actionColum];
+	indexColumns = ['tags', 'columns', 'name', 'cardinality', this.actionColum];
 	indexSource!: MatTableDataSource<Index>;
 
 	constructor(private request: RequestService,
@@ -135,8 +135,8 @@ export class StructureComponent implements OnInit, OnDestroy, AfterViewChecked {
 		});
 	}
 
-	getClasses(columns: string) {
-		return columns.split(',').map(col => 'hover-' + col)
+	getClasses(columns: string[]) {
+		return columns.map(col => 'hover-' + col)
 	}
 
 	isJson(row: any, column: string) {
@@ -144,6 +144,17 @@ export class StructureComponent implements OnInit, OnDestroy, AfterViewChecked {
 			return false;
 		}
 		return typeof row[column] === "object" || Array.isArray(row[column]);
+	}
+
+	display(row: any, column: string): string {
+		if (column === this.actionColum) {
+			return '';
+		}
+		if (column === 'tags') {
+			return Index.getSymbol([row]).join(' ');
+		}
+
+		return row[column];
 	}
 }
 
@@ -153,7 +164,7 @@ export class StructureComponent implements OnInit, OnDestroy, AfterViewChecked {
 })
 export class AddIndexDialog {
 
-	types = TypeSymbol;
+	symbols = IndexSymbol;
 
 	constructor(
 		public dialogRef: MatDialogRef<AddIndexDialog>,

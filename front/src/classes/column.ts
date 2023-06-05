@@ -1,4 +1,4 @@
-import { Index, TypeSymbol } from "./index";
+import { Index, IndexSymbol } from "./index";
 import { Relation } from "./relation";
 
 export class Column {
@@ -10,18 +10,10 @@ export class Column {
 	comment!: string;
 	extra?: string[];
 
-	static getTags(column: Column, indexes: Index[], relation?: Relation) {
-		let tags: string[] = [];
+	static getTags(column: Column, tableIndexes: Index[], relation?: Relation) {
+		const indexes = tableIndexes.filter(index => index.columns.indexOf(column.name) >= 0);
+		const tags = Index.getSymbol(indexes);
 
-		for (const index of indexes) {
-			if (index.primary) {
-				tags.push(TypeSymbol.PRIMARY);
-			} else if (index.unique) {
-				tags.push(TypeSymbol.UNIQUE);
-			} else {
-				tags.push(TypeSymbol.INDEX);
-			}
-		}
 		if (relation) {
 			tags.push('📎');
 		}

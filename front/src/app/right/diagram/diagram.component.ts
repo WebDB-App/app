@@ -59,6 +59,7 @@ export class DiagramComponent implements OnDestroy {
 		const db_indexes = this.selectedServer.indexes.filter(index => index.database === this.selectedDatabase.name);
 
 		for (const table of this.selectedDatabase.tables!) {
+			const indexes = db_indexes.filter(index => index.table === table.name);
 			const entity = <Entity>{
 				name: table.name,
 				view: table.view,
@@ -71,7 +72,6 @@ export class DiagramComponent implements OnDestroy {
 			}
 
 			for (const col of table.columns) {
-				const indexes = db_indexes.filter(index => index.table === table.name && index.columns.indexOf(col.name) >= 0);
 				const relation = this.relations.find(relation => relation.table_source === table.name && relation.column_source === col.name);
 
 				const ent = <Field>{

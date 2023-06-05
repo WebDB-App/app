@@ -324,14 +324,12 @@ export class SQL implements Driver {
 		}
 
 		Database.getSelected()?.tables?.map(table => {
+			const indexes = Table.getIndexes(table).filter(index => index.table === table.name);
 			if (previousToken !== table.name.toLowerCase()) {
 				return;
 			}
 
 			table.columns.map(column => {
-				const indexes = Table.getIndexes(table).filter(index => index.table === table.name && index.columns.indexOf(column.name) >= 0);
-
-
 				suggestions.push({
 					label: `${column.name}`,
 					kind: monaco.languages.CompletionItemKind.Class,
@@ -354,9 +352,9 @@ export class SQL implements Driver {
 		const suggestions = this.basicSuggestions();
 
 		if (Table.getSelected()) {
-			Table.getSelected()?.columns.map(column => {
-				const indexes = Table.getIndexes().filter(index => index.table === Table.getSelected()?.name && index.columns.indexOf(column.name) >= 0);
+			const indexes = Table.getIndexes().filter(index => index.table === Table.getSelected()?.name);
 
+			Table.getSelected()?.columns.map(column => {
 				suggestions.push({
 					label: `${column.name}`,
 					kind: monaco.languages.CompletionItemKind.Class,
@@ -373,6 +371,7 @@ export class SQL implements Driver {
 				});
 
 				db.tables?.map(table => {
+					const indexes = Table.getIndexes(table, db).filter(index => index.table === table.name);
 
 					suggestions.push({
 						label: `${db.name}.${table.name}`,
@@ -381,8 +380,6 @@ export class SQL implements Driver {
 					});
 
 					table.columns.map(column => {
-						const indexes = Table.getIndexes(table, db).filter(index => index.table === table.name && index.columns.indexOf(column.name) >= 0);
-
 						suggestions.push({
 							label: `${db.name}.${table.name}.${column.name}`,
 							kind: monaco.languages.CompletionItemKind.Class,
@@ -395,6 +392,8 @@ export class SQL implements Driver {
 		}
 
 		Database.getSelected()?.tables?.map(table => {
+			const indexes = Table.getIndexes(table).filter(index => index.table === table.name);
+
 			suggestions.push({
 				label: `${table.name}`,
 				kind: monaco.languages.CompletionItemKind.Struct,
@@ -402,8 +401,6 @@ export class SQL implements Driver {
 			});
 
 			table.columns.map(column => {
-				const indexes = Table.getIndexes(table).filter(index => index.table === table.name && index.columns.indexOf(column.name) >= 0);
-
 				suggestions.push({
 					label: `${table.name}.${column.name}`,
 					kind: monaco.languages.CompletionItemKind.Class,

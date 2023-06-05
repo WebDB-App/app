@@ -109,9 +109,8 @@ export class TablesComponent implements OnInit, OnDestroy {
 		const relations = Table.getRelations(table);
 
 		for (const col of table.columns) {
-			const indexs = indexes.filter(index => index.columns.indexOf(col.name) >= 0);
 			const relation = relations.find(relation => relation.column_source === col.name);
-			const tags = Column.getTags(col, indexs, relation);
+			const tags = Column.getTags(col, indexes, relation);
 
 			let line = col.name
 			line += tags.length ? (' | ' + tags.join(' ')) : '';
