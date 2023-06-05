@@ -181,6 +181,7 @@ export default class MySQL extends SQL {
 
 		return indexes.map(index => {
 			index.unique = !!index.unique;
+			index.primary = index.name === "PRIMARY";
 			return index;
 		});
 	}
@@ -188,8 +189,8 @@ export default class MySQL extends SQL {
 	async getStructure() {
 		const [dbs, columns, tables] = await Promise.all([
 			this.runCommand("SELECT * FROM information_schema.schemata ORDER BY SCHEMA_NAME"),
-			this.runCommand("SELECT TABLE_SCHEMA, TABLE_NAME, COLUMN_NAME, COLUMN_TYPE, IS_NULLABLE, COLLATION_NAME, COLUMN_DEFAULT, EXTRA, ORDINAL_POSITION FROM information_schema.COLUMNS ORDER BY TABLE_NAME, ORDINAL_POSITION"),
-			this.runCommand("SELECT TABLE_SCHEMA, TABLE_NAME, TABLE_TYPE FROM information_schema.TABLES")
+			this.runCommand("SELECT TABLE_SCHEMA, TABLE_NAME, COLUMN_NAME, COLUMN_TYPE, IS_NULLABLE, COLLATION_NAME, COLUMN_DEFAULT, EXTRA, ORDINAL_POSITION, COLUMN_COMMENT FROM information_schema.COLUMNS ORDER BY TABLE_NAME, ORDINAL_POSITION"),
+			this.runCommand("SELECT TABLE_SCHEMA, TABLE_NAME, TABLE_TYPE, TABLE_COMMENT FROM information_schema.TABLES")
 		]);
 
 		const struct = {};
@@ -208,6 +209,7 @@ export default class MySQL extends SQL {
 				struct[row.TABLE_SCHEMA].tables[row.TABLE_NAME] = {
 					name: row.TABLE_NAME,
 					view: table.TABLE_TYPE !== "BASE TABLE",
+					comment: table.TABLE_COMMENT,
 					columns: []
 				};
 			}
@@ -221,7 +223,7 @@ export default class MySQL extends SQL {
 				collation: row.COLLATION_NAME,
 				defaut: row.COLUMN_DEFAULT,
 				extra: row.EXTRA,
-				ordinal: row.ORDINAL_POSITION,
+				comment: row.COLUMN_COMMENT
 			});
 		}
 

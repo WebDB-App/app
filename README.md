@@ -10,7 +10,15 @@
 
 
 
+
+
+
 # COM
+
+# Miscellaneous
+- rm nameDel en front
+- https://stackoverflow.com/questions/50283659/angular-6-mattable-performance-in-1000-rows/64235778#64235778
+- display boolean with check
 
 # Bin
 - https://github.com/electron/electron/issues/21457#issuecomment-1269637018
@@ -20,6 +28,16 @@
 
 # Export Query
 - tester tout
+
+# MySQL
+- revoir load avec tunnel (essayer en bash)
+
+# MongoDB
+- multi type : convert to array and search inside
+- traduction (collection vs table, etc)
+
+# SQL Server
+- IA : generate entity
 
 # Chat
 - exemple sans clé
@@ -34,14 +52,7 @@
 - https://external-preview.redd.it/chatgpt-for-data-science-cheat-sheet-v0-Odpv_XqB8SiefptXNzZP-t9AjrVOxg0IF81UuKFx2sw.jpg?auto=webp&s=2b8b8a80fa2c3a4b6f85545cffa26726021a60a4
 - optionnal : envoyer view, trigger, stats
 - 2 videos micode
-
-
-# MySQL
-- revoir load avec tunnel (essayer en bash)
-
-# MongoDB
-- multi type : convert to array and search inside
-- traduction (collection vs table, etc)
+- ia entrainée sur les doc official de bdd ??
 
 
 
@@ -50,7 +61,18 @@
 
 
 
-rm nameDel en front
+
+
+
+
+
+
+
+
+# Cockroachdb
+
+# Oracle
+- https://github.com/oracle/docker-images/blob/main/OracleDatabase/SingleInstance/README.md
 
 # SQLite
 - https://hub.docker.com/r/nouchka/sqlite3/
@@ -61,6 +83,7 @@ rm nameDel en front
 
 # Postgre
 - foreign table
+- more comparator with detail
 
 # Insert
 - finir street and fulladdress translation
@@ -68,7 +91,3 @@ rm nameDel en front
 # Monaco
 - crypto-js -> autocomplete
 - tell if structure changed then reload app (https://www.npmjs.com/package/sql-query-identifier)
-- full keyword,fct, in settings : full documentation from db export (help_keyword_id, etc)
-
-# Oracle
-- https://github.com/oracle/docker-images/blob/main/OracleDatabase/SingleInstance/README.md

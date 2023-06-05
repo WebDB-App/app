@@ -171,7 +171,7 @@
 					</th>
 					<td *matCellDef="let row" mat-cell>
 						<ngx-json-viewer *ngIf="isNested(row[column])" [json]="row[column]"></ngx-json-viewer>
-						<ng-container *ngIf="!isNested(row[column])">{{row[column]}}</ng-container>
+						<ng-container *ngIf="!isNested(row[column])">{{row[column] | boolean}}</ng-container>
 					</td>
 				</ng-container>
 

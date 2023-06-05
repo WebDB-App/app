@@ -10,15 +10,12 @@ mat-drawer {
 	font-weight: initial;
 }
 
-#serverName {
+#server {
 	font-weight: lighter;
-	cursor: pointer;
+	display: flex;
+	align-items: center;
 
-	&:hover {
-		border-bottom: 1px solid white;
-	}
-
-	> span {
+	span {
 		margin: 0px 6px;
 	}
 }

@@ -9,13 +9,12 @@ export class Column {
 	defaut!: string;
 	comment!: string;
 	extra?: string[];
-	ordinal!: number;
 
 	static getTags(column: Column, indexes: Index[], relation?: Relation) {
 		let tags: string[] = [];
 
 		for (const index of indexes) {
-			if (index.name === "PRIMARY") {
+			if (index.primary) {
 				tags.push(TypeSymbol.PRIMARY);
 			} else if (index.unique) {
 				tags.push(TypeSymbol.UNIQUE);

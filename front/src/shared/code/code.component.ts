@@ -166,6 +166,10 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 	async compareQuery() {
 		const run = async (query: string) => {
 			const data = await this.request.post('database/query', {query}, undefined, undefined, undefined, undefined, false)
+			if (data.length) {
+				this.addHistory.emit({query, nbResult: data.length});
+			}
+
 			return JSON.stringify(data, null, "\t");
 		}
 

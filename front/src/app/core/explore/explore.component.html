@@ -170,7 +170,7 @@
 						<a *ngIf="getFkLink(column) !== null"
 						   [queryParams]="getFkParams(column, row[column])"
 						   [routerLink]="getFkLink(column)">{{row[column]}}</a>
-						<span *ngIf="getFkLink(column) === null">{{row[column]}}</span>
+						<span *ngIf="getFkLink(column) === null">{{row[column] | boolean}}</span>
 					</ng-container>
 				</ng-container>
 			</td>
