@@ -154,8 +154,8 @@ export default class SQL extends Driver {
 	}
 
 	async querySize(query, database) {
-		const result = await this.runCommand(`SELECT COUNT(*) AS querySize FROM (${query}) AS query`, database);
+		const result = await this.runCommand(`SELECT COUNT(*) AS querysize FROM (${query}) AS query`, database);
 
-		return result.error ? "0" : result[0]["querySize"];
+		return result.error ? "0" : result[0]["querysize"];
 	}
 }

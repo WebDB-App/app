@@ -211,6 +211,7 @@ export default class Postgre extends SQL {
 
 				for (const [key, index] of Object.entries(indexes)) {
 					indexes[key].database = db.datname + this.dbToSchemaDelimiter + index.database;
+					indexes[key].columns = index.columns.split(',');
 				}
 
 				resolve(indexes);
