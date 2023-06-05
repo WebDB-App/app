@@ -76,11 +76,11 @@
 				<mat-expansion-panel-header>
 					<mat-panel-title>
 						<span class="material-symbols-outlined">
-							tips_and_updates
+							speed
 						</span>
 					</mat-panel-title>
 					<mat-panel-description>
-						Optimisation Tips
+						Performance Tips
 					</mat-panel-description>
 				</mat-expansion-panel-header>
 				<ul>
@@ -99,6 +99,31 @@
 					</li>
 					<li>
 						Sharding, Load Balancing and Replication can help but are not simple to implement and maintain
+					</li>
+				</ul>
+			</mat-expansion-panel>
+		</mat-accordion>
+		<mat-accordion>
+			<mat-expansion-panel>
+				<mat-expansion-panel-header>
+					<mat-panel-title>
+						<span class="material-symbols-outlined">
+							health_and_safety
+						</span>
+					</mat-panel-title>
+					<mat-panel-description>
+						Security Tips
+					</mat-panel-description>
+				</mat-expansion-panel-header>
+				<ul>
+					<li>
+						Avoid exposing database to public network, prefer SSH tunnel
+					</li>
+					<li>
+						Do regular backup of your database to an external provider
+					</li>
+					<li>
+						Follow RGPD rules (personal data encryption, strong password encryption with salt, etc)
 					</li>
 				</ul>
 			</mat-expansion-panel>

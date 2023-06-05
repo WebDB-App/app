@@ -7,9 +7,9 @@
 			fxLayoutAlign="space-between center"
 			style="padding: 20px">
 
-		<span>
-			{{selectedTable!.name}}
-		</span>
+			<span>
+				{{selectedTable!.name}}
+			</span>
 
 			<button (click)="truncate()" *ngIf="!selectedTable?.view" color="warn" mat-stroked-button>
 				<span class="material-symbols-outlined">
@@ -29,55 +29,60 @@
 
 		<div fxLayout="column" fxLayoutAlign="center none" style="width: 400px;">
 
-			<mat-divider hidden></mat-divider>
+			<span>
+				Comment : {{selectedTable?.comment}}
+			</span>
 
-			<div *ngIf="!selectedTable?.view" fxLayout="row" fxLayoutAlign="space-between center">
-				<span>Index Size : {{+stats?.index_length  | round}} Mb</span>
-				<span>Data Size : {{+stats?.data_length  | round}} Mb</span>
-			</div>
+			<ng-container *ngIf="!selectedTable?.view">
+				<mat-divider></mat-divider>
 
-			<mat-divider *ngIf="!selectedTable?.view"></mat-divider>
+				<div fxLayout="row" fxLayoutAlign="space-between center">
+					<span>Index Size : {{+stats?.index_length  | round}} Mb</span>
+					<span>Data Size : {{+stats?.data_length  | round}} Mb</span>
+				</div>
 
-			<div *ngIf="!selectedTable?.view" fxLayout="row" fxLayoutAlign="space-between center">
-				<mat-form-field>
-					<mat-label>Copy Name</mat-label>
-					<input
-						#tableName
-						[value]="selectedTable?.name"
-						autocomplete="off"
-						matInput>
-				</mat-form-field>
-				<button (click)="duplicate(tableName.value)"
-						[disabled]="tableName.value.length < 1 || tableName.value === selectedTable?.name"
-						mat-stroked-button>
-				<span class="material-symbols-outlined">
-				  file_copy
-				</span>
-					Duplicate
-				</button>
-			</div>
+				<mat-divider></mat-divider>
 
-			<mat-divider *ngIf="!selectedTable?.view"></mat-divider>
+				<div fxLayout="row" fxLayoutAlign="space-between center">
+					<mat-form-field>
+						<mat-label>Copy Name</mat-label>
+						<input
+							#tableName
+							[value]="selectedTable?.name"
+							autocomplete="off"
+							matInput>
+					</mat-form-field>
+					<button (click)="duplicate(tableName.value)"
+							[disabled]="tableName.value.length < 1 || tableName.value === selectedTable?.name"
+							mat-stroked-button>
+						<span class="material-symbols-outlined">
+						  file_copy
+						</span>
+						Duplicate
+					</button>
+				</div>
 
-			<div *ngIf="!selectedTable?.view" fxLayout="row" fxLayoutAlign="space-between center">
-				<mat-form-field>
-					<mat-label>New Name</mat-label>
-					<input
-						#tableName
-						[value]="selectedTable?.name"
-						autocomplete="off"
-						matInput>
-				</mat-form-field>
-				<button (click)="rename(tableName.value)"
-						[disabled]="tableName.value.length < 1 || tableName.value === selectedTable?.name"
-						mat-stroked-button>
-				<span class="material-symbols-outlined">
-				  edit
-				</span>
-					Rename
-				</button>
-			</div>
+				<mat-divider></mat-divider>
 
+				<div fxLayout="row" fxLayoutAlign="space-between center">
+					<mat-form-field>
+						<mat-label>New Name</mat-label>
+						<input
+							#tableName
+							[value]="selectedTable?.name"
+							autocomplete="off"
+							matInput>
+					</mat-form-field>
+					<button (click)="rename(tableName.value)"
+							[disabled]="tableName.value.length < 1 || tableName.value === selectedTable?.name"
+							mat-stroked-button>
+						<span class="material-symbols-outlined">
+						  edit
+						</span>
+						Rename
+					</button>
+				</div>
+			</ng-container>
 		</div>
 
 		<div>
@@ -86,11 +91,11 @@
 					<mat-expansion-panel-header>
 						<mat-panel-title>
 							<span class="material-symbols-outlined">
-								tips_and_updates
+								speed
 							</span>
 						</mat-panel-title>
 						<mat-panel-description>
-							Optimisation Tips
+							Performance Tips
 						</mat-panel-description>
 					</mat-expansion-panel-header>
 					<ul>

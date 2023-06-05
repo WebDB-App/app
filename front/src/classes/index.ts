@@ -9,6 +9,7 @@ export class Index {
 	table!: string;
 	columns!: string[];
 	name!: string;
+	primary!: boolean;
 	type!: string
 	cardinality!: number;
 	unique!: boolean;

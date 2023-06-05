@@ -149,6 +149,7 @@ export default class MongoDB extends Driver {
 								struct[li.name].tables[coll.collectionName].columns[key] = {
 									name: key,
 									type,
+									//comment
 									//nullable: row.is_nullable !== "NO",
 									//collation: row.COLLATION_NAME,
 									//defaut: row.column_default,

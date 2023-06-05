@@ -127,6 +127,33 @@ export default class Postgre extends SQL {
 	}
 
 	async getRelations() {
+		/*
+		select
+    tc.table_name,
+    tc.constraint_type,
+    cu.column_name,
+    cu.ordinal_position
+
+
+
+    from
+    information_schema.key_column_usage cu,
+    information_schema.table_constraints tc
+
+
+
+    where       cu.constraint_name = tc.constraint_name
+    and         cu.table_name = tc.table_name
+
+
+
+    and         tc.constraint_type = 'FOREIGN KEY'
+
+
+
+    and         tc.table_catalog = 'test'
+    and         tc.table_schema = 'public'
+		 */
 		return [];
 	}
 
@@ -155,22 +182,35 @@ export default class Postgre extends SQL {
 		for (const db of dbs) {
 			promises.push(new Promise(async resolve => {
 				const indexes = await this.runCommand(`
-					SELECT
-						ns.nspname               AS database,
-						idx.indrelid::REGCLASS   AS table,
-						ARRAY_AGG(i.relname)     AS columns,
-						i.reltuples              AS cardinality,
-						idx.indisunique          AS unique,
-						idx.indisprimary         AS primary
-					FROM pg_index AS idx
-					JOIN pg_class AS i ON i.oid = idx.indexrelid
-					JOIN pg_am AS am ON i.relam = am.oid
-					JOIN pg_namespace AS NS ON i.relnamespace = NS.OID
-					GROUP BY ns.nspname, idx.indrelid, i.reltuples, idx.indisunique, idx.indisprimary`, db.datname);
+				SELECT ns.nspname AS "database",
+					t.relname AS "table",
+					i.relname AS "name",
+					ARRAY_TO_STRING(ARRAY_AGG(a.attname), ',') AS "columns",
+					i.reltuples AS "cardinality",
+					ix.indisunique AS "unique",
+					ix.indisprimary AS "primary"
+				FROM pg_class t,
+					pg_class i,
+					pg_index ix,
+					pg_attribute a,
+					pg_namespace ns
+				WHERE
+					t.oid = ix.indrelid
+					AND i.oid = ix.indexrelid
+					AND a.attrelid = t.oid
+					AND a.attnum = ANY (ix.indkey)
+					AND i.relnamespace = ns.oid
+					AND t.relkind = 'r'
+				GROUP BY
+					ns.nspname,
+					t.relname,
+					i.relname,
+					i.reltuples,
+					ix.indisunique,
+					ix.indisprimary`, db.datname);
 
 				for (const [key, index] of Object.entries(indexes)) {
-					index.database = db.datname + this.dbToSchemaDelimiter + index.database;
-					indexes[key].name = index.primary ? "PRIMARY" : index.columns;
+					indexes[key].database = db.datname + this.dbToSchemaDelimiter + index.database;
 				}
 
 				resolve(indexes);
@@ -240,7 +280,6 @@ export default class Postgre extends SQL {
 							//collation: row.COLLATION_NAME,
 							//https://stackoverflow.com/questions/57924382/how-to-change-column-collation-postgresql
 							defaut: row.column_default,
-							ordinal: row.ordinal_position,
 						});
 					}
 				}

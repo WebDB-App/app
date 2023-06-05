@@ -22,6 +22,7 @@ import { MatButtonToggleModule } from "@angular/material/button-toggle";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { NgxJsonViewerModule } from "ngx-json-viewer";
 import { MatToolbarModule } from "@angular/material/toolbar";
+import { SharedModule } from "../shared.module";
 
 declare var monaco: any;
 
@@ -71,28 +72,29 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 	exports: [
 		CodeComponent
 	],
-	imports: [
-		MonacoEditorModule.forRoot(monacoConfig),
-		ClipboardModule,
-		MatDialogModule,
-		MatButtonModule,
-		MatOptionModule,
-		MatSelectModule,
-		MatPaginatorModule,
-		MatTableModule,
-		FlexModule,
-		MatProgressBarModule,
-		FormsModule,
-		CommonModule,
-		MatMenuModule,
-		MatIconModule,
-		MatDividerModule,
-		MatSlideToggleModule,
-		MatButtonToggleModule,
-		MatTooltipModule,
-		NgxJsonViewerModule,
-		MatToolbarModule
-	]
+    imports: [
+        MonacoEditorModule.forRoot(monacoConfig),
+        ClipboardModule,
+        MatDialogModule,
+        MatButtonModule,
+        MatOptionModule,
+        MatSelectModule,
+        MatPaginatorModule,
+        MatTableModule,
+        FlexModule,
+        MatProgressBarModule,
+        FormsModule,
+        CommonModule,
+        MatMenuModule,
+        MatIconModule,
+        MatDividerModule,
+        MatSlideToggleModule,
+        MatButtonToggleModule,
+        MatTooltipModule,
+        NgxJsonViewerModule,
+        MatToolbarModule,
+        SharedModule
+    ]
 })
 export class CodeModule {
 }

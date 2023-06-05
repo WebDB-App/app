@@ -245,7 +245,7 @@ export class SQL implements Driver {
 		Object.keys(this.functions).map(fct => {
 
 			// @ts-ignore
-			const detail = this.functions[fct] || '(column_name)';
+			const detail = this.functions[fct] || '(expression)';
 			suggestions.push({
 				label: fct,
 				kind: monaco.languages.CompletionItemKind.Module,
