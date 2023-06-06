@@ -183,31 +183,19 @@ export default class Postgre extends SQL {
 			promises.push(new Promise(async resolve => {
 				const indexes = await this.runCommand(`
 				SELECT ns.nspname AS "database",
-					t.relname AS "table",
-					i.relname AS "name",
-					ARRAY_TO_STRING(ARRAY_AGG(a.attname), ',') AS "columns",
-					i.reltuples AS "cardinality",
-					ix.indisunique AS "unique",
-					ix.indisprimary AS "primary"
-				FROM pg_class t,
-					pg_class i,
-					pg_index ix,
-					pg_attribute a,
-					pg_namespace ns
-				WHERE
-					t.oid = ix.indrelid
-					AND i.oid = ix.indexrelid
-					AND a.attrelid = t.oid
-					AND a.attnum = ANY (ix.indkey)
-					AND i.relnamespace = ns.oid
-					AND t.relkind = 'r'
-				GROUP BY
-					ns.nspname,
-					t.relname,
-					i.relname,
-					i.reltuples,
-					ix.indisunique,
-					ix.indisprimary`, db.datname);
+					   t.relname AS "table",
+					   i.relname AS "name",
+					   ARRAY_TO_STRING(ARRAY_AGG(a.attname), ',') AS "columns",
+					   i.reltuples AS "cardinality",
+					   ix.indisunique AS "unique",
+					   ix.indisprimary AS "primary"
+				FROM pg_class t
+				INNER JOIN pg_index ix ON t.oid = ix.indrelid
+				INNER JOIN pg_class i ON i.oid = ix.indexrelid
+				INNER JOIN pg_attribute a ON a.attrelid = t.oid AND a.attnum = ANY (ix.indkey)
+				INNER JOIN pg_namespace ns ON i.relnamespace = ns.oid
+				WHERE t.relkind = 'r'
+				GROUP BY ns.nspname, t.relname, i.relname, i.reltuples, ix.indisunique, ix.indisprimary`, db.datname);
 
 				for (const [key, index] of Object.entries(indexes)) {
 					indexes[key].database = db.datname + this.dbToSchemaDelimiter + index.database;
@@ -247,8 +235,8 @@ export default class Postgre extends SQL {
 			promises.push(new Promise(async resolve => {
 				const [schemas, columns, tables] = await Promise.all([
 					this.runCommand("SELECT * FROM information_schema.schemata", db.datname),
-					this.runCommand("SELECT table_schema, table_name, column_name, ordinal_position, column_default, is_nullable, data_type FROM information_schema.columns ORDER BY table_name, ordinal_position", db.datname),
-					this.runCommand("SELECT table_schema, table_name, table_type FROM information_schema.tables", db.datname)
+					this.runCommand("SELECT c.table_schema, c.table_name, c.column_name, c.ordinal_position, c.column_default, c.is_nullable, c.data_type, col_description((c.table_schema || '.' || c.table_name)::regclass, c.ordinal_position) AS column_comment FROM information_schema.columns AS c ORDER BY c.table_name, c.ordinal_position;", db.datname),
+					this.runCommand("SELECT t.table_schema, t.table_name, t.table_type, pgd.description as comment FROM information_schema.tables t LEFT OUTER JOIN pg_catalog.pg_description pgd ON pgd.objoid = (quote_ident(t.table_schema) || '.' || quote_ident(t.table_name))::regclass AND pgd.objsubid = 0", db.datname)
 				]);
 
 				for (const schema of schemas) {
@@ -269,6 +257,7 @@ export default class Postgre extends SQL {
 
 							struct[dbPath].tables[row.table_name] = {
 								name: row.table_name,
+								comment: row.comment,
 								view: table.table_type !== "BASE TABLE",
 								columns: []
 							};
@@ -281,6 +270,7 @@ export default class Postgre extends SQL {
 							//collation: row.COLLATION_NAME,
 							//https://stackoverflow.com/questions/57924382/how-to-change-column-collation-postgresql
 							defaut: row.column_default,
+							comment: row.column_comment
 						});
 					}
 				}
