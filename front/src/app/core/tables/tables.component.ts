@@ -118,8 +118,6 @@ export class TablesComponent implements OnInit, OnDestroy {
 			columns.push(line);
 		}
 
-		table.columns.map(col => +' ' + (col.nullable ? ' ?' : ''))
-
 		return columns.join("\n")
 	}
 
