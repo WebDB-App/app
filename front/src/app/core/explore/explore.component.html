@@ -49,7 +49,7 @@
 	<div style="display: flex; align-items: center;">
 		<button
 			(click)="setAutoUp()"
-			[color]="autoUp ? 'primary' : null"
+			[color]="autoUp ? 'primary' : undefined"
 			[ngClass]="{'mat-raised-button' : autoUp}"
 			mat-button
 			matTooltip="Reload data periodically">

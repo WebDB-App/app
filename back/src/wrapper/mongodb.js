@@ -82,6 +82,9 @@ export default class MongoDB extends Driver {
 
 	}
 
+	async runPagedQuery(query, page, pageSize, database) {
+	}
+
 	getPropertyType(property) {
 		const type = typeof property;
 

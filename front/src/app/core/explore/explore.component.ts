@@ -124,7 +124,6 @@ export class ExploreComponent implements OnInit, OnDestroy {
 	}
 
 	async getQueryData() {
-		const start = this.params.page * this.pageSize;
 		let query = this.query;
 
 		if (this.params.sortDirection &&
@@ -133,9 +132,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 			query += ` ORDER BY ${this.params.sortField} ${this.params.sortDirection}`;
 		}
 
-		query += ` LIMIT ${this.pageSize} OFFSET ${start}`;
-
-		const result = await this.request.post('database/query', {query});
+		const result = await this.request.post('database/query', {query, pageSize: this.pageSize, page: this.params.page});
 
 		this.dataSource = new MatTableDataSource<any>(result);
 		this.displayedColumns = result.length ? Object.keys(result[0]).concat([this.actionColum]) : [];

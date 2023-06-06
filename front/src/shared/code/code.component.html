@@ -68,8 +68,9 @@
 		<div *ngIf="selectedTable">
 			<mat-slide-toggle
 				(click)="toggleDiff()"
+				matTooltip="Only first {{pageSize}} results will be prompt"
 				color="primary">
-				Diff Mode
+				Compare Mode
 			</mat-slide-toggle>
 		</div>
 
@@ -96,7 +97,7 @@
 			</mat-menu>
 			<mat-menu #disclaimer="matMenu">
 				<p>
-					Just most keyword/function are proposed in autocomplete.
+					Only most keyword/function are proposed in autocomplete.
 					<br>
 					Check the official documentation for complete list
 				</p>
@@ -134,15 +135,10 @@
 				</mat-select>
 			</mat-form-field>
 
-			<div matTooltip="Time waited by the front to retrieve data"
-				 style="font-size: 14px; margin: 0px 20px">
-				{{ping}} ms
-			</div>
-
 			<div style="display: flex; align-items: center;">
 				<button
 					(click)="setAutoUp()"
-					[color]="autoUp ? 'primary' : null"
+					[color]="autoUp ? 'primary' : undefined"
 					[ngClass]="{'mat-raised-button' : autoUp}"
 					mat-button
 					matTooltip="Reload data periodically">
@@ -152,6 +148,9 @@
 				</button>
 
 				<mat-paginator hidePageSize
+							   (page)="page = $event.pageIndex; runQuery()"
+							   [length]="querySize"
+							   [pageIndex]="page"
 							   pageSize="{{pageSize}}"
 							   showFirstLastButtons="true"></mat-paginator>
 			</div>

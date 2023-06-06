@@ -29,7 +29,7 @@ class Controller {
 	async query(req, res) {
 		const [driver, database] = await http.getLoggedDriver(req);
 
-		res.send(await driver.runCommand(req.body.query, database));
+		res.send(await driver.runPagedQuery(req.body.query, req.body.page, req.body.pageSize, database));
 	}
 
 	async querySize(req, res) {

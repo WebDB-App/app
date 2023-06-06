@@ -63,11 +63,12 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 	autoUp: boolean | NodeJS.Timer = false;
 	diff = false;
 	query2 = '';
-	pageSize = 100
+	pageSize = 250;
 	isLoading = false;
-	ping?: number;
 	displayedColumns?: string[];
 	dataSource?: MatTableDataSource<any>
+	page = 0;
+	querySize!: number;
 
 	constructor(
 		private _snackBar: MatSnackBar,
@@ -130,17 +131,18 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 
 	async runQuery() {
 		this.isLoading = true;
-		const start = Date.now();
 
 		try {
-			let result = await this.request.post('database/query', {query: this.query});
-			this.ping = Date.now() - start;
+			let result;
+			await Promise.all([
+				this.querySize = await this.request.post('database/querySize', {query: this.query}),
+				result = await this.request.post('database/query', {query: this.query, pageSize: this.pageSize, page: this.page})
+			]);
 
-			const nbResult = result.length;
-			if (nbResult === 0) {
+			if (this.querySize === 0) {
 				result.push({" ": "No Data"});
 			} else if (this.selectedTable) {
-				this.addHistory.emit({query: this.query, nbResult});
+				this.addHistory.emit({query: this.query, nbResult: this.querySize});
 			}
 
 			if (!Array.isArray(result)) {
@@ -148,9 +150,7 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 			}
 
 			this.displayedColumns = Object.keys(result[0]);
-			this.dataSource = new MatTableDataSource<any>(result);
-
-			setTimeout(() => this.dataSource!.paginator = this.paginator)
+			this.dataSource = new MatTableDataSource(result);
 		} catch (err: unknown) {
 			this.dataSource = new MatTableDataSource();
 		} finally {
@@ -165,7 +165,7 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 
 	async compareQuery() {
 		const run = async (query: string) => {
-			const data = await this.request.post('database/query', {query}, undefined, undefined, undefined, undefined, false)
+			const data = await this.request.post('database/query', {query, pageSize: this.pageSize, page: 0}, undefined, undefined, undefined, undefined, false)
 			if (data.length) {
 				this.addHistory.emit({query, nbResult: data.length});
 			}
@@ -174,10 +174,7 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 		}
 
 		this.isLoading = true;
-		await Promise.all([
-			this.originalResult.code = await run(this.query),
-			this.modifiedResult.code = await run(this.query2)
-		]);
+		[this.originalResult.code, this.modifiedResult.code] = await Promise.all([run(this.query), run(this.query2)]);
 		this.isLoading = false;
 	}
 
@@ -210,7 +207,7 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 			case "select":
 				this.setQuery(`SELECT ${cols!.join(', ')}
 							   FROM ${this.selectedTable?.name}
-							   WHERE 1 = 1 LIMIT ${(this.pageSize)}`);
+							   WHERE 1 = 1`);
 				break;
 			case "select_join":
 				const joins: string[] = [];
@@ -222,7 +219,7 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 				this.setQuery(`SELECT ${columns}
 							   FROM ${this.selectedTable?.name} ${joins.join("\n")}
 							   GROUP BY (${columns})
-							   HAVING 1 = 1 LIMIT ${(this.pageSize)}`);
+							   HAVING 1 = 1`);
 				break;
 		}
 	}

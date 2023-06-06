@@ -33,6 +33,7 @@
 - traduction (collection vs table, etc)
 
 # Chat
+- si pas de clé : input au milieu de la modal
 - exemple sans clé
 - example plus complex (explique moi pourqoi cela no fonctionne pas bien, generate entity framework, mongoose, etc)
 - N'hésite pas à me demander plus d'informations via le résultat de requête SQL/JS

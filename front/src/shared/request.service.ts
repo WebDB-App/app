@@ -63,7 +63,6 @@ export class RequestService {
 				resolve(true);
 			}),
 			new Promise(async resolve => {
-				//column -> split(,)
 				server.indexes = await firstValueFrom(this.http.post<Index[]>(environment.apiRootUrl + 'server/indexes', shallow))
 				resolve(true);
 			}),
