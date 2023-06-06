@@ -158,4 +158,12 @@ export default class SQL extends Driver {
 
 		return result.error ? "0" : result[0]["querysize"];
 	}
+
+	async runPagedQuery(query, page, pageSize, database) {
+		if (query.trim().toLowerCase().startsWith("select ")) {
+			query = `${query} LIMIT ${pageSize} OFFSET ${page * pageSize}`;
+		}
+
+		return await this.runCommand(query, database);
+	}
 }
