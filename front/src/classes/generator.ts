@@ -107,22 +107,22 @@ export class Generator {
 					{
 						name: "Float(-1000000, 1000000)",
 						type: [TypeName.Numeric],
-						fct: "(() => {return Math.random() * (1000000 - -1000000) + -1000000})()"
+						fct: "((min, max) => {return Math.random() * (max - min) + min})(-1000000, 1000000)"
 					},
 					{
 						name: "Integer(0, 10)",
 						type: [TypeName.Numeric],
-						fct: "(() => {return Math.floor(Math.random() * 10) + 0})()"
+						fct: "((min, max) => {return Math.floor(Math.random() * (max - min) + min})(0, 10)"
 					},
 					{
 						name: "Integer(-100000, 100000)",
 						type: [TypeName.Numeric],
-						fct: "(() => {return Math.floor(Math.random() * (1000000 - -1000000) + -1000000)})()"
+						fct: "((min, max) => {return Math.floor(Math.random() * (max - min) + min)})(-100000, 100000)"
 					},
 					{
 						name: "String(0, 16)",
 						type: [TypeName.String],
-						fct: "(() => {return 'xxxxxxxxxxxxxxxx'.replace(/[x]/g, () => String.fromCharCode(Math.floor(Math.random() * 65535)))})();"
+						fct: "((chars) => {return chars.replace(/[x]/g, () => String.fromCharCode(Math.floor(Math.random() * 65535)))})('xxxxxxxxxxxxxxxx');"
 					},
 					{
 						name: "Null",
