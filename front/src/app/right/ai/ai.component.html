@@ -107,15 +107,14 @@
 		<div *ngIf="chat.length" id="chat">
 
 			<mat-card *ngFor="let ch of chat"
-					  [style.border-color]="ch.error ? '#f44336' : ch.user === Role.Assistant ? '#00a67e' : '#2196f3'">
+					  [style.background-color]="ch.error ? '#f44336' : ch.user === Role.Assistant ? '#1e1e1e' : undefined">
 				<mat-card-content>
-					{{ch.txt}}
+					<div [innerHTML]="ch.txt"></div>
 
 					<button
 						(click)="sendMessage(ch.txt);"
 						*ngIf="ch.user === Role.User"
-						mat-icon-button
-						style="float: right; margin-top: -10px;">
+						mat-icon-button>
 						<span class="material-symbols-outlined">
 							replay
 						</span>
@@ -135,7 +134,7 @@
 						appearance="fill"
 						class="sendMessage">
 			<mat-label>Ask anything about `{{selectedDatabase?.name}}`</mat-label>
-			<input #message matInput>
+			<textarea #message matInput cdkTextareaAutosize></textarea>
 			<button (click)="sendMessage(message.value); message.value = ''"
 					[disabled]="!message.value"
 					mat-icon-button

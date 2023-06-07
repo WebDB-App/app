@@ -40,7 +40,7 @@ export class RelationsComponent implements OnInit {
 		}
 
 		this.constraints = this.selectedServer?.driver?.constraints;
-		this.relations = this.selectedServer?.relations.filter(relation => relation.database_source === this.selectedDatabase?.name);
+		this.relations = this.selectedServer?.relations.filter(relation => relation.database === this.selectedDatabase?.name);
 		this.dataSource = new MatTableDataSource(this.relations);
 	}
 
@@ -64,8 +64,7 @@ export class RelationsComponent implements OnInit {
 	async add(sourceTable: Table, sourceColumn: string, destTable: Table, destColumn: string, update_rule: string, delete_rule: string) {
 		const relation = <Relation>{
 			name: "fk_" + sourceTable.name + '_' + sourceColumn,
-			database_source: this.selectedDatabase!.name,
-			database_dest: this.selectedDatabase!.name,
+			database: this.selectedDatabase!.name,
 			table_source: sourceTable.name,
 			table_dest: destTable.name,
 			column_source: sourceColumn,

@@ -128,31 +128,7 @@ export default class Postgre extends SQL {
 
 	async getRelations() {
 		/*
-		select
-    tc.table_name,
-    tc.constraint_type,
-    cu.column_name,
-    cu.ordinal_position
 
-
-
-    from
-    information_schema.key_column_usage cu,
-    information_schema.table_constraints tc
-
-
-
-    where       cu.constraint_name = tc.constraint_name
-    and         cu.table_name = tc.table_name
-
-
-
-    and         tc.constraint_type = 'FOREIGN KEY'
-
-
-
-    and         tc.table_catalog = 'test'
-    and         tc.table_schema = 'public'
 		 */
 		return [];
 	}
@@ -267,8 +243,6 @@ export default class Postgre extends SQL {
 							name: row.column_name,
 							type: row.data_type,
 							nullable: row.is_nullable !== "NO",
-							//collation: row.COLLATION_NAME,
-							//https://stackoverflow.com/questions/57924382/how-to-change-column-collation-postgresql
 							defaut: row.column_default,
 							comment: row.column_comment
 						});

@@ -39,6 +39,6 @@ export class Table {
 		const server = Server.getSelected();
 		const database = Database.getSelected();
 
-		return server.relations.filter(relation => relation.table_source === table.name && relation.database_source === database.name)
+		return server.relations.filter(relation => relation.table_source === table.name && relation.database === database.name)
 	}
 }

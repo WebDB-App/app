@@ -7,6 +7,7 @@ import { RequestService } from "../../../shared/request.service";
 import { Configuration, OpenAIApi } from "openai";
 import { Subscription } from "rxjs";
 import { Configuration as WebConfig } from "../../../classes/configuration";
+import { marked } from 'marked';
 
 const localKeyOpenAI = 'openai-key';
 
@@ -82,7 +83,7 @@ export class AiComponent implements OnInit, OnDestroy {
 	}
 
 	initChat() {
-		this.chat = JSON.parse(localStorage.getItem(this.localKeyChatHistory) || '[]');
+		this.chat = JSON.parse(localStorage.getItem(this.localKeyChatHistory) || '[]');;
 		this.key = localStorage.getItem(localKeyOpenAI) || '';
 
 		this.openai = new OpenAIApi(new Configuration({
@@ -117,7 +118,7 @@ export class AiComponent implements OnInit, OnDestroy {
 			return;
 		}
 		this.isLoading = true;
-		this.chat.push(<Msg>{txt: message, user: Role.User});
+		this.chat.push(<Msg>{txt: marked(message), user: Role.User});
 
 		const response = new Msg();
 		response.user = Role.Assistant;
@@ -130,7 +131,7 @@ export class AiComponent implements OnInit, OnDestroy {
 					{role: Role.User, content: message}
 				],
 			});
-			response.txt = completion.data.choices[0].message!.content;
+			response.txt = marked(completion.data.choices[0].message!.content);
 		} catch (error: any) {
 			response.error = true;
 			response.txt = error.response.data.error.message || 'An error occurred during OpenAI request: ' + error
