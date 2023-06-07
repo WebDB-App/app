@@ -38,6 +38,10 @@ export class Configuration {
 			name: 'preferredDictionary',
 			description: 'Preferred dictionary for data generation',
 			values: Object.keys(Dictionnary)
+		}, {
+			name: 'breakSpaces',
+			description: 'Show query history on multilines',
+			values: [true, false]
 		}
 	];
 

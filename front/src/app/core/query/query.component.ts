@@ -9,6 +9,7 @@ import { combineLatest, distinctUntilChanged, Subscription } from "rxjs";
 import { ActivatedRoute } from "@angular/router";
 import { RequestService } from "../../../shared/request.service";
 import { HistoryService, Query } from "../../../shared/history.service";
+import { Configuration } from "../../../classes/configuration";
 
 @Component({
 	selector: 'app-query',
@@ -16,6 +17,8 @@ import { HistoryService, Query } from "../../../shared/history.service";
 	styleUrls: ['./query.component.scss']
 })
 export class QueryComponent implements OnInit, OnDestroy {
+
+	configuration: Configuration = new Configuration();
 
 	selectedServer?: Server;
 	selectedDatabase?: Database;
