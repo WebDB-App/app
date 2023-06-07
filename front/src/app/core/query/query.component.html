@@ -58,7 +58,8 @@
 			</ng-container>
 
 			<tr *matHeaderRowDef="['query', 'nbResult', 'star', 'replay']; sticky: true" mat-header-row></tr>
-			<tr *matRowDef="let row; columns: ['query', 'nbResult', 'star', 'replay'];" mat-row></tr>
+			<tr *matRowDef="let row; columns: ['query', 'nbResult', 'star', 'replay'];" mat-row
+				[style.white-space]="configuration.getByName('breakSpaces')?.value ? 'break-spaces' : undefined"></tr>
 		</table>
 	</div>
 </div>
