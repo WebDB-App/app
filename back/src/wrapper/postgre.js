@@ -127,10 +127,59 @@ export default class Postgre extends SQL {
 	}
 
 	async getRelations() {
-		/*
+		const dbs = await this.getDbs();
+		const promises = [];
 
-		 */
-		return [];
+		for (const db of dbs) {
+			promises.push(new Promise(async resolve => {
+				const indexes = await this.runCommand(`
+					WITH
+						unnested_confkey AS (
+							SELECT
+								oid,
+								UNNEST(confkey) AS confkey
+							FROM
+								pg_constraint
+						),
+						unnested_conkey AS (
+							SELECT
+								oid,
+								UNNEST(conkey) AS conkey
+							FROM
+								pg_constraint
+						)
+					SELECT
+						c.conname AS "name",
+						tbl.relname AS "table_source",
+						col.attname AS "column_source",
+						referenced_tbl.relname AS "table_dest",
+						referenced_field.attname AS "column_dest"
+					FROM
+						pg_constraint c
+						LEFT JOIN unnested_conkey con ON c.oid = con.oid
+						LEFT JOIN pg_class tbl ON tbl.oid = c.conrelid
+						LEFT JOIN pg_attribute col ON (
+							col.attrelid = tbl.oid
+							AND col.attnum = con.conkey
+						)
+						LEFT JOIN pg_class referenced_tbl ON c.confrelid = referenced_tbl.oid
+						LEFT JOIN unnested_confkey conf ON c.oid = conf.oid
+						LEFT JOIN pg_attribute referenced_field ON (
+							referenced_field.attrelid = c.confrelid
+							AND referenced_field.attnum = conf.confkey
+						)
+					WHERE
+						c.contype = 'f';`, db.datname);
+
+				for (const [key, index] of Object.entries(indexes)) {
+					indexes[key].database = db.datname + this.dbToSchemaDelimiter;// + index.database;
+				}
+
+				resolve(indexes);
+			}));
+		}
+
+		return (await Promise.all(promises)).flat(1);
 	}
 
 	async addIndex(database, table, name, type, columns) {
@@ -175,7 +224,7 @@ export default class Postgre extends SQL {
 
 				for (const [key, index] of Object.entries(indexes)) {
 					indexes[key].database = db.datname + this.dbToSchemaDelimiter + index.database;
-					indexes[key].columns = index.columns.split(',');
+					indexes[key].columns = index.columns.split(",");
 				}
 
 				resolve(indexes);

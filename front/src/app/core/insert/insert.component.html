@@ -88,10 +88,10 @@
 					</mat-form-field>
 
 					<ngx-monaco-editor
+						class="resizable"
 						*ngIf="i === 1"
 						[(ngModel)]="row[column]"
 						[options]="editorOptions"
-						style="min-width: 300px"
 					>
 					</ngx-monaco-editor>
 
