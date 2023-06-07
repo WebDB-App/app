@@ -10,6 +10,12 @@
 	display: flex;
 	flex-direction: column;
 
+	.resizable {
+		height: 200px;
+		resize: both;
+		overflow: auto;
+	}
+
 	a {
 		margin: 7px;
 	}
