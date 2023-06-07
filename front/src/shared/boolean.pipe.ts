@@ -9,10 +9,10 @@ export class BooleanPipe implements PipeTransform {
 	 */
 	transform(data: any): string {
 		if (data === "true" || data === true) {
-			return '✅';
+			return '✔';
 		}
 		if (data === "false" || data === false) {
-			return '❌';
+			return '×';
 		}
 
 		return data;

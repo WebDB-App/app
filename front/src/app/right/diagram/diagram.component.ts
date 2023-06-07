@@ -39,7 +39,7 @@ export class DiagramComponent implements OnDestroy {
 	) {
 		this.selectedDatabase = Database.getSelected();
 		this.selectedServer = Server.getSelected();
-		this.relations = this.selectedServer.relations.filter(relation => relation.database_source === this.selectedDatabase.name);
+		this.relations = this.selectedServer.relations.filter(relation => relation.database === this.selectedDatabase.name);
 
 		this.drawer.drawer.openedChange.subscribe((state) => {
 			if (state && !this.initialized) {

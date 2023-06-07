@@ -13,18 +13,22 @@
 #container {
 	overflow: auto;
 	height: 100%;
+	font-family: sans-serif;
+	white-space: break-spaces;
 
 	.mat-card {
-		border: 1px solid;
 		margin: 10px;
 
-		.mat-icon {
-			vertical-align: middle;
-			margin-right: 8px;
-		}
-
 		.mat-card-content {
-			white-space: break-spaces;
+
+			> div {
+				margin-right: 30px;
+			}
+
+			> button {
+				float: right;
+				margin: -30px -8px 0px 0px;
+			}
 		}
 	}
 }

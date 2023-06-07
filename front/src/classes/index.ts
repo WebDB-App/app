@@ -1,6 +1,6 @@
 export const IndexSymbol = {
 	PRIMARY: '🔑',
-	UNIQUE: '①',
+	UNIQUE: '➊',
 	INDEX: '⚡️'
 }
 

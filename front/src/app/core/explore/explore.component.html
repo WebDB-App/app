@@ -163,7 +163,9 @@
 								{{suggestion}}
 							</mat-option>
 						</mat-select>
-						<textarea *ngIf="!updateSuggestions[column]" [(ngModel)]="toUpdate[i][column]" class="toUpdate"
+						<textarea *ngIf="!updateSuggestions[column]" [(ngModel)]="toUpdate[i][column]"
+								  cdkTextareaAutosize
+								  class="toUpdate"
 								  matInput></textarea>
 					</ng-container>
 					<ng-container *ngIf="!toUpdate[i]">

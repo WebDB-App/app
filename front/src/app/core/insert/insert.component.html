@@ -178,6 +178,7 @@
 					</th>
 					<td *matCellDef="let row" mat-cell>
 						<textarea
+							cdkTextareaAutosize
 							[(ngModel)]="row[column]"
 							autocomplete="off"
 							matInput></textarea>

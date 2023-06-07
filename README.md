@@ -35,7 +35,7 @@
 # Chat
 - si pas de clé : input au milieu de la modal
 - exemple sans clé
-- example plus complex (explique moi pourqoi cela no fonctionne pas bien, generate entity framework, mongoose, etc)
+- example plus complex (adapte cette requete etc, explique moi pourqoi cela no fonctionne pas bien, generate entity framework, mongoose, etc)
 - N'hésite pas à me demander plus d'informations via le résultat de requête SQL/JS
 - choisir niveau d'éloquence (like iam five, average person, data expert)
 - langue de sorti = langue du navigateur
@@ -59,6 +59,7 @@
 
 # Miscellaneous
 - rm nameDel en front
+- show table / column collation in settings
 
 # Cockroachdb
 

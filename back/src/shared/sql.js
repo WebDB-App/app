@@ -50,11 +50,11 @@ export default class SQL extends Driver {
 		REFERENCES ${this.nameDel}${relation.table_dest}${this.nameDel} (${this.nameDel}${relation.column_dest}${this.nameDel})
 			ON DELETE ${this.nameDel}${relation.delete_rule}${this.nameDel}
 			ON UPDATE ${this.nameDel}${relation.update_rule}${this.nameDel}`,
-		relation.database_source);
+		relation.database);
 	}
 
 	async dropRelation(relation) {
-		return await this.runCommand(`ALTER TABLE ${this.nameDel}${relation.table_source}${this.nameDel} DROP CONSTRAINT ${this.nameDel}${relation.name}${this.nameDel}`, relation.database_source);
+		return await this.runCommand(`ALTER TABLE ${this.nameDel}${relation.table_source}${this.nameDel} DROP CONSTRAINT ${this.nameDel}${relation.name}${this.nameDel}`, relation.database);
 	}
 
 	async exampleData(database, table, column, limit) {
@@ -153,15 +153,19 @@ export default class SQL extends Driver {
 		return await this.runCommand(`UPDATE ${this.nameDel}${table}${this.nameDel} SET ${update.join(", ")} WHERE ${where.join(" AND ")} LIMIT 1`, db);
 	}
 
+	cleanQuery(query) {
+		return query.trim().endsWith(";") ? query.trim().slice(0, -1) : query;
+	}
+
 	async querySize(query, database) {
-		const result = await this.runCommand(`SELECT COUNT(*) AS querysize FROM (${query}) AS query`, database);
+		const result = await this.runCommand(`SELECT COUNT(*) AS querysize FROM (${this.cleanQuery(query)}) AS query`, database);
 
 		return result.error ? "0" : result[0]["querysize"];
 	}
 
 	async runPagedQuery(query, page, pageSize, database) {
 		if (query.trim().toLowerCase().startsWith("select ")) {
-			query = `${query} LIMIT ${pageSize} OFFSET ${page * pageSize}`;
+			query = `${this.cleanQuery(query)} LIMIT ${pageSize} OFFSET ${page * pageSize}`;
 		}
 
 		return await this.runCommand(query, database);
