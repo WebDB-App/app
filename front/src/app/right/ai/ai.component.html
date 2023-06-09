@@ -9,7 +9,7 @@
 	</a>
 </ng-container>
 
-<div *ngIf="licence?.plan !== 'free'"
+<div [hidden]="licence?.plan === 'free'"
 	 fxFlexFill
 	 fxLayout="column"
 	 fxLayoutAlign="space-between none">
@@ -17,119 +17,131 @@
 	<mat-toolbar
 		fxLayout="row"
 		fxLayoutAlign="space-between center"
-		style="padding: 20px">
+		style="padding: 20px; gap: 20px; z-index: 100;">
 
 		<div>
-			<h3>ChatGPT</h3>
-		</div>
-
-		<div>
-
-			<button
-				(click)="clearHistory()"
-				*ngIf="key && chat.length"
-				mat-button
-				matTooltip="Clear Conversation">
-				<span class="material-symbols-outlined">
-					clear_all
-				</span>
-			</button>
-
 			<a href="https://platform.openai.com/account"
 			   mat-button
-			   matTooltip="OpenAI Account Page"
+			   matTooltip="OpenAI account page"
 			   target="_blank">
-				<span class="material-symbols-outlined">
-					account_box
-				</span>
+				<mat-icon svgIcon="chatgpt"></mat-icon>
+				ChatGPT
 			</a>
+		</div>
 
-			<mat-form-field [hidden]="!changing">
-				<mat-label>Key</mat-label>
-				<input #keyInput
-					   [ngModel]="key"
-					   matInput>
-			</mat-form-field>
+		<div fxLayout="row"
+			 fxLayoutAlign="space-between center"
+			 style="width: 100%">
 
-			<button
-				(click)="setKey(keyInput.value)"
-				*ngIf="changing"
-				mat-button>
-				Save
-				<span class="material-symbols-outlined">
-					save
-				</span>
-			</button>
-			<button
-				(click)="changing = !changing"
-				*ngIf="!changing"
-				mat-button
-				matTooltip="Change Key">
-				<span class="material-symbols-outlined">
-					key
-				</span>
-			</button>
+			<div>
+				<mat-form-field
+					[hidden]="!key || changing"
+					appearance="fill"
+					style="margin-bottom: -1.25em">
+					<mat-label>Pre-sent data</mat-label>
+					<mat-select #select multiple [(ngModel)]="preSent">
+						<mat-option [value]="'structure'">
+							Tables structure and relations
+						</mat-option>
+						<mat-option [value]="'views'">
+							All views
+						</mat-option>
+						<mat-option [value]="'triggers'">
+							All triggers
+						</mat-option>
+						<mat-option [value]="5">
+							5 rows of each table
+						</mat-option>
+						<mat-option [value]="15">
+							15 rows of each table
+						</mat-option>
+						<mat-option [value]="50">
+							50 rows of each table
+						</mat-option>
+					</mat-select>
+				</mat-form-field>
+			</div>
+
+			<div fxLayout="row">
+				<div *ngIf="changing">
+					<mat-form-field style="width: 400px; margin-bottom: -1.25em">
+						<mat-label>Key</mat-label>
+						<input #keyInput
+							   [ngModel]="key"
+							   matInput>
+					</mat-form-field>
+
+					<button
+						(click)="setKey(keyInput.value)"
+						mat-raised-button>
+						Save
+					</button>
+				</div>
+
+				<button
+					(click)="changing = !changing"
+					*ngIf="!changing"
+					mat-button
+					matTooltip="Change Key">
+					<span class="material-symbols-outlined">
+						key
+					</span>
+				</button>
+
+				<button
+					(click)="chat = []"
+					*ngIf="chat.length"
+					mat-button
+					matTooltip="Clear Conversation">
+					<span class="material-symbols-outlined">
+						clear_all
+					</span>
+				</button>
+			</div>
 		</div>
 	</mat-toolbar>
 
-	<div
+	<h4
 		*ngIf="!key"
 		fxLayout="row"
 		fxLayoutAlign="center center"
+		style="margin: 40px"
 	>
-		<span>
-			First, get a Key from
-		</span>
-		<a href="https://platform.openai.com/account/api-keys"
-		   mat-raised-button
-		   target="_blank">
-			OpenAI
-		</a>
+		First, generate a key from&nbsp;<a href="https://platform.openai.com/account/api-keys" target="_blank">OpenAI</a>, then save it there ⇧
+	</h4>
+
+	<div *ngIf="!chat.length || !key" id="examples">
+		<button (click)="sendMessage(example);"
+				[disabled]="!key"
+				*ngFor="let example of examples"
+				mat-stroked-button>
+			{{example}}
+		</button>
 	</div>
 
-	<div *ngIf="!key"></div>
+	<div id="container" *ngIf="key && chat.length">
+		<mat-card *ngFor="let ch of chat"
+				  [style.background-color]="ch.error ? '#f44336' : ch.user === Role.Assistant ? '#1e1e1e' : undefined">
+			<mat-card-content>
+				<div [innerHTML]="ch.html" class="txt"></div>
 
-	<div *ngIf="key" id="container">
-
-		<div *ngIf="!chat.length"
-			 fxFlexFill
-			 fxLayout="column"
-			 fxLayoutAlign="center center"
-			 fxLayoutGap="8px">
-			<h3>You can try something like</h3>
-			<button (click)="sendMessage(example);"
-					*ngFor="let example of examples"
-					mat-stroked-button>
-				{{example}}
-			</button>
-		</div>
-
-		<div *ngIf="chat.length" id="chat">
-
-			<mat-card *ngFor="let ch of chat"
-					  [style.background-color]="ch.error ? '#f44336' : ch.user === Role.Assistant ? '#1e1e1e' : undefined">
-				<mat-card-content>
-					<div [innerHTML]="ch.txt"></div>
-
+				<div class="actions" *ngIf="ch.user === Role.User">
 					<button
-						(click)="sendMessage(ch.txt);"
-						*ngIf="ch.user === Role.User"
+						(click)="message.value = ch.txt"
 						mat-icon-button>
 						<span class="material-symbols-outlined">
-							replay
+							edit
 						</span>
 					</button>
+				</div>
 
-				</mat-card-content>
-			</mat-card>
-
-		</div>
-
+			</mat-card-content>
+		</mat-card>
 	</div>
 
 	<mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
 
-	<div *ngIf="key" style="padding: 6px">
+	<div style="padding: 6px" [hidden]="!key || !chat.length">
 		<mat-form-field (keydown.enter)="sendMessage(message.value); message.value = ''"
 						appearance="fill"
 						class="sendMessage">

@@ -20,7 +20,7 @@ import { Database } from "../../classes/database";
 import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
 import { RequestService } from "../request.service";
 import { Relation } from "../../classes/relation";
-import FileSaver from "file-saver";
+import { saveAs } from "file-saver-es";
 import { DiffEditorModel, EditorComponent } from "ngx-monaco-editor-v2";
 import { Server } from "../../classes/server";
 import { Configuration } from "../../classes/configuration";
@@ -285,7 +285,7 @@ export class ExportResultDialog {
 
 	download() {
 		const blob = new Blob([this.str], {type: "text/plain;charset=utf-8"});
-		FileSaver.saveAs(blob, Table.getSelected().name + '.' + this.data.type);
+		saveAs(blob, Table.getSelected().name + '.' + this.data.type);
 	}
 }
 

@@ -22,8 +22,15 @@ class Controller {
 
 	async sample(req, res) {
 		const [wrapper, database] = await http.getLoggedDriver(req);
+		const sample = await wrapper.sampleDatabase(database, Math.max(req.body.preSent.filter((pre => Number.isInteger(pre)))));
 
-		res.send(await wrapper.sampleDatabase(database, req.body.limit));
+		let txt = `There is a database called ${database} on a ${wrapper.constructor.name} server`;
+		for (const table of sample) {
+			txt += `In this database, there is a table as \`\`\`${table.structure}\`\`\` containing a sample of the following data : \`\`\`${JSON.stringify(table.data)}\`\`\``;
+		}
+
+		txt += `Respond me in ${req.body.language} language`;
+		res.send({txt});
 	}
 
 	async query(req, res) {

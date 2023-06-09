@@ -1,3 +1,45 @@
+:host > div {
+	max-width: 50vw;
+}
+
+#examples {
+	height: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	max-width: 40vw;
+	margin: 0px 30px;
+	justify-content: space-between;
+	align-items: center;
+
+	button {
+		white-space: break-spaces;
+		width: 49%;
+	}
+}
+
+#container {
+	overflow: auto;
+	height: 100%;
+
+	.mat-card {
+		margin: 10px;
+
+		.mat-card-content {
+			overflow: auto;
+
+			.txt {
+				margin-right: 30px;
+			}
+
+			.actions {
+				position: absolute;
+				right: 4px;
+				bottom: 4px;
+			}
+		}
+	}
+}
+
 .sendMessage {
 	width: 100%;
 
@@ -8,31 +50,4 @@
 			bottom: 0px !important;
 		}
 	}
-}
-
-#container {
-	overflow: auto;
-	height: 100%;
-	font-family: sans-serif;
-	white-space: break-spaces;
-
-	.mat-card {
-		margin: 10px;
-
-		.mat-card-content {
-
-			> div {
-				margin-right: 30px;
-			}
-
-			> button {
-				float: right;
-				margin: -30px -8px 0px 0px;
-			}
-		}
-	}
-}
-
-:host > div {
-	max-width: 50vw;
 }

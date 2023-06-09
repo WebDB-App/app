@@ -22,7 +22,7 @@ export default class Postgre extends SQL {
 		const [database, schema] = name.split(this.dbToSchemaDelimiter);
 		const getSample = async (table) => {
 			return {
-				structure: bash.runBash(`pg_dump ${this.makeUri(database)} -t '${schema}.${table}' --schema-only`),
+				structure: (bash.runBash(`pg_dump ${this.makeUri(database)} -t '${schema}.${table}' --schema-only`)).result,
 				data: await this.runCommand(`SELECT * FROM ${table} LIMIT ${limit}`, name)
 			};
 		};

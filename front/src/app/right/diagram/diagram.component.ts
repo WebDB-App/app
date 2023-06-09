@@ -2,7 +2,7 @@ import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { Server } from "../../../classes/server";
 import { Database } from "../../../classes/database";
 import * as htmlToImage from 'html-to-image';
-import FileSaver from "file-saver";
+import { saveAs } from "file-saver-es";
 import { DiagramController } from "./diagram";
 import { Relation } from "../../../classes/relation";
 import { Entity, Field, RelationType } from "./types";
@@ -178,11 +178,11 @@ export class DiagramComponent implements OnDestroy {
 
 	async exportPng() {
 		const blob = await htmlToImage.toBlob(this.container.nativeElement);
-		FileSaver.saveAs(blob!, this.selectedDatabase.name + '.png');
+		saveAs(blob!, this.selectedDatabase.name + '.png');
 	}
 
 	async exportSvg() {
 		const blob = await htmlToImage.toSvg(this.container.nativeElement);
-		FileSaver.saveAs(blob!, this.selectedDatabase.name + '.svg');
+		saveAs(blob!, this.selectedDatabase.name + '.svg');
 	}
 }
