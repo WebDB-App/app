@@ -18,14 +18,4 @@
 	th, td {
 		padding: 12px;
 	}
-
-	::ng-deep .mat-cell {
-		.sql-hl-keyword {
-			color: #2196f3;
-		}
-
-		.sql-hl-string, .sql-hl-function {
-			color: #ff9800;
-		}
-	}
 }

@@ -1,4 +1,8 @@
-lockfileVersion: '6.0'
+lockfileVersion: '6.1'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
 
 dependencies:
   '@angular-devkit/build-angular':
@@ -46,9 +50,9 @@ dependencies:
   '@types/crypto-js':
     specifier: latest
     version: 4.1.1
-  '@types/file-saver':
+  '@types/file-saver-es':
     specifier: latest
-    version: 2.0.5
+    version: 2.0.1
   '@types/js-beautify':
     specifier: latest
     version: 1.13.3
@@ -61,7 +65,7 @@ dependencies:
   crypto-js:
     specifier: latest
     version: 4.1.1
-  file-saver:
+  file-saver-es:
     specifier: latest
     version: 2.0.5
   html-to-image:
@@ -2150,8 +2154,8 @@ packages:
       '@types/serve-static': 1.15.1
     dev: false
 
-  /@types/file-saver@2.0.5:
-    resolution: {integrity: sha512-zv9kNf3keYegP5oThGLaPk8E081DFDuwfqjtiTzm6PoxChdJ1raSuADf2YGCVIyrSynLrgc8JWv296s7Q7pQSQ==}
+  /@types/file-saver-es@2.0.1:
+    resolution: {integrity: sha512-ifoocKtUTJCQ4GMKBm+EK8Swk9DzrWfHhxGJ3jdhFijT9UJzA4P97zoq3Qii9QU51pSe3JwbS1i6s0nifOWHwg==}
     dev: false
 
   /@types/http-proxy@1.17.11:
@@ -3793,8 +3797,8 @@ packages:
       escape-string-regexp: 1.0.5
     dev: false
 
-  /file-saver@2.0.5:
-    resolution: {integrity: sha512-P9bmyZ3h/PRG+Nzga+rbdI4OEpNDzAVyy74uVO9ATgzLK6VtAsYybF/+TOCvrc0MO793d6+42lLyZTw7/ArVzA==}
+  /file-saver-es@2.0.5:
+    resolution: {integrity: sha512-Kg0lt+is9nOyi/VDms9miScNGot25jVFbjFccXuCL/shd2Q+rt70MALxHVkXllsX83JEBLiHQNjDPGd/6FIOoQ==}
     dev: false
 
   /fill-range@7.0.1:
@@ -5055,7 +5059,7 @@ packages:
     dependencies:
       hosted-git-info: 5.2.1
       proc-log: 2.0.1
-      semver: 7.3.7
+      semver: 7.5.1
       validate-npm-package-name: 4.0.0
     dev: false
 
@@ -5077,7 +5081,7 @@ packages:
       npm-install-checks: 5.0.0
       npm-normalize-package-bin: 1.0.1
       npm-package-arg: 9.1.0
-      semver: 7.3.7
+      semver: 7.5.1
     dev: false
 
   /npm-registry-fetch@13.3.1:

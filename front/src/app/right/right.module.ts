@@ -37,6 +37,7 @@ import { MatCardModule } from "@angular/material/card";
 import { SharedModule } from "../../shared/shared.module";
 import { MatExpansionModule } from "@angular/material/expansion";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { ClipboardModule } from "@angular/cdk/clipboard";
 
 @NgModule({
 	declarations: [
@@ -59,37 +60,38 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 		DumpComponent,
 		AdvancedComponent
 	],
-	imports: [
-		CommonModule,
-		MonacoEditorModule,
-		FlexModule,
-		RightRoutingModule,
-		MatButtonModule,
-		MatInputModule,
-		MatSelectModule,
-		MatDividerModule,
-		MatDialogModule,
-		MatSlideToggleModule,
-		MatToolbarModule,
-		MatSliderModule,
-		MatIconModule,
-		FormsModule,
-		MatTreeModule,
-		MatCheckboxModule,
-		MatButtonToggleModule,
-		MatProgressBarModule,
-		MatTableModule,
-		GridModule,
-		MatAutocompleteModule,
-		ReactiveFormsModule,
-		DragDropModule,
-		MatTooltipModule,
-		MatMenuModule,
-		MatCardModule,
-		SharedModule,
-		MatExpansionModule,
-		MatProgressSpinnerModule
-	],
+    imports: [
+        CommonModule,
+        MonacoEditorModule,
+        FlexModule,
+        RightRoutingModule,
+        MatButtonModule,
+        MatInputModule,
+        MatSelectModule,
+        MatDividerModule,
+        MatDialogModule,
+        MatSlideToggleModule,
+        MatToolbarModule,
+        MatSliderModule,
+        MatIconModule,
+        FormsModule,
+        MatTreeModule,
+        MatCheckboxModule,
+        MatButtonToggleModule,
+        MatProgressBarModule,
+        MatTableModule,
+        GridModule,
+        MatAutocompleteModule,
+        ReactiveFormsModule,
+        DragDropModule,
+        MatTooltipModule,
+        MatMenuModule,
+        MatCardModule,
+        SharedModule,
+        MatExpansionModule,
+        MatProgressSpinnerModule,
+        ClipboardModule
+    ],
 	providers: [
 		CdkColumnDef
 	]

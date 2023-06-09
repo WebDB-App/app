@@ -7,7 +7,7 @@ import { SelectionModel } from "@angular/cdk/collections";
 import { RequestService } from "../../../shared/request.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { environment } from "../../../environments/environment";
-import FileSaver from "file-saver";
+import { saveAs} from "file-saver-es";
 import { ActivatedRoute } from "@angular/router";
 
 export class ItemTree {
@@ -81,6 +81,6 @@ export class DumpComponent implements OnInit {
 			includeData: this.includeData
 		});
 
-		FileSaver.saveAs(environment.rootUrl + result.path, result.path.split('/')[1]);
+		saveAs(environment.rootUrl + result.path, result.path.split('/')[1]);
 	}
 }

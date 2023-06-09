@@ -215,6 +215,15 @@ a {
 	background-color: rgba(189, 189, 189, 0.6);
 }
 
+.sql-hl-keyword {
+	color: #2196f3;
+}
+
+.sql-hl-string,
+.sql-hl-function {
+	color: #ff9800;
+}
+
 :root {
 	--ngx-json-array: white;
 	--ngx-json-object: white;

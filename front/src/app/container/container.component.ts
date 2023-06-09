@@ -55,7 +55,7 @@ export class ContainerComponent implements AfterViewInit {
 		public router: Router,
 		public dialog: MatDialog
 	) {
-		for (const icon of ['gitlab', 'twitter', 'docker', 'webdb']) {
+		for (const icon of ['gitlab', 'twitter', 'docker', 'webdb', 'chatgpt']) {
 			this.matIconRegistry.addSvgIcon(
 				icon,
 				this.domSanitizer.bypassSecurityTrustResourceUrl(`/assets/${icon}.svg`)
