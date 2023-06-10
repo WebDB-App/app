@@ -89,7 +89,7 @@
 				</button>
 
 				<button
-					(click)="chat = []"
+					(click)="chat = []; saveChat()"
 					*ngIf="chat.length"
 					mat-button
 					matTooltip="Clear Conversation">
@@ -123,16 +123,52 @@
 		<mat-card *ngFor="let ch of chat"
 				  [style.background-color]="ch.error ? '#f44336' : ch.user === Role.Assistant ? '#1e1e1e' : undefined">
 			<mat-card-content>
-				<div [innerHTML]="ch.html" class="txt"></div>
 
-				<div class="actions" *ngIf="ch.user === Role.User">
+				<div *ngFor="let mrk of ch.marked" class="marked">
+
+					<div *ngIf="mrk.code" class="responseCode">
+
+						<div class="actions">
+							<button
+								(click)="sendMessage(mrk.code);"
+								color="primary"
+								matTooltip="Run and send result to IA"
+								matTooltipPosition="left"
+								mat-icon-button>
+								<span class="material-symbols-outlined">
+									fast_forward
+								</span>
+							</button>
+
+							<br>
+
+							<button
+								(click)="snackBar.open('Copied to clipboard', '╳', {duration: 3000})"
+								[cdkCopyToClipboard]="mrk.code"
+								matTooltip="Copy code to clipboard"
+								matTooltipPosition="left"
+								color="primary"
+								mat-icon-button>
+							<span class="material-symbols-outlined">
+								file_copy
+							</span>
+							</button>
+						</div>
+
+						<pre><code [innerHTML]="selectedServer!.driver!.highlight(mrk.code)!"></code></pre>
+					</div>
+
 					<button
+						class="actions"
+						*ngIf="ch.user === Role.User"
 						(click)="message.value = ch.txt"
 						mat-icon-button>
 						<span class="material-symbols-outlined">
 							edit
 						</span>
 					</button>
+
+					<div *ngIf="mrk.html" [innerHTML]="mrk.html"></div>
 				</div>
 
 			</mat-card-content>
@@ -141,7 +177,7 @@
 
 	<mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
 
-	<div style="padding: 6px" [hidden]="!key || !chat.length">
+	<div style="padding: 6px" [hidden]="!key">
 		<mat-form-field (keydown.enter)="sendMessage(message.value); message.value = ''"
 						appearance="fill"
 						class="sendMessage">
