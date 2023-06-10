@@ -9,6 +9,7 @@ import { Configuration as WebConfig } from "../../../classes/configuration";
 import { marked } from 'marked';
 import { MatSelect } from "@angular/material/select";
 import { DrawerService } from "../../../shared/drawer.service";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 const localKeyOpenAI = 'openai-key';
 
@@ -21,51 +22,24 @@ enum Role {
 class Msg {
 	user!: Role;
 	error = false;
-	html?: string;
+	marked?: {code?: string, html?: string}[];
 	txt!: string;
 
 	constructor(txt: string, user: Role, error = false) {
 		this.txt = txt;
 		this.user = user;
 		this.error = error;
+		this.marked = [];
 
 		const parser = new DOMParser();
 		const htmlDoc = parser.parseFromString(marked(txt), 'text/html');
-		const pres = htmlDoc.getElementsByTagName('pre');
-		for (const pre of pres) {
-			const parent = pre.parentNode!;
-			const newDiv = document.createElement('div') as HTMLDivElement;
-			const code = pre.getElementsByTagName('code')[0];
-
-			newDiv.innerHTML = "<pre><code>" + Server.getSelected()?.driver.highlight(code.outerText)! + "</code></pre>";
-			if (user === Role.Assistant) {
-				newDiv.innerHTML +=
-					`<button
-						(click)="sendMessage(getCode(ch.txt));"
-						color="primary"
-						mat-icon-button>
-						<span class="material-symbols-outlined">
-							fast_forward
-						</span>
-						Send result to IA
-					</button>
-
-					<button
-						(click)="snackBar.open('Copied to clipboard', '╳', {duration: 3000})"
-						[cdkCopyToClipboard]="getCode(ch.txt)"
-						color="primary"
-						mat-icon-button>
-						<span class="material-symbols-outlined">
-							file_copy
-						</span>
-						To clipboard
-					</button>`;
+		for (const child of htmlDoc.body.children) {
+			if (child.tagName.toLowerCase() === "pre" && user === Role.Assistant) {
+				this.marked.push({code: child.getElementsByTagName('code')[0].outerText});
+			} else {
+				this.marked.push({html: child.innerHTML});
 			}
-
-			parent.replaceChild(pre, newDiv);
 		}
-
-		this.html = htmlDoc.body.innerHTML;
 	}
 }
 
@@ -107,7 +81,8 @@ export class AiComponent implements OnInit, OnDestroy {
 
 	constructor(
 		private request: RequestService,
-		private drawer: DrawerService
+		private drawer: DrawerService,
+		public snackBar: MatSnackBar,
 	) {
 	}
 
@@ -166,7 +141,8 @@ export class AiComponent implements OnInit, OnDestroy {
 	}
 
 	saveChat() {
-		localStorage.setItem(this.localKeyChatHistory, JSON.stringify(this.chat.map(ch => {delete ch.html; return ch;})));
+		const copy = JSON.parse(JSON.stringify(this.chat));
+		localStorage.setItem(this.localKeyChatHistory, JSON.stringify(copy.map((ch: Msg) => {delete ch.marked; return ch;})));
 	}
 
 	async sendMessage(txt: string) {

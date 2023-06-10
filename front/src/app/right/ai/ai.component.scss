@@ -17,6 +17,11 @@
 	}
 }
 
+.actions {
+	position: absolute;
+	right: 4px;
+}
+
 #container {
 	overflow: auto;
 	height: 100%;
@@ -25,16 +30,17 @@
 		margin: 10px;
 
 		.mat-card-content {
-			overflow: auto;
 
-			.txt {
+			.marked {
 				margin-right: 30px;
-			}
 
-			.actions {
-				position: absolute;
-				right: 4px;
-				bottom: 4px;
+				.responseCode pre {
+					overflow: auto;
+					border: 1px solid #2196f3;
+					border-radius: 3px;
+					background-color: #fafafa;
+					color: black;
+				}
 			}
 		}
 	}
