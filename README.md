@@ -56,7 +56,8 @@
 
 
 # Chat
-- finir examples + finir present
+- finir examples
+- finir present
 - regarger plugins gpt
 - 2 videos micode
 - https://pbs.twimg.com/media/FtkoX8_WIAA_5ds.jpg:large
