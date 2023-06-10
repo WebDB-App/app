@@ -183,7 +183,7 @@ export class AiComponent implements OnInit, OnDestroy {
 				pageSize: 15,
 				page: 0
 			});
-			await this.sendMessage("Here is the result in JSON : " + JSON.stringify(result));
+			await this.sendMessage("Here a sample in JSON : " + JSON.stringify(result));
 		} catch (err: unknown) {
 
 		} finally {
