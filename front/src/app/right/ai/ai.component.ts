@@ -10,6 +10,7 @@ import { marked } from 'marked';
 import { MatSelect } from "@angular/material/select";
 import { DrawerService } from "../../../shared/drawer.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { MatTableDataSource } from "@angular/material/table";
 
 const localKeyOpenAI = 'openai-key';
 
@@ -173,5 +174,20 @@ export class AiComponent implements OnInit, OnDestroy {
 		this.isLoading = false;
 	}
 
-	//History + stream
+	async runQuery(query: string) {
+		this.isLoading = true;
+
+		try {
+			const result = await this.request.post('database/query', {
+				query: query,
+				pageSize: 15,
+				page: 0
+			});
+			await this.sendMessage("Here is the result in JSON : " + JSON.stringify(result));
+		} catch (err: unknown) {
+
+		} finally {
+			this.isLoading = false;
+		}
+	}
 }
