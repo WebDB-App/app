@@ -1,13 +1,11 @@
-- postgre array of type
-- tester plusieurs schemas
--
+
 - js autocomplete
 - cloud (google, aurora, rds, digital, atlas?)
 - Finir EDR
 - BLOB CRUD (download, upload)
 
-
-
+- postgre array of type
+- tester plusieurs schemas
 
 
 

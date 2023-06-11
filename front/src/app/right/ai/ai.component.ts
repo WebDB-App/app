@@ -70,8 +70,8 @@ export class AiComponent implements OnInit, OnDestroy {
 		'Explain me the purpose of my database',
 		'How to find the last inserted row in Entity Framework ?','Can you optimize : `SELECT * FROM users WHERE email LIKE ?`',
 		'Create a trigger checking password strength before inserting',
-		'Give me, with Mongoose the listing of all user',
-		'Here is, with PDO, the query to insert ... can you help me fixing it'
+		'Here is, with PDO, the query to insert ... can you help me fixing it',
+		'Give me, with Mongoose the listing of all user'
 	]
 	changing = false;
 	localKeyChatHistory!: string;
