@@ -104,9 +104,6 @@ dependencies:
   sql-formatter:
     specifier: latest
     version: 12.2.2
-  sql-highlight:
-    specifier: latest
-    version: 4.3.3
   tslib:
     specifier: ^2.5.0
     version: 2.5.0
@@ -6498,11 +6495,6 @@ packages:
     dependencies:
       argparse: 2.0.1
       nearley: 2.20.1
-    dev: false
-
-  /sql-highlight@4.3.3:
-    resolution: {integrity: sha512-fcaYRnALFgXvKJkua+Ss73zZoui3lo++ajRK2v+JoDJwENuUEYcmEAFGvVi/i6H8DpKzM7ZjAL0vcDy78rzp3w==}
-    engines: {node: '>=14'}
     dev: false
 
   /ssri@9.0.1:
