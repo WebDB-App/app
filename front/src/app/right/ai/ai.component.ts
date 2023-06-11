@@ -36,13 +36,13 @@ class Msg {
 		const htmlDoc = parser.parseFromString(mark, 'text/html');
 
 		for (const child of htmlDoc.body.children) {
-			const code = child.getElementsByTagName('code');
-			if (code.length > 0 && user === Role.Assistant) {
-				this.marked.push({code: code[0].outerText});
+			if (child.innerHTML.startsWith("<code>") || child.innerHTML.startsWith("<pre>") && user === Role.Assistant) {
+				this.marked.push({code: child.getElementsByTagName('code')[0].outerText});
 			} else {
 				this.marked.push({html: child.innerHTML});
 			}
 		}
+		console.log(this.marked);
 	}
 }
 
