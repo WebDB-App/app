@@ -17,7 +17,6 @@ export default class Postgre extends SQL {
 		return super.scan(this.host, 5430, 5440);
 	}
 
-
 	async sampleDatabase(name, limit) {
 		const [database, schema] = name.split(this.dbToSchemaDelimiter);
 		const getSample = async (table) => {
@@ -35,7 +34,6 @@ export default class Postgre extends SQL {
 
 		return await Promise.all(promises);
 	}
-
 
 	async dump(dbSchema, exportType, tables, includeData) {
 		const [database, schema] = dbSchema.split(this.dbToSchemaDelimiter);
@@ -149,15 +147,31 @@ export default class Postgre extends SQL {
 								pg_constraint
 						)
 					SELECT
+						ns.nspname AS "database",
 						c.conname AS "name",
 						tbl.relname AS "table_source",
 						col.attname AS "column_source",
 						referenced_tbl.relname AS "table_dest",
-						referenced_field.attname AS "column_dest"
+						referenced_field.attname AS "column_dest",
+						CASE c.confupdtype
+							WHEN 'a' THEN 'NO ACTION'
+							WHEN 'r' THEN 'RESTRICT'
+							WHEN 'c' THEN 'CASCADE'
+							WHEN 'n' THEN 'SET NULL'
+							WHEN 'd' THEN 'SET DEFAULT'
+							ELSE 'UNKNOWN' END AS update_rule,
+						CASE c.confdeltype
+							WHEN 'a' THEN 'NO ACTION'
+							WHEN 'r' THEN 'RESTRICT'
+							WHEN 'c' THEN 'CASCADE'
+							WHEN 'n' THEN 'SET NULL'
+							WHEN 'd' THEN 'SET DEFAULT'
+							ELSE 'UNKNOWN' END AS delete_rule
 					FROM
 						pg_constraint c
 						LEFT JOIN unnested_conkey con ON c.oid = con.oid
 						LEFT JOIN pg_class tbl ON tbl.oid = c.conrelid
+						LEFT JOIN pg_namespace ns ON tbl.relnamespace = ns.oid
 						LEFT JOIN pg_attribute col ON (
 							col.attrelid = tbl.oid
 							AND col.attnum = con.conkey
@@ -172,7 +186,7 @@ export default class Postgre extends SQL {
 						c.contype = 'f';`, db.datname);
 
 				for (const [key, index] of Object.entries(indexes)) {
-					indexes[key].database = db.datname + this.dbToSchemaDelimiter;// + index.database;
+					indexes[key].database = db.datname + this.dbToSchemaDelimiter + index.database;
 				}
 
 				resolve(indexes);
