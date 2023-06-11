@@ -89,32 +89,26 @@ params: {{displayParams()}}">
 		</span>
 		Documentation
 	</a>
-
 	<a href="https://twitter.com/Webdb_app"
 	   mat-menu-item
 	   target="_blank">
 		<mat-icon svgIcon="twitter"></mat-icon>
 		Twitter
 	</a>
-
 	<a (click)="showSettings()"
-	   mat-menu-item
-	   target="_blank">
+	   mat-menu-item>
 		<span class="material-symbols-outlined">
 			tune
 		</span>
 		Configuration
 	</a>
-
 	<a (click)="showSubscription()"
-	   mat-menu-item
-	   target="_blank">
+	   mat-menu-item>
 		<span class="material-symbols-outlined">
 			shopping_bag
 		</span>
 		Subscription
 	</a>
-
 	<a [href]="env.stripeUserLink"
 	   mat-menu-item
 	   target="_blank">
@@ -123,5 +117,4 @@ params: {{displayParams()}}">
 		</span>
 		Account
 	</a>
-
 </mat-menu>

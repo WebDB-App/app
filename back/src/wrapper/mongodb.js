@@ -2,7 +2,9 @@ import {MongoClient, ObjectId} from "mongodb";
 //import {UUID} from "mongodb/src/bson.js";
 import Driver from "../shared/driver.js";
 import bash from "../shared/bash.js";
-import http from "../shared/http.js";
+import {URL} from "url";
+
+const dirname = new URL(".", import.meta.url).pathname;
 
 export default class MongoDB extends Driver {
 	commonUser = ["mongo"];
