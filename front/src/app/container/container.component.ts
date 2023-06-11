@@ -40,7 +40,7 @@ export class ContainerComponent implements AfterViewInit {
 		{link: "load", icon: "exit_to_app"},
 		{link: "dump", icon: "ios_share"},
 		{link: "diagram", icon: "polyline"},
-		{link: "code", icon: "terminal"},
+		{link: "code", icon: "code"},
 		{link: "assistant", icon: "support_agent"},
 		{link: "advanced", icon: "settings"},
 	];

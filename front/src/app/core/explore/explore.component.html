@@ -57,14 +57,8 @@
 				repeat
 			</span>
 		</button>
-		<mat-paginator
-			(page)="changePage($event)"
-			[length]="querySize"
-			[pageIndex]="params.page"
-			hidePageSize="true"
-			pageSize="{{pageSize}}"
-			showFirstLastButtons="true">
-		</mat-paginator>
+		<app-paginator
+		></app-paginator>
 	</div>
 </mat-toolbar>
 

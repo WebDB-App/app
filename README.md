@@ -1,11 +1,23 @@
+-
 
-- js autocomplete
+
+
+
+
+- https://dba.stackexchange.com/questions/212249/how-to-use-default-value-of-data-type-as-column-default
+- postgre array of type
+- tester plusieurs schemas
+
+
+
+
 - cloud (google, aurora, rds, digital, atlas?)
 - Finir EDR
 - BLOB CRUD (download, upload)
 
-- postgre array of type
-- tester plusieurs schemas
+
+
+
 
 
 
@@ -17,9 +29,7 @@
 # COM
 
 # Bin
-- https://github.com/electron/electron/issues/21457#issuecomment-1269637018
-- https://webpack.electron.build/
-- Node Single Executable Apps
+- Node Single Executable Apps | https://tauri.app/ | https://webpack.electron.build/ | https://github.com/electron/electron/issues/21457#issuecomment-1269637018
 - ci + gitlab wiki
 - changelog en json avec opencommit et check last version
 
@@ -37,9 +47,6 @@
 - foreign table
 - more comparator with detail
 
-# Insert
-- finir street and fulladdress translation
-
 # SQLServer
 
 
@@ -51,10 +58,11 @@
 
 
 
-
+# Cockroachdb + ElasticSearch https://elasticvue.com/
 
 # Chat
 - finir present
+- GPT4All
 - history
 - regarger plugins gpt
 - 2 videos micode
@@ -64,11 +72,24 @@
 - https://media.licdn.com/dms/image/D4E22AQGx27end7jE5Q/feedshare-shrink_800/0/1684474332765?e=1688601600&v=beta&t=g1NR0-Uuifv4muNn1Hps1p8H5BjYDOU9w1Sej-NkkqY
 - https://external-preview.redd.it/chatgpt-for-data-science-cheat-sheet-v0-Odpv_XqB8SiefptXNzZP-t9AjrVOxg0IF81UuKFx2sw.jpg?auto=webp&s=2b8b8a80fa2c3a4b6f85545cffa26726021a60a4
 
+
+
+
+
+
+
+
+
+
+
+
+
 # Miscellaneous
 - rm nameDel en front
 - show table / column collation in settings
 
-# Cockroachdb
+# Insert
+- finir street and fulladdress translation
 
 # Oracle
 - https://github.com/oracle/docker-images/blob/main/OracleDatabase/SingleInstance/README.md

@@ -70,63 +70,60 @@
 
 	</div>
 
-	<div>
-		<mat-accordion>
-			<mat-expansion-panel>
-				<mat-expansion-panel-header>
-					<mat-panel-title>
-						<span class="material-symbols-outlined">
-							speed
-						</span>
-					</mat-panel-title>
-					<mat-panel-description>
-						Performance Tips
-					</mat-panel-description>
-				</mat-expansion-panel-header>
-				<ul>
-					<li>
-						If you do >10req/sec, use unix socket or try to reduce network latency
-					</li>
-					<li>
-						Check resource (CPU, RAM, Disk I/O) usage of the server and allocate more
-					</li>
-					<li>
-						Use cloud hosted databases if you don't have time dedicated to infrastructure
-					</li>
-					<li>
-						Use the AI assistant for more advanced optimizations of the database structure or the server
-						tuning
-					</li>
-					<li>
-						Sharding, Load Balancing and Replication can help but are not simple to implement and maintain
-					</li>
-				</ul>
-			</mat-expansion-panel>
-		</mat-accordion>
-		<mat-accordion>
-			<mat-expansion-panel>
-				<mat-expansion-panel-header>
-					<mat-panel-title>
-						<span class="material-symbols-outlined">
-							health_and_safety
-						</span>
-					</mat-panel-title>
-					<mat-panel-description>
-						Security Tips
-					</mat-panel-description>
-				</mat-expansion-panel-header>
-				<ul>
-					<li>
-						Avoid exposing database to public network, prefer SSH tunnel
-					</li>
-					<li>
-						Do regular backup of your database to an external provider
-					</li>
-					<li>
-						Follow RGPD rules (personal data encryption, strong password encryption with salt, etc)
-					</li>
-				</ul>
-			</mat-expansion-panel>
-		</mat-accordion>
-	</div>
+	<mat-accordion>
+		<mat-expansion-panel>
+			<mat-expansion-panel-header>
+				<mat-panel-title>
+					<span class="material-symbols-outlined">
+						speed
+					</span>
+				</mat-panel-title>
+				<mat-panel-description>
+					Performance Tips
+				</mat-panel-description>
+			</mat-expansion-panel-header>
+			<ul>
+				<li>
+					If you do >10req/sec, use unix socket or try to reduce network latency
+				</li>
+				<li>
+					Check resource (CPU, RAM, Disk I/O) usage of the server and allocate more
+				</li>
+				<li>
+					Use cloud hosted databases if you don't have time dedicated to infrastructure
+				</li>
+				<li>
+					Use the AI assistant for more advanced optimizations of the database structure or the server
+					tuning
+				</li>
+				<li>
+					Sharding, Load Balancing and Replication can help but are not simple to implement and maintain
+				</li>
+			</ul>
+		</mat-expansion-panel>
+
+		<mat-expansion-panel>
+			<mat-expansion-panel-header>
+				<mat-panel-title>
+					<span class="material-symbols-outlined">
+						health_and_safety
+					</span>
+				</mat-panel-title>
+				<mat-panel-description>
+					Security Tips
+				</mat-panel-description>
+			</mat-expansion-panel-header>
+			<ul>
+				<li>
+					Avoid exposing database to public network, prefer SSH tunnel
+				</li>
+				<li>
+					Do regular backup of your database to an external provider
+				</li>
+				<li>
+					Follow RGPD rules (personal data encryption, strong password encryption with salt, etc)
+				</li>
+			</ul>
+		</mat-expansion-panel>
+	</mat-accordion>
 </div>
