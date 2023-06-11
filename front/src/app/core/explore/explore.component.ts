@@ -72,7 +72,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 			distinctUntilChanged()
 		).subscribe(async (_params) => {
 			// @ts-ignore
-			let params = <Params>{..._params[0], ..._params[1]};
+			const params = <Params>{..._params[0], ..._params[1]};
 
 			if (this.selectedTable?.name !== Table.getSelected().name) {
 				this.loadSuggestions();
