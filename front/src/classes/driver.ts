@@ -37,7 +37,6 @@ export interface Driver {
 	acceptedExt: string[];
 	language: string;
 	format: (code: string) => string;
-	highlight: (query: string) => string;
 	canRename: boolean;
 	defaultParams: {};
 	docUrl: string;

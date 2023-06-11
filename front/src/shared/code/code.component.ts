@@ -42,8 +42,8 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 	@ViewChild(MatPaginator) paginator!: MatPaginator;
 	@ViewChildren('editor') editors!: EditorComponent[];
 
+	protected readonly Math = Math;
 	configuration: Configuration = new Configuration();
-
 	selectedServer?: Server;
 	selectedDatabase?: Database;
 	relations?: Relation[];

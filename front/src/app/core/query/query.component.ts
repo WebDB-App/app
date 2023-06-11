@@ -85,8 +85,4 @@ export class QueryComponent implements OnInit, OnDestroy {
 			scrollAnchor.scrollIntoView({behavior: 'smooth'})
 		}, 300);
 	}
-
-	highlight(query: string) {
-		return this.selectedServer?.driver?.highlight(query);
-	}
 }

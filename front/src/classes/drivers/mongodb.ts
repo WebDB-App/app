@@ -41,10 +41,6 @@ export class MongoDB implements Driver {
 		return "";
 	}
 
-	highlight(query: string): string {
-		return "";
-	}
-
 	extractConditionParams(query: string): QueryParams {
 		return <QueryParams>{
 			query

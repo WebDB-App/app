@@ -1,7 +1,7 @@
 @use '@angular/material' as mat;
 
 @import "@angular/material/theming";
-@import 'highlight.js/styles/base16/hardcore.css';
+@import 'highlight.js/styles/base16/material-vivid.css';
 
 @include mat.core();
 
@@ -216,13 +216,22 @@ a {
 	background-color: rgba(189, 189, 189, 0.6);
 }
 
-.sql-hl-keyword {
-	color: #2196f3;
+.goToPage {
+	margin-bottom: -1.25em;
+	width: 130px;
+
+	.mat-form-field-infix {
+		padding: 0.5em 0;
+	}
 }
 
-.sql-hl-string,
-.sql-hl-function {
-	color: #ff9800;
+.hljs {
+	white-space: pre-wrap;
+	border-radius: 8px;
+}
+
+.hljs-ln-code {
+	padding-left: 10px !important;
 }
 
 :root {
