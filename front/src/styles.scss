@@ -131,7 +131,7 @@ a {
 }
 
 .toUpdate, .toUpdate .mat-select-value {
-	color: #ff9800 !important;
+	color: mat-color($angular-accent, default) !important;
 	white-space: pre;
 }
 
