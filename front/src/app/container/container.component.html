@@ -30,7 +30,7 @@ params: {{displayParams()}}">
 						<span>{{server.host}}</span>:<span>{{server.port}}</span>/<span>{{database.name}}</span>
 					</div>
 					<button (click)="reloadDbs()" mat-icon-button>
-						<span class="material-symbols-outlined">
+						<span class="material-symbols-outlined notranslate">
 							refresh
 						</span>
 					</button>
@@ -48,14 +48,14 @@ params: {{displayParams()}}">
 					[routerLinkActive]="'mat-button-toggle-checked'"
 					[routerLink]="[{outlets: {right: [panel.link]}}]"
 				>
-					<span class="material-symbols-outlined">
+					<span class="material-symbols-outlined notranslate">
 						{{panel.icon}}
 					</span>
 				</mat-button-toggle>
 			</mat-button-toggle-group>
 
 			<button [matMenuTriggerFor]="external" mat-icon-button style="margin-left: 14px">
-				<span class="material-symbols-outlined">
+				<span class="material-symbols-outlined notranslate">
 					apps
 				</span>
 			</button>
@@ -76,7 +76,7 @@ params: {{displayParams()}}">
 	<a href="https://gitlab.com/web-db/landing/-/issues"
 	   mat-menu-item
 	   target="_blank">
-		<span class="material-symbols-outlined">
+		<span class="material-symbols-outlined notranslate">
 			support
 		</span>
 		Support
@@ -84,7 +84,7 @@ params: {{displayParams()}}">
 	<a href="https://gitlab.com/web-db/landing/-/wikis/Welcome"
 	   mat-menu-item
 	   target="_blank">
-		<span class="material-symbols-outlined">
+		<span class="material-symbols-outlined notranslate">
 			menu_book
 		</span>
 		Documentation
@@ -97,14 +97,14 @@ params: {{displayParams()}}">
 	</a>
 	<a (click)="showSettings()"
 	   mat-menu-item>
-		<span class="material-symbols-outlined">
+		<span class="material-symbols-outlined notranslate">
 			tune
 		</span>
 		Configuration
 	</a>
 	<a (click)="showSubscription()"
 	   mat-menu-item>
-		<span class="material-symbols-outlined">
+		<span class="material-symbols-outlined notranslate">
 			shopping_bag
 		</span>
 		Subscription
@@ -112,7 +112,7 @@ params: {{displayParams()}}">
 	<a [href]="env.stripeUserLink"
 	   mat-menu-item
 	   target="_blank">
-		<span class="material-symbols-outlined">
+		<span class="material-symbols-outlined notranslate">
 			credit_card
 		</span>
 		Account
