@@ -110,13 +110,16 @@
 		First, generate a key from&nbsp;<a href="https://platform.openai.com/account/api-keys" target="_blank">OpenAI</a>, then save it there ⇧
 	</h4>
 
-	<div *ngIf="!chat.length || !key" id="examples">
-		<button (click)="sendMessage(example);"
-				[disabled]="!key"
-				*ngFor="let example of examples"
-				mat-stroked-button>
-			{{example}}
-		</button>
+	<div *ngIf="!chat.length || !key">
+		<h3 style="text-align: center; border-bottom: 1px dashed grey">Some examples</h3>
+		<div id="examples">
+			<button (click)="sendMessage(example);"
+					[disabled]="!key"
+					*ngFor="let example of examples"
+					mat-stroked-button>
+				{{example}}
+			</button>
+		</div>
 	</div>
 
 	<div id="container" *ngIf="key && chat.length">
