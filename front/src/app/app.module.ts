@@ -33,6 +33,11 @@ import { MonacoEditorModule } from "ngx-monaco-editor-v2";
 import { MatButtonToggleModule } from "@angular/material/button-toggle";
 import { MatStepperModule } from "@angular/material/stepper";
 import { ClipboardModule } from "@angular/cdk/clipboard";
+import {
+	HighlightModule,
+	HIGHLIGHT_OPTIONS,
+	HighlightOptions,
+} from 'ngx-highlightjs';
 
 @NgModule({
 	declarations: [
@@ -51,6 +56,7 @@ import { ClipboardModule } from "@angular/cdk/clipboard";
 		MatCardModule,
 		FlexModule,
 		CodeModule,
+		HighlightModule,
 		MatToolbarModule,
 		MatButtonModule,
 		MatSidenavModule,
@@ -76,7 +82,17 @@ import { ClipboardModule } from "@angular/cdk/clipboard";
 		MatStepperModule,
 		ClipboardModule
 	],
-	providers: [],
+	providers: [
+		{
+			provide: HIGHLIGHT_OPTIONS,
+			useValue: <HighlightOptions>{
+				lineNumbers: true,
+				// @ts-ignore
+				lineNumbersLoader: () => import('highlightjs-line-numbers.js'),
+				fullLibraryLoader: () => import('highlight.js'),
+			}
+		}
+	],
 	bootstrap: [AppComponent]
 })
 export class AppModule {

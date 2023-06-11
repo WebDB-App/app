@@ -10,7 +10,6 @@ import { marked } from 'marked';
 import { MatSelect } from "@angular/material/select";
 import { DrawerService } from "../../../shared/drawer.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { MatTableDataSource } from "@angular/material/table";
 
 const localKeyOpenAI = 'openai-key';
 
@@ -33,10 +32,13 @@ class Msg {
 		this.marked = [];
 
 		const parser = new DOMParser();
-		const htmlDoc = parser.parseFromString(marked(txt), 'text/html');
+		const mark = marked(txt);
+		const htmlDoc = parser.parseFromString(mark, 'text/html');
+
 		for (const child of htmlDoc.body.children) {
-			if (child.tagName.toLowerCase() === "pre" && user === Role.Assistant) {
-				this.marked.push({code: child.getElementsByTagName('code')[0].outerText});
+			const code = child.getElementsByTagName('code');
+			if (code.length > 0 && user === Role.Assistant) {
+				this.marked.push({code: code[0].outerText});
 			} else {
 				this.marked.push({html: child.innerHTML});
 			}
@@ -83,7 +85,7 @@ export class AiComponent implements OnInit, OnDestroy {
 	constructor(
 		private request: RequestService,
 		private drawer: DrawerService,
-		public snackBar: MatSnackBar,
+		public snackBar: MatSnackBar
 	) {
 	}
 
@@ -182,10 +184,10 @@ export class AiComponent implements OnInit, OnDestroy {
 				query: query,
 				pageSize: 15,
 				page: 0
-			});
+			}, undefined, undefined, undefined, undefined, false);
 			await this.sendMessage("Here a sample in JSON : " + JSON.stringify(result));
-		} catch (err: unknown) {
-
+		} catch (err: any) {
+			await this.sendMessage("There is an error : " + err.error);
 		} finally {
 			this.isLoading = false;
 		}
