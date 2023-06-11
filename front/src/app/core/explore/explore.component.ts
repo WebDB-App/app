@@ -12,6 +12,7 @@ import { Relation } from "../../../classes/relation";
 import { Configuration } from "../../../classes/configuration";
 import { RequestService } from "../../../shared/request.service";
 import { SelectionModel } from "@angular/cdk/collections";
+import { MatSelectChange } from "@angular/material/select";
 
 @Component({
 	selector: 'app-explore',
@@ -20,8 +21,8 @@ import { SelectionModel } from "@angular/cdk/collections";
 })
 export class ExploreComponent implements OnInit, OnDestroy {
 
+	protected readonly Math = Math;
 	configuration: Configuration = new Configuration();
-
 	selectedTable?: Table;
 	selectedDatabase?: Database;
 	selectedServer?: Server;
@@ -31,7 +32,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 	querySize = 0;
 	pageSize = 100;
 	params = {
-		filter: "",
+		chips: "",
 		sortField: "",
 		sortDirection: "",
 		page: 0
@@ -71,7 +72,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 			distinctUntilChanged()
 		).subscribe(async (_params) => {
 			// @ts-ignore
-			const params = <Params>{..._params[0], ..._params[1]};
+			let params = <Params>{..._params[0], ..._params[1]};
 
 			if (this.selectedTable?.name !== Table.getSelected().name) {
 				this.loadSuggestions();
@@ -83,18 +84,24 @@ export class ExploreComponent implements OnInit, OnDestroy {
 			this.relations = Table.getRelations()
 
 			this.toUpdate = [];
-			this.changePage(<PageEvent>{pageIndex: params["page"] || 0}, false);
+			this.changePage(params["page"] || 0, false);
 			this.params.sortField = params["sortField"] || "";
 			this.params.sortDirection = params["sortDirection"] || "";
-			this.params.filter = params["filter"] || "";
+			this.params.chips = params["chips"] || "";
 			this.selection.clear();
 
 			await this.refreshData();
 		});
 	}
 
-	changePage(event: PageEvent, navigate = true) {
-		this.params.page = event.pageIndex;
+	changePage(page: any, navigate = true) {
+		page = +page;
+		if ((page * this.pageSize) > this.querySize) {
+			page = 0;
+			navigate = true;
+		}
+
+		this.params.page = +page;
 
 		if (navigate) {
 			this.navigateWithParams()
@@ -143,17 +150,17 @@ export class ExploreComponent implements OnInit, OnDestroy {
 	}
 
 	filterToWhere() {
-		if (this.params.filter.length < 1) {
+		if (this.params.chips.length < 1) {
 			return '';
 		}
 
-		const condition = this.params.filter.split(';').filter(e => e);
+		const condition = this.params.chips.split(';').filter(e => e);
 		const operand = this.configuration.getByName('operand')?.value;
 
 		return ' WHERE ' + condition.join(` ${operand} `);
 	}
 
-	addFilter(column: string, event: MatChipInputEvent): void {
+	addChips(column: string, event: MatChipInputEvent): void {
 		const value = event.value.trim();
 		if (!value) {
 			return;
@@ -162,9 +169,9 @@ export class ExploreComponent implements OnInit, OnDestroy {
 		if (this.selectedServer?.driver.availableComparator.find((comparator) => {
 			return value.toLowerCase().startsWith(comparator.symbol.toLowerCase())
 		})) {
-			this.params.filter += `${column} ${value};`;
+			this.params.chips += `${column} ${value};`;
 		} else {
-			this.params.filter += `${column} LIKE '${value}';`;
+			this.params.chips += `${column} LIKE '${value}';`;
 		}
 
 		this.params.page = 0;
@@ -172,8 +179,8 @@ export class ExploreComponent implements OnInit, OnDestroy {
 		this.navigateWithParams();
 	}
 
-	removeFilter(filter: string): void {
-		this.params.filter = this.params.filter.replace(`${filter};`, '');
+	removeChips(chips: string): void {
+		this.params.chips = this.params.chips.replace(`${chips};`, '');
 
 		this.navigateWithParams();
 	}
@@ -214,7 +221,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 	getFkParams(column: string, value: string) {
 		const fk = this.relations?.find(relation => relation.column_source === column);
 
-		return {filter: `${fk!.column_dest}="${value}";`};
+		return {chips: `${fk!.column_dest}="${value}";`};
 	}
 
 	shiftCheckBox(event: MouseEvent, row: any) {

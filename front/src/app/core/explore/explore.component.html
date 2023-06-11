@@ -28,18 +28,18 @@
 
 	<mat-chip-list #chipList>
 		<ng-container
-			*ngFor="let filter of params.filter.split(';'); let i = index">
-			<ng-container *ngIf="filter">
+			*ngFor="let chips of params.chips.split(';'); let i = index">
+			<ng-container *ngIf="chips">
 				<mat-chip
-					(removed)="removeFilter(filter)"
+					(removed)="removeChips(chips)"
 					color="primary"
 					selected>
-					{{filter}}
+					{{chips}}
 					<button matChipRemove>
 						<mat-icon>cancel</mat-icon>
 					</button>
 				</mat-chip>
-				<ng-container *ngIf="i < params.filter.split(';').length - 2">
+				<ng-container *ngIf="i < params.chips.split(';').length - 2">
 					{{configuration.getByName("operand")?.value}}
 				</ng-container>
 			</ng-container>
@@ -57,8 +57,23 @@
 				repeat
 			</span>
 		</button>
-		<app-paginator
-		></app-paginator>
+		<div fxLayout="row" fxLayoutAlign="center center">
+			<mat-paginator
+				(page)="changePage($event.pageIndex)"
+				[length]="querySize"
+				[pageIndex]="params.page"
+				hidePageSize
+				pageSize="{{pageSize}}"
+			></mat-paginator>
+			<mat-form-field appearance="outline" class="goToPage">
+				<mat-label>
+					Go To Page
+				</mat-label>
+				<mat-select (selectionChange)="changePage($event.value)" [value]="params.page">
+					<mat-option *ngFor="let item of [].constructor(Math.floor(querySize / pageSize) + 1); let i = index" [value]="i">{{i}}</mat-option>
+				</mat-select>
+			</mat-form-field>
+		</div>
 	</div>
 </mat-toolbar>
 
@@ -78,7 +93,7 @@
 				<ng-container *ngIf="column !== actionColum">
 					<mat-form-field appearance="legacy">
 						<mat-label>{{column}}</mat-label>
-						<input (matChipInputTokenEnd)="addFilter(column, $event)"
+						<input (matChipInputTokenEnd)="addChips(column, $event)"
 							   [(ngModel)]="filter[column]"
 							   [matAutocomplete]="autoGroup"
 							   [matChipInputFor]="chipList"

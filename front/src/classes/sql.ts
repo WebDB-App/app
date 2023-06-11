@@ -4,7 +4,6 @@ import { Database } from "./database";
 import { Table } from "./table";
 import { Server } from "./server";
 import { format } from "sql-formatter";
-import { highlight } from 'sql-highlight';
 import { HistoryService } from "../shared/history.service";
 import { Index } from ".";
 
@@ -168,11 +167,6 @@ export class SQL implements Driver {
 
 	nodeLib = (query: QueryParams) => "";
 
-	highlight(query: string) {
-		return highlight(query, {
-			html: true,
-		})
-	}
 
 	format(code: string) {
 		code = format(code, {
