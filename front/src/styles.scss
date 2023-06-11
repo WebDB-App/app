@@ -126,10 +126,6 @@ body {
 	}
 }
 
-.mat-paginator-range-label {
-	font-size: 14px;
-}
-
 a {
 	color: mat-color($angular-primary, default)
 }
@@ -145,6 +141,11 @@ a {
 
 .mat-paginator {
 	background-color: inherit;
+
+	.mat-paginator-range-label {
+		font-size: 14px;
+		margin: 0 12px 0 24px;
+	}
 }
 
 .mat-tooltip {
