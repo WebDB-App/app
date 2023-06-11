@@ -38,6 +38,8 @@ import { SharedModule } from "../../shared/shared.module";
 import { MatExpansionModule } from "@angular/material/expansion";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { ClipboardModule } from "@angular/cdk/clipboard";
+import { HighlightModule } from 'ngx-highlightjs';
+
 
 @NgModule({
 	declarations: [
@@ -66,6 +68,7 @@ import { ClipboardModule } from "@angular/cdk/clipboard";
         FlexModule,
         RightRoutingModule,
         MatButtonModule,
+		HighlightModule,
         MatInputModule,
         MatSelectModule,
         MatDividerModule,
@@ -93,7 +96,7 @@ import { ClipboardModule } from "@angular/cdk/clipboard";
         ClipboardModule
     ],
 	providers: [
-		CdkColumnDef
+		CdkColumnDef,
 	]
 })
 export class RightModule {

@@ -17,10 +17,18 @@
 	}
 }
 
+.hljs {
+	white-space: pre-wrap;
+}
+
+::ng-deep .hljs-ln-code {
+	padding-left: 10px !important;
+}
+
 .actions {
 	position: absolute;
 	right: 4px;
-	margin-top: -12px;
+	margin-top: -10px;
 }
 
 #container {
@@ -32,16 +40,10 @@
 
 		.mat-card-content {
 
+			overflow: auto;
+
 			.marked {
 				margin-right: 30px;
-
-				.responseCode pre {
-					overflow: auto;
-					border: 1px solid #2196f3;
-					border-radius: 3px;
-					background-color: #fafafa;
-					color: black;
-				}
 			}
 		}
 	}

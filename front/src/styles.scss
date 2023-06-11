@@ -1,6 +1,7 @@
 @use '@angular/material' as mat;
 
 @import "@angular/material/theming";
+@import 'highlight.js/styles/base16/hardcore.css';
 
 @include mat.core();
 

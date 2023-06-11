@@ -127,7 +127,6 @@
 				<div *ngFor="let mrk of ch.marked" class="marked">
 
 					<div *ngIf="mrk.code" class="responseCode">
-
 						<div class="actions">
 							<button
 								(click)="runQuery(mrk.code);"
@@ -139,9 +138,7 @@
 									fast_forward
 								</span>
 							</button>
-
 							<br>
-
 							<button
 								(click)="snackBar.open('Copied to clipboard', '╳', {duration: 3000})"
 								[cdkCopyToClipboard]="mrk.code"
@@ -149,26 +146,26 @@
 								matTooltipPosition="left"
 								color="primary"
 								mat-icon-button>
-							<span class="material-symbols-outlined">
-								file_copy
-							</span>
+								<span class="material-symbols-outlined">
+									file_copy
+								</span>
 							</button>
 						</div>
-
-						<pre><code [innerHTML]="selectedServer!.driver!.highlight(mrk.code)!"></code></pre>
+						<pre><code [highlight]="mrk.code" [lineNumbers]="true"></code></pre>
 					</div>
 
-					<button
-						class="actions"
-						*ngIf="ch.user === Role.User"
-						(click)="message.value = ch.txt"
-						mat-icon-button>
-						<span class="material-symbols-outlined">
-							edit
-						</span>
-					</button>
-
-					<div *ngIf="mrk.html" [innerHTML]="mrk.html"></div>
+					<ng-container *ngIf="mrk.html">
+						<button
+							class="actions"
+							*ngIf="ch.user === Role.User"
+							(click)="message.value = ch.txt"
+							mat-icon-button>
+							<span class="material-symbols-outlined">
+								edit
+							</span>
+						</button>
+						<div [innerHTML]="mrk.html"></div>
+					</ng-container>
 				</div>
 
 			</mat-card-content>
