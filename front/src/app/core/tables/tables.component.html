@@ -47,12 +47,12 @@
 					mat-button>
 					<span
 						*ngIf="extend"
-						class="material-symbols-outlined">
+						class="material-symbols-outlined notranslate">
 						keyboard_double_arrow_left
 					</span>
 					<span
 						*ngIf="!extend"
-						class="material-symbols-outlined">
+						class="material-symbols-outlined notranslate">
 						keyboard_double_arrow_right
 					</span>
 				</button>
@@ -62,7 +62,7 @@
 						color="primary"
 						mat-stroked-button
 						style="width: 100%;">
-					<span class="material-symbols-outlined">
+					<span class="material-symbols-outlined notranslate">
 						add_box
 					</span>
 					Table
@@ -81,7 +81,7 @@
 				   [routerLink]="[tab.link.toLocaleLowerCase()]"
 				   mat-tab-link
 				   style="width: 100%">
-					<span class="material-symbols-outlined">{{tab.icon}}</span>
+					<span class="material-symbols-outlined notranslate">{{tab.icon}}</span>
 					{{tab.link}}
 				</a>
 			</nav>

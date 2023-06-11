@@ -22,7 +22,7 @@
 				<a href="https://webdb.app/compatibility"
 				   mat-raised-button
 				   target="_blank">
-					<span class="material-symbols-outlined">
+					<span class="material-symbols-outlined notranslate">
 						database
 					</span>
 					Compatibility List
@@ -87,7 +87,7 @@
 						[cdkCopyToClipboard]="pubRsa"
 						color="primary"
 						mat-stroked-button>
-					<span class="material-symbols-outlined">
+					<span class="material-symbols-outlined notranslate">
 						vpn_key
 					</span>
 					WebDB Public Key
@@ -149,7 +149,7 @@
 
 				<mat-divider></mat-divider>
 				<p style="display: flex; align-items: center; justify-content: center;">
-					<span class="material-symbols-outlined" style="margin-right: 8px">
+					<span class="material-symbols-outlined notranslate" style="margin-right: 8px">
 						warning
 					</span>
 					{{server.driver.disclaimerSsh}}
@@ -183,7 +183,7 @@
 				<button (click)="useDefault()"
 						color="primary"
 						mat-stroked-button>
-						<span class="material-symbols-outlined">
+						<span class="material-symbols-outlined notranslate">
 							device_reset
 						</span>
 					Use Default Params
@@ -194,7 +194,7 @@
 				   mat-stroked-button
 				   style="margin-left: 20px"
 				   target="_blank">
-						<span class="material-symbols-outlined">
+						<span class="material-symbols-outlined notranslate">
 							menu_book
 						</span>
 					{{server.wrapper}} Driver Doc for Node.JS
@@ -219,7 +219,7 @@
 			*ngIf="!newConnection"
 			color="warn"
 			mat-stroked-button>
-			<span class="material-symbols-outlined">
+			<span class="material-symbols-outlined notranslate">
 				wifi_off
 			</span>
 			Forget
@@ -229,7 +229,7 @@
 				[color]="connected ? 'accent' : 'primary'"
 				[disabled]="!server.host || !server.port"
 				mat-stroked-button>
-			<span class="material-symbols-outlined">
+			<span class="material-symbols-outlined notranslate">
 				network_wifi_2_bar
 			</span>
 			Test Connection
@@ -239,7 +239,7 @@
 				[disabled]="!connected"
 				color="primary"
 				mat-flat-button>
-			<span class="material-symbols-outlined">
+			<span class="material-symbols-outlined notranslate">
 				wifi_add
 			</span>
 			Save Connection

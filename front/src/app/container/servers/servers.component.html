@@ -14,7 +14,7 @@
 
 	<button (click)="reloadList()"
 			mat-flat-button>
-		<span class="material-symbols-outlined">
+		<span class="material-symbols-outlined notranslate">
 			track_changes
 		</span>
 		Refresh Connections
@@ -23,7 +23,7 @@
 	<button (click)="addServer()"
 			color="primary"
 			mat-stroked-button>
-		<span class="material-symbols-outlined">
+		<span class="material-symbols-outlined notranslate">
 			wifi_add
 		</span>
 		New Connection
@@ -56,7 +56,7 @@
 						<h4 fxLayout="row" fxLayoutAlign="space-between center" style="padding: 0px 10px">
 							<span
 								[matTooltip]="getTooltip(server)"
-								class="material-symbols-outlined"
+								class="material-symbols-outlined notranslate"
 								matTooltipPosition="right">
 								{{getIcon(server)}}
 							</span>
@@ -73,7 +73,7 @@
 								<button
 									(click)="editConnection(server)"
 									mat-icon-button>
-									<span class="material-symbols-outlined">
+									<span class="material-symbols-outlined notranslate">
 										network_manage
 									</span>
 								</button>
@@ -125,7 +125,7 @@
 													matTooltip="Try common user/password combination
 														If you enter a user or password input, it will guess based on
 													Caution : trigger many parallel connection">
-												<span class="material-symbols-outlined">
+												<span class="material-symbols-outlined notranslate">
 													lock_open
 												</span>
 												Guess
@@ -167,7 +167,7 @@
 
 								<div fxLayout="row" fxLayoutAlign="center center" style="margin-top: 10px;">
 									<button (click)="addDatabase(server)" color="primary" mat-stroked-button>
-										<span class="material-symbols-outlined">
+										<span class="material-symbols-outlined notranslate">
 											add_box
 										</span>
 										Database

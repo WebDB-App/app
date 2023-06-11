@@ -2,14 +2,14 @@
 	<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20px">
 		<div>
 			<button (click)="diagramController!.autoPlace()" mat-button>
-				<span class="material-symbols-outlined">
+				<span class="material-symbols-outlined notranslate">
 					view_cozy
 				</span>
 				Place Tables
 			</button>
 
 			<button [matMenuTriggerFor]="legend" mat-stroked-button>
-				<span class="material-symbols-outlined">
+				<span class="material-symbols-outlined notranslate">
 					legend_toggle
 				</span>
 				Legend
@@ -48,17 +48,17 @@
 
 		<div fxLayoutGap="8px">
 			<button (click)="openFullscreen()" mat-stroked-button matTooltip="Toggle Fullscreen">
-				<span class="material-symbols-outlined">
+				<span class="material-symbols-outlined notranslate">
 					{{full ? 'fullscreen_exit' : 'fullscreen'}}
 				</span>
 			</button>
 			<button (click)="diagramController!.fontInc()" mat-stroked-button>
-				<span class="material-symbols-outlined">
+				<span class="material-symbols-outlined notranslate">
 					text_increase
 				</span>
 			</button>
 			<button (click)="diagramController!.fontDec()" mat-stroked-button>
-				<span class="material-symbols-outlined">
+				<span class="material-symbols-outlined notranslate">
 					text_decrease
 				</span>
 			</button>
@@ -73,13 +73,13 @@
 
 		<div>
 			<button (click)="exportPng()" mat-button>
-				<span class="material-symbols-outlined">
+				<span class="material-symbols-outlined notranslate">
 					photo_camera
 				</span>
 				PNG
 			</button>
 			<button (click)="exportSvg()" mat-button>
-				<span class="material-symbols-outlined">
+				<span class="material-symbols-outlined notranslate">
 					photo_camera
 				</span>
 				SVG

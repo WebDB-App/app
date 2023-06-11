@@ -3,7 +3,7 @@
 
 		<div>
 			<button (click)="generate(+addGenNb.value)" color="primary" mat-flat-button>
-				<span class="material-symbols-outlined">
+				<span class="material-symbols-outlined notranslate">
 					auto_mode
 				</span>
 				Generate Rows
@@ -17,7 +17,7 @@
 		<div>
 			<button [matMenuTriggerFor]="docs" mat-stroked-button>
 				Documentation
-				<span class="material-symbols-outlined">
+				<span class="material-symbols-outlined notranslate">
 					menu_book
 				</span>
 			</button>
@@ -111,7 +111,7 @@
 	<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
 		<div>
 			<button (click)="addRows(+addRowNb.value)" mat-stroked-button>
-				<span class="material-symbols-outlined">
+				<span class="material-symbols-outlined notranslate">
 					add
 				</span>
 				Empty Rows
@@ -128,7 +128,7 @@
 		<input #inputFile (change)="inputChange($event)" accept=".json, .csv" hidden="true" onclick="this.value=null"
 			   type="file"/>
 		<button (click)="inputFile.click()" mat-stroked-button>
-			<span class="material-symbols-outlined">
+			<span class="material-symbols-outlined notranslate">
 				upload_file
 			</span>
 			Import CSV/JSON File
@@ -138,14 +138,14 @@
 				[disabled]="dataSource.data.length < 1"
 				color="accent"
 				mat-flat-button>
-			<span class="material-symbols-outlined">
+			<span class="material-symbols-outlined notranslate">
 				note_add
 			</span>
 			Insert Rows
 		</button>
 
 		<button (click)="removeRows()" [disabled]="selection.isEmpty()" mat-button>
-			<span class="material-symbols-outlined">
+			<span class="material-symbols-outlined notranslate">
 				delete
 			</span>
 			Rows

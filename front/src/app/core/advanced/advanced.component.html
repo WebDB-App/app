@@ -12,14 +12,14 @@
 			</span>
 
 			<button (click)="truncate()" *ngIf="!selectedTable?.view" color="warn" mat-stroked-button>
-				<span class="material-symbols-outlined">
+				<span class="material-symbols-outlined notranslate">
 				  delete
 				</span>
 				Empty
 			</button>
 
 			<button (click)="drop()" color="warn" mat-button>
-				<span class="material-symbols-outlined">
+				<span class="material-symbols-outlined notranslate">
 					delete_forever
 				</span>
 				Drop
@@ -55,7 +55,7 @@
 					<button (click)="duplicate(tableName.value)"
 							[disabled]="tableName.value.length < 1 || tableName.value === selectedTable?.name"
 							mat-stroked-button>
-						<span class="material-symbols-outlined">
+						<span class="material-symbols-outlined notranslate">
 						  file_copy
 						</span>
 						Duplicate
@@ -76,7 +76,7 @@
 					<button (click)="rename(tableName.value)"
 							[disabled]="tableName.value.length < 1 || tableName.value === selectedTable?.name"
 							mat-stroked-button>
-						<span class="material-symbols-outlined">
+						<span class="material-symbols-outlined notranslate">
 						  edit
 						</span>
 						Rename
@@ -90,7 +90,7 @@
 				<mat-expansion-panel>
 					<mat-expansion-panel-header>
 						<mat-panel-title>
-							<span class="material-symbols-outlined">
+							<span class="material-symbols-outlined notranslate">
 								speed
 							</span>
 						</mat-panel-title>

@@ -29,7 +29,7 @@
 				*ngIf="!diff"
 				color="primary"
 				mat-raised-button>
-			<span class="material-symbols-outlined">play_arrow</span>
+			<span class="material-symbols-outlined notranslate">play_arrow</span>
 			Execute
 		</button>
 
@@ -37,31 +37,31 @@
 				*ngIf="diff"
 				color="primary"
 				mat-raised-button>
-			<span class="material-symbols-outlined">difference</span>
+			<span class="material-symbols-outlined notranslate">difference</span>
 			Compare
 		</button>
 
 		<button (click)="setQuery()" mat-stroked-button>
-			<span class="material-symbols-outlined">checklist_rtl</span>
+			<span class="material-symbols-outlined notranslate">checklist_rtl</span>
 			Format
 		</button>
 
 		<div *ngIf="selectedTable" class="prebuild">
 			<button (click)="prebuild('select')" mat-icon-button mat-stroked-button matTooltip="Select">
-				<span class="material-symbols-outlined">description</span>
+				<span class="material-symbols-outlined notranslate">description</span>
 			</button>
 			<button (click)="prebuild('select_join')" mat-icon-button mat-stroked-button
 					matTooltip="Select with relations">
-				<span class="material-symbols-outlined">file_present</span>
+				<span class="material-symbols-outlined notranslate">file_present</span>
 			</button>
 			<button (click)="prebuild('update')" mat-icon-button mat-stroked-button matTooltip="Update">
-				<span class="material-symbols-outlined">edit_document</span>
+				<span class="material-symbols-outlined notranslate">edit_document</span>
 			</button>
 			<button (click)="prebuild('insert')" mat-icon-button mat-stroked-button matTooltip="Insert">
-				<span class="material-symbols-outlined">note_add</span>
+				<span class="material-symbols-outlined notranslate">note_add</span>
 			</button>
 			<button (click)="prebuild('delete')" mat-icon-button mat-stroked-button matTooltip="Delete">
-				<span class="material-symbols-outlined">scan_delete</span>
+				<span class="material-symbols-outlined notranslate">scan_delete</span>
 			</button>
 		</div>
 
@@ -142,7 +142,7 @@
 					[ngClass]="{'mat-raised-button' : autoUp}"
 					mat-button
 					matTooltip="Reload data periodically">
-					<span class="material-symbols-outlined">
+					<span class="material-symbols-outlined notranslate">
 						repeat
 					</span>
 				</button>
