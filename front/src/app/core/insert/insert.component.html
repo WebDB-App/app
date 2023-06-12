@@ -78,7 +78,7 @@
 								<ng-container *ngFor="let value of group.values">
 									<mat-option (click)="randomSource!.data[1][column] = beautify(value.fct)"
 												*ngIf="value.name.toLowerCase().includes(filterPreset.value.toLowerCase())"
-												[disabled]="!typeMatch(structure[column], value.type)"
+												[style.opacity]="typeMatch(structure[column], value.type) ? 1 : 0.5"
 												[value]="value.name">
 										{{value.name}}
 									</mat-option>
