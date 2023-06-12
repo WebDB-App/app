@@ -80,11 +80,40 @@ export default class MongoDB extends Driver {
 		//await coll.indexInformation();
 	}
 
+	async runCommand(command, database = false) {
+		let connection = this.connection;
+		const start = Date.now();
+
+		try {
+			if (database) {
+				connection = await this.connection.db(database);
+			}
+			return connection.command(command);
+
+			/*const [rows] = await connection.query(command);
+			return rows.map(row => {
+				for (const [key, col] of Object.entries(row)) {
+					if (Buffer.isBuffer(col)) {
+						row[key] = "###BLOB###";
+					}
+				}
+				return row;
+			});*/
+		} catch (e) {
+			console.error(e);
+			return {error: e.sqlMessage};
+		} finally {
+			bash.logCommand(command, database, Date.now() - start, this.port);
+			connection.release();
+		}
+	}
+
 	async querySize(query, database) {
 
 	}
 
 	async runPagedQuery(query, page, pageSize, database) {
+		return await this.runCommand(query, database);
 	}
 
 	getPropertyType(property) {
@@ -168,12 +197,6 @@ export default class MongoDB extends Driver {
 		}
 
 		return struct;
-	}
-
-	async runCommand(command, database = false) {
-		const start = Date.now();
-		bash.logCommand(command, database, Date.now() - start, this.port);
-		return [];
 	}
 
 	makeUri() {
