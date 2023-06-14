@@ -19,8 +19,7 @@
 
 .actions {
 	position: absolute;
-	right: 4px;
-	margin-top: -10px;
+	right: 15px;
 }
 
 #container {
@@ -31,12 +30,7 @@
 		margin: 10px;
 
 		.mat-card-content {
-
 			overflow: auto;
-
-			.marked {
-				margin-right: 30px;
-			}
 		}
 	}
 }
