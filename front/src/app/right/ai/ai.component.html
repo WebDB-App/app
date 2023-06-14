@@ -141,7 +141,6 @@
 									fast_forward
 								</span>
 							</button>
-							<br>
 							<button
 								(click)="snackBar.open('Copied to clipboard', '╳', {duration: 3000})"
 								[cdkCopyToClipboard]="mrk.code"
@@ -160,6 +159,7 @@
 					<ng-container *ngIf="mrk.html">
 						<button
 							class="actions"
+							style="margin-top: -10px;"
 							*ngIf="ch.user === Role.User"
 							(click)="message.value = ch.txt"
 							mat-icon-button>
