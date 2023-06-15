@@ -1,5 +1,4 @@
-
-
+- Export query via ia
 
 - https://dba.stackexchange.com/questions/212249/how-to-use-default-value-of-data-type-as-column-default
 - postgre array of type

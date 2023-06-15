@@ -7,7 +7,7 @@ import { Server } from "../classes/server";
 import { Table } from "../classes/table";
 import { Relation } from "../classes/relation";
 import { Index } from "../classes";
-import { MatSnackBar, MatSnackBarRef } from "@angular/material/snack-bar";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Injectable({
 	providedIn: 'root'
@@ -16,8 +16,6 @@ export class RequestService {
 
 	private messageSource = new BehaviorSubject(<Server>{});
 	serverReload = this.messageSource.asObservable();
-
-	lastSnack?: MatSnackBarRef<any>;
 
 	constructor(
 		private http: HttpClient,
@@ -44,11 +42,8 @@ export class RequestService {
 		const result = await firstValueFrom(this.http.post<any>(
 			environment.apiRootUrl + url, data, {headers}
 		));
-		if (this.lastSnack) {
-			this.lastSnack.dismiss();
-		}
 		if (snackError && result.error) {
-			this.lastSnack = this._snackBar.open(result.error, "╳", {panelClass: 'snack-error'});
+			this._snackBar.open(result.error, "╳", {panelClass: 'snack-error'});
 			throw new HttpErrorResponse({statusText: result.error});
 		}
 
