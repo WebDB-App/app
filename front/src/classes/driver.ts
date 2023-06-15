@@ -1,4 +1,6 @@
 import { Column } from "./column";
+import { Relation } from "./relation";
+import { Table } from "./table";
 
 export interface Comparator {
 	symbol: string
@@ -37,6 +39,11 @@ export interface Driver {
 	acceptedExt: string[];
 	language: string;
 	format: (code: string) => string;
+	getBaseDelete:(table: Table) => string;
+	getBaseUpdate:(table: Table) => string;
+	getBaseSelect:(table: Table) => string;
+	getBaseInsert:(table: Table) => string;
+	getBaseSelectWithRelations:(table: Table, relations: Relation[]) => string;
 	canRename: boolean;
 	defaultParams: {};
 	docUrl: string;

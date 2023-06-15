@@ -135,8 +135,8 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 		try {
 			let result;
 			await Promise.all([
-				this.querySize = await this.request.post('database/querySize', {query: this.query}),
-				result = await this.request.post('database/query', {query: this.query, pageSize: this.pageSize, page: this.page})
+				result = await this.request.post('database/query', {query: this.query, pageSize: this.pageSize, page: this.page}),
+				this.querySize = await this.request.post('database/querySize', {query: this.query})
 			]);
 
 			if (this.querySize === 0) {
@@ -187,39 +187,21 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 	}
 
 	prebuild(value: string) {
-		const cols = this.selectedTable!.columns?.map(column => `${column.name}`);
-
 		switch (value) {
 			case "delete":
-				this.setQuery(`DELETE
-							   FROM ${this.selectedTable?.name}
-							   WHERE 1 = 0`);
+				this.setQuery(this.selectedServer?.driver.getBaseDelete(this.selectedTable!));
 				break;
 			case "insert":
-				this.setQuery(`INSERT INTO ${this.selectedTable?.name} (${cols!.join(', ')})
-							   VALUES (${cols!.map(col => '""')})`);
+				this.setQuery(this.selectedServer?.driver.getBaseInsert(this.selectedTable!));
 				break;
 			case "update":
-				this.setQuery(`UPDATE ${this.selectedTable?.name}
-							   SET ${cols!.map(col => `${col} = ""`)}
-							   WHERE 1 = 0`);
+				this.setQuery(this.selectedServer?.driver.getBaseUpdate(this.selectedTable!));
 				break;
 			case "select":
-				this.setQuery(`SELECT ${cols!.join(', ')}
-							   FROM ${this.selectedTable?.name}
-							   WHERE 1 = 1`);
+				this.setQuery(this.selectedServer?.driver.getBaseSelect(this.selectedTable!));
 				break;
 			case "select_join":
-				const joins: string[] = [];
-				const columns = cols.map(col => `${this.selectedTable!.name}.${col}`).join(', ');
-				for (const relation of this.relations!) {
-					joins.push(`INNER JOIN ${relation.table_dest} ON ${relation.table_dest}.${relation.column_dest} = ${relation.table_source}.${relation.column_source}`)
-				}
-
-				this.setQuery(`SELECT ${columns}
-							   FROM ${this.selectedTable?.name} ${joins.join("\n")}
-							   GROUP BY (${columns})
-							   HAVING 1 = 1`);
+				this.setQuery(this.selectedServer?.driver.getBaseSelectWithRelations(this.selectedTable!, this.relations!));
 				break;
 		}
 	}

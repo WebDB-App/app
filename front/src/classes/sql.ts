@@ -6,6 +6,7 @@ import { Server } from "./server";
 import { format } from "sql-formatter";
 import { HistoryService } from "../shared/history.service";
 import { Index } from ".";
+import { Relation } from "./relation";
 
 //import * as monaco from 'monaco-editor'
 declare var monaco: any;
@@ -166,7 +167,6 @@ export class SQL implements Driver {
 	}
 
 	nodeLib = (query: QueryParams) => "";
-
 
 	format(code: string) {
 		code = format(code, {
@@ -467,5 +467,35 @@ export class SQL implements Driver {
 		}
 
 		return suggestions;
+	}
+
+	getBaseDelete(table: Table) {
+		return `DELETE FROM ${this.nameDel}${table.name}${this.nameDel} WHERE 1 = 0`;
+	}
+
+	getBaseInsert(table: Table) {
+		const cols = table.columns?.map(column => `${this.nameDel}${column.name}${this.nameDel}`);
+		return `INSERT INTO ${this.nameDel}${table.name}${this.nameDel} (${cols!.join(', ')}) VALUES (${cols!.map(col => '""')})`;
+	}
+
+	getBaseUpdate(table: Table) {
+		const cols = table.columns?.map(column => `${this.nameDel}${column.name}${this.nameDel}`);
+		return `UPDATE ${this.nameDel}${table.name}${this.nameDel} SET ${cols!.map(col => `${col} = ""`)} WHERE 1 = 0`;
+	}
+
+	getBaseSelect(table: Table) {
+		const cols = table.columns?.map(column => `${this.nameDel}${column.name}${this.nameDel}`);
+		return `SELECT ${cols.join(', ')} FROM ${this.nameDel}${table.name}${this.nameDel} WHERE 1 = 1`;
+	}
+
+	getBaseSelectWithRelations(table: Table, relations: Relation[]) {
+		const columns = table.columns?.map(column => `${table.name}.${column.name}`).join(', ');
+
+		const joins: string[] = [];
+		for (const relation of relations) {
+			joins.push(`INNER JOIN ${relation.table_dest} ON ${relation.table_dest}.${relation.column_dest} = ${relation.table_source}.${relation.column_source}`)
+		}
+
+		return `SELECT ${columns} FROM ${table.name} ${joins.join("\n")} GROUP BY (${columns}) HAVING 1 = 1`;
 	}
 }

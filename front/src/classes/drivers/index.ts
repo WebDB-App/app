@@ -1,6 +1,6 @@
 export * from "./mysql";
 export * from "./mongodb";
-export * from "./postgre";
+export * from "./postgresql";
 /*export * from "./cockroach";
 export * from "./sqlserver";
 export * from "./sqlite";

@@ -44,6 +44,8 @@
 - foreign table
 - more comparator with detail
 
+# BDD crypto
+
 # SQLServer
 
 # Cockroachdb

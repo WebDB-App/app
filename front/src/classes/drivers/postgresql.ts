@@ -4,7 +4,7 @@ import { Server } from "../server";
 import { Database } from "../database";
 import { format } from "sql-formatter";
 
-export class Postgre extends SQL {
+export class PostgreSQL extends SQL {
 
 	constructor() {
 		super();
