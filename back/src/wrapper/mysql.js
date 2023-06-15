@@ -250,7 +250,12 @@ export default class MySQL extends SQL {
 			});
 		} catch (e) {
 			console.error(e);
-			return {error: e.sqlMessage};
+			const err = {error: e.sqlMessage};
+			if (e.errno === 1064) {
+				e.sqlMessage = e.sqlMessage.substring(e.sqlMessage.indexOf("near '") + 6, e.sqlMessage.indexOf("' at line"));
+				err["position"] = command.indexOf(e.sqlMessage);
+			}
+			return err;
 		} finally {
 			bash.logCommand(command, database, Date.now() - start, this.port);
 			connection.release();

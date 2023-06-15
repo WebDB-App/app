@@ -103,13 +103,19 @@
 							Calculate to most used column and index it (RAM is ~100x speeder than disk)
 						</li>
 						<li>
-							Cache possible data into your backend, frontend or Redis
+							Specify only needed columns (avoid wildcard)
 						</li>
 						<li>
-							Use an optimized database for your need (eg. elasticsearch for fulltext search)
+							Use views for pre-calculate queries
+						</li>
+						<li>
+							Cache almost static data into your backend, Redis or even frontend
 						</li>
 						<li>
 							Check slow queries and profile them to know why it take time
+						</li>
+						<li>
+							Use an optimized database for your need (eg. elasticsearch for fulltext search)
 						</li>
 						<li>
 							Use the AI assistant for more advanced optimizations for a query performance or table

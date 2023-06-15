@@ -127,6 +127,17 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 			'editorTextFocus && !editorHasSelection && ' +
 			'!editorHasMultipleSelections && !editorTabMovesFocus && ' +
 			'!hasQuickSuggest');
+
+		/*monaco.editor.setModelMarkers(model, "owner", [
+			{
+				startLineNumber: 2,
+				startColumn: 2,
+				endLineNumber: 2,
+				endColumn: 4,
+				message: "result.error",
+				severity: monaco.MarkerSeverity.Warning
+			}
+		]);*/
 	}
 
 	async runQuery() {
@@ -135,9 +146,15 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 		try {
 			let result;
 			await Promise.all([
-				result = await this.request.post('database/query', {query: this.query, pageSize: this.pageSize, page: this.page}),
+				result = await this.request.post('database/query', {query: this.query, pageSize: this.pageSize, page: this.page}, undefined, undefined, undefined, undefined, false),
 				this.querySize = await this.request.post('database/querySize', {query: this.query})
 			]);
+
+			if (result.error) {
+				const pos = +result.position || 0;
+
+				return;
+			}
 
 			if (this.querySize === 0) {
 				result.push({" ": "No Data"});
