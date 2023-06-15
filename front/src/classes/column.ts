@@ -18,7 +18,7 @@ export class Column {
 			tags.push('📎');
 		}
 		if (column.nullable) {
-			tags.push('❓');
+			tags.push('❔');
 		}
 
 		return tags;

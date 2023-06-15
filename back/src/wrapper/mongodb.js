@@ -80,15 +80,23 @@ export default class MongoDB extends Driver {
 		//await coll.indexInformation();
 	}
 
+	evalInContext(js, context) {
+		return async function () {
+			return await eval(`${js}`);
+		}.call(context);
+	}
+
 	async runCommand(command, database = false) {
-		let connection = this.connection;
+		let db = this.connection;
 		const start = Date.now();
 
 		try {
 			if (database) {
-				connection = await this.connection.db(database);
+				db = await this.connection.db(database);
 			}
-			return connection.command(command);
+
+			const result = await this.evalInContext(command, db);
+			return result.toArray();
 
 			/*const [rows] = await connection.query(command);
 			return rows.map(row => {
@@ -101,10 +109,9 @@ export default class MongoDB extends Driver {
 			});*/
 		} catch (e) {
 			console.error(e);
-			return {error: e.sqlMessage};
+			return {error: e.message};
 		} finally {
 			bash.logCommand(command, database, Date.now() - start, this.port);
-			connection.release();
 		}
 	}
 
@@ -113,6 +120,8 @@ export default class MongoDB extends Driver {
 	}
 
 	async runPagedQuery(query, page, pageSize, database) {
+		//.skip(5).limit(5)
+
 		return await this.runCommand(query, database);
 	}
 
@@ -147,6 +156,7 @@ export default class MongoDB extends Driver {
 			const db = this.connection.db(li.name);
 			const collections = await db.collections();
 			const collInfos = await db.listCollections().toArray();
+			const promises = [];
 
 			struct[li.name] = {
 				name: li.name,
@@ -154,46 +164,46 @@ export default class MongoDB extends Driver {
 			};
 
 			for (const coll of collections) {
-				const infos = collInfos.find(col => col.name === coll.collectionName);
-				const stats = (await coll.stats());
+				promises.push(new Promise(async resolve => {
+					const infos = collInfos.find(col => col.name === coll.collectionName);
 
-				struct[li.name].tables[coll.collectionName] = {
-					name: coll.collectionName,
-					view: infos.type === "view",
-					columns: {}
-				};
+					struct[li.name].tables[coll.collectionName] = {
+						name: coll.collectionName,
+						view: infos.type === "view",
+						columns: {}
+					};
 
-				try {
-					let samples = [];
-					if (stats.count < 1000) {
-						samples = await coll.find().toArray();
-					} else {
-						samples = await coll.aggregate([{$sample: {size: 1000}}]).toArray();
-					}
+					try {
+						(await coll.aggregate([{$sample: {size: 1000}}]).toArray()).map(sample => {
+							for (const [key, val] of Object.entries(sample)) {
+								const type = this.getPropertyType(val);
 
-					samples.map(sample => {
-						for (const [key, val] of Object.entries(sample)) {
-							const type = this.getPropertyType(val);
-
-							if (struct[li.name].tables[coll.collectionName].columns[key]) {
-								if (struct[li.name].tables[coll.collectionName].columns[key].type !== type) {
-									struct[li.name].tables[coll.collectionName].columns[key].type = type;
+								if (struct[li.name].tables[coll.collectionName].columns[key]) {
+									if (struct[li.name].tables[coll.collectionName].columns[key].type !== type) {
+										struct[li.name].tables[coll.collectionName].columns[key].type = type;
+									}
+								} else {
+									struct[li.name].tables[coll.collectionName].columns[key] = {
+										name: key,
+										type,
+										//comment
+										//nullable: row.is_nullable !== "NO",
+										//collation: row.COLLATION_NAME,
+										//defaut: row.column_default,
+									};
 								}
-							} else {
-								struct[li.name].tables[coll.collectionName].columns[key] = {
-									name: key,
-									type,
-									//comment
-									//nullable: row.is_nullable !== "NO",
-									//collation: row.COLLATION_NAME,
-									//defaut: row.column_default,
-								};
 							}
-						}
-					});
-				} catch (e) {
-				}
+						});
+					} catch (e) {
+						//console.error(e);
+					}
+					finally {
+						resolve();
+					}
+				}));
 			}
+
+			await Promise.all(promises);
 		}
 
 		return struct;

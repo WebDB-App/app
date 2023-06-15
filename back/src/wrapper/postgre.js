@@ -7,7 +7,7 @@ import bash from "../shared/bash.js";
 const {Pool} = pg;
 const dirname = new URL(".", import.meta.url).pathname;
 
-export default class Postgre extends SQL {
+export default class PostgreSQL extends SQL {
 
 	commonUser = ["postgres", "postgre"];
 	commonPass = ["postgres", "postgre", "mysecretpassword"];
@@ -79,7 +79,6 @@ export default class Postgre extends SQL {
 	async insert(db, table, datas) {
 		const result = await super.insert(db, table, datas);
 
-		//TODO
 		return result.affectedRows;
 	}
 

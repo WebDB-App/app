@@ -21,7 +21,7 @@ export class Configuration {
 		}, {
 			name: 'openAIModel',
 			description: 'Which OpenAI model to use',
-			values: ['gpt-3.5-turbo', 'gpt-4', 'gpt-4-32k']
+			values: ['gpt-3.5-turbo-16k', 'gpt-3.5-turbo', 'gpt-4', 'gpt-4-32k']
 		}, {
 			name: 'reloadData',
 			description: 'Time in second to reload data when activated',
