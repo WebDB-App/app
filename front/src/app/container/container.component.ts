@@ -13,6 +13,7 @@ import { Server } from "../../classes/server";
 import { Database } from "../../classes/database";
 import { environment } from "../../environments/environment";
 import { RequestService } from "../../shared/request.service";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 class Panel {
 	link!: string
@@ -50,6 +51,7 @@ export class ContainerComponent implements AfterViewInit {
 		private matIconRegistry: MatIconRegistry,
 		private drawerService: DrawerService,
 		private activatedRoute: ActivatedRoute,
+		private _snackBar: MatSnackBar,
 		private serverService: ServerService,
 		private request: RequestService,
 		public router: Router,
@@ -85,24 +87,19 @@ export class ContainerComponent implements AfterViewInit {
 				return;
 			}
 
-			for (const server of this.servers) {
-				if (server.name !== serverName || !server.dbs) {
-					continue;
-				}
+			const server = this.servers.find(srv => srv.name === serverName);
+			const database = server?.dbs.find(db => db.name === dbName);
 
-				for (const database of server.dbs) {
-					if (database.name !== dbName) {
-						continue;
-					}
-
-					this.server = server;
-					this.database = database;
-
-					Server.setSelected(server);
-					Database.setSelected(database);
-					this.isLoading = false;
-				}
+			if (!server || !database) {
+				this._snackBar.open(`Can't connect to ${serverName} ${dbName}, please check server availability`, "╳", {panelClass: 'snack-error'});
+				return;
 			}
+
+			this.server = server;
+			this.database = database;
+			Server.setSelected(server);
+			Database.setSelected(database);
+			this.isLoading = false;
 		});
 	}
 
