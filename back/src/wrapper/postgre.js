@@ -337,7 +337,7 @@ export default class PostgreSQL extends SQL {
 			return rows;
 		} catch (e) {
 			console.error(e);
-			return {error: e.message};
+			return {error: e.message + ". " + (e.hint || ""), position: e.position};
 		} finally {
 			bash.logCommand(command, (database || "") + (schema ? `,${schema}` : ""), Date.now() - start, this.port);
 			connection.release();
