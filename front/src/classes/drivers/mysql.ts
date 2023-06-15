@@ -26,7 +26,7 @@ async function main() {
 
 		this.canRename = false;
 
-		this.nameDel = "\`";
+		this.nameDel = this.useNameDel ? "\`" : '';
 
 		this.disclaimerSsh = "MySQL require password for remote connection"
 

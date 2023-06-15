@@ -34,6 +34,10 @@ export class Configuration {
 			name: 'preferredDictionary',
 			description: 'Preferred dictionary for data generation',
 			values: Object.keys(Dictionnary)
+		}, {
+			name: 'useNameDel',
+			description: 'Use special char to enclose table and column name',
+			values: [false, true]
 		}
 	];
 
