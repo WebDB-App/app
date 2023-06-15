@@ -91,7 +91,7 @@ export class ContainerComponent implements AfterViewInit {
 			const database = server?.dbs.find(db => db.name === dbName);
 
 			if (!server || !database) {
-				this._snackBar.open(`Can't connect to ${serverName} ${dbName}, please check server availability`, "╳", {panelClass: 'snack-error'});
+				this._snackBar.open(`Can't connect to ${serverName}/${dbName}, please check server availability`, undefined, {panelClass: 'snack-error'});
 				return;
 			}
 

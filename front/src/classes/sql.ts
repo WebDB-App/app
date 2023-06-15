@@ -7,6 +7,7 @@ import { format } from "sql-formatter";
 import { HistoryService } from "../shared/history.service";
 import { Index } from ".";
 import { Relation } from "./relation";
+import { Configuration } from "./configuration";
 
 //import * as monaco from 'monaco-editor'
 declare var monaco: any;
@@ -21,7 +22,10 @@ class TypeData {
 
 export class SQL implements Driver {
 
-	nameDel = '"';
+	configuration: Configuration = new Configuration();
+	useNameDel: boolean = this.configuration.getByName("useNameDel")?.value;
+
+	nameDel = this.useNameDel ? '"' : '';
 	defaultParams = {};
 	docUrl = "";
 	disclaimerSsh = "";
