@@ -124,7 +124,7 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 			'!hasQuickSuggest');
 
 		if (first) {
-			this.model = editor.getModel()
+			this.model = editor.getModel();
 		}
 	}
 
