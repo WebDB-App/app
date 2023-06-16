@@ -141,12 +141,13 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 			monaco.editor.setModelMarkers(this.model, "owner", []);
 
 			if (result.error) {
-				let pos = +result.position || 0;
-				const line = this.query.substring(0, pos).split(/\r\n|\r|\n/).length
+				const pos = +result.position || 0;
+				const startLineNumber = this.query.substring(0, pos).split(/\r\n|\r|\n/).length
+
 				monaco.editor.setModelMarkers(this.model, "owner", [{
-					startLineNumber: line,
+					startLineNumber: startLineNumber,
 					startColumn: 0,
-					endLineNumber: line,
+					endLineNumber: +result.position ? startLineNumber : Infinity,
 					endColumn: Infinity,
 					message: result.error,
 					severity: monaco.MarkerSeverity.Error
