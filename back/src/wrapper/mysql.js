@@ -251,8 +251,9 @@ export default class MySQL extends SQL {
 		} catch (e) {
 			console.error(e);
 			const err = {error: e.sqlMessage};
-			if (e.errno === 1064) {
-				e.sqlMessage = e.sqlMessage.substring(e.sqlMessage.indexOf("near '") + 6, e.sqlMessage.indexOf("' at line"));
+			if (e.sqlMessage.indexOf("'") >= 0) {
+				e.sqlMessage = e.sqlMessage.substring(e.sqlMessage.indexOf("'") + 1);
+				e.sqlMessage = e.sqlMessage.substring(0, e.sqlMessage.indexOf("'"));
 				err["position"] = command.indexOf(e.sqlMessage);
 			}
 			return err;
