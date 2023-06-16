@@ -17,7 +17,6 @@ import { MatDividerModule } from "@angular/material/divider";
 import { MonacoEditorModule, NgxMonacoEditorConfig } from "ngx-monaco-editor-v2";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { Server } from "../../classes/server";
-import * as drivers from '../../classes/drivers';
 import { MatButtonToggleModule } from "@angular/material/button-toggle";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { NgxJsonViewerModule } from "ngx-json-viewer";
@@ -33,32 +32,26 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 		theme: 'vs-dark',
 		automaticLayout: true
 	}, onMonacoLoad: () => {
-		const languages = [];
-		const onlyUnique = (value: any, index: any, array: string | any[]) => {
-			return array.indexOf(value) === index;
-		}
 
-		for (const key of Object.keys(drivers)) {
-			// @ts-ignore
-			languages.push((new drivers[key]).language);
-		}
+		monaco.languages.typescript.typescriptDefaults.addExtraLib(
+			'export declare function del(a: number, b: number): number',
+			'file:///node_modules/@types/crypto-js/index.d.ts'
+		);
 
-		languages.filter(onlyUnique).map(language => {
-			monaco.languages.registerCompletionItemProvider(language, {
-				triggerCharacters: ["."],
-				provideCompletionItems: (model: any, position: any) => {
-					const textUntilPosition = model.getValueInRange({
-						startLineNumber: position.lineNumber,
-						startColumn: 0,
-						endLineNumber: position.lineNumber,
-						endColumn: position.column,
-					});
+		monaco.languages.registerCompletionItemProvider('sql', {
+			triggerCharacters: ["."],
+			provideCompletionItems: (model: any, position: any) => {
+				const textUntilPosition = model.getValueInRange({
+					startLineNumber: position.lineNumber,
+					startColumn: 0,
+					endLineNumber: position.lineNumber,
+					endColumn: position.column,
+				});
 
-					return {
-						suggestions: Server.getSelected()!.driver.generateSuggestions(textUntilPosition)
-					};
-				}
-			});
+				return {
+					suggestions: Server.getSelected()!.driver.generateSuggestions(textUntilPosition)
+				};
+			}
 		});
 	}
 };

@@ -12,7 +12,7 @@ export class MongoDB implements Driver {
 	nameDel = '"';
 	docUrl = "https://www.mongodb.com/docs/drivers/node/current/fundamentals/connection/connection-options/";
 	extraAttributes: string[] = [];
-	language = 'javascript';
+	language = 'typescript';
 	canRename = true;
 	constraints = [];
 	availableComparator = [

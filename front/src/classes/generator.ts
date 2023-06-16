@@ -159,7 +159,7 @@ export class Generator {
 					{
 						name: "SHA1('password')",
 						type: [TypeName.String],
-						fct: "(() => {return return cryptojs.SHA1('password')})()"
+						fct: "(() => {return cryptojs.SHA1('password')})()"
 					},
 					{
 						name: "SHA256('password')",
