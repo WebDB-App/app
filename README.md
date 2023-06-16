@@ -50,8 +50,8 @@
 # Cockroachdb
 
 # Chat
-- finir present
 - GPT4All
+- finir present
 - history
 - regarger plugins gpt
 - 2 videos micode

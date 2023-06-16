@@ -5,15 +5,14 @@
 		<tr>
 			<td>
 				<ngx-monaco-editor
-					#editor
-					(onInit)="initEditor($event)"
+					(onInit)="initEditor($event, true)"
 					[(ngModel)]="query"
 					[options]="editorOptions">
 				</ngx-monaco-editor>
 			</td>
 			<td [hidden]="!diff">
 				<ngx-monaco-editor
-					#editor
+					(onInit)="initEditor($event)"
 					[(ngModel)]="query2"
 					[options]="editorOptions">
 				</ngx-monaco-editor>
