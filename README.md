@@ -1,4 +1,7 @@
 - Export query via ia
+- GPT4All
+- finir present
+
 
 - https://dba.stackexchange.com/questions/212249/how-to-use-default-value-of-data-type-as-column-default
 - postgre array of type
@@ -50,8 +53,6 @@
 # Cockroachdb
 
 # Chat
-- GPT4All
-- finir present
 - history
 - regarger plugins gpt
 - 2 videos micode
