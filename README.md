@@ -1,7 +1,9 @@
+- autocomplete table and column and types
+
+
 - https://dba.stackexchange.com/questions/212249/how-to-use-default-value-of-data-type-as-column-default
 - postgre array of type
 - tester plusieurs schemas
-
 
 
 
@@ -26,7 +28,7 @@
 
 
 # Assistant
-- GPT4All
+- https://llama-node.vercel.app/
 - finir present
 
 # Export Query
