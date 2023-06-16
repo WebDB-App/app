@@ -8,12 +8,9 @@ import {
 	OnDestroy,
 	OnInit,
 	Output,
-	SimpleChanges,
-	ViewChild,
-	ViewChildren
+	SimpleChanges
 } from '@angular/core';
 import { MatTableDataSource } from "@angular/material/table";
-import { MatPaginator } from "@angular/material/paginator";
 import { Table } from "../../classes/table";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Database } from "../../classes/database";
@@ -21,7 +18,7 @@ import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
 import { RequestService } from "../request.service";
 import { Relation } from "../../classes/relation";
 import { saveAs } from "file-saver-es";
-import { DiffEditorModel, EditorComponent } from "ngx-monaco-editor-v2";
+import { DiffEditorModel } from "ngx-monaco-editor-v2";
 import { Server } from "../../classes/server";
 import { Configuration } from "../../classes/configuration";
 
@@ -39,15 +36,13 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 	@Input() query = '';
 	@Input() selectedTable?: Table;
 
-	@ViewChild(MatPaginator) paginator!: MatPaginator;
-	@ViewChildren('editor') editors!: EditorComponent[];
-
 	protected readonly Math = Math;
 	configuration: Configuration = new Configuration();
 	selectedServer?: Server;
 	selectedDatabase?: Database;
 	relations?: Relation[];
 
+	model: any = {};
 	editorOptions = {
 		language: ''
 	};
@@ -119,7 +114,7 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 		}
 	}
 
-	initEditor(editor: any) {
+	initEditor(editor: any, first = false) {
 		editor.addCommand(monaco.KeyMod.Alt | monaco.KeyCode.Space,
 			() => {
 				editor.trigger('', 'editor.action.triggerSuggest', '');
@@ -128,16 +123,9 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 			'!editorHasMultipleSelections && !editorTabMovesFocus && ' +
 			'!hasQuickSuggest');
 
-		/*monaco.editor.setModelMarkers(model, "owner", [
-			{
-				startLineNumber: 2,
-				startColumn: 2,
-				endLineNumber: 2,
-				endColumn: 4,
-				message: "result.error",
-				severity: monaco.MarkerSeverity.Warning
-			}
-		]);*/
+		if (first) {
+			this.model = editor.getModel()
+		}
 	}
 
 	async runQuery() {
@@ -150,10 +138,19 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 				this.querySize = await this.request.post('database/querySize', {query: this.query})
 			]);
 
-			if (result.error) {
-				const pos = +result.position || 0;
+			monaco.editor.setModelMarkers(this.model, "owner", []);
 
-				return;
+			if (result.error) {
+				let pos = +result.position || 0;
+				const line = this.query.substring(0, pos).split(/\r\n|\r|\n/).length
+				monaco.editor.setModelMarkers(this.model, "owner", [{
+					startLineNumber: line,
+					startColumn: 0,
+					endLineNumber: line,
+					endColumn: Infinity,
+					message: result.error,
+					severity: monaco.MarkerSeverity.Error
+				}]);
 			}
 
 			if (this.querySize === 0) {
