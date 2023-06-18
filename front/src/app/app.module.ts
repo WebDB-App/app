@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from "./app-routing.module";
-import { ContainerComponent } from './container/container.component';
+import { ConnectionInfoDialog, ContainerComponent } from './container/container.component';
 import { MatCardModule } from "@angular/material/card";
 import { FlexModule } from "@angular/flex-layout";
 import { CodeModule } from "../shared/code/code.module";
@@ -47,7 +47,8 @@ import {
 		ConfigDialog,
 		SubscriptionDialog,
 		CreateDatabaseDialog,
-		ConnectionDialog
+		ConnectionDialog,
+		ConnectionInfoDialog
 	],
 	imports: [
 		AppRoutingModule,

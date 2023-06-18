@@ -1,11 +1,11 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import packageJson from '../../../package.json';
 import { MatDrawer } from "@angular/material/sidenav";
 import { DrawerService } from "../../shared/drawer.service";
 import { MatIconRegistry } from "@angular/material/icon";
 import { DomSanitizer } from "@angular/platform-browser";
-import { MatDialog } from "@angular/material/dialog";
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { SubscriptionDialog } from "./subscription/subscription-dialog.component";
 import { ConfigDialog } from "./config/config-dialog.component";
 import { ServerService } from "../../shared/server.service";
@@ -33,8 +33,8 @@ export class ContainerComponent implements AfterViewInit {
 	packageJson = packageJson
 	isLoading = true;
 	servers!: Server[];
-	server!: Server;
-	database!: Database;
+	selectedServer!: Server;
+	selectedDatabase!: Database;
 
 	panels: Panel[] = [
 		{link: "relations", icon: "join"},
@@ -95,8 +95,8 @@ export class ContainerComponent implements AfterViewInit {
 				return;
 			}
 
-			this.server = server;
-			this.database = database;
+			this.selectedServer = server;
+			this.selectedDatabase = database;
 			Server.setSelected(server);
 			Database.setSelected(database);
 			this.isLoading = false;
@@ -129,7 +129,25 @@ export class ContainerComponent implements AfterViewInit {
 		this.isLoading = false;
 	}
 
-	displayParams() {
-		return JSON.stringify(this.server.params, null, 2);
+	showConnection() {
+		this.dialog.open(ConnectionInfoDialog, {
+			data: this.selectedServer
+		});
+	}
+}
+
+@Component({
+	templateUrl: 'connection-dialog.html',
+})
+export class ConnectionInfoDialog {
+	str = "";
+	editorOptions = {
+		language: 'json'
+	};
+
+	constructor(
+		@Inject(MAT_DIALOG_DATA) public server: Server,
+	) {
+		this.str = JSON.stringify(Server.getShallow(server), null, 4)
 	}
 }

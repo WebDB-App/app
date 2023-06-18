@@ -22,12 +22,9 @@
 					<span style="font-size: 16px; padding-left: 16px;">v{{packageJson.version}}</span>
 				</div>
 
-				<div *ngIf="server && database" id="server">
-					<div matTooltip="wrapper: {{server.wrapper}}
-user: {{server.user}}
-password: {{server.password}}
-params: {{displayParams()}}">
-						<span>{{server.host}}</span>:<span>{{server.port}}</span>/<span>{{database.name}}</span>
+				<div *ngIf="selectedServer && selectedDatabase" id="server">
+					<div>
+						<span>{{selectedServer.host}}</span>:<span>{{selectedServer.port}}</span>/<span>{{selectedDatabase.name}}</span>
 					</div>
 					<button (click)="reloadDbs()" mat-icon-button>
 						<span class="material-symbols-outlined notranslate">
@@ -73,6 +70,14 @@ params: {{displayParams()}}">
 <ng-template #iconTemplate></ng-template>
 
 <mat-menu #external="matMenu" class="external">
+	<a *ngIf="selectedServer && selectedDatabase"
+		(click)="showConnection()"
+		mat-menu-item>
+		<span class="material-symbols-outlined notranslate">
+			wifi
+		</span>
+		Connection Info
+	</a>
 	<a href="https://gitlab.com/web-db/landing/-/issues"
 	   mat-menu-item
 	   target="_blank">
