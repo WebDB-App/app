@@ -142,7 +142,8 @@ export class ContainerComponent implements AfterViewInit {
 export class ConnectionInfoDialog {
 	str = "";
 	editorOptions = {
-		language: 'json'
+		language: 'json',
+		readOnly: true
 	};
 
 	constructor(
