@@ -20,7 +20,6 @@
 						placeholder="Search Query History">
 				</th>
 				<td *matCellDef="let element"
-					[style.background-color]="element.star ? '#1e1e1e' : 'inherit'"
 					mat-cell>
 					<pre><code [highlight]="element.query" [lineNumbers]="true"></code></pre>
 				</td>
@@ -29,14 +28,12 @@
 			<ng-container matColumnDef="nbResult" stickyEnd>
 				<th *matHeaderCellDef mat-header-cell>Rows</th>
 				<td *matCellDef="let element"
-					[style.background-color]="element.star ? '#1e1e1e' : 'inherit'"
 					mat-cell> {{element.nbResult}} </td>
 			</ng-container>
 
 			<ng-container matColumnDef="star" stickyEnd>
 				<th *matHeaderCellDef mat-header-cell>Fav</th>
 				<td *matCellDef="let element"
-					[style.background-color]="element.star ? '#1e1e1e' : 'inherit'"
 					mat-cell>
 					<mat-checkbox
 						(change)="changeStar(element)"
@@ -49,7 +46,7 @@
 			<ng-container matColumnDef="replay" stickyEnd>
 				<th *matHeaderCellDef mat-header-cell>Replay</th>
 				<td *matCellDef="let element"
-					[style.background-color]="element.star ? '#1e1e1e' : 'inherit'"
+
 					mat-cell>
 					<button (click)="replay(element.query, scrollAnchor)" mat-icon-button>
 						<span class="material-symbols-outlined notranslate">replay</span>
@@ -58,7 +55,10 @@
 			</ng-container>
 
 			<tr *matHeaderRowDef="['query', 'nbResult', 'star', 'replay']; sticky: true" mat-header-row></tr>
-			<tr *matRowDef="let row; columns: ['query', 'nbResult', 'star', 'replay'];" mat-row></tr>
+			<tr *matRowDef="let row; columns: ['query', 'nbResult', 'star', 'replay'];"
+				[style.background-color]="row.star ? '#1e1e1e' : 'inherit'"
+				mat-row
+			></tr>
 		</table>
 	</div>
 </div>
