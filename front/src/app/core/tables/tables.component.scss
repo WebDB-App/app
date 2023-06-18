@@ -5,14 +5,34 @@
 
 #tableList {
 	height: 100%;
-	width: 92px;
+	width: 140px;
 
 	&.extend {
-		width: 285px;
+		width: inherit;
+		.entity .mat-icon-button {
+			display: block !important;
+		}
 	}
 
 	mat-selection-list {
 		overflow: auto;
+
+		.entity {
+			display: flex;
+			flex-direction: column;
+
+			&:hover {
+				.mat-icon-button {
+					opacity: 1;
+				}
+			}
+
+			.mat-icon-button {
+				opacity: 0.3;
+				align-self: center;
+				display: none;
+			}
+		}
 	}
 }
 

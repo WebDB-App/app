@@ -7,9 +7,6 @@ import { environment } from "../environments/environment";
 })
 export class AppComponent {
 
-	constructor() {
-	}
-
 	@HostListener('window:beforeunload', ['$event'])
 	beforeunloadHandler(e: MouseEvent) {
 		if (!environment.production) {
@@ -21,5 +18,8 @@ export class AppComponent {
 			e.returnValue = false;
 		}
 		return 'Sure?';
+	}
+
+	constructor() {
 	}
 }

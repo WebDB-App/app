@@ -23,19 +23,25 @@
 			</mat-list-item>
 
 			<mat-selection-list [multiple]="false">
-				<mat-list-option
-					(click)="changeTable(table.name)"
-					*ngFor="let table of selectedDatabase?.tables"
-					[class.mat-list-single-selected-option]="selectedTable?.name === table.name"
-					[hidden]="table.hide"
-					[style.font-style]="table.view == true ? 'italic' : null">
-					<span
-						[matTooltip]="tooltips[table.name]"
-						matTooltipClass="columnTooltip"
-						matTooltipPosition="right">
-						{{table.name}}
-					</span>
-				</mat-list-option>
+				<div *ngFor="let table of selectedDatabase?.tables"
+					 class="entity"
+					 [hidden]="table.hide">
+					<div style="display: flex">
+						<button mat-icon-button (click)="getTooltip(table)">
+							<span class="material-symbols-outlined notranslate">
+								{{table.view ? 'table_view' : 'table'}}
+							</span>
+						</button>
+						<mat-list-option
+							(click)="changeTable(table.name)"
+							[class.mat-list-single-selected-option]="selectedTable?.name === table.name">
+							{{table.name}}
+						</mat-list-option>
+					</div>
+					<div *ngIf="tooltips[table.name]"
+						 [innerHtml]="tooltips[table.name]"
+					></div>
+				</div>
 			</mat-selection-list>
 
 			<span fxFlex></span>
@@ -71,24 +77,21 @@
 
 		</mat-list>
 	</mat-sidenav>
-	<mat-sidenav-content [hidden]="!selectedDatabase?.tables?.length">
-		<mat-sidenav-container fxFlexFill>
 
-			<nav [tabPanel]="tabPanel" mat-tab-nav-bar>
-				<a #rla="routerLinkActive" *ngFor="let tab of tabs"
-				   [active]="rla.isActive"
-				   [routerLinkActive]="['mat-list-single-selected-option', 'mat-tab-label-active']"
-				   [routerLink]="[tab.link.toLocaleLowerCase()]"
-				   mat-tab-link
-				   style="width: 100%">
-					<span class="material-symbols-outlined notranslate">{{tab.icon}}</span>
-					{{tab.link}}
-				</a>
-			</nav>
-			<mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
+	<div [hidden]="!selectedDatabase?.tables?.length">
+		<nav [tabPanel]="tabPanel" mat-tab-nav-bar>
+			<a #rla="routerLinkActive" *ngFor="let tab of tabs"
+			   [active]="rla.isActive"
+			   [routerLinkActive]="['mat-list-single-selected-option', 'mat-tab-label-active']"
+			   [routerLink]="[tab.link.toLocaleLowerCase()]"
+			   mat-tab-link
+			   style="width: 100%">
+				<span class="material-symbols-outlined notranslate">{{tab.icon}}</span>
+				{{tab.link}}
+			</a>
+		</nav>
+		<mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
 
-			<router-outlet></router-outlet>
-
-		</mat-sidenav-container>
-	</mat-sidenav-content>
+		<router-outlet></router-outlet>
+	</div>
 </mat-sidenav-container>

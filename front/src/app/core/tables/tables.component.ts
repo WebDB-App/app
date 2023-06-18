@@ -77,10 +77,6 @@ export class TablesComponent implements OnInit, OnDestroy {
 					this.selectedDatabase.name,
 					tableName]);
 			}
-
-			for (const table of this.selectedDatabase?.tables!) {
-				this.tooltips[table.name] = this.getTooltip(table);
-			}
 		});
 	}
 
@@ -104,7 +100,12 @@ export class TablesComponent implements OnInit, OnDestroy {
 	}
 
 	getTooltip(table: Table) {
-		const columns: string[] = [];
+		if (this.tooltips[table.name]) {
+			delete this.tooltips[table.name];
+			return;
+		}
+
+		let str = "<table class='table'>";
 		const indexes = Table.getIndexes(table);
 		const relations = Table.getRelations(table);
 
@@ -112,13 +113,10 @@ export class TablesComponent implements OnInit, OnDestroy {
 			const relation = relations.find(relation => relation.column_source === col.name);
 			const tags = Column.getTags(col, indexes, relation);
 
-			let line = col.name
-			line += tags.length ? (' | ' + tags.join(' ')) : '';
-
-			columns.push(line);
+			str += `<tr class="mat-row"><td class="mat-cell">${col.name}</td><td class="mat-cell">${tags.join('　')}</td></tr>`;
 		}
-		
-		return columns.join("\n")
+
+		this.tooltips[table.name] = str + "</table>";
 	}
 
 	async addTable() {

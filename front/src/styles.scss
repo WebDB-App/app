@@ -47,7 +47,7 @@ body {
 .table {
 	width: 100%;
 	white-space: nowrap;
-	background-color: #303030;
+	background-color: transparent;
 
 	.mat-header-cell {
 		color: mat-color($angular-primary, 300);
@@ -150,12 +150,6 @@ a {
 
 .mat-tooltip {
 	backdrop-filter: blur(2px);
-}
-
-.columnTooltip {
-	padding: 12px !important;
-	font-size: 14px;
-	line-height: 25px;
 }
 
 .mat-dialog-title {
