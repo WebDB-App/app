@@ -12,7 +12,6 @@ import { Relation } from "../../../classes/relation";
 import { Configuration } from "../../../classes/configuration";
 import { RequestService } from "../../../shared/request.service";
 import { SelectionModel } from "@angular/cdk/collections";
-import { MatSelectChange } from "@angular/material/select";
 
 @Component({
 	selector: 'app-explore',
