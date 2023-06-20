@@ -13,7 +13,7 @@ dependencies:
     version: 2.8.5
   dotenv:
     specifier: latest
-    version: 16.3.0
+    version: 16.3.1
   express:
     specifier: latest
     version: 4.18.2
@@ -31,7 +31,7 @@ dependencies:
     version: 1.4.5-lts.1
   mysql2:
     specifier: latest
-    version: 3.3.5
+    version: 3.4.0
   node-port-scanner:
     specifier: latest
     version: 3.0.1
@@ -43,10 +43,10 @@ dependencies:
     version: 1.0.1
   ssh2:
     specifier: latest
-    version: 1.13.0
+    version: 1.14.0
   tunnel-ssh:
     specifier: latest
-    version: 5.0.5
+    version: 5.0.8
 
 devDependencies:
   eslint:
@@ -636,8 +636,8 @@ packages:
       esutils: 2.0.3
     dev: true
 
-  /dotenv@16.3.0:
-    resolution: {integrity: sha512-tHB+hmf8MRCkT3VVivGiG8kq9HiGTmQ3FzOKgztfpJQH1IWuZTOvKSJmHNnQPowecAmkCJhLrxdPhOr06LLqIQ==}
+  /dotenv@16.3.1:
+    resolution: {integrity: sha512-IPzF4w4/Rd94bA9imS68tZBaYyBWSCE47V1RGuMrB94iyTOIEwRmVL2x/4An+6mETpLrKJ5hQkB8W4kFAadeIQ==}
     engines: {node: '>=12'}
     dev: false
 
@@ -1448,8 +1448,8 @@ packages:
     hasBin: true
     dev: false
 
-  /mysql2@3.3.5:
-    resolution: {integrity: sha512-ZTQGAzxGeaX1PyeSiZFCgQ34uiXguaEpn3aTFN9Enm9JDnbwWo+4/CJnDdQZ3n0NaMeysi8vwtW/jNUb9VqVDw==}
+  /mysql2@3.4.0:
+    resolution: {integrity: sha512-l952dVcdWVfEIIxMQ1PNSPHYY2htylG7H9ahrQe9lIgDpEMg3hB0S88OhC/loNSZpV8OcywSjgOzjSjEUiuwiQ==}
     engines: {node: '>= 8.0'}
     dependencies:
       denque: 2.1.0
@@ -1989,8 +1989,8 @@ packages:
     engines: {node: '>= 0.6'}
     dev: false
 
-  /ssh2@1.13.0:
-    resolution: {integrity: sha512-CIZBFRRY1y9mAZSqBGFE4EB4dNJad2ysT2PqO8OpkiI3UTB/gUZwE5EaN16qVyQ6s/M7EgC/iaV/MnjdlvnuzA==}
+  /ssh2@1.14.0:
+    resolution: {integrity: sha512-AqzD1UCqit8tbOKoj6ztDDi1ffJZ2rV2SwlgrVVrHPkV5vWqGJOVp5pmtj18PunkPJAuKQsnInyKV+/Nb2bUnA==}
     engines: {node: '>=10.16.0'}
     requiresBuild: true
     dependencies:
@@ -2086,10 +2086,10 @@ packages:
     resolution: {integrity: sha512-336iVw3rtn2BUK7ORdIAHTyxHGRIHVReokCR3XjbckJMK7ms8FysBfhLR8IXnAgy7T0PTPNBWKiH514FOW/WSg==}
     dev: false
 
-  /tunnel-ssh@5.0.5:
-    resolution: {integrity: sha512-3W6q2hj8S3c6lvdlknpE0ew2jMsIPou8DdSeRDHK/WrA+d9jZlryXOc45yvmHpBv7MyoWHHZvs2IKEtHJFazeg==}
+  /tunnel-ssh@5.0.8:
+    resolution: {integrity: sha512-LfTh+/ryUIQ6qvBsg7tP2Iy5kVcuRuHTt63oj3P3f27Rhffx777ZEkHzKDYJ7CxulmMqef4Bem1tMJlqSNeT9Q==}
     dependencies:
-      ssh2: 1.13.0
+      ssh2: 1.14.0
     dev: false
 
   /tweetnacl@0.14.5:

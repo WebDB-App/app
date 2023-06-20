@@ -13,6 +13,7 @@ export default class Driver {
 	params;
 
 	dbPool = {};
+	currentDb;
 
 	constructor(port, host, user, password, params) {
 		this.port = port;
