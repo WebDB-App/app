@@ -32,12 +32,6 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 		theme: 'vs-dark',
 		automaticLayout: true
 	}, onMonacoLoad: () => {
-
-		monaco.languages.typescript.typescriptDefaults.addExtraLib(
-			'export declare function del(a: number, b: number): number',
-			'file:///node_modules/@types/crypto-js/index.d.ts'
-		);
-
 		monaco.languages.registerCompletionItemProvider('sql', {
 			triggerCharacters: ["."],
 			provideCompletionItems: (model: any, position: any) => {

@@ -236,7 +236,8 @@ export default class MySQL extends SQL {
 		const start = Date.now();
 
 		try {
-			if (database) {
+			if (database && this.currentDb !== database) {
+				this.currentDb = database;
 				await connection.query(`USE \`${database}\``);
 			}
 			const [rows] = await connection.query(command);

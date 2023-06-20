@@ -123,9 +123,19 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 			'!editorHasMultipleSelections && !editorTabMovesFocus && ' +
 			'!hasQuickSuggest');
 
+		/*
+		monaco.languages.typescript.typescriptDefaults.addExtraLib(
+			'export declare module {  }',
+			'file:///node_modules/@types/crypto-js/index.d.ts'
+		);
+		Server.getSelected()!.driver.generateSuggestions(textUntilPosition)
+		 */
+
 		if (first) {
 			this.model = editor.getModel();
 		}
+
+		//TODO error model2
 	}
 
 	async runQuery() {
