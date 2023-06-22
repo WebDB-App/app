@@ -2,7 +2,7 @@
 	"name": "webdb",
 	"version": "PACKAGE_VERSION",
 	"scripts": {
-		"dev": "ng serve",
+		"dev:front": "ng serve",
 		"extraMongo": "cd ./node_modules/mongodb/ && dts-bundle-generator -o tmp.d.ts ./mongodb.d.ts && cp -fr tmp.d.ts ../../../../../src/assets/mongo.d.ts",
 		"extraBson": "cd ./node_modules/mongodb/ && dts-bundle-generator -o tmp.d.ts ./mongodb.d.ts && cp -fr tmp.d.ts ../../../../../src/assets/mongo.d.ts",
 		"build": "pnpm run extraBson && pnpm run extraMongo && ng build",

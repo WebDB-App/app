@@ -1,12 +1,10 @@
-import {MongoClient} from "mongodb";
-// eslint-disable-next-line no-unused-vars
-import {BSON, UUID, ObjectId, Code, Binary, Long, BSONError, BSONValue, BSONSymbol, BSONVersionError, BSONRuntimeError, BSONRegExp, DBRef, Double, Int32, Decimal128, MaxKey, MinKey, Timestamp} from "bson";
+import {MongoClient, ObjectId} from "mongodb";
+//import {UUID} from "mongodb/src/bson.js";
 import Driver from "../shared/driver.js";
 import bash from "../shared/bash.js";
-import * as child_process from "child_process";
+import {URL} from "url";
 
-//import {URL} from "url";
-//const dirname = new URL(".", import.meta.url).pathname;
+const dirname = new URL(".", import.meta.url).pathname;
 
 export default class MongoDB extends Driver {
 	commonUser = ["mongo"];
@@ -82,34 +80,33 @@ export default class MongoDB extends Driver {
 		//await coll.indexInformation();
 	}
 
+	evalInContext(js, context) {
+		return async function () {
+			return await eval(`${js}`);
+		}.call(context);
+	}
+
 	async runCommand(command, database = false) {
+		let db = this.connection;
 		const start = Date.now();
-		const getResponse = async () => {
-			return await new Promise(resolve => {
-				this.spawnedShell.stdout.on("data", d => {
-					d = d.toString();
-					if (d.endsWith("> ")) {
-						return;
-					}
-					resolve(d);
-				});
-			});
-		};
 
 		try {
-			if (database && this.currentDb !== database) {
-				this.currentDb = database;
-				this.spawnedShell.stdin.write(`use ${database};\n`);
-				await getResponse();
+			if (database) {
+				db = await this.connection.db(database);
 			}
 
-			this.spawnedShell.stdin.write(command + "\n");
-			let res = await getResponse();
-			try {
-				return eval(`(${res})`);
-			} catch (e) {
-				return res;
-			}
+			const result = await this.evalInContext(command, db);
+			return result.toArray();
+
+			/*const [rows] = await connection.query(command);
+			return rows.map(row => {
+				for (const [key, col] of Object.entries(row)) {
+					if (Buffer.isBuffer(col)) {
+						row[key] = "###BLOB###";
+					}
+				}
+				return row;
+			});*/
 		} catch (e) {
 			console.error(e);
 			return {error: e.message};
