@@ -26,7 +26,9 @@ async function main() {
 }`;
 		};
 
-		this.docUrl = "https://github.com/brianc/node-postgres/blob/master/packages/pg/lib/defaults.js";
+		this.languageDocumentation = "https://www.postgresql.org/docs/current/sql-commands.html";
+
+		this.driverDocumentation = "https://github.com/brianc/node-postgres/blob/master/packages/pg/lib/defaults.js";
 
 		this.keywords = this.keywords.concat([
 			'CREATE SCHEMA',

@@ -46,7 +46,8 @@ export interface Driver {
 	getBaseSelectWithRelations:(table: Table, relations: Relation[]) => string;
 	canRename: boolean;
 	defaultParams: {};
-	docUrl: string;
+	driverDocumentation: string;
+	languageDocumentation: string;
 	disclaimerSsh?: string
 	extraAttributes: string[];
 }

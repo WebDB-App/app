@@ -9,8 +9,9 @@ export class MongoDB implements Driver {
 		serverSelectionTimeoutMS: 2000
 	};
 
+	languageDocumentation = "https://www.mongodb.com/docs/drivers/node/current/quick-reference/";
 	nameDel = '"';
-	docUrl = "https://www.mongodb.com/docs/drivers/node/current/fundamentals/connection/connection-options/";
+	driverDocumentation = "https://www.mongodb.com/docs/drivers/node/current/fundamentals/connection/connection-options/";
 	extraAttributes: string[] = [];
 	language = 'javascript';
 	canRename = true;

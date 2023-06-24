@@ -74,11 +74,18 @@
 		</div>
 
 		<div>
+			<a mat-button [href]="selectedServer!.driver.languageDocumentation" target="_blank">
+				{{selectedServer!.driver.language}}
+				Doc
+			</a>
+		</div>
+
+		<div>
 			<button [matMenuTriggerFor]="advanced" mat-icon-button>
 				<mat-icon>more_vert</mat-icon>
 			</button>
 			<mat-menu #advanced="matMenu" xPosition="before">
-				<button [matMenuTriggerFor]="export" mat-menu-item>Export</button>
+				<button [matMenuTriggerFor]="export" mat-menu-item>Export Query</button>
 				<button [matMenuTriggerFor]="shortcuts" mat-menu-item>Shortcuts</button>
 				<button [matMenuTriggerFor]="disclaimer" mat-menu-item>Diclaimer</button>
 			</mat-menu>
@@ -95,11 +102,7 @@
 				<button (click)="exportQuery('JDBC')" mat-menu-item>Java</button>
 			</mat-menu>
 			<mat-menu #disclaimer="matMenu">
-				<p>
-					Only most keyword/function are proposed in autocomplete.
-					<br>
-					Check the official documentation for complete list
-				</p>
+				<pre>Only most keyword/function are proposed in autocomplete</pre>
 			</mat-menu>
 		</div>
 

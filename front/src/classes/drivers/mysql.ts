@@ -26,6 +26,8 @@ async function main() {
 
 		this.canRename = false;
 
+		this.languageDocumentation = "https://dev.mysql.com/doc/refman/8.0/en/sql-statements.html";
+
 		this.nameDel = this.useNameDel ? "\`" : '';
 
 		this.disclaimerSsh = "MySQL require password for remote connection"
@@ -37,7 +39,7 @@ async function main() {
 			bigNumberStrings: true
 		};
 
-		this.docUrl = "https://github.com/sidorares/node-mysql2/blob/master/typings/mysql/lib/Connection.d.ts";
+		this.driverDocumentation = "https://github.com/sidorares/node-mysql2/blob/master/typings/mysql/lib/Connection.d.ts";
 
 		this.keywords = this.keywords.concat([
 			'AUTO_INCREMENT',
