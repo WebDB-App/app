@@ -32,7 +32,17 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 		theme: 'vs-dark',
 		automaticLayout: true
 	}, onMonacoLoad: () => {
-		monaco.languages.registerCompletionItemProvider('SQL', {
+		monaco.languages.registerDocumentFormattingEditProvider('sql', {
+			provideDocumentFormattingEdits(model: any, options: any) {
+				return [
+					{
+						range: model.getFullModelRange(),
+						text: Server.getSelected()!.driver.format(model.getValue())
+					}
+				];
+			},
+		});
+		monaco.languages.registerCompletionItemProvider('sql', {
 			triggerCharacters: ["."],
 			provideCompletionItems: (model: any, position: any) => {
 				const textUntilPosition = model.getValueInRange({

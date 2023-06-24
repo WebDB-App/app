@@ -119,7 +119,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 
 	async refreshData() {
 		this.isLoading = true;
-		this.query = `SELECT * FROM ${this.selectedServer?.driver.nameDel}${this.selectedTable?.name}${this.selectedServer?.driver.nameDel} ${this.filterToWhere()}`;
+		this.query = this.filterToWhere();
 
 		try {
 			await Promise.all([this.getQueryData(), this.getQuerySize()]);
@@ -148,15 +148,11 @@ export class ExploreComponent implements OnInit, OnDestroy {
 		this.querySize = await this.request.post('database/querySize', {query: this.query});
 	}
 
-	filterToWhere() {
-		if (this.params.chips.length < 1) {
-			return '';
-		}
-
+	filterToWhere(): string {
 		const condition = this.params.chips.split(';').filter(e => e);
 		const operand = this.configuration.getByName('operand')?.value;
 
-		return ' WHERE ' + condition.join(` ${operand} `);
+		return this.selectedServer!.driver.getBaseFilter(this.selectedTable!, condition, operand);
 	}
 
 	addChips(column: string, event: MatChipInputEvent): void {
@@ -170,7 +166,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 		})) {
 			this.params.chips += `${column} ${value};`;
 		} else {
-			this.params.chips += `${column} LIKE '${value}';`;
+			this.params.chips += `${column} ${this.selectedServer?.driver.defaultFilter} '${value}';`;
 		}
 
 		this.params.page = 0;

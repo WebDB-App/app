@@ -5,14 +5,14 @@
 		<tr>
 			<td>
 				<ngx-monaco-editor
-					(onInit)="initEditor($event, true)"
+					(onInit)="initEditor($event, 0)"
 					[(ngModel)]="query"
 					[options]="editorOptions">
 				</ngx-monaco-editor>
 			</td>
 			<td [hidden]="!diff">
 				<ngx-monaco-editor
-					(onInit)="initEditor($event)"
+					(onInit)="initEditor($event, 1)"
 					[(ngModel)]="query2"
 					[options]="editorOptions">
 				</ngx-monaco-editor>
@@ -38,11 +38,6 @@
 				mat-raised-button>
 			<span class="material-symbols-outlined notranslate">difference</span>
 			Compare
-		</button>
-
-		<button (click)="setQuery()" mat-stroked-button>
-			<span class="material-symbols-outlined notranslate">checklist_rtl</span>
-			Format
 		</button>
 
 		<div *ngIf="selectedTable" class="prebuild">
@@ -74,27 +69,24 @@
 		</div>
 
 		<div>
-			<a mat-button [href]="selectedServer!.driver.languageDocumentation" target="_blank">
-				{{selectedServer!.driver.language}}
-				Doc
-			</a>
-		</div>
-
-		<div>
 			<button [matMenuTriggerFor]="advanced" mat-icon-button>
 				<mat-icon>more_vert</mat-icon>
 			</button>
 			<mat-menu #advanced="matMenu" xPosition="before">
-				<button [matMenuTriggerFor]="export" mat-menu-item>Export Query</button>
+				<a mat-menu-item [href]="selectedServer!.driver.languageDocumentation" target="_blank">
+					{{selectedServer!.driver.language | titlecase}}
+					Doc
+				</a>
 				<button [matMenuTriggerFor]="shortcuts" mat-menu-item>Shortcuts</button>
-				<button [matMenuTriggerFor]="disclaimer" mat-menu-item>Diclaimer</button>
+				<button [matMenuTriggerFor]="export" mat-menu-item>Export Query</button>
+				<button [matMenuTriggerFor]="disclaimer" mat-menu-item>Disclaimer</button>
 			</mat-menu>
 
 			<mat-menu #shortcuts="matMenu">
 				<button mat-menu-item>Alt + Space → <span style="color: #2196f3">Autocomplete</span></button>
 				<button mat-menu-item>Ctrl + s / Enter → <span style="color: #2196f3">Run Query</span></button>
-				<button mat-menu-item>Ctrl + f → <span style="color: #2196f3">Find and / or Replace</span></button>
-				<button mat-menu-item>Ctrl + l → <span style="color: #2196f3">Format Query</span></button>
+				<button mat-menu-item>Ctrl / ⌘ + f → <span style="color: #2196f3">Find and / or Replace</span></button>
+				<button mat-menu-item>Alt + Maj + f → <span style="color: #2196f3">Format Query</span></button>
 			</mat-menu>
 			<mat-menu #export="matMenu">
 				<button (click)="exportQuery('node')" mat-menu-item>Node.JS</button>

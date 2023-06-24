@@ -17,7 +17,18 @@ export class MongoDB implements Driver {
 	canRename = true;
 	constraints = [];
 	availableComparator = [
-		{symbol: '>', example: ""}
+		{symbol: '$gt', example: "", definition: "More than"},
+		{symbol: '$lt', example: "", definition: "Less than"},
+		{symbol: '$gte', example: "0", definition: "More or equal than"},
+		{symbol: '$lte', example: "0", definition: "Less or equal than"},
+		{symbol: '$eq', example: '"0"', definition: "Strictly equal to"},
+		{symbol: '$ne', example: "'0'", definition: "Strictly different to"},
+		{symbol: '$in', example: '("0", "1")', definition: "Is in array of"},
+		{symbol: '$all', example: '("0", "1")', definition: "If the array contains all elements"},
+		{symbol: '$range', example: '"0" AND "1"', definition: "If in the range of"},
+		{symbol: '$regexMatch', example: '"[a-z]"', definition: "If match regex"},
+		{symbol: '$text', example: '"0%"', definition: "Search text"},
+		{symbol: '$nin', example: '("0", "1")', definition: "Is not in array of"},
 	];
 	typesList = [
 		{
@@ -51,23 +62,22 @@ export class MongoDB implements Driver {
 	}
 
 	getBaseDelete(table: Table) {
-		return `DELETE FROM ${table.name} WHERE 1 = 0`;
+		const cols = table.columns?.map(column => `${column.name}: ""`);
+		return `db.collection("${table.name}").deleteOne({${cols.join(", ")}})`;
 	}
 
 	getBaseInsert(table: Table) {
 		const cols = table.columns?.map(column => `${column.name}: ""`);
-		return `db.${table.name}.insertOne({${cols.join(", ")}})`;
+		return `db.collection("${table.name}").insertOne({${cols.join(", ")}})`;
 	}
 
 	getBaseUpdate(table: Table) {
-		const cols = table.columns?.map(column => `${column.name}`);
-		return `UPDATE ${table.name} SET ${cols!.map(col => `${col} = ""`)} WHERE 1 = 0`;
+		const cols = table.columns?.map(column => `${column.name}: ""`);
+		return `db.collection("${table.name}").updateOne({${cols.join(", ")}})`;
 	}
 
-	//TODO " depend of column type (enum, json, array, nested, etc)
-
 	getBaseSelect(table: Table) {
-		return `db.${table.name}.find({})`;
+		return `db.collection("${table.name}").find({})`;
 	}
 
 	getBaseSelectWithRelations(table: Table, relations: Relation[]) {
@@ -79,5 +89,13 @@ export class MongoDB implements Driver {
 		}
 
 		return `SELECT ${columns} FROM ${table.name} ${joins.join("\n")} GROUP BY (${columns}) HAVING 1 = 1`;
+	}
+
+	defaultFilter = "$eq";
+
+	getBaseFilter(table: Table, condition: string[], operand: 'AND' | 'OR') {
+		const cond = {};
+
+		return `db.collection("${table.name}").find(${JSON.stringify(cond)})`;
 	}
 }

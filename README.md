@@ -1,4 +1,10 @@
 - autocomplete table and column and types
+- getQueryHeader (use, `//db is `)
+- multilines queries
+-
+- select with relations
+- " depend of column type (enum, json, array, nested, etc)
+
 
 
 - https://dba.stackexchange.com/questions/212249/how-to-use-default-value-of-data-type-as-column-default
@@ -58,8 +64,6 @@
 
 
 
-
-
 # Bin
 - Node Single Executable Apps | https://tauri.app/ | https://webpack.electron.build/ | https://github.com/electron/electron/issues/21457#issuecomment-1269637018
 - ci + gitlab wiki
@@ -77,6 +81,8 @@
 
 # Miscellaneous
 - show table / column collation in settings
+- Geospatial
+- error model2
 
 # Insert
 - finir street and fulladdress translation

@@ -189,7 +189,6 @@ export default class MySQL extends SQL {
 	async getStructure() {
 		const [dbs, columns, tables] = await Promise.all([
 			this.runCommand("SELECT * FROM information_schema.schemata ORDER BY SCHEMA_NAME"),
-			//COLLATION_NAME
 			this.runCommand("SELECT TABLE_SCHEMA, TABLE_NAME, COLUMN_NAME, COLUMN_TYPE, IS_NULLABLE, COLUMN_DEFAULT, EXTRA, ORDINAL_POSITION, COLUMN_COMMENT FROM information_schema.COLUMNS ORDER BY TABLE_NAME, ORDINAL_POSITION"),
 			this.runCommand("SELECT TABLE_SCHEMA, TABLE_NAME, TABLE_TYPE, TABLE_COMMENT FROM information_schema.TABLES")
 		]);
@@ -221,7 +220,6 @@ export default class MySQL extends SQL {
 				name: row.COLUMN_NAME,
 				type: row.COLUMN_TYPE,
 				nullable: row.IS_NULLABLE !== "NO",
-				//collation: row.COLLATION_NAME,
 				defaut: row.COLUMN_DEFAULT,
 				extra: row.EXTRA,
 				comment: row.COLUMN_COMMENT
@@ -236,8 +234,7 @@ export default class MySQL extends SQL {
 		const start = Date.now();
 
 		try {
-			if (database && this.currentDb !== database) {
-				this.currentDb = database;
+			if (database) {
 				await connection.query(`USE \`${database}\``);
 			}
 			const [rows] = await connection.query(command);
