@@ -25,13 +25,14 @@ export class SQL implements Driver {
 	configuration: Configuration = new Configuration();
 	useNameDel: boolean = this.configuration.getByName("useNameDel")?.value;
 
+	languageDocumentation = "https://www.w3schools.com/sql/sql_quickref.asp";
 	nameDel = this.useNameDel ? '"' : '';
 	defaultParams = {};
-	docUrl = "";
+	driverDocumentation = "";
 	disclaimerSsh = "";
 	extraAttributes: string[] = [];
 	canRename = true;
-	language = 'sql';
+	language = 'SQL';
 	constraints = [
 		'CASCADE',
 		'RESTRICT',

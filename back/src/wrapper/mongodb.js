@@ -222,7 +222,6 @@ export default class MongoDB extends Driver {
 			const admin = await connection.db().admin();
 			await admin.listDatabases();
 
-			this.spawnedShell = child_process.spawn("mongosh", ["--quiet", this.makeUri()]);
 			return connection;
 		} catch (e) {
 			return {error: e.message};
