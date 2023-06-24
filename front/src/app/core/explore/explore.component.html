@@ -100,6 +100,8 @@
 							   matInput>
 						<mat-autocomplete #autoGroup="matAutocomplete">
 							<mat-option
+								[matTooltip]="comp.definition"
+								matTooltipPosition="right"
 								(click)="filter[column] = comp.symbol + ' ' + comp.example"
 								*ngFor="let comp of selectedServer!.driver.availableComparator">
 								{{comp.symbol}}

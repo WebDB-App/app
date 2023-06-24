@@ -42,7 +42,7 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 	selectedDatabase?: Database;
 	relations?: Relation[];
 
-	model: any = {};
+	editors: any[] = [];
 	editorOptions = {
 		language: ''
 	};
@@ -85,10 +85,6 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 			}
 			event.preventDefault();
 		}
-		if ((event.metaKey || event.ctrlKey) && ['l'].indexOf(event.key) >= 0) {
-			await this.setQuery();
-			event.preventDefault();
-		}
 	}
 
 	ngOnInit() {
@@ -114,7 +110,10 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 		}
 	}
 
-	initEditor(editor: any, first = false) {
+	initEditor(editor: any, index: number) {
+		this.editors[index] = editor;
+
+		editor.trigger("editor", "editor.action.formatDocument");
 		editor.addCommand(monaco.KeyMod.Alt | monaco.KeyCode.Space,
 			() => {
 				editor.trigger('', 'editor.action.triggerSuggest', '');
@@ -131,11 +130,6 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 		Server.getSelected()!.driver.generateSuggestions(textUntilPosition)
 		 */
 
-		if (first) {
-			this.model = editor.getModel();
-		}
-
-		//TODO error model2
 	}
 
 	async runQuery() {
@@ -148,13 +142,13 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 				this.querySize = await this.request.post('database/querySize', {query: this.query})
 			]);
 
-			monaco.editor.setModelMarkers(this.model, "owner", []);
+			monaco.editor.setModelMarkers(this.editors[0].getModel(), "owner", []);
 
 			if (result.error) {
 				const pos = +result.position || 0;
 				const startLineNumber = this.query.substring(0, pos).split(/\r\n|\r|\n/).length
 
-				monaco.editor.setModelMarkers(this.model, "owner", [{
+				monaco.editor.setModelMarkers(this.editors[0].getModel(), "owner", [{
 					startLineNumber: startLineNumber,
 					startColumn: 0,
 					endLineNumber: +result.position ? startLineNumber : Infinity,
@@ -203,30 +197,22 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 		this.isLoading = false;
 	}
 
-	setQuery(query: string = this.query) {
-		this.query = this.selectedServer?.driver?.format(query)!;
-
-		if (this.query2) {
-			this.query2 = this.selectedServer?.driver?.format(this.query2)!;
-		}
-	}
-
 	prebuild(value: string) {
 		switch (value) {
 			case "delete":
-				this.setQuery(this.selectedServer?.driver.getBaseDelete(this.selectedTable!));
+				this.query = this.selectedServer!.driver.getBaseDelete(this.selectedTable!);
 				break;
 			case "insert":
-				this.setQuery(this.selectedServer?.driver.getBaseInsert(this.selectedTable!));
+				this.query = this.selectedServer!.driver.getBaseInsert(this.selectedTable!);
 				break;
 			case "update":
-				this.setQuery(this.selectedServer?.driver.getBaseUpdate(this.selectedTable!));
+				this.query = this.selectedServer!.driver.getBaseUpdate(this.selectedTable!);
 				break;
 			case "select":
-				this.setQuery(this.selectedServer?.driver.getBaseSelect(this.selectedTable!));
+				this.query = this.selectedServer!.driver.getBaseSelect(this.selectedTable!);
 				break;
 			case "select_join":
-				this.setQuery(this.selectedServer?.driver.getBaseSelectWithRelations(this.selectedTable!, this.relations!));
+				this.query = this.selectedServer!.driver.getBaseSelectWithRelations(this.selectedTable!, this.relations!);
 				break;
 		}
 	}

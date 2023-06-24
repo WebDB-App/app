@@ -32,7 +32,7 @@ export class SQL implements Driver {
 	disclaimerSsh = "";
 	extraAttributes: string[] = [];
 	canRename = true;
-	language = 'SQL';
+	language = 'sql';
 	constraints = [
 		'CASCADE',
 		'RESTRICT',
@@ -41,20 +41,20 @@ export class SQL implements Driver {
 	];
 	acceptedExt = [".sql", ".js"];
 	availableComparator = [
-		{symbol: '>', example: ""},
-		{symbol: '<', example: ""},
-		{symbol: '>=', example: "0"},
-		{symbol: '<=', example: "0"},
-		{symbol: '=', example: '"0"'},
-		{symbol: '!=', example: "'0'"},
-		{symbol: 'IN', example: '("0", "1")'},
-		{symbol: 'BETWEEN', example: '"0" AND "1"'},
-		{symbol: 'REGEXP', example: '"[a-z]"'},
-		{symbol: 'LIKE', example: '"0%"'},
-		{symbol: 'NOT IN', example: '("0", "1")'},
-		{symbol: 'NOT BETWEEN', example: '"0" AND "1"'},
-		{symbol: 'NOT REGEXP', example: '"[a-z]"'},
-		{symbol: 'NOT LIKE', example: '"0%"'},
+		{symbol: '>', example: "", definition: "More than"},
+		{symbol: '<', example: "", definition: "Less than"},
+		{symbol: '>=', example: "0", definition: "More or equal than"},
+		{symbol: '<=', example: "0", definition: "Less or equal than"},
+		{symbol: '=', example: '"0"', definition: "Strictly equal to"},
+		{symbol: '!=', example: "'0'", definition: "Strictly different to"},
+		{symbol: 'IN', example: '("0", "1")', definition: "Is in array of"},
+		{symbol: 'BETWEEN', example: '"0" AND "1"', definition: "If in the range of"},
+		{symbol: 'REGEXP', example: '"[a-z]"', definition: "If match regex"},
+		{symbol: 'LIKE', example: '"0%"', definition: "Equal to"},
+		{symbol: 'NOT IN', example: '("0", "1")', definition: "Is not in array of"},
+		{symbol: 'NOT BETWEEN', example: '"0" AND "1"', definition: "Is out of range of"},
+		{symbol: 'NOT REGEXP', example: '"[a-z]"', definition: "If regex didn't match"},
+		{symbol: 'NOT LIKE', example: '"0%"', definition: "Not equal to"},
 	];
 	typesList: TypeData[] = [
 		{
@@ -502,5 +502,16 @@ export class SQL implements Driver {
 		}
 
 		return `SELECT ${columns} FROM ${table.name} ${joins.join("\n")} GROUP BY (${columns}) HAVING 1 = 1`;
+	}
+
+	defaultFilter = "LIKE"
+
+	getBaseFilter(table: Table, condition: string[], operand: 'AND' | 'OR') {
+		const select = this.getBaseSelect(table);
+		if (condition.length < 1) {
+			return select;
+		}
+
+		return select + ' WHERE ' + condition.join(` ${operand} `);
 	}
 }

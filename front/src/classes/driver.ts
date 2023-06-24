@@ -5,6 +5,7 @@ import { Table } from "./table";
 export interface Comparator {
 	symbol: string
 	example: string
+	definition: string
 }
 
 export interface TypeGroup {
@@ -26,28 +27,33 @@ export class QueryParams {
 }
 
 export interface Driver {
-	nameDel: string;
+	defaultParams: {};
+	driverDocumentation: string;
+	disclaimerSsh?: string;
+	extraAttributes: string[];
 	nodeLib: (queryParams: QueryParams) => string;
+
+	nameDel: string;
+	canRename: boolean;
+	acceptedExt: string[];
 	availableComparator: Comparator[];
 	typesList: TypeGroup[];
 	extractEnum: (col: Column) => string[] | false;
 	extractConditionParams: (query: string) => QueryParams;
-	generateSuggestions: (textUntilPosition: string) => string[];
+
+	language: string;
+	languageDocumentation: string;
 	keywords: string[];
 	functions: {[key: string]: string | null};
 	constraints: string[];
-	acceptedExt: string[];
-	language: string;
 	format: (code: string) => string;
-	getBaseDelete:(table: Table) => string;
-	getBaseUpdate:(table: Table) => string;
-	getBaseSelect:(table: Table) => string;
-	getBaseInsert:(table: Table) => string;
+	generateSuggestions: (textUntilPosition: string) => string[];
+
+	defaultFilter: string;
+	getBaseDelete: (table: Table) => string;
+	getBaseUpdate: (table: Table) => string;
+	getBaseSelect: (table: Table) => string;
+	getBaseInsert: (table: Table) => string;
+	getBaseFilter: (table: Table, condition: string[], operand: 'AND' | 'OR') => string;
 	getBaseSelectWithRelations:(table: Table, relations: Relation[]) => string;
-	canRename: boolean;
-	defaultParams: {};
-	driverDocumentation: string;
-	languageDocumentation: string;
-	disclaimerSsh?: string
-	extraAttributes: string[];
 }
