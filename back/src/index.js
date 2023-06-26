@@ -28,6 +28,6 @@ app.use(express.static(dirname + "front"));
 	});
 
 	app.listen(port, () => {
-		console.log(`WebDB App running on http://localhost:${port}!`);
+		console.log(`WebDB App running on http://localhost:${port}`);
 	});
 })();
