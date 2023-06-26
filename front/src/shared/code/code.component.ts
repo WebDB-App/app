@@ -35,9 +35,10 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 
 	@Input() query = '';
 	@Input() selectedTable?: Table;
+
 	configuration: Configuration = new Configuration();
-	selectedServer?: Server;
-	selectedDatabase?: Database;
+	selectedDatabase = Database.getSelected();
+	selectedServer = Server.getSelected();
 	relations?: Relation[];
 	editors: any[] = [];
 	editorOptions = {
@@ -67,8 +68,6 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 		private request: RequestService,
 		private dialog: MatDialog
 	) {
-		this.selectedServer = Server.getSelected();
-		this.selectedDatabase = Database.getSelected();
 		this.editorOptions.language = this.selectedServer?.driver?.language!;
 	}
 

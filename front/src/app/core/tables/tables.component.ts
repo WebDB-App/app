@@ -32,8 +32,8 @@ export const Tabs: Tab[] = [
 export class TablesComponent implements OnInit, OnDestroy {
 
 	obs?: Subscription;
-	selectedDatabase?: Database;
-	selectedServer?: Server;
+	selectedDatabase = Database.getSelected();
+	selectedServer = Server.getSelected();
 	selectedTable?: Table;
 
 	extend = true;
@@ -57,9 +57,6 @@ export class TablesComponent implements OnInit, OnDestroy {
 		this.obs = combineLatest([this.activatedRoute.paramMap, this.request.serverReload]).pipe(
 			distinctUntilChanged()
 		).subscribe(async (_params) => {
-			this.selectedDatabase = Database.getSelected();
-			this.selectedServer = Server.getSelected();
-
 			if (!this.selectedDatabase || !this.selectedDatabase.tables?.length) {
 				return;
 			}

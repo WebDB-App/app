@@ -20,14 +20,13 @@ export class QueryComponent implements OnInit, OnDestroy {
 
 	configuration: Configuration = new Configuration();
 
-	selectedServer?: Server;
-	selectedDatabase?: Database;
+	selectedDatabase = Database.getSelected();
+	selectedServer = Server.getSelected();
 	selectedTable?: Table;
 	obs!: Subscription;
 
-	loading = true;
 	replayQuery: string = "";
-	queryHistory!: MatTableDataSource<Query>;
+	queryHistory = new MatTableDataSource<Query>();
 
 	@ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -40,19 +39,12 @@ export class QueryComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit() {
+		this.queryHistory.data = this.history.getLocal();
+
 		this.obs = combineLatest([this.route.parent?.params, this.request.serverReload]).pipe(
 			distinctUntilChanged()
 		).subscribe(async (_params) => {
-			this.loading = true;
-
-			setTimeout(() => {
-				this.selectedServer = Server.getSelected();
-				this.selectedDatabase = Database.getSelected();
-				this.selectedTable = Table.getSelected();
-
-				this.queryHistory = new MatTableDataSource(this.history.getLocal());
-				this.loading = false;
-			})
+			this.selectedTable = Table.getSelected();
 		});
 	}
 
