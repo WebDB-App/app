@@ -514,4 +514,8 @@ export class SQL implements Driver {
 
 		return select + ' WHERE ' + condition.join(` ${operand} `);
 	}
+
+	getBaseSort(field: string, direction: 'asc' | 'desc') {
+		return ` ORDER BY ${field} ${direction}`;
+	}
 }

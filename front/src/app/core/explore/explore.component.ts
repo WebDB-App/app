@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Server } from "../../../classes/server";
 import { Database } from "../../../classes/database";
@@ -8,7 +8,6 @@ import { Table } from "../../../classes/table";
 import { combineLatest, debounceTime, distinctUntilChanged, Subscription } from "rxjs";
 import { MatChipInputEvent } from "@angular/material/chips";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { Relation } from "../../../classes/relation";
 import { Configuration } from "../../../classes/configuration";
 import { RequestService } from "../../../shared/request.service";
 import { SelectionModel } from "@angular/cdk/collections";
@@ -25,7 +24,6 @@ export class ExploreComponent implements OnInit, OnDestroy {
 	selectedTable?: Table;
 	selectedDatabase?: Database;
 	selectedServer?: Server;
-	relations?: Relation[];
 	obs?: Subscription;
 
 	querySize = 0;
@@ -41,7 +39,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 	autoUp: boolean | NodeJS.Timer = false;
 	query = "";
 	isLoading = false;
-	toUpdate: any[] = [];
+	toUpdate: any = {};
 	updateSuggestions: any[any] = [];
 	actionColum = "##ACTION##";
 	displayedColumns: string[] = [];
@@ -80,7 +78,6 @@ export class ExploreComponent implements OnInit, OnDestroy {
 			this.selectedDatabase = Database.getSelected();
 			this.selectedServer = Server.getSelected();
 			this.selectedTable = Table.getSelected();
-			this.relations = Table.getRelations()
 
 			this.toUpdate = [];
 			this.changePage(params["page"] || 0, false);
@@ -105,7 +102,6 @@ export class ExploreComponent implements OnInit, OnDestroy {
 		if (navigate) {
 			this.navigateWithParams()
 		}
-
 		return event;
 	}
 
@@ -132,10 +128,8 @@ export class ExploreComponent implements OnInit, OnDestroy {
 	async getQueryData() {
 		let query = this.query;
 
-		if (this.params.sortDirection &&
-			this.params.sortField &&
-			this.params.sortField !== this.actionColum) {
-			query += ` ORDER BY ${this.params.sortField} ${this.params.sortDirection}`;
+		if (this.params.sortDirection && this.params.sortField) {
+			query += this.selectedServer?.driver.getBaseSort(this.params.sortField, <"asc" | "desc">this.params.sortDirection);
 		}
 
 		const result = await this.request.post('database/query', {query, pageSize: this.pageSize, page: this.params.page});
@@ -204,21 +198,6 @@ export class ExploreComponent implements OnInit, OnDestroy {
 		this.toUpdate[i] = {...row};
 	}
 
-	getFkLink(column: string): string | any[] | null | undefined {
-		const fk = this.relations?.find(relation => relation.column_source === column);
-		if (!fk) {
-			return null;
-		}
-
-		return ['../../', fk.table_dest];
-	}
-
-	getFkParams(column: string, value: string) {
-		const fk = this.relations?.find(relation => relation.column_source === column);
-
-		return {chips: `${fk!.column_dest}="${value}";`};
-	}
-
 	shiftCheckBox(event: MouseEvent, row: any) {
 		if (!event || !event.shiftKey || this.selection.isEmpty()) {
 			return;
@@ -250,9 +229,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 	}
 
 	isAllSelected() {
-		const numSelected = this.selection.selected.length;
-		const numRows = this.dataSource.data.length;
-		return numSelected === numRows;
+		return this.selection.selected.length === this.dataSource.data.length;
 	}
 
 	toggleAllRows() {

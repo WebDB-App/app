@@ -168,23 +168,24 @@
 
 				<ng-container *ngIf="column !== actionColum">
 					<ng-container *ngIf="toUpdate[i]">
-						<mat-select *ngIf="updateSuggestions[column]" [(ngModel)]="toUpdate[i][column]"
+						<mat-select *ngIf="updateSuggestions[column]"
+									[(ngModel)]="toUpdate[i][column]"
 									class="toUpdate">
-							<mat-option *ngFor="let suggestion of updateSuggestions[column]" [value]="suggestion">
+							<mat-option *ngFor="let suggestion of updateSuggestions[column]"
+										[value]="suggestion">
 								{{suggestion}}
 							</mat-option>
 						</mat-select>
-						<textarea *ngIf="!updateSuggestions[column]" [(ngModel)]="toUpdate[i][column]"
+						<textarea *ngIf="!updateSuggestions[column]"
+								  [(ngModel)]="toUpdate[i][column]"
 								  cdkTextareaAutosize
 								  class="toUpdate"
 								  matInput></textarea>
 					</ng-container>
-					<ng-container *ngIf="!toUpdate[i]">
-						<a *ngIf="getFkLink(column) !== null"
-						   [queryParams]="getFkParams(column, row[column])"
-						   [routerLink]="getFkLink(column)">{{row[column]}}</a>
-						<span *ngIf="getFkLink(column) === null">{{row[column] | boolean}}</span>
-					</ng-container>
+					<app-cell *ngIf="!toUpdate[i]"
+							  [row]="row"
+							  [column]="column"
+					></app-cell>
 				</ng-container>
 			</td>
 		</ng-container>

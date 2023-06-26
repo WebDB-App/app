@@ -171,13 +171,15 @@
 						{{column}}
 					</th>
 					<td *matCellDef="let row" mat-cell>
-						<ngx-json-viewer [expanded]="false" *ngIf="isNested(row[column])" [json]="row[column]"></ngx-json-viewer>
-						<ng-container *ngIf="!isNested(row[column])">{{row[column] | boolean}}</ng-container>
+						<app-cell
+							[row]="row"
+							[column]="column"
+						></app-cell>
 					</td>
 				</ng-container>
 
-				<tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
-				<tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+				<tr *matHeaderRowDef="displayedColumns!; sticky: true" mat-header-row></tr>
+				<tr *matRowDef="let row; columns: displayedColumns!;" mat-row></tr>
 			</table>
 		</div>
 	</div>

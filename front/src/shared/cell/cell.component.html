@@ -1,0 +1,18 @@
+<ng-container *ngIf="fkLink">
+	<a [queryParams]="getFkParams()"
+	   [routerLink]="fkLink">
+		{{row[column]}}
+	</a>
+</ng-container>
+
+<ng-container *ngIf="!fkLink">
+	<ngx-json-viewer
+		[expanded]="false"
+		*ngIf="nested"
+		[json]="row[column]">
+	</ngx-json-viewer>
+	<ng-container
+		*ngIf="!nested">
+		{{row[column] | boolean}}
+	</ng-container>
+</ng-container>
