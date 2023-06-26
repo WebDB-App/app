@@ -182,7 +182,7 @@
 		<mat-form-field (keydown.enter)="sendMessage(message.value); message.value = ''"
 						appearance="fill"
 						class="sendMessage">
-			<mat-label>Ask anything about `{{selectedDatabase.name}}`</mat-label>
+			<mat-label>Ask anything about `{{selectedDatabase?.name}}`</mat-label>
 			<textarea #message cdkTextareaAutosize matInput></textarea>
 			<button (click)="sendMessage(message.value); message.value = ''"
 					[disabled]="!message.value"

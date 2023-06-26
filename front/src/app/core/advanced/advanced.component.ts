@@ -16,8 +16,8 @@ import { Tabs } from "../tables/tables.component";
 })
 export class TableAdvancedComponent {
 
-	selectedDatabase = Database.getSelected();
-	selectedServer = Server.getSelected();
+	selectedServer?: Server;
+	selectedDatabase?: Database;
 	selectedTable?: Table;
 	obs: Subscription
 	stats?: any;
@@ -32,6 +32,8 @@ export class TableAdvancedComponent {
 		this.obs = combineLatest([this.route.parent?.params, this.request.serverReload]).pipe(
 			distinctUntilChanged()
 		).subscribe(async (_params) => {
+			this.selectedServer = Server.getSelected();
+			this.selectedDatabase = Database.getSelected();
 			this.selectedTable = Table.getSelected();
 			this.stats = await this.request.post('table/stats', undefined);
 		});

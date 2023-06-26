@@ -21,8 +21,8 @@ export class ExploreComponent implements OnInit, OnDestroy {
 
 	configuration: Configuration = new Configuration();
 	selectedTable?: Table;
-	selectedDatabase = Database.getSelected();
-	selectedServer = Server.getSelected();
+	selectedDatabase?: Database;
+	selectedServer?: Server;
 	obs?: Subscription;
 	querySize = 0;
 	pageSize = 100;
@@ -71,6 +71,9 @@ export class ExploreComponent implements OnInit, OnDestroy {
 			if (this.selectedTable?.name !== Table.getSelected().name) {
 				this.loadSuggestions();
 			}
+
+			this.selectedDatabase = Database.getSelected();
+			this.selectedServer = Server.getSelected();
 			this.selectedTable = Table.getSelected();
 
 			this.toUpdate = [];

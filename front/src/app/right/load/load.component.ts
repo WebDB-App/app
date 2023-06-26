@@ -20,8 +20,8 @@ interface Loads {
 export class LoadComponent {
 
 	isLoading = false;
-	selectedDatabase = Database.getSelected();
-	selectedServer = Server.getSelected();
+	selectedDatabase!: Database;
+	selectedServer!: Server;
 	files: Loads[] = [];
 	acceptedExt!: string[];
 	editorOptions = {
@@ -36,6 +36,8 @@ export class LoadComponent {
 		private route: ActivatedRoute,
 		private _snackBar: MatSnackBar,
 	) {
+		this.selectedDatabase = Database.getSelected();
+		this.selectedServer = Server.getSelected();
 		this.editorOptions.language = this.selectedServer?.driver?.language!;
 		this.acceptedExt = this.selectedServer?.driver?.acceptedExt!;
 	}

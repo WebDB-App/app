@@ -14,8 +14,8 @@ import { Table } from "../../../classes/table";
 })
 export class RelationsComponent implements OnInit {
 
-	selectedDatabase = Database.getSelected();
-	selectedServer = Server.getSelected();
+	selectedServer?: Server;
+	selectedDatabase?: Database;
 	relations?: Relation[];
 
 	constraints?: string[];
@@ -28,6 +28,9 @@ export class RelationsComponent implements OnInit {
 	}
 
 	async ngOnInit() {
+		this.selectedDatabase = Database.getSelected();
+		this.selectedServer = Server.getSelected();
+
 		await this.refreshData(true);
 	}
 
@@ -37,7 +40,7 @@ export class RelationsComponent implements OnInit {
 		}
 
 		this.constraints = this.selectedServer?.driver?.constraints;
-		this.relations = this.selectedServer?.relations.filter(relation => relation.database === this.selectedDatabase.name);
+		this.relations = this.selectedServer?.relations.filter(relation => relation.database === this.selectedDatabase?.name);
 		this.dataSource = new MatTableDataSource(this.relations);
 	}
 

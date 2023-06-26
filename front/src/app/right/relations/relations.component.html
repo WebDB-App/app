@@ -52,7 +52,7 @@
 					<mat-label>Table</mat-label>
 					<mat-select #sourceTable
 								[compareWith]="tableComparison">
-						<mat-option *ngFor="let table of selectedDatabase.tables" [value]="table">
+						<mat-option *ngFor="let table of selectedDatabase?.tables" [value]="table">
 							{{table.name}}
 						</mat-option>
 					</mat-select>
@@ -90,7 +90,7 @@
 					<mat-label>Table</mat-label>
 					<mat-select #destTable
 								[compareWith]="tableComparison">
-						<mat-option *ngFor="let table of selectedDatabase.tables"
+						<mat-option *ngFor="let table of selectedDatabase?.tables"
 									[value]="table">
 							{{table.name}}
 						</mat-option>
