@@ -11,7 +11,7 @@ import { ActivatedRoute } from "@angular/router";
 import { TypeName } from 'src/classes/driver';
 import { Server } from "../../../classes/server";
 import { Database } from "../../../classes/database";
-import { Group, Generator } from "../../../classes/generator";
+import { Generator, Group } from "../../../classes/generator";
 
 const localStorageName = "codes";
 

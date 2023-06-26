@@ -69,29 +69,29 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 	exports: [
 		CodeComponent
 	],
-    imports: [
-        MonacoEditorModule.forRoot(monacoConfig),
-        ClipboardModule,
-        MatDialogModule,
-        MatButtonModule,
-        MatOptionModule,
-        MatSelectModule,
-        MatPaginatorModule,
-        MatTableModule,
-        FlexModule,
-        MatProgressBarModule,
-        FormsModule,
-        CommonModule,
-        MatMenuModule,
-        MatIconModule,
-        MatDividerModule,
-        MatSlideToggleModule,
-        MatButtonToggleModule,
-        MatTooltipModule,
-        NgxJsonViewerModule,
-        MatToolbarModule,
-        SharedModule
-    ]
+	imports: [
+		MonacoEditorModule.forRoot(monacoConfig),
+		ClipboardModule,
+		MatDialogModule,
+		MatButtonModule,
+		MatOptionModule,
+		MatSelectModule,
+		MatPaginatorModule,
+		MatTableModule,
+		FlexModule,
+		MatProgressBarModule,
+		FormsModule,
+		CommonModule,
+		MatMenuModule,
+		MatIconModule,
+		MatDividerModule,
+		MatSlideToggleModule,
+		MatButtonToggleModule,
+		MatTooltipModule,
+		NgxJsonViewerModule,
+		MatToolbarModule,
+		SharedModule
+	]
 })
 export class CodeModule {
 }

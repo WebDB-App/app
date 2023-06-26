@@ -44,7 +44,7 @@ export interface Driver {
 	language: string;
 	languageDocumentation: string;
 	keywords: string[];
-	functions: {[key: string]: string | null};
+	functions: { [key: string]: string | null };
 	constraints: string[];
 	format: (code: string) => string;
 	generateSuggestions: (textUntilPosition: string) => string[];
@@ -56,5 +56,5 @@ export interface Driver {
 	getBaseSelect: (table: Table) => string;
 	getBaseInsert: (table: Table) => string;
 	getBaseFilter: (table: Table, condition: string[], operand: 'AND' | 'OR') => string;
-	getBaseSelectWithRelations:(table: Table, relations: Relation[]) => string;
+	getBaseSelectWithRelations: (table: Table, relations: Relation[]) => string;
 }

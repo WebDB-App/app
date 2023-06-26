@@ -19,13 +19,11 @@ import { SelectionModel } from "@angular/cdk/collections";
 })
 export class ExploreComponent implements OnInit, OnDestroy {
 
-	protected readonly Math = Math;
 	configuration: Configuration = new Configuration();
 	selectedTable?: Table;
 	selectedDatabase?: Database;
 	selectedServer?: Server;
 	obs?: Subscription;
-
 	querySize = 0;
 	pageSize = 100;
 	params = {
@@ -34,7 +32,6 @@ export class ExploreComponent implements OnInit, OnDestroy {
 		sortDirection: "",
 		page: 0
 	}
-
 	filter: any[any] = [];
 	autoUp: boolean | NodeJS.Timer = false;
 	query = "";
@@ -45,8 +42,8 @@ export class ExploreComponent implements OnInit, OnDestroy {
 	displayedColumns: string[] = [];
 	dataSource!: MatTableDataSource<any>;
 	selection = new SelectionModel<any>(true, []);
-
 	@ViewChild(MatPaginator) paginator!: MatPaginator;
+	protected readonly Math = Math;
 
 	constructor(
 		private _snackBar: MatSnackBar,
@@ -132,7 +129,11 @@ export class ExploreComponent implements OnInit, OnDestroy {
 			query += this.selectedServer?.driver.getBaseSort(this.params.sortField, <"asc" | "desc">this.params.sortDirection);
 		}
 
-		const result = await this.request.post('database/query', {query, pageSize: this.pageSize, page: this.params.page});
+		const result = await this.request.post('database/query', {
+			query,
+			pageSize: this.pageSize,
+			page: this.params.page
+		});
 
 		this.dataSource = new MatTableDataSource<any>(result);
 		this.displayedColumns = result.length ? Object.keys(result[0]).concat([this.actionColum]) : [];

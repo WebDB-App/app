@@ -46,7 +46,8 @@ async function main() {
 			'FOR EACH ROW'
 		]);
 
-		this.functions = {...this.functions, ...{
+		this.functions = {
+			...this.functions, ...{
 				'LPAD': '(string, length, lpad_string)',
 				'INSTR': '(string1, string2)',
 				'GROUP_CONCAT': null,
@@ -66,7 +67,8 @@ async function main() {
 				'UUID': '',
 				'AES_ENCRYPT': '(str, key_str)',
 				'AES_DECRYPT': '(crypt_str, key_str)'
-		}};
+			}
+		};
 
 		this.extraAttributes = ['auto_increment', 'on update CURRENT_TIMESTAMP'];
 

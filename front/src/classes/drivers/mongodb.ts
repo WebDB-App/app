@@ -40,6 +40,7 @@ export class MongoDB implements Driver {
 	acceptedExt = ['.csv', '.tsv'];
 	functions = {};
 	keywords = [];
+	defaultFilter = "$eq";
 
 	nodeLib = (query: QueryParams) => "";
 
@@ -90,8 +91,6 @@ export class MongoDB implements Driver {
 
 		return `SELECT ${columns} FROM ${table.name} ${joins.join("\n")} GROUP BY (${columns}) HAVING 1 = 1`;
 	}
-
-	defaultFilter = "$eq";
 
 	getBaseFilter(table: Table, condition: string[], operand: 'AND' | 'OR') {
 		const cond = {};

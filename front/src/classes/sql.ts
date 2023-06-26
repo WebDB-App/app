@@ -170,6 +170,7 @@ export class SQL implements Driver {
 		'CONVERT': '(value, type)',
 		'WHEN': ''
 	}
+	defaultFilter = "LIKE"
 
 	nodeLib = (query: QueryParams) => "";
 
@@ -503,8 +504,6 @@ export class SQL implements Driver {
 
 		return `SELECT ${columns} FROM ${table.name} ${joins.join("\n")} GROUP BY (${columns}) HAVING 1 = 1`;
 	}
-
-	defaultFilter = "LIKE"
 
 	getBaseFilter(table: Table, condition: string[], operand: 'AND' | 'OR') {
 		const select = this.getBaseSelect(table);

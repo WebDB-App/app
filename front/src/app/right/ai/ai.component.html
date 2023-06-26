@@ -39,7 +39,7 @@
 					appearance="fill"
 					style="margin-bottom: -1.25em">
 					<mat-label>Pre-sent data</mat-label>
-					<mat-select #select multiple [(ngModel)]="preSent">
+					<mat-select #select [(ngModel)]="preSent" multiple>
 						<mat-option [value]="'structure'">
 							Tables structure and relations
 						</mat-option>
@@ -107,22 +107,23 @@
 		fxLayoutAlign="center center"
 		style="margin: 40px"
 	>
-		First, generate a key from&nbsp;<a href="https://platform.openai.com/account/api-keys" target="_blank">OpenAI</a>, then save it there ⇧
+		First, generate a key from&nbsp;<a href="https://platform.openai.com/account/api-keys"
+										   target="_blank">OpenAI</a>, then save it there ⇧
 	</h4>
 
 	<div *ngIf="!chat.length || !key">
 		<h3 style="text-align: center; border-bottom: 1px dashed grey">Some examples</h3>
 		<div id="examples">
 			<button (click)="sendMessage(example);"
-					[disabled]="!key"
 					*ngFor="let example of examples"
+					[disabled]="!key"
 					mat-stroked-button>
 				{{example}}
 			</button>
 		</div>
 	</div>
 
-	<div id="container" *ngIf="key && chat.length">
+	<div *ngIf="key && chat.length" id="container">
 		<mat-card *ngFor="let ch of chat"
 				  [style.background-color]="ch.error ? '#f44336' : ch.user === Role.Assistant ? '#1e1e1e' : undefined">
 			<mat-card-content>
@@ -134,9 +135,9 @@
 							<button
 								(click)="runQuery(mrk.code);"
 								color="primary"
+								mat-icon-button
 								matTooltip="Run and send result to IA"
-								matTooltipPosition="left"
-								mat-icon-button>
+								matTooltipPosition="left">
 								<span class="material-symbols-outlined notranslate">
 									fast_forward
 								</span>
@@ -144,10 +145,10 @@
 							<button
 								(click)="snackBar.open('Copied to clipboard', '╳', {duration: 3000})"
 								[cdkCopyToClipboard]="mrk.code"
-								matTooltip="Copy code to clipboard"
-								matTooltipPosition="left"
 								color="primary"
-								mat-icon-button>
+								mat-icon-button
+								matTooltip="Copy code to clipboard"
+								matTooltipPosition="left">
 								<span class="material-symbols-outlined notranslate">
 									file_copy
 								</span>
@@ -158,11 +159,11 @@
 
 					<ng-container *ngIf="mrk.html">
 						<button
-							class="actions"
-							style="margin-top: -10px;"
-							*ngIf="ch.user === Role.User"
 							(click)="message.value = ch.txt"
-							mat-icon-button>
+							*ngIf="ch.user === Role.User"
+							class="actions"
+							mat-icon-button
+							style="margin-top: -10px;">
 							<span class="material-symbols-outlined notranslate">
 								edit
 							</span>
@@ -177,12 +178,12 @@
 
 	<mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
 
-	<div style="padding: 6px" [hidden]="!key">
+	<div [hidden]="!key" style="padding: 6px">
 		<mat-form-field (keydown.enter)="sendMessage(message.value); message.value = ''"
 						appearance="fill"
 						class="sendMessage">
 			<mat-label>Ask anything about `{{selectedDatabase?.name}}`</mat-label>
-			<textarea #message matInput cdkTextareaAutosize></textarea>
+			<textarea #message cdkTextareaAutosize matInput></textarea>
 			<button (click)="sendMessage(message.value); message.value = ''"
 					[disabled]="!message.value"
 					mat-icon-button

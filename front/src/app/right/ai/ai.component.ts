@@ -22,7 +22,7 @@ enum Role {
 class Msg {
 	user!: Role;
 	error = false;
-	marked?: {code?: string, html?: string}[];
+	marked?: { code?: string, html?: string }[];
 	txt!: string;
 
 	constructor(txt: string, user: Role, error = false) {
@@ -68,7 +68,7 @@ export class AiComponent implements OnInit, OnDestroy {
 		'I need to store a new entity called licence, with "1,1" relation with user, give me the plan to do it',
 		'Give me, in SQL, the CRUD queries for user',
 		'Explain me the purpose of my database',
-		'How to find the last inserted row in Entity Framework ?','Can you optimize : `SELECT * FROM users WHERE email LIKE ?`',
+		'How to find the last inserted row in Entity Framework ?', 'Can you optimize : `SELECT * FROM users WHERE email LIKE ?`',
 		'Create a trigger checking password strength before inserting',
 		'Here is, with PDO, the query to insert ... can you help me fixing it',
 		'Give me, with Mongoose the listing of all user'
@@ -145,7 +145,10 @@ export class AiComponent implements OnInit, OnDestroy {
 
 	saveChat() {
 		const copy = JSON.parse(JSON.stringify(this.chat));
-		localStorage.setItem(this.localKeyChatHistory, JSON.stringify(copy.map((ch: Msg) => {delete ch.marked; return ch;})));
+		localStorage.setItem(this.localKeyChatHistory, JSON.stringify(copy.map((ch: Msg) => {
+			delete ch.marked;
+			return ch;
+		})));
 	}
 
 	async sendMessage(txt: string) {

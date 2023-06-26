@@ -10,12 +10,12 @@
 					"style": "scss",
 					"skipTests": true
 				},
-				"@schematics/angular:class": { },
-				"@schematics/angular:directive": { },
-				"@schematics/angular:guard": { },
-				"@schematics/angular:module": { },
-				"@schematics/angular:pipe": { },
-				"@schematics/angular:service": { }
+				"@schematics/angular:class": {},
+				"@schematics/angular:directive": {},
+				"@schematics/angular:guard": {},
+				"@schematics/angular:module": {},
+				"@schematics/angular:pipe": {},
+				"@schematics/angular:service": {}
 			},
 			"root": "",
 			"sourceRoot": "src",
