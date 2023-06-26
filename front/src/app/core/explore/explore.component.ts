@@ -148,7 +148,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 	}
 
 	addChips(column: string, event: MatChipInputEvent): void {
-		const value = event.value.trim();
+		let value = event.value.trim();
 		if (!value) {
 			return;
 		}
@@ -158,7 +158,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 		})) {
 			this.params.chips += `${column} ${value};`;
 		} else {
-			this.params.chips += `${column} ${this.selectedServer?.driver.defaultFilter} '${value}';`;
+			this.params.chips += `${column} ${this.selectedServer?.driver.defaultFilter} ${value};`;
 		}
 
 		this.params.page = 0;
