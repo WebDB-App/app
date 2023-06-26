@@ -95,7 +95,7 @@ export default class MongoDB extends Driver {
 			}
 
 			const result = await this.eval(command, db);
-			return result.toArray();
+			return await result.toArray();
 
 			/*const [rows] = await connection.query(command);
 			return rows.map(row => {

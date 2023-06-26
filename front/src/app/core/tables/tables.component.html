@@ -29,12 +29,13 @@
 					 class="entity">
 					<div style="display: flex">
 						<button (click)="getTooltip(table)" mat-icon-button>
-							<span class="material-symbols-outlined notranslate">
+							<span class="material-symbols-outlined notranslate" style="font-size: 18px;">
 								{{table.view ? 'table_view' : 'table'}}
 							</span>
 						</button>
 						<mat-list-option
 							(click)="changeTable(table.name)"
+							[style.border-right]="selectedTable?.name === table.name ? '2px solid #2196f3' : undefined"
 							[class.mat-list-single-selected-option]="selectedTable?.name === table.name">
 							{{table.name}}
 						</mat-list-option>

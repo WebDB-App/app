@@ -117,29 +117,8 @@
 		<mat-toolbar *ngIf="dataSource?.data?.length"
 					 fxLayout="row"
 					 fxLayoutAlign="space-between center"
-					 style="padding-left: 20px;"
 		>
-			<mat-form-field>
-				<mat-label>
-					Export Result
-				</mat-label>
-				<mat-select #exportResultType (selectionChange)="exportResult(exportResultType.value)">
-					<mat-option [value]="'csv'">CSV</mat-option>
-					<mat-option [value]="'json'">JSON</mat-option>
-				</mat-select>
-			</mat-form-field>
-
 			<div style="display: flex; align-items: center;">
-				<button
-					(click)="setAutoUp()"
-					[color]="autoUp ? 'primary' : undefined"
-					[ngClass]="{'mat-raised-button' : autoUp}"
-					mat-button
-					matTooltip="Reload data periodically">
-					<span class="material-symbols-outlined notranslate">
-						repeat
-					</span>
-				</button>
 				<mat-paginator
 					(page)="page = $event.pageIndex; runQuery()"
 					[length]="querySize"
@@ -157,7 +136,26 @@
 							[value]="i">{{i}}</mat-option>
 					</mat-select>
 				</mat-form-field>
+				<button
+					(click)="setAutoUp()"
+					[color]="autoUp ? 'primary' : undefined"
+					[ngClass]="{'mat-raised-button' : autoUp}"
+					mat-button
+					matTooltip="Reload data periodically">
+					<span class="material-symbols-outlined notranslate">
+						repeat
+					</span>
+				</button>
 			</div>
+			<mat-form-field>
+				<mat-label>
+					Export Result
+				</mat-label>
+				<mat-select #exportResultType (selectionChange)="exportResult(exportResultType.value)">
+					<mat-option [value]="'csv'">CSV</mat-option>
+					<mat-option [value]="'json'">JSON</mat-option>
+				</mat-select>
+			</mat-form-field>
 		</mat-toolbar>
 
 		<div class="scrollDiv">
