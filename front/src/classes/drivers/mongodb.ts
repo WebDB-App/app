@@ -92,17 +92,21 @@ export class MongoDB implements Driver {
 		return `SELECT ${columns} FROM ${table.name} ${joins.join("\n")} GROUP BY ${columns} HAVING 1 = 1`;
 	}
 
-	getBaseFilter(table: Table, condition: string[], operand: 'AND' | 'OR') {
-		const cond: any = {};
+	getBaseFilter(table: Table, conditions: string[], operand: 'AND' | 'OR') {
+		const cond = conditions.map(condition => {
+			const obj: any = {};
+			const key = condition.substring(0, condition.indexOf("$") - 1).trim();
+			condition = condition.substring(condition.indexOf("$"));
+			const operator = condition.substring(0, condition.indexOf(" ")).trim();
+			condition = condition.substring(condition.indexOf(" "));
 
-		condition.map(cond => {
-
+			obj[key] = {};
+			obj[key][operator] = condition.substring(condition.indexOf(":") + 1).trim();
+			return obj;
 		});
-		if (condition.length > 0) {
-			cond[`$${operand.toLowerCase()}`] = [{...condition}];
-		}
 
-		return `db.collection("${table.name}").find(${JSON.stringify(cond)})`;
+		const filter = conditions.length > 0 ? JSON.stringify({[`$${operand.toLowerCase()}`]: cond}) : '';
+		return `db.collection("${table.name}").find(${filter})`;
 	}
 
 	getBaseSort(field: string, direction: 'asc' | 'desc') {
