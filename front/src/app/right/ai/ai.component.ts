@@ -55,8 +55,8 @@ export class AiComponent implements OnInit, OnDestroy {
 
 	@ViewChild('select') select!: MatSelect;
 
-	selectedServer?: Server;
-	selectedDatabase?: Database;
+	selectedDatabase = Database.getSelected();
+	selectedServer = Server.getSelected();
 	licence?: Licence;
 	obs!: Subscription;
 	configuration: WebConfig = new WebConfig();
@@ -90,9 +90,6 @@ export class AiComponent implements OnInit, OnDestroy {
 	}
 
 	async ngOnInit() {
-		this.selectedDatabase = Database.getSelected();
-		this.selectedServer = Server.getSelected();
-
 		this.drawer.drawer.openedChange.subscribe(async (state) => {
 			if (state && !this.initialized) {
 				this.initialized = true;

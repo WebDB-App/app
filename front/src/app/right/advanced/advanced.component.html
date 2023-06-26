@@ -52,13 +52,13 @@
 			<mat-form-field>
 				<input
 					#databaseName
-					[value]="selectedDatabase?.name"
+					[value]="selectedDatabase.name"
 					autocomplete="off"
 					matInput
 					placeholder="Name">
 			</mat-form-field>
 			<button (click)="rename(databaseName.value)"
-					[disabled]="databaseName.value.length < 1 || databaseName.value === selectedDatabase?.name"
+					[disabled]="databaseName.value.length < 1 || databaseName.value === selectedDatabase.name"
 					color="accent"
 					mat-stroked-button>
 			<span class="material-symbols-outlined notranslate">

@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Column } from "../../../classes/column";
 import { Server } from "../../../classes/server";
 import { Configuration } from "../../../classes/configuration";
+import { Database } from "../../../classes/database";
 
 @Component({
 	selector: 'app-column',
@@ -15,13 +16,12 @@ export class ColumnComponent implements OnInit {
 
 	configuration: Configuration = new Configuration();
 	extraAttributes = Server.getSelected().driver.extraAttributes;
-	selectedServer?: Server;
+	selectedServer = Server.getSelected();
 
 	constructor() {
 	}
 
 	ngOnInit(): void {
-		this.selectedServer = Server.getSelected();
 	}
 
 	addColumn() {

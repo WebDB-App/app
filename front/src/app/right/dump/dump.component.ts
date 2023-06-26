@@ -22,8 +22,8 @@ export class ItemTree {
 })
 export class DumpComponent implements OnInit {
 
-	selectedServer?: Server;
-	selectedDatabase?: Database;
+	selectedDatabase = Database.getSelected();
+	selectedServer = Server.getSelected();
 
 	includeData = true;
 	checklistSelection = new SelectionModel<ItemTree>(true);
@@ -36,13 +36,10 @@ export class DumpComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		this.selectedDatabase = Database.getSelected();
-		this.selectedServer = Server.getSelected();
-
 		const tree = new ItemTree();
 
-		tree.name = this.selectedDatabase?.name;
-		tree.children = this.selectedDatabase?.tables!.map(table => {
+		tree.name = this.selectedDatabase.name;
+		tree.children = this.selectedDatabase.tables!.map(table => {
 			return {name: table.name}
 		});
 

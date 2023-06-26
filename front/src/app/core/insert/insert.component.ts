@@ -22,8 +22,8 @@ const localStorageName = "codes";
 })
 export class InsertComponent implements OnInit, OnDestroy {
 
-	selectedServer?: Server;
-	selectedDatabase?: Database;
+	selectedDatabase = Database.getSelected();
+	selectedServer = Server.getSelected();
 	selectedTable?: Table;
 	columns?: string[];
 	structure: any = {};
@@ -63,8 +63,6 @@ export class InsertComponent implements OnInit, OnDestroy {
 	}
 
 	async ngOnInit() {
-		this.selectedServer = Server.getSelected();
-		this.selectedDatabase = Database.getSelected();
 		this.selectedTable = Table.getSelected();
 
 		const generator = new Generator();
