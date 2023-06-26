@@ -21,6 +21,7 @@ import { saveAs } from "file-saver-es";
 import { DiffEditorModel } from "ngx-monaco-editor-v2";
 import { Server } from "../../classes/server";
 import { Configuration } from "../../classes/configuration";
+import { editor } from "monaco-editor";
 
 declare var monaco: any;
 
@@ -215,6 +216,7 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 				this.query = this.selectedServer!.driver.getBaseSelectWithRelations(this.selectedTable!, this.relations!);
 				break;
 		}
+		setTimeout(() => this.editors.map(editor => editor.trigger("editor", "editor.action.formatDocument")), 200);
 	}
 
 	exportQuery(language: string) {

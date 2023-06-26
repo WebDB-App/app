@@ -89,7 +89,7 @@ export class MongoDB implements Driver {
 			joins.push(`INNER JOIN ${relation.table_dest} ON ${relation.table_dest}.${relation.column_dest} = ${relation.table_source}.${relation.column_source}`)
 		}
 
-		return `SELECT ${columns} FROM ${table.name} ${joins.join("\n")} GROUP BY (${columns}) HAVING 1 = 1`;
+		return `SELECT ${columns} FROM ${table.name} ${joins.join("\n")} GROUP BY ${columns} HAVING 1 = 1`;
 	}
 
 	getBaseFilter(table: Table, condition: string[], operand: 'AND' | 'OR') {

@@ -21,7 +21,6 @@ export class ServerService {
 	}
 
 	async getServer(server: Server) {
-
 		// @ts-ignore
 		server.driver = new drivers[server.wrapper];
 		server.params = server.params || server.driver.defaultParams;

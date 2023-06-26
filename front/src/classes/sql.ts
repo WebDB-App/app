@@ -491,7 +491,7 @@ export class SQL implements Driver {
 
 	getBaseSelect(table: Table) {
 		const cols = table.columns?.map(column => `${this.nameDel}${column.name}${this.nameDel}`);
-		return `SELECT ${cols.join(', ')} FROM ${this.nameDel}${table.name}${this.nameDel} WHERE 1 = 1`;
+		return `SELECT ${cols.join(', ')} FROM ${this.nameDel}${table.name}${this.nameDel}`;
 	}
 
 	getBaseSelectWithRelations(table: Table, relations: Relation[]) {
@@ -502,7 +502,7 @@ export class SQL implements Driver {
 			joins.push(`INNER JOIN ${relation.table_dest} ON ${relation.table_dest}.${relation.column_dest} = ${relation.table_source}.${relation.column_source}`)
 		}
 
-		return `SELECT ${columns} FROM ${table.name} ${joins.join("\n")} GROUP BY (${columns}) HAVING 1 = 1`;
+		return `SELECT ${columns} FROM ${table.name} ${joins.join("\n")} GROUP BY ${columns} HAVING 1 = 1`;
 	}
 
 	getBaseFilter(table: Table, condition: string[], operand: 'AND' | 'OR') {
