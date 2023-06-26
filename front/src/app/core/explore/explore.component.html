@@ -70,7 +70,8 @@
 					Page
 				</mat-label>
 				<mat-select (selectionChange)="changePage($event.value)" [value]="params.page">
-					<mat-option *ngFor="let item of [].constructor(Math.floor(querySize / pageSize) + 1); let i = index" [value]="i">{{i}}</mat-option>
+					<mat-option *ngFor="let item of [].constructor(Math.floor(querySize / pageSize) + 1); let i = index"
+								[value]="i">{{i}}</mat-option>
 				</mat-select>
 			</mat-form-field>
 		</div>
@@ -100,10 +101,10 @@
 							   matInput>
 						<mat-autocomplete #autoGroup="matAutocomplete">
 							<mat-option
-								[matTooltip]="comp.definition"
-								matTooltipPosition="right"
 								(click)="filter[column] = comp.symbol + ' ' + comp.example"
-								*ngFor="let comp of selectedServer!.driver.availableComparator">
+								*ngFor="let comp of selectedServer!.driver.availableComparator"
+								[matTooltip]="comp.definition"
+								matTooltipPosition="right">
 								{{comp.symbol}}
 							</mat-option>
 						</mat-autocomplete>
@@ -183,8 +184,8 @@
 								  matInput></textarea>
 					</ng-container>
 					<app-cell *ngIf="!toUpdate[i]"
-							  [row]="row"
 							  [column]="column"
+							  [row]="row"
 					></app-cell>
 				</ng-container>
 			</td>

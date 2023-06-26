@@ -88,10 +88,10 @@
 					</mat-form-field>
 
 					<ngx-monaco-editor
-						class="resizable"
 						*ngIf="i === 1"
 						[(ngModel)]="row[column]"
 						[options]="editorOptions"
+						class="resizable"
 					>
 					</ngx-monaco-editor>
 
@@ -178,9 +178,9 @@
 					</th>
 					<td *matCellDef="let row" mat-cell>
 						<textarea
-							cdkTextareaAutosize
 							[(ngModel)]="row[column]"
 							autocomplete="off"
+							cdkTextareaAutosize
 							matInput></textarea>
 					</td>
 				</ng-container>

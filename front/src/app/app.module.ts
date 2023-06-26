@@ -33,11 +33,7 @@ import { MonacoEditorModule } from "ngx-monaco-editor-v2";
 import { MatButtonToggleModule } from "@angular/material/button-toggle";
 import { MatStepperModule } from "@angular/material/stepper";
 import { ClipboardModule } from "@angular/cdk/clipboard";
-import {
-	HighlightModule,
-	HIGHLIGHT_OPTIONS,
-	HighlightOptions,
-} from 'ngx-highlightjs';
+import { HIGHLIGHT_OPTIONS, HighlightModule, HighlightOptions, } from 'ngx-highlightjs';
 
 @NgModule({
 	declarations: [

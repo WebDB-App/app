@@ -35,13 +35,10 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 
 	@Input() query = '';
 	@Input() selectedTable?: Table;
-
-	protected readonly Math = Math;
 	configuration: Configuration = new Configuration();
 	selectedServer?: Server;
 	selectedDatabase?: Database;
 	relations?: Relation[];
-
 	editors: any[] = [];
 	editorOptions = {
 		language: ''
@@ -54,7 +51,6 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 		code: '',
 		language: 'json'
 	};
-
 	autoUp: boolean | NodeJS.Timer = false;
 	diff = false;
 	query2 = '';
@@ -64,6 +60,7 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 	dataSource?: MatTableDataSource<any>
 	page = 0;
 	querySize!: number;
+	protected readonly Math = Math;
 
 	constructor(
 		private _snackBar: MatSnackBar,
@@ -138,7 +135,11 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 		try {
 			let result;
 			await Promise.all([
-				result = await this.request.post('database/query', {query: this.query, pageSize: this.pageSize, page: this.page}, undefined, undefined, undefined, undefined, false),
+				result = await this.request.post('database/query', {
+					query: this.query,
+					pageSize: this.pageSize,
+					page: this.page
+				}, undefined, undefined, undefined, undefined, false),
 				this.querySize = await this.request.post('database/querySize', {query: this.query})
 			]);
 
@@ -179,7 +180,11 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 
 	async compareQuery() {
 		const run = async (query: string) => {
-			const data = await this.request.post('database/query', {query, pageSize: this.pageSize, page: 0}, undefined, undefined, undefined, undefined, false)
+			const data = await this.request.post('database/query', {
+				query,
+				pageSize: this.pageSize,
+				page: 0
+			}, undefined, undefined, undefined, undefined, false)
 			if (data.length) {
 				this.addHistory.emit({query, nbResult: data.length});
 			}

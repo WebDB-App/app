@@ -7,7 +7,7 @@ import { SelectionModel } from "@angular/cdk/collections";
 import { RequestService } from "../../../shared/request.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { environment } from "../../../environments/environment";
-import { saveAs} from "file-saver-es";
+import { saveAs } from "file-saver-es";
 import { ActivatedRoute } from "@angular/router";
 
 export class ItemTree {

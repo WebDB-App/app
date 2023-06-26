@@ -10,7 +10,7 @@ import { RouterLinkWithHref } from "@angular/router";
 	declarations: [
 		RoundPipe,
 		BooleanPipe,
-  CellComponent
+		CellComponent
 	],
 	exports: [
 		RoundPipe,

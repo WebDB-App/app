@@ -1,4 +1,4 @@
-import { Index, IndexSymbol } from "./index";
+import { Index } from "./index";
 import { Relation } from "./relation";
 
 export class Column {

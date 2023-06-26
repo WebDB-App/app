@@ -15,9 +15,10 @@ export class CellComponent implements OnInit {
 	selectedTable?: Table;
 	relations?: Relation[];
 	nested = false;
-	fkLink? : any[];
+	fkLink?: any[];
 
-	constructor() { }
+	constructor() {
+	}
 
 	ngOnInit(): void {
 		this.relations = Table.getRelations();

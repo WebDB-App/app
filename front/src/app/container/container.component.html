@@ -70,9 +70,9 @@
 <ng-template #iconTemplate></ng-template>
 
 <mat-menu #external="matMenu" class="external">
-	<a *ngIf="selectedServer && selectedDatabase"
-		(click)="showConnection()"
-	   	mat-menu-item>
+	<a (click)="showConnection()"
+	   *ngIf="selectedServer && selectedDatabase"
+	   mat-menu-item>
 		<span class="material-symbols-outlined notranslate">
 			wifi
 		</span>

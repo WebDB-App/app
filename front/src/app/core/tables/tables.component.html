@@ -24,11 +24,11 @@
 
 			<mat-selection-list [multiple]="false">
 				<div *ngFor="let table of selectedDatabase?.tables"
-					 class="entity"
+					 [hidden]="table.hide"
 					 [style.background-color]="tooltips[table.name] ? '#1e1e1e' : 'inherit'"
-					 [hidden]="table.hide">
+					 class="entity">
 					<div style="display: flex">
-						<button mat-icon-button (click)="getTooltip(table)">
+						<button (click)="getTooltip(table)" mat-icon-button>
 							<span class="material-symbols-outlined notranslate">
 								{{table.view ? 'table_view' : 'table'}}
 							</span>
