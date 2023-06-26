@@ -139,13 +139,6 @@ export class StructureComponent implements OnInit, OnDestroy, AfterViewChecked {
 		return columns.map(col => 'hover-' + col)
 	}
 
-	isJson(row: any, column: string) {
-		if (column !== 'type') {
-			return false;
-		}
-		return typeof row[column] === "object" || Array.isArray(row[column]);
-	}
-
 	display(row: any, column: string): string {
 		if (column === this.actionColum) {
 			return '';

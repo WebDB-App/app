@@ -98,4 +98,8 @@ export class MongoDB implements Driver {
 
 		return `db.collection("${table.name}").find(${JSON.stringify(cond)})`;
 	}
+
+	getBaseSort(field: string, direction: 'asc' | 'desc') {
+		return `.sort({${field}: ${direction === "asc" ? 1 : -1})`;
+	}
 }

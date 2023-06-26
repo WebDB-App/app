@@ -177,11 +177,6 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 		}
 	}
 
-	isNested(obj: any) {
-		const type = typeof obj;
-		return Array.isArray(obj) || (type === 'object' && obj !== null);
-	}
-
 	async compareQuery() {
 		const run = async (query: string) => {
 			const data = await this.request.post('database/query', {query, pageSize: this.pageSize, page: 0}, undefined, undefined, undefined, undefined, false)

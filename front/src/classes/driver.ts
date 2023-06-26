@@ -49,6 +49,7 @@ export interface Driver {
 	format: (code: string) => string;
 	generateSuggestions: (textUntilPosition: string) => string[];
 
+	getBaseSort: (field: string, direction: 'asc' | 'desc') => string;
 	defaultFilter: string;
 	getBaseDelete: (table: Table) => string;
 	getBaseUpdate: (table: Table) => string;
