@@ -152,7 +152,6 @@
 										*ngFor="let database of server.dbs"
 										[disabled]="database.tables === undefined"
 										[hidden]="database.hide"
-										[routerLinkActive]="'mat-list-single-selected-option'"
 										[style.opacity]="database.system ? '0.5' : 1"
 										routerLink="/{{server.name}}/{{database.name}}">
 										{{database.name}}
