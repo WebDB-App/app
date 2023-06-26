@@ -18,12 +18,12 @@
 			</mat-list-item>
 
 			<mat-list-item
-				*ngIf="!selectedDatabase || !selectedDatabase.tables || selectedDatabase.tables!.length < 1">
+				*ngIf="!selectedDatabase || !selectedDatabase?.tables || selectedDatabase.tables!.length < 1">
 				No table
 			</mat-list-item>
 
 			<mat-selection-list [multiple]="false">
-				<div *ngFor="let table of selectedDatabase.tables"
+				<div *ngFor="let table of selectedDatabase?.tables"
 					 [hidden]="table.hide"
 					 [style.background-color]="tooltips[table.name] ? '#1e1e1e' : 'inherit'"
 					 class="entity">
@@ -80,7 +80,7 @@
 		</mat-list>
 	</mat-sidenav>
 
-	<div [hidden]="!selectedDatabase.tables?.length">
+	<div [hidden]="!selectedDatabase?.tables?.length">
 		<nav [tabPanel]="tabPanel" mat-tab-nav-bar>
 			<a #rla="routerLinkActive" *ngFor="let tab of tabs"
 			   [active]="rla.isActive"

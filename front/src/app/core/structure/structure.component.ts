@@ -22,8 +22,8 @@ import { SQL } from "../../../classes/sql";
 export class StructureComponent implements OnInit, OnDestroy, AfterViewChecked {
 
 	selectedTable?: Table;
-	selectedDatabase = Database.getSelected();
-	selectedServer = Server.getSelected();
+	selectedDatabase?: Database;
+	selectedServer?: Server;
 	obs!: Subscription;
 
 	actionColum = "##ACTION##";
@@ -45,6 +45,8 @@ export class StructureComponent implements OnInit, OnDestroy, AfterViewChecked {
 	}
 
 	async loadData() {
+		this.selectedDatabase = Database.getSelected();
+		this.selectedServer = Server.getSelected();
 		this.selectedTable = Table.getSelected();
 
 		this.structureColumns = ['name', 'type'];

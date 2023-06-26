@@ -13,8 +13,8 @@ import { Router } from "@angular/router";
 })
 export class AdvancedComponent implements OnInit {
 
-	selectedDatabase = Database.getSelected();
-	selectedServer = Server.getSelected();
+	selectedServer?: Server;
+	selectedDatabase?: Database;
 	collations: string[] = [];
 	stats?: any;
 
@@ -25,6 +25,9 @@ export class AdvancedComponent implements OnInit {
 	}
 
 	async ngOnInit() {
+		this.selectedDatabase = Database.getSelected();
+		this.selectedServer = Server.getSelected();
+
 		this.collations = await this.request.post('database/availableCollations', undefined);
 		this.stats = await this.request.post('database/stats', undefined);
 
