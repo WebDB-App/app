@@ -67,9 +67,6 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 		private request: RequestService,
 		private dialog: MatDialog
 	) {
-		this.selectedServer = Server.getSelected();
-		this.selectedDatabase = Database.getSelected();
-		this.editorOptions.language = this.selectedServer?.driver?.language!;
 	}
 
 	@HostListener('keydown', ['$event'])
@@ -85,6 +82,10 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 	}
 
 	ngOnInit() {
+		this.selectedServer = Server.getSelected();
+		this.selectedDatabase = Database.getSelected();
+		this.editorOptions.language = this.selectedServer?.driver?.language!;
+
 		if (this.selectedTable) {
 			this.prebuild("select");
 			this.relations = Table.getRelations();

@@ -32,6 +32,6 @@ export class CellComponent implements OnInit {
 	getFkParams() {
 		const fk = this.relations?.find(relation => relation.column_source === this.column);
 
-		return {chips: `${fk!.column_dest}="${this.row[this.column]}";`};
+		return {chips: `${fk!.column_dest}='${this.row[this.column]}';`};
 	}
 }

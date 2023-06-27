@@ -16,37 +16,37 @@ const routes: Routes = [
 		path: 'explore',
 		component: ExploreComponent,
 		data: {
-			reuseRoute: true
+			reuseRouteId: 'explore'
 		}
 	}, {
 		path: 'query',
 		component: QueryComponent,
 		data: {
-			reuseRoute: true
+			reuseRouteId: 'query'
 		}
 	}, {
 		path: 'structure',
 		component: StructureComponent,
 		data: {
-			reuseRoute: true
+			reuseRouteId: 'structure'
 		}
 	}, {
 		path: 'insert',
 		component: InsertComponent,
 		data: {
-			reuseRoute: true
+			reuseRouteId: 'insert'
 		}
 	}, {
 		path: 'trigger',
 		component: TriggerComponent,
 		data: {
-			reuseRoute: true
+			reuseRouteId: 'trigger'
 		}
 	}, {
 		path: 'advanced',
 		component: TableAdvancedComponent,
 		data: {
-			reuseRoute: true
+			reuseRouteId: 'advanced'
 		}
 	}
 ];
