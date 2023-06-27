@@ -8,6 +8,7 @@ import { HistoryService } from "../shared/history.service";
 import { Index } from ".";
 import { Relation } from "./relation";
 import { Configuration } from "./configuration";
+import { HttpClient } from "@angular/common/http";
 
 //import * as monaco from 'monaco-editor'
 declare var monaco: any;
@@ -173,6 +174,8 @@ export class SQL implements Driver {
 	defaultFilter = "LIKE"
 
 	nodeLib = (query: QueryParams) => "";
+
+	async loadExtraLib(http: HttpClient) {}
 
 	format(code: string) {
 		code = format(code, {

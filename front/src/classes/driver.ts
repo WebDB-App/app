@@ -1,6 +1,7 @@
 import { Column } from "./column";
 import { Relation } from "./relation";
 import { Table } from "./table";
+import { HttpClient } from "@angular/common/http";
 
 export interface Comparator {
 	symbol: string
@@ -32,6 +33,7 @@ export interface Driver {
 	disclaimerSsh?: string;
 	extraAttributes: string[];
 	nodeLib: (queryParams: QueryParams) => string;
+	loadExtraLib: (http: HttpClient) => Promise<void>;
 
 	nameDel: string;
 	canRename: boolean;

@@ -21,6 +21,7 @@ import { saveAs } from "file-saver-es";
 import { DiffEditorModel } from "ngx-monaco-editor-v2";
 import { Server } from "../../classes/server";
 import { Configuration } from "../../classes/configuration";
+import { HttpClient } from "@angular/common/http";
 
 declare var monaco: any;
 
@@ -35,6 +36,7 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 
 	@Input() query = '';
 	@Input() selectedTable?: Table;
+
 	configuration: Configuration = new Configuration();
 	selectedServer?: Server;
 	selectedDatabase?: Database;
@@ -65,7 +67,8 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 	constructor(
 		private _snackBar: MatSnackBar,
 		private request: RequestService,
-		private dialog: MatDialog
+		private dialog: MatDialog,
+		private http: HttpClient
 	) {
 	}
 
@@ -81,7 +84,7 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 		}
 	}
 
-	ngOnInit() {
+	async ngOnInit() {
 		this.selectedServer = Server.getSelected();
 		this.selectedDatabase = Database.getSelected();
 		this.editorOptions.language = this.selectedServer?.driver?.language!;
@@ -94,7 +97,7 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 
 	ngOnChanges(changes: SimpleChanges): void {
 		if (changes['selectedTable']) {
-			delete this.dataSource
+			delete this.dataSource;
 			delete this.displayedColumns;
 
 			this.ngOnInit();
@@ -108,7 +111,7 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 		}
 	}
 
-	initEditor(editor: any, index: number) {
+	async initEditor(editor: any, index: number) {
 		this.editors[index] = editor;
 
 		editor.trigger("editor", "editor.action.formatDocument");
@@ -120,14 +123,7 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 			'!editorHasMultipleSelections && !editorTabMovesFocus && ' +
 			'!hasQuickSuggest');
 
-		/*
-		monaco.languages.typescript.typescriptDefaults.addExtraLib(
-			'export declare module {  }',
-			'file:///node_modules/@types/crypto-js/index.d.ts'
-		);
-		Server.getSelected()!.driver.generateSuggestions(textUntilPosition)
-		 */
-
+		await this.selectedServer?.driver.loadExtraLib(this.http);
 	}
 
 	async runQuery() {

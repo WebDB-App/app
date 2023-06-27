@@ -1,9 +1,7 @@
 - autocomplete table and column and types
 - getQueryHeader (use, `//db is `)
-- multilines queries
--
+
 - select with relations
-- " depend of column type (enum, json, array, nested, etc)
 
 
 
@@ -83,6 +81,7 @@
 - show table / column collation in settings
 - Geospatial
 - error model2
+- explore : search nested (array, obj)
 
 # Insert
 - finir street and fulladdress translation
