@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
-import { RouteReuseStrategy, RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { ContainerComponent } from "./container/container.component";
 import { environment } from "../environments/environment";
 import { TablesComponent } from "./core/tables/tables.component";
-import { CustomReuseStrategy } from "./custom-reuse-strategy";
 
 const appRoutes: Routes = [
 	{
