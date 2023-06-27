@@ -68,13 +68,13 @@ export class ExploreComponent implements OnInit, OnDestroy {
 			// @ts-ignore
 			const params = <Params>{..._params[0], ..._params[1]};
 
-			if (this.selectedTable?.name !== Table.getSelected().name) {
-				this.loadSuggestions();
-			}
-
 			this.selectedDatabase = Database.getSelected();
 			this.selectedServer = Server.getSelected();
-			this.selectedTable = Table.getSelected();
+
+			if (this.selectedTable?.name !== Table.getSelected().name) {
+				this.selectedTable = Table.getSelected();
+				this.loadSuggestions();
+			}
 
 			this.toUpdate = [];
 			this.changePage(params["page"] || 0, false);

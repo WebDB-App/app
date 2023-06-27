@@ -36,12 +36,6 @@ if (environment.production) {
 @NgModule({
 	imports: [RouterModule.forRoot(appRoutes, {useHash: true})],
 	exports: [RouterModule],
-	providers: [
-		{
-			provide: RouteReuseStrategy,
-			useClass: CustomReuseStrategy,
-		},
-	],
 })
 export class AppRoutingModule {
 }
