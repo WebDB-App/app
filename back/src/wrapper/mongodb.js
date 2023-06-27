@@ -121,7 +121,7 @@ export default class MongoDB extends Driver {
 	}
 
 	async runPagedQuery(query, page, pageSize, database) {
-		if (query.toLowerCase().indexOf(".find(") >= 0) {
+		if (query.toLowerCase().endsWith(".find()")) {
 			query = `${query}.skip(${page * pageSize}).limit(${pageSize})`;
 		}
 

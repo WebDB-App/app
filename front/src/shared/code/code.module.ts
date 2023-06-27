@@ -57,6 +57,21 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 				};
 			}
 		});
+		monaco.languages.registerCompletionItemProvider('sql', {
+			triggerCharacters: ["."],
+			provideCompletionItems: (model: any, position: any) => {
+				const textUntilPosition = model.getValueInRange({
+					startLineNumber: position.lineNumber,
+					startColumn: 0,
+					endLineNumber: position.lineNumber,
+					endColumn: position.column,
+				});
+
+				return {
+					suggestions: Server.getSelected()!.driver.generateSuggestions(textUntilPosition)
+				};
+			}
+		});
 	}
 };
 

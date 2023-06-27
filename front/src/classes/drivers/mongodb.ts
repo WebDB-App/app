@@ -2,6 +2,10 @@ import { Driver, QueryParams, TypeName } from "../driver";
 import { Column } from "../column";
 import { Table } from "../table";
 import { Relation } from "../relation";
+import { HttpClient } from "@angular/common/http";
+import { firstValueFrom } from "rxjs";
+
+declare var monaco: any;
 
 export class MongoDB implements Driver {
 
@@ -43,6 +47,31 @@ export class MongoDB implements Driver {
 	defaultFilter = "$eq";
 
 	nodeLib = (query: QueryParams) => "";
+
+	async loadExtraLib(http: HttpClient) {
+		for (const path of ['mongo.d.ts', 'bson.d.ts']) {
+			if (monaco.languages.typescript.typescriptDefaults._extraLibs[`file://${path}`]) {
+				continue;
+			}
+
+			const lib = await firstValueFrom(http.get('assets/libs/' + path, {responseType: 'text' as 'json'}))
+			monaco.languages.typescript.javascriptDefaults.addExtraLib(
+				`declare module '${path}' { ${lib} }; `,
+				`file://${path}`
+			);
+		}
+		monaco.languages.typescript.javascriptDefaults.addExtraLib(
+			`import * as bsonModule from "bson.d.ts";
+			import * as mongoModule from "mongo.d.ts";
+
+			declare global {
+				var mongo: typeof mongoModule;
+				var bson: typeof bsonModule;
+				var db: mongoModule.Db;
+			}`,
+			`file:///main.tsx`
+		);
+	}
 
 	extractEnum(col: Column): string[] | false {
 		return false;
