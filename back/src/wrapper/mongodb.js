@@ -91,6 +91,8 @@ export default class MongoDB extends Driver {
 			if (!command.trim().startsWith("return")) {
 				command = `return ${command}`;
 			}
+			command = command.replaceAll(".toArray().", ".");
+
 			const fct = new Function("db", command);
 			return await fct(db);
 

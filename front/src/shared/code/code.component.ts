@@ -112,8 +112,6 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 	}
 
 	async initEditor(editor: any, index: number) {
-		this.editors[index] = editor;
-
 		editor.trigger("editor", "editor.action.formatDocument");
 		editor.addCommand(monaco.KeyMod.Alt | monaco.KeyCode.Space,
 			() => {
@@ -122,6 +120,7 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 			'editorTextFocus && !editorHasSelection && ' +
 			'!editorHasMultipleSelections && !editorTabMovesFocus && ' +
 			'!hasQuickSuggest');
+		this.editors[index] = editor;
 
 		await this.selectedServer?.driver.loadExtraLib(this.http);
 	}
