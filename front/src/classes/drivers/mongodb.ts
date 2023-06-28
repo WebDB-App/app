@@ -135,10 +135,10 @@ export class MongoDB implements Driver {
 		});
 
 		const filter = conditions.length > 0 ? JSON.stringify({[`$${operand.toLowerCase()}`]: cond}) : '';
-		return `db.collection("${table.name}").find(${filter})`;
+		return `db.collection("${table.name}").find(${filter}).toArray()`;
 	}
 
 	getBaseSort(field: string, direction: 'asc' | 'desc') {
-		return `.sort({${field}: ${direction === "asc" ? 1 : -1}})`;
+		return `.sort({${field}: ${direction === "asc" ? 1 : -1}}).toArray()`;
 	}
 }
