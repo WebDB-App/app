@@ -80,11 +80,6 @@ export default class MongoDB extends Driver {
 		//await coll.indexInformation();
 	}
 
-	eval(js, params) {
-		const fct = new Function("db", `return ${js}`);
-		return fct(params);
-	}
-
 	async runCommand(command, database = false) {
 		let db = this.connection;
 		const start = Date.now();
@@ -93,9 +88,11 @@ export default class MongoDB extends Driver {
 			if (database) {
 				db = await this.connection.db(database);
 			}
-
-			const result = await this.eval(command, db);
-			return await result.toArray();
+			if (!command.trim().startsWith("return")) {
+				command = `return ${command}`;
+			}
+			const fct = new Function("db", command);
+			return await fct(db);
 
 			/*const [rows] = await connection.query(command);
 			return rows.map(row => {
@@ -116,14 +113,11 @@ export default class MongoDB extends Driver {
 
 	async querySize(query, database) {
 		const result = await this.runCommand(query, database);
-
 		return result.error ? "0" : result.length.toString();
 	}
 
 	async runPagedQuery(query, page, pageSize, database) {
-		if (query.toLowerCase().endsWith(".find()")) {
-			query = `${query}.skip(${page * pageSize}).limit(${pageSize})`;
-		}
+		query = query.replaceAll(".toArray()", `.skip(${page * pageSize}).limit(${pageSize}).toArray()`);
 
 		return await this.runCommand(query, database);
 	}
