@@ -1,4 +1,55 @@
 <mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
+	<div style="display: flex; align-items: center;">
+		<div fxLayout="row" fxLayoutAlign="center center">
+			<mat-paginator
+				(page)="changePage($event.pageIndex)"
+				[length]="querySize"
+				[pageIndex]="params.page"
+				hidePageSize
+				pageSize="{{pageSize}}"
+			></mat-paginator>
+			<mat-form-field appearance="outline" class="goToPage">
+				<mat-label>
+					Page
+				</mat-label>
+				<mat-select (selectionChange)="changePage($event.value)" [value]="params.page">
+					<mat-option *ngFor="let item of [].constructor(Math.floor(querySize / pageSize) + 1); let i = index"
+								[value]="i">{{i}}</mat-option>
+				</mat-select>
+			</mat-form-field>
+		</div>
+		<button
+			(click)="setAutoUp()"
+			[color]="autoUp ? 'primary' : undefined"
+			[ngClass]="{'mat-raised-button' : autoUp}"
+			mat-button
+			matTooltip="Reload data periodically">
+			<span class="material-symbols-outlined notranslate">
+				repeat
+			</span>
+		</button>
+	</div>
+
+	<mat-chip-list #chipList>
+		<ng-container
+			*ngFor="let chips of params.chips.split(';'); let i = index">
+			<ng-container *ngIf="chips">
+				<mat-chip
+					(removed)="removeChips(chips)"
+					color="primary"
+					selected>
+					{{chips}}
+					<button matChipRemove>
+						<mat-icon>cancel</mat-icon>
+					</button>
+				</mat-chip>
+				<ng-container *ngIf="i < params.chips.split(';').length - 2">
+					{{configuration.getByName("operand")?.value}}
+				</ng-container>
+			</ng-container>
+		</ng-container>
+	</mat-chip-list>
+
 	<div>
 		<mat-form-field>
 			<mat-label>Sort By</mat-label>
@@ -24,57 +75,6 @@
 			<mat-button-toggle matTooltip="Desc" value="desc">↓</mat-button-toggle>
 			<mat-button-toggle matTooltip="No Sort" value="">×</mat-button-toggle>
 		</mat-button-toggle-group>
-	</div>
-
-	<mat-chip-list #chipList>
-		<ng-container
-			*ngFor="let chips of params.chips.split(';'); let i = index">
-			<ng-container *ngIf="chips">
-				<mat-chip
-					(removed)="removeChips(chips)"
-					color="primary"
-					selected>
-					{{chips}}
-					<button matChipRemove>
-						<mat-icon>cancel</mat-icon>
-					</button>
-				</mat-chip>
-				<ng-container *ngIf="i < params.chips.split(';').length - 2">
-					{{configuration.getByName("operand")?.value}}
-				</ng-container>
-			</ng-container>
-		</ng-container>
-	</mat-chip-list>
-
-	<div style="display: flex; align-items: center;">
-		<button
-			(click)="setAutoUp()"
-			[color]="autoUp ? 'primary' : undefined"
-			[ngClass]="{'mat-raised-button' : autoUp}"
-			mat-button
-			matTooltip="Reload data periodically">
-			<span class="material-symbols-outlined notranslate">
-				repeat
-			</span>
-		</button>
-		<div fxLayout="row" fxLayoutAlign="center center">
-			<mat-paginator
-				(page)="changePage($event.pageIndex)"
-				[length]="querySize"
-				[pageIndex]="params.page"
-				hidePageSize
-				pageSize="{{pageSize}}"
-			></mat-paginator>
-			<mat-form-field appearance="outline" class="goToPage">
-				<mat-label>
-					Page
-				</mat-label>
-				<mat-select (selectionChange)="changePage($event.value)" [value]="params.page">
-					<mat-option *ngFor="let item of [].constructor(Math.floor(querySize / pageSize) + 1); let i = index"
-								[value]="i">{{i}}</mat-option>
-				</mat-select>
-			</mat-form-field>
-		</div>
 	</div>
 </mat-toolbar>
 

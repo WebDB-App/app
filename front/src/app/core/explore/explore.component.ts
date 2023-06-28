@@ -42,8 +42,8 @@ export class ExploreComponent implements OnInit, OnDestroy {
 	displayedColumns: string[] = [];
 	dataSource!: MatTableDataSource<any>;
 	selection = new SelectionModel<any>(true, []);
+	
 	@ViewChild(MatPaginator) paginator!: MatPaginator;
-	protected readonly Math = Math;
 
 	constructor(
 		private _snackBar: MatSnackBar,
@@ -258,4 +258,6 @@ export class ExploreComponent implements OnInit, OnDestroy {
 			}
 		}
 	}
+
+	protected readonly Math = Math;
 }
