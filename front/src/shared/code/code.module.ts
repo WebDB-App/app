@@ -37,7 +37,7 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 				return [
 					{
 						range: model.getFullModelRange(),
-						text: Server.getSelected()!.driver.format(model.getValue())
+						text: Server.getSelected().driver.format(model.getValue())
 					}
 				];
 			},
@@ -54,7 +54,7 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 					});
 
 					return {
-						suggestions: Server.getSelected()!.driver.generateSuggestions(textUntilPosition)
+						suggestions: Server.getSelected().driver.generateSuggestions(textUntilPosition)
 					};
 				}
 			});

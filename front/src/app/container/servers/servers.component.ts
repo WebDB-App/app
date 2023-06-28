@@ -25,14 +25,15 @@ export class ServersComponent implements OnInit, OnDestroy {
 	isLoading = true;
 	driverNames = Object.keys(drivers);
 
-	constructor(private http: HttpClient,
-				private _snackBar: MatSnackBar,
-				private router: Router,
-				private request: RequestService,
-				private serverService: ServerService,
-				private domSanitizer: DomSanitizer,
-				private matIconRegistry: MatIconRegistry,
-				public dialog: MatDialog) {
+	constructor(
+		private http: HttpClient,
+		private _snackBar: MatSnackBar,
+		private router: Router,
+		private request: RequestService,
+		private serverService: ServerService,
+		private domSanitizer: DomSanitizer,
+		private matIconRegistry: MatIconRegistry,
+		private dialog: MatDialog) {
 
 		for (const driver of this.driverNames) {
 			this.matIconRegistry.addSvgIcon(

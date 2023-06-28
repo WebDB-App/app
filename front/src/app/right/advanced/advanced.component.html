@@ -48,11 +48,11 @@
 
 		<mat-divider></mat-divider>
 
-		<div *ngIf="selectedServer?.driver?.canRename" fxLayout="row" fxLayoutAlign="space-between center">
+		<div *ngIf="selectedServer!.driver.canRename" fxLayout="row" fxLayoutAlign="space-between center">
 			<mat-form-field>
 				<input
 					#databaseName
-					[value]="selectedDatabase?.name"
+					[value]="selectedDatabase!.name"
 					autocomplete="off"
 					matInput
 					placeholder="Name">

@@ -130,11 +130,6 @@ a {
 	color: mat-color($angular-primary, default)
 }
 
-.toUpdate, .toUpdate .mat-select-value {
-	color: mat-color($angular-accent, default) !important;
-	white-space: pre;
-}
-
 .snack-error {
 	background-color: mat-color($angular-accent, default)
 }

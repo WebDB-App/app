@@ -27,12 +27,12 @@ export class MongoDB implements Driver {
 		{symbol: '$lte', example: "0", definition: "Less or equal than"},
 		{symbol: '$eq', example: '"0"', definition: "Strictly equal to"},
 		{symbol: '$ne', example: "'0'", definition: "Strictly different to"},
-		{symbol: '$in', example: '("0", "1")', definition: "Is in array of"},
-		{symbol: '$all', example: '("0", "1")', definition: "If the array contains all elements"},
+		{symbol: '$in', example: '["0", "1"]', definition: "Is in array of"},
+		{symbol: '$all', example: '["0", "1"]', definition: "If the array contains all elements"},
 		{symbol: '$range', example: '"0" AND "1"', definition: "If in the range of"},
-		{symbol: '$regexMatch', example: '"[a-z]"', definition: "If match regex"},
-		{symbol: '$text', example: '"0%"', definition: "Search text"},
-		{symbol: '$nin', example: '("0", "1")', definition: "Is not in array of"},
+		{symbol: '$regexMatch', example: '/[a-z]/', definition: "If match regex"},
+		{symbol: '$text', example: ': { $search: "trek" }', definition: "Search text"},
+		{symbol: '$nin', example: '["0", "1"]', definition: "Is not in array of"},
 	];
 	typesList = [
 		{
@@ -131,6 +131,9 @@ export class MongoDB implements Driver {
 
 			obj[key] = {};
 			obj[key][operator] = condition.substring(condition.indexOf(":") + 1).trim();
+			try {
+				obj[key][operator] = JSON.parse(obj[key][operator]);
+			} catch (err) {}
 			return obj;
 		});
 

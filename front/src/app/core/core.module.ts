@@ -11,7 +11,7 @@ import { FlexModule } from "@angular/flex-layout";
 import { MatInputModule } from "@angular/material/input";
 import { MatButtonModule } from "@angular/material/button";
 import { MatToolbarModule } from "@angular/material/toolbar";
-import { ExploreComponent } from './explore/explore.component';
+import { ExploreComponent, UpdateDataDialog } from './explore/explore.component';
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { MatTableModule } from "@angular/material/table";
 import { MatSortModule } from "@angular/material/sort";
@@ -55,7 +55,8 @@ import { HighlightModule } from "ngx-highlightjs";
 		TruncateTableDialog,
 		StructureComponent,
 		TriggerComponent,
-		TablesComponent
+		TablesComponent,
+		UpdateDataDialog
 	],
 	exports: [
 		TableAdvancedComponent

@@ -5,7 +5,7 @@
 	</mat-drawer>
 
 	<mat-drawer-content>
-		<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center" style="background-color: #444444">
+		<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center" style="background-color: #444444; z-index: 1000">
 			<div fxLayout="row" fxLayoutGap="12px" style="align-items: center">
 				<button [disabled]="router.url === '/'"
 						[style.background-color]="router.url === '/' ? 'transparent' : '#1a1a1a'"

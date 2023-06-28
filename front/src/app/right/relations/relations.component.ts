@@ -39,7 +39,7 @@ export class RelationsComponent implements OnInit {
 			await this.request.reloadDbs();
 		}
 
-		this.constraints = this.selectedServer?.driver?.constraints;
+		this.constraints = this.selectedServer?.driver.constraints;
 		this.relations = this.selectedServer?.relations.filter(relation => relation.database === this.selectedDatabase?.name);
 		this.dataSource = new MatTableDataSource(this.relations);
 	}

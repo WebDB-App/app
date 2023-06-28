@@ -135,22 +135,7 @@
 				mat-cell>
 
 				<ng-container *ngIf="column === actionColum">
-					<button (click)="updateRow(i, row)"
-							[hidden]="!toUpdate[i]"
-							color="accent"
-							mat-icon-button>
-						<mat-icon>check_circle</mat-icon>
-					</button>
-
-					<button (click)="toUpdate[i] = undefined"
-							[hidden]="!toUpdate[i]"
-							color="warn"
-							mat-icon-button>
-						<mat-icon>cancel</mat-icon>
-					</button>
-
 					<button (click)="editRow(i, row)"
-							[hidden]="toUpdate[i]"
 							color="accent"
 							mat-icon-button>
 						<span class="material-symbols-outlined notranslate">
@@ -162,29 +147,12 @@
 						(change)="$event ? selection.toggle(row) : null"
 						(click)="shiftCheckBox($event, row); $event.stopPropagation();"
 						[checked]="selection.isSelected(row)"
-						[hidden]="toUpdate[i]"
 						color="warn">
 					</mat-checkbox>
 				</ng-container>
 
 				<ng-container *ngIf="column !== actionColum">
-					<ng-container *ngIf="toUpdate[i]">
-						<mat-select *ngIf="updateSuggestions[column]"
-									[(ngModel)]="toUpdate[i][column]"
-									class="toUpdate">
-							<mat-option *ngFor="let suggestion of updateSuggestions[column]"
-										[value]="suggestion">
-								{{suggestion}}
-							</mat-option>
-						</mat-select>
-						<textarea *ngIf="!updateSuggestions[column]"
-								  [(ngModel)]="toUpdate[i][column]"
-								  cdkTextareaAutosize
-								  class="toUpdate"
-								  matInput></textarea>
-					</ng-container>
-					<app-cell *ngIf="!toUpdate[i]"
-							  [column]="column"
+					<app-cell [column]="column"
 							  [row]="row"
 					></app-cell>
 				</ng-container>

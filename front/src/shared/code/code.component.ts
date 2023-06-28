@@ -87,7 +87,7 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 	async ngOnInit() {
 		this.selectedServer = Server.getSelected();
 		this.selectedDatabase = Database.getSelected();
-		this.editorOptions.language = this.selectedServer?.driver?.language!;
+		this.editorOptions.language = this.selectedServer?.driver.language!;
 
 		if (this.selectedTable) {
 			this.prebuild("select");

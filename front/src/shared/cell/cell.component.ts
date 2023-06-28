@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Table } from "../../classes/table";
 import { Relation } from "../../classes/relation";
+import { isNested } from "../helper";
 
 @Component({
 	selector: 'app-cell',
@@ -25,8 +26,7 @@ export class CellComponent implements OnInit {
 		const fk = this.relations?.find(relation => relation.column_source === this.column);
 		this.fkLink = !fk ? undefined : ['../../', fk.table_dest];
 
-		const type = typeof this.row[this.column];
-		this.nested = Array.isArray(this.row[this.column]) || (type === 'object' && this.row[this.column] !== null);
+		this.nested = isNested(this.row[this.column]);
 	}
 
 	getFkParams() {
