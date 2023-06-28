@@ -107,7 +107,7 @@ export class MongoDB implements Driver {
 	}
 
 	getBaseSelect(table: Table) {
-		return `db.collection("${table.name}").find({})`;
+		return `db.collection("${table.name}").find({}).toArray()`;
 	}
 
 	getBaseSelectWithRelations(table: Table, relations: Relation[]) {
