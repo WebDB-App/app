@@ -104,12 +104,18 @@ export default class MongoDB extends Driver {
 	}
 
 	async querySize(query, database) {
-		const result = await this.runCommand(query, database);
-		return result.error ? "0" : result.length.toString();
+		if (query.trim().indexOf(".toArray()") < 0) {
+			return "1";
+		}
+
+		const result = await this.runCommand(query.replaceAll(".toArray()", ".count()"), database);
+		return result.error ? "0" : result.toString();
 	}
 
 	async runPagedQuery(query, page, pageSize, database) {
-		query = query.replaceAll(".toArray()", `.skip(${page * pageSize}).limit(${pageSize}).toArray()`);
+		if (query.indexOf(".skip(") < 0 && query.indexOf(".limit(") < 0) {
+			query = query.replaceAll(".toArray()", `.skip(${page * pageSize}).limit(${pageSize}).toArray()`);
+		}
 
 		return await this.runCommand(query, database);
 	}
