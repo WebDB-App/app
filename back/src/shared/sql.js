@@ -158,14 +158,21 @@ export default class SQL extends Driver {
 	}
 
 	async querySize(query, database) {
-		const result = await this.runCommand(`SELECT COUNT(*) AS querysize FROM (${this.cleanQuery(query)}) AS query`, database);
+		if (!query.trim().toLowerCase().startsWith("select ")) {
+			return "1";
+		}
 
+		const result = await this.runCommand(`SELECT COUNT(*) AS querysize FROM (${this.cleanQuery(query)}) AS query`, database);
 		return result.error ? "0" : result[0]["querysize"];
 	}
 
 	async runPagedQuery(query, page, pageSize, database) {
-		if (query.trim().toLowerCase().startsWith("select ")) {
-			query = `${this.cleanQuery(query)} LIMIT ${pageSize} OFFSET ${page * pageSize}`;
+		query = this.cleanQuery(query);
+
+		if (query.trim().toLowerCase().startsWith("select ")
+			&& query.toLowerCase().indexOf(" offset ") < 0
+			&& query.toLowerCase().indexOf(" limit ") < 0) {
+			query = `${query} LIMIT ${pageSize} OFFSET ${page * pageSize}`;
 		}
 
 		return await this.runCommand(query, database);

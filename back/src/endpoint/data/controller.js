@@ -5,7 +5,7 @@ class Controller {
 	async insert(req, res) {
 		const [driver, database, table] = await http.getLoggedDriver(req);
 
-		res.send({insert: await driver.insert(database, table, req.body)});
+		res.send({inserted: await driver.insert(database, table, req.body)});
 	}
 
 	async update(req, res) {
