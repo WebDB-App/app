@@ -63,7 +63,6 @@ export class ExploreComponent implements OnInit, OnDestroy {
 
 	ngOnInit() {
 		this.obs = combineLatest([this.route.parent?.params, this.route?.queryParams, this.request.serverReload]).pipe(
-			debounceTime(100),
 			distinctUntilChanged()
 		).subscribe(async (_params) => {
 			// @ts-ignore

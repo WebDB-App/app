@@ -36,7 +36,6 @@ export class TablesComponent implements OnInit, OnDestroy {
 	selectedServer?: Server;
 	selectedTable?: Table;
 
-	extend = true;
 	tooltips: any = {};
 	tabs = Tabs;
 
@@ -45,15 +44,10 @@ export class TablesComponent implements OnInit, OnDestroy {
 		private titleService: Title,
 		private drawer: DrawerService,
 		private request: RequestService,
-		public breakpointObserver: BreakpointObserver,
 		public activatedRoute: ActivatedRoute) {
 	}
 
 	async ngOnInit() {
-		this.breakpointObserver
-			.observe(['(min-width: 900px)'])
-			.subscribe((state: BreakpointState) => this.extend = state.matches);
-
 		this.obs = combineLatest([this.activatedRoute.paramMap, this.request.serverReload]).pipe(
 			distinctUntilChanged()
 		).subscribe(async (_params) => {
