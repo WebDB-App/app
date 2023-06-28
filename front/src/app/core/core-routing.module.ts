@@ -11,25 +11,43 @@ const routes: Routes = [
 	{
 		path: '',
 		pathMatch: 'full',
-		redirectTo: 'explore'
+		redirectTo: 'explore',
 	}, {
 		path: 'explore',
-		component: ExploreComponent
+		component: ExploreComponent,
+		data: {
+			reuseRouteId: 'explore'
+		}
 	}, {
 		path: 'query',
-		component: QueryComponent
+		component: QueryComponent,
+		data: {
+			reuseRouteId: 'query'
+		}
 	}, {
 		path: 'structure',
-		component: StructureComponent
+		component: StructureComponent,
+		data: {
+			reuseRouteId: 'structure'
+		}
 	}, {
 		path: 'insert',
-		component: InsertComponent
+		component: InsertComponent,
+		data: {
+			reuseRouteId: 'insert'
+		}
 	}, {
 		path: 'trigger',
-		component: TriggerComponent
+		component: TriggerComponent,
+		data: {
+			reuseRouteId: 'trigger'
+		}
 	}, {
 		path: 'advanced',
-		component: TableAdvancedComponent
+		component: TableAdvancedComponent,
+		data: {
+			reuseRouteId: 'advanced'
+		}
 	}
 ];
 

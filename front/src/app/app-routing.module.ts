@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouteReuseStrategy, RouterModule, Routes } from '@angular/router';
 import { ContainerComponent } from "./container/container.component";
 import { environment } from "../environments/environment";
 import { TablesComponent } from "./core/tables/tables.component";
+import { CustomReuseStrategy } from './custom-reuse-strategy';
 
 const appRoutes: Routes = [
 	{
@@ -35,6 +36,12 @@ if (environment.production) {
 @NgModule({
 	imports: [RouterModule.forRoot(appRoutes, {useHash: true})],
 	exports: [RouterModule],
+	providers: [
+		{
+			provide: RouteReuseStrategy,
+			useClass: CustomReuseStrategy,
+		},
+	],
 })
 export class AppRoutingModule {
 }
