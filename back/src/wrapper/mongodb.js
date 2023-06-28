@@ -95,16 +95,6 @@ export default class MongoDB extends Driver {
 
 			const fct = new Function("db", command);
 			return await fct(db);
-
-			/*const [rows] = await connection.query(command);
-			return rows.map(row => {
-				for (const [key, col] of Object.entries(row)) {
-					if (Buffer.isBuffer(col)) {
-						row[key] = "###BLOB###";
-					}
-				}
-				return row;
-			});*/
 		} catch (e) {
 			console.error(e);
 			return {error: e.message};
