@@ -1,6 +1,6 @@
 <mat-sidenav-container autosize fxFlexFill id="container">
 	<mat-sidenav #sidenav disableClose mode="side" opened>
-		<mat-list [ngClass]="{'extend': extend}" fxLayout="column" id="tableList">
+		<mat-list fxLayout="column" id="tableList">
 
 			<mat-list-item>
 				<mat-form-field style="width: 100%">
@@ -49,24 +49,7 @@
 			<span fxFlex></span>
 
 			<mat-list-item>
-
-				<button
-					(click)="extend = !extend"
-					mat-button>
-					<span
-						*ngIf="extend"
-						class="material-symbols-outlined notranslate">
-						keyboard_double_arrow_left
-					</span>
-					<span
-						*ngIf="!extend"
-						class="material-symbols-outlined notranslate">
-						keyboard_double_arrow_right
-					</span>
-				</button>
-
 				<button (click)="addTable()"
-						*ngIf="extend"
 						color="primary"
 						mat-stroked-button
 						style="width: 100%;">

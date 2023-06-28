@@ -5,15 +5,7 @@
 
 #tableList {
 	height: 100%;
-	width: 140px;
-
-	&.extend {
-		width: inherit;
-
-		.entity .mat-icon-button {
-			display: block !important;
-		}
-	}
+	width: 17vw;
 
 	mat-selection-list {
 		overflow: auto;

@@ -1,10 +1,10 @@
-<mat-drawer-container fxFlexFill>
+<mat-drawer-container>
 
 	<mat-drawer #drawer mode="over" position="end">
 		<router-outlet *ngIf="!isLoading" name="right"></router-outlet>
 	</mat-drawer>
 
-	<mat-drawer-content>
+	<mat-drawer-content style="display: flex; flex-direction: column">
 		<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center" style="background-color: #444444; z-index: 1000">
 			<div fxLayout="row" fxLayoutGap="12px" style="align-items: center">
 				<button [disabled]="router.url === '/'"

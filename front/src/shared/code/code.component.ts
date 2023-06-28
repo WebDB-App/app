@@ -37,6 +37,8 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 	@Input() query = '';
 	@Input() selectedTable?: Table;
 
+	protected readonly Math = Math;
+
 	configuration: Configuration = new Configuration();
 	selectedServer?: Server;
 	selectedDatabase?: Database;
@@ -62,7 +64,6 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 	dataSource?: MatTableDataSource<any>
 	page = 0;
 	querySize!: number;
-	protected readonly Math = Math;
 
 	constructor(
 		private _snackBar: MatSnackBar,

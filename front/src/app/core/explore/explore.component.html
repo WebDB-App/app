@@ -1,13 +1,6 @@
 <mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
 	<div style="display: flex; align-items: center;">
 		<div fxLayout="row" fxLayoutAlign="center center">
-			<mat-paginator
-				(page)="changePage($event.pageIndex)"
-				[length]="querySize"
-				[pageIndex]="params.page"
-				hidePageSize
-				pageSize="{{pageSize}}"
-			></mat-paginator>
 			<mat-form-field appearance="outline" class="goToPage">
 				<mat-label>
 					Page
@@ -17,17 +10,24 @@
 								[value]="i">{{i}}</mat-option>
 				</mat-select>
 			</mat-form-field>
-		</div>
-		<button
-			(click)="setAutoUp()"
-			[color]="autoUp ? 'primary' : undefined"
-			[ngClass]="{'mat-raised-button' : autoUp}"
-			mat-button
-			matTooltip="Reload data periodically">
+			<mat-paginator
+				(page)="changePage($event.pageIndex)"
+				[length]="querySize"
+				[pageIndex]="params.page"
+				hidePageSize
+				pageSize="{{pageSize}}"
+			></mat-paginator>
+			<button
+				(click)="setAutoUp()"
+				[color]="autoUp ? 'primary' : undefined"
+				[ngClass]="{'mat-raised-button' : autoUp}"
+				mat-button
+				matTooltip="Reload data periodically">
 			<span class="material-symbols-outlined notranslate">
 				repeat
 			</span>
-		</button>
+			</button>
+		</div>
 	</div>
 
 	<mat-chip-list #chipList>
