@@ -442,7 +442,7 @@ export class SQL implements Driver {
 		let tokens: any = [];
 		previousToken = this.getLastWord(this.cleanSentence(previousToken));
 
-		const locals = history.getLocal().map(local => local.query.split(";")).flat(1);
+		const locals = history.getLocal().flatMap(local => local.query.split(";"));
 		for (const local of locals) {
 			const cleaned = this.cleanSentence(local.toLowerCase()).trim();
 

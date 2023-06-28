@@ -165,7 +165,7 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 				result = [result];
 			}
 
-			this.displayedColumns = Object.keys(result[0]);
+			this.displayedColumns = [...new Set(result.flatMap(res => Object.keys(res)))];
 			this.dataSource = new MatTableDataSource(result);
 		} catch (err: unknown) {
 			this.dataSource = new MatTableDataSource();
