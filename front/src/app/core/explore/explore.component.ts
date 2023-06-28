@@ -136,7 +136,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 		});
 
 		this.dataSource = new MatTableDataSource<any>(result);
-		this.displayedColumns = result.length ? Object.keys(result[0]).concat([this.actionColum]) : [];
+		this.displayedColumns = result.length ? this.selectedTable!.columns.map(column => column.name).concat([this.actionColum]) : [];
 	}
 
 	async getQuerySize() {
