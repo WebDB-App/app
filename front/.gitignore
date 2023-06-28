@@ -20,3 +20,4 @@ yarn-error.log
 testem.log
 /typings
 
+src/assets/libs/
