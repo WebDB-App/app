@@ -3,6 +3,10 @@
 
 	.table .mat-cell {
 		color: #ff9800 !important;
+		
+		textarea {
+			min-height: 30px;
+		}
 	}
 }
 

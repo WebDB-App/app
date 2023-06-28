@@ -1,0 +1,35 @@
+<div mat-dialog-title>
+	<h2>Update Data</h2>
+	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
+		<mat-icon>close</mat-icon>
+	</button>
+</div>
+<div mat-dialog-content>
+	<ngx-monaco-editor
+		[(ngModel)]="str"
+		[options]="editorOptions"
+		style="height: 50vh; width: 38vw"
+	></ngx-monaco-editor>
+	<div>
+		<div *ngFor="let column of updateSuggestions">
+
+		</div>
+	</div>
+	<mat-select>
+		<mat-option *ngFor="let suggestion of updateSuggestions"
+					[value]="suggestion">
+			{{suggestion}}
+		</mat-option>
+	</mat-select>
+</div>
+<div fxLayout="row" fxLayoutAlign="space-around center" mat-dialog-actions>
+	<button (click)="update()"
+			color="primary"
+			mat-flat-button>
+		<span class="material-symbols-outlined notranslate">
+			save
+		</span>
+		Save
+	</button>
+</div>
+

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Server } from "../../../classes/server";
@@ -11,6 +11,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { Configuration } from "../../../classes/configuration";
 import { RequestService } from "../../../shared/request.service";
 import { SelectionModel } from "@angular/cdk/collections";
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
 
 @Component({
 	selector: 'app-explore',
@@ -36,19 +37,19 @@ export class ExploreComponent implements OnInit, OnDestroy {
 	autoUp: boolean | NodeJS.Timer = false;
 	query = "";
 	isLoading = false;
-	toUpdate: any = {};
-	updateSuggestions: any[any] = [];
 	actionColum = "##ACTION##";
 	displayedColumns: string[] = [];
 	dataSource!: MatTableDataSource<any>;
 	selection = new SelectionModel<any>(true, []);
-	
+
+	protected readonly Math = Math;
 	@ViewChild(MatPaginator) paginator!: MatPaginator;
 
 	constructor(
 		private _snackBar: MatSnackBar,
 		private request: RequestService,
 		private router: Router,
+		private dialog: MatDialog,
 		private route: ActivatedRoute) {
 	}
 
@@ -70,13 +71,8 @@ export class ExploreComponent implements OnInit, OnDestroy {
 
 			this.selectedDatabase = Database.getSelected();
 			this.selectedServer = Server.getSelected();
+			this.selectedTable = Table.getSelected();
 
-			if (this.selectedTable?.name !== Table.getSelected().name) {
-				this.selectedTable = Table.getSelected();
-				this.loadSuggestions();
-			}
-
-			this.toUpdate = [];
 			this.changePage(params["page"] || 0, false);
 			this.params.sortField = params["sortField"] || "";
 			this.params.sortDirection = params["sortDirection"] || "";
@@ -186,17 +182,17 @@ export class ExploreComponent implements OnInit, OnDestroy {
 		this._snackBar.open(`Rows Deleted`, "╳", {duration: 3000});
 	}
 
-	async updateRow(i: number, old: any) {
-		await this.request.post('data/update', {old_data: old, new_data: this.toUpdate[i]});
-
-		this.dataSource.data[i] = this.toUpdate[i];
-		this.dataSource._updateChangeSubscription();
-		this.toUpdate.splice(i, 1);
-		this._snackBar.open(`Row Updated`, "╳", {duration: 3000});
-	}
-
 	editRow(i: number, row: any) {
-		this.toUpdate[i] = {...row};
+		const dialogRef = this.dialog.open(UpdateDataDialog, {
+			data: row,
+		});
+
+		dialogRef.afterClosed().subscribe(async result => {
+			if (result) {
+				this.dataSource.data[i] = result;
+				this.dataSource._updateChangeSubscription();
+			}
+		});
 	}
 
 	shiftCheckBox(event: MouseEvent, row: any) {
@@ -238,16 +234,47 @@ export class ExploreComponent implements OnInit, OnDestroy {
 			this.selection.clear();
 			return;
 		}
-
 		this.selection.select(...this.dataSource.data);
+	}
+}
+
+
+@Component({
+	templateUrl: 'update-dialog.html',
+})
+export class UpdateDataDialog {
+
+	updateSuggestions: any[any] = [];
+	str = "";
+	editorOptions = {
+		language: 'json'
+	};
+
+	constructor(
+		public dialogRef: MatDialogRef<UpdateDataDialog>,
+		private request: RequestService,
+		private _snackBar: MatSnackBar,
+		@Inject(MAT_DIALOG_DATA) public old: any,
+	) {
+		this.str = JSON.stringify(old, null, "\t");
+		this.loadSuggestions();
+	}
+
+	async update() {
+		const n = JSON.parse(this.str);
+
+		await this.request.post('data/update', {old_data: this.old, new_data: n});
+
+		this._snackBar.open(`Row Updated`, "╳", {duration: 3000});
+		this.dialogRef.close(n);
 	}
 
 	async loadSuggestions() {
 		const relations = Table.getRelations();
-		const limit = 1000
+		const limit = 1000;
 
-		for (const col of Table.getSelected()!.columns) {
-			const values = this.selectedServer?.driver.extractEnum(col);
+		for (const col of Table.getSelected().columns) {
+			const values = Server.getSelected().driver.extractEnum(col);
 			if (values) {
 				this.updateSuggestions[col.name] = values;
 			} else if (relations.find(relation => relation.column_source === col.name)) {
@@ -258,6 +285,4 @@ export class ExploreComponent implements OnInit, OnDestroy {
 			}
 		}
 	}
-
-	protected readonly Math = Math;
 }

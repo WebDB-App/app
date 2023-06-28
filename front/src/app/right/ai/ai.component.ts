@@ -42,7 +42,6 @@ class Msg {
 				this.marked.push({html: child.innerHTML});
 			}
 		}
-		console.log(this.marked);
 	}
 }
 
