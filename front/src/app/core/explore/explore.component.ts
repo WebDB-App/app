@@ -72,6 +72,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 			this.selectedDatabase = Database.getSelected();
 			this.selectedServer = Server.getSelected();
 			this.selectedTable = Table.getSelected();
+			//console.log(this.selectedDatabase, this.selectedServer, this.selectedTable);
 
 			this.changePage(params["page"] || 0, false);
 			this.params.sortField = params["sortField"] || "";

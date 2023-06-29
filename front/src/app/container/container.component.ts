@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import packageJson from '../../../package.json';
 import { MatDrawer } from "@angular/material/sidenav";
@@ -8,7 +8,6 @@ import { DomSanitizer } from "@angular/platform-browser";
 import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
 import { SubscriptionDialog } from "./subscription/subscription-dialog.component";
 import { ConfigDialog } from "./config/config-dialog.component";
-import { ServerService } from "../../shared/server.service";
 import { Server } from "../../classes/server";
 import { Database } from "../../classes/database";
 import { environment } from "../../environments/environment";
@@ -25,14 +24,13 @@ class Panel {
 	templateUrl: './container.component.html',
 	styleUrls: ['./container.component.scss']
 })
-export class ContainerComponent implements AfterViewInit {
+export class ContainerComponent implements OnInit, AfterViewInit {
 
 	@ViewChild("drawer") drawer!: MatDrawer;
 
 	env = environment;
 	packageJson = packageJson
 	isLoading = true;
-	servers!: Server[];
 	selectedServer!: Server;
 	selectedDatabase!: Database;
 
@@ -52,7 +50,6 @@ export class ContainerComponent implements AfterViewInit {
 		private drawerService: DrawerService,
 		private activatedRoute: ActivatedRoute,
 		private _snackBar: MatSnackBar,
-		private serverService: ServerService,
 		private request: RequestService,
 		public router: Router,
 		public dialog: MatDialog
@@ -63,44 +60,30 @@ export class ContainerComponent implements AfterViewInit {
 				this.domSanitizer.bypassSecurityTrustResourceUrl(`/assets/${icon}.svg`)
 			);
 		}
+	}
 
-		this.serverService.scanServer.subscribe((servers => {
-			this.servers = servers;
-		}));
+	async ngOnInit() {
+		const serverName = this.activatedRoute.snapshot.paramMap.get('server');
+		const databaseName = this.activatedRoute.snapshot.paramMap.get('db');
 
-		if (router.url === '/') {
-			this.syncParams();
+		if (!serverName || !databaseName) {
 			return;
 		}
 
-		this.serverService.scan().then(() => {
-			this.syncParams();
-		});
-	}
+		const local = Server.getAll().find(local => local.name === serverName);
+		const server = await this.request.connectServer(local!);
+		const database = server?.dbs.find(db => db.name === databaseName);
 
-	syncParams() {
-		this.activatedRoute.paramMap.subscribe(async paramMap => {
-			const serverName = paramMap.get('server');
-			const dbName = paramMap.get('db');
+		if (!server || !database) {
+			this._snackBar.open(`Can't connect to ${serverName}/${databaseName}, please check server availability`, "╳", {panelClass: 'snack-error'});
+			return;
+		}
 
-			if (!serverName || !dbName) {
-				return;
-			}
-
-			const server = this.servers.find(srv => srv.name === serverName);
-			const database = server?.dbs.find(db => db.name === dbName);
-
-			if (!server || !database) {
-				this._snackBar.open(`Can't connect to ${serverName}/${dbName}, please check server availability`, "╳", {panelClass: 'snack-error'});
-				return;
-			}
-
-			this.selectedServer = server;
-			this.selectedDatabase = database;
-			Server.setSelected(server);
-			Database.setSelected(database);
-			this.isLoading = false;
-		});
+		this.selectedServer = server;
+		this.selectedDatabase = database;
+		Server.setSelected(server);
+		Database.setSelected(database);
+		this.isLoading = false;
 	}
 
 	ngAfterViewInit(): void {
@@ -111,11 +94,7 @@ export class ContainerComponent implements AfterViewInit {
 		const dialogRef = this.dialog.open(SubscriptionDialog);
 
 		dialogRef.afterClosed().subscribe(async () => {
-			this.isLoading = true;
-			await this.serverService.scan();
-			setTimeout(() => {
-				this.isLoading = false
-			});
+			await this.reloadServer();
 		});
 	}
 
@@ -123,9 +102,9 @@ export class ContainerComponent implements AfterViewInit {
 		this.dialog.open(ConfigDialog);
 	}
 
-	async reloadDbs() {
+	async reloadServer() {
 		this.isLoading = true;
-		await this.request.reloadDbs();
+		await this.request.reloadServer();
 		this.isLoading = false;
 	}
 

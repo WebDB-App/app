@@ -81,7 +81,7 @@ export class StructureComponent implements OnInit, OnDestroy, AfterViewChecked {
 	}
 
 	async refreshData() {
-		await this.request.reloadDbs();
+		await this.request.reloadServer();
 		await this.loadData();
 	}
 

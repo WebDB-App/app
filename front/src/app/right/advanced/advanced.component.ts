@@ -49,7 +49,7 @@ export class AdvancedComponent implements OnInit {
 			await this.request.post('database/drop', undefined);
 			this._snackBar.open(`${databaseName} Dropped`, "╳", {duration: 3000});
 
-			await this.request.reloadDbs();
+			await this.request.reloadServer();
 			await this.router.navigate(['/']);
 		});
 	}
@@ -58,7 +58,7 @@ export class AdvancedComponent implements OnInit {
 		await this.request.post('table/alter', databaseName);
 		this._snackBar.open(`${this.selectedDatabase!.name} Renamed to ${databaseName}`, "╳", {duration: 3000});
 
-		await this.request.reloadDbs();
+		await this.request.reloadServer();
 		await this.router.navigate([
 			Server.getSelected().name,
 			databaseName]);
@@ -67,7 +67,7 @@ export class AdvancedComponent implements OnInit {
 	async changeCollation(collation: string) {
 		await this.request.post('database/setCollations', {collation});
 
-		await this.request.reloadDbs();
+		await this.request.reloadServer();
 		this._snackBar.open(`Updated`, "╳", {duration: 3000});
 	}
 }

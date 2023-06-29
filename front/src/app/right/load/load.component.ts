@@ -96,7 +96,7 @@ export class LoadComponent {
 		}
 
 		this._snackBar.open("Import Succeed", "╳", {duration: 3000})
-		await this.request.reloadDbs();
+		await this.request.reloadServer();
 		this.isLoading = false;
 	}
 

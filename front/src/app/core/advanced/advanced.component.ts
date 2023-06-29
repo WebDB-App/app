@@ -49,7 +49,7 @@ export class TableAdvancedComponent {
 				return;
 			}
 			this._snackBar.open(`Dropped Table ${this.selectedTable?.name}`, "╳", {duration: 3000});
-			await this.request.reloadDbs();
+			await this.request.reloadServer();
 			await this.router.navigate(['../../'], {relativeTo: this.route});
 		});
 	}
@@ -68,7 +68,7 @@ export class TableAdvancedComponent {
 		await this.request.post('table/rename', {new_name});
 
 		this._snackBar.open(`Table ${this.selectedTable?.name} renamed to ${new_name}`, "╳", {duration: 3000});
-		await this.request.reloadDbs();
+		await this.request.reloadServer();
 		await this.router.navigate(['../../', new_name, Tabs.at(-1)!.link.toLowerCase()], {relativeTo: this.route});
 	}
 
@@ -76,7 +76,7 @@ export class TableAdvancedComponent {
 		await this.request.post('table/duplicate', {new_name});
 
 		this._snackBar.open(`Table ${this.selectedTable?.name} duplicated to ${new_name}`, "╳", {duration: 3000});
-		await this.request.reloadDbs();
+		await this.request.reloadServer();
 		await this.router.navigate(['../../', new_name, Tabs.at(-1)!.link], {relativeTo: this.route});
 	}
 }

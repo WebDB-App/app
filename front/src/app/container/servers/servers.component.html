@@ -153,7 +153,7 @@
 										[disabled]="database.tables === undefined"
 										[hidden]="database.hide"
 										[style.opacity]="database.system ? '0.5' : 1"
-										routerLink="/{{server.name}}/{{database.name}}">
+										(click)="changeDb(server, database)">
 										{{database.name}}
 										<ng-container *ngIf="database.tables === undefined"> [Limited]</ng-container>
 										<span matTooltip="Tables"

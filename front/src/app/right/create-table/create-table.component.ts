@@ -31,7 +31,7 @@ export class CreateTableComponent {
 		await this.request.post('table/create', this.form);
 
 		this._snackBar.open(`Table ${this.form.name} Created`, "╳", {duration: 3000});
-		await this.request.reloadDbs();
+		await this.request.reloadServer();
 
 		await this.router.navigate([
 			Server.getSelected().name,
