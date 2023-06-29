@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, firstValueFrom } from "rxjs";
+import { firstValueFrom } from "rxjs";
 import { Server } from "../classes/server";
 import { environment } from "../environments/environment";
 import { HttpClient } from "@angular/common/http";
@@ -67,5 +67,6 @@ export class ServerService {
 		});
 
 		this.messageSource.next(servers);
+		//reload db and only current and scan only only serverCmpt
 	}
 }

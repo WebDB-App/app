@@ -1,3 +1,5 @@
+- update on right
+- 
 - autocomplete table and column and types
 - getQueryHeader (use, `//db is `)
 
