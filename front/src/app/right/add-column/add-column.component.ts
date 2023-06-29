@@ -32,6 +32,6 @@ export class AddColumnComponent {
 		await this.request.post('column/add', this.form);
 
 		this._snackBar.open(`Columns Added`, "╳", {duration: 3000});
-		await this.request.reloadDbs();
+		await this.request.reloadServer();
 	}
 }

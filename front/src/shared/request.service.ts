@@ -8,6 +8,7 @@ import { Table } from "../classes/table";
 import { Relation } from "../classes/relation";
 import { Index } from "../classes";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import * as drivers from "../classes/drivers";
 
 @Injectable({
 	providedIn: 'root'
@@ -50,7 +51,22 @@ export class RequestService {
 		return result;
 	}
 
-	async reloadDbs(server = Server.getSelected()) {
+	async connectServer(server: Server) {
+		// @ts-ignore
+		server.driver = new drivers[server.wrapper];
+		server.params = server.params || server.driver.defaultParams;
+
+		const connect = await firstValueFrom(this.http.post<any>(environment.apiRootUrl + 'server/connect', Server.getShallow(server)));
+		if (!connect.error) {
+			server = await this.reloadServer(server);
+			server.connected = true;
+		} else {
+			server.connected = false;
+		}
+		return server;
+	}
+
+	async reloadServer(server = Server.getSelected()) {
 		const shallow = Server.getShallow(server);
 
 		await Promise.all([

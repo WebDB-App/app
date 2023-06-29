@@ -1,25 +1,26 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { environment } from "../../../environments/environment";
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { firstValueFrom, Subscription } from "rxjs";
+import { firstValueFrom } from "rxjs";
 import { Router } from "@angular/router";
 import { Server, SSH } from "../../../classes/server";
 import { RequestService } from "../../../shared/request.service";
 import * as drivers from '../../../classes/drivers';
 import { DomSanitizer } from "@angular/platform-browser";
 import { MatIconRegistry } from "@angular/material/icon";
-import { ServerService } from "../../../shared/server.service";
+import { Database } from "../../../classes/database";
 
 @Component({
 	selector: 'app-servers',
 	templateUrl: './servers.component.html',
 	styleUrls: ['./servers.component.scss']
 })
-export class ServersComponent implements OnInit, OnDestroy {
+export class ServersComponent implements OnInit {
 
-	obs?: Subscription;
+	@Output() changeDatabase = new EventEmitter<{server: Server, database: Database}>();
+
 	servers: Server[] = [];
 	showPassword = false;
 	isLoading = true;
@@ -30,7 +31,6 @@ export class ServersComponent implements OnInit, OnDestroy {
 		private _snackBar: MatSnackBar,
 		private router: Router,
 		private request: RequestService,
-		private serverService: ServerService,
 		private domSanitizer: DomSanitizer,
 		private matIconRegistry: MatIconRegistry,
 		private dialog: MatDialog) {
@@ -45,20 +45,42 @@ export class ServersComponent implements OnInit, OnDestroy {
 
 	async ngOnInit() {
 		await this.reloadList();
-
-		this.obs = this.serverService.scanServer.subscribe((servers => {
-			this.servers = servers;
-		}))
-	}
-
-	ngOnDestroy(): void {
-		this.obs?.unsubscribe();
 	}
 
 	async reloadList() {
 		this.isLoading = true;
 		this.filterChanged('');
-		await this.serverService.scan();
+
+		let servers = [];
+
+		const scans = (await firstValueFrom(this.http.get<Server[]>(environment.apiRootUrl + 'server/scan'))).map(scan => {
+			scan.name = Server.setName(scan);
+			scan.scanned = true
+			return scan;
+		});
+		const locals = Server.getAll().map(local => {
+			const scan = scans.find(sc => sc.name === local.name);
+			if (scan) {
+				local.scanned = scan.scanned;
+			}
+			return local;
+		});
+
+		for (const scan of scans) {
+			if (locals.findIndex(server => server.name === scan.name) < 0) {
+				locals.push(scan);
+			}
+		}
+
+		for (let server of locals) {
+			servers.push(this.request.connectServer(server));
+		}
+
+		servers = await Promise.all(servers);
+		this.servers = servers.sort((a, b) => {
+			return Number(b.connected) - Number(a.connected)
+		});
+
 		this.isLoading = false;
 	}
 
@@ -188,6 +210,18 @@ export class ServersComponent implements OnInit, OnDestroy {
 
 	getServerByDriver(driver: string): Server[] {
 		return this.servers.filter(server => server.wrapper === driver);
+	}
+
+	async changeDb(server: Server, database: Database) {
+		Server.setSelected(server);
+		Database.setSelected(database);
+
+		this.changeDatabase.emit({
+			server,
+			database
+		});
+
+		await this.router.navigate([server.name, database.name]);
 	}
 }
 

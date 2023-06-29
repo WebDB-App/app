@@ -17,6 +17,6 @@ export class ConfigDialog {
 
 	async update(name: string, value: string) {
 		this.configuration.update(name, value);
-		await this.request.reloadDbs();
+		await this.request.reloadServer();
 	}
 }

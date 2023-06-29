@@ -37,7 +37,7 @@ export class UpdateColumnComponent {
 		this.form.old = this.form.columns[0];
 		this._snackBar.open(`Columns Changed`, "╳", {duration: 3000});
 
-		await this.request.reloadDbs();
+		await this.request.reloadServer();
 	}
 
 }

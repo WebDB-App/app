@@ -36,7 +36,7 @@ export class RelationsComponent implements OnInit {
 
 	async refreshData(pageLoad = false) {
 		if (!pageLoad) {
-			await this.request.reloadDbs();
+			await this.request.reloadServer();
 		}
 
 		this.constraints = this.selectedServer?.driver.constraints;

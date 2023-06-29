@@ -26,7 +26,7 @@
 					<div>
 						<span>{{selectedServer.host}}</span>:<span>{{selectedServer.port}}</span>/<span>{{selectedDatabase.name}}</span>
 					</div>
-					<button (click)="reloadDbs()" mat-icon-button>
+					<button (click)="reloadServer()" mat-icon-button>
 						<span class="material-symbols-outlined notranslate">
 							refresh
 						</span>
@@ -59,7 +59,7 @@
 		</mat-toolbar>
 
 		<div *ngIf="router.url === '/'">
-			<app-servers></app-servers>
+			<app-servers (changeDatabase)="selectedServer = $event.server; selectedDatabase = $event.database"></app-servers>
 		</div>
 
 		<router-outlet *ngIf="!isLoading"></router-outlet>
