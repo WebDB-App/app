@@ -71,9 +71,13 @@ export class ContainerComponent implements OnInit, AfterViewInit {
 			return;
 		}
 
+		let server, database;
 		const local = Server.getAll().find(local => local.name === serverName);
-		const server = await this.request.connectServer(local!);
-		const database = server?.dbs.find(db => db.name === databaseName);
+
+		if (local) {
+			server = await this.request.connectServer(local);
+			database = server?.dbs.find(db => db.name === databaseName)!;
+		}
 
 		if (!server || !database) {
 			this._snackBar.open(`Can't connect to ${serverName}/${databaseName}, please check server availability`, "╳", {panelClass: 'snack-error'});
