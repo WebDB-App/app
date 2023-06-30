@@ -1,9 +1,13 @@
-import { ActivatedRouteSnapshot, DetachedRouteHandle, RouteReuseStrategy, UrlSegment, } from '@angular/router';
+import { ActivatedRouteSnapshot, DetachedRouteHandle, RouteReuseStrategy } from '@angular/router';
 
 export class CustomReuseStrategy implements RouteReuseStrategy {
 	storedHandles: { [key: string]: DetachedRouteHandle } = {};
 
 	shouldDetach(route: ActivatedRouteSnapshot): boolean {
+		if (window.location.hash === "#/") {
+			this.storedHandles = {};
+			return false;
+		}
 		return route.data['reuseRouteId'] || false;
 	}
 

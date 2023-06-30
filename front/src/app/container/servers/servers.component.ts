@@ -213,9 +213,6 @@ export class ServersComponent implements OnInit {
 	}
 
 	async changeDb(server: Server, database: Database) {
-		Server.setSelected(server);
-		Database.setSelected(database);
-
 		this.changeDatabase.emit({
 			server,
 			database
