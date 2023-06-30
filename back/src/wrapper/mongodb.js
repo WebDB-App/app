@@ -91,7 +91,7 @@ export default class MongoDB extends Driver {
 			if (!command.trim().startsWith("return")) {
 				command = `return ${command}`;
 			}
-			command = command.replaceAll(".toArray().", ".");
+			//command = command.replaceAll(".toArray().", ".");
 
 			const fct = new Function("db", command);
 			return await fct(db);
@@ -108,8 +108,8 @@ export default class MongoDB extends Driver {
 			return "1";
 		}
 
-		const result = await this.runCommand(query.replaceAll(".toArray()", ".count()"), database);
-		return result.error ? "0" : result.toString();
+		const result = await this.runCommand(query, database);
+		return result.error ? "0" : result.length.toString();
 	}
 
 	async runPagedQuery(query, page, pageSize, database) {
