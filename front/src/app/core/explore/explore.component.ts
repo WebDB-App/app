@@ -5,7 +5,7 @@ import { Server } from "../../../classes/server";
 import { Database } from "../../../classes/database";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { Table } from "../../../classes/table";
-import { combineLatest, debounceTime, distinctUntilChanged, Subscription } from "rxjs";
+import { combineLatest, distinctUntilChanged, Subscription } from "rxjs";
 import { MatChipInputEvent } from "@angular/material/chips";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Configuration } from "../../../classes/configuration";
@@ -63,7 +63,6 @@ export class ExploreComponent implements OnInit, OnDestroy {
 
 	ngOnInit() {
 		this.obs = combineLatest([this.route.parent?.params, this.route?.queryParams, this.request.serverReload]).pipe(
-			debounceTime(10),
 			distinctUntilChanged()
 		).subscribe(async (_params) => {
 			// @ts-ignore
@@ -72,7 +71,6 @@ export class ExploreComponent implements OnInit, OnDestroy {
 			this.selectedDatabase = Database.getSelected();
 			this.selectedServer = Server.getSelected();
 			this.selectedTable = Table.getSelected();
-			//console.log(this.selectedDatabase, this.selectedServer, this.selectedTable);
 
 			this.changePage(params["page"] || 0, false);
 			this.params.sortField = params["sortField"] || "";

@@ -4,7 +4,6 @@ import { ContainerComponent } from "./container/container.component";
 import { environment } from "../environments/environment";
 import { TablesComponent } from "./core/tables/tables.component";
 import { CustomReuseStrategy } from './custom-reuse-strategy';
-import { ServersComponent } from "./container/servers/servers.component";
 
 const appRoutes: Routes = [
 	{

@@ -59,7 +59,7 @@
 		</mat-toolbar>
 
 		<div *ngIf="router.url === '/'">
-			<app-servers (changeDatabase)="selectedServer = $event.server; selectedDatabase = $event.database"></app-servers>
+			<app-servers (changeDatabase)="changeDatabase($event.server, $event.database)"></app-servers>
 		</div>
 
 		<router-outlet *ngIf="!isLoading"></router-outlet>

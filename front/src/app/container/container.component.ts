@@ -67,6 +67,7 @@ export class ContainerComponent implements OnInit, AfterViewInit {
 		const databaseName = this.activatedRoute.snapshot.paramMap.get('db');
 
 		if (!serverName || !databaseName) {
+			this.isLoading = false;
 			return;
 		}
 
@@ -79,11 +80,7 @@ export class ContainerComponent implements OnInit, AfterViewInit {
 			return;
 		}
 
-		this.selectedServer = server;
-		this.selectedDatabase = database;
-		Server.setSelected(server);
-		Database.setSelected(database);
-		this.isLoading = false;
+		this.changeDatabase(server, database);
 	}
 
 	ngAfterViewInit(): void {
@@ -112,6 +109,15 @@ export class ContainerComponent implements OnInit, AfterViewInit {
 		this.dialog.open(ConnectionInfoDialog, {
 			data: this.selectedServer
 		});
+	}
+
+	changeDatabase(server: Server, database: Database) {
+		Server.setSelected(server);
+		Database.setSelected(database);
+		this.selectedServer = server;
+		this.selectedDatabase = database;
+
+		this.isLoading = false;
 	}
 }
 
