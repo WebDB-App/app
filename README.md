@@ -84,6 +84,7 @@
 - show table / column collation in settings
 - Geospatial
 - error model2
+- crypto types in monaco
 - explore : search nested (array, obj)
 
 # Insert

@@ -169,7 +169,7 @@ export default class MongoDB extends Driver {
 					};
 
 					try {
-						(await coll.aggregate([{$sample: {size: 1000}}]).toArray()).map(sample => {
+						(await coll.aggregate([{$sample: {size: process.env.MONGO_SAMPLE || 1000}}]).toArray()).map(sample => {
 							for (const [key, val] of Object.entries(sample)) {
 								const type = this.getPropertyType(val);
 

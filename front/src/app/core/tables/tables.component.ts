@@ -8,7 +8,7 @@ import { combineLatest, distinctUntilChanged, Subscription } from "rxjs";
 import { RequestService } from "../../../shared/request.service";
 import { Column } from "../../../classes/column";
 import { Title } from "@angular/platform-browser";
-import { BreakpointObserver, BreakpointState } from "@angular/cdk/layout";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 class Tab {
 	link!: string
@@ -42,6 +42,7 @@ export class TablesComponent implements OnInit, OnDestroy {
 	constructor(
 		private router: Router,
 		private titleService: Title,
+		private _snackBar: MatSnackBar,
 		private drawer: DrawerService,
 		private request: RequestService,
 		public activatedRoute: ActivatedRoute) {
@@ -62,8 +63,14 @@ export class TablesComponent implements OnInit, OnDestroy {
 
 			this.titleService.setTitle(tableName + " – " + this.selectedDatabase.name + " – " + this.selectedServer.port);
 
-			this.selectedTable = this.selectedDatabase.tables.find(table => table.name === tableName);
-			Table.setSelected(this.selectedTable!);
+			const table = this.selectedDatabase.tables.find(table => table.name === tableName);
+			if (!table) {
+				this._snackBar.open(`Can't access to ${tableName}`, "╳", {panelClass: 'snack-error'});
+				return;
+			}
+
+			this.selectedTable = table;
+			Table.setSelected(this.selectedTable);
 
 			if (!_params[0].get('table')) {
 				await this.router.navigate([

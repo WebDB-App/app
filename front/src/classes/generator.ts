@@ -112,7 +112,7 @@ export class Generator {
 					{
 						name: "Integer(0, 10)",
 						type: [TypeName.Numeric],
-						fct: "((min, max) => {return Math.floor(Math.random() * (max - min) + min})(0, 10)"
+						fct: "((min, max) => {return Math.floor(Math.random() * (max - min) + min)})(0, 10)"
 					},
 					{
 						name: "Integer(-100000, 100000)",

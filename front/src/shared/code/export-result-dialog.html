@@ -6,7 +6,6 @@
 </div>
 <div mat-dialog-content style="overflow: hidden;">
 	<ngx-monaco-editor
-		*ngIf="str.length < 1000000"
 		[(ngModel)]="str"
 		[options]="editorOptions"
 		style="width: 500px; height: 500px">

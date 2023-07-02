@@ -50,7 +50,7 @@ export class MongoDB implements Driver {
 
 	async loadExtraLib(http: HttpClient) {
 		for (const path of ['mongo.d.ts', 'bson.d.ts']) {
-			if (monaco.languages.typescript.typescriptDefaults._extraLibs[`file://${path}`]) {
+			if (monaco.languages.typescript.javascriptDefaults._extraLibs[`file://${path}`]) {
 				continue;
 			}
 

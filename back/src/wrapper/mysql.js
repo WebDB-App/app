@@ -70,9 +70,7 @@ export default class MySQL extends SQL {
 	}
 
 	async insert(db, table, datas) {
-		const result = await super.insert(db, table, datas);
-
-		return result.affectedRows;
+		return await super.insert(db, table, datas);
 	}
 
 	async replaceTrigger(database, table, trigger) {
@@ -229,6 +227,11 @@ export default class MySQL extends SQL {
 		return struct;
 	}
 
+	async nbChangment(command, database) {
+		const res = await this.runCommand(command, database);
+		return res.error ? res : res.affectedRows;
+	}
+
 	async runCommand(command, database = false) {
 		const connection = await this.connection.promise().getConnection();
 		const start = Date.now();
@@ -237,8 +240,8 @@ export default class MySQL extends SQL {
 			if (database) {
 				await connection.query(`USE \`${database}\``);
 			}
-			const [rows] = await connection.query(command);
-			return rows;
+			const [res] = await connection.query(command);
+			return res;
 		} catch (e) {
 			console.error(e);
 			const err = {error: e.sqlMessage};
