@@ -5,30 +5,42 @@
 	</button>
 </div>
 <div mat-dialog-content>
+	<div style="display: flex; justify-content: space-between;">
+		<div *ngFor="let column of updateSuggestions | keyvalue">
+			<mat-form-field appearance="fill">
+				<mat-label>Suggestion of `{{column.key}}`</mat-label>
+				<input matInput
+					   #filter
+					   #trigger="matAutocompleteTrigger"
+					   [matAutocomplete]="auto">
+				<mat-autocomplete #auto="matAutocomplete">
+					<ng-container *ngFor="let suggestion of column.value">
+						<mat-option *ngIf="suggestion.toString().indexOf(filter.value) >= 0"
+									[value]="suggestion"
+									[cdkCopyToClipboard]="suggestion.toString()"
+									(click)="snackBar.open('Copied to clipboard', '╳', {duration: 3000}); trigger.closePanel();">
+							{{suggestion}}
+						</mat-option>
+					</ng-container>
+				</mat-autocomplete>
+			</mat-form-field>
+		</div>
+	</div>
 	<ngx-monaco-editor
 		[(ngModel)]="str"
 		[options]="editorOptions"
 		style="height: 50vh; width: 38vw"
 	></ngx-monaco-editor>
-	<div>
-		<div *ngFor="let column of updateSuggestions">
-
-		</div>
-	</div>
-	<mat-select>
-		<mat-option *ngFor="let suggestion of updateSuggestions"
-					[value]="suggestion">
-			{{suggestion}}
-		</mat-option>
-	</mat-select>
 </div>
 <div fxLayout="row" fxLayoutAlign="space-around center" mat-dialog-actions>
 	<button (click)="update()"
 			color="primary"
+			[disabled]="!isTouched()"
 			mat-flat-button>
 		<span class="material-symbols-outlined notranslate">
-			save
+			edit
 		</span>
-		Save
+		Apply Changes
 	</button>
 </div>
+

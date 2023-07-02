@@ -36,8 +36,20 @@ class Controller {
 
 	async query(req, res) {
 		const [driver, database] = await http.getLoggedDriver(req);
+		let rows = await driver.runPagedQuery(req.body.query, req.body.page, req.body.pageSize, database);
 
-		res.send(await driver.runPagedQuery(req.body.query, req.body.page, req.body.pageSize, database));
+		if (!rows["error"]) {
+			rows = rows.map(row => {
+				for (const [key, col] of Object.entries(row)) {
+					if (Buffer.isBuffer(col)) {
+						row[key] = "###BLOB###";
+					}
+				}
+				return row;
+			});
+		}
+
+		res.send(rows);
 	}
 
 	async querySize(req, res) {
