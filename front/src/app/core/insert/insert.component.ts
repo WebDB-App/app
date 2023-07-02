@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatTableDataSource } from "@angular/material/table";
 import { SelectionModel } from "@angular/cdk/collections";
 import { Table } from "../../../classes/table";
-import jsbeautifier from "js-beautify";
 import * as cryptojs from "crypto-js";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { RequestService } from "../../../shared/request.service";
@@ -12,6 +11,7 @@ import { TypeName } from 'src/classes/driver';
 import { Server } from "../../../classes/server";
 import { Database } from "../../../classes/database";
 import { Generator, Group } from "../../../classes/generator";
+import { initBaseEditor } from "../../../shared/helper";
 
 const localStorageName = "codes";
 
@@ -38,6 +38,7 @@ export class InsertComponent implements OnInit, OnDestroy {
 		language: 'javascript'
 	};
 
+	editors: any = {};
 	actionColum = "##ACTION##";
 	dataSource: MatTableDataSource<any> = new MatTableDataSource();
 	randomSource?: MatTableDataSource<any>;
@@ -85,7 +86,7 @@ export class InsertComponent implements OnInit, OnDestroy {
 			this.structure[col] = this.selectedTable?.columns.find(column => column.name === col)!.type;
 
 			select[col] = '';
-			fct[col] = this.beautify(this.getCode(col));
+			fct[col] = this.getCode(col);
 			error[col] = '';
 		}
 
@@ -93,12 +94,12 @@ export class InsertComponent implements OnInit, OnDestroy {
 			const values = this.selectedServer!.driver.extractEnum(col);
 			if (values) {
 				fct[col.name] = `(() => {const enums = [${values.map(value => `'${value}'`).join(",")}];return enums[Math.floor(Math.random() * (enums.length))]})()`;
-				fct[col.name] = this.beautify(fct[col.name]);
+				fct[col.name] = fct[col.name];
 			} else if (relations.find(relation => relation.column_source === col.name)) {
 				const datas = await this.request.post('relation/exampleData', {column: col.name, limit});
 				if (datas) {
 					fct[col.name] = `(() => {const fk = [${datas.map((data: any) => `'${data.example}'`).join(",")}];return fk[Math.floor(Math.random() * (fk.length))]})()`;
-					fct[col.name] = this.beautify(fct[col.name]);
+					fct[col.name] = fct[col.name];
 				}
 			}
 		}
@@ -110,10 +111,6 @@ export class InsertComponent implements OnInit, OnDestroy {
 	ngOnDestroy() {
 		this.obs.unsubscribe();
 		clearInterval(this.interval);
-	}
-
-	beautify(str: string) {
-		return jsbeautifier.js_beautify(str);
 	}
 
 	isAllSelected() {
@@ -141,7 +138,7 @@ export class InsertComponent implements OnInit, OnDestroy {
 	async insert() {
 		const result = await this.request.post('data/insert', this.dataSource.data);
 
-		this._snackBar.open(`${result.inserted} Affected Rows`, "╳", {duration: 3000});
+		this._snackBar.open(`${result} Affected Rows`, "╳", {duration: 3000});
 	}
 
 	removeRows() {
@@ -255,5 +252,17 @@ export class InsertComponent implements OnInit, OnDestroy {
 			return this.codes[this.selectedDatabase!.name][this.selectedTable!.name][col];
 		}
 		return '(() => {return undefined})()';
+	}
+
+	formatAllCodes() {
+		Object.keys(this.editors).map((column: any) => {
+			this.editors[column].trigger("editor", "editor.action.formatDocument");
+		});
+	}
+
+	async initEditor(editor: any, column: string) {
+		initBaseEditor(editor);
+
+		this.editors[column] = editor;
 	}
 }

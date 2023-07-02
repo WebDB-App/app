@@ -22,6 +22,7 @@ import { DiffEditorModel } from "ngx-monaco-editor-v2";
 import { Server } from "../../classes/server";
 import { Configuration } from "../../classes/configuration";
 import { HttpClient } from "@angular/common/http";
+import { initBaseEditor } from "../helper";
 
 declare var monaco: any;
 
@@ -113,14 +114,8 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 	}
 
 	async initEditor(editor: any, index: number) {
-		editor.trigger("editor", "editor.action.formatDocument");
-		editor.addCommand(monaco.KeyMod.Alt | monaco.KeyCode.Space,
-			() => {
-				editor.trigger('', 'editor.action.triggerSuggest', '');
-			},
-			'editorTextFocus && !editorHasSelection && ' +
-			'!editorHasMultipleSelections && !editorTabMovesFocus && ' +
-			'!hasQuickSuggest');
+		initBaseEditor(editor);
+
 		this.editors[index] = editor;
 
 		await this.selectedServer?.driver.loadExtraLib(this.http);

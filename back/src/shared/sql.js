@@ -105,15 +105,6 @@ export default class SQL extends Driver {
 		return await this.runCommand(`ALTER TABLE ${this.nameDel}${table}${this.nameDel} DROP COLUMN ${this.nameDel}${column}${this.nameDel}`, database);
 	}
 
-	async insert(db, table, datas) {
-		const values = [];
-		for (const data of datas) {
-			values.push(`(${Object.values(data).map(da => `"${da}"`).join(", ")})`);
-		}
-
-		return await this.runCommand(`INSERT INTO ${this.nameDel}${table}${this.nameDel} (${Object.keys(datas[0]).join(",")}) VALUES ${values.join(", ")}`, db);
-	}
-
 	pkToObject(indexes, row) {
 		const pks = {};
 		for (const index of indexes) {
@@ -132,15 +123,31 @@ export default class SQL extends Driver {
 		return tableIndexes.filter(index => index.primary === true);
 	}
 
+	async insert(db, table, datas) {
+		const values = [];
+		for (const data of datas) {
+			values.push(`(${Object.values(data).map(da => `"${da}"`).join(", ")})`);
+		}
+
+		const res = await this.nbChangment(`INSERT INTO ${this.nameDel}${table}${this.nameDel} (${Object.keys(datas[0]).join(",")}) VALUES ${values.join(", ")}`, db);
+		return res.error ? res : res.toString();
+	}
+
 	async delete(db, table, rows) {
 		const pks = await this.getPks(db, table);
+		let nbT = 0;
 
 		for (const row of rows) {
 			const where = this.objectToSql(this.pkToObject(pks, row)).join(" AND ");
-			await this.runCommand(`DELETE FROM ${this.nameDel}${table}${this.nameDel} WHERE ${where}`, db);
+			const res = (await this.nbChangment(`DELETE FROM ${this.nameDel}${table}${this.nameDel} WHERE ${where}`, db));
+			if (res.error) {
+				return res;
+			}
+
+			nbT += res;
 		}
 
-		return true;
+		return nbT.toString();
 	}
 
 	async update(db, table, old_data, new_data) {
@@ -159,7 +166,8 @@ export default class SQL extends Driver {
 		const update = this.objectToSql(to_update);
 		const where = this.objectToSql(this.pkToObject(pks, old_data));
 
-		return await this.runCommand(`UPDATE ${this.nameDel}${table}${this.nameDel} SET ${update.join(", ")} WHERE ${where.join(" AND ")}`, db);
+		const res = await this.nbChangment(`UPDATE ${this.nameDel}${table}${this.nameDel} SET ${update.join(", ")} WHERE ${where.join(" AND ")}`, db);
+		return res.error ? res : res.toString();
 	}
 
 	cleanQuery(query) {

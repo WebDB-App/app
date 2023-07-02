@@ -14,6 +14,13 @@
 			</mat-form-field>
 		</div>
 
+		<button (click)="formatAllCodes()" mat-flat-button>
+			<span class="material-symbols-outlined notranslate">
+				checklist_rtl
+			</span>
+			Format
+		</button>
+
 		<div>
 			<button [matMenuTriggerFor]="docs" mat-stroked-button>
 				Documentation
@@ -76,7 +83,7 @@
 							</mat-option>
 							<mat-optgroup *ngFor="let group of generatorGroups" [label]="group.name" class="preset">
 								<ng-container *ngFor="let value of group.values">
-									<mat-option (click)="randomSource!.data[1][column] = beautify(value.fct)"
+									<mat-option (click)="randomSource!.data[1][column] = value.fct"
 												*ngIf="value.name.toLowerCase().includes(filterPreset.value.toLowerCase())"
 												[style.opacity]="typeMatch(structure[column], value.type) ? 1 : 0.5"
 												[value]="value.name">
@@ -91,6 +98,7 @@
 						*ngIf="i === 1"
 						[(ngModel)]="row[column]"
 						[options]="editorOptions"
+						(onInit)="initEditor($event, column)"
 						class="resizable"
 					>
 					</ngx-monaco-editor>

@@ -38,8 +38,8 @@ class Controller {
 		const [driver, database] = await http.getLoggedDriver(req);
 		let rows = await driver.runPagedQuery(req.body.query, req.body.page, req.body.pageSize, database);
 
-		if (!rows["error"]) {
-			rows = rows.map(row => {
+		if (Array.isArray(rows)) {
+			rows = rows.slice(0, process.env.RESULT_LIMIT || 5000).map(row => {
 				for (const [key, col] of Object.entries(row)) {
 					if (Buffer.isBuffer(col)) {
 						row[key] = "###BLOB###";

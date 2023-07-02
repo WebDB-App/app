@@ -77,9 +77,7 @@ export default class PostgreSQL extends SQL {
 	}
 
 	async insert(db, table, datas) {
-		const result = await super.insert(db, table, datas);
-
-		return result.affectedRows;
+		return await super.insert(db, table, datas);
 	}
 
 	async replaceTrigger(database, table, trigger) {
@@ -318,6 +316,11 @@ export default class PostgreSQL extends SQL {
 		return struct;
 	}
 
+	async nbChangment(command, database) {
+		const res = await this.runCommand(command, database);
+		return res.error ? res : res.rowCount;
+	}
+
 	async runCommand(command, database = false) {
 		const start = Date.now();
 		let schema, connection;
@@ -333,8 +336,8 @@ export default class PostgreSQL extends SQL {
 			if (schema) {
 				await connection.query(`SET search_path TO ${schema};`);
 			}
-			const {rows} = await connection.query(command);
-			return rows;
+			const res = await connection.query(command);
+			return res.command === "SELECT" ? res.rows : res;
 		} catch (e) {
 			console.error(e);
 			return {error: e.message + ". " + (e.hint || ""), position: e.position};
