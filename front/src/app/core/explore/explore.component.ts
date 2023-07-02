@@ -65,13 +65,12 @@ export class ExploreComponent implements OnInit, OnDestroy {
 		this.obs = combineLatest([this.route.parent?.params, this.route?.queryParams, this.request.serverReload]).pipe(
 			distinctUntilChanged()
 		).subscribe(async (_params) => {
-			// @ts-ignore
-			const params = <Params>{..._params[0], ..._params[1]};
-
 			this.selectedDatabase = Database.getSelected();
 			this.selectedServer = Server.getSelected();
 			this.selectedTable = Table.getSelected();
 
+			// @ts-ignore
+			const params = <Params>{..._params[0], ..._params[1]};
 			this.changePage(params["page"] || 0, false);
 			this.params.sortField = params["sortField"] || "";
 			this.params.sortDirection = params["sortDirection"] || "";
