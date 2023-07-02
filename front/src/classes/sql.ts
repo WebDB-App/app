@@ -484,12 +484,12 @@ export class SQL implements Driver {
 
 	getBaseInsert(table: Table) {
 		const cols = table.columns?.map(column => `${this.nameDel}${column.name}${this.nameDel}`);
-		return `INSERT INTO ${this.nameDel}${table.name}${this.nameDel} (${cols!.join(', ')}) VALUES (${cols!.map(col => '""')})`;
+		return `INSERT INTO ${this.nameDel}${table.name}${this.nameDel} (${cols!.join(', ')}) VALUES (${cols!.map(col => "''")})`;
 	}
 
 	getBaseUpdate(table: Table) {
 		const cols = table.columns?.map(column => `${this.nameDel}${column.name}${this.nameDel}`);
-		return `UPDATE ${this.nameDel}${table.name}${this.nameDel} SET ${cols!.map(col => `${col} = ""`)} WHERE 1 = 0`;
+		return `UPDATE ${this.nameDel}${table.name}${this.nameDel} SET ${cols!.map(col => `${col} = ''`)} WHERE 1 = 0`;
 	}
 
 	getBaseSelect(table: Table) {

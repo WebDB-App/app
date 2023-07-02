@@ -74,8 +74,7 @@
 			</button>
 			<mat-menu #advanced="matMenu" xPosition="before">
 				<a [href]="selectedServer!.driver.languageDocumentation" mat-menu-item target="_blank">
-					{{selectedServer!.driver.language | titlecase}}
-					Doc
+					Language Doc
 				</a>
 				<button [matMenuTriggerFor]="shortcuts" mat-menu-item>Shortcuts</button>
 				<button [matMenuTriggerFor]="export" mat-menu-item>Export Query</button>

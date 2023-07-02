@@ -4,6 +4,10 @@ stages:
 
 image: node:lts-alpine
 
+variables:
+    DOCKER_BUILDKIT: 1
+
+
 eslint:
     stage: test
     interruptible: true

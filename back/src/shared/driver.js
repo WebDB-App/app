@@ -47,6 +47,7 @@ export default class Driver {
 		return co;
 	}
 
+	// eslint-disable-next-line no-unused-vars
 	async sampleDatabase(name, limit) {
 		return [{
 			structure: {},

@@ -171,14 +171,14 @@ export class ExploreComponent implements OnInit, OnDestroy {
 	}
 
 	async removeRows() {
-		await this.request.post('data/delete', this.selection.selected);
+		const nb = await this.request.post('data/delete', this.selection.selected);
 
 		this.dataSource.data = this.dataSource.data.filter((row) => {
 			return !this.selection.isSelected(row);
 		});
 		this.selection.clear();
 
-		this._snackBar.open(`Rows Deleted`, "╳", {duration: 3000});
+		this._snackBar.open(`${nb} rows deleted`, "╳", {duration: 3000});
 	}
 
 	editRow(i: number, row: any) {
@@ -243,7 +243,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 })
 export class UpdateDataDialog {
 
-	updateSuggestions: any[any] = [];
+	updateSuggestions: { [key: string]: string[] } = {};
 	str = "";
 	editorOptions = {
 		language: 'json'
@@ -251,8 +251,8 @@ export class UpdateDataDialog {
 
 	constructor(
 		public dialogRef: MatDialogRef<UpdateDataDialog>,
+		public snackBar: MatSnackBar,
 		private request: RequestService,
-		private _snackBar: MatSnackBar,
 		@Inject(MAT_DIALOG_DATA) public old: any,
 	) {
 		this.str = JSON.stringify(old, null, "\t");
@@ -261,11 +261,14 @@ export class UpdateDataDialog {
 
 	async update() {
 		const n = JSON.parse(this.str);
+		const nb = await this.request.post('data/update', {old_data: this.old, new_data: n});
 
-		await this.request.post('data/update', {old_data: this.old, new_data: n});
-
-		this._snackBar.open(`Row Updated`, "╳", {duration: 3000});
+		this.snackBar.open(`${nb} row(s) updated`, "╳", {duration: 3000});
 		this.dialogRef.close(n);
+	}
+
+	isTouched() {
+		return JSON.stringify(this.old, null, "\t") !== this.str;
 	}
 
 	async loadSuggestions() {
@@ -273,10 +276,13 @@ export class UpdateDataDialog {
 		const limit = 1000;
 
 		for (const col of Table.getSelected().columns) {
-			const values = Server.getSelected().driver.extractEnum(col);
-			if (values) {
-				this.updateSuggestions[col.name] = values;
-			} else if (relations.find(relation => relation.column_source === col.name)) {
+			const enums = Server.getSelected().driver.extractEnum(col);
+			if (enums) {
+				this.updateSuggestions[col.name] = enums;
+				continue;
+			}
+
+			if (relations.find(relation => relation.column_source === col.name)) {
 				const datas = await this.request.post('relation/exampleData', {column: col.name, limit});
 				if (datas && datas.length < limit) {
 					this.updateSuggestions[col.name] = datas.map((data: any) => data.example);

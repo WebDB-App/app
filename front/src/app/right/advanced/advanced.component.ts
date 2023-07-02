@@ -68,7 +68,7 @@ export class AdvancedComponent implements OnInit {
 		await this.request.post('database/setCollations', {collation});
 
 		await this.request.reloadServer();
-		this._snackBar.open(`Updated`, "╳", {duration: 3000});
+		this._snackBar.open(`Switched`, "╳", {duration: 3000});
 	}
 }
 

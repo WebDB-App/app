@@ -32,7 +32,7 @@ export default class SQL extends Driver {
 	objectToSql(data, comparator = "=") {
 		let sql = [];
 		for (const [col, value] of Object.entries(data)) {
-			sql.push(`${col} ${comparator} "${value}"`);
+			sql.push(`${col} ${comparator} '${value}'`);
 		}
 
 		return sql;
@@ -58,7 +58,7 @@ export default class SQL extends Driver {
 	}
 
 	async exampleData(database, table, column, limit) {
-		return await this.runCommand(`SELECT DISTINCT ${this.nameDel}${column}${this.nameDel} as example FROM ${this.nameDel}${table}${this.nameDel} LIMIT ${limit}`, database);
+		return await this.runCommand(`SELECT DISTINCT ${this.nameDel}${column}${this.nameDel} as example FROM ${this.nameDel}${table}${this.nameDel} ORDER BY example ASC LIMIT ${limit}`, database);
 	}
 
 	async dropDatabase(name) {
@@ -114,11 +114,10 @@ export default class SQL extends Driver {
 		return await this.runCommand(`INSERT INTO ${this.nameDel}${table}${this.nameDel} (${Object.keys(datas[0]).join(",")}) VALUES ${values.join(", ")}`, db);
 	}
 
-	getPk(indexes, row) {
+	pkToObject(indexes, row) {
 		const pks = {};
-
 		for (const index of indexes) {
-			index.columns.split(",").map(pk => {
+			index.columns.map(pk => {
 				pks[pk] = row[pk];
 			});
 		}
@@ -126,19 +125,26 @@ export default class SQL extends Driver {
 		return Object.keys(pks).length > 0 ? pks : row;
 	}
 
+	async getPks(db, table) {
+		const indexes = await this.getIndexes();
+		const tableIndexes = indexes.filter(index => index.database === db && index.table === table);
+
+		return tableIndexes.filter(index => index.primary === true);
+	}
+
 	async delete(db, table, rows) {
-		const indexes = (await this.getIndexes()).filter(index => index.database === db && index.table === table && index.name === "PRIMARY");
+		const pks = await this.getPks(db, table);
 
 		for (const row of rows) {
-			const where = this.objectToSql(this.getPk(indexes, row)).join(" AND ");
-			await this.runCommand(`DELETE FROM ${this.nameDel}${table}${this.nameDel} WHERE ${where} LIMIT 1`, db);
+			const where = this.objectToSql(this.pkToObject(pks, row)).join(" AND ");
+			await this.runCommand(`DELETE FROM ${this.nameDel}${table}${this.nameDel} WHERE ${where}`, db);
 		}
 
 		return true;
 	}
 
 	async update(db, table, old_data, new_data) {
-		const indexes = (await this.getIndexes()).filter(index => index.database === db && index.table === table && index.name === "PRIMARY");
+		const pks = await this.getPks(db, table);
 
 		const to_update = {};
 		for (const [key, value] of Object.entries(new_data)) {
@@ -146,11 +152,14 @@ export default class SQL extends Driver {
 				to_update[key] = value;
 			}
 		}
+		if (Object.keys(to_update).length < 1) {
+			return {};
+		}
 
 		const update = this.objectToSql(to_update);
-		const where = this.getPk(indexes, old_data);
+		const where = this.objectToSql(this.pkToObject(pks, old_data));
 
-		return await this.runCommand(`UPDATE ${this.nameDel}${table}${this.nameDel} SET ${update.join(", ")} WHERE ${where.join(" AND ")} LIMIT 1`, db);
+		return await this.runCommand(`UPDATE ${this.nameDel}${table}${this.nameDel} SET ${update.join(", ")} WHERE ${where.join(" AND ")}`, db);
 	}
 
 	cleanQuery(query) {
