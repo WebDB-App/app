@@ -5,7 +5,7 @@
 
 #tableList {
 	height: 100%;
-	width: 17vw;
+	min-width: 17vw;
 
 	mat-selection-list {
 		overflow: auto;

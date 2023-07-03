@@ -46,13 +46,13 @@
 - traduction (collection vs table, etc)
 
 # Postgre
-- types
+- types (icon = data_object)
 - more comparator with detail
 
 # SQLServer
 
 # Test
-- e2e crud data, crud table : all driver
+- e2e crud data, crud table : all driver (protractor)
 
 # Cloud DB
 - digital
