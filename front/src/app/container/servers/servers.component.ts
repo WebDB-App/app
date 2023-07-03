@@ -19,8 +19,6 @@ import { Database } from "../../../classes/database";
 })
 export class ServersComponent implements OnInit {
 
-	@Output() changeDatabase = new EventEmitter<{server: Server, database: Database}>();
-
 	servers: Server[] = [];
 	showPassword = false;
 	isLoading = true;
@@ -203,22 +201,13 @@ export class ServersComponent implements OnInit {
 			if (server.stored) {
 				return 'signal_wifi_statusbar_not_connected';
 			}
-			return 'wifi_find';
+			return 'signal_wifi_4_bar';
 		}
 		return 'signal_wifi_bad';
 	}
 
 	getServerByDriver(driver: string): Server[] {
 		return this.servers.filter(server => server.wrapper === driver);
-	}
-
-	async changeDb(server: Server, database: Database) {
-		this.changeDatabase.emit({
-			server,
-			database
-		});
-
-		await this.router.navigate([server.name, database.name]);
 	}
 }
 

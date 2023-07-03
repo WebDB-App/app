@@ -15,7 +15,7 @@
 	<button (click)="reloadList()"
 			mat-flat-button>
 		<span class="material-symbols-outlined notranslate">
-			track_changes
+			wifi_find
 		</span>
 		Rescan Connections
 	</button>
@@ -153,7 +153,7 @@
 										[disabled]="database.tables === undefined"
 										[hidden]="database.hide"
 										[style.opacity]="database.system ? '0.5' : 1"
-										(click)="changeDb(server, database)">
+										routerLink="/{{server.name}}/{{database.name}}">
 										{{database.name}}
 										<ng-container *ngIf="database.tables === undefined"> [Limited]</ng-container>
 										<span matTooltip="Tables"
