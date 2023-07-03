@@ -68,7 +68,7 @@
 			<a #rla="routerLinkActive" *ngFor="let tab of tabs"
 			   [active]="rla.isActive"
 			   [routerLinkActive]="['mat-list-single-selected-option', 'mat-tab-label-active']"
-			   [routerLink]="[tab.link.toLocaleLowerCase()]"
+			   [routerLink]="[tab.link.toLowerCase()]"
 			   mat-tab-link
 			   style="width: 100%">
 				<span class="material-symbols-outlined notranslate">{{tab.icon}}</span>
