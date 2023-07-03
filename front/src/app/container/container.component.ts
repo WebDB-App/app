@@ -138,6 +138,7 @@ export class ConnectionInfoDialog {
 	constructor(
 		@Inject(MAT_DIALOG_DATA) public server: Server,
 	) {
-		this.str = JSON.stringify(Server.getShallow(server), null, 4)
+		this.str = JSON.stringify(server, null, 4)
 	}
 }
+

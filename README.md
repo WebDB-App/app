@@ -1,8 +1,5 @@
-- update on right
--
 - autocomplete table and column and types
 - getQueryHeader (use, `//db is `)
-
 - select with relations
 
 
@@ -13,7 +10,7 @@
 
 
 
-- cloud (google, aurora, rds, digital, atlas?)
+- cloud (google, aurora, rds)
 - Finir EDR
 - BLOB CRUD (download, upload)
 
@@ -49,7 +46,7 @@
 - traduction (collection vs table, etc)
 
 # Postgre
-- foreign table
+- types
 - more comparator with detail
 
 # SQLServer
@@ -57,7 +54,10 @@
 # Test
 - e2e crud data, crud table : all driver
 
-
+# Cloud DB
+- digital
+- atlas?
+- azure
 
 
 
