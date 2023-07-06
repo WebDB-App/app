@@ -26,7 +26,7 @@ export class ServersComponent implements OnInit {
 
 	constructor(
 		private http: HttpClient,
-		private _snackBar: MatSnackBar,
+		private snackBar: MatSnackBar,
 		private router: Router,
 		private request: RequestService,
 		private domSanitizer: DomSanitizer,
@@ -96,10 +96,10 @@ export class ServersComponent implements OnInit {
 		const guessed = await firstValueFrom(this.http.post<Server[]>(environment.apiRootUrl + 'server/guess', Server.getShallow(server)))
 
 		if (guessed.length) {
-			this._snackBar.open("Combination found : " + guessed.map(guess => `${guess.user} | ${guess.password}`).join(', '), "╳", {duration: 3000})
+			this.snackBar.open("Combination found : " + guessed.map(guess => `${guess.user} | ${guess.password}`).join(', '), "╳", {duration: 3000})
 			await this.postLogged(server, guessed[0]);
 		} else {
-			this._snackBar.open("Guess Failed", "╳", {duration: 3000})
+			this.snackBar.open("Guess Failed", "╳", {duration: 3000})
 		}
 		this.servers[indexServer].isLoading = false;
 	}
@@ -111,7 +111,7 @@ export class ServersComponent implements OnInit {
 		const data = await firstValueFrom(this.http.post<any>(environment.apiRootUrl + 'server/connect', Server.getShallow(server)));
 
 		if (data.error) {
-			this._snackBar.open(data.error, "╳", {duration: 3000});
+			this.snackBar.open(data.error, "╳", {duration: 3000});
 			return;
 		}
 		await this.postLogged(server, data);
@@ -160,7 +160,7 @@ export class ServersComponent implements OnInit {
 
 		dialogRef.afterClosed().subscribe(async (result: Server) => {
 			if (result) {
-				this._snackBar.open(result.name + " Saved", "╳", {duration: 3000});
+				this.snackBar.open(result.name + " Saved", "╳", {duration: 3000});
 			}
 			await this.reloadList();
 		});
@@ -174,7 +174,7 @@ export class ServersComponent implements OnInit {
 
 		dialogRef.afterClosed().subscribe(async result => {
 			if (result) {
-				this._snackBar.open(result.name + " Added", "╳", {duration: 3000});
+				this.snackBar.open(result.name + " Added", "╳", {duration: 3000});
 				await this.reloadList();
 			}
 		});
@@ -307,7 +307,7 @@ export class CreateDatabaseDialog {
 	constructor(
 		public dialogRef: MatDialogRef<CreateDatabaseDialog>,
 		private request: RequestService,
-		private _snackBar: MatSnackBar,
+		private snackBar: MatSnackBar,
 		@Inject(MAT_DIALOG_DATA) public server: Server,
 	) {
 	}

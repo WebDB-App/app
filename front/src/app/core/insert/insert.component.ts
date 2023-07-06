@@ -51,10 +51,11 @@ export class InsertComponent implements OnInit, OnDestroy {
 
 	constructor(
 		private request: RequestService,
-		private route: ActivatedRoute,
-		private _snackBar: MatSnackBar) {
+		private activatedRoute: ActivatedRoute,
+		private snackBar: MatSnackBar
+	) {
 
-		this.obs = combineLatest([this.route.parent?.params, this.request.serverReload]).pipe(
+		this.obs = combineLatest([this.activatedRoute.parent?.params, this.request.serverReload]).pipe(
 			distinctUntilChanged()
 		).subscribe(async (_params) => {
 			this.dataSource = new MatTableDataSource();
@@ -138,7 +139,7 @@ export class InsertComponent implements OnInit, OnDestroy {
 	async insert() {
 		const result = await this.request.post('data/insert', this.dataSource.data);
 
-		this._snackBar.open(`${result} Affected Rows`, "╳", {duration: 3000});
+		this.snackBar.open(`${result} Affected Rows`, "╳", {duration: 3000});
 	}
 
 	removeRows() {
@@ -208,7 +209,7 @@ export class InsertComponent implements OnInit, OnDestroy {
 			data = this.csvToJSON(data);
 		}
 		if (!data || data.length < 1) {
-			this._snackBar.open("File not compatible", "╳", {panelClass: 'snack-error'});
+			this.snackBar.open("File not compatible", "╳", {panelClass: 'snack-error'});
 			return;
 		}
 

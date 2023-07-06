@@ -19,7 +19,7 @@ export class AdvancedComponent implements OnInit {
 	stats?: any;
 
 	constructor(private dialog: MatDialog,
-				private _snackBar: MatSnackBar,
+				private snackBar: MatSnackBar,
 				private request: RequestService,
 				private router: Router) {
 	}
@@ -47,7 +47,7 @@ export class AdvancedComponent implements OnInit {
 			}
 
 			await this.request.post('database/drop', undefined);
-			this._snackBar.open(`${databaseName} Dropped`, "╳", {duration: 3000});
+			this.snackBar.open(`${databaseName} Dropped`, "╳", {duration: 3000});
 
 			await this.request.reloadServer();
 			await this.router.navigate(['/']);
@@ -56,7 +56,7 @@ export class AdvancedComponent implements OnInit {
 
 	async rename(databaseName: string) {
 		await this.request.post('table/alter', databaseName);
-		this._snackBar.open(`${this.selectedDatabase!.name} Renamed to ${databaseName}`, "╳", {duration: 3000});
+		this.snackBar.open(`${this.selectedDatabase!.name} Renamed to ${databaseName}`, "╳", {duration: 3000});
 
 		await this.request.reloadServer();
 		await this.router.navigate([
@@ -68,7 +68,7 @@ export class AdvancedComponent implements OnInit {
 		await this.request.post('database/setCollations', {collation});
 
 		await this.request.reloadServer();
-		this._snackBar.open(`Switched`, "╳", {duration: 3000});
+		this.snackBar.open(`Switched`, "╳", {duration: 3000});
 	}
 }
 

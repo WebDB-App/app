@@ -16,12 +16,12 @@ class Tab {
 }
 
 export const Tabs: Tab[] = [
-	{link: "Explore", icon: "quick_reference_all"},
-	{link: "Query", icon: "code_blocks"},
-	{link: "Structure", icon: "view_week"},
-	{link: "Insert", icon: "note_add"},
-	{link: "Trigger", icon: "device_hub"},
-	{link: "Advanced", icon: "settings_applications"},
+	{link: "explore", icon: "quick_reference_all"},
+	{link: "query", icon: "code_blocks"},
+	{link: "structure", icon: "view_week"},
+	{link: "insert", icon: "note_add"},
+	{link: "trigger", icon: "device_hub"},
+	{link: "advanced", icon: "settings_applications"},
 ];
 
 @Component({
@@ -35,6 +35,7 @@ export class TablesComponent implements OnInit, OnDestroy {
 	selectedDatabase?: Database;
 	selectedServer?: Server;
 	selectedTable?: Table;
+	selectedTab?: Tab;
 
 	tooltips: any = {};
 	tabs = Tabs;
@@ -42,10 +43,11 @@ export class TablesComponent implements OnInit, OnDestroy {
 	constructor(
 		private router: Router,
 		private titleService: Title,
-		private _snackBar: MatSnackBar,
+		private snackBar: MatSnackBar,
 		private drawer: DrawerService,
 		private request: RequestService,
-		public activatedRoute: ActivatedRoute) {
+		private activatedRoute: ActivatedRoute
+	) {
 	}
 
 	async ngOnInit() {
@@ -59,24 +61,26 @@ export class TablesComponent implements OnInit, OnDestroy {
 				return;
 			}
 
-			const tableName = _params[0].get('table') || this.selectedDatabase.tables[0].name;
-
-			this.titleService.setTitle(tableName + " – " + this.selectedDatabase.name + " – " + this.selectedServer.port);
-
+			const tableName = this.activatedRoute.snapshot.paramMap.get('table') || this.selectedDatabase.tables[0].name;
 			const table = this.selectedDatabase.tables.find(table => table.name === tableName);
 			if (!table) {
-				this._snackBar.open(`Can't access to ${tableName}`, "╳", {panelClass: 'snack-error'});
+				this.snackBar.open(`Can't access to ${tableName}`, "╳", {panelClass: 'snack-error'});
 				return;
 			}
-
+			this.titleService.setTitle(tableName + " – " + this.selectedDatabase.name + " – " + this.selectedServer.port);
 			this.selectedTable = table;
-			Table.setSelected(this.selectedTable);
+			Table.setSelected(this.selectedTable!);
 
-			if (!_params[0].get('table')) {
+			const tabLink = this.activatedRoute.snapshot.paramMap.get('tab') || Tabs[0].link;
+			this.selectedTab = Tabs.find(tab => tab.link === tabLink);
+
+			if (!this.activatedRoute.snapshot.paramMap.get('table') || !this.activatedRoute.snapshot.paramMap.get('tab')) {
 				await this.router.navigate([
 					this.selectedServer.name,
 					this.selectedDatabase.name,
-					tableName]);
+					this.selectedTable.name,
+					tabLink
+				]);
 			}
 		});
 	}
@@ -128,13 +132,6 @@ export class TablesComponent implements OnInit, OnDestroy {
 	}
 
 	async changeTable(name: string) {
-		let url = this.router.url.replace(`/${this.selectedTable!.name}/`, `/${name}/`);
-
-		const explore = url.indexOf(`/explore?`);
-		if (explore >= 0) {
-			url = url.substring(0, explore) + '/explore';
-		}
-
-		await this.router.navigateByUrl(url);
+		await this.router.navigate(['../', name, this.selectedTab?.link, ''], {relativeTo: this.activatedRoute});
 	}
 }

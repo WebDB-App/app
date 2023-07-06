@@ -31,7 +31,7 @@ export class TriggerComponent implements OnInit, OnDestroy {
 	]
 
 	constructor(
-		private _snackBar: MatSnackBar,
+		private snackBar: MatSnackBar,
 		private request: RequestService,
 		private activatedRoute: ActivatedRoute
 	) {
@@ -64,12 +64,12 @@ export class TriggerComponent implements OnInit, OnDestroy {
 			await this.request.post('trigger/drop', trigger);
 		}
 		await this.loadData();
-		this._snackBar.open(`Trigger deleted`, "╳", {duration: 3000});
+		this.snackBar.open(`Trigger deleted`, "╳", {duration: 3000});
 	}
 
 	async replace(trigger: Trigger) {
 		await this.request.post('trigger/replace', trigger);
 		await this.loadData();
-		this._snackBar.open(`Trigger saved`, "╳", {duration: 3000});
+		this.snackBar.open(`Trigger saved`, "╳", {duration: 3000});
 	}
 }

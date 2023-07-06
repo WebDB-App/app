@@ -20,7 +20,7 @@ export class AddColumnComponent {
 
 	constructor(
 		private activatedRoute: ActivatedRoute,
-		private _snackBar: MatSnackBar,
+		private snackBar: MatSnackBar,
 		private request: RequestService
 	) {
 		this.activatedRoute.paramMap.subscribe(paramMap => {
@@ -31,7 +31,7 @@ export class AddColumnComponent {
 	async add() {
 		await this.request.post('column/add', this.form);
 
-		this._snackBar.open(`Columns Added`, "╳", {duration: 3000});
+		this.snackBar.open(`Columns Added`, "╳", {duration: 3000});
 		await this.request.reloadServer();
 	}
 }

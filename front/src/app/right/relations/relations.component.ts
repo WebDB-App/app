@@ -24,7 +24,7 @@ export class RelationsComponent implements OnInit {
 	dataSource!: MatTableDataSource<Relation>;
 
 	constructor(private request: RequestService,
-				private _snackBar: MatSnackBar) {
+				private snackBar: MatSnackBar) {
 	}
 
 	async ngOnInit() {
@@ -56,7 +56,7 @@ export class RelationsComponent implements OnInit {
 	async delete(relation: Relation) {
 		await this.request.post('relation/drop', {relation});
 
-		this._snackBar.open(`Dropped ${relation.name}`, "╳", {duration: 3000});
+		this.snackBar.open(`Dropped ${relation.name}`, "╳", {duration: 3000});
 
 		await this.refreshData();
 	}
@@ -75,7 +75,7 @@ export class RelationsComponent implements OnInit {
 
 		await this.request.post('relation/add', {relation});
 
-		this._snackBar.open(`Added Relation ${relation.name}`, "╳", {duration: 3000});
+		this.snackBar.open(`Added Relation ${relation.name}`, "╳", {duration: 3000});
 		await this.refreshData();
 	}
 }

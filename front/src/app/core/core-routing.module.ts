@@ -9,45 +9,23 @@ import { TriggerComponent } from "./trigger/trigger.component";
 
 const routes: Routes = [
 	{
-		path: '',
-		pathMatch: 'full',
-		redirectTo: 'explore',
-	}, {
 		path: 'explore',
-		component: ExploreComponent,
-		data: {
-			reuseRouteId: 'explore'
-		}
+		component: ExploreComponent
 	}, {
 		path: 'query',
-		component: QueryComponent,
-		data: {
-			reuseRouteId: 'query'
-		}
+		component: QueryComponent
 	}, {
 		path: 'structure',
-		component: StructureComponent,
-		data: {
-			reuseRouteId: 'structure'
-		}
+		component: StructureComponent
 	}, {
 		path: 'insert',
-		component: InsertComponent,
-		data: {
-			reuseRouteId: 'insert'
-		}
+		component: InsertComponent
 	}, {
 		path: 'trigger',
-		component: TriggerComponent,
-		data: {
-			reuseRouteId: 'trigger'
-		}
+		component: TriggerComponent
 	}, {
 		path: 'advanced',
-		component: TableAdvancedComponent,
-		data: {
-			reuseRouteId: 'advanced'
-		}
+		component: TableAdvancedComponent
 	}
 ];
 

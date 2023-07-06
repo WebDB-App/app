@@ -1,3 +1,6 @@
 node_modules
 src/front
 out/
+
+src/endpoint/subscription/licence
+src/endpoint/subscription/public_key.pub

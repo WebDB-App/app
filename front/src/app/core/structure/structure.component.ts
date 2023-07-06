@@ -41,7 +41,8 @@ export class StructureComponent implements OnInit, OnDestroy, AfterViewChecked {
 				private dialog: MatDialog,
 				private container: ElementRef,
 				private hoverService: HoverService,
-				private _snackBar: MatSnackBar) {
+				private snackBar: MatSnackBar
+	) {
 	}
 
 	async loadData() {
@@ -118,7 +119,7 @@ export class StructureComponent implements OnInit, OnDestroy, AfterViewChecked {
 	async deleteIndex(row: any) {
 		await this.request.post('index/drop', {name: row.name});
 
-		this._snackBar.open(`Dropped Index ${row.name}`, "╳", {duration: 3000})
+		this.snackBar.open(`Dropped Index ${row.name}`, "╳", {duration: 3000})
 		await this.refreshData();
 	}
 
@@ -162,7 +163,7 @@ export class AddIndexDialog {
 	constructor(
 		public dialogRef: MatDialogRef<AddIndexDialog>,
 		private request: RequestService,
-		private _snackBar: MatSnackBar,
+		private snackBar: MatSnackBar,
 		@Inject(MAT_DIALOG_DATA) public table: Table,
 	) {
 	}
@@ -170,7 +171,7 @@ export class AddIndexDialog {
 	async createIndex(name: string, type: string, columns: string[]) {
 		await this.request.post('index/add', {name, type, columns});
 
-		this._snackBar.open(`Added Index ${name}`, "╳", {duration: 3000})
+		this.snackBar.open(`Added Index ${name}`, "╳", {duration: 3000})
 		this.dialogRef.close(true);
 	}
 }
@@ -183,7 +184,7 @@ export class DropColumnDialog {
 	constructor(
 		public dialogRef: MatDialogRef<AddIndexDialog>,
 		private request: RequestService,
-		private _snackBar: MatSnackBar,
+		private snackBar: MatSnackBar,
 		@Inject(MAT_DIALOG_DATA) public column: Column,
 	) {
 	}
@@ -191,7 +192,7 @@ export class DropColumnDialog {
 	async dropColumn() {
 		await this.request.post('column/drop', {column: this.column.name});
 
-		this._snackBar.open(`Dropped Column ${this.column.name}`, "╳", {duration: 3000})
+		this.snackBar.open(`Dropped Column ${this.column.name}`, "╳", {duration: 3000})
 		this.dialogRef.close(true);
 	}
 }
