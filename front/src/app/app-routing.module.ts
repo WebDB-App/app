@@ -1,14 +1,13 @@
 import { NgModule } from '@angular/core';
-import { RouteReuseStrategy, RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { ContainerComponent } from "./container/container.component";
 import { environment } from "../environments/environment";
 import { TablesComponent } from "./core/tables/tables.component";
-import { CustomReuseStrategy } from './custom-reuse-strategy';
 import { ServersComponent } from "./container/servers/servers.component";
 
 const appRoutes: Routes = [
 	{
-		path: ':server/:db',
+		path: ':server/:database',
 		component: ContainerComponent,
 		children: [
 			{
@@ -16,7 +15,7 @@ const appRoutes: Routes = [
 				outlet: 'right',
 				loadChildren: () => import('./right/right.module').then(m => m.RightModule)
 			}, {
-				path: ':table',
+				path: ':table/:tab',
 				component: TablesComponent,
 				loadChildren: () => import('./core/core.module').then(m => m.CoreModule)
 			}, {
@@ -43,13 +42,7 @@ if (environment.production) {
 
 @NgModule({
 	imports: [RouterModule.forRoot(appRoutes, {useHash: true})],
-	exports: [RouterModule],
-	/*providers: [
-		{
-			provide: RouteReuseStrategy,
-			useClass: CustomReuseStrategy,
-		},
-	],*/
+	exports: [RouterModule]
 })
 export class AppRoutingModule {
 }

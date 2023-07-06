@@ -5,10 +5,8 @@ import { NestedTreeControl } from "@angular/cdk/tree";
 import { MatTreeNestedDataSource } from "@angular/material/tree";
 import { SelectionModel } from "@angular/cdk/collections";
 import { RequestService } from "../../../shared/request.service";
-import { MatSnackBar } from "@angular/material/snack-bar";
 import { environment } from "../../../environments/environment";
 import { saveAs } from "file-saver-es";
-import { ActivatedRoute } from "@angular/router";
 
 export class ItemTree {
 	name?: string;
@@ -30,9 +28,7 @@ export class DumpComponent implements OnInit {
 	treeControl = new NestedTreeControl<ItemTree>(node => node.children);
 	dataSource = new MatTreeNestedDataSource<ItemTree>();
 
-	constructor(private request: RequestService,
-				private route: ActivatedRoute,
-				private _snackBar: MatSnackBar) {
+	constructor(private request: RequestService) {
 	}
 
 	ngOnInit(): void {

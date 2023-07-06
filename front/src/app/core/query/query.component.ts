@@ -31,9 +31,9 @@ export class QueryComponent implements OnInit, OnDestroy {
 	@ViewChild(MatPaginator) paginator!: MatPaginator;
 
 	constructor(
-		private _snackBar: MatSnackBar,
+		private snackBar: MatSnackBar,
 		private request: RequestService,
-		private route: ActivatedRoute,
+		private activatedRoute: ActivatedRoute,
 		private history: HistoryService
 	) {
 	}
@@ -41,7 +41,7 @@ export class QueryComponent implements OnInit, OnDestroy {
 	ngOnInit() {
 		this.queryHistory.data = this.history.getLocal();
 
-		this.obs = combineLatest([this.route.parent?.params, this.request.serverReload]).pipe(
+		this.obs = combineLatest([this.activatedRoute.parent?.params, this.request.serverReload]).pipe(
 			distinctUntilChanged()
 		).subscribe(async (_params) => {
 			this.selectedDatabase = Database.getSelected();

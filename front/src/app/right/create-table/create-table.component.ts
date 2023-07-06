@@ -20,7 +20,7 @@ export class CreateTableComponent {
 	};
 
 	constructor(
-		private _snackBar: MatSnackBar,
+		private snackBar: MatSnackBar,
 		private router: Router,
 		private drawer: DrawerService,
 		private request: RequestService
@@ -30,7 +30,7 @@ export class CreateTableComponent {
 	async create() {
 		await this.request.post('table/create', this.form);
 
-		this._snackBar.open(`Table ${this.form.name} Created`, "╳", {duration: 3000});
+		this.snackBar.open(`Table ${this.form.name} Created`, "╳", {duration: 3000});
 		await this.request.reloadServer();
 
 		await this.router.navigate([

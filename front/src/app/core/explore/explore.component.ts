@@ -2,7 +2,6 @@ import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Server } from "../../../classes/server";
-import { Database } from "../../../classes/database";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { Table } from "../../../classes/table";
 import { combineLatest, distinctUntilChanged, Subscription } from "rxjs";
@@ -22,7 +21,6 @@ export class ExploreComponent implements OnInit, OnDestroy {
 
 	configuration: Configuration = new Configuration();
 	selectedTable?: Table;
-	selectedDatabase?: Database;
 	selectedServer?: Server;
 	obs?: Subscription;
 	querySize = 0;
@@ -46,11 +44,12 @@ export class ExploreComponent implements OnInit, OnDestroy {
 	@ViewChild(MatPaginator) paginator!: MatPaginator;
 
 	constructor(
-		private _snackBar: MatSnackBar,
+		private snackBar: MatSnackBar,
 		private request: RequestService,
 		private router: Router,
 		private dialog: MatDialog,
-		private route: ActivatedRoute) {
+		private activatedRoute: ActivatedRoute
+	) {
 	}
 
 	ngOnDestroy(): void {
@@ -62,10 +61,9 @@ export class ExploreComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit() {
-		this.obs = combineLatest([this.route.parent?.params, this.route?.queryParams, this.request.serverReload]).pipe(
+		this.obs = combineLatest([this.activatedRoute.parent?.params, this.activatedRoute?.queryParams, this.request.serverReload]).pipe(
 			distinctUntilChanged()
 		).subscribe(async (_params) => {
-			this.selectedDatabase = Database.getSelected();
 			this.selectedServer = Server.getSelected();
 			this.selectedTable = Table.getSelected();
 
@@ -98,7 +96,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 
 	navigateWithParams() {
 		this.router.navigate([], {
-			relativeTo: this.route,
+			relativeTo: this.activatedRoute,
 			queryParams: this.params,
 			queryParamsHandling: 'merge',
 		});
@@ -177,7 +175,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 		});
 		this.selection.clear();
 
-		this._snackBar.open(`${nb} rows deleted`, "╳", {duration: 3000});
+		this.snackBar.open(`${nb} rows deleted`, "╳", {duration: 3000});
 	}
 
 	editRow(i: number, row: any) {

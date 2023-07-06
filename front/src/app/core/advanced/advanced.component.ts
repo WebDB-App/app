@@ -3,9 +3,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dial
 import { Table } from "../../../classes/table";
 import { RequestService } from "../../../shared/request.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { Server } from "../../../classes/server";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Database } from "../../../classes/database";
 import { combineLatest, distinctUntilChanged, Subscription } from "rxjs";
 import { Tabs } from "../tables/tables.component";
 
@@ -16,8 +14,6 @@ import { Tabs } from "../tables/tables.component";
 })
 export class TableAdvancedComponent {
 
-	selectedServer?: Server;
-	selectedDatabase?: Database;
 	selectedTable?: Table;
 	obs: Subscription
 	stats?: any;
@@ -25,15 +21,13 @@ export class TableAdvancedComponent {
 	constructor(
 		private dialog: MatDialog,
 		private request: RequestService,
-		private route: ActivatedRoute,
+		private activatedRoute: ActivatedRoute,
 		private router: Router,
-		private _snackBar: MatSnackBar) {
-
-		this.obs = combineLatest([this.route.parent?.params, this.request.serverReload]).pipe(
+		private snackBar: MatSnackBar
+	) {
+		this.obs = combineLatest([this.activatedRoute.parent?.params, this.request.serverReload]).pipe(
 			distinctUntilChanged()
 		).subscribe(async (_params) => {
-			this.selectedServer = Server.getSelected();
-			this.selectedDatabase = Database.getSelected();
 			this.selectedTable = Table.getSelected();
 			this.stats = await this.request.post('table/stats', undefined);
 		});
@@ -48,9 +42,9 @@ export class TableAdvancedComponent {
 			if (!result) {
 				return;
 			}
-			this._snackBar.open(`Dropped Table ${this.selectedTable?.name}`, "╳", {duration: 3000});
+			this.snackBar.open(`Dropped Table ${this.selectedTable?.name}`, "╳", {duration: 3000});
 			await this.request.reloadServer();
-			await this.router.navigate(['../../'], {relativeTo: this.route});
+			await this.router.navigate(['../../'], {relativeTo: this.activatedRoute});
 		});
 	}
 
@@ -60,24 +54,24 @@ export class TableAdvancedComponent {
 			if (!result) {
 				return;
 			}
-			this._snackBar.open(`Table ${this.selectedTable?.name} truncated`, "╳", {duration: 3000});
+			this.snackBar.open(`Table ${this.selectedTable?.name} truncated`, "╳", {duration: 3000});
 		});
 	}
 
 	async rename(new_name: string) {
 		await this.request.post('table/rename', {new_name});
 
-		this._snackBar.open(`Table ${this.selectedTable?.name} renamed to ${new_name}`, "╳", {duration: 3000});
+		this.snackBar.open(`Table ${this.selectedTable?.name} renamed to ${new_name}`, "╳", {duration: 3000});
 		await this.request.reloadServer();
-		await this.router.navigate(['../../', new_name, Tabs.at(-1)!.link.toLowerCase()], {relativeTo: this.route});
+		await this.router.navigate(['../../', new_name, Tabs.at(-1)!.link], {relativeTo: this.activatedRoute});
 	}
 
 	async duplicate(new_name: string) {
 		await this.request.post('table/duplicate', {new_name});
 
-		this._snackBar.open(`Table ${this.selectedTable?.name} duplicated to ${new_name}`, "╳", {duration: 3000});
+		this.snackBar.open(`Table ${this.selectedTable?.name} duplicated to ${new_name}`, "╳", {duration: 3000});
 		await this.request.reloadServer();
-		await this.router.navigate(['../../', new_name, Tabs.at(-1)!.link], {relativeTo: this.route});
+		await this.router.navigate(['../../', new_name, Tabs.at(-1)!.link], {relativeTo: this.activatedRoute});
 	}
 }
 

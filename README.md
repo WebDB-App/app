@@ -1,3 +1,7 @@
+- revoir url
+- selectedServer de container change automatiquement ??
+-
+-
 - autocomplete table and column and types
 - getQueryHeader (use, `//db is `)
 - select with relations

@@ -49,7 +49,7 @@ export class ContainerComponent implements OnInit, AfterViewInit {
 		private matIconRegistry: MatIconRegistry,
 		private drawerService: DrawerService,
 		private activatedRoute: ActivatedRoute,
-		private _snackBar: MatSnackBar,
+		private snackBar: MatSnackBar,
 		private request: RequestService,
 		public router: Router,
 		public dialog: MatDialog
@@ -64,7 +64,7 @@ export class ContainerComponent implements OnInit, AfterViewInit {
 
 	async ngOnInit() {
 		const serverName = this.activatedRoute.snapshot.paramMap.get('server');
-		const databaseName = this.activatedRoute.snapshot.paramMap.get('db');
+		const databaseName = this.activatedRoute.snapshot.paramMap.get('database');
 
 		if (!serverName || !databaseName) {
 			this.isLoading = false;
@@ -80,11 +80,16 @@ export class ContainerComponent implements OnInit, AfterViewInit {
 		}
 
 		if (!server || !database) {
-			this._snackBar.open(`Can't connect to ${serverName}/${databaseName}, please check server availability`, "╳", {panelClass: 'snack-error'});
+			this.snackBar.open(`Can't connect to ${serverName}/${databaseName}, please check server availability`, "╳", {panelClass: 'snack-error'});
 			return;
 		}
 
-		this.changeDatabase(server, database);
+		Server.setSelected(server);
+		Database.setSelected(database);
+		this.selectedServer = server;
+		this.selectedDatabase = database;
+
+		this.isLoading = false;
 	}
 
 	ngAfterViewInit(): void {
@@ -113,15 +118,6 @@ export class ContainerComponent implements OnInit, AfterViewInit {
 		this.dialog.open(ConnectionInfoDialog, {
 			data: this.selectedServer
 		});
-	}
-
-	changeDatabase(server: Server, database: Database) {
-		Server.setSelected(server);
-		Database.setSelected(database);
-		this.selectedServer = server;
-		this.selectedDatabase = database;
-
-		this.isLoading = false;
 	}
 }
 

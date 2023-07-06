@@ -1,4 +1,4 @@
-import { Driver, QueryParams, TypeName } from "./driver";
+import { Driver, QueryParams, TypeGroup, TypeName } from "./driver";
 import { Column } from "./column";
 import { Database } from "./database";
 import { Table } from "./table";
@@ -14,12 +14,6 @@ import { HttpClient } from "@angular/common/http";
 declare var monaco: any;
 
 const history = new HistoryService();
-
-class TypeData {
-	name!: TypeName
-	proposition!: string[]
-	full!: string[]
-}
 
 export class SQL implements Driver {
 
@@ -57,7 +51,7 @@ export class SQL implements Driver {
 		{symbol: 'NOT REGEXP', example: "'[a-z]'", definition: "If regex didn't match"},
 		{symbol: 'NOT LIKE', example: "'0%'", definition: "Not equal to"},
 	];
-	typesList: TypeData[] = [
+	typesList: TypeGroup[] = [
 		{
 			name: TypeName.String,
 			proposition: ["varchar(size)"],
@@ -483,22 +477,22 @@ export class SQL implements Driver {
 	}
 
 	getBaseInsert(table: Table) {
-		const cols = table.columns?.map(column => `${this.nameDel}${column.name}${this.nameDel}`);
+		const cols = table.columns.map(column => `${this.nameDel}${column.name}${this.nameDel}`);
 		return `INSERT INTO ${this.nameDel}${table.name}${this.nameDel} (${cols!.join(', ')}) VALUES (${cols!.map(col => "''")})`;
 	}
 
 	getBaseUpdate(table: Table) {
-		const cols = table.columns?.map(column => `${this.nameDel}${column.name}${this.nameDel}`);
+		const cols = table.columns.map(column => `${this.nameDel}${column.name}${this.nameDel}`);
 		return `UPDATE ${this.nameDel}${table.name}${this.nameDel} SET ${cols!.map(col => `${col} = ''`)} WHERE 1 = 0`;
 	}
 
 	getBaseSelect(table: Table) {
-		const cols = table.columns?.map(column => `${this.nameDel}${column.name}${this.nameDel}`);
+		const cols = table.columns.map(column => `${this.nameDel}${column.name}${this.nameDel}`);
 		return `SELECT ${cols.join(', ')} FROM ${this.nameDel}${table.name}${this.nameDel}`;
 	}
 
 	getBaseSelectWithRelations(table: Table, relations: Relation[]) {
-		const columns = table.columns?.map(column => `${table.name}.${column.name}`).join(', ');
+		const columns = table.columns.map(column => `${table.name}.${column.name}`).join(', ');
 
 		const joins: string[] = [];
 		for (const relation of relations) {

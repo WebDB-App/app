@@ -3,7 +3,6 @@ import { Database } from "../../../classes/database";
 import { Server } from "../../../classes/server";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { RequestService } from "../../../shared/request.service";
-import { ActivatedRoute } from "@angular/router";
 
 interface Loads {
 	name: string;
@@ -33,8 +32,7 @@ export class LoadComponent {
 
 	constructor(
 		private request: RequestService,
-		private route: ActivatedRoute,
-		private _snackBar: MatSnackBar,
+		private snackBar: MatSnackBar,
 	) {
 		this.selectedDatabase = Database.getSelected();
 		this.selectedServer = Server.getSelected();
@@ -95,7 +93,7 @@ export class LoadComponent {
 			file.progress = 100;
 		}
 
-		this._snackBar.open("Import Succeed", "╳", {duration: 3000})
+		this.snackBar.open("Import Succeed", "╳", {duration: 3000})
 		await this.request.reloadServer();
 		this.isLoading = false;
 	}
@@ -106,7 +104,7 @@ export class LoadComponent {
 				return file.name.endsWith(name);
 			});
 			if (!end) {
-				this._snackBar.open("File format not supported", "╳", {panelClass: 'snack-error'})
+				this.snackBar.open("File format not supported", "╳", {panelClass: 'snack-error'})
 				return false;
 			}
 			return file;

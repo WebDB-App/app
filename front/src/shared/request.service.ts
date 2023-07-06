@@ -20,7 +20,7 @@ export class RequestService {
 
 	constructor(
 		private http: HttpClient,
-		private _snackBar: MatSnackBar,
+		private snackBar: MatSnackBar,
 	) {
 	}
 
@@ -44,7 +44,7 @@ export class RequestService {
 			environment.apiRootUrl + url, data, {headers}
 		));
 		if (snackError && result.error) {
-			this._snackBar.open(result.error, "╳", {panelClass: 'snack-error'});
+			this.snackBar.open(result.error, "╳", {panelClass: 'snack-error'});
 			throw new HttpErrorResponse({statusText: result.error});
 		}
 

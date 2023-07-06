@@ -67,7 +67,7 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 	querySize!: number;
 
 	constructor(
-		private _snackBar: MatSnackBar,
+		private snackBar: MatSnackBar,
 		private request: RequestService,
 		private dialog: MatDialog,
 		private http: HttpClient
@@ -299,7 +299,7 @@ import java.sql.*;
 class MysqlCon {
 	public static void main(String args[]){
 	try {
-		Class.forName("com.mysql.Server.getSelected().wrapper.toLowerCase().Driver");
+		Class.forName("com.${Server.getSelected().wrapper.toLowerCase()}.Driver");
 		Connection con = DriverManager.getConnection("jdbc:${Server.getSelected().wrapper.toLowerCase()}://${Server.getSelected().host}:${Server.getSelected().port}/${Database.getSelected().name}", "${Server.getSelected().user}", "${Server.getSelected().password}");
 
 		String query = """

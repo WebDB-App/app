@@ -16,7 +16,7 @@ export class SubscriptionDialog implements OnInit {
 	env = environment
 
 	constructor(
-		private _snackBar: MatSnackBar,
+		private snackBar: MatSnackBar,
 		private request: RequestService
 	) {
 	}
@@ -28,10 +28,10 @@ export class SubscriptionDialog implements OnInit {
 	async save(email: string) {
 		try {
 			await this.request.post('subscription/save', {email});
-			this._snackBar.open(`You successfully register this account. Thanks you =)`, "╳", {duration: 3000});
+			this.snackBar.open(`You successfully register this account. Thanks you =)`, "╳", {duration: 3000});
 			await this.ngOnInit();
 		} catch (err: any) {
-			this._snackBar.open("Error : " + err.statusText + ". You can contact us at: main.webdb@gmail.com", "╳", {panelClass: 'snack-error'});
+			this.snackBar.open("Error : " + err.statusText + ". You can contact us at: main.webdb@gmail.com", "╳", {panelClass: 'snack-error'});
 		}
 	}
 }

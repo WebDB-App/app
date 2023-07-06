@@ -1,4 +1,4 @@
-import { Driver, QueryParams, TypeName } from "../driver";
+import { Driver, QueryParams, TypeGroup, TypeName } from "../driver";
 import { Column } from "../column";
 import { Table } from "../table";
 import { Relation } from "../relation";
@@ -34,7 +34,7 @@ export class MongoDB implements Driver {
 		{symbol: '$text', example: ': { $search: "trek" }', definition: "Search text"},
 		{symbol: '$nin', example: '["0", "1"]', definition: "Is not in array of"},
 	];
-	typesList = [
+	typesList: TypeGroup[] = [
 		{
 			name: TypeName.String,
 			proposition: ["varchar(size)", 'longtext', 'longblob'],
@@ -102,7 +102,7 @@ export class MongoDB implements Driver {
 	}
 
 	getBaseUpdate(table: Table) {
-		const cols = table.columns?.map(column => `${column.name}: ""`);
+		const cols = table.columns.map(column => `${column.name}: ""`);
 		return `db.collection("${table.name}").updateOne({${cols.join(", ")}})`;
 	}
 
@@ -111,14 +111,16 @@ export class MongoDB implements Driver {
 	}
 
 	getBaseSelectWithRelations(table: Table, relations: Relation[]) {
-		const columns = table.columns?.map(column => `${table.name}.${column.name}`).join(', ');
+		return '';
+		/*
+		const columns = table.columns.map(column => `${table.name}.${column.name}`).join(', ');
 
 		const joins: string[] = [];
 		for (const relation of relations) {
 			joins.push(`INNER JOIN ${relation.table_dest} ON ${relation.table_dest}.${relation.column_dest} = ${relation.table_source}.${relation.column_source}`)
 		}
 
-		return `SELECT ${columns} FROM ${table.name} ${joins.join("\n")} GROUP BY ${columns} HAVING 1 = 1`;
+		return `SELECT ${columns} FROM ${table.name} ${joins.join("\n")} GROUP BY ${columns} HAVING 1 = 1`;*/
 	}
 
 	getBaseFilter(table: Table, conditions: string[], operand: 'AND' | 'OR') {
