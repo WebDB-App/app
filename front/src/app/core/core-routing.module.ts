@@ -9,6 +9,10 @@ import { TriggerComponent } from "./trigger/trigger.component";
 
 const routes: Routes = [
 	{
+		path: '',
+		pathMatch: 'full',
+		redirectTo: 'explore',
+	}, {
 		path: 'explore',
 		component: ExploreComponent
 	}, {
