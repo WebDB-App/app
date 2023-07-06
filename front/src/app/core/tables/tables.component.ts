@@ -35,7 +35,6 @@ export class TablesComponent implements OnInit, OnDestroy {
 	selectedDatabase?: Database;
 	selectedServer?: Server;
 	selectedTable?: Table;
-	selectedTab?: Tab;
 
 	tooltips: any = {};
 	tabs = Tabs;
@@ -71,15 +70,11 @@ export class TablesComponent implements OnInit, OnDestroy {
 			this.selectedTable = table;
 			Table.setSelected(this.selectedTable!);
 
-			const tabLink = this.activatedRoute.snapshot.paramMap.get('tab') || Tabs[0].link;
-			this.selectedTab = Tabs.find(tab => tab.link === tabLink);
-
-			if (!this.activatedRoute.snapshot.paramMap.get('table') || !this.activatedRoute.snapshot.paramMap.get('tab')) {
+			if (!this.activatedRoute.snapshot.paramMap.get('table')) {
 				await this.router.navigate([
 					this.selectedServer.name,
 					this.selectedDatabase.name,
-					this.selectedTable.name,
-					tabLink
+					this.selectedTable.name
 				]);
 			}
 		});
@@ -132,6 +127,13 @@ export class TablesComponent implements OnInit, OnDestroy {
 	}
 
 	async changeTable(name: string) {
-		await this.router.navigate(['../', name, this.selectedTab?.link, ''], {relativeTo: this.activatedRoute});
+		let url = this.router.url.replace(`/${this.selectedTable!.name}/`, `/${name}/`);
+
+		const explore = url.indexOf(`/explore?`);
+		if (explore >= 0) {
+			url = url.substring(0, explore) + '/explore';
+		}
+
+		await this.router.navigateByUrl(url);
 	}
 }

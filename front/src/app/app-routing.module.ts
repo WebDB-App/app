@@ -15,7 +15,7 @@ const appRoutes: Routes = [
 				outlet: 'right',
 				loadChildren: () => import('./right/right.module').then(m => m.RightModule)
 			}, {
-				path: ':table/:tab',
+				path: ':table',
 				component: TablesComponent,
 				loadChildren: () => import('./core/core.module').then(m => m.CoreModule)
 			}, {
