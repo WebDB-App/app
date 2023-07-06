@@ -38,14 +38,14 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 				return [
 					{
 						range: model.getFullModelRange(),
-						text: Server.getSelected().driver.format(model.getValue())
+						text: Server.getSelected().driver.format!(model.getValue())
 					}
 				];
 			},
 		});
 		['sql', 'javascript'].map(language => {
 			monaco.languages.registerCompletionItemProvider(language, {
-				triggerCharacters: ["."],
+				triggerCharacters: [".", '"', "'", '`'],
 				provideCompletionItems: (model: any, position: any) => {
 					const textUntilPosition = model.getValueInRange({
 						startLineNumber: position.lineNumber,

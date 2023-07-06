@@ -23,4 +23,14 @@ export class Column {
 
 		return tags;
 	}
+
+	static displayTags(column: Column, indexes: Index[]) {
+		const tags = Column.getTags(column, indexes).join(' | ');
+		let str = column.type;
+		if (tags.length) {
+			str += ' | ' + tags;
+		}
+
+		return str;
+	}
 }

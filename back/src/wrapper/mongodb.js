@@ -94,7 +94,7 @@ export default class MongoDB extends Driver {
 			//command = command.replaceAll(".toArray().", ".");
 
 			const fct = new Function("db", command);
-			return await fct(db);
+			return JSON.parse(JSON.stringify(await fct(db)));
 		} catch (e) {
 			console.error(e);
 			return {error: e.message};

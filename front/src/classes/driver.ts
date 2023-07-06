@@ -48,8 +48,8 @@ export interface Driver {
 	keywords: string[];
 	functions: { [key: string]: string | null };
 	constraints: string[];
-	format: (code: string) => string;
-	generateSuggestions: (textUntilPosition: string) => string[];
+	format?: (code: string) => string;
+	generateSuggestions: (textUntilPosition: string) => any[];
 
 	getBaseSort: (field: string, direction: 'asc' | 'desc') => string;
 	defaultFilter: string;

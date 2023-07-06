@@ -4,6 +4,8 @@ import { Table } from "../table";
 import { Relation } from "../relation";
 import { HttpClient } from "@angular/common/http";
 import { firstValueFrom } from "rxjs";
+import { Database } from "../database";
+import { Server } from "../server";
 
 declare var monaco: any;
 
@@ -25,14 +27,14 @@ export class MongoDB implements Driver {
 		{symbol: '$lt', example: "", definition: "Less than"},
 		{symbol: '$gte', example: "0", definition: "More or equal than"},
 		{symbol: '$lte', example: "0", definition: "Less or equal than"},
-		{symbol: '$eq', example: '"0"', definition: "Strictly equal to"},
-		{symbol: '$ne', example: "'0'", definition: "Strictly different to"},
-		{symbol: '$in', example: '["0", "1"]', definition: "Is in array of"},
-		{symbol: '$all', example: '["0", "1"]', definition: "If the array contains all elements"},
-		{symbol: '$range', example: '"0" AND "1"', definition: "If in the range of"},
+		{symbol: '$eq', example: '"abc"', definition: "Strictly equal to"},
+		{symbol: '$ne', example: "'abc'", definition: "Strictly different to"},
+		{symbol: '$in', example: '["a", "b"]', definition: "Is in array of"},
+		{symbol: '$all', example: '["a", "b"]', definition: "If the array contains all elements"},
+		{symbol: '$range', example: '"a" AND "z"', definition: "If in the range of"},
 		{symbol: '$regexMatch', example: '/[a-z]/', definition: "If match regex"},
-		{symbol: '$text', example: ': { $search: "trek" }', definition: "Search text"},
-		{symbol: '$nin', example: '["0", "1"]', definition: "Is not in array of"},
+		{symbol: '$text', example: ': { $search: "abc" }', definition: "Search text"},
+		{symbol: '$nin', example: '["a", "b"]', definition: "Is not in array of"},
 	];
 	typesList: TypeGroup[] = [
 		{
@@ -46,7 +48,79 @@ export class MongoDB implements Driver {
 	keywords = [];
 	defaultFilter = "$eq";
 
+	generateSuggestions(textUntilPosition: string) {
+		textUntilPosition = textUntilPosition.toLowerCase();
+		const suggestions: any[] = [];
+
+		if (Table.getSelected()) {
+			const indexes = Table.getIndexes().filter(index => index.table === Table.getSelected()?.name);
+
+			Table.getSelected()?.columns.map(column => {
+				suggestions.push({
+					label: `${column.name}`,
+					kind: monaco.languages.CompletionItemKind.Class,
+					insertText: `${column.name}`,
+					detail: Column.displayTags(column, indexes)
+				});
+			});
+		} else {
+			Server.getSelected()?.dbs.map(db => {
+				suggestions.push({
+					label: db.name,
+					kind: monaco.languages.CompletionItemKind.Module,
+					insertText: `${db.name} `
+				});
+
+				db.tables?.map(table => {
+					const indexes = Table.getIndexes(table, db).filter(index => index.table === table.name);
+
+					suggestions.push({
+						label: `${db.name}.${table.name}`,
+						kind: monaco.languages.CompletionItemKind.Struct,
+						insertText: `${db.name}.${table.name} `
+					});
+
+					table.columns.map(column => {
+						suggestions.push({
+							label: `${db.name}.${table.name}.${column.name}`,
+							kind: monaco.languages.CompletionItemKind.Class,
+							insertText: `${db.name}.${table.name}.${column.name}`,
+							detail: Column.displayTags(column, indexes)
+						});
+					})
+				});
+			});
+		}
+
+		Database.getSelected()?.tables?.map(table => {
+			const indexes = Table.getIndexes(table).filter(index => index.table === table.name);
+
+			suggestions.push({
+				label: `${table.name}`,
+				kind: monaco.languages.CompletionItemKind.Struct,
+				insertText: `${table.name} `
+			});
+
+			table.columns.map(column => {
+				suggestions.push({
+					label: `${table.name}.${column.name}`,
+					kind: monaco.languages.CompletionItemKind.Class,
+					insertText: `${table.name}.${column.name}`,
+					detail: Column.displayTags(column, indexes)
+				});
+			});
+		});
+
+		return suggestions;
+	}
+
 	nodeLib = (query: QueryParams) => "";
+
+	extractConditionParams(query: string): QueryParams {
+		return <QueryParams>{
+			query
+		};
+	}
 
 	async loadExtraLib(http: HttpClient) {
 		for (const path of ['mongo.d.ts', 'bson.d.ts']) {
@@ -77,20 +151,6 @@ export class MongoDB implements Driver {
 		return false;
 	}
 
-	generateSuggestions(textUntilPosition: string): string[] {
-		return [];
-	}
-
-	format(code: string): string {
-		return code;
-	}
-
-	extractConditionParams(query: string): QueryParams {
-		return <QueryParams>{
-			query
-		};
-	}
-
 	getBaseDelete(table: Table) {
 		const cols = table.columns?.map(column => `${column.name}: ""`);
 		return `db.collection("${table.name}").deleteOne({${cols.join(", ")}})`;
@@ -107,7 +167,9 @@ export class MongoDB implements Driver {
 	}
 
 	getBaseSelect(table: Table) {
-		return `db.collection("${table.name}").find({}).toArray()`;
+		return `db.collection("${table.name}").find({}).toArray();
+
+/*const db = (await new MongoClient()).db("${Database.getSelected().name}")*/`;
 	}
 
 	getBaseSelectWithRelations(table: Table, relations: Relation[]) {
