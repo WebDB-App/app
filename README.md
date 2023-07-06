@@ -1,5 +1,4 @@
 - autocomplete table and column and types
-- getQueryHeader (use, `//db is `)
 - select with relations
 
 
@@ -27,11 +26,24 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 # COM
 
 
 # Assistant
 - https://llama-node.vercel.app/
+- premium : export n'importe quelle language (ia)
 - finir present
 
 # Export Query

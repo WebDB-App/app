@@ -43,13 +43,13 @@ export class SQL implements Driver {
 		{symbol: '=', example: "'0'", definition: "Strictly equal to"},
 		{symbol: '!=', example: "'0'", definition: "Strictly different to"},
 		{symbol: 'IN', example: '("0", "1")', definition: "Is in array of"},
-		{symbol: 'BETWEEN', example: "'a' AND 'z'", definition: "If in the range of"},
+		{symbol: 'BETWEEN', example: "'a' AND 'b'", definition: "If in the range of"},
 		{symbol: 'REGEXP', example: "'[a-z]'", definition: "If match regex"},
-		{symbol: 'LIKE', example: "'a%'", definition: "Equal to"},
+		{symbol: 'LIKE', example: "'abc%'", definition: "Equal to"},
 		{symbol: 'NOT IN', example: '("a", "z")', definition: "Is not in array of"},
 		{symbol: 'NOT BETWEEN', example: "'a' AND 'z'", definition: "Is out of range of"},
 		{symbol: 'NOT REGEXP', example: "'[a-z]'", definition: "If regex didn't match"},
-		{symbol: 'NOT LIKE', example: "'0%'", definition: "Not equal to"},
+		{symbol: 'NOT LIKE', example: "'abc%'", definition: "Not equal to"},
 	];
 	typesList: TypeGroup[] = [
 		{
@@ -286,16 +286,6 @@ export class SQL implements Driver {
 		return suggestions;
 	}
 
-	displayCol(column: Column, indexes: Index[]) {
-		const tags = Column.getTags(column, indexes).join(' | ');
-		let str = column.type;
-		if (tags.length) {
-			str += ' | ' + tags;
-		}
-
-		return str;
-	}
-
 	dotSuggestions(textUntilPosition: string) {
 		textUntilPosition = textUntilPosition.trim();
 
@@ -331,7 +321,7 @@ export class SQL implements Driver {
 					label: `${column.name}`,
 					kind: monaco.languages.CompletionItemKind.Class,
 					insertText: `${column.name}`,
-					detail: this.displayCol(column, indexes)
+					detail: Column.displayTags(column, indexes)
 				});
 			})
 		});
@@ -356,7 +346,7 @@ export class SQL implements Driver {
 					label: `${column.name}`,
 					kind: monaco.languages.CompletionItemKind.Class,
 					insertText: `${column.name}`,
-					detail: this.displayCol(column, indexes)
+					detail: Column.displayTags(column, indexes)
 				});
 			});
 		} else {
@@ -381,7 +371,7 @@ export class SQL implements Driver {
 							label: `${db.name}.${table.name}.${column.name}`,
 							kind: monaco.languages.CompletionItemKind.Class,
 							insertText: `${db.name}.${table.name}.${column.name}`,
-							detail: this.displayCol(column, indexes)
+							detail: Column.displayTags(column, indexes)
 						});
 					})
 				});
@@ -402,7 +392,7 @@ export class SQL implements Driver {
 					label: `${table.name}.${column.name}`,
 					kind: monaco.languages.CompletionItemKind.Class,
 					insertText: `${table.name}.${column.name}`,
-					detail: this.displayCol(column, indexes)
+					detail: Column.displayTags(column, indexes)
 				});
 			});
 		});
