@@ -127,7 +127,7 @@ export class TablesComponent implements OnInit, OnDestroy {
 	}
 
 	async changeTable(name: string) {
-		let url = this.router.url.replace(`/${this.selectedTable!.name}/`, `/${name}/`);
+		let url = this.router.url.replace(`${this.selectedTable!.name}/`, `${name}/`);
 
 		const explore = url.indexOf(`/explore?`);
 		if (explore >= 0) {

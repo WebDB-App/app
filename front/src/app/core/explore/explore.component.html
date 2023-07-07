@@ -80,11 +80,11 @@
 
 <mat-progress-bar *ngIf="isLoading" mode="indeterminate" style="position: absolute; z-index: 10000;"></mat-progress-bar>
 
-<cdk-virtual-scroll-viewport itemSize="100" style="height: calc(100vh - 161px);">
+<div class="scrollDiv" style="height: calc(100vh - 161px);">
 
 	<table [dataSource]="dataSource" class="table mat-elevation-z8" mat-table>
 		<ng-container
-			*cdkVirtualFor="let column of displayedColumns"
+			*ngFor="let column of displayedColumns"
 			[stickyEnd]="column === actionColum"
 			matColumnDef="{{column}}"
 		>
@@ -167,4 +167,4 @@
 		</tr>
 
 	</table>
-</cdk-virtual-scroll-viewport>
+</div>
