@@ -80,11 +80,11 @@
 
 <mat-progress-bar *ngIf="isLoading" mode="indeterminate" style="position: absolute; z-index: 10000;"></mat-progress-bar>
 
-<div class="scrollDiv" style="height: calc(100vh - 161px);">
+<cdk-virtual-scroll-viewport itemSize="100" style="height: calc(100vh - 161px);">
 
 	<table [dataSource]="dataSource" class="table mat-elevation-z8" mat-table>
 		<ng-container
-			*ngFor="let column of displayedColumns"
+			*cdkVirtualFor="let column of displayedColumns"
 			[stickyEnd]="column === actionColum"
 			matColumnDef="{{column}}"
 		>
@@ -151,11 +151,11 @@
 					</mat-checkbox>
 				</ng-container>
 
-				<ng-container *ngIf="column !== actionColum">
-					<app-cell [column]="column"
-							  [row]="row"
-					></app-cell>
-				</ng-container>
+				<app-cell
+					*ngIf="column !== actionColum"
+					[column]="column"
+					[row]="row"
+				></app-cell>
 			</td>
 		</ng-container>
 
@@ -167,4 +167,4 @@
 		</tr>
 
 	</table>
-</div>
+</cdk-virtual-scroll-viewport>

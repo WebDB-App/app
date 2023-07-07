@@ -11,7 +11,8 @@ declare var monaco: any;
 export class MongoDB implements Driver {
 
 	defaultParams = {
-		serverSelectionTimeoutMS: 2000
+		serverSelectionTimeoutMS: 2000,
+		authSource: 'admin'
 	};
 
 	languageDocumentation = "https://www.mongodb.com/docs/drivers/node/current/quick-reference/";
@@ -42,7 +43,7 @@ export class MongoDB implements Driver {
 			full: ["varchar", 'longtext', 'longblob', 'char', 'binary', 'varbinary', 'blob', 'text', 'mediumblob', 'tinyblob', 'mediumtext', 'tinytext'],
 		}
 	];
-	acceptedExt = ['.csv', '.tsv'];
+	acceptedExt = ['.csv', '.tsv', '.json'];
 	functions = {};
 	keywords = [];
 	defaultFilter = "$eq";
@@ -100,9 +101,9 @@ export class MongoDB implements Driver {
 	}
 
 	getBaseSelect(table: Table) {
-		return `db.collection("${table.name}").find({}).toArray();
+		return `/*const db = (await new MongoClient()).db("${Database.getSelected().name}")*/
 
-/*const db = (await new MongoClient()).db("${Database.getSelected().name}")*/`;
+db.collection("${table.name}").find({}).toArray();`;
 	}
 
 	getBaseSelectWithRelations(table: Table, relations: Relation[]) {

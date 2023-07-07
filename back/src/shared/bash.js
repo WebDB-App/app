@@ -17,7 +17,7 @@ class Bash {
 			return {result: execSync(cmd, {shell: "/bin/bash"}).toString()};
 		} catch (e) {
 			console.error(e);
-			return {error: e.message};
+			return {error: e.stderr.toString() ? e.stderr.toString() : e.message};
 		} finally {
 			this.logCommand(cmd, "bash", Date.now() - start);
 		}

@@ -42,6 +42,7 @@ import { NgxJsonViewerModule } from "ngx-json-viewer";
 import { MatExpansionModule } from "@angular/material/expansion";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { HighlightModule } from "ngx-highlightjs";
+import { OverlayModule } from "@angular/cdk/overlay";
 
 @NgModule({
 	declarations: [
@@ -57,9 +58,6 @@ import { HighlightModule } from "ngx-highlightjs";
 		TriggerComponent,
 		TablesComponent,
 		UpdateDataDialog
-	],
-	exports: [
-		TableAdvancedComponent
 	],
 	imports: [
 		CommonModule,
@@ -97,7 +95,8 @@ import { HighlightModule } from "ngx-highlightjs";
 		SharedModule,
 		NgxJsonViewerModule,
 		MatAutocompleteModule,
-		HighlightModule
+		HighlightModule,
+		OverlayModule
 	]
 })
 export class CoreModule {

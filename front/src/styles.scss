@@ -134,6 +134,16 @@ a {
 	background-color: mat-color($angular-accent, default)
 }
 
+.mat-snack-bar-container {
+	max-width: initial !important;
+}
+
+.mat-simple-snack-bar-content {
+	overflow: auto !important;
+	text-overflow: initial !important;
+	white-space: pre;
+}
+
 .mat-paginator {
 	background-color: inherit;
 
