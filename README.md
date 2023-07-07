@@ -1,4 +1,3 @@
-- autocomplete table and column and types
 - select with relations
 
 

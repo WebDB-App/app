@@ -5,7 +5,6 @@ import { Relation } from "../relation";
 import { HttpClient } from "@angular/common/http";
 import { firstValueFrom } from "rxjs";
 import { Database } from "../database";
-import { Server } from "../server";
 
 declare var monaco: any;
 
@@ -47,72 +46,6 @@ export class MongoDB implements Driver {
 	functions = {};
 	keywords = [];
 	defaultFilter = "$eq";
-
-	generateSuggestions(textUntilPosition: string) {
-		textUntilPosition = textUntilPosition.toLowerCase();
-		const suggestions: any[] = [];
-
-		if (Table.getSelected()) {
-			const indexes = Table.getIndexes().filter(index => index.table === Table.getSelected()?.name);
-
-			Table.getSelected()?.columns.map(column => {
-				suggestions.push({
-					label: `${column.name}`,
-					kind: monaco.languages.CompletionItemKind.Class,
-					insertText: `${column.name}`,
-					detail: Column.displayTags(column, indexes)
-				});
-			});
-		} else {
-			Server.getSelected()?.dbs.map(db => {
-				suggestions.push({
-					label: db.name,
-					kind: monaco.languages.CompletionItemKind.Module,
-					insertText: `${db.name} `
-				});
-
-				db.tables?.map(table => {
-					const indexes = Table.getIndexes(table, db).filter(index => index.table === table.name);
-
-					suggestions.push({
-						label: `${db.name}.${table.name}`,
-						kind: monaco.languages.CompletionItemKind.Struct,
-						insertText: `${db.name}.${table.name} `
-					});
-
-					table.columns.map(column => {
-						suggestions.push({
-							label: `${db.name}.${table.name}.${column.name}`,
-							kind: monaco.languages.CompletionItemKind.Class,
-							insertText: `${db.name}.${table.name}.${column.name}`,
-							detail: Column.displayTags(column, indexes)
-						});
-					})
-				});
-			});
-		}
-
-		Database.getSelected()?.tables?.map(table => {
-			const indexes = Table.getIndexes(table).filter(index => index.table === table.name);
-
-			suggestions.push({
-				label: `${table.name}`,
-				kind: monaco.languages.CompletionItemKind.Struct,
-				insertText: `${table.name} `
-			});
-
-			table.columns.map(column => {
-				suggestions.push({
-					label: `${table.name}.${column.name}`,
-					kind: monaco.languages.CompletionItemKind.Class,
-					insertText: `${table.name}.${column.name}`,
-					detail: Column.displayTags(column, indexes)
-				});
-			});
-		});
-
-		return suggestions;
-	}
 
 	nodeLib = (query: QueryParams) => "";
 
