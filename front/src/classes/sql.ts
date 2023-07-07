@@ -240,7 +240,6 @@ export class SQL implements Driver {
 		});
 
 		Object.keys(this.functions).map(fct => {
-
 			// @ts-ignore
 			const detail = this.functions[fct] || '(expression)';
 			suggestions.push({

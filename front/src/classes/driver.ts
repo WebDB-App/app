@@ -49,7 +49,7 @@ export interface Driver {
 	functions: { [key: string]: string | null };
 	constraints: string[];
 	format?: (code: string) => string;
-	generateSuggestions: (textUntilPosition: string) => any[];
+	generateSuggestions?: (textUntilPosition: string) => any[];
 
 	getBaseSort: (field: string, direction: 'asc' | 'desc') => string;
 	defaultFilter: string;
