@@ -306,7 +306,6 @@ export class CreateDatabaseDialog {
 	constructor(
 		public dialogRef: MatDialogRef<CreateDatabaseDialog>,
 		private request: RequestService,
-		private snackBar: MatSnackBar,
 		@Inject(MAT_DIALOG_DATA) public server: Server,
 	) {
 	}
@@ -314,5 +313,9 @@ export class CreateDatabaseDialog {
 	async createDb(name: string) {
 		await this.request.post('database/create', {name}, undefined, undefined, this.server);
 		this.dialogRef.close(name);
+	}
+
+	alreadyExist(value: string) {
+		return this.server.dbs.find(db => db.name === value);
 	}
 }

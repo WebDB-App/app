@@ -32,17 +32,10 @@
 
 
 
-
-
-
-
-
 # COM
 
 
 # Assistant
-- https://llama-node.vercel.app/
-- premium : export n'importe quelle language (ia)
 - finir present
 
 # Export Query
@@ -55,6 +48,7 @@
 # MongoDB
 - multi type : convert to array and search inside
 - traduction (collection vs table, etc)
+- autocomplete table and column and types
 
 # Postgre
 - types (icon = data_object)
@@ -76,13 +70,26 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 # Bin
 - Node Single Executable Apps | https://tauri.app/ | https://webpack.electron.build/ | https://github.com/electron/electron/issues/21457#issuecomment-1269637018
 - ci + gitlab wiki
 - changelog en json avec opencommit et check last version
 
 # Chat
-- history
+- https://llama-node.vercel.app/
+- premium : export n'importe quelle language (ia)
+- Openai : conversation
 - regarger plugins gpt
 - 2 videos micode
 - https://pbs.twimg.com/media/FtkoX8_WIAA_5ds.jpg:large

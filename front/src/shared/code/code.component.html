@@ -68,14 +68,18 @@
 			</mat-slide-toggle>
 		</div>
 
+		<a [href]="selectedServer!.driver.languageDocumentation" mat-button target="_blank">
+			<span class="material-symbols-outlined notranslate">
+				menu_book
+			</span>
+			{{selectedServer!.driver.language === "sql" ? "SQL" : (selectedServer!.driver.language | titlecase)}}
+		</a>
+
 		<div>
 			<button [matMenuTriggerFor]="advanced" mat-icon-button>
 				<mat-icon>more_vert</mat-icon>
 			</button>
 			<mat-menu #advanced="matMenu" xPosition="before">
-				<a [href]="selectedServer!.driver.languageDocumentation" mat-menu-item target="_blank">
-					Language Doc
-				</a>
 				<button [matMenuTriggerFor]="shortcuts" mat-menu-item>Shortcuts</button>
 				<button [matMenuTriggerFor]="export" mat-menu-item>Export Query</button>
 				<button [matMenuTriggerFor]="disclaimer" mat-menu-item>Disclaimer</button>

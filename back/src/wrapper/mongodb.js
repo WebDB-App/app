@@ -19,8 +19,8 @@ export default class MongoDB extends Driver {
 
 	}
 
-	async load(filePath) {
-		return bash.runBash(`mongoimport ${this.makeUri()} ${filePath}`);
+	async load(filePath, database, table) {
+		return bash.runBash(`mongoimport --db "${database}" --collection "${table}" "${this.makeUri(true)}" --file "${filePath}"`);
 	}
 
 	async replaceTrigger(database, table, trigger) {
@@ -40,7 +40,19 @@ export default class MongoDB extends Driver {
 	}
 
 	async createDatabase(name) {
+		const remove_me = "remove_me";
+		const connection = await MongoClient.connect(this.makeUri() + name, this.params);
+		const db = await connection.db(name);
+		let coll = db.collection(remove_me);
 
+		if (!coll) {
+			coll = await db.createCollection(remove_me);
+		}
+		if ((await coll.find().toArray()).length < 1) {
+			await coll.insertOne({_id: new ObjectId(), remove_me});
+		}
+
+		return true;
 	}
 
 	async statsDatabase(name) {
@@ -84,17 +96,19 @@ export default class MongoDB extends Driver {
 		let db = this.connection;
 		const start = Date.now();
 
+		command = command.replace(/\/\*[\s\S]*?\*\/|(?<=[^:])\/\/.*|^\/\/.*/g, "")
+		command = command.trim();
+		if (!command.trim().startsWith("return")) {
+			command = `return ${command}`;
+		}
+
 		try {
 			if (database) {
 				db = await this.connection.db(database);
 			}
-			if (!command.trim().startsWith("return")) {
-				command = `return ${command}`;
-			}
-			//command = command.replaceAll(".toArray().", ".");
-
 			const fct = new Function("db", command);
-			return JSON.parse(JSON.stringify(await fct(db)));
+			const res = await fct(db);
+			return JSON.parse(JSON.stringify(res));
 		} catch (e) {
 			console.error(e);
 			return {error: e.message};
@@ -204,10 +218,16 @@ export default class MongoDB extends Driver {
 		return struct;
 	}
 
-	makeUri() {
-		return (this.user && this.password) ?
+	makeUri(withParams = false) {
+		let url = (this.user && this.password) ?
 			`mongodb://${this.user}:${this.password}@${this.host}:${this.port}/` :
 			`mongodb://${this.host}:${this.port}/`;
+
+		if (withParams) {
+			url += "?" + (new URLSearchParams(this.params)).toString();
+		}
+
+		return url;
 	}
 
 	async establish() {
