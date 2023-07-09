@@ -10,7 +10,6 @@
 
 - cloud (google, aurora, rds)
 - Finir EDR
-- BLOB CRUD (download, upload)
 
 
 
@@ -35,6 +34,9 @@
 # COM
 
 
+
+# BLOB CRUD (download, upload)
+
 # Assistant
 - finir present
 
@@ -46,7 +48,6 @@
 - revoir load avec tunnel (essayer en bash)
 
 # MongoDB
-- multi type : convert to array and search inside
 - traduction (collection vs table, etc)
 - autocomplete table and column and types
 
@@ -58,14 +59,12 @@
 
 # Test
 - e2e crud data, crud table : all driver (protractor)
-- afficher les resulat en front avec plusieurs version de bdd
+- remplacer compatibility par : afficher les resulat en front avec plusieurs version de bdd
 
 # Cloud DB
 - digital
 - atlas?
 - azure
-
-
 
 
 

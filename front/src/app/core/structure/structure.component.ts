@@ -13,6 +13,7 @@ import { DrawerService } from "../../../shared/drawer.service";
 import { combineLatest, distinctUntilChanged, Subscription } from "rxjs";
 import { HoverService } from "../../../shared/hover.service";
 import { SQL } from "../../../classes/sql";
+import { isSQL } from "../../../shared/helper";
 
 @Component({
 	selector: 'app-structure',
@@ -50,9 +51,9 @@ export class StructureComponent implements OnInit, OnDestroy, AfterViewChecked {
 		this.selectedServer = Server.getSelected();
 		this.selectedTable = Table.getSelected();
 
-		this.structureColumns = ['name', 'type'];
-		if (this.selectedServer.driver instanceof SQL) {
-			this.structureColumns.push('nullable', 'defaut');
+		this.structureColumns = ['name', 'type', 'nullable'];
+		if (isSQL(this.selectedServer)) {
+			this.structureColumns.push('defaut');
 		}
 		if (this.selectedServer.driver.extraAttributes.length) {
 			this.structureColumns.push('extra');
@@ -150,6 +151,8 @@ export class StructureComponent implements OnInit, OnDestroy, AfterViewChecked {
 
 		return row[column];
 	}
+
+	protected readonly isSQL = isSQL;
 }
 
 

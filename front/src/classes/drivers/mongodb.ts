@@ -15,7 +15,6 @@ export class MongoDB implements Driver {
 		authSource: 'admin'
 	};
 
-	relationnal = false;
 	languageDocumentation = "https://www.mongodb.com/docs/drivers/node/current/quick-reference/";
 	nameDel = '"';
 	driverDocumentation = "https://www.mongodb.com/docs/drivers/node/current/fundamentals/connection/connection-options/";

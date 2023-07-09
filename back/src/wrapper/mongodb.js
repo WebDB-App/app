@@ -16,7 +16,6 @@ export default class MongoDB extends Driver {
 	}
 
 	async dump(database, exportType, tables, includeData) {
-
 	}
 
 	async load(filePath, database, table) {
@@ -36,6 +35,8 @@ export default class MongoDB extends Driver {
 	}
 
 	async insert(db, table, datas) {
+		//TODO objectid (bjson)
+
 		const res = await this.connection.db(db).collection(table).insertMany(datas);
 		return res.insertedCount.toString();
 	}
@@ -168,29 +169,12 @@ export default class MongoDB extends Driver {
 	}
 
 	getPropertyType(property) {
-		const type = typeof property;
-
-		if (Array.isArray(property)) {
-			return property.map(pro => this.getPropertyType(pro));
-		} else if (property instanceof ObjectId) {
-			return "ObjectId";
-		} /*else if (type instanceof UUID) {
-			return 'UUID';
-		}*/ else if (property instanceof Date) {
-			return "date";
-		} else if (type === "object") {
-			const types = {};
-			for (const [key, val] of Object.entries(property)) {
-				types[key] = this.getPropertyType(val);
-			}
-			return types;
-		} else {
-			return type;
-		}
+		return property.constructor.name;
 	}
 
 	async getStructure() {
 		const struct = {};
+		const sampleSize = process.env.MONGO_SAMPLE || 100;
 
 		const admin = this.connection.db().admin();
 		const list = await admin.listDatabases();
@@ -216,26 +200,31 @@ export default class MongoDB extends Driver {
 					};
 
 					try {
-						(await coll.aggregate([{$sample: {size: process.env.MONGO_SAMPLE || 100}}]).toArray()).map(sample => {
+						(await coll.aggregate([{$sample: {size: sampleSize}}]).toArray()).map(sample => {
 							for (const [key, val] of Object.entries(sample)) {
 								const type = this.getPropertyType(val);
 
 								if (struct[li.name].tables[coll.collectionName].columns[key]) {
-									if (struct[li.name].tables[coll.collectionName].columns[key].type !== type) {
-										struct[li.name].tables[coll.collectionName].columns[key].type = type;
+									if (struct[li.name].tables[coll.collectionName].columns[key].type.indexOf(type) < 0) {
+										struct[li.name].tables[coll.collectionName].columns[key].type.push(type);
+									} else {
+										struct[li.name].tables[coll.collectionName].columns[key].nullable++;
 									}
 								} else {
 									struct[li.name].tables[coll.collectionName].columns[key] = {
 										name: key,
-										type,
+										type: [type],
+										nullable: 1
 										//comment
-										//nullable: row.is_nullable !== "NO",
-										//collation: row.COLLATION_NAME,
-										//defaut: row.column_default,
 									};
 								}
 							}
 						});
+
+						for (const [key] of Object.entries(struct[li.name].tables[coll.collectionName].columns)) {
+							struct[li.name].tables[coll.collectionName].columns[key].type = struct[li.name].tables[coll.collectionName].columns[key].type.join(" | ");
+							struct[li.name].tables[coll.collectionName].columns[key].nullable = struct[li.name].tables[coll.collectionName].columns[key].nullable < sampleSize;
+						}
 					} catch (e) {
 						//console.error(e);
 					}

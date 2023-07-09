@@ -5,17 +5,20 @@ import { BooleanPipe } from "./boolean.pipe";
 import { CellComponent } from './cell/cell.component';
 import { NgxJsonViewerModule } from "ngx-json-viewer";
 import { RouterLinkWithHref } from "@angular/router";
+import { IsSQLPipe } from "./is_sql.pipe";
 
 @NgModule({
 	declarations: [
 		RoundPipe,
 		BooleanPipe,
-		CellComponent
+		CellComponent,
+		IsSQLPipe
 	],
 	exports: [
 		RoundPipe,
 		BooleanPipe,
-		CellComponent
+		CellComponent,
+		IsSQLPipe
 	],
 	imports: [
 		CommonModule,
