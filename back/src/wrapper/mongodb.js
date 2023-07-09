@@ -36,27 +36,19 @@ export default class MongoDB extends Driver {
 	}
 
 	async insert(db, table, datas) {
-		const values = [];
-		for (const data of datas) {
-			values.push(`(${Object.values(data).map(da => `"${da}"`).join(", ")})`);
-		}
-
-		const res = await this.nbChangment(`INSERT INTO ${this.nameDel}${table}${this.nameDel} (${Object.keys(datas[0]).join(",")}) VALUES ${values.join(", ")}`, db);
-		return res.error ? res : res.toString();
+		const res = await this.connection.db(db).collection(table).insertMany(datas);
+		return res.insertedCount.toString();
 	}
 
 	async delete(db, table, rows) {
-		const pks = await this.getPks(db, table);
 		let nbT = 0;
-
 		for (const row of rows) {
-			const where = this.objectToSql(this.pkToObject(pks, row)).join(" AND ");
-			const res = (await this.nbChangment(`DELETE FROM ${this.nameDel}${table}${this.nameDel} WHERE ${where}`, db));
+			const res = await this.connection.db(db).collection(table).deleteOne(row);
 			if (res.error) {
 				return res;
 			}
 
-			nbT += res;
+			nbT += res.deletedCount;
 		}
 
 		return nbT.toString();
@@ -73,7 +65,8 @@ export default class MongoDB extends Driver {
 			return {};
 		}
 
-		return await this.connection.db(db).collection(table).updateOne(old_data, to_update);
+		const res = await this.connection.db(db).collection(table).updateOne(old_data, to_update);
+		return res.modifiedCount.toString();
 	}
 
 	async duplicateTable(database, old_table, new_name) {

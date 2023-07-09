@@ -58,6 +58,7 @@
 
 # Test
 - e2e crud data, crud table : all driver (protractor)
+- afficher les resulat en front avec plusieurs version de bdd
 
 # Cloud DB
 - digital
