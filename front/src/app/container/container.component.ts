@@ -35,7 +35,7 @@ export class ContainerComponent implements OnInit, AfterViewInit {
 	selectedDatabase!: Database;
 
 	panels: Panel[] = [
-		{link: "relations", icon: "join"},
+		{link: "relations", icon: "attach_file"},
 		{link: "load", icon: "exit_to_app"},
 		{link: "dump", icon: "ios_share"},
 		{link: "diagram", icon: "polyline"},

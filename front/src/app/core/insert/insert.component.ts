@@ -14,7 +14,7 @@ import { Database } from "../../../classes/database";
 import { Generator, Group } from "../../../classes/generator";
 import { initBaseEditor } from "../../../shared/helper";
 
-const localStorageName = "codes";
+const localStorageName = "insert-codes";
 
 @Component({
 	selector: 'app-insert',

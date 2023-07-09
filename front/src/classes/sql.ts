@@ -462,22 +462,26 @@ export class SQL implements Driver {
 	}
 
 	getBaseDelete(table: Table) {
-		return `DELETE FROM ${this.nameDel}${table.name}${this.nameDel} WHERE 1 = 0`;
+		const cols = table.columns.map(column => `${this.nameDel}${column.name}${this.nameDel} = '${column.type}'`);
+		return `DELETE FROM ${this.nameDel}${table.name}${this.nameDel} WHERE ${cols.join(" AND ")}`;
 	}
 
 	getBaseInsert(table: Table) {
 		const cols = table.columns.map(column => `${this.nameDel}${column.name}${this.nameDel}`);
-		return `INSERT INTO ${this.nameDel}${table.name}${this.nameDel} (${cols!.join(', ')}) VALUES (${cols!.map(col => "''")})`;
+		const colWithType = table.columns.map(column => `${this.nameDel}${column.name}${this.nameDel} = '${column.type}'`);
+		return `INSERT INTO ${this.nameDel}${table.name}${this.nameDel} (${cols.join(', ')}) VALUES (${colWithType.join(', ')})`;
 	}
 
 	getBaseUpdate(table: Table) {
 		const cols = table.columns.map(column => `${this.nameDel}${column.name}${this.nameDel}`);
-		return `UPDATE ${this.nameDel}${table.name}${this.nameDel} SET ${cols!.map(col => `${col} = ''`)} WHERE 1 = 0`;
+		const colWithType = table.columns.map(column => `${this.nameDel}${column.name}${this.nameDel} = '${column.type}'`);
+		return `UPDATE ${this.nameDel}${table.name}${this.nameDel} SET ${cols!.map(col => `${col} = ''`)} WHERE ${colWithType.join(" AND ")}`;
 	}
 
 	getBaseSelect(table: Table) {
 		const cols = table.columns.map(column => `${this.nameDel}${column.name}${this.nameDel}`);
-		return `SELECT ${cols.join(', ')} FROM ${this.nameDel}${table.name}${this.nameDel}`;
+		const colWithType = table.columns.map(column => `${this.nameDel}${column.name}${this.nameDel} = '${column.type}'`);
+		return `SELECT ${cols.join(', ')} FROM ${this.nameDel}${table.name}${this.nameDel} WHERE ${colWithType.join(" AND ")}`;
 	}
 
 	getBaseSelectWithRelations(table: Table, relations: Relation[]) {
@@ -492,7 +496,8 @@ export class SQL implements Driver {
 	}
 
 	getBaseFilter(table: Table, condition: string[], operand: 'AND' | 'OR') {
-		const select = this.getBaseSelect(table);
+		const cols = table.columns.map(column => `${this.nameDel}${column.name}${this.nameDel}`);
+		const select = `SELECT ${cols.join(', ')} FROM ${this.nameDel}${table.name}${this.nameDel}`;
 		if (condition.length < 1) {
 			return select;
 		}

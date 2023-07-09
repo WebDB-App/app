@@ -26,6 +26,8 @@ import { initBaseEditor } from "../helper";
 
 declare var monaco: any;
 
+const localStorageName = "right-code";
+
 @Component({
 	selector: 'app-code',
 	templateUrl: './code.component.html',
@@ -40,6 +42,8 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 
 	protected readonly Math = Math;
 
+	codes: any = JSON.parse(localStorage.getItem(localStorageName) || "{}");
+	interval?: NodeJS.Timer;
 	configuration: Configuration = new Configuration();
 	selectedServer?: Server;
 	selectedDatabase?: Database;
@@ -59,7 +63,7 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 	autoUp: boolean | NodeJS.Timer = false;
 	diff = false;
 	query2 = '';
-	pageSize = 250;
+	pageSize = 100;
 	isLoading = false;
 	displayedColumns?: string[];
 	dataSource?: MatTableDataSource<any>
@@ -94,6 +98,9 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 		if (this.selectedTable) {
 			this.prebuild("select");
 			this.relations = Table.getRelations();
+		} else {
+			this.query = this.codes[this.selectedDatabase!.name];
+			this.interval = setInterval(() => this.saveCode(), 1000);
 		}
 	}
 
@@ -111,6 +118,7 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 			clearInterval(this.autoUp);
 			this.autoUp = false
 		}
+		clearInterval(this.interval);
 	}
 
 	async initEditor(editor: any, index: number) {
@@ -237,6 +245,11 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 
 			}, this.configuration.getByName('reloadData')?.value * 1000);
 		}
+	}
+
+	saveCode() {
+		this.codes[this.selectedDatabase!.name] = this.query;
+		localStorage.setItem(localStorageName, JSON.stringify(this.codes));
 	}
 }
 
