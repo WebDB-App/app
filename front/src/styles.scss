@@ -139,7 +139,7 @@ a {
 }
 
 .mat-simple-snack-bar-content {
-	overflow: auto !important;
+	overflow-x: auto !important;
 	text-overflow: initial !important;
 	white-space: pre;
 }
@@ -235,10 +235,10 @@ a {
 }
 
 :root {
-	--ngx-json-array: white;
-	--ngx-json-object: white;
+	--ngx-json-array: #eaeaea;
+	--ngx-json-object: #eaeaea;
 	--ngx-json-toggler: white;
-	--ngx-json-key: white;
+	--ngx-json-key: #2196f3;
 	--ngx-json-separator: white;
 	--ngx-json-value: white;
 

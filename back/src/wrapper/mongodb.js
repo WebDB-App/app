@@ -35,6 +35,47 @@ export default class MongoDB extends Driver {
 		return [];
 	}
 
+	async insert(db, table, datas) {
+		const values = [];
+		for (const data of datas) {
+			values.push(`(${Object.values(data).map(da => `"${da}"`).join(", ")})`);
+		}
+
+		const res = await this.nbChangment(`INSERT INTO ${this.nameDel}${table}${this.nameDel} (${Object.keys(datas[0]).join(",")}) VALUES ${values.join(", ")}`, db);
+		return res.error ? res : res.toString();
+	}
+
+	async delete(db, table, rows) {
+		const pks = await this.getPks(db, table);
+		let nbT = 0;
+
+		for (const row of rows) {
+			const where = this.objectToSql(this.pkToObject(pks, row)).join(" AND ");
+			const res = (await this.nbChangment(`DELETE FROM ${this.nameDel}${table}${this.nameDel} WHERE ${where}`, db));
+			if (res.error) {
+				return res;
+			}
+
+			nbT += res;
+		}
+
+		return nbT.toString();
+	}
+
+	async update(db, table, old_data, new_data) {
+		const to_update = {};
+		for (const [key, value] of Object.entries(new_data)) {
+			if (JSON.stringify(value) !== JSON.stringify(old_data[key])) {
+				to_update[key] = value;
+			}
+		}
+		if (Object.keys(to_update).length < 1) {
+			return {};
+		}
+
+		return await this.connection.db(db).collection(table).updateOne(old_data, to_update);
+	}
+
 	async duplicateTable(database, old_table, new_name) {
 
 	}
@@ -96,7 +137,7 @@ export default class MongoDB extends Driver {
 		let db = this.connection;
 		const start = Date.now();
 
-		command = command.replace(/\/\*[\s\S]*?\*\/|(?<=[^:])\/\/.*|^\/\/.*/g, "")
+		command = command.replace(/\/\*[\s\S]*?\*\/|(?<=[^:])\/\/.*|^\/\/.*/g, "");
 		command = command.trim();
 		if (!command.trim().startsWith("return")) {
 			command = `return ${command}`;
@@ -182,7 +223,7 @@ export default class MongoDB extends Driver {
 					};
 
 					try {
-						(await coll.aggregate([{$sample: {size: process.env.MONGO_SAMPLE || 1000}}]).toArray()).map(sample => {
+						(await coll.aggregate([{$sample: {size: process.env.MONGO_SAMPLE || 100}}]).toArray()).map(sample => {
 							for (const [key, val] of Object.entries(sample)) {
 								const type = this.getPropertyType(val);
 

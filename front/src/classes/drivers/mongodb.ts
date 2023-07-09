@@ -86,24 +86,30 @@ export class MongoDB implements Driver {
 	}
 
 	getBaseDelete(table: Table) {
-		const cols = table.columns?.map(column => `${column.name}: ""`);
-		return `db.collection("${table.name}").deleteOne({${cols.join(", ")}})`;
+		const cols = table.columns?.map(column => `${column.name}: "${column.type}"`);
+		return `db.collection("${table.name}").deleteOne({${cols.join(",\n")}})`;
 	}
 
 	getBaseInsert(table: Table) {
-		const cols = table.columns?.map(column => `${column.name}: ""`);
-		return `db.collection("${table.name}").insertOne({${cols.join(", ")}})`;
+		const cols = table.columns?.map(column => `${column.name}: "${column.type}"`);
+		return `db.collection("${table.name}").insertOne({${cols.join(",\n")}})`;
 	}
 
 	getBaseUpdate(table: Table) {
-		const cols = table.columns.map(column => `${column.name}: ""`);
-		return `db.collection("${table.name}").updateOne({${cols.join(", ")}})`;
+		const cols = table.columns.map(column => `${column.name}: "${column.type}"`);
+		return `db.collection("${table.name}").updateOne(
+	{${cols.join(", ")}},
+	{${cols.join(", ")}}
+)`;
 	}
 
 	getBaseSelect(table: Table) {
+		const cols = table.columns?.map(column => `${column.name}: "${column.type}"`);
 		return `/*const db = (await new MongoClient()).db("${Database.getSelected().name}")*/
 
-db.collection("${table.name}").find({}).toArray();`;
+db.collection("${table.name}").find({
+	${cols.join(",\n\t")}
+}).toArray();`;
 	}
 
 	getBaseSelectWithRelations(table: Table, relations: Relation[]) {
