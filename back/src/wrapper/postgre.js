@@ -339,7 +339,6 @@ export default class PostgreSQL extends SQL {
 			const res = await connection.query(command);
 			return res.command === "SELECT" ? res.rows : res;
 		} catch (e) {
-			console.error(e);
 			return {error: e.message + ". " + (e.hint || ""), position: e.position};
 		} finally {
 			bash.logCommand(command, (database || "") + (schema ? `,${schema}` : ""), Date.now() - start, this.port);

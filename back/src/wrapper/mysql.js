@@ -243,7 +243,6 @@ export default class MySQL extends SQL {
 			const [res] = await connection.query(command);
 			return res;
 		} catch (e) {
-			console.error(e);
 			const err = {error: e.sqlMessage};
 			if (e.sqlMessage.indexOf("'") >= 0) {
 				e.sqlMessage = e.sqlMessage.substring(e.sqlMessage.indexOf("'") + 1);

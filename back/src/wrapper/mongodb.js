@@ -1,5 +1,4 @@
-import {MongoClient, ObjectId} from "mongodb";
-//import {UUID} from "mongodb/src/bson.js";
+import {MongoClient, ObjectId, BSON} from "mongodb";
 import Driver from "../shared/driver.js";
 import bash from "../shared/bash.js";
 import {URL} from "url";
@@ -35,16 +34,14 @@ export default class MongoDB extends Driver {
 	}
 
 	async insert(db, table, datas) {
-		//TODO objectid (bjson)
-
-		const res = await this.connection.db(db).collection(table).insertMany(datas);
+		const res = await this.connection.db(db).collection(table).insertMany(BSON.EJSON.deserialize(datas));
 		return res.insertedCount.toString();
 	}
 
 	async delete(db, table, rows) {
 		let nbT = 0;
 		for (const row of rows) {
-			const res = await this.connection.db(db).collection(table).deleteOne(row);
+			const res = await this.connection.db(db).collection(table).deleteOne(BSON.EJSON.deserialize(row));
 			if (res.error) {
 				return res;
 			}
@@ -56,18 +53,15 @@ export default class MongoDB extends Driver {
 	}
 
 	async update(db, table, old_data, new_data) {
-		const to_update = {};
-		for (const [key, value] of Object.entries(new_data)) {
-			if (JSON.stringify(value) !== JSON.stringify(old_data[key])) {
-				to_update[key] = value;
-			}
-		}
-		if (Object.keys(to_update).length < 1) {
-			return {};
-		}
+		try {
+			old_data = BSON.EJSON.deserialize(old_data);
+			new_data = BSON.EJSON.deserialize(new_data);
 
-		const res = await this.connection.db(db).collection(table).updateOne(old_data, to_update);
-		return res.modifiedCount.toString();
+			const res = await this.connection.db(db).collection(table).updateOne(old_data, {$set: new_data});
+			return res.modifiedCount.toString();
+		} catch (e) {
+			return {error: e.message};
+		}
 	}
 
 	async duplicateTable(database, old_table, new_name) {
@@ -143,9 +137,8 @@ export default class MongoDB extends Driver {
 			}
 			const fct = new Function("db", command);
 			const res = await fct(db);
-			return JSON.parse(JSON.stringify(res));
+			return BSON.EJSON.stringify(res);
 		} catch (e) {
-			console.error(e);
 			return {error: e.message};
 		} finally {
 			bash.logCommand(command, database, Date.now() - start, this.port);
@@ -174,7 +167,7 @@ export default class MongoDB extends Driver {
 
 	async getStructure() {
 		const struct = {};
-		const sampleSize = process.env.MONGO_SAMPLE || 100;
+		const sampleSize = process.env.MONGO_SAMPLE || 200;
 
 		const admin = this.connection.db().admin();
 		const list = await admin.listDatabases();
@@ -215,7 +208,6 @@ export default class MongoDB extends Driver {
 										name: key,
 										type: [type],
 										nullable: 1
-										//comment
 									};
 								}
 							}
@@ -225,9 +217,7 @@ export default class MongoDB extends Driver {
 							struct[li.name].tables[coll.collectionName].columns[key].type = struct[li.name].tables[coll.collectionName].columns[key].type.join(" | ");
 							struct[li.name].tables[coll.collectionName].columns[key].nullable = struct[li.name].tables[coll.collectionName].columns[key].nullable < sampleSize;
 						}
-					} catch (e) {
-						//console.error(e);
-					}
+					} catch (e) { /* empty */ }
 					finally {
 						resolve();
 					}

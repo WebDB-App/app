@@ -105,7 +105,9 @@ export class MongoDB implements Driver {
 
 	getBaseSelect(table: Table) {
 		const cols = table.columns?.map(column => `${column.name}: "${column.type}"`);
-		return `/*const db = (await new MongoClient()).db("${Database.getSelected().name}")*/
+		return `/*const db = (await new MongoClient()).db("${Database.getSelected().name}");
+const bson = require("bson");
+const mongo = require("mongo");*/
 
 db.collection("${table.name}").find({
 	${cols.join(",\n\t")}
