@@ -1,5 +1,14 @@
 <mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
 	<div><h2>Columns</h2></div>
+	<div *ngIf="!isSQL(selectedServer!)">
+		<button
+			mat-icon-button
+			matTooltip="Infer from sample">
+			<span class="material-symbols-outlined notranslate">
+				warning
+			</span>
+		</button>
+	</div>
 	<button (click)="addColumn()" color="primary" mat-stroked-button>
 		<span class="material-symbols-outlined notranslate">
 			view_column_2

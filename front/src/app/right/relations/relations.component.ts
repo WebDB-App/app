@@ -6,6 +6,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { Relation } from "../../../classes/relation";
 import { RequestService } from "../../../shared/request.service";
 import { Table } from "../../../classes/table";
+import { isSQL } from "../../../shared/helper";
 
 @Component({
 	selector: 'app-relations',
@@ -31,7 +32,7 @@ export class RelationsComponent implements OnInit {
 		this.selectedDatabase = Database.getSelected();
 		this.selectedServer = Server.getSelected();
 
-		if (this.selectedServer?.driver.relationnal) {
+		if (isSQL(this.selectedServer)) {
 			this.displayedColumns.push(this.actionColum);
 		}
 
@@ -82,4 +83,6 @@ export class RelationsComponent implements OnInit {
 		this.snackBar.open(`Added Relation ${relation.name}`, "╳", {duration: 3000});
 		await this.refreshData();
 	}
+
+	protected readonly isSQL = isSQL;
 }

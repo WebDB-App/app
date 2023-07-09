@@ -81,8 +81,7 @@ export class DiagramComponent implements OnDestroy {
 				}
 
 				if (relation) {
-					/* TODO
-
+					/*
 					 test if FK can be null, etc
 					 create all relation possible :
 

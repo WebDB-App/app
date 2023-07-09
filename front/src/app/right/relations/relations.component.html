@@ -5,6 +5,16 @@
 			   autocomplete="off"
 			   matInput>
 	</mat-form-field>
+
+	<div *ngIf="!isSQL(selectedServer!)">
+		<button
+			mat-icon-button
+			matTooltip="Infer from sample">
+			<span class="material-symbols-outlined notranslate">
+				warning
+			</span>
+		</button>
+	</div>
 </mat-toolbar>
 
 <div class="scrollDiv mat-elevation-z8">
@@ -42,7 +52,7 @@
 	</table>
 </div>
 
-<div fxLayout="row" fxLayoutAlign="center center" *ngIf="selectedServer && selectedServer.driver.relationnal">
+<div fxLayout="row" fxLayoutAlign="center center" *ngIf="isSQL(selectedServer!)">
 
 	<table class="new">
 		<tr>
