@@ -42,6 +42,7 @@ export interface Driver {
 	typesList: TypeGroup[];
 	extractEnum: (col: Column) => string[] | false;
 	extractConditionParams: (query: string) => QueryParams;
+	relationnal: boolean;
 
 	language: string;
 	languageDocumentation: string;

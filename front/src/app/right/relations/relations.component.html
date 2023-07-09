@@ -42,7 +42,7 @@
 	</table>
 </div>
 
-<div fxLayout="row" fxLayoutAlign="center center">
+<div fxLayout="row" fxLayoutAlign="center center" *ngIf="selectedServer && selectedServer.driver.relationnal">
 
 	<table class="new">
 		<tr>
@@ -76,7 +76,7 @@
 					[disabled]="!sourceColumn.value || !destColumn.value || !update_rule.value || !delete_row.value"
 					color="primary"
 					mat-raised-button>
-					<span class="material-symbols-outlined">
+					<span class="material-symbols-outlined notranslate">
 						attach_file_add
 					</span>
 					Relation

@@ -20,7 +20,7 @@ export class RelationsComponent implements OnInit {
 
 	constraints?: string[];
 	actionColum = "##ACTION##";
-	displayedColumns = ['name', 'table_source', 'column_source', 'table_dest', 'column_dest', 'update_rule', 'delete_rule', this.actionColum];
+	displayedColumns = ['name', 'table_source', 'column_source', 'table_dest', 'column_dest', 'update_rule', 'delete_rule'];
 	dataSource!: MatTableDataSource<Relation>;
 
 	constructor(private request: RequestService,
@@ -30,6 +30,10 @@ export class RelationsComponent implements OnInit {
 	async ngOnInit() {
 		this.selectedDatabase = Database.getSelected();
 		this.selectedServer = Server.getSelected();
+
+		if (this.selectedServer?.driver.relationnal) {
+			this.displayedColumns.push(this.actionColum);
+		}
 
 		await this.refreshData(true);
 	}
