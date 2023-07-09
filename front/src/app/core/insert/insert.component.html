@@ -25,7 +25,7 @@
 				<a href="https://gitlab.com/web-db/landing/-/wikis/Generator"
 				   mat-menu-item
 				   target="_blank">
-					WebDB
+					Generator
 				</a>
 				<a href="https://www.w3schools.com/jsref/jsref_obj_date.asp"
 				   mat-menu-item
@@ -60,7 +60,7 @@
 				</th>
 				<td *matCellDef="let row; let i = index" mat-cell>
 					<mat-form-field *ngIf="i === 0" appearance="outline" floatLabel='never'>
-						<mat-select [value]="row[column]">
+						<mat-select [value]="row[column]" #select>
 							<mat-option disabled style="height: 80px;">
 								<mat-form-field appearance="outline" style="width: 100%; margin-bottom: -1.25em">
 									<input #filterPreset
@@ -75,16 +75,18 @@
 									</button>
 								</mat-form-field>
 							</mat-option>
-							<mat-optgroup *ngFor="let group of generatorGroups" [label]="group.name" class="preset">
-								<ng-container *ngFor="let value of group.values">
-									<mat-option (click)="randomSource!.data[1][column] = beautify(value.fct)"
-												*ngIf="value.name.toLowerCase().includes(filterPreset.value.toLowerCase())"
-												[style.opacity]="typeMatch(structure[column], value.type) ? 1 : 0.5"
-												[value]="value.name">
-										{{value.name}}
-									</mat-option>
-								</ng-container>
-							</mat-optgroup>
+							<ng-container *ngIf="select.panelOpen">
+								<mat-optgroup *ngFor="let group of generatorGroups" [label]="group.name" class="preset">
+									<ng-container *ngFor="let value of group.values">
+										<mat-option (click)="randomSource!.data[1][column] = beautify(value.fct)"
+													*ngIf="value.name.toLowerCase().includes(filterPreset.value.toLowerCase())"
+													[style.opacity]="typeMatch(structure[column], value.type) ? 1 : 0.5"
+													[value]="value.name">
+											{{value.name}}
+										</mat-option>
+									</ng-container>
+								</mat-optgroup>
+							</ng-container>
 						</mat-select>
 					</mat-form-field>
 
