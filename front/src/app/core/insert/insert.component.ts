@@ -13,8 +13,15 @@ import { Server } from "../../../classes/server";
 import { Database } from "../../../classes/database";
 import { Generator, Group } from "../../../classes/generator";
 import { initBaseEditor } from "../../../shared/helper";
+import { Column } from "../../../classes/column";
 
 const localStorageName = "insert-codes";
+
+class Random {
+	column!: Column;
+	model!: string;
+	error? = "";
+}
 
 @Component({
 	selector: 'app-insert',
@@ -26,26 +33,19 @@ export class InsertComponent implements OnInit, OnDestroy {
 	selectedServer?: Server;
 	selectedDatabase?: Database;
 	selectedTable?: Table;
-	columns?: string[];
-	structure: any = {};
-	obs: Subscription;
+	obs?: Subscription;
 
-	editorOptions = {
-		lineNumbers: 'off',
-		glyphMargin: false,
-		folding: false,
-		lineDecorationsWidth: 2,
-		lineNumbersMinChars: 0,
-		language: 'javascript'
-	};
-
-	editors: any = {};
 	actionColum = "##ACTION##";
 	dataSource: MatTableDataSource<any> = new MatTableDataSource();
-	randomSource?: MatTableDataSource<any>;
-	selection = new SelectionModel<any>(true, []);
 	displayedColumns?: string[];
+	selection = new SelectionModel<any>(true, []);
 
+	editorOptions = {
+		language: 'javascript'
+	};
+	editors: any = {};
+	limit = 300;
+	randomSource: Random[] = [];
 	interval?: NodeJS.Timer;
 	codes: any = JSON.parse(localStorage.getItem(localStorageName) || "{}");
 	generatorGroups!: Group[];
@@ -55,64 +55,54 @@ export class InsertComponent implements OnInit, OnDestroy {
 		private activatedRoute: ActivatedRoute,
 		private snackBar: MatSnackBar
 	) {
+	}
 
+	ngOnInit() {
 		this.obs = combineLatest([this.activatedRoute.parent?.params, this.request.serverReload]).pipe(
 			distinctUntilChanged()
 		).subscribe(async (_params) => {
 			this.dataSource = new MatTableDataSource();
 			this.selection.clear();
-			await this.ngOnInit();
+			this.randomSource = [];
+			clearInterval(this.interval);
+
+			this.selectedServer = Server.getSelected();
+			this.selectedDatabase = Database.getSelected();
+			this.selectedTable = Table.getSelected();
+
+			this.generatorGroups = (new Generator()).getGroups();
+			this.displayedColumns = [...this.selectedTable.columns.map(col => col.name)];
+			this.displayedColumns.push(this.actionColum);
+
+			for (const column of this.selectedTable.columns) {
+				const random = <Random>{column, model: this.getCode(column.name)};
+				if (!random.model) {
+					await this.sampleData(random);
+				}
+				this.randomSource.push(random);
+			}
+
+			this.interval = setInterval(() => this.saveCode(), 1000);
 		});
 	}
 
-	async ngOnInit() {
-		this.selectedServer = Server.getSelected();
-		this.selectedDatabase = Database.getSelected();
-		this.selectedTable = Table.getSelected();
+	ngOnDestroy() {
+		this.obs?.unsubscribe();
+		clearInterval(this.interval);
+	}
 
-		const generator = new Generator();
-		this.generatorGroups = generator.getGroups();
-
-		const relations = Table.getRelations();
-		const limit = 300;
-
-		this.columns = this.selectedTable?.columns.map(col => col.name)
-		this.displayedColumns = [...this.columns!];
-		this.displayedColumns!.push(this.actionColum);
-
-		const select: any = {};
-		const fct: any = {};
-		const error: any = {};
-
-		for (const col of this.columns!) {
-			this.structure[col] = this.selectedTable?.columns.find(column => column.name === col)!.type;
-
-			select[col] = '';
-			fct[col] = this.beautify(this.getCode(col));
-			error[col] = '';
-		}
-
-		for (const col of this.selectedTable!.columns) {
-			const values = this.selectedServer!.driver.extractEnum(col);
-			if (values) {
-				fct[col.name] = `(() => {const enums = [${values.map(value => `'${value}'`).join(",")}];return enums[Math.floor(Math.random() * (enums.length))]})()`;
-				fct[col.name] = this.beautify(fct[col.name]);
-			} else if (relations.find(relation => relation.column_source === col.name)) {
-				const datas = await this.request.post('relation/exampleData', {column: col.name, limit});
-				if (datas) {
-					fct[col.name] = `(() => { const fk = [${datas.map((data: any) => `'${data.example}'`).join(",")}]; return fk[Math.floor(Math.random() * (fk.length))]; })()`;
-					fct[col.name] = this.beautify(fct[col.name]);
-				}
+	async sampleData(random: Random) {
+		const values = this.selectedServer!.driver.extractEnum(random.column);
+		if (values) {
+			random.model = `(() => {const enums = [${values.map(value => `'${value}'`).join(",")}];return enums[Math.floor(Math.random() * (enums.length))]})()`;
+		} else if (Table.getRelations().find(relation => relation.column_source === random.column.name)) {
+			const datas = await this.request.post('relation/exampleData', {column: random.column.name, limit: this.limit});
+			if (datas) {
+				random.model = `(() => { const fk = [${datas.map((data: any) => `'${data.example}'`).join(",")}]; return fk[Math.floor(Math.random() * (fk.length))]; })()`;
 			}
 		}
 
-		this.randomSource = new MatTableDataSource([select, fct, error]);
-		this.interval = setInterval(() => this.saveCode(), 1000);
-	}
-
-	ngOnDestroy() {
-		this.obs.unsubscribe();
-		clearInterval(this.interval);
+		random.model = this.beautify(random.model || '(() => {return undefined})()');
 	}
 
 	beautify(str: string) {
@@ -155,20 +145,26 @@ export class InsertComponent implements OnInit, OnDestroy {
 		this.selection.clear();
 	}
 
-	generate(nb: number) {
+	generate(nb: number, scrollAnchor: HTMLElement) {
+		const random: any[] = [];
 		for (let i = 0; i < nb; i++) {
-			const random: any = {};
-			for (const [index, fct] of Object.entries(this.randomSource?.data[1])) {
+
+			const obj: any = {};
+			for (const [index, rand] of Object.entries(this.randomSource)) {
 				try {
-					random[index] = new Function("cryptojs", "return " + fct)(cryptojs);
-					this.randomSource!.data[2][index] = "";
+					obj[rand.column.name] = new Function("cryptojs", "return " + rand.model)(cryptojs);
+					this.randomSource[+index].error = "";
 				} catch (e) {
-					this.randomSource!.data[2][index] = e;
+					this.randomSource[+index].error = <string>e;
 					return;
 				}
 			}
-			this.dataSource.data = this.dataSource.data.concat(random);
+			random.push(obj);
 		}
+		this.dataSource.data = this.dataSource.data.concat(random);
+		setTimeout(() => {
+			scrollAnchor.scrollIntoView({behavior: 'smooth'})
+		}, 300);
 	}
 
 	csvToJSON(csv: string) {
@@ -232,9 +228,8 @@ export class InsertComponent implements OnInit, OnDestroy {
 		columnType = columnType.toLowerCase();
 
 		for (const presetType of presetTypes) {
-			const types = this.selectedServer!.driver.typesList.find(t => t.name === presetType)!.full;
-
-			if (types.find(type => columnType === type)) {
+			const types = this.selectedServer!.driver.typesList.find(t => t.name === presetType);
+			if (types?.full.find(full => columnType === full)) {
 				return true;
 			}
 		}
@@ -243,8 +238,8 @@ export class InsertComponent implements OnInit, OnDestroy {
 	}
 
 	saveCode() {
-		for (const [index, fct] of Object.entries(this.randomSource?.data[1])) {
-			this.codes[this.selectedDatabase!.name][this.selectedTable!.name][index] = fct;
+		for (const random of this.randomSource) {
+			this.codes[this.selectedDatabase!.name][this.selectedTable!.name][random.column.name] = random.model;
 		}
 
 		localStorage.setItem(localStorageName, JSON.stringify(this.codes));
@@ -257,7 +252,7 @@ export class InsertComponent implements OnInit, OnDestroy {
 		if (this.codes[this.selectedDatabase!.name][this.selectedTable!.name][col]) {
 			return this.codes[this.selectedDatabase!.name][this.selectedTable!.name][col];
 		}
-		return '(() => {return undefined})()';
+		return false;
 	}
 
 	async initEditor(editor: any, column: string) {

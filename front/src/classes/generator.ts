@@ -123,11 +123,6 @@ export class Generator {
 						name: "String(0, 16)",
 						type: [TypeName.String],
 						fct: "((chars) => {return chars.replace(/[x]/g, () => String.fromCharCode(Math.floor(Math.random() * 65535)))})('xxxxxxxxxxxxxxxx');"
-					},
-					{
-						name: "Null",
-						type: [TypeName.Date, TypeName.Numeric, TypeName.Other, TypeName.String],
-						fct: "(() => {return null})()"
 					}
 				],
 			}, {

@@ -1,15 +1,12 @@
+- insert
 - select with relations
 
 
-
-- https://dba.stackexchange.com/questions/212249/how-to-use-default-value-of-data-type-as-column-default
 - postgre array of type
 - tester plusieurs schemas
 
 
-
 - cloud (google, aurora, rds)
-- Finir EDR
 
 
 
@@ -31,35 +28,25 @@
 
 
 
-# COM
 
 
 
-# BLOB CRUD (download, upload)
 
-# Assistant
+- BLOB CRUD (download, upload)
+- revoir MySQL load avec tunnel (essayer en bash)
 - finir present
+- Finir EDR
+- trigger code error
 
 # Export Query
 - tester tout
-- btn to export via IA
-
-# MySQL
-- revoir load avec tunnel (essayer en bash)
-
-# MongoDB
-- traduction (collection vs table, etc)
-- autocomplete table and column and types
-
-# Postgre
-- types (icon = data_object)
-- more comparator with detail
-
-# SQLServer
+- btn to export via IA (en ultimate)
 
 # Test
 - e2e crud data, crud table : all driver (protractor)
 - remplacer compatibility par : afficher les resulat en front avec plusieurs version de bdd
+
+# SQLServer
 
 # Cloud DB
 - digital
@@ -81,6 +68,28 @@
 
 
 
+
+
+
+
+
+# Cockroachdb
+
+# Oracle
+- https://github.com/oracle/docker-images/blob/main/OracleDatabase/SingleInstance/README.md
+
+# SQLite
+- https://hub.docker.com/r/nouchka/sqlite3/
+- https://www.npmjs.com/package/better-sqlite3
+
+# MongoDB
+- traduction (collection vs table, etc)
+- autocomplete table and column and types
+
+# Postgre
+- types (icon = data_object)
+- more comparator with detail
+
 # Bin
 - Node Single Executable Apps | https://tauri.app/ | https://webpack.electron.build/ | https://github.com/electron/electron/issues/21457#issuecomment-1269637018
 - ci + gitlab wiki
@@ -99,23 +108,9 @@
 - https://external-preview.redd.it/chatgpt-for-data-science-cheat-sheet-v0-Odpv_XqB8SiefptXNzZP-t9AjrVOxg0IF81UuKFx2sw.jpg?auto=webp&s=2b8b8a80fa2c3a4b6f85545cffa26726021a60a4
 
 # Miscellaneous
-- show table / column collation in settings
 - Geospatial
-- error model2
-- crypto types in monaco
-- explore : search nested (array, obj)
-
-# Insert
-- finir street and fulladdress translation
-
-# Cockroachdb
-
-# Oracle
-- https://github.com/oracle/docker-images/blob/main/OracleDatabase/SingleInstance/README.md
-
-# SQLite
-- https://hub.docker.com/r/nouchka/sqlite3/
-- https://www.npmjs.com/package/better-sqlite3
+- street and fulladdress translation
+- Stripe Metadata additionnal feature (ia)
 
 # Redis
 - pub/sub

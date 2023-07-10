@@ -72,7 +72,7 @@ async function main() {
 			{
 				name: TypeName.String,
 				proposition: ["varchar(size)", 'uuid', 'tsquery'],
-				full: ["character", 'char', 'character varying', 'varchar', 'uuid', 'tsquery'],
+				full: ["character", 'char', 'character varying', 'varchar', 'uuid', 'tsquery', 'text'],
 			}, {
 				name: TypeName.Numeric,
 				proposition: ['boolean', 'integer(size)', 'serial', 'decimal(size)', 'numeric(size)'],
