@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from "@angular/material/table";
 import { SelectionModel } from "@angular/cdk/collections";
 import { Table } from "../../../classes/table";
@@ -14,6 +14,7 @@ import { Database } from "../../../classes/database";
 import { Generator, Group } from "../../../classes/generator";
 import { initBaseEditor } from "../../../shared/helper";
 import { Column } from "../../../classes/column";
+import { MatPaginator } from "@angular/material/paginator";
 
 const localStorageName = "insert-codes";
 
@@ -28,7 +29,9 @@ class Random {
 	templateUrl: './insert.component.html',
 	styleUrls: ['./insert.component.scss']
 })
-export class InsertComponent implements OnInit, OnDestroy {
+export class InsertComponent implements OnInit, AfterViewInit, OnDestroy {
+
+	@ViewChild(MatPaginator) paginator!: MatPaginator;
 
 	selectedServer?: Server;
 	selectedDatabase?: Database;
@@ -84,6 +87,10 @@ export class InsertComponent implements OnInit, OnDestroy {
 
 			this.interval = setInterval(() => this.saveCode(), 1000);
 		});
+	}
+
+	ngAfterViewInit(): void {
+		this.dataSource.paginator = this.paginator;
 	}
 
 	ngOnDestroy() {
@@ -146,9 +153,7 @@ export class InsertComponent implements OnInit, OnDestroy {
 	}
 
 	generate(nb: number, scrollAnchor: HTMLElement) {
-		const random: any[] = [];
 		for (let i = 0; i < nb; i++) {
-
 			const obj: any = {};
 			for (const [index, rand] of Object.entries(this.randomSource)) {
 				try {
@@ -159,9 +164,9 @@ export class InsertComponent implements OnInit, OnDestroy {
 					return;
 				}
 			}
-			random.push(obj);
+			this.dataSource.data.push(obj);
 		}
-		this.dataSource.data = this.dataSource.data.concat(random);
+		this.dataSource._updateChangeSubscription();
 		setTimeout(() => {
 			scrollAnchor.scrollIntoView({behavior: 'smooth'})
 		}, 300);
@@ -260,4 +265,6 @@ export class InsertComponent implements OnInit, OnDestroy {
 
 		this.editors[column] = editor;
 	}
+
+	protected readonly Math = Math;
 }

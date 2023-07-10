@@ -215,7 +215,7 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 				this.query = this.selectedServer!.driver.getBaseSelectWithRelations(this.selectedTable!, this.relations!);
 				break;
 		}
-		setTimeout(() => this.editors.map(editor => editor.trigger("editor", "editor.action.formatDocument")), 200);
+		setTimeout(() => this.editors.map(editor => editor.trigger("editor", "editor.action.formatDocument")), 1);
 	}
 
 	exportQuery(language: string) {

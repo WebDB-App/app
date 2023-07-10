@@ -76,22 +76,7 @@ export class Generator {
 	}
 
 	getGroups(): Group[] {
-		return [
-			{
-				name: 'ID',
-				values: [
-					{
-						name: "UUID",
-						type: [TypeName.String],
-						fct: "(() => {return crypto.randomUUID()})()"
-					},
-					{
-						name: "ObjectID",
-						type: [TypeName.String],
-						fct: "(() => {return Math.floor(new Date().getTime() / 1000).toString(16) + 'xxxxxxxxxxxxxxxx'.replace(/[x]/g, () => Math.floor(Math.random() * 16).toString(16) ).toLowerCase();})()"
-					}
-				],
-			}, {
+		return [ {
 				name: 'Primitive',
 				values: [
 					{
@@ -124,29 +109,6 @@ export class Generator {
 						type: [TypeName.String],
 						fct: "((chars) => {return chars.replace(/[x]/g, () => String.fromCharCode(Math.floor(Math.random() * 65535)))})('xxxxxxxxxxxxxxxx');"
 					}
-				],
-			}, {
-				name: 'Name',
-				values: [
-					{
-						name: "First Name",
-						type: [TypeName.String],
-						fct: translation[this.dictionary].firstName
-					},
-					{
-						name: "Last Name",
-						type: [TypeName.String],
-						fct: translation[this.dictionary].lastName
-					},
-				],
-			}, {
-				name: 'Email',
-				values: [
-					{
-						name: "Email",
-						type: [TypeName.String],
-						fct: '(() => {let email = ", "; const chars = "abcdefghijklmnopqrstuvwxyz1234567890."; const domain = ["gmail.com","yahoo.com","aol.com","hotmail.com","ootlook.com","ootlook.fr","orange.fr"]; const length = Math.floor(Math.random() * 20) + 3; for(var ii=0; ii < length; ii++){email += chars[Math.floor(Math.random() * chars.length)];} return email + "@" + domain[Math.floor(Math.random() * domain.length)]})()'
-					},
 				],
 			}, {
 				name: 'Password',
@@ -283,6 +245,44 @@ export class Generator {
 						type: [TypeName.String],
 						fct: "(() => {return 'XXXX-XXXX'.replace(/[X]/g, () => Math.floor(Math.random() * 10))})()"
 					}
+				],
+			},
+			{
+				name: 'ID',
+				values: [
+					{
+						name: "UUID",
+						type: [TypeName.String],
+						fct: "(() => {return crypto.randomUUID()})()"
+					},
+					{
+						name: "ObjectID",
+						type: [TypeName.String],
+						fct: "(() => {return Math.floor(new Date().getTime() / 1000).toString(16) + 'xxxxxxxxxxxxxxxx'.replace(/[x]/g, () => Math.floor(Math.random() * 16).toString(16) ).toLowerCase();})()"
+					}
+				],
+			}, {
+				name: 'Name',
+				values: [
+					{
+						name: "First Name",
+						type: [TypeName.String],
+						fct: translation[this.dictionary].firstName
+					},
+					{
+						name: "Last Name",
+						type: [TypeName.String],
+						fct: translation[this.dictionary].lastName
+					},
+				],
+			}, {
+				name: 'Email',
+				values: [
+					{
+						name: "Email",
+						type: [TypeName.String],
+						fct: '(() => {let email = ", "; const chars = "abcdefghijklmnopqrstuvwxyz1234567890."; const domain = ["gmail.com","yahoo.com","aol.com","hotmail.com","ootlook.com","ootlook.fr","orange.fr"]; const length = Math.floor(Math.random() * 20) + 3; for(var ii=0; ii < length; ii++){email += chars[Math.floor(Math.random() * chars.length)];} return email + "@" + domain[Math.floor(Math.random() * domain.length)]})()'
+					},
 				],
 			}, {
 				name: 'Lorem',

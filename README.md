@@ -1,4 +1,7 @@
-- insert
+- mongo/postgre/mysql
+
+
+
 - select with relations
 
 
