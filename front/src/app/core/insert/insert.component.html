@@ -2,7 +2,7 @@
 	<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
 
 		<div>
-			<button (click)="generate(+addGenNb.value)" color="primary" mat-flat-button>
+			<button (click)="generate(+addGenNb.value, static)" color="primary" mat-flat-button>
 				<span class="material-symbols-outlined notranslate">
 					auto_mode
 				</span>
@@ -47,71 +47,78 @@
 
 	</mat-toolbar>
 
-	<div class="scrollDiv">
-		<table [dataSource]="randomSource!" mat-table>
-			<ng-container
-				*ngFor="let column of columns"
-				matColumnDef="{{column}}">
+	<mat-tab-group mat-align-tabs="center">
+		<mat-tab
+			*ngFor="let random of randomSource"
+			[label]="random.column.name"
+			[labelClass]="random.error ? 'tab-error': ''"
+		>
+			<div style="display: flex">
 
-				<th *matHeaderCellDef mat-header-cell>
-					<span>{{column}}</span>
-					<br>
-					<span style="color: #2196f3;">{{structure[column]}}</span>
-				</th>
-				<td *matCellDef="let row; let i = index" mat-cell>
-					<mat-form-field *ngIf="i === 0" appearance="outline" floatLabel='never'>
-						<mat-select [value]="row[column]" #select>
-							<mat-option disabled style="height: 80px;">
-								<mat-form-field appearance="outline" style="width: 100%; margin-bottom: -1.25em">
-									<input #filterPreset
-										   autocomplete="off"
-										   matInput
-										   placeholder="Search Preset">
-									<button (click)="filterPreset.value=''"
-											*ngIf="filterPreset.value"
-											mat-icon-button
-											matSuffix>
-										<mat-icon>close</mat-icon>
-									</button>
-								</mat-form-field>
-							</mat-option>
-							<ng-container *ngIf="select.panelOpen">
-								<mat-optgroup *ngFor="let group of generatorGroups" [label]="group.name" class="preset">
-									<ng-container *ngFor="let value of group.values">
-										<mat-option (click)="randomSource!.data[1][column] = beautify(value.fct)"
-													*ngIf="value.name.toLowerCase().includes(filterPreset.value.toLowerCase())"
-													[style.opacity]="typeMatch(structure[column], value.type) ? 1 : 0.5"
-													[value]="value.name">
-											{{value.name}}
-										</mat-option>
-									</ng-container>
-								</mat-optgroup>
-							</ng-container>
-						</mat-select>
-					</mat-form-field>
+				<ngx-monaco-editor
+					style="width: 100%"
+					[(ngModel)]="random.model"
+					[options]="editorOptions"
+					(onInit)="initEditor($event, random.column.name)"
+				>
+				</ngx-monaco-editor>
 
-					<ngx-monaco-editor
-						*ngIf="i === 1"
-						[(ngModel)]="row[column]"
-						[options]="editorOptions"
-						(onInit)="initEditor($event, column)"
-						class="resizable"
-					>
-					</ngx-monaco-editor>
+				<div class="infos">
+					<h3 style="margin: 0px; color: #2196f3">
+						{{random.column.type}}
+					</h3>
 
-					<ng-container *ngIf="i === 2">
-						<mat-error>{{row[column]}}</mat-error>
-					</ng-container>
-				</td>
+					<button
+						mat-stroked-button
+						(click)="random.model = beautify('(() => {return undefined})()')">
+						<span class="material-symbols-outlined notranslate">
+							check_box_outline_blank
+						</span>
+						Null / Default
+					</button>
+
+					<button
+						mat-stroked-button
+						(click)="sampleData(random)">
+						<span class="material-symbols-outlined notranslate">
+							frame_inspect
+						</span>
+						Sample Data
+					</button>
+				</div>
+			</div>
+
+			<ng-container>
+				<mat-error>{{random.error}}</mat-error>
 			</ng-container>
 
-			<tr *matHeaderRowDef="columns" mat-header-row></tr>
-			<tr *matRowDef="let row; columns: columns;" mat-row></tr>
-		</table>
-	</div>
+			<mat-accordion>
+				<mat-expansion-panel style="margin: 20px;">
+					<mat-expansion-panel-header>
+						<mat-panel-description>
+							Preset
+						</mat-panel-description>
+					</mat-expansion-panel-header>
+					<div class="preset">
+						<div *ngFor="let group of generatorGroups">
+							<h3>{{group.name}}</h3>
+
+							<div *ngFor="let value of group.values">
+								<button mat-button
+										(click)="random.model = beautify(value.fct)"
+										[style.opacity]="typeMatch(random.column.type, value.type) ? 1 : 0.5">
+									{{value.name}}
+								</button>
+							</div>
+						</div>
+					</div>
+				</mat-expansion-panel>
+			</mat-accordion>
+		</mat-tab>
+	</mat-tab-group>
 </div>
 
-<div class="static">
+<div class="static" #static>
 	<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
 		<div>
 			<button (click)="addRows(+addRowNb.value)" mat-stroked-button>

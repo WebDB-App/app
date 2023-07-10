@@ -1,4 +1,4 @@
-<ng-container *ngIf="licence?.plan === 'free'">
+<ng-container *ngIf="licence?.plan === 'Starter'">
 	You must get a plan to access this feature
 
 	<a href="https://webdb.app/price" mat-stroked-button target="_blank">
@@ -9,7 +9,7 @@
 	</a>
 </ng-container>
 
-<div [hidden]="licence?.plan === 'free'"
+<div [hidden]="licence?.plan === 'Starter'"
 	 fxFlexFill
 	 fxLayout="column"
 	 fxLayoutAlign="space-between none">
