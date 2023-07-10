@@ -9,7 +9,7 @@
 				Generate Rows
 			</button>
 
-			<mat-form-field style="width: 44px; text-align: right; margin-bottom: -0.5em;">
+			<mat-form-field style="width: 65px; text-align: right; margin-bottom: -0.5em;">
 				<input #addGenNb matInput min="1" type="number" value="1">
 			</mat-form-field>
 		</div>
@@ -44,7 +44,6 @@
 				</a>
 			</mat-menu>
 		</div>
-
 	</mat-toolbar>
 
 	<mat-tab-group mat-align-tabs="center">
@@ -103,8 +102,9 @@
 						<div *ngFor="let group of generatorGroups">
 							<h3>{{group.name}}</h3>
 
-							<div *ngFor="let value of group.values">
+							<div class="list">
 								<button mat-button
+										*ngFor="let value of group.values"
 										(click)="random.model = beautify(value.fct)"
 										[style.opacity]="typeMatch(random.column.type, value.type) ? 1 : 0.5">
 									{{value.name}}
@@ -127,7 +127,7 @@
 				</span>
 				Empty Rows
 			</button>
-			<mat-form-field style="width: 44px; text-align: right">
+			<mat-form-field style="width: 65px; text-align: right">
 				<input #addRowNb
 					   matInput
 					   min="1"
@@ -200,5 +200,10 @@
 			<tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
 			<tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
 		</table>
+		<mat-paginator
+			showFirstLastButtons
+			hidePageSize
+			pageSize="100"
+		></mat-paginator>
 	</div>
 </div>

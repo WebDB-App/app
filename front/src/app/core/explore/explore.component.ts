@@ -41,7 +41,6 @@ export class ExploreComponent implements OnInit, OnDestroy {
 	selection = new SelectionModel<any>(true, []);
 
 	protected readonly Math = Math;
-	@ViewChild(MatPaginator) paginator!: MatPaginator;
 
 	constructor(
 		private snackBar: MatSnackBar,

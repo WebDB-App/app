@@ -30,12 +30,21 @@
 	.preset {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 30px;
-		padding: 30px;
-		justify-content: space-between;
+		gap: 50px;
+		justify-content: space-evenly;
 
-		button {
-			font-weight: lighter;
+		h3 {
+			border-bottom: 1px solid white;
+		}
+
+		.list {
+			display: flex;
+			flex-direction: column;
+			align-items: baseline;
+
+			button {
+				font-weight: lighter;
+			}
 		}
 	}
 }
