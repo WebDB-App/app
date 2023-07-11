@@ -1,20 +1,20 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from "@angular/material/table";
 import { SelectionModel } from "@angular/cdk/collections";
 import { Table } from "../../../classes/table";
 import jsbeautifier from "js-beautify";
-import * as cryptojs from "crypto-js";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { RequestService } from "../../../shared/request.service";
 import { combineLatest, distinctUntilChanged, Subscription } from "rxjs";
 import { ActivatedRoute } from "@angular/router";
-import { TypeName } from 'src/classes/driver';
 import { Server } from "../../../classes/server";
 import { Database } from "../../../classes/database";
-import { Generator, Group } from "../../../classes/generator";
-import { initBaseEditor } from "../../../shared/helper";
+import { initBaseEditor, loadLibAsset } from "../../../shared/helper";
 import { Column } from "../../../classes/column";
 import { MatPaginator } from "@angular/material/paginator";
+import { faker } from '@faker-js/faker';
+import { HttpClient } from "@angular/common/http";
+import { MatDialog } from "@angular/material/dialog";
 
 const localStorageName = "insert-codes";
 
@@ -24,12 +24,14 @@ class Random {
 	error? = "";
 }
 
+declare var monaco: any;
+
 @Component({
 	selector: 'app-insert',
 	templateUrl: './insert.component.html',
 	styleUrls: ['./insert.component.scss']
 })
-export class InsertComponent implements OnInit, AfterViewInit, OnDestroy {
+export class InsertComponent implements OnInit, OnDestroy {
 
 	@ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -51,12 +53,13 @@ export class InsertComponent implements OnInit, AfterViewInit, OnDestroy {
 	randomSource: Random[] = [];
 	interval?: NodeJS.Timer;
 	codes: any = JSON.parse(localStorage.getItem(localStorageName) || "{}");
-	generatorGroups!: Group[];
 
 	constructor(
 		private request: RequestService,
 		private activatedRoute: ActivatedRoute,
-		private snackBar: MatSnackBar
+		private snackBar: MatSnackBar,
+		private http: HttpClient,
+		private dialog: MatDialog
 	) {
 	}
 
@@ -65,6 +68,7 @@ export class InsertComponent implements OnInit, AfterViewInit, OnDestroy {
 			distinctUntilChanged()
 		).subscribe(async (_params) => {
 			this.dataSource = new MatTableDataSource();
+			this.dataSource.paginator = this.paginator;
 			this.selection.clear();
 			this.randomSource = [];
 			clearInterval(this.interval);
@@ -73,7 +77,6 @@ export class InsertComponent implements OnInit, AfterViewInit, OnDestroy {
 			this.selectedDatabase = Database.getSelected();
 			this.selectedTable = Table.getSelected();
 
-			this.generatorGroups = (new Generator()).getGroups();
 			this.displayedColumns = [...this.selectedTable.columns.map(col => col.name)];
 			this.displayedColumns.push(this.actionColum);
 
@@ -87,10 +90,6 @@ export class InsertComponent implements OnInit, AfterViewInit, OnDestroy {
 
 			this.interval = setInterval(() => this.saveCode(), 1000);
 		});
-	}
-
-	ngAfterViewInit(): void {
-		this.dataSource.paginator = this.paginator;
 	}
 
 	ngOnDestroy() {
@@ -109,7 +108,12 @@ export class InsertComponent implements OnInit, AfterViewInit, OnDestroy {
 			}
 		}
 
-		random.model = this.beautify(random.model || '(() => {return undefined})()');
+		random.model = this.beautify(random.model || `/*
+const faker = require("@faker-js/faker");
+*/
+
+(() => {return faker. ;})()
+`);
 	}
 
 	beautify(str: string) {
@@ -157,7 +161,7 @@ export class InsertComponent implements OnInit, AfterViewInit, OnDestroy {
 			const obj: any = {};
 			for (const [index, rand] of Object.entries(this.randomSource)) {
 				try {
-					obj[rand.column.name] = new Function("cryptojs", "return " + rand.model)(cryptojs);
+					obj[rand.column.name] = new Function("faker", rand.model)(faker);
 					this.randomSource[+index].error = "";
 				} catch (e) {
 					this.randomSource[+index].error = <string>e;
@@ -226,22 +230,6 @@ export class InsertComponent implements OnInit, AfterViewInit, OnDestroy {
 		this.dataSource._updateChangeSubscription();
 	}
 
-	typeMatch(columnType: string, presetTypes: TypeName[]) {
-		if (columnType.indexOf('(') >= 0) {
-			columnType = columnType.substring(0, columnType.indexOf('('))
-		}
-		columnType = columnType.toLowerCase();
-
-		for (const presetType of presetTypes) {
-			const types = this.selectedServer!.driver.typesList.find(t => t.name === presetType);
-			if (types?.full.find(full => columnType === full)) {
-				return true;
-			}
-		}
-
-		return false;
-	}
-
 	saveCode() {
 		for (const random of this.randomSource) {
 			this.codes[this.selectedDatabase!.name][this.selectedTable!.name][random.column.name] = random.model;
@@ -262,6 +250,18 @@ export class InsertComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	async initEditor(editor: any, column: string) {
 		initBaseEditor(editor);
+
+		await loadLibAsset(this.http, ['bson.d.ts', 'faker.d.ts']);
+		monaco.languages.typescript.javascriptDefaults.addExtraLib(
+			`import * as bsonModule from "bson.d.ts";
+			import { faker as fakerModule } from "faker.d.ts";
+
+			declare global {
+				var bson: typeof bsonModule;
+				var faker: typeof fakerModule;
+			}`,
+			`file:///main.tsx`
+		);
 
 		this.editors[column] = editor;
 	}

@@ -33,11 +33,3 @@
 .prebuild > * {
 	margin: 0px 2px;
 }
-
-::ng-deep .editor-container {
-	height: 100% !important;
-}
-
-::ng-deep .monaco-editor .suggest-widget {
-	z-index: 100000 !important;
-}

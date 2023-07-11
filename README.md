@@ -1,13 +1,8 @@
-- mongo/postgre/mysql
-
-
-
+- insert mongo
 - select with relations
-
 
 - postgre array of type
 - tester plusieurs schemas
-
 
 - cloud (google, aurora, rds)
 
@@ -39,17 +34,16 @@
 - revoir MySQL load avec tunnel (essayer en bash)
 - finir present
 - Finir EDR
-- trigger code error
 
-# Export Query
-- tester tout
-- btn to export via IA (en ultimate)
+# SQLServer
 
 # Test
 - e2e crud data, crud table : all driver (protractor)
 - remplacer compatibility par : afficher les resulat en front avec plusieurs version de bdd
 
-# SQLServer
+# Export Query
+- tester tout
+- btn to export via IA (Stripe Metadata additionnal feature)
 
 # Cloud DB
 - digital
@@ -91,7 +85,7 @@
 
 # Postgre
 - types (icon = data_object)
-- more comparator with detail
+- more comparator (symbol) with detail
 
 # Bin
 - Node Single Executable Apps | https://tauri.app/ | https://webpack.electron.build/ | https://github.com/electron/electron/issues/21457#issuecomment-1269637018
@@ -112,8 +106,6 @@
 
 # Miscellaneous
 - Geospatial
-- street and fulladdress translation
-- Stripe Metadata additionnal feature (ia)
 
 # Redis
 - pub/sub

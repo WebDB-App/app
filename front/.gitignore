@@ -19,5 +19,3 @@ yarn-error.log
 /libpeerconnection.log
 testem.log
 /typings
-
-src/assets/libs/

@@ -1,5 +1,3 @@
-import { Dictionnary } from "./generator";
-
 const localStorageName = "configuration";
 
 interface Config {
@@ -30,10 +28,6 @@ export class Configuration {
 			name: 'onlyCommonType',
 			description: 'Display only common data type',
 			values: [true, false]
-		}, {
-			name: 'preferredDictionary',
-			description: 'Preferred dictionary for data generation',
-			values: Object.keys(Dictionnary)
 		}, {
 			name: 'useNameDel',
 			description: 'Use special char to enclose table and column name',
