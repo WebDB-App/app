@@ -168,7 +168,7 @@ export class AiComponent implements OnInit, OnDestroy {
 					{role: Role.User, content: txt}
 				],
 			});
-			message = new Msg(completion.data.choices[0].message!.content, Role.Assistant);
+			message = new Msg(completion.data.choices[0].message!.content!, Role.Assistant);
 		} catch (error: any) {
 			message = new Msg(error.response?.data.error.message || 'An error occurred during OpenAI request: ' + error, Role.Assistant, true);
 		}

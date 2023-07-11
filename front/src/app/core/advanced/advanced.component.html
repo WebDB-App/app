@@ -29,12 +29,14 @@
 
 		<div fxLayout="column" fxLayoutAlign="center none" style="width: 400px;">
 
-			<span>
-				Comment : {{selectedTable?.comment}}
-			</span>
+			<div *ngIf="isSQL(selectedServer!)">
+				<span>
+					Comment : {{selectedTable?.comment}}
+				</span>
+				<mat-divider></mat-divider>
+			</div>
 
 			<ng-container *ngIf="!selectedTable?.view">
-				<mat-divider></mat-divider>
 
 				<div fxLayout="row" fxLayoutAlign="space-between center">
 					<span>Index Size : {{+stats?.index_length  | round}} Mb</span>

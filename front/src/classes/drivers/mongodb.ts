@@ -3,8 +3,8 @@ import { Column } from "../column";
 import { Table } from "../table";
 import { Relation } from "../relation";
 import { HttpClient } from "@angular/common/http";
-import { firstValueFrom } from "rxjs";
 import { Database } from "../database";
+import { loadLibAsset } from "../../shared/helper";
 
 declare var monaco: any;
 
@@ -57,17 +57,7 @@ export class MongoDB implements Driver {
 	}
 
 	async loadExtraLib(http: HttpClient) {
-		for (const path of ['mongo.d.ts', 'bson.d.ts']) {
-			if (monaco.languages.typescript.javascriptDefaults._extraLibs[`file://${path}`]) {
-				continue;
-			}
-
-			const lib = await firstValueFrom(http.get('assets/libs/' + path, {responseType: 'text' as 'json'}))
-			monaco.languages.typescript.javascriptDefaults.addExtraLib(
-				`declare module '${path}' { ${lib} }; `,
-				`file://${path}`
-			);
-		}
+		await loadLibAsset(http, ['mongo.d.ts', 'bson.d.ts']);
 		monaco.languages.typescript.javascriptDefaults.addExtraLib(
 			`import * as bsonModule from "bson.d.ts";
 			import * as mongoModule from "mongo.d.ts";
@@ -105,9 +95,11 @@ export class MongoDB implements Driver {
 
 	getBaseSelect(table: Table) {
 		const cols = table.columns?.map(column => `${column.name}: "${column.type}"`);
-		return `/*const db = (await new MongoClient()).db("${Database.getSelected().name}");
+		return `/*
+const db = (await new MongoClient()).db("${Database.getSelected().name}");
 const bson = require("bson");
-const mongo = require("mongo");*/
+const mongo = require("mongo");
+*/
 
 db.collection("${table.name}").find({
 	${cols.join(",\n\t")}

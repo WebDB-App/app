@@ -15,34 +15,22 @@
 		</div>
 
 		<div>
-			<button [matMenuTriggerFor]="docs" mat-stroked-button>
-				Documentation
+			<a href="https://fakerjs.dev/api/"
+			   mat-button
+			   target="_blank">
 				<span class="material-symbols-outlined notranslate">
 					menu_book
 				</span>
-			</button>
-			<mat-menu #docs="matMenu">
-				<a href="https://gitlab.com/web-db/landing/-/wikis/Generator"
-				   mat-menu-item
-				   target="_blank">
-					Generator
-				</a>
-				<a href="https://www.w3schools.com/jsref/jsref_obj_date.asp"
-				   mat-menu-item
-				   target="_blank">
-					JS Date
-				</a>
-				<a href="https://www.w3schools.com/jsref/jsref_random.asp"
-				   mat-menu-item
-				   target="_blank">
-					JS Random
-				</a>
-				<a href="https://github.com/brix/crypto-js"
-				   mat-menu-item
-				   target="_blank">
-					Crypto-JS
-				</a>
-			</mat-menu>
+				Faker
+			</a>
+			<a href="https://gitlab.com/web-db/landing/-/wikis/Generator"
+			   mat-button
+			   target="_blank">
+				<span class="material-symbols-outlined notranslate">
+					menu_book
+				</span>
+				Generator
+			</a>
 		</div>
 	</mat-toolbar>
 
@@ -55,7 +43,7 @@
 			<div style="display: flex">
 
 				<ngx-monaco-editor
-					style="width: 100%"
+					style="width: 100%; height: 30vh"
 					[(ngModel)]="random.model"
 					[options]="editorOptions"
 					(onInit)="initEditor($event, random.column.name)"
@@ -90,30 +78,6 @@
 			<ng-container>
 				<mat-error>{{random.error}}</mat-error>
 			</ng-container>
-
-			<mat-accordion>
-				<mat-expansion-panel style="margin: 20px;">
-					<mat-expansion-panel-header>
-						<mat-panel-description>
-							Preset
-						</mat-panel-description>
-					</mat-expansion-panel-header>
-					<div class="preset">
-						<div *ngFor="let group of generatorGroups">
-							<h3>{{group.name}}</h3>
-
-							<div class="list">
-								<button mat-button
-										*ngFor="let value of group.values"
-										(click)="random.model = beautify(value.fct)"
-										[style.opacity]="typeMatch(random.column.type, value.type) ? 1 : 0.5">
-									{{value.name}}
-								</button>
-							</div>
-						</div>
-					</div>
-				</mat-expansion-panel>
-			</mat-accordion>
 		</mat-tab>
 	</mat-tab-group>
 </div>

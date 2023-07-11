@@ -234,6 +234,14 @@ a {
 	padding-left: 10px !important;
 }
 
+.editor-container {
+	height: 100% !important;
+}
+
+.monaco-editor .suggest-widget {
+	z-index: 100000 !important;
+}
+
 :root {
 	--ngx-json-array: #eaeaea;
 	--ngx-json-object: #eaeaea;

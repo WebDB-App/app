@@ -3,9 +3,7 @@
 	"version": "PACKAGE_VERSION",
 	"scripts": {
 		"dev:front": "ng serve",
-		"extraMongo": "cd ./node_modules/mongodb/ && dts-bundle-generator -o tmp.d.ts ./mongodb.d.ts && cp -fr tmp.d.ts ../../../../../src/assets/libs/mongo.d.ts",
-		"extraBson": "cd ./node_modules/bson/ && dts-bundle-generator -o tmp.d.ts ./bson.d.ts && cp -fr tmp.d.ts ../../../../../src/assets/libs/bson.d.ts",
-		"build": "pnpm run extraBson && pnpm run extraMongo && ng build",
+		"build": "ng build",
 		"watch": "ng build --watch --configuration development"
 	},
 	"dependencies": {
@@ -23,14 +21,12 @@
 		"@angular/platform-browser": "^14.3.0",
 		"@angular/platform-browser-dynamic": "^14.3.0",
 		"@angular/router": "^14.3.0",
-		"@types/crypto-js": "latest",
+		"@faker-js/faker": "7.6.0",
 		"@types/file-saver-es": "latest",
 		"@types/js-beautify": "latest",
 		"@types/marked": "^5.0.0",
 		"@types/node": "latest",
 		"bson": "latest",
-		"crypto-js": "latest",
-		"dts-bundle-generator": "7.2.0",
 		"file-saver-es": "latest",
 		"highlight.js": "^11.8.0",
 		"highlightjs-line-numbers.js": "^2.8.0",

@@ -6,6 +6,8 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute, Router } from "@angular/router";
 import { combineLatest, distinctUntilChanged, Subscription } from "rxjs";
 import { Tabs } from "../tables/tables.component";
+import { isSQL } from "../../../shared/helper";
+import { Server } from "../../../classes/server";
 
 @Component({
 	selector: 'app-table-advanced',
@@ -14,6 +16,7 @@ import { Tabs } from "../tables/tables.component";
 })
 export class TableAdvancedComponent {
 
+	selectedServer?: Server;
 	selectedTable?: Table;
 	obs: Subscription
 	stats?: any;
@@ -28,6 +31,7 @@ export class TableAdvancedComponent {
 		this.obs = combineLatest([this.activatedRoute.parent?.params, this.request.serverReload]).pipe(
 			distinctUntilChanged()
 		).subscribe(async (_params) => {
+			this.selectedServer = Server.getSelected();
 			this.selectedTable = Table.getSelected();
 			this.stats = await this.request.post('table/stats', undefined);
 		});
@@ -73,6 +77,8 @@ export class TableAdvancedComponent {
 		await this.request.reloadServer();
 		await this.router.navigate(['../../', new_name, Tabs.at(-1)!.link], {relativeTo: this.activatedRoute});
 	}
+
+	protected readonly isSQL = isSQL;
 }
 
 @Component({
