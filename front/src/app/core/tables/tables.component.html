@@ -25,14 +25,17 @@
 			<mat-selection-list [multiple]="false">
 				<div *ngFor="let table of selectedDatabase?.tables"
 					 [hidden]="table.hide"
-					 [style.background-color]="tooltips[table.name] ? '#1e1e1e' : 'inherit'"
 					 class="entity">
 					<div style="display: flex">
-						<button (click)="getTooltip(table)" mat-icon-button>
-							<span class="material-symbols-outlined notranslate" style="font-size: 18px;">
-								{{table.view ? 'table_view' : 'table'}}
-							</span>
-						</button>
+						<div [style.background-color]="tooltips[table.name] ? '#1e1e1e' : 'inherit'">
+							<button
+								(click)="getTooltip(table)"
+								mat-icon-button>
+								<span class="material-symbols-outlined notranslate" style="font-size: 18px;">
+									{{table.view ? 'table_view' : 'table'}}
+								</span>
+							</button>
+						</div>
 						<mat-list-option
 							(click)="changeTable(table.name)"
 							[style.border-right]="selectedTable?.name === table.name ? '2px solid #2196f3' : undefined"
@@ -41,8 +44,11 @@
 						</mat-list-option>
 					</div>
 					<div *ngIf="tooltips[table.name]"
-						 [innerHtml]="tooltips[table.name]"
-					></div>
+						 style="background-color: #1e1e1e"
+					>
+						<div [innerHtml]="tooltips[table.name]"></div>
+						<mat-divider></mat-divider>
+					</div>
 				</div>
 			</mat-selection-list>
 

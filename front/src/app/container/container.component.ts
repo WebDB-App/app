@@ -89,6 +89,15 @@ export class ContainerComponent implements OnInit, AfterViewInit {
 		this.selectedServer = server;
 		this.selectedDatabase = database;
 
+		//check if server change on reload
+
+		/*
+		const copy = {...server};
+		if (JSON.stringify(copy) !== JSON.stringify(server)) {
+
+		}
+		 */
+
 		this.isLoading = false;
 	}
 

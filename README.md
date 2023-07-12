@@ -1,40 +1,13 @@
-- select with relations : Cherche correspondance de données dans l'index
-
+- column _id sans index ??
 
 - postgre array of type
 - tester plusieurs schemas
 - cloud (google, aurora, rds)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 - BLOB CRUD (download, upload)
 - revoir MySQL load avec tunnel (essayer en bash)
 - finir present
 - Finir EDR
-
-# SQLServer
+- SQLServer
 
 # Test
 - e2e crud data, crud table : all driver (protractor)
@@ -44,10 +17,8 @@
 - tester tout
 - btn to export via IA (Stripe Metadata additionnal feature)
 
-# Cloud DB
-- digital
-- atlas?
-- azure
+
+
 
 
 
@@ -77,6 +48,11 @@
 # SQLite
 - https://hub.docker.com/r/nouchka/sqlite3/
 - https://www.npmjs.com/package/better-sqlite3
+
+# Cloud DB
+- digital
+- atlas?
+- azure
 
 # MongoDB
 - traduction (collection vs table, etc)

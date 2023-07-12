@@ -345,4 +345,6 @@ class MysqlCon {
 				break;
 		}
 	}
+
+	protected readonly initBaseEditor = initBaseEditor;
 }

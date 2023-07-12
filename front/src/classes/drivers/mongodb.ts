@@ -5,6 +5,7 @@ import { Relation } from "../relation";
 import { HttpClient } from "@angular/common/http";
 import { Database } from "../database";
 import { loadLibAsset } from "../../shared/helper";
+import { Server } from "../server";
 
 declare var monaco: any;
 
@@ -49,7 +50,17 @@ export class MongoDB implements Driver {
 	keywords = [];
 	defaultFilter = "$eq";
 
-	nodeLib = (query: QueryParams) => "";
+	nodeLib (query: QueryParams) {
+		return `import {MongoClient} from "mongodb";
+
+async function main() {
+	const db = (await new MongoClient(
+		"mongodb://${Server.getSelected().user}:${Server.getSelected().password}@${Server.getSelected().host}:${Server.getSelected().port}}/"
+	)).db("${Database.getSelected().name}");
+
+	${query.query}
+}`;
+	};
 
 	extractConditionParams(query: string): QueryParams {
 		return <QueryParams>{

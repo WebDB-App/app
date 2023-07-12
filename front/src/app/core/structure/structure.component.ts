@@ -32,7 +32,7 @@ export class StructureComponent implements OnInit, OnDestroy, AfterViewChecked {
 	structureColumns: string[] = [];
 	structureSource!: MatTableDataSource<Column>;
 
-	indexColumns = ['tags', 'columns', 'name', 'cardinality', this.actionColum];
+	indexColumns: string[] = [];
 	indexSource!: MatTableDataSource<Index>;
 
 	constructor(private request: RequestService,
@@ -51,9 +51,12 @@ export class StructureComponent implements OnInit, OnDestroy, AfterViewChecked {
 		this.selectedServer = Server.getSelected();
 		this.selectedTable = Table.getSelected();
 
+		this.indexColumns = ['tags', 'columns', 'name'];
 		this.structureColumns = ['name', 'type', 'nullable'];
+
 		if (isSQL(this.selectedServer)) {
 			this.structureColumns.push('defaut');
+			this.indexColumns.push('cardinality');
 		}
 		if (this.selectedServer.driver.extraAttributes.length) {
 			this.structureColumns.push('extra');
@@ -61,7 +64,9 @@ export class StructureComponent implements OnInit, OnDestroy, AfterViewChecked {
 		if (isSQL(this.selectedServer)) {
 			this.structureColumns.push('comment');
 		}
+
 		this.structureColumns.push(this.actionColum);
+		this.indexColumns.push(this.actionColum);
 
 		this.structureSource = new MatTableDataSource(this.selectedTable?.columns);
 		this.indexSource = new MatTableDataSource(Table.getIndexes());

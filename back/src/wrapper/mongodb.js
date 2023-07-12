@@ -9,12 +9,14 @@ export default class MongoDB extends Driver {
 	commonUser = ["mongo"];
 	commonPass = ["mongo"];
 	systemDbs = ["admin", "config", "local"];
+	sampleSize = process.env.MONGO_SAMPLE || 250;
 
 	async scan() {
 		return super.scan(this.host, 27010, 27020);
 	}
 
 	async dump(database, exportType, tables, includeData) {
+		//compatibility with import
 	}
 
 	async load(filePath, database, table) {
@@ -105,7 +107,34 @@ export default class MongoDB extends Driver {
 	}
 
 	async getRelations() {
-		return [];
+		const relations = [];
+		const promises = [];
+		const databases = (await this.connection.db().admin().listDatabases()).databases;
+
+		for (const database of databases) {
+			const db = this.connection.db(database.name);
+
+			for (const coll of await db.collections()) {
+
+				promises.push(new Promise(async resolve => {
+
+					try {
+						(await coll.aggregate([{$sample: {size: this.sampleSize / 2}}]).toArray()).map(sample => {
+
+						});
+
+					} catch (e) {
+						/* empty */
+					} finally {
+						resolve();
+					}
+				}));
+			}
+		}
+
+
+		await Promise.all(promises);
+		return relations;
 	}
 
 	async addIndex(database, table, name, type, columns) {
@@ -117,8 +146,27 @@ export default class MongoDB extends Driver {
 	}
 
 	async getIndexes() {
-		return [];
-		//await coll.indexInformation();
+		const indexes = [];
+
+		const databases = (await this.connection.db().admin().listDatabases()).databases;
+		for (const database of databases) {
+			const db = this.connection.db(database.name);
+
+			for (const coll of await db.collections()) {
+				for (const index of await coll.indexes()) {
+					indexes.push({
+						database: database.name,
+						table: coll.collectionName,
+						columns: Object.keys(index.key),
+						name: index.name,
+						primary: index.name === "_id_",
+						unique: index.unique || false
+					});
+				}
+			}
+		}
+
+		return indexes;
 	}
 
 	async runCommand(command, database = false) {
@@ -167,44 +215,41 @@ export default class MongoDB extends Driver {
 
 	async getStructure() {
 		const struct = {};
-		const sampleSize = process.env.MONGO_SAMPLE || 200;
+		const promises = [];
 
-		const admin = this.connection.db().admin();
-		const list = await admin.listDatabases();
-		for (const li of list.databases) {
-			const db = this.connection.db(li.name);
-			const collections = await db.collections();
+		const databases = (await this.connection.db().admin().listDatabases()).databases;
+		for (const database of databases) {
+			const db = this.connection.db(database.name);
 			const collInfos = await db.listCollections().toArray();
-			const promises = [];
 
-			struct[li.name] = {
-				name: li.name,
+			struct[database.name] = {
+				name: database.name,
 				tables: {}
 			};
 
-			for (const coll of collections) {
+			for (const coll of await db.collections()) {
 				promises.push(new Promise(async resolve => {
 					const infos = collInfos.find(col => col.name === coll.collectionName);
 
-					struct[li.name].tables[coll.collectionName] = {
+					struct[database.name].tables[coll.collectionName] = {
 						name: coll.collectionName,
 						view: infos.type === "view",
 						columns: {}
 					};
 
 					try {
-						(await coll.aggregate([{$sample: {size: sampleSize}}]).toArray()).map(sample => {
+						(await coll.aggregate([{$sample: {size: this.sampleSize}}]).toArray()).map(sample => {
 							for (const [key, val] of Object.entries(sample)) {
 								const type = this.getPropertyType(val);
 
-								if (struct[li.name].tables[coll.collectionName].columns[key]) {
-									if (struct[li.name].tables[coll.collectionName].columns[key].type.indexOf(type) < 0) {
-										struct[li.name].tables[coll.collectionName].columns[key].type.push(type);
+								if (struct[database.name].tables[coll.collectionName].columns[key]) {
+									if (struct[database.name].tables[coll.collectionName].columns[key].type.indexOf(type) < 0) {
+										struct[database.name].tables[coll.collectionName].columns[key].type.push(type);
 									} else {
-										struct[li.name].tables[coll.collectionName].columns[key].nullable++;
+										struct[database.name].tables[coll.collectionName].columns[key].nullable++;
 									}
 								} else {
-									struct[li.name].tables[coll.collectionName].columns[key] = {
+									struct[database.name].tables[coll.collectionName].columns[key] = {
 										name: key,
 										type: [type],
 										nullable: 1
@@ -213,20 +258,20 @@ export default class MongoDB extends Driver {
 							}
 						});
 
-						for (const [key] of Object.entries(struct[li.name].tables[coll.collectionName].columns)) {
-							struct[li.name].tables[coll.collectionName].columns[key].type = struct[li.name].tables[coll.collectionName].columns[key].type.join(" | ");
-							struct[li.name].tables[coll.collectionName].columns[key].nullable = struct[li.name].tables[coll.collectionName].columns[key].nullable < sampleSize;
+						for (const [key] of Object.entries(struct[database.name].tables[coll.collectionName].columns)) {
+							struct[database.name].tables[coll.collectionName].columns[key].type = struct[database.name].tables[coll.collectionName].columns[key].type.join(" | ");
+							struct[database.name].tables[coll.collectionName].columns[key].nullable = struct[database.name].tables[coll.collectionName].columns[key].nullable < this.sampleSize;
 						}
-					} catch (e) { /* empty */ }
-					finally {
+					} catch (e) {
+						/* empty */
+					} finally {
 						resolve();
 					}
 				}));
 			}
-
-			await Promise.all(promises);
 		}
 
+		await Promise.all(promises);
 		return struct;
 	}
 

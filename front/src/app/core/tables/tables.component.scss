@@ -14,6 +14,10 @@
 			display: flex;
 			flex-direction: column;
 
+			::ng-deep .table td:nth-child(2) {
+				width: 0px;
+			}
+
 			&:hover {
 				.mat-icon-button {
 					opacity: 1;
