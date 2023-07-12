@@ -31,6 +31,7 @@ export class MongoDB implements Driver {
 		{symbol: '$ne', example: "'abc'", definition: "Strictly different to"},
 		{symbol: '$in', example: '["a", "b"]', definition: "Is in array of"},
 		{symbol: '$all', example: '["a", "b"]', definition: "If the array contains all elements"},
+		{symbol: '$exists', example: 'true', definition: "If the property exist"},
 		{symbol: '$range', example: '"a" AND "z"', definition: "If in the range of"},
 		{symbol: '$regexMatch', example: '/[a-z]/', definition: "If match regex"},
 		{symbol: '$text', example: ': { $search: "abc" }', definition: "Search text"},
@@ -97,8 +98,6 @@ export class MongoDB implements Driver {
 		const cols = table.columns?.map(column => `${column.name}: "${column.type}"`);
 		return `/*
 const db = (await new MongoClient()).db("${Database.getSelected().name}");
-const bson = require("bson");
-const mongo = require("mongo");
 */
 
 db.collection("${table.name}").find({

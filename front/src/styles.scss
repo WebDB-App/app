@@ -238,7 +238,7 @@ a {
 	height: 100% !important;
 }
 
-.monaco-editor .suggest-widget {
+.monaco-editor .overflowingContentWidgets > * {
 	z-index: 100000 !important;
 }
 
