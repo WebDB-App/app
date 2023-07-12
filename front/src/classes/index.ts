@@ -10,8 +10,7 @@ export class Index {
 	columns!: string[];
 	name!: string;
 	primary!: boolean;
-	type!: string
-	cardinality!: number;
+	cardinality?: number;
 	unique!: boolean;
 
 	static getSymbol(indexes: Index[]) {

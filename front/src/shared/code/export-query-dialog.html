@@ -8,6 +8,7 @@
 	<ngx-monaco-editor
 		[(ngModel)]="str"
 		[options]="editorOptions"
+		(onInit)="initBaseEditor($event)"
 		style="width: 500px; height: 500px">
 	</ngx-monaco-editor>
 </div>
