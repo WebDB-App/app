@@ -1,9 +1,8 @@
-- insert mongo
-- select with relations
+- select with relations : Cherche correspondance de données dans l'index
+
 
 - postgre array of type
 - tester plusieurs schemas
-
 - cloud (google, aurora, rds)
 
 

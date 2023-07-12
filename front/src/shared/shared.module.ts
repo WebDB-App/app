@@ -6,13 +6,26 @@ import { CellComponent } from './cell/cell.component';
 import { NgxJsonViewerModule } from "ngx-json-viewer";
 import { RouterLinkWithHref } from "@angular/router";
 import { IsSQLPipe } from "./is_sql.pipe";
+import { UpdateDataDialogComponent } from './update-data-dialog/update-data-dialog.component';
+import { FlexModule } from "@angular/flex-layout";
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
+import { MatButtonModule } from "@angular/material/button";
+import { MatDialogModule } from "@angular/material/dialog";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from "@angular/material/icon";
+import { MatInputModule } from "@angular/material/input";
+import { MatOptionModule } from "@angular/material/core";
+import { MonacoEditorModule } from "ngx-monaco-editor-v2";
+import { ClipboardModule } from "@angular/cdk/clipboard";
+import { FormsModule } from "@angular/forms";
 
 @NgModule({
 	declarations: [
 		RoundPipe,
 		BooleanPipe,
 		CellComponent,
-		IsSQLPipe
+		IsSQLPipe,
+		UpdateDataDialogComponent
 	],
 	exports: [
 		RoundPipe,
@@ -23,7 +36,18 @@ import { IsSQLPipe } from "./is_sql.pipe";
 	imports: [
 		CommonModule,
 		NgxJsonViewerModule,
-		RouterLinkWithHref
+		RouterLinkWithHref,
+		FlexModule,
+		MatAutocompleteModule,
+		MatButtonModule,
+		MatDialogModule,
+		MatFormFieldModule,
+		MatIconModule,
+		MatInputModule,
+		MatOptionModule,
+		MonacoEditorModule,
+		ClipboardModule,
+		FormsModule
 	]
 })
 export class SharedModule {

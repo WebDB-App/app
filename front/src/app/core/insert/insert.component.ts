@@ -15,6 +15,7 @@ import { MatPaginator } from "@angular/material/paginator";
 import { faker } from '@faker-js/faker';
 import { HttpClient } from "@angular/common/http";
 import { MatDialog } from "@angular/material/dialog";
+import { UpdateDataDialogComponent } from "../../../shared/update-data-dialog/update-data-dialog.component";
 
 const localStorageName = "insert-codes";
 
@@ -161,7 +162,7 @@ const faker = require("@faker-js/faker");
 			const obj: any = {};
 			for (const [index, rand] of Object.entries(this.randomSource)) {
 				try {
-					obj[rand.column.name] = new Function("faker", rand.model)(faker);
+					obj[rand.column.name] = new Function("faker", "return " + rand.model)(faker);
 					this.randomSource[+index].error = "";
 				} catch (e) {
 					this.randomSource[+index].error = <string>e;
@@ -266,5 +267,16 @@ const faker = require("@faker-js/faker");
 		this.editors[column] = editor;
 	}
 
-	protected readonly Math = Math;
+	editRow(i: number, row: any) {
+		const dialogRef = this.dialog.open(UpdateDataDialogComponent, {
+			data: row,
+		});
+
+		dialogRef.afterClosed().subscribe(async result => {
+			if (result) {
+				this.dataSource.data[i] = result;
+				this.dataSource._updateChangeSubscription();
+			}
+		});
+	}
 }

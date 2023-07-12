@@ -15,7 +15,7 @@
 		</div>
 
 		<div>
-			<a href="https://fakerjs.dev/api/"
+			<a href="https://v7.fakerjs.dev/api/"
 			   mat-button
 			   target="_blank">
 				<span class="material-symbols-outlined notranslate">
@@ -118,13 +118,6 @@
 			</span>
 			Insert Rows
 		</button>
-
-		<button (click)="removeRows()" [disabled]="selection.isEmpty()" mat-button>
-			<span class="material-symbols-outlined notranslate">
-				delete
-			</span>
-			Rows
-		</button>
 	</mat-toolbar>
 
 	<div class="scrollDiv mat-elevation-z8">
@@ -135,15 +128,34 @@
 			>
 				<ng-container *ngIf="column === actionColum">
 					<th *matHeaderCellDef mat-header-cell style="width: 0px;">
-						<mat-checkbox (change)="$event ? toggleAllRows() : null"
-									  [checked]="selection.hasValue() && isAllSelected()"
-									  [indeterminate]="selection.hasValue() && !isAllSelected()">
+						<button (click)="removeRows()"
+								[disabled]="selection.isEmpty()"
+								color="warn"
+								mat-icon-button>
+							<span class="material-symbols-outlined notranslate">
+								delete
+							</span>
+						</button>
+						<mat-checkbox
+							color="warn"
+							(change)="$event ? toggleAllRows() : null"
+							[checked]="selection.hasValue() && isAllSelected()"
+							[indeterminate]="selection.hasValue() && !isAllSelected()">
 						</mat-checkbox>
 					</th>
-					<td *matCellDef="let row" mat-cell>
-						<mat-checkbox (change)="$event ? selection.toggle(row) : null"
-									  (click)="$event.stopPropagation()"
-									  [checked]="selection.isSelected(row)">
+					<td *matCellDef="let row; let i = index" mat-cell>
+						<button (click)="editRow(i, row)"
+								color="accent"
+								mat-icon-button>
+							<span class="material-symbols-outlined notranslate">
+								edit
+							</span>
+						</button>
+						<mat-checkbox
+							color="warn"
+							(change)="$event ? selection.toggle(row) : null"
+							(click)="$event.stopPropagation()"
+							[checked]="selection.isSelected(row)">
 						</mat-checkbox>
 					</td>
 				</ng-container>
@@ -152,11 +164,11 @@
 						{{column}}
 					</th>
 					<td *matCellDef="let row" mat-cell>
-						<textarea
-							[(ngModel)]="row[column]"
-							autocomplete="off"
-							cdkTextareaAutosize
-							matInput></textarea>
+						<app-cell
+							*ngIf="column !== actionColum"
+							[row]="row"
+							[column]="column"
+						></app-cell>
 					</td>
 				</ng-container>
 			</ng-container>
@@ -164,10 +176,10 @@
 			<tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
 			<tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
 		</table>
-		<mat-paginator
-			showFirstLastButtons
-			hidePageSize
-			pageSize="100"
-		></mat-paginator>
 	</div>
+	<mat-paginator
+		showFirstLastButtons
+		hidePageSize
+		pageSize="100"
+	></mat-paginator>
 </div>
