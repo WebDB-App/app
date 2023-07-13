@@ -1,8 +1,9 @@
-- column _id sans index ??
-
+- trigger : postgre + mongo
 - postgre array of type
 - tester plusieurs schemas
 - cloud (google, aurora, rds)
+
+
 - BLOB CRUD (download, upload)
 - revoir MySQL load avec tunnel (essayer en bash)
 - finir present
@@ -16,7 +17,6 @@
 # Export Query
 - tester tout
 - btn to export via IA (Stripe Metadata additionnal feature)
-
 
 
 
@@ -87,3 +87,5 @@
 
 # ElasticSearch
 - https://elasticvue.com/
+
+# renameDatabase

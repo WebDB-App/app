@@ -21,7 +21,6 @@ export class MongoDB implements Driver {
 	driverDocumentation = "https://www.mongodb.com/docs/drivers/node/current/fundamentals/connection/connection-options/";
 	extraAttributes: string[] = [];
 	language = 'javascript';
-	canRename = true;
 	constraints = [];
 	availableComparator = [
 		{symbol: '$gt', example: "", definition: "More than"},

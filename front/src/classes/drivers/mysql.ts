@@ -24,8 +24,6 @@ async function main() {
 }`;
 		};
 
-		this.canRename = false;
-
 		this.languageDocumentation = "https://dev.mysql.com/doc/refman/8.0/en/sql-statements.html";
 
 		this.nameDel = this.useNameDel ? "\`" : '';

@@ -96,6 +96,14 @@ export default class PostgreSQL extends SQL {
 		return await this.runCommand(`CREATE TABLE ${new_name} AS ${old_table};`, database);
 	}
 
+	async renameDatabase(old_name, new_name) {
+		if (this.isSystemDbs(old_name)) {
+			return {error: `You should not rename ${old_name}`};
+		}
+
+		//return await this.connection.db(old_name).re
+	}
+
 	async statsDatabase(name) {
 		const database = name.split(this.dbToSchemaDelimiter)[0];
 		return {

@@ -93,11 +93,39 @@ export default class MongoDB extends Driver {
 	}
 
 	async statsDatabase(name) {
-		return [];
+		const stats = await this.connection.db(name).stats();
+		return {
+			data_length: stats.dataSize,
+			index_length: stats.indexSize
+		};
 	}
 
 	async statsTable(database, table) {
-		return [];
+		const stats = await this.connection.db(database).collection(table).stats();
+		return {
+			data_length: stats.size,
+			index_length: stats.totalIndexSize
+		};
+	}
+
+	async dropDatabase(name) {
+		if (this.isSystemDbs(name)) {
+			return {error: `You should not delete ${name}`};
+		}
+
+		return await this.connection.db(name).dropDatabase();
+	}
+
+	async createTable(database, table) {
+
+	}
+
+	async dropTable(database, table) {
+		return await this.connection.db(database).dropCollection(table);
+	}
+
+	async truncateTable(database, table) {
+		return await this.connection.db(database).collection(table).deleteMany();
 	}
 
 	async getAvailableCollations() {
@@ -136,7 +164,6 @@ export default class MongoDB extends Driver {
 				}));
 			}
 		}
-
 
 		await Promise.all(promises);
 		return relations;

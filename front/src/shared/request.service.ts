@@ -66,7 +66,7 @@ export class RequestService {
 		return server;
 	}
 
-	async reloadServer(server = Server.getSelected()) {
+	async reloadServer(server = Server.getSelected(), emit = true) {
 		const shallow = Server.getShallow(server);
 
 		await Promise.all([
@@ -91,7 +91,9 @@ export class RequestService {
 		Database.reload(server.dbs);
 		Table.reload(Database.getSelected());
 
-		this.messageSource.next(server);
+		if (emit) {
+			this.messageSource.next(server);
+		}
 		return server;
 	}
 }

@@ -36,8 +36,13 @@ export class TableAdvancedComponent {
 			this.selectedServer = Server.getSelected();
 			this.selectedDatabase = Database.getSelected();
 			this.selectedTable = Table.getSelected();
-			this.stats = await this.request.post('table/stats', undefined);
+
+			await this.getStats();
 		});
+	}
+
+	async getStats() {
+		this.stats = await this.request.post('table/stats', undefined);
 	}
 
 	drop() {
@@ -50,8 +55,7 @@ export class TableAdvancedComponent {
 				return;
 			}
 			this.snackBar.open(`Dropped Table ${this.selectedTable?.name}`, "╳", {duration: 3000});
-			await this.request.reloadServer();
-			await this.router.navigate(['../../'], {relativeTo: this.activatedRoute});
+			await this.goToNew('');
 		});
 	}
 
@@ -62,6 +66,7 @@ export class TableAdvancedComponent {
 				return;
 			}
 			this.snackBar.open(`Table ${this.selectedTable?.name} truncated`, "╳", {duration: 3000});
+			await this.getStats();
 		});
 	}
 
@@ -78,17 +83,14 @@ export class TableAdvancedComponent {
 	}
 
 	async goToNew(new_name: string) {
-		await this.request.reloadServer();
-
-		setTimeout(() => {
-			this.router.navigate([
-				'/',
-				this.selectedServer?.name,
-				this.selectedDatabase?.name,
-				new_name,
-				Tabs.at(-1)!.link]
-			);
-		}, 200);
+		await this.request.reloadServer(this.selectedServer, false);
+		await this.router.navigate([
+			'/',
+			this.selectedServer?.name,
+			this.selectedDatabase?.name,
+			new_name,
+			Tabs.at(-1)!.link]
+		);
 	}
 
 	protected readonly isSQL = isSQL;

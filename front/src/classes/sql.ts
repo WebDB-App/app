@@ -26,7 +26,6 @@ export class SQL implements Driver {
 	driverDocumentation = "";
 	disclaimerSsh = "";
 	extraAttributes: string[] = [];
-	canRename = true;
 	language = 'sql';
 	constraints = [
 		'CASCADE',
