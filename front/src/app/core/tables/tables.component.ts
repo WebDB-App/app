@@ -60,13 +60,20 @@ export class TablesComponent implements OnInit, OnDestroy {
 				return;
 			}
 
-			const tableName = this.activatedRoute.snapshot.paramMap.get('table') || this.selectedDatabase.tables[0].name;
-			const table = this.selectedDatabase.tables.find(table => table.name === tableName);
-			if (!table) {
+			const tableName = this.activatedRoute.snapshot.paramMap.get('table');
+			let table = this.selectedDatabase.tables.find(table => table.name === tableName);
+			if (this.activatedRoute.snapshot.paramMap.get('table') && !table) {
+				await this.router.navigate(['/', this.selectedServer.name, this.selectedDatabase.name], {relativeTo: this.activatedRoute});
 				this.snackBar.open(`Can't access to ${tableName}`, "╳", {panelClass: 'snack-error'});
 				return;
 			}
-			this.titleService.setTitle(tableName + " – " + this.selectedDatabase.name + " – " + this.selectedServer.port);
+
+			table = table || this.selectedDatabase.tables[0];
+			if (!table) {
+				return;
+			}
+
+			this.titleService.setTitle(table.name + " – " + this.selectedDatabase.name + " – " + this.selectedServer.port);
 			this.selectedTable = table;
 			Table.setSelected(this.selectedTable!);
 

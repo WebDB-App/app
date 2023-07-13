@@ -63,7 +63,7 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 	autoUp: boolean | NodeJS.Timer = false;
 	diff = false;
 	query2 = '';
-	pageSize = 100;
+	pageSize = 50;
 	isLoading = false;
 	displayedColumns?: string[];
 	dataSource?: MatTableDataSource<any>
