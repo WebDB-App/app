@@ -9,7 +9,7 @@ export default class MongoDB extends Driver {
 	commonUser = ["mongo"];
 	commonPass = ["mongo"];
 	systemDbs = ["admin", "config", "local"];
-	sampleSize = process.env.MONGO_SAMPLE || 100;
+	sampleSize = process.env.MONGO_SAMPLE || 1000;
 
 	async scan() {
 		return super.scan(this.host, 27010, 27020);
@@ -214,8 +214,8 @@ export default class MongoDB extends Driver {
 			if (database) {
 				db = await this.connection.db(database);
 			}
-			const fct = new Function("db", command);
-			const res = await fct(db);
+			const fct = new Function("db", "bson", "mongo", command);
+			const res = await fct(db, BSON, MongoClient);
 			return BSON.EJSON.stringify(res);
 		} catch (e) {
 			return {error: e.message};

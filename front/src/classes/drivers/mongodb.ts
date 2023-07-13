@@ -108,6 +108,7 @@ async function main() {
 		const cols = table.columns?.map(column => `${column.name}: "${column.type}"`);
 		return `/*
 const db = (await new MongoClient()).db("${Database.getSelected().name}");
+const bson = require("bson");
 */
 
 db.collection("${table.name}").find({

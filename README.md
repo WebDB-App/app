@@ -1,5 +1,9 @@
-- trigger : postgre + mongo
+- sampleMongo
+
 - postgre array of type + plusieurs schemas
+- deep explore (array, obj, date)
+- trigger : postgre + mongo
+
 - cloud (google, aurora, rds)
 - BLOB CRUD (download, upload)
 - revoir MySQL load avec tunnel (essayer en bash)
