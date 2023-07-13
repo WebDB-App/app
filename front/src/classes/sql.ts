@@ -164,7 +164,7 @@ export class SQL implements Driver {
 		'CONVERT': '(value, type)',
 		'WHEN': ''
 	}
-	defaultFilter = "LIKE"
+	defaultFilter = "="
 
 	nodeLib = (query: QueryParams) => "";
 

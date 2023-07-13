@@ -13,6 +13,7 @@ import { Database } from "../../classes/database";
 import { environment } from "../../environments/environment";
 import { RequestService } from "../../shared/request.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { isSQL } from "../../shared/helper";
 
 class Panel {
 	link!: string
@@ -119,6 +120,8 @@ export class ContainerComponent implements OnInit, AfterViewInit {
 			data: this.selectedServer
 		});
 	}
+
+	protected readonly isSQL = isSQL;
 }
 
 @Component({

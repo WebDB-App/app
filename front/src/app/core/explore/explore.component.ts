@@ -1,5 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Server } from "../../../classes/server";
 import { ActivatedRoute, Params, Router } from "@angular/router";
@@ -10,8 +9,10 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { Configuration } from "../../../classes/configuration";
 import { RequestService } from "../../../shared/request.service";
 import { SelectionModel } from "@angular/cdk/collections";
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
+import { MatDialog } from "@angular/material/dialog";
 import { UpdateDataDialogComponent } from "../../../shared/update-data-dialog/update-data-dialog.component";
+import { TypeName } from "../../../classes/driver";
+import { Column } from "../../../classes/column";
 
 @Component({
 	selector: 'app-explore',
@@ -148,12 +149,19 @@ export class ExploreComponent implements OnInit, OnDestroy {
 			return;
 		}
 
+		const del = this.selectedServer?.driver.nameDel || "'";
+		if (Column.isOfCategory(this.selectedServer?.driver!, this.selectedTable?.columns.find(col => col.name === column)!, TypeName.String)
+			&& !value.startsWith(del)) {
+			value = `${del}${value}${del}`;
+		}
+
+		this.params.chips += `${column} `;
 		if (this.selectedServer?.driver.availableComparator.find((comparator) => {
 			return value.toLowerCase().startsWith(comparator.symbol.toLowerCase())
 		})) {
-			this.params.chips += `${column} ${value};`;
+			this.params.chips += `${value};`;
 		} else {
-			this.params.chips += `${column} ${this.selectedServer?.driver.defaultFilter} ${value};`;
+			this.params.chips += `${this.selectedServer?.driver.defaultFilter} ${value};`;
 		}
 
 		this.params.page = 0;
