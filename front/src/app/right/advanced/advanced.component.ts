@@ -16,7 +16,10 @@ export class AdvancedComponent implements OnInit {
 	selectedServer?: Server;
 	selectedDatabase?: Database;
 	collations: string[] = [];
-	stats?: any;
+	stats!: {
+		index_length: number,
+		data_length: number
+	};
 
 	constructor(private dialog: MatDialog,
 				private snackBar: MatSnackBar,

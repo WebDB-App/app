@@ -42,7 +42,7 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 
 	protected readonly Math = Math;
 
-	codes: any = JSON.parse(localStorage.getItem(localStorageName) || "{}");
+	codes: { [key: string]: string } = JSON.parse(localStorage.getItem(localStorageName) || "{}");
 	interval?: NodeJS.Timer;
 	configuration: Configuration = new Configuration();
 	selectedServer?: Server;

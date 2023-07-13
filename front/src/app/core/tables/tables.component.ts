@@ -36,7 +36,7 @@ export class TablesComponent implements OnInit, OnDestroy {
 	selectedServer?: Server;
 	selectedTable?: Table;
 
-	tooltips: any = {};
+	tooltips: { [key: string]: string } = {};
 	tabs = Tabs;
 
 	constructor(

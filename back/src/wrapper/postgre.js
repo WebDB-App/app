@@ -117,8 +117,7 @@ export default class PostgreSQL extends SQL {
 	}
 
 	async getAvailableCollations() {
-		return [];
-		return await this.runCommand("SHOW COLLATION WHERE `Default` = 'Yes'");
+		return await this.runCommand("SELECT * FROM pg_collation");
 	}
 
 	async setCollation(database, collate) {

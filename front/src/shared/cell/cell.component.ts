@@ -17,7 +17,7 @@ export class CellComponent implements OnInit {
 	relations?: Relation[];
 	nested = false;
 	expand = true;
-	fkLink?: any[];
+	fkLink?: string[];
 
 	constructor() {
 	}
