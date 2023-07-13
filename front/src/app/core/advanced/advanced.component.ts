@@ -21,7 +21,10 @@ export class TableAdvancedComponent {
 	selectedDatabase?: Database;
 	selectedTable?: Table;
 	obs: Subscription
-	stats?: any;
+	stats!: {
+		index_length: number,
+		data_length: number
+	};
 
 	constructor(
 		private dialog: MatDialog,

@@ -21,6 +21,7 @@ export class MongoDB implements Driver {
 	driverDocumentation = "https://www.mongodb.com/docs/drivers/node/current/fundamentals/connection/connection-options/";
 	extraAttributes: string[] = [];
 	language = 'javascript';
+	canRename = true;
 	constraints = [];
 	availableComparator = [
 		{symbol: '$gt', example: "", definition: "More than"},
@@ -130,7 +131,7 @@ db.collection("${table.name}").find({
 
 	getBaseFilter(table: Table, conditions: string[], operand: 'AND' | 'OR') {
 		const cond = conditions.map(condition => {
-			const obj: any = {};
+			const obj: { [key: string]: any } = {};
 			const key = condition.substring(0, condition.indexOf("$") - 1).trim();
 			condition = condition.substring(condition.indexOf("$"));
 			const operator = condition.substring(0, condition.indexOf(" ")).trim();

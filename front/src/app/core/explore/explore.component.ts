@@ -32,7 +32,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 		sortDirection: "",
 		page: 0
 	}
-	filter: any[any] = [];
+	filter: { [key: string]: string } = {};
 	autoUp: boolean | NodeJS.Timer = false;
 	query = "";
 	isLoading = false;

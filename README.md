@@ -1,14 +1,10 @@
 - trigger : postgre + mongo
-- postgre array of type
-- tester plusieurs schemas
+- postgre array of type + plusieurs schemas
 - cloud (google, aurora, rds)
-
-
 - BLOB CRUD (download, upload)
 - revoir MySQL load avec tunnel (essayer en bash)
 - finir present
 - Finir EDR
-- SQLServer
 
 # Test
 - e2e crud data, crud table : all driver (protractor)
@@ -17,6 +13,8 @@
 # Export Query
 - tester tout
 - btn to export via IA (Stripe Metadata additionnal feature)
+
+# SQLServer
 
 
 
