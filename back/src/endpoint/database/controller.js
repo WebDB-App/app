@@ -71,6 +71,12 @@ class Controller {
 
 		res.send(collations.map(collation => collation["Collation"]).sort());
 	}
+
+	async rename(req, res) {
+		const [driver, database] = await http.getLoggedDriver(req);
+
+		res.send(await driver.renameDatabase(database, req.body.name));
+	}
 }
 
 export default new Controller();

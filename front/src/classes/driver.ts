@@ -36,7 +36,6 @@ export interface Driver {
 	loadExtraLib: (http: HttpClient) => Promise<void>;
 
 	nameDel: string;
-	canRename: boolean;
 	acceptedExt: string[];
 	availableComparator: Comparator[];
 	typesList: TypeGroup[];
