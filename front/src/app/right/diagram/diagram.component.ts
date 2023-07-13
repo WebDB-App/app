@@ -82,6 +82,8 @@ export class DiagramComponent implements OnDestroy {
 
 				if (relation) {
 					/*
+					https://loopback.io/doc/en/lb4/HasManyThrough-relation.html
+
 					 test if FK can be null, etc
 					 create all relation possible :
 

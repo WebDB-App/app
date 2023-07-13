@@ -20,11 +20,6 @@ mat-drawer {
 	}
 }
 
-#home {
-	will-change: background-color;
-	transition: background-color 1s ease-out;
-}
-
 ::ng-deep .external .material-symbols-outlined {
 	margin-right: 16px;
 	vertical-align: middle;

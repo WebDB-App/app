@@ -1,4 +1,4 @@
-import { Driver, QueryParams, TypeGroup, TypeName } from "../driver";
+import { Driver, FileType, QueryParams, TypeGroup, TypeName } from "../driver";
 import { Column } from "../column";
 import { Table } from "../table";
 import { Relation } from "../relation";
@@ -15,7 +15,10 @@ export class MongoDB implements Driver {
 		serverSelectionTimeoutMS: 2000,
 		authSource: 'admin'
 	};
-
+	fileTypes: FileType[] = [
+		{extension: "json", name: "JSON"},
+		{extension: "bson", name: "BSON"},
+	];
 	languageDocumentation = "https://www.mongodb.com/docs/drivers/node/current/quick-reference/";
 	nameDel = '"';
 	driverDocumentation = "https://www.mongodb.com/docs/drivers/node/current/fundamentals/connection/connection-options/";

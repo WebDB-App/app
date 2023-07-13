@@ -1,6 +1,7 @@
 <mat-toolbar fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="12px">
 	<mat-slide-toggle
 		[(ngModel)]="includeData"
+		[disabled]="!isSQL(selectedServer!)"
 		checked
 		color="primary">
 		Include Data
@@ -8,8 +9,9 @@
 
 	<mat-button-toggle-group
 		#group="matButtonToggleGroup">
-		<mat-button-toggle checked value="json">JSON</mat-button-toggle>
-		<mat-button-toggle value="sql">SQL</mat-button-toggle>
+		<ng-container *ngFor="let fileT of selectedServer!.driver.fileTypes; let i = index">
+			<mat-button-toggle [checked]="i === 0" [value]="fileT.extension">{{fileT.name}}</mat-button-toggle>
+		</ng-container>
 	</mat-button-toggle-group>
 
 	<button (click)="dump(group.value)"

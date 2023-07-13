@@ -27,6 +27,11 @@ export class QueryParams {
 	params: any[] = [];
 }
 
+export class FileType {
+	extension!: string;
+	name!: string;
+}
+
 export interface Driver {
 	defaultParams: {};
 	driverDocumentation: string;
@@ -34,6 +39,7 @@ export interface Driver {
 	extraAttributes: string[];
 	nodeLib: (queryParams: QueryParams) => string;
 	loadExtraLib: (http: HttpClient) => Promise<void>;
+	fileTypes: FileType[];
 
 	nameDel: string;
 	acceptedExt: string[];

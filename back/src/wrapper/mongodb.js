@@ -15,12 +15,21 @@ export default class MongoDB extends Driver {
 		return super.scan(this.host, 27010, 27020);
 	}
 
-	async dump(database, exportType, tables, includeData) {
+	async dump(database, exportType, tables) {
 		//compatibility with import
+		//tables
+
+		const path = `${dirname}../front/dump/${database}.${exportType}`;
+		if (exportType === "json") {
+			return bash.runBash(`mongoexport --uri="${this.makeUri(true)}" --db=${database}`);
+		}
+		if (exportType === "bson") {
+			return bash.runBash(`mongodump --uri="${this.makeUri(true)}" --db=${database}`);
+		}
 	}
 
 	async load(filePath, database, table) {
-		return bash.runBash(`mongoimport --db "${database}" --collection "${table}" "${this.makeUri(true)}" --file "${filePath}"`);
+		return bash.runBash(`mongoimport --db="${database}" --collection "${table}" --uri="${this.makeUri(true)}" --file "${filePath}"`);
 	}
 
 	async replaceTrigger(database, table, trigger) {
@@ -33,6 +42,12 @@ export default class MongoDB extends Driver {
 
 	async listTrigger(database, table) {
 		return [];
+		/*const l = await this.connection.db(database).command({
+			listCollections: 1,
+			filter: {name: table}
+		});
+		return l;
+		return await this.connection.db(database).collectionInfos(table).options.validator;*/
 	}
 
 	async insert(db, table, datas) {
