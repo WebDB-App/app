@@ -25,7 +25,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 	selectedServer?: Server;
 	obs?: Subscription;
 	querySize = 0;
-	pageSize = 100;
+	pageSize = 50;
 	params = {
 		chips: "",
 		sortField: "",

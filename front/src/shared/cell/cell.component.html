@@ -8,7 +8,7 @@
 <ng-container *ngIf="!fkLink">
 	<ngx-json-viewer
 		*ngIf="nested"
-		[expanded]="false"
+		[expanded]="expand"
 		[json]="row[column]">
 	</ngx-json-viewer>
 	<ng-container

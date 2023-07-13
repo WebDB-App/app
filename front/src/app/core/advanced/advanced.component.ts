@@ -8,6 +8,7 @@ import { combineLatest, distinctUntilChanged, Subscription } from "rxjs";
 import { Tabs } from "../tables/tables.component";
 import { isSQL } from "../../../shared/helper";
 import { Server } from "../../../classes/server";
+import { Database } from "../../../classes/database";
 
 @Component({
 	selector: 'app-table-advanced',
@@ -17,6 +18,7 @@ import { Server } from "../../../classes/server";
 export class TableAdvancedComponent {
 
 	selectedServer?: Server;
+	selectedDatabase?: Database;
 	selectedTable?: Table;
 	obs: Subscription
 	stats?: any;
@@ -32,6 +34,7 @@ export class TableAdvancedComponent {
 			distinctUntilChanged()
 		).subscribe(async (_params) => {
 			this.selectedServer = Server.getSelected();
+			this.selectedDatabase = Database.getSelected();
 			this.selectedTable = Table.getSelected();
 			this.stats = await this.request.post('table/stats', undefined);
 		});
@@ -64,21 +67,35 @@ export class TableAdvancedComponent {
 
 	async rename(new_name: string) {
 		await this.request.post('table/rename', {new_name});
-
 		this.snackBar.open(`Table ${this.selectedTable?.name} renamed to ${new_name}`, "╳", {duration: 3000});
-		await this.request.reloadServer();
-		await this.router.navigate(['../../', new_name, Tabs.at(-1)!.link], {relativeTo: this.activatedRoute});
+		await this.goToNew(new_name);
 	}
 
 	async duplicate(new_name: string) {
 		await this.request.post('table/duplicate', {new_name});
-
 		this.snackBar.open(`Table ${this.selectedTable?.name} duplicated to ${new_name}`, "╳", {duration: 3000});
+		await this.goToNew(new_name);
+	}
+
+	async goToNew(new_name: string) {
 		await this.request.reloadServer();
-		await this.router.navigate(['../../', new_name, Tabs.at(-1)!.link], {relativeTo: this.activatedRoute});
+
+		setTimeout(() => {
+			this.router.navigate([
+				'/',
+				this.selectedServer?.name,
+				this.selectedDatabase?.name,
+				new_name,
+				Tabs.at(-1)!.link]
+			);
+		}, 200);
 	}
 
 	protected readonly isSQL = isSQL;
+
+	validName(name: string) {
+		return name.length > 1 && !this.selectedDatabase?.tables?.find(table => table.name === name);
+	}
 }
 
 @Component({

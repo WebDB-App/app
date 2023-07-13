@@ -16,6 +16,7 @@ export class CellComponent implements OnInit {
 	selectedTable?: Table;
 	relations?: Relation[];
 	nested = false;
+	expand = true;
 	fkLink?: any[];
 
 	constructor() {
@@ -27,6 +28,11 @@ export class CellComponent implements OnInit {
 		this.fkLink = !fk ? undefined : ['../../', fk.table_dest];
 
 		this.nested = isNested(this.row[this.column]);
+		if (this.nested) {
+			if (Object.keys(this.row[this.column]).length > 2) {
+				this.expand = false;
+			}
+		}
 	}
 
 	getFkParams() {

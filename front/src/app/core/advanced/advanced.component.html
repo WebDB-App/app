@@ -49,13 +49,14 @@
 					<mat-form-field>
 						<mat-label>Copy Name</mat-label>
 						<input
-							#tableName
+							#tableCopy
 							[value]="selectedTable?.name"
 							autocomplete="off"
 							matInput>
 					</mat-form-field>
-					<button (click)="duplicate(tableName.value)"
-							[disabled]="tableName.value.length < 1 || tableName.value === selectedTable?.name"
+					<button (click)="duplicate(tableCopy.value)"
+							[disabled]="!validName(tableCopy.value)"
+							matTooltip="May not duplicate references/indexes on new table"
 							mat-stroked-button>
 						<span class="material-symbols-outlined notranslate">
 						  file_copy
@@ -70,13 +71,13 @@
 					<mat-form-field>
 						<mat-label>New Name</mat-label>
 						<input
-							#tableName
+							#tableRename
 							[value]="selectedTable?.name"
 							autocomplete="off"
 							matInput>
 					</mat-form-field>
-					<button (click)="rename(tableName.value)"
-							[disabled]="tableName.value.length < 1 || tableName.value === selectedTable?.name"
+					<button (click)="rename(tableRename.value)"
+							[disabled]="!validName(tableRename.value)"
 							mat-stroked-button>
 						<span class="material-symbols-outlined notranslate">
 						  edit

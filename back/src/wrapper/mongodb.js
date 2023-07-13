@@ -67,13 +67,19 @@ export default class MongoDB extends Driver {
 	}
 
 	async duplicateTable(database, old_table, new_name) {
+		const db = this.connection.db(database);
+		return await db.collection(old_table).aggregate([{$out: new_name}]).toArray();
+	}
 
+	async renameTable(database, old_name, new_name) {
+		const db = this.connection.db(database);
+		await db.renameCollection(old_name, new_name);
+		return {};
 	}
 
 	async createDatabase(name) {
 		const remove_me = "remove_me";
-		const connection = await MongoClient.connect(this.makeUri() + name, this.params);
-		const db = await connection.db(name);
+		const db = await this.connection.db(name);
 		let coll = db.collection(remove_me);
 
 		if (!coll) {
@@ -122,7 +128,6 @@ export default class MongoDB extends Driver {
 						(await coll.aggregate([{$sample: {size: this.sampleSize / 2}}]).toArray()).map(sample => {
 
 						});
-
 					} catch (e) {
 						/* empty */
 					} finally {
