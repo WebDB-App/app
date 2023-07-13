@@ -9,7 +9,7 @@ export default class MongoDB extends Driver {
 	commonUser = ["mongo"];
 	commonPass = ["mongo"];
 	systemDbs = ["admin", "config", "local"];
-	sampleSize = process.env.MONGO_SAMPLE || 250;
+	sampleSize = process.env.MONGO_SAMPLE || 100;
 
 	async scan() {
 		return super.scan(this.host, 27010, 27020);
@@ -179,7 +179,6 @@ export default class MongoDB extends Driver {
 
 	async getIndexes() {
 		const indexes = [];
-
 		const databases = (await this.connection.db().admin().listDatabases()).databases;
 		for (const database of databases) {
 			const db = this.connection.db(database.name);
@@ -289,14 +288,14 @@ export default class MongoDB extends Driver {
 								}
 							}
 						});
-
+					} catch (e) {
+						//console.error(e);
+					} finally {
 						for (const [key] of Object.entries(struct[database.name].tables[coll.collectionName].columns)) {
 							struct[database.name].tables[coll.collectionName].columns[key].type = struct[database.name].tables[coll.collectionName].columns[key].type.join(" | ");
 							struct[database.name].tables[coll.collectionName].columns[key].nullable = struct[database.name].tables[coll.collectionName].columns[key].nullable < this.sampleSize;
 						}
-					} catch (e) {
-						/* empty */
-					} finally {
+
 						resolve();
 					}
 				}));

@@ -21,7 +21,6 @@ export class MongoDB implements Driver {
 	driverDocumentation = "https://www.mongodb.com/docs/drivers/node/current/fundamentals/connection/connection-options/";
 	extraAttributes: string[] = [];
 	language = 'javascript';
-	canRename = true;
 	constraints = [];
 	availableComparator = [
 		{symbol: '$gt', example: "", definition: "More than"},
@@ -30,7 +29,7 @@ export class MongoDB implements Driver {
 		{symbol: '$lte', example: "0", definition: "Less or equal than"},
 		{symbol: '$eq', example: '"abc"', definition: "Strictly equal to"},
 		{symbol: '$ne', example: "'abc'", definition: "Strictly different to"},
-		{symbol: '$in', example: '["a", "b"]', definition: "Is in array of"},
+		{symbol: '$in', example: '["a", "b"]', definition: "If the array contain a least one match"},
 		{symbol: '$all', example: '["a", "b"]', definition: "If the array contains all elements"},
 		{symbol: '$exists', example: 'true', definition: "If the property exist"},
 		{symbol: '$range', example: '"a" AND "z"', definition: "If in the range of"},
@@ -41,8 +40,8 @@ export class MongoDB implements Driver {
 	typesList: TypeGroup[] = [
 		{
 			name: TypeName.String,
-			proposition: ["varchar(size)", 'longtext', 'longblob'],
-			full: ["varchar", 'longtext', 'longblob', 'char', 'binary', 'varbinary', 'blob', 'text', 'mediumblob', 'tinyblob', 'mediumtext', 'tinytext'],
+			proposition: ["String"],
+			full: ["String"],
 		}
 	];
 	acceptedExt = ['.csv', '.tsv', '.json'];

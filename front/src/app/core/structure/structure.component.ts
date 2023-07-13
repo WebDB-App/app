@@ -159,8 +159,6 @@ export class StructureComponent implements OnInit, OnDestroy, AfterViewChecked {
 
 		return row[column];
 	}
-
-	protected readonly isSQL = isSQL;
 }
 
 

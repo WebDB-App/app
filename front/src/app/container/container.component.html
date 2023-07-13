@@ -71,6 +71,16 @@
 		</span>
 		Connection Info
 	</a>
+	<a *ngIf="selectedServer && !isSQL(selectedServer)"
+	   mat-menu-item
+	   matTooltip="Structure and relation are infered from sample"
+	   matTooltipPosition="left"
+	   target="_blank">
+		<span class="material-symbols-outlined notranslate">
+			warning
+		</span>
+		Disclaimer
+	</a>
 	<a href="https://gitlab.com/web-db/landing/-/issues"
 	   mat-menu-item
 	   target="_blank">
