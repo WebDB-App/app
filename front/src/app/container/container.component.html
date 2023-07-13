@@ -58,7 +58,15 @@
 			</button>
 		</mat-toolbar>
 
+		<div *ngIf="isLoading"
+			style="height: calc(100vh - 56px); align-self: center; display: flex;">
+			<div style="align-self: center;">
+				<mat-spinner style="margin: 0px auto;"></mat-spinner>
+				<h2>Loading {{activatedRoute.snapshot.paramMap.get('database')}} ...</h2>
+			</div>
+		</div>
 		<router-outlet *ngIf="!isLoading"></router-outlet>
+
 	</mat-drawer-content>
 </mat-drawer-container>
 

@@ -7,6 +7,7 @@ import { SelectionModel } from "@angular/cdk/collections";
 import { RequestService } from "../../../shared/request.service";
 import { environment } from "../../../environments/environment";
 import { saveAs } from "file-saver-es";
+import { isSQL } from "../../../shared/helper";
 
 export class ItemTree {
 	name?: string;
@@ -79,4 +80,6 @@ export class DumpComponent implements OnInit {
 
 		saveAs(environment.rootUrl + result.path, result.path.split('/')[1]);
 	}
+
+	protected readonly isSQL = isSQL;
 }

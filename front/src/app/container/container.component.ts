@@ -49,9 +49,9 @@ export class ContainerComponent implements OnInit, AfterViewInit {
 		private domSanitizer: DomSanitizer,
 		private matIconRegistry: MatIconRegistry,
 		private drawerService: DrawerService,
-		private activatedRoute: ActivatedRoute,
 		private snackBar: MatSnackBar,
 		private request: RequestService,
+		public activatedRoute: ActivatedRoute,
 		public router: Router,
 		public dialog: MatDialog
 	) {

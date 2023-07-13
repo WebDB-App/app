@@ -1,4 +1,4 @@
-import { Driver, QueryParams, TypeGroup, TypeName } from "./driver";
+import { Driver, FileType, QueryParams, TypeGroup, TypeName } from "./driver";
 import { Column } from "./column";
 import { Database } from "./database";
 import { Table } from "./table";
@@ -19,7 +19,10 @@ export class SQL implements Driver {
 
 	configuration: Configuration = new Configuration();
 	useNameDel: boolean = this.configuration.getByName("useNameDel")?.value;
-
+	fileTypes: FileType[] = [
+		{extension: "json", name: "JSON"},
+		{extension: "sql", name: "SQL"},
+	];
 	languageDocumentation = "https://www.w3schools.com/sql/sql_quickref.asp";
 	nameDel = this.useNameDel ? '"' : '';
 	defaultParams = {};

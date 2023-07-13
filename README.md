@@ -1,5 +1,3 @@
-- sampleMongo
-
 - postgre array of type + plusieurs schemas
 - deep explore (array, obj, date)
 - trigger : postgre + mongo
