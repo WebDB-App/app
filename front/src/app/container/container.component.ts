@@ -114,7 +114,9 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 		const dialogRef = this.dialog.open(SubscriptionDialog);
 
 		dialogRef.afterClosed().subscribe(async () => {
-			await this.reloadServer();
+			if (this.selectedServer) {
+				await this.reloadServer();
+			}
 		});
 	}
 
