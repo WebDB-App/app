@@ -13,7 +13,7 @@
 
 # Test
 - e2e crud data, crud table : all driver (protractor)
-- remplacer compatibility par : afficher les resulat en front avec plusieurs version de bdd
+- afficher les resulat en front avec plusieurs version de bdd
 
 # Export Query
 - tester tout
