@@ -33,15 +33,15 @@
 			 fxLayoutAlign="space-between center"
 			 style="width: 100%">
 
-			<div>
+			<div style="width: 100%;">
 				<mat-form-field
 					[hidden]="!key || changing"
 					appearance="fill"
-					style="margin-bottom: -1.25em">
+					style="margin-bottom: -1.25em; width: 100%;">
 					<mat-label>Pre-sent data</mat-label>
 					<mat-select #select [(ngModel)]="preSent" multiple>
 						<mat-option [value]="'structure'">
-							Tables structure and relations
+							Structure
 						</mat-option>
 						<mat-option [value]="'views'">
 							All views
