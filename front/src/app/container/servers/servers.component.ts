@@ -1,9 +1,9 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { environment } from "../../../environments/environment";
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { firstValueFrom } from "rxjs";
+import { firstValueFrom, Subscription } from "rxjs";
 import { Router } from "@angular/router";
 import { Server, SSH } from "../../../classes/server";
 import { RequestService } from "../../../shared/request.service";
@@ -16,12 +16,13 @@ import { MatIconRegistry } from "@angular/material/icon";
 	templateUrl: './servers.component.html',
 	styleUrls: ['./servers.component.scss']
 })
-export class ServersComponent implements OnInit {
+export class ServersComponent implements OnInit, OnDestroy {
 
 	servers: Server[] = [];
 	showPassword = false;
-	isLoading = true;
+	loading = 0;
 	driverNames = Object.keys(drivers);
+	sub!: Subscription;
 
 	constructor(
 		private http: HttpClient,
@@ -38,14 +39,20 @@ export class ServersComponent implements OnInit {
 				this.domSanitizer.bypassSecurityTrustResourceUrl(`/assets/drivers/${driver.toLowerCase()}.svg`)
 			);
 		}
+
+		this.sub = this.request.loadingServer.subscribe(() => this.loading += 10);
 	}
 
 	async ngOnInit() {
 		await this.reloadList();
 	}
 
+	ngOnDestroy() {
+		this.sub.unsubscribe();
+	}
+
 	async reloadList() {
-		this.isLoading = true;
+		this.loading = 0;
 		this.filterChanged('');
 
 		let servers = [];
@@ -55,6 +62,8 @@ export class ServersComponent implements OnInit {
 			scan.scanned = true
 			return scan;
 		});
+		this.loading += 10;
+
 		const locals = Server.getAll().map(local => {
 			const scan = scans.find(sc => sc.name === local.name);
 			if (scan) {
@@ -62,12 +71,12 @@ export class ServersComponent implements OnInit {
 			}
 			return local;
 		});
-
 		for (const scan of scans) {
 			if (locals.findIndex(server => server.name === scan.name) < 0) {
 				locals.push(scan);
 			}
 		}
+		this.loading += 10;
 
 		for (let server of locals) {
 			servers.push(this.request.connectServer(server, false));
@@ -78,7 +87,7 @@ export class ServersComponent implements OnInit {
 			return Number(b.connected) - Number(a.connected)
 		});
 
-		this.isLoading = false;
+		this.loading = 100;
 	}
 
 	async postLogged(localServer: Server, remoteServer: Server) {
