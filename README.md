@@ -1,12 +1,15 @@
+- export, indexes, insert
+
 - postgre array of type + plusieurs schemas
 - deep explore (array, obj, date)
-- trigger : postgre + mongo
 
 - cloud (google, aurora, rds)
 - BLOB CRUD (download, upload)
 - revoir MySQL load avec tunnel (essayer en bash)
 - finir present
 - Finir EDR
+- trigger : postgre + mongo
+- retester webhook
 
 # Test
 - e2e crud data, crud table : all driver (protractor)
@@ -17,6 +20,9 @@
 - btn to export via IA (Stripe Metadata additionnal feature)
 
 # SQLServer
+
+
+
 
 
 
