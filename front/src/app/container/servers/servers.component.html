@@ -30,11 +30,11 @@
 	</button>
 </mat-toolbar>
 
-<mat-progress-bar *ngIf="isLoading" mode="indeterminate" style="position:absolute;"></mat-progress-bar>
+<mat-progress-bar *ngIf="loading >= 0 && loading < 100" mode="determinate" [value]="loading" style="position:absolute;"></mat-progress-bar>
 
 <div id="container">
 
-	<div *ngIf="!isLoading && servers.length < 1">
+	<div *ngIf="loading >= 100 && servers.length < 1">
 		No Server Found
 	</div>
 
