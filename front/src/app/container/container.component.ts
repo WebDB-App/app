@@ -28,16 +28,13 @@ class Panel {
 })
 export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 
-	protected readonly isSQL = isSQL;
 	@ViewChild("drawer") drawer!: MatDrawer;
-
 	sub!: Subscription;
 	env = environment;
 	packageJson = packageJson
 	loading = 0;
 	selectedServer!: Server;
 	selectedDatabase!: Database;
-
 	panels: Panel[] = [
 		{link: "relations", icon: "attach_file"},
 		{link: "load", icon: "exit_to_app"},
@@ -47,6 +44,7 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 		{link: "assistant", icon: "support_agent"},
 		{link: "advanced", icon: "settings"},
 	];
+	protected readonly isSQL = isSQL;
 
 	constructor(
 		private domSanitizer: DomSanitizer,

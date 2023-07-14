@@ -5,7 +5,6 @@ import { Table } from "./table";
 import { Server } from "./server";
 import { format } from "sql-formatter";
 import { HistoryService } from "../shared/history.service";
-import { Index } from ".";
 import { Relation } from "./relation";
 import { Configuration } from "./configuration";
 import { HttpClient } from "@angular/common/http";
@@ -171,7 +170,8 @@ export class SQL implements Driver {
 
 	nodeLib = (query: QueryParams) => "";
 
-	async loadExtraLib(http: HttpClient) {}
+	async loadExtraLib(http: HttpClient) {
+	}
 
 	format(code: string) {
 		code = format(code, {

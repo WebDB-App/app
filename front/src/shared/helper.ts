@@ -5,11 +5,11 @@ import { firstValueFrom } from "rxjs";
 
 declare var monaco: any;
 
-export function isNested (data: any) {
+export function isNested(data: any) {
 	return ['Object', 'Array'].indexOf(data?.constructor.name) >= 0;
 }
 
-export function isSQL (server: Server): boolean {
+export function isSQL(server: Server): boolean {
 	return server.driver instanceof SQL;
 }
 

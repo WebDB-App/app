@@ -5,7 +5,8 @@
 	</mat-drawer>
 
 	<mat-drawer-content style="display: flex; flex-direction: column">
-		<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center" style="background-color: #444444; z-index: 1000">
+		<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center"
+					 style="background-color: #444444; z-index: 1000">
 			<div fxLayout="row" fxLayoutGap="12px" style="align-items: center">
 				<button [disabled]="router.url === '/'"
 						[style.background-color]="router.url === '/' ? 'transparent' : '#1a1a1a'"
@@ -59,18 +60,19 @@
 		</mat-toolbar>
 
 		<div *ngIf="loading < 100"
-			style="height: calc(100vh - 56px); align-self: center; display: flex;">
+			 style="height: calc(100vh - 56px); align-self: center; display: flex;">
 			<div *ngIf="loading >= 0"
-				style="align-self: center;">
+				 style="align-self: center;">
 				<mat-spinner
-					style="margin: 0px auto;"
+					[value]="loading"
 					mode="determinate"
-					[value]="loading"></mat-spinner>
+					style="margin: 0px auto;"></mat-spinner>
 				<h2>Loading {{activatedRoute.snapshot.paramMap.get('database')}} ...</h2>
 			</div>
 
 			<mat-error *ngIf="loading === -1">
-				Can't connect to {{activatedRoute.snapshot.paramMap.get('server')}}/{{activatedRoute.snapshot.paramMap.get('database')}}, please check server availability
+				Can't connect to {{activatedRoute.snapshot.paramMap.get('server')}}
+				/{{activatedRoute.snapshot.paramMap.get('database')}}, please check server availability
 			</mat-error>
 		</div>
 		<router-outlet *ngIf="loading >= 100"></router-outlet>

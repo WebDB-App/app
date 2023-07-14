@@ -12,7 +12,6 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { DrawerService } from "../../../shared/drawer.service";
 import { combineLatest, distinctUntilChanged, Subscription } from "rxjs";
 import { HoverService } from "../../../shared/hover.service";
-import { SQL } from "../../../classes/sql";
 import { isSQL } from "../../../shared/helper";
 
 @Component({

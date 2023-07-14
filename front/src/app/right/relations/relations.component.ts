@@ -23,6 +23,7 @@ export class RelationsComponent implements OnInit {
 	actionColum = "##ACTION##";
 	displayedColumns = ['name', 'table_source', 'column_source', 'table_dest', 'column_dest', 'update_rule', 'delete_rule'];
 	dataSource!: MatTableDataSource<Relation>;
+	protected readonly isSQL = isSQL;
 
 	constructor(private request: RequestService,
 				private snackBar: MatSnackBar) {
@@ -83,6 +84,4 @@ export class RelationsComponent implements OnInit {
 		this.snackBar.open(`Added Relation ${relation.name}`, "╳", {duration: 3000});
 		await this.refreshData();
 	}
-
-	protected readonly isSQL = isSQL;
 }

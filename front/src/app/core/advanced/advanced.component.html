@@ -56,8 +56,8 @@
 					</mat-form-field>
 					<button (click)="duplicate(tableCopy.value)"
 							[disabled]="!validName(tableCopy.value)"
-							matTooltip="May not duplicate references/indexes on new table"
-							mat-stroked-button>
+							mat-stroked-button
+							matTooltip="May not duplicate references/indexes on new table">
 						<span class="material-symbols-outlined notranslate">
 						  file_copy
 						</span>
