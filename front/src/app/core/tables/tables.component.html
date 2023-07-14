@@ -38,8 +38,8 @@
 						</div>
 						<mat-list-option
 							(click)="changeTable(table.name)"
-							[style.border-right]="selectedTable?.name === table.name ? '2px solid #2196f3' : undefined"
-							[class.mat-list-single-selected-option]="selectedTable?.name === table.name">
+							[class.mat-list-single-selected-option]="selectedTable?.name === table.name"
+							[style.border-right]="selectedTable?.name === table.name ? '2px solid #2196f3' : undefined">
 							{{table.name}}
 						</mat-list-option>
 					</div>

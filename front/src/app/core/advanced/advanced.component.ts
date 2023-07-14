@@ -17,8 +17,6 @@ import { Database } from "../../../classes/database";
 })
 export class TableAdvancedComponent {
 
-	protected readonly isSQL = isSQL;
-
 	selectedServer?: Server;
 	selectedDatabase?: Database;
 	selectedTable?: Table;
@@ -27,6 +25,7 @@ export class TableAdvancedComponent {
 		index_length: number,
 		data_length: number
 	};
+	protected readonly isSQL = isSQL;
 
 	constructor(
 		private dialog: MatDialog,

@@ -39,9 +39,6 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 
 	@Input() query = '';
 	@Input() selectedTable?: Table;
-
-	protected readonly Math = Math;
-
 	codes: { [key: string]: string } = JSON.parse(localStorage.getItem(localStorageName) || "{}");
 	interval?: NodeJS.Timer;
 	configuration: Configuration = new Configuration();
@@ -69,6 +66,7 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 	dataSource?: MatTableDataSource<any>
 	page = 0;
 	querySize!: number;
+	protected readonly Math = Math;
 
 	constructor(
 		private snackBar: MatSnackBar,
@@ -297,6 +295,7 @@ export class ExportQueryDialog {
 	editorOptions = {
 		language: ""
 	};
+	protected readonly initBaseEditor = initBaseEditor;
 
 	constructor(
 		@Inject(MAT_DIALOG_DATA) public data: { query: string, language: string },
@@ -345,6 +344,4 @@ class MysqlCon {
 				break;
 		}
 	}
-
-	protected readonly initBaseEditor = initBaseEditor;
 }

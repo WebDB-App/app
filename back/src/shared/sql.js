@@ -50,7 +50,7 @@ export default class SQL extends Driver {
 		REFERENCES ${this.nameDel + relation.table_dest + this.nameDel} (${this.nameDel + relation.column_dest + this.nameDel})
 			ON DELETE ${this.nameDel + relation.delete_rule + this.nameDel}
 			ON UPDATE ${this.nameDel + relation.update_rule + this.nameDel}`,
-		relation.database);
+			relation.database);
 	}
 
 	async dropRelation(relation) {

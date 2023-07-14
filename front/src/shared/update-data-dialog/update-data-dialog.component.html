@@ -9,16 +9,16 @@
 		<div *ngFor="let column of updateSuggestions | keyvalue">
 			<mat-form-field appearance="fill">
 				<mat-label>Suggestion of `{{column.key}}`</mat-label>
-				<input matInput
-					   #filter
+				<input #filter
 					   #trigger="matAutocompleteTrigger"
-					   [matAutocomplete]="auto">
+					   [matAutocomplete]="auto"
+					   matInput>
 				<mat-autocomplete #auto="matAutocomplete">
 					<ng-container *ngFor="let suggestion of column.value">
-						<mat-option *ngIf="suggestion.toString().indexOf(filter.value) >= 0"
-									[value]="suggestion"
+						<mat-option (click)="snackBar.open('Copied to clipboard', '╳', {duration: 3000}); trigger.closePanel();"
+									*ngIf="suggestion.toString().indexOf(filter.value) >= 0"
 									[cdkCopyToClipboard]="suggestion.toString()"
-									(click)="snackBar.open('Copied to clipboard', '╳', {duration: 3000}); trigger.closePanel();">
+									[value]="suggestion">
 							{{suggestion}}
 						</mat-option>
 					</ng-container>
@@ -34,8 +34,8 @@
 </div>
 <div fxLayout="row" fxLayoutAlign="space-around center" mat-dialog-actions>
 	<button (click)="update()"
-			color="primary"
 			[disabled]="!isTouched()"
+			color="primary"
 			mat-flat-button>
 		<span class="material-symbols-outlined notranslate">
 			edit

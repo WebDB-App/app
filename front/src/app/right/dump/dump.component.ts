@@ -28,6 +28,7 @@ export class DumpComponent implements OnInit {
 	checklistSelection = new SelectionModel<ItemTree>(true);
 	treeControl = new NestedTreeControl<ItemTree>(node => node.children);
 	dataSource = new MatTreeNestedDataSource<ItemTree>();
+	protected readonly isSQL = isSQL;
 
 	constructor(private request: RequestService) {
 	}
@@ -80,6 +81,4 @@ export class DumpComponent implements OnInit {
 
 		saveAs(environment.rootUrl + result.path, result.path.split('/')[1]);
 	}
-
-	protected readonly isSQL = isSQL;
 }

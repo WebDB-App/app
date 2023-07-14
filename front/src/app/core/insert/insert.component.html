@@ -37,16 +37,16 @@
 	<mat-tab-group mat-align-tabs="center">
 		<mat-tab
 			*ngFor="let random of randomSource"
-			[label]="random.column.name"
 			[labelClass]="random.error ? 'tab-error': ''"
+			[label]="random.column.name"
 		>
 			<div style="display: flex">
 
 				<ngx-monaco-editor
-					style="width: 100%; height: 30vh"
+					(onInit)="initEditor($event, random.column.name)"
 					[(ngModel)]="random.model"
 					[options]="editorOptions"
-					(onInit)="initEditor($event, random.column.name)"
+					style="width: 100%; height: 30vh"
 				>
 				</ngx-monaco-editor>
 
@@ -56,8 +56,8 @@
 					</h3>
 
 					<button
-						mat-stroked-button
-						(click)="random.model = beautify('(() => {return undefined})()')">
+						(click)="random.model = beautify('(() => {return undefined})()')"
+						mat-stroked-button>
 						<span class="material-symbols-outlined notranslate">
 							check_box_outline_blank
 						</span>
@@ -65,8 +65,8 @@
 					</button>
 
 					<button
-						mat-stroked-button
-						(click)="sampleData(random)">
+						(click)="sampleData(random)"
+						mat-stroked-button>
 						<span class="material-symbols-outlined notranslate">
 							frame_inspect
 						</span>
@@ -82,7 +82,7 @@
 	</mat-tab-group>
 </div>
 
-<div class="static" #static>
+<div #static class="static">
 	<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
 		<div>
 			<button (click)="addRows(+addRowNb.value)" mat-stroked-button>
@@ -137,10 +137,10 @@
 							</span>
 						</button>
 						<mat-checkbox
-							color="warn"
 							(change)="$event ? toggleAllRows() : null"
 							[checked]="selection.hasValue() && isAllSelected()"
-							[indeterminate]="selection.hasValue() && !isAllSelected()">
+							[indeterminate]="selection.hasValue() && !isAllSelected()"
+							color="warn">
 						</mat-checkbox>
 					</th>
 					<td *matCellDef="let row; let i = index" mat-cell>
@@ -152,10 +152,10 @@
 							</span>
 						</button>
 						<mat-checkbox
-							color="warn"
 							(change)="$event ? selection.toggle(row) : null"
 							(click)="$event.stopPropagation()"
-							[checked]="selection.isSelected(row)">
+							[checked]="selection.isSelected(row)"
+							color="warn">
 						</mat-checkbox>
 					</td>
 				</ng-container>
@@ -166,8 +166,8 @@
 					<td *matCellDef="let row" mat-cell>
 						<app-cell
 							*ngIf="column !== actionColum"
-							[row]="row"
 							[column]="column"
+							[row]="row"
 						></app-cell>
 					</td>
 				</ng-container>
@@ -178,8 +178,8 @@
 		</table>
 	</div>
 	<mat-paginator
-		showFirstLastButtons
 		hidePageSize
 		pageSize="100"
+		showFirstLastButtons
 	></mat-paginator>
 </div>

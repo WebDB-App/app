@@ -25,7 +25,7 @@ class Controller {
 	pool = [];
 
 	async getPortFree() {
-		return new Promise( res => {
+		return new Promise(res => {
 			const srv = net.createServer();
 			srv.listen(0, () => {
 				const port = srv.address().port;

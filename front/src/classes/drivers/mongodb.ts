@@ -52,7 +52,7 @@ export class MongoDB implements Driver {
 	keywords = [];
 	defaultFilter = "$eq";
 
-	nodeLib (query: QueryParams) {
+	nodeLib(query: QueryParams) {
 		return `import {MongoClient} from "mongodb";
 
 async function main() {
@@ -144,7 +144,8 @@ db.collection("${table.name}").find({
 			obj[key][operator] = condition.substring(condition.indexOf(":") + 1).trim();
 			try {
 				obj[key][operator] = JSON.parse(obj[key][operator]);
-			} catch (err) {}
+			} catch (err) {
+			}
 			return obj;
 		});
 

@@ -16,9 +16,8 @@ import * as drivers from "../classes/drivers";
 export class RequestService {
 
 	private serverSubject = new BehaviorSubject(<Server>{});
-	private loadingSubject = new BehaviorSubject({});
-
 	serverReload = this.serverSubject.asObservable();
+	private loadingSubject = new BehaviorSubject({});
 	loadingServer = this.loadingSubject.asObservable();
 
 
