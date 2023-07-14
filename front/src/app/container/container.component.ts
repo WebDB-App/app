@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import packageJson from '../../../package.json';
 import { MatDrawer } from "@angular/material/sidenav";
@@ -14,6 +14,7 @@ import { environment } from "../../environments/environment";
 import { RequestService } from "../../shared/request.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { isSQL } from "../../shared/helper";
+import { Subscription } from "rxjs";
 
 class Panel {
 	link!: string
@@ -25,13 +26,15 @@ class Panel {
 	templateUrl: './container.component.html',
 	styleUrls: ['./container.component.scss']
 })
-export class ContainerComponent implements OnInit, AfterViewInit {
+export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 
+	protected readonly isSQL = isSQL;
 	@ViewChild("drawer") drawer!: MatDrawer;
 
+	sub!: Subscription;
 	env = environment;
 	packageJson = packageJson
-	isLoading = true;
+	loading = 0;
 	selectedServer!: Server;
 	selectedDatabase!: Database;
 
@@ -61,6 +64,12 @@ export class ContainerComponent implements OnInit, AfterViewInit {
 				this.domSanitizer.bypassSecurityTrustResourceUrl(`/assets/${icon}.svg`)
 			);
 		}
+
+		this.sub = this.request.loadingServer.subscribe(() => this.loading += 33);
+	}
+
+	ngOnDestroy() {
+		this.sub.unsubscribe();
 	}
 
 	async ngOnInit() {
@@ -68,7 +77,7 @@ export class ContainerComponent implements OnInit, AfterViewInit {
 		const databaseName = this.activatedRoute.snapshot.paramMap.get('database');
 
 		if (!serverName || !databaseName) {
-			this.isLoading = false;
+			this.loading = 100;
 			return;
 		}
 
@@ -81,7 +90,7 @@ export class ContainerComponent implements OnInit, AfterViewInit {
 		}
 
 		if (!server || !database) {
-			this.snackBar.open(`Can't connect to ${serverName}/${databaseName}, please check server availability`, "╳", {panelClass: 'snack-error'});
+			this.loading = -1;
 			return;
 		}
 
@@ -89,8 +98,7 @@ export class ContainerComponent implements OnInit, AfterViewInit {
 		Database.setSelected(database);
 		this.selectedServer = server;
 		this.selectedDatabase = database;
-
-		this.isLoading = false;
+		this.loading = 100;
 	}
 
 	ngAfterViewInit(): void {
@@ -110,9 +118,9 @@ export class ContainerComponent implements OnInit, AfterViewInit {
 	}
 
 	async reloadServer() {
-		this.isLoading = true;
+		this.loading = 0;
 		await this.request.reloadServer();
-		this.isLoading = false;
+		this.loading = 100;
 	}
 
 	showConnection() {
@@ -120,8 +128,6 @@ export class ContainerComponent implements OnInit, AfterViewInit {
 			data: this.selectedServer
 		});
 	}
-
-	protected readonly isSQL = isSQL;
 }
 
 @Component({

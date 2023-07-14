@@ -152,7 +152,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 		const del = this.selectedServer?.driver.nameDel || "'";
 		if (Column.isOfCategory(this.selectedServer?.driver!, this.selectedTable?.columns.find(col => col.name === column)!, TypeName.String)
 			&& !value.startsWith(del)) {
-			value = `${del}${value}${del}`;
+			value = `${del + value + del}`;
 		}
 
 		this.params.chips += `${column} `;

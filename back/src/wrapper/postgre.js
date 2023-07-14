@@ -67,7 +67,7 @@ export default class PostgreSQL extends SQL {
 	}
 
 	makeUri(database = false) {
-		return `postgresql://${this.user}:${this.password}@${this.host}:${this.port}${database ? "/" + database : ""}`;
+		return `postgresql://${this.user}:${this.password}@${this.host}:${this.port + database ? "/" + database : ""}`;
 	}
 
 	async load(filePath, dbSchema) {
@@ -259,7 +259,7 @@ export default class PostgreSQL extends SQL {
 		delete this.connection;
 		this.dbPool = {};
 
-		bash.runBash(`psql ${this.makeUri()} -c 'DROP DATABASE ${this.nameDel}${name}${this.nameDel} WITH (FORCE)'`);
+		bash.runBash(`psql ${this.makeUri()} -c 'DROP DATABASE ${this.nameDel + name + this.nameDel} WITH (FORCE)'`);
 		await new Promise(resolve => setTimeout(resolve, 1000));
 
 		return {result: "Ok"};
@@ -283,7 +283,7 @@ export default class PostgreSQL extends SQL {
 				]);
 
 				for (const schema of schemas) {
-					const dbPath = `${db.datname}${this.dbToSchemaDelimiter}${schema.schema_name}`;
+					const dbPath = `${db.datname + this.dbToSchemaDelimiter + schema.schema_name}`;
 					struct[dbPath] = {
 						name: dbPath,
 						collation: db.datcollate,

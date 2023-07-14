@@ -70,7 +70,7 @@ export class ServersComponent implements OnInit {
 		}
 
 		for (let server of locals) {
-			servers.push(this.request.connectServer(server));
+			servers.push(this.request.connectServer(server, false));
 		}
 
 		servers = await Promise.all(servers);
