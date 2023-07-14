@@ -11,8 +11,7 @@
 - trigger : postgre + mongo
 - retester webhook
 
-# Test
-- e2e crud data, crud table : all driver (protractor)
+# Unit Test
 - afficher les resulat en front avec plusieurs version de bdd
 
 # Export Query
