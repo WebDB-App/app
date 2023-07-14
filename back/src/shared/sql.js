@@ -7,7 +7,7 @@ export default class SQL extends Driver {
 			return;
 		}
 
-		let cmd = `${this.nameDel}${column.name}${this.nameDel} ${column.type} `;
+		let cmd = `${this.nameDel + column.name + this.nameDel} ${column.type} `;
 
 		if (!column.nullable) {
 			cmd += "NOT NULL ";
@@ -39,26 +39,26 @@ export default class SQL extends Driver {
 	}
 
 	async createDatabase(name) {
-		return await this.runCommand(`CREATE DATABASE ${this.nameDel}${name}${this.nameDel}`);
+		return await this.runCommand(`CREATE DATABASE ${this.nameDel + name + this.nameDel}`);
 	}
 
 	async addRelation(relation) {
 		return await this.runCommand(`ALTER TABLE
-    		${this.nameDel}${relation.table_source}${this.nameDel}
-    		ADD CONSTRAINT ${this.nameDel}${relation.name}${this.nameDel}
-    		FOREIGN KEY (${this.nameDel}${relation.column_source}${this.nameDel})
-    		REFERENCES ${this.nameDel}${relation.table_dest}${this.nameDel} (${this.nameDel}${relation.column_dest}${this.nameDel})
-			ON DELETE ${this.nameDel}${relation.delete_rule}${this.nameDel}
-			ON UPDATE ${this.nameDel}${relation.update_rule}${this.nameDel}`,
+    		${this.nameDel + relation.table_source + this.nameDel}
+    		ADD CONSTRAINT ${this.nameDel + relation.name + this.nameDel}
+    		FOREIGN KEY (${this.nameDel + relation.column_source + this.nameDel})
+    		REFERENCES ${this.nameDel + relation.table_dest + this.nameDel} (${this.nameDel + relation.column_dest + this.nameDel})
+			ON DELETE ${this.nameDel + relation.delete_rule + this.nameDel}
+			ON UPDATE ${this.nameDel + relation.update_rule + this.nameDel}`,
 		relation.database);
 	}
 
 	async dropRelation(relation) {
-		return await this.runCommand(`ALTER TABLE ${this.nameDel}${relation.table_source}${this.nameDel} DROP CONSTRAINT ${this.nameDel}${relation.name}${this.nameDel}`, relation.database);
+		return await this.runCommand(`ALTER TABLE ${this.nameDel + relation.table_source + this.nameDel} DROP CONSTRAINT ${this.nameDel + relation.name + this.nameDel}`, relation.database);
 	}
 
 	async exampleData(database, table, column, limit) {
-		return await this.runCommand(`SELECT DISTINCT ${this.nameDel}${column}${this.nameDel} as example FROM ${this.nameDel}${table}${this.nameDel} ORDER BY example ASC LIMIT ${limit}`, database);
+		return await this.runCommand(`SELECT DISTINCT ${this.nameDel + column + this.nameDel} as example FROM ${this.nameDel + table + this.nameDel} ORDER BY example ASC LIMIT ${limit}`, database);
 	}
 
 	async dropDatabase(name) {
@@ -66,33 +66,33 @@ export default class SQL extends Driver {
 			return {error: `You should not delete ${name}`};
 		}
 
-		return await this.runCommand(`DROP DATABASE ${this.nameDel}${name}${this.nameDel}`);
+		return await this.runCommand(`DROP DATABASE ${this.nameDel + name + this.nameDel}`);
 	}
 
 	async createTable(database, table) {
 		const cols = table.columns.map(column => this.columnToSQL(column)).filter(col => col).join(", ");
-		return await this.runCommand(`CREATE TABLE ${this.nameDel}${table.name}${this.nameDel} (${cols})`, database);
+		return await this.runCommand(`CREATE TABLE ${this.nameDel + table.name + this.nameDel} (${cols})`, database);
 	}
 
 	async dropTable(database, table) {
-		return await this.runCommand(`DROP TABLE ${this.nameDel}${table}${this.nameDel};`, database);
+		return await this.runCommand(`DROP TABLE ${this.nameDel + table + this.nameDel};`, database);
 	}
 
 	async truncateTable(database, table) {
-		return await this.runCommand(`TRUNCATE TABLE ${this.nameDel}${table}${this.nameDel};`, database);
+		return await this.runCommand(`TRUNCATE TABLE ${this.nameDel + table + this.nameDel};`, database);
 	}
 
 	async dropView(database, table) {
-		return await this.runCommand(`DROP VIEW ${this.nameDel}${table}${this.nameDel};`, database);
+		return await this.runCommand(`DROP VIEW ${this.nameDel + table + this.nameDel};`, database);
 	}
 
 	async renameTable(database, old_name, new_name) {
-		return await this.runCommand(`ALTER TABLE ${this.nameDel}${old_name}${this.nameDel} RENAME TO ${this.nameDel}${new_name}${this.nameDel}`, database);
+		return await this.runCommand(`ALTER TABLE ${this.nameDel + old_name + this.nameDel} RENAME TO ${this.nameDel + new_name + this.nameDel}`, database);
 	}
 
 	async addColumns(database, table, columns) {
 		for (const column of columns) {
-			const result = await this.runCommand(`ALTER TABLE ${this.nameDel}${table}${this.nameDel} ADD COLUMN ${this.columnToSQL(column)}`, database);
+			const result = await this.runCommand(`ALTER TABLE ${this.nameDel + table + this.nameDel} ADD COLUMN ${this.columnToSQL(column)}`, database);
 			if (result.error) {
 				return result;
 			}
@@ -102,7 +102,7 @@ export default class SQL extends Driver {
 	}
 
 	async dropColumn(database, table, column) {
-		return await this.runCommand(`ALTER TABLE ${this.nameDel}${table}${this.nameDel} DROP COLUMN ${this.nameDel}${column}${this.nameDel}`, database);
+		return await this.runCommand(`ALTER TABLE ${this.nameDel + table + this.nameDel} DROP COLUMN ${this.nameDel + column + this.nameDel}`, database);
 	}
 
 	pkToObject(indexes, row) {
@@ -129,7 +129,7 @@ export default class SQL extends Driver {
 			values.push(`(${Object.values(data).map(da => `'${da}'`).join(", ")})`);
 		}
 
-		const res = await this.nbChangment(`INSERT INTO ${this.nameDel}${table}${this.nameDel} (${Object.keys(datas[0]).join(",")}) VALUES ${values.join(", ")}`, db);
+		const res = await this.nbChangment(`INSERT INTO ${this.nameDel + table + this.nameDel} (${Object.keys(datas[0]).join(",")}) VALUES ${values.join(", ")}`, db);
 		return res.error ? res : res.toString();
 	}
 
@@ -139,7 +139,7 @@ export default class SQL extends Driver {
 
 		for (const row of rows) {
 			const where = this.objectToSql(this.pkToObject(pks, row)).join(" AND ");
-			const res = (await this.nbChangment(`DELETE FROM ${this.nameDel}${table}${this.nameDel} WHERE ${where}`, db));
+			const res = (await this.nbChangment(`DELETE FROM ${this.nameDel + table + this.nameDel} WHERE ${where}`, db));
 			if (res.error) {
 				return res;
 			}
@@ -166,7 +166,7 @@ export default class SQL extends Driver {
 		const update = this.objectToSql(to_update);
 		const where = this.objectToSql(this.pkToObject(pks, old_data));
 
-		const res = await this.nbChangment(`UPDATE ${this.nameDel}${table}${this.nameDel} SET ${update.join(", ")} WHERE ${where.join(" AND ")}`, db);
+		const res = await this.nbChangment(`UPDATE ${this.nameDel + table + this.nameDel} SET ${update.join(", ")} WHERE ${where.join(" AND ")}`, db);
 		return res.error ? res : res.toString();
 	}
 

@@ -464,26 +464,26 @@ export class SQL implements Driver {
 	}
 
 	getBaseDelete(table: Table) {
-		const cols = table.columns.map(column => `${this.nameDel}${column.name}${this.nameDel} = '${column.type}'`);
-		return `DELETE FROM ${this.nameDel}${table.name}${this.nameDel} WHERE ${cols.join(" AND ")}`;
+		const cols = table.columns.map(column => `${this.nameDel + column.name + this.nameDel} = '${column.type}'`);
+		return `DELETE FROM ${this.nameDel + table.name + this.nameDel} WHERE ${cols.join(" AND ")}`;
 	}
 
 	getBaseInsert(table: Table) {
-		const cols = table.columns.map(column => `${this.nameDel}${column.name}${this.nameDel}`);
-		const colWithType = table.columns.map(column => `${this.nameDel}${column.name}${this.nameDel} = '${column.type}'`);
-		return `INSERT INTO ${this.nameDel}${table.name}${this.nameDel} (${cols.join(', ')}) VALUES (${colWithType.join(', ')})`;
+		const cols = table.columns.map(column => `${this.nameDel + column.name + this.nameDel}`);
+		const colWithType = table.columns.map(column => `${this.nameDel + column.name + this.nameDel} = '${column.type}'`);
+		return `INSERT INTO ${this.nameDel + table.name + this.nameDel} (${cols.join(', ')}) VALUES (${colWithType.join(', ')})`;
 	}
 
 	getBaseUpdate(table: Table) {
-		const cols = table.columns.map(column => `${this.nameDel}${column.name}${this.nameDel}`);
-		const colWithType = table.columns.map(column => `${this.nameDel}${column.name}${this.nameDel} = '${column.type}'`);
-		return `UPDATE ${this.nameDel}${table.name}${this.nameDel} SET ${cols!.map(col => `${col} = ''`)} WHERE ${colWithType.join(" AND ")}`;
+		const cols = table.columns.map(column => `${this.nameDel + column.name + this.nameDel}`);
+		const colWithType = table.columns.map(column => `${this.nameDel + column.name + this.nameDel} = '${column.type}'`);
+		return `UPDATE ${this.nameDel + table.name + this.nameDel} SET ${cols!.map(col => `${col} = ''`)} WHERE ${colWithType.join(" AND ")}`;
 	}
 
 	getBaseSelect(table: Table) {
-		const cols = table.columns.map(column => `${this.nameDel}${column.name}${this.nameDel}`);
-		const colWithType = table.columns.map(column => `${this.nameDel}${column.name}${this.nameDel} = '${column.type}'`);
-		return `SELECT ${cols.join(', ')} FROM ${this.nameDel}${table.name}${this.nameDel} WHERE ${colWithType.join(" AND ")}`;
+		const cols = table.columns.map(column => `${this.nameDel + column.name + this.nameDel}`);
+		const colWithType = table.columns.map(column => `${this.nameDel + column.name + this.nameDel} = '${column.type}'`);
+		return `SELECT ${cols.join(', ')} FROM ${this.nameDel + table.name + this.nameDel} WHERE ${colWithType.join(" AND ")}`;
 	}
 
 	getBaseSelectWithRelations(table: Table, relations: Relation[]) {
@@ -498,8 +498,8 @@ export class SQL implements Driver {
 	}
 
 	getBaseFilter(table: Table, condition: string[], operand: 'AND' | 'OR') {
-		const cols = table.columns.map(column => `${this.nameDel}${column.name}${this.nameDel}`);
-		const select = `SELECT ${cols.join(', ')} FROM ${this.nameDel}${table.name}${this.nameDel}`;
+		const cols = table.columns.map(column => `${this.nameDel + column.name + this.nameDel}`);
+		const select = `SELECT ${cols.join(', ')} FROM ${this.nameDel + table.name + this.nameDel}`;
 		if (condition.length < 1) {
 			return select;
 		}

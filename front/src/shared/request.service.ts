@@ -15,8 +15,12 @@ import * as drivers from "../classes/drivers";
 })
 export class RequestService {
 
-	private messageSource = new BehaviorSubject(<Server>{});
-	serverReload = this.messageSource.asObservable();
+	private serverSubject = new BehaviorSubject(<Server>{});
+	private loadingSubject = new BehaviorSubject({});
+
+	serverReload = this.serverSubject.asObservable();
+	loadingServer = this.loadingSubject.asObservable();
+
 
 	constructor(
 		private http: HttpClient,
@@ -51,14 +55,14 @@ export class RequestService {
 		return result;
 	}
 
-	async connectServer(server: Server) {
+	async connectServer(server: Server, full = true) {
 		// @ts-ignore
 		server.driver = new drivers[server.wrapper];
 		server.params = server.params || server.driver.defaultParams;
 
 		const connect = await firstValueFrom(this.http.post<any>(environment.apiRootUrl + 'server/connect', Server.getShallow(server)));
 		if (!connect.error) {
-			server = await this.reloadServer(server);
+			server = await this.reloadServer(server, false, full);
 			server.connected = true;
 		} else {
 			server.connected = false;
@@ -66,23 +70,29 @@ export class RequestService {
 		return server;
 	}
 
-	async reloadServer(server = Server.getSelected(), emit = true) {
+	async reloadServer(server = Server.getSelected(), emit = true, full = true) {
 		const shallow = Server.getShallow(server);
-
-		await Promise.all([
+		const promises = [
 			new Promise(async resolve => {
 				server.dbs = await firstValueFrom(this.http.post<Database[]>(environment.apiRootUrl + 'server/structure', shallow))
+				this.loadingSubject.next({});
 				resolve(true);
-			}),
-			new Promise(async resolve => {
+			})
+		];
+		if (full) {
+			promises.push(new Promise(async resolve => {
 				server.relations = await firstValueFrom(this.http.post<Relation[]>(environment.apiRootUrl + 'server/relations', shallow))
+				this.loadingSubject.next({});
 				resolve(true);
-			}),
-			new Promise(async resolve => {
+			}));
+			promises.push(new Promise(async resolve => {
 				server.indexes = await firstValueFrom(this.http.post<Index[]>(environment.apiRootUrl + 'server/indexes', shallow))
+				this.loadingSubject.next({});
 				resolve(true);
-			}),
-		]);
+			}));
+		}
+
+		await Promise.all(promises);
 
 		if (server.name !== Server.getSelected()?.name) {
 			return server;
@@ -92,7 +102,7 @@ export class RequestService {
 		Table.reload(Database.getSelected());
 
 		if (emit) {
-			this.messageSource.next(server);
+			this.serverSubject.next(server);
 		}
 		return server;
 	}

@@ -17,6 +17,8 @@ import { Database } from "../../../classes/database";
 })
 export class TableAdvancedComponent {
 
+	protected readonly isSQL = isSQL;
+
 	selectedServer?: Server;
 	selectedDatabase?: Database;
 	selectedTable?: Table;
@@ -95,8 +97,6 @@ export class TableAdvancedComponent {
 			Tabs.at(-1)!.link]
 		);
 	}
-
-	protected readonly isSQL = isSQL;
 
 	validName(name: string) {
 		return name.length > 1 && !this.selectedDatabase?.tables?.find(table => table.name === name);

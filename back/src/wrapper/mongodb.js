@@ -17,11 +17,14 @@ export default class MongoDB extends Driver {
 
 	async dump(database, exportType, tables) {
 		//compatibility with import
-		//tables
 
-		const path = `${dirname}../front/dump/${database}.${exportType}`;
+		const path = `${dirname}../front/dump/${database}`;
 		if (exportType === "json") {
-			return bash.runBash(`mongoexport --uri="${this.makeUri(true)}" --db=${database}`);
+			tables.map(table => {
+				bash.runBash(`mongoexport --uri="${this.makeUri(true)}" --db=${database} --out=${path + table}`);
+			});
+			//.${exportType}
+			return
 		}
 		if (exportType === "bson") {
 			return bash.runBash(`mongodump --uri="${this.makeUri(true)}" --db=${database}`);
