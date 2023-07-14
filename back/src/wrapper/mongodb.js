@@ -24,7 +24,7 @@ export default class MongoDB extends Driver {
 				bash.runBash(`mongoexport --uri="${this.makeUri(true)}" --db=${database} --out=${path + table}`);
 			});
 			//.${exportType}
-			return
+			return;
 		}
 		if (exportType === "bson") {
 			return bash.runBash(`mongodump --uri="${this.makeUri(true)}" --db=${database}`);
@@ -159,36 +159,11 @@ export default class MongoDB extends Driver {
 	}
 
 	async getRelations() {
-		const relations = [];
-		const promises = [];
-		const databases = (await this.connection.db().admin().listDatabases()).databases;
-
-		for (const database of databases) {
-			const db = this.connection.db(database.name);
-
-			for (const coll of await db.collections()) {
-
-				promises.push(new Promise(async resolve => {
-
-					try {
-						(await coll.aggregate([{$sample: {size: this.sampleSize / 2}}]).toArray()).map(sample => {
-
-						});
-					} catch (e) {
-						/* empty */
-					} finally {
-						resolve();
-					}
-				}));
-			}
-		}
-
-		await Promise.all(promises);
-		return relations;
+		return [];
 	}
 
 	async addIndex(database, table, name, type, columns) {
-
+		const result = await this.connection(database).collection(table).createIndex({ title: 1 });
 	}
 
 	async dropIndex(database, table, name) {
