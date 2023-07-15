@@ -20,7 +20,7 @@
 
 # SQLServer
 
-
+# docker scout cves "$IMAGE_PATH" --exit-code
 
 
 

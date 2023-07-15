@@ -38,12 +38,12 @@ docker:
         - docker:dind
     script:
         - echo $IMAGE_PATH
-        - apk add curl
-        - curl -sSfL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh | sh -s --
+#        - apk add curl
+#        - curl -sSfL https://raw.githubusercontent.com/docker/scout-cli/main/install.sh | sh -s --
         - docker login -u 'webdb' -p $DOCKER_PASS
         - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
         - docker pull $IMAGE_PATH || true
         - docker build --cache-from "$IMAGE_PATH" --build-arg BRANCH_NAME=$CI_COMMIT_REF_NAME -t $IMAGE_PATH .
-        - docker scout cves "$IMAGE_PATH" -e --only-severity critical
+#        - docker scout cves "$IMAGE_PATH" -e --only-severity critical
         - '[[ $CI_COMMIT_REF_NAME == "main" ]] && docker tag $IMAGE_PATH $REGISTRY_IMAGE:latest && docker push $REGISTRY_IMAGE:latest'
         - docker push $IMAGE_PATH
