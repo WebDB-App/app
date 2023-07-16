@@ -1,15 +1,22 @@
 - mongo harmonizer
 - export, indexes, insert
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 - postgre array of type + plusieurs schemas
-
-
-
-
-
-
-
-
-
 
 - cloud (google, aurora, rds)
 - BLOB CRUD (download, upload)

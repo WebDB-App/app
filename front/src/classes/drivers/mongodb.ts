@@ -1,4 +1,4 @@
-import { Driver, QueryParams, TypeName } from "../driver";
+import { Driver, QueryParams, Group } from "../driver";
 import { Column } from "../column";
 import { Table } from "../table";
 import { Relation } from "../relation";
@@ -52,7 +52,7 @@ export class MongoDB implements Driver {
 		constraints: [],
 		typeGroups: [
 			{
-				name: TypeName.String,
+				name: Group.String,
 				proposition: ["String"],
 				full: ["String"],
 			}

@@ -11,7 +11,7 @@ import { RequestService } from "../../../shared/request.service";
 import { SelectionModel } from "@angular/cdk/collections";
 import { MatDialog } from "@angular/material/dialog";
 import { UpdateDataDialogComponent } from "../../../shared/update-data-dialog/update-data-dialog.component";
-import { TypeName } from "../../../classes/driver";
+import { Group } from "../../../classes/driver";
 import { Column } from "../../../classes/column";
 
 @Component({
@@ -150,7 +150,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 		}
 
 		const del = this.selectedServer?.driver.connection.nameDel || "'";
-		if (Column.isOfCategory(this.selectedServer?.driver!, this.selectedTable?.columns.find(col => col.name === column)!, TypeName.String)
+		if (Column.isOfGroup(this.selectedServer?.driver!, this.selectedTable?.columns.find(col => col.name === column)!, Group.String)
 			&& !value.startsWith(del)) {
 			value = `${del + value + del}`;
 		}

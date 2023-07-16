@@ -15,7 +15,7 @@
 		matColumnDef="{{column}}"
 	>
 		<th *matHeaderCellDef mat-header-cell>
-			{{column === actionColum ? '' : column}}
+			{{column === actionColum ? '' : (column | titlecase)}}
 		</th>
 		<td *matCellDef="let row;" [class]="'hover-' + row['name']" mat-cell>
 			<ng-container *ngIf="column === actionColum">
@@ -70,7 +70,7 @@
 		matColumnDef="{{column}}"
 	>
 		<th *matHeaderCellDef mat-header-cell>
-			{{column === actionColum ? '' : column}}
+			{{column === actionColum ? '' : (column | titlecase)}}
 		</th>
 		<td *matCellDef="let row; let i = index" [class]="getClasses(row['columns'])" mat-cell>
 			<ng-container *ngIf="column === actionColum">

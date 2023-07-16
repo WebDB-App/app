@@ -1,6 +1,6 @@
 import { Index } from "./index";
 import { Relation } from "./relation";
-import { Driver, TypeName } from "./driver";
+import { Driver, Group } from "./driver";
 
 export class Column {
 	name!: string;
@@ -35,9 +35,9 @@ export class Column {
 		return str;
 	}
 
-	static isOfCategory(driver: Driver, column: Column, category: TypeName) {
+	static isOfGroup(driver: Driver, column: Column, group: Group) {
 		const parenthese = column.type.indexOf('(');
-		const stringTypes = driver.language.typeGroups.find(type => type.name === category)!.full!;
+		const stringTypes = driver.language.typeGroups.find(type => type.name === group)!.full!;
 		const columnType = parenthese >= 0 ? column.type.substring(0, parenthese) : column.type;
 
 		return stringTypes.indexOf(columnType) >= 0;
