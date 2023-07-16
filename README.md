@@ -1,7 +1,15 @@
+- mongo harmonizer
 - export, indexes, insert
-
 - postgre array of type + plusieurs schemas
-- deep explore (array, obj, date)
+
+
+
+
+
+
+
+
+
 
 - cloud (google, aurora, rds)
 - BLOB CRUD (download, upload)
@@ -10,10 +18,6 @@
 - Finir EDR
 - trigger : postgre + mongo
 - retester webhook
-- start lab mode (dump puis rollback possible)
-
-# Unit Test
-- afficher les resulat en front avec plusieurs version de bdd
 
 # Export Query
 - tester tout
@@ -23,6 +27,8 @@
 
 # docker scout cves "$IMAGE_PATH" --exit-code
 
+# Unit Test
+- afficher les resulat en front avec plusieurs version de bdd
 
 
 
@@ -44,7 +50,7 @@
 
 
 
-
+# Start lab mode (dump puis rollback possible)
 
 # Cockroachdb
 
@@ -63,6 +69,7 @@
 # MongoDB
 - traduction (collection vs table, etc)
 - autocomplete table and column and types
+- quick search ObjectID, Date
 
 # Postgre
 - types (icon = data_object)
