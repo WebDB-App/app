@@ -112,7 +112,7 @@ export class InsertComponent implements OnInit, OnDestroy {
 			}
 		}
 
-		random.model = this.beautify(random.model || `return faker.`);
+		random.model = this.beautify(random.model || `return faker.random.numeric();`);
 	}
 
 	beautify(str: string) {
@@ -160,7 +160,8 @@ export class InsertComponent implements OnInit, OnDestroy {
 			const obj: any = {};
 			for (const [index, rand] of Object.entries(this.randomSource)) {
 				try {
-					obj[rand.column.name] = new Function("faker", rand.model)(faker);
+					const r = new Function("faker", rand.model)(faker);
+					obj[rand.column.name] = typeof r === 'function' ? r() : r;
 					this.randomSource[+index].error = "";
 				} catch (e) {
 					this.randomSource[+index].error = <string>e;
