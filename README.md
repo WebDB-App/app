@@ -1,5 +1,5 @@
 - mongo harmonizer
-- export, indexes, insert
+- export, insert
 
 
 
@@ -17,13 +17,15 @@
 
 
 - postgre array of type + plusieurs schemas
-
 - cloud (google, aurora, rds)
 - BLOB CRUD (download, upload)
 - revoir MySQL load avec tunnel (essayer en bash)
 - finir present
 - Finir EDR
 - trigger : postgre + mongo
+- docker scout cves "$IMAGE_PATH" --exit-code
+- afficher resulat Unit Test en front avec plusieurs version de bdd
+- Server gît avec autobackup en var d'env
 
 # Export Query
 - tester tout
@@ -31,10 +33,6 @@
 
 # SQLServer
 
-# docker scout cves "$IMAGE_PATH" --exit-code
-
-# Unit Test
-- afficher les resulat en front avec plusieurs version de bdd
 
 
 
@@ -54,9 +52,7 @@
 
 
 
-
-
-# Start lab mode (dump puis rollback possible)
+# Falso
 
 # Cockroachdb
 
