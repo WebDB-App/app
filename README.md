@@ -24,7 +24,6 @@
 - finir present
 - Finir EDR
 - trigger : postgre + mongo
-- retester webhook
 
 # Export Query
 - tester tout

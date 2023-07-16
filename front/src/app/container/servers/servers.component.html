@@ -121,14 +121,11 @@
 
 											<button (click)="guess(server, user.value, password.value)"
 													*ngIf="!server.isLoading"
-													mat-stroked-button
-													matTooltip="Try common user/password combination
-														If you enter a user or password input, it will guess based on
-													Caution : trigger many parallel connection">
+													mat-stroked-button>
 												<span class="material-symbols-outlined notranslate">
-													lock_open
+													lock_open_right
 												</span>
-												Guess
+												Guess Credentials
 											</button>
 										</div>
 									</div>
