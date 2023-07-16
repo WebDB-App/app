@@ -257,7 +257,7 @@ export class ConnectionDialog {
 		//@ts-ignore
 		this.server.driver = new drivers[wrapper];
 		this.server.wrapper = wrapper;
-		this.server.params = this.server.driver.defaultParams;
+		this.server.params = this.server.driver.connection.defaultParams;
 		this.params = JSON.stringify(this.server.params, null, "\t");
 	}
 
@@ -266,7 +266,7 @@ export class ConnectionDialog {
 	}
 
 	useDefault() {
-		this.params = JSON.stringify(this.server.driver.defaultParams, null, "\t");
+		this.params = JSON.stringify(this.server.driver.connection.defaultParams, null, "\t");
 	}
 
 	async testServer() {

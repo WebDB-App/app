@@ -17,25 +17,10 @@
 		<mat-form-field appearance="fill">
 			<mat-label>Type</mat-label>
 			<input [(ngModel)]="column.type"
-				   [matAutocomplete]="autoGroup"
 				   matInput
 				   pattern="^(?!.*size).*$"
 				   required
 				   type="text">
-			<mat-autocomplete #autoGroup="matAutocomplete">
-				<mat-optgroup *ngFor="let group of selectedServer!.driver.typesList" [label]="group.name">
-					<ng-container *ngIf="!this.configuration.getByName('onlyCommonType')?.value">
-						<mat-option *ngFor="let type of group.full" [value]="type">
-							{{type}}
-						</mat-option>
-					</ng-container>
-					<ng-container *ngIf="this.configuration.getByName('onlyCommonType')?.value">
-						<mat-option *ngFor="let type of group.proposition" [value]="type">
-							{{type}}
-						</mat-option>
-					</ng-container>
-				</mat-optgroup>
-			</mat-autocomplete>
 		</mat-form-field>
 
 		<mat-form-field *ngIf="extraAttributes.length" appearance="fill">
@@ -81,3 +66,60 @@
 		</button>
 	</div>
 </div>
+
+<mat-expansion-panel>
+	<mat-expansion-panel-header>
+		<mat-panel-title>
+			List of Data Type
+		</mat-panel-title>
+	</mat-expansion-panel-header>
+
+	<mat-toolbar>
+		<mat-slide-toggle
+			[(ngModel)]="fullType"
+			color="primary">
+			Full List
+		</mat-slide-toggle>
+
+		<div class="flex-spacer"></div>
+
+		<a [href]="selectedServer!.driver.docs.driver"
+		   mat-button
+		   mat-stroked-button
+		   style="margin-left: 20px"
+		   target="_blank">
+			<span class="material-symbols-outlined notranslate">
+				menu_book
+			</span>
+			Types of {{selectedServer?.wrapper}}
+		</a>
+	</mat-toolbar>
+
+	<div>
+		<div *ngFor="let group of selectedServer!.driver.language.typeGroups" style="margin: 10px;">
+
+			<span style="font-size: 18px; color: #2196f3">{{group.name}}</span>
+
+			<div style="border-left: 1px solid #2196f3">
+				<ng-container *ngIf="fullType">
+					<button
+						mat-button
+						[cdkCopyToClipboard]="type"
+						(click)="snackBar.open('Copied to clipboard', '╳', {duration: 3000})"
+						*ngFor="let type of group.full">
+						{{type}}
+					</button>
+				</ng-container>
+				<ng-container *ngIf="!fullType">
+					<button
+						mat-button
+						[cdkCopyToClipboard]="type"
+						(click)="snackBar.open('Copied to clipboard', '╳', {duration: 3000})"
+						*ngFor="let type of group.proposition">
+						{{type}}
+					</button>
+				</ng-container>
+			</div>
+		</div>
+	</div>
+</mat-expansion-panel>

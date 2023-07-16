@@ -9,39 +9,24 @@ export class PostgreSQL extends SQL {
 	constructor() {
 		super();
 
-		this.nodeLib = (query: QueryParams) => {
-			return `//with pg lib
-const { Pool, Client } = require('pg')
+		this.docs = {
+			driver: "https://github.com/brianc/node-postgres/blob/master/packages/pg/lib/defaults.js",
+			types: "https://www.postgresql.org/docs/current/datatype.html",
+			language: "https://www.postgresql.org/docs/current/sql-commands.html"
+		}
 
-const pool = new Pool({
-	user: '${Server.getSelected().user}',
-	host: '${Server.getSelected().host}',
-	password: '${Server.getSelected().password}',
-	port: '${Server.getSelected().port}',
-	database: '${Database.getSelected().name.split(', ')[0]}'
-})
-
-async function main() {
-	const {rows} = await pool.query(\`${query.query}\`, [${query.params.join(', ')}])
-}`;
-		};
-
-		this.languageDocumentation = "https://www.postgresql.org/docs/current/sql-commands.html";
-
-		this.driverDocumentation = "https://github.com/brianc/node-postgres/blob/master/packages/pg/lib/defaults.js";
-
-		this.keywords = this.keywords.concat([
-			'CREATE SCHEMA',
-			'ALTER SCHEMA',
-			'DROP SCHEMA',
-			'CURRENT_USER',
-			'RENAME TO',
-			'OWNER TO',
-			'CREATE DOMAIN'
-		]);
-
-		this.functions = {
-			...this.functions, ...{
+		this.language = {
+			...this.language,
+			keywords: this.language.keywords.concat([
+				'CREATE SCHEMA',
+				'ALTER SCHEMA',
+				'DROP SCHEMA',
+				'CURRENT_USER',
+				'RENAME TO',
+				'OWNER TO',
+				'CREATE DOMAIN'
+			]),
+			functions: { ...this.language.functions, ...{
 				'ARRAY_AGG': null,
 				'ARRAY_CAT': '(anyarray, anyarray)',
 				'ARRAY_UPPER': '(anyarray, int)',
@@ -65,28 +50,44 @@ async function main() {
 				'JSON_OBJECT': '([key, value[, key, value] ...])',
 				'TO_JSON': '(anyelement)',
 				'CRYPT': '(password text, salt text)'
-			}
+			}},
+			typeGroups: [
+				{
+					name: TypeName.String,
+					proposition: ["varchar(size)", 'uuid', 'tsquery'],
+					full: ["character", 'char', 'character varying', 'varchar', 'uuid', 'tsquery', 'text'],
+				}, {
+					name: TypeName.Numeric,
+					proposition: ['boolean', 'integer(size)', 'serial', 'decimal(size)', 'numeric(size)'],
+					full: ['bigint', 'bigserial', 'bit', 'bit varying', 'varbit', 'boolean', 'bytea', 'real', 'float4', 'smallint', 'int2', 'smallserial', 'serial2', 'serial', 'serial4', 'numeric', 'decimal', 'double precision', 'float8', 'integer', 'int', 'int4', 'interval']
+				}, {
+					name: TypeName.Date,
+					proposition: ['date', 'timestamp(precision?)', 'time(precision?)'],
+					full: ['date', 'timestamp', 'time', 'timetz', 'timestamptz']
+				}, {
+					name: TypeName.Other,
+					proposition: ['json', 'xml', 'cidr', 'macaddr'],
+					full: ['xml', 'json', 'jsonb', 'money', 'tsvector', 'macaddr', 'macaddr8', 'inet', 'cidr']
+				}
+			]
 		};
 
-		this.typesList = [
-			{
-				name: TypeName.String,
-				proposition: ["varchar(size)", 'uuid', 'tsquery'],
-				full: ["character", 'char', 'character varying', 'varchar', 'uuid', 'tsquery', 'text'],
-			}, {
-				name: TypeName.Numeric,
-				proposition: ['boolean', 'integer(size)', 'serial', 'decimal(size)', 'numeric(size)'],
-				full: ['bigint', 'bigserial', 'bit', 'bit varying', 'varbit', 'boolean', 'bytea', 'real', 'float4', 'smallint', 'int2', 'smallserial', 'serial2', 'serial', 'serial4', 'numeric', 'decimal', 'double precision', 'float8', 'integer', 'int', 'int4', 'interval']
-			}, {
-				name: TypeName.Date,
-				proposition: ['date', 'timestamp(precision?)', 'time(precision?)'],
-				full: ['date', 'timestamp', 'time', 'timetz', 'timestamptz']
-			}, {
-				name: TypeName.Other,
-				proposition: ['json', 'xml', 'cidr', 'macaddr'],
-				full: ['xml', 'json', 'jsonb', 'money', 'tsvector', 'macaddr', 'macaddr8', 'inet', 'cidr']
-			}
-		];
+		this.nodeLib = (query: QueryParams) => {
+			return `//with pg lib
+const { Pool, Client } = require('pg')
+
+const pool = new Pool({
+	user: '${Server.getSelected().user}',
+	host: '${Server.getSelected().host}',
+	password: '${Server.getSelected().password}',
+	port: '${Server.getSelected().port}',
+	database: '${Database.getSelected().name.split(', ')[0]}'
+})
+
+async function main() {
+	const {rows} = await pool.query(\`${query.query}\`, [${query.params.join(', ')}])
+}`;
+		};
 
 		this.format = (code: string) => {
 			code = format(code, {

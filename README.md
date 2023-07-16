@@ -10,6 +10,7 @@
 - Finir EDR
 - trigger : postgre + mongo
 - retester webhook
+- start lab mode (dump puis rollback possible)
 
 # Unit Test
 - afficher les resulat en front avec plusieurs version de bdd

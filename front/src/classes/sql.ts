@@ -17,161 +17,169 @@ const history = new HistoryService();
 export class SQL implements Driver {
 
 	configuration: Configuration = new Configuration();
-	useNameDel: boolean = this.configuration.getByName("useNameDel")?.value;
-	fileTypes: FileType[] = [
-		{extension: "json", name: "JSON"},
-		{extension: "sql", name: "SQL"},
-	];
-	languageDocumentation = "https://www.w3schools.com/sql/sql_quickref.asp";
-	nameDel = this.useNameDel ? '"' : '';
-	defaultParams = {};
-	driverDocumentation = "";
-	disclaimerSsh = "";
-	extraAttributes: string[] = [];
-	language = 'sql';
-	constraints = [
-		'CASCADE',
-		'RESTRICT',
-		'SET NULL',
-		'NO ACTION'
-	];
-	acceptedExt = [".sql", ".js"];
-	availableComparator = [
-		{symbol: '>', example: "", definition: "More than"},
-		{symbol: '<', example: "", definition: "Less than"},
-		{symbol: '>=', example: "0", definition: "More or equal than"},
-		{symbol: '<=', example: "0", definition: "Less or equal than"},
-		{symbol: '=', example: "'0'", definition: "Strictly equal to"},
-		{symbol: '!=', example: "'0'", definition: "Strictly different to"},
-		{symbol: 'IN', example: '("0", "1")', definition: "Is in array of"},
-		{symbol: 'BETWEEN', example: "'a' AND 'b'", definition: "If in the range of"},
-		{symbol: 'REGEXP', example: "'[a-z]'", definition: "If match regex"},
-		{symbol: 'LIKE', example: "'abc%'", definition: "Equal to"},
-		{symbol: 'NOT IN', example: '("a", "z")', definition: "Is not in array of"},
-		{symbol: 'NOT BETWEEN', example: "'a' AND 'z'", definition: "Is out of range of"},
-		{symbol: 'NOT REGEXP', example: "'[a-z]'", definition: "If regex didn't match"},
-		{symbol: 'NOT LIKE', example: "'abc%'", definition: "Not equal to"},
-	];
-	typesList: TypeGroup[] = [
-		{
-			name: TypeName.String,
-			proposition: ["varchar(size)"],
-			full: ["varchar", 'char', 'binary', 'varbinary'],
-		}, {
-			name: TypeName.Numeric,
-			proposition: ['boolean', 'integer(size)', 'bigint(size)', 'decimal(size)', 'float(size)'],
-			full: ['boolean', 'integer', 'bigint', 'decimal', 'float', 'bit', 'double', 'numeric']
-		}, {
-			name: TypeName.Date,
-			proposition: ['date', 'datetime(precision?)', 'timestamp(precision?)', 'time(precision?)'],
-			full: ['date', 'datetime', 'timestamp', 'time']
-		}, {
-			name: TypeName.Other,
-			proposition: ['enum("val1", "val2", "val3")', 'json'],
-			full: ['enum', 'json']
-		}
-	];
-	keywords = [
-		'SELECT',
-		'INSERT INTO',
-		'DELETE FROM',
-		'UPDATE',
-		'FROM',
-		'WHERE',
-		'GROUP BY',
-		'HAVING',
-		'LIMIT',
-		'WITH',
-		'AS',
-		'ALL',
-		'TO',
-		'ANY',
-		'SOME',
-		'UNION',
-		'CASE',
-		'AND',
-		'OR',
-		'EXISTS',
-		'IS NULL',
-		'IS NOT NULL',
-		'PRIVILEGES',
-		'GRANT',
-		'CHARACTER',
-		'COLLATION',
-		'OPTION',
-		'COLLATE',
-		'MODIFY',
-		'CONVERT',
-		'ORDER BY',
-		'INNER JOIN',
-		'CROSS JOIN',
-		'LEFT JOIN',
-		'RIGHT JOIN',
-		'FULL JOIN',
-		'SELF JOIN',
-		'NATURAL JOIN',
-		'BEGIN',
-		'DECLARE',
-		'END',
-		'SET',
-		'IF',
-		'ELSEIF',
-		'END IF',
-		'DESCRIBE',
-		'PRIMARY KEY',
-		'FOREIGN KEY',
-		'CONSTRAINT',
-		'REFERENCES',
-		'ON DELETE',
-		'ON UPDATE',
-	];
-	functions = {
-		'SUM': null,
-		'MIN': null,
-		'MAX': null,
-		'AVG': null,
-		'COUNT': null,
-		'CONCAT': null,
-		'LENGTH': null,
-		'REPLACE': '(string, old_string, new_string)',
-		'SUBSTRING': '(string, start, length)',
-		'LEFT': '(string, number_of_chars)',
-		'RIGHT': '(string, number_of_chars)',
-		'REVERSE': null,
-		'TRIM': null,
-		'LTRIM': null,
-		'RTRIM': null,
-		'UPPER': null,
-		'LOWER': null,
-		'UCASE': null,
-		'LCASE': null,
-		'LOCATE': '(substring, string, [start])',
-		'REPEAT': '(string, number)',
-		'RAND': '',
-		'ROUND': '(number, [decimals])',
-		'DATE_FORMAT': '(date, format)',
-		'DATEDIFF': '(date1, date2)',
-		'DAYOFWEEK': null,
-		'MONTH': '(date)',
-		'NOW': '',
-		'TIMEDIFF': '(time1, time2)',
-		'TIMESTAMP': '(time | date)',
-		'YEAR': '(date | datetime)',
-		'MD5': null,
-		'SHA1': null,
-		'SHA256': null,
-		'SHA512': null,
-		'CAST': null,
-		'ISNULL': null,
-		'CONVERT': '(value, type)',
-		'WHEN': ''
+
+	connection = {
+		defaultParams: {},
+		disclaimerSsh: "",
+		acceptedExt: [".sql", ".js"],
+		nameDel: this.configuration.getByName("useNameDel")?.value ? '"' : '',
+		fileTypes: [
+			{extension: "json", name: "JSON"},
+			{extension: "sql", name: "SQL"},
+		]
 	}
-	defaultFilter = "="
+
+	docs = {
+		driver: "",
+		types: "https://www.w3resource.com/sql/data-type.php",
+		language: "https://www.w3schools.com/sql/sql_quickref.asp"
+	}
+
+	language = {
+		comparators: [
+			{symbol: '>', example: "", definition: "More than"},
+			{symbol: '<', example: "", definition: "Less than"},
+			{symbol: '>=', example: "0", definition: "More or equal than"},
+			{symbol: '<=', example: "0", definition: "Less or equal than"},
+			{symbol: '=', example: "'0'", definition: "Strictly equal to"},
+			{symbol: '!=', example: "'0'", definition: "Strictly different to"},
+			{symbol: 'IN', example: '("0", "1")', definition: "Is in array of"},
+			{symbol: 'BETWEEN', example: "'a' AND 'b'", definition: "If in the range of"},
+			{symbol: 'REGEXP', example: "'[a-z]'", definition: "If match regex"},
+			{symbol: 'LIKE', example: "'abc%'", definition: "Equal to"},
+			{symbol: 'NOT IN', example: '("a", "z")', definition: "Is not in array of"},
+			{symbol: 'NOT BETWEEN', example: "'a' AND 'z'", definition: "Is out of range of"},
+			{symbol: 'NOT REGEXP', example: "'[a-z]'", definition: "If regex didn't match"},
+			{symbol: 'NOT LIKE', example: "'abc%'", definition: "Not equal to"},
+		],
+		id: "sql",
+		keywords: [
+			'SELECT',
+			'INSERT INTO',
+			'DELETE FROM',
+			'UPDATE',
+			'FROM',
+			'WHERE',
+			'GROUP BY',
+			'HAVING',
+			'LIMIT',
+			'WITH',
+			'AS',
+			'ALL',
+			'TO',
+			'ANY',
+			'SOME',
+			'UNION',
+			'CASE',
+			'AND',
+			'OR',
+			'EXISTS',
+			'IS NULL',
+			'IS NOT NULL',
+			'PRIVILEGES',
+			'GRANT',
+			'CHARACTER',
+			'COLLATION',
+			'OPTION',
+			'COLLATE',
+			'MODIFY',
+			'CONVERT',
+			'ORDER BY',
+			'INNER JOIN',
+			'CROSS JOIN',
+			'LEFT JOIN',
+			'RIGHT JOIN',
+			'FULL JOIN',
+			'SELF JOIN',
+			'NATURAL JOIN',
+			'BEGIN',
+			'DECLARE',
+			'END',
+			'SET',
+			'IF',
+			'ELSEIF',
+			'END IF',
+			'DESCRIBE',
+			'PRIMARY KEY',
+			'FOREIGN KEY',
+			'CONSTRAINT',
+			'REFERENCES',
+			'ON DELETE',
+			'ON UPDATE',
+		],
+		functions: {
+			'SUM': null,
+			'MIN': null,
+			'MAX': null,
+			'AVG': null,
+			'COUNT': null,
+			'CONCAT': null,
+			'LENGTH': null,
+			'REPLACE': '(string, old_string, new_string)',
+			'SUBSTRING': '(string, start, length)',
+			'LEFT': '(string, number_of_chars)',
+			'RIGHT': '(string, number_of_chars)',
+			'REVERSE': null,
+			'TRIM': null,
+			'LTRIM': null,
+			'RTRIM': null,
+			'UPPER': null,
+			'LOWER': null,
+			'UCASE': null,
+			'LCASE': null,
+			'LOCATE': '(substring, string, [start])',
+			'REPEAT': '(string, number)',
+			'RAND': '',
+			'ROUND': '(number, [decimals])',
+			'DATE_FORMAT': '(date, format)',
+			'DATEDIFF': '(date1, date2)',
+			'DAYOFWEEK': null,
+			'MONTH': '(date)',
+			'NOW': '',
+			'TIMEDIFF': '(time1, time2)',
+			'TIMESTAMP': '(time | date)',
+			'YEAR': '(date | datetime)',
+			'MD5': null,
+			'SHA1': null,
+			'SHA256': null,
+			'SHA512': null,
+			'CAST': null,
+			'ISNULL': null,
+			'CONVERT': '(value, type)',
+			'WHEN': ''
+		},
+		constraints: [
+			'CASCADE',
+			'RESTRICT',
+			'SET NULL',
+			'NO ACTION'
+		],
+		typeGroups: [
+			{
+				name: TypeName.String,
+				proposition: ["varchar(size)"],
+				full: ["varchar", 'char', 'binary', 'varbinary'],
+			}, {
+				name: TypeName.Numeric,
+				proposition: ['boolean', 'integer(size)', 'bigint(size)', 'decimal(size)', 'float(size)'],
+				full: ['boolean', 'integer', 'bigint', 'decimal', 'float', 'bit', 'double', 'numeric']
+			}, {
+				name: TypeName.Date,
+				proposition: ['date', 'datetime(precision?)', 'timestamp(precision?)', 'time(precision?)'],
+				full: ['date', 'datetime', 'timestamp', 'time']
+			}, {
+				name: TypeName.Other,
+				proposition: ['enum("val1", "val2", "val3")', 'json'],
+				full: ['enum', 'json']
+			}
+		],
+		extraAttributes: [],
+		defaultFilter: "="
+	}
 
 	nodeLib = (query: QueryParams) => "";
 
-	async loadExtraLib(http: HttpClient) {
-	}
+	async loadExtraLib(http: HttpClient) {}
 
 	format(code: string) {
 		code = format(code, {
@@ -200,7 +208,7 @@ export class SQL implements Driver {
 			return result;
 		}
 
-		const availableComparator = this.availableComparator.map(comp => comp.symbol.toLowerCase()).sort((a, b) => b.length - a.length)
+		const availableComparator = this.language.comparators.map(comp => comp.symbol.toLowerCase()).sort((a, b) => b.length - a.length)
 		let condition = result.query.substring(result.query.indexOf("where") + "where".length).trim();
 
 		availableComparator.map(comparator => {
@@ -233,7 +241,7 @@ export class SQL implements Driver {
 	basicSuggestions() {
 		const suggestions: any[] = [];
 
-		this.keywords.map(keyword => {
+		this.language.keywords.map(keyword => {
 			suggestions.push({
 				label: keyword,
 				kind: monaco.languages.CompletionItemKind.Keyword,
@@ -241,7 +249,7 @@ export class SQL implements Driver {
 			})
 		});
 
-		Object.keys(this.functions).map(fct => {
+		Object.keys(this.language.functions).map(fct => {
 			// @ts-ignore
 			const detail = this.functions[fct] || '(expression)';
 			suggestions.push({
@@ -252,7 +260,7 @@ export class SQL implements Driver {
 			})
 		});
 
-		this.constraints.map(constraint => {
+		this.language.constraints.map(constraint => {
 			suggestions.push({
 				label: constraint,
 				kind: monaco.languages.CompletionItemKind.Function,
@@ -260,7 +268,7 @@ export class SQL implements Driver {
 			})
 		});
 
-		this.typesList.map(types => {
+		this.language.typeGroups.map(types => {
 			types.full.map(type => {
 				suggestions.push({
 					label: type.toUpperCase(),
@@ -270,7 +278,7 @@ export class SQL implements Driver {
 			})
 		});
 
-		this.availableComparator.map(comparator => {
+		this.language.comparators.map(comparator => {
 			suggestions.push({
 				label: comparator.symbol,
 				kind: monaco.languages.CompletionItemKind.Operator,
@@ -464,26 +472,26 @@ export class SQL implements Driver {
 	}
 
 	getBaseDelete(table: Table) {
-		const cols = table.columns.map(column => `${this.nameDel + column.name + this.nameDel} = '${column.type}'`);
-		return `DELETE FROM ${this.nameDel + table.name + this.nameDel} WHERE ${cols.join(" AND ")}`;
+		const cols = table.columns.map(column => `${this.connection.nameDel + column.name + this.connection.nameDel} = '${column.type}'`);
+		return `DELETE FROM ${this.connection.nameDel + table.name + this.connection.nameDel} WHERE ${cols.join(" AND ")}`;
 	}
 
 	getBaseInsert(table: Table) {
-		const cols = table.columns.map(column => `${this.nameDel + column.name + this.nameDel}`);
-		const colWithType = table.columns.map(column => `${this.nameDel + column.name + this.nameDel} = '${column.type}'`);
-		return `INSERT INTO ${this.nameDel + table.name + this.nameDel} (${cols.join(', ')}) VALUES (${colWithType.join(', ')})`;
+		const cols = table.columns.map(column => `${this.connection.nameDel + column.name + this.connection.nameDel}`);
+		const colWithType = table.columns.map(column => `${this.connection.nameDel + column.name + this.connection.nameDel} = '${column.type}'`);
+		return `INSERT INTO ${this.connection.nameDel + table.name + this.connection.nameDel} (${cols.join(', ')}) VALUES (${colWithType.join(', ')})`;
 	}
 
 	getBaseUpdate(table: Table) {
-		const cols = table.columns.map(column => `${this.nameDel + column.name + this.nameDel}`);
-		const colWithType = table.columns.map(column => `${this.nameDel + column.name + this.nameDel} = '${column.type}'`);
-		return `UPDATE ${this.nameDel + table.name + this.nameDel} SET ${cols!.map(col => `${col} = ''`)} WHERE ${colWithType.join(" AND ")}`;
+		const cols = table.columns.map(column => `${this.connection.nameDel + column.name + this.connection.nameDel}`);
+		const colWithType = table.columns.map(column => `${this.connection.nameDel + column.name + this.connection.nameDel} = '${column.type}'`);
+		return `UPDATE ${this.connection.nameDel + table.name + this.connection.nameDel} SET ${cols!.map(col => `${col} = ''`)} WHERE ${colWithType.join(" AND ")}`;
 	}
 
 	getBaseSelect(table: Table) {
-		const cols = table.columns.map(column => `${this.nameDel + column.name + this.nameDel}`);
-		const colWithType = table.columns.map(column => `${this.nameDel + column.name + this.nameDel} = '${column.type}'`);
-		return `SELECT ${cols.join(', ')} FROM ${this.nameDel + table.name + this.nameDel} WHERE ${colWithType.join(" AND ")}`;
+		const cols = table.columns.map(column => `${this.connection.nameDel + column.name + this.connection.nameDel}`);
+		const colWithType = table.columns.map(column => `${this.connection.nameDel + column.name + this.connection.nameDel} = '${column.type}'`);
+		return `SELECT ${cols.join(', ')} FROM ${this.connection.nameDel + table.name + this.connection.nameDel} WHERE ${colWithType.join(" AND ")}`;
 	}
 
 	getBaseSelectWithRelations(table: Table, relations: Relation[]) {
@@ -498,8 +506,8 @@ export class SQL implements Driver {
 	}
 
 	getBaseFilter(table: Table, condition: string[], operand: 'AND' | 'OR') {
-		const cols = table.columns.map(column => `${this.nameDel + column.name + this.nameDel}`);
-		const select = `SELECT ${cols.join(', ')} FROM ${this.nameDel + table.name + this.nameDel}`;
+		const cols = table.columns.map(column => `${this.connection.nameDel + column.name + this.connection.nameDel}`);
+		const select = `SELECT ${cols.join(', ')} FROM ${this.connection.nameDel + table.name + this.connection.nameDel}`;
 		if (condition.length < 1) {
 			return select;
 		}

@@ -57,7 +57,7 @@ export class StructureComponent implements OnInit, OnDestroy, AfterViewChecked {
 			this.structureColumns.push('defaut');
 			this.indexColumns.push('cardinality');
 		}
-		if (this.selectedServer.driver.extraAttributes.length) {
+		if (this.selectedServer.driver.language.extraAttributes.length) {
 			this.structureColumns.push('extra');
 		}
 		if (isSQL(this.selectedServer)) {

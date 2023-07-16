@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Column } from "../../../classes/column";
 import { Server } from "../../../classes/server";
-import { Configuration } from "../../../classes/configuration";
+import { isSQL } from "../../../shared/helper";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
 	selector: 'app-column',
@@ -13,11 +14,13 @@ export class ColumnComponent implements OnInit {
 	@Input() form!: { columns: Column[] };
 	@Input() to_update = true;
 
-	configuration: Configuration = new Configuration();
-	extraAttributes = Server.getSelected().driver.extraAttributes;
+	fullType = false;
+	extraAttributes = Server.getSelected().driver.language.extraAttributes;
 	selectedServer?: Server;
 
-	constructor() {
+	constructor(
+		public snackBar: MatSnackBar
+	) {
 	}
 
 	ngOnInit(): void {
@@ -27,4 +30,6 @@ export class ColumnComponent implements OnInit {
 	addColumn() {
 		this.form?.columns.push(<Column>{});
 	}
+
+	protected readonly isSQL = isSQL;
 }

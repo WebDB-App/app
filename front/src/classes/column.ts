@@ -37,7 +37,7 @@ export class Column {
 
 	static isOfCategory(driver: Driver, column: Column, category: TypeName) {
 		const parenthese = column.type.indexOf('(');
-		const stringTypes = driver.typesList.find(type => type.name === category)!.full!;
+		const stringTypes = driver.language.typeGroups.find(type => type.name === category)!.full!;
 		const columnType = parenthese >= 0 ? column.type.substring(0, parenthese) : column.type;
 
 		return stringTypes.indexOf(columnType) >= 0;

@@ -8,44 +8,33 @@ export class MySQL extends SQL {
 	constructor() {
 		super();
 
-		this.nodeLib = (query: QueryParams) => {
-			return `//with mysql2 lib
-import mysql from "mysql2";
+		this.docs = {
+			driver: "https://github.com/sidorares/node-mysql2/blob/master/typings/mysql/lib/Connection.d.ts",
+			types: "https://dev.mysql.com/doc/refman/8.0/en/data-types.html",
+			language: "https://dev.mysql.com/doc/refman/8.0/en/sql-statements.html"
+		}
 
-async function main() {
-	const connection = await mysql.createConnection({
-		user: '${Server.getSelected().user}',
-		host: '${Server.getSelected().host}',
-		password: '${Server.getSelected().password}',
-		port: '${Server.getSelected().port}',
-		database: '${Database.getSelected().name}'
-	});
-	const [rows, fields] = await connection.execute(\`${query.query}\`, [${query.params.join(', ')}]);
-}`;
-		};
+		this.connection = {
+			...this.connection,
+			nameDel: this.configuration.getByName("useNameDel")?.value ? "\`" : '',
+			disclaimerSsh: "MySQL require password for remote connection",
+			defaultParams: {
+				dateStrings: true,
+				multipleStatements: true,
+				supportBigNumbers: true,
+				bigNumberStrings: true
+			}
+		}
 
-		this.languageDocumentation = "https://dev.mysql.com/doc/refman/8.0/en/sql-statements.html";
-
-		this.nameDel = this.useNameDel ? "\`" : '';
-
-		this.disclaimerSsh = "MySQL require password for remote connection"
-
-		this.defaultParams = {
-			dateStrings: true,
-			multipleStatements: true,
-			supportBigNumbers: true,
-			bigNumberStrings: true
-		};
-
-		this.driverDocumentation = "https://github.com/sidorares/node-mysql2/blob/master/typings/mysql/lib/Connection.d.ts";
-
-		this.keywords = this.keywords.concat([
-			'AUTO_INCREMENT',
-			'FOR EACH ROW'
-		]);
-
-		this.functions = {
-			...this.functions, ...{
+		this.language = {
+			...this.language,
+			// @ts-ignore
+			extraAttributes: ['auto_increment', 'on update CURRENT_TIMESTAMP'],
+			keywords: this.language.keywords.concat([
+				'AUTO_INCREMENT',
+				'FOR EACH ROW'
+			]),
+			functions: { ...this.language.functions, ...{
 				'LPAD': '(string, length, lpad_string)',
 				'INSTR': '(string1, string2)',
 				'GROUP_CONCAT': null,
@@ -65,29 +54,42 @@ async function main() {
 				'UUID': '',
 				'AES_ENCRYPT': '(str, key_str)',
 				'AES_DECRYPT': '(crypt_str, key_str)'
-			}
+			}},
+			typeGroups: [
+				{
+					name: TypeName.String,
+					proposition: ["varchar(size)", 'longtext', 'longblob'],
+					full: ["varchar", 'longtext', 'longblob', 'char', 'binary', 'varbinary', 'blob', 'text', 'mediumblob', 'tinyblob', 'mediumtext', 'tinytext'],
+				}, {
+					name: TypeName.Numeric,
+					proposition: ['boolean', 'integer(size)', 'bigint(size)', 'decimal(size)', 'float(size)'],
+					full: ['boolean', 'integer', 'bigint', 'decimal', 'float', 'bit', 'tinyint', 'smallint', 'mediumint', 'int', 'int unsigned', 'int zerofill', 'int unsigned zerofill', 'double', 'year']
+				}, {
+					name: TypeName.Date,
+					proposition: ['date', 'datetime(precision?)', 'timestamp(precision?)', 'time(precision?)'],
+					full: ['date', 'datetime', 'timestamp', 'time']
+				}, {
+					name: TypeName.Other,
+					proposition: ['enum("val1", "val2", "val3")', 'json'],
+					full: ['enum', 'json']
+				}
+			]
+		}
+
+		this.nodeLib = (query: QueryParams) => {
+			return `//with mysql2 lib
+import mysql from "mysql2";
+
+async function main() {
+	const connection = await mysql.createConnection({
+		user: '${Server.getSelected().user}',
+		host: '${Server.getSelected().host}',
+		password: '${Server.getSelected().password}',
+		port: '${Server.getSelected().port}',
+		database: '${Database.getSelected().name}'
+	});
+	const [rows, fields] = await connection.execute(\`${query.query}\`, [${query.params.join(', ')}]);
+}`;
 		};
-
-		this.extraAttributes = ['auto_increment', 'on update CURRENT_TIMESTAMP'];
-
-		this.typesList = [
-			{
-				name: TypeName.String,
-				proposition: ["varchar(size)", 'longtext', 'longblob'],
-				full: ["varchar", 'longtext', 'longblob', 'char', 'binary', 'varbinary', 'blob', 'text', 'mediumblob', 'tinyblob', 'mediumtext', 'tinytext'],
-			}, {
-				name: TypeName.Numeric,
-				proposition: ['boolean', 'integer(size)', 'bigint(size)', 'decimal(size)', 'float(size)'],
-				full: ['boolean', 'integer', 'bigint', 'decimal', 'float', 'bit', 'tinyint', 'smallint', 'mediumint', 'int', 'int unsigned', 'int zerofill', 'int unsigned zerofill', 'double', 'year']
-			}, {
-				name: TypeName.Date,
-				proposition: ['date', 'datetime(precision?)', 'timestamp(precision?)', 'time(precision?)'],
-				full: ['date', 'datetime', 'timestamp', 'time']
-			}, {
-				name: TypeName.Other,
-				proposition: ['enum("val1", "val2", "val3")', 'json'],
-				full: ['enum', 'json']
-			}
-		];
 	}
 }
