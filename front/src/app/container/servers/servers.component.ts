@@ -40,7 +40,9 @@ export class ServersComponent implements OnInit, OnDestroy {
 			);
 		}
 
-		this.sub = this.request.loadingServer.subscribe(() => this.loading += 10);
+		this.sub = this.request.loadingServer.subscribe(() => {
+			this.loading += 10;
+		});
 	}
 
 	async ngOnInit() {

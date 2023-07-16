@@ -89,16 +89,6 @@
 		</span>
 		Connection Info
 	</a>
-	<a *ngIf="selectedServer && !isSQL(selectedServer)"
-	   mat-menu-item
-	   matTooltip="Columns are inferred from sample"
-	   matTooltipPosition="left"
-	   target="_blank">
-		<span class="material-symbols-outlined notranslate">
-			warning
-		</span>
-		Disclaimer
-	</a>
 	<a href="https://gitlab.com/web-db/landing/-/issues"
 	   mat-menu-item
 	   target="_blank">
@@ -134,13 +124,5 @@
 			shopping_bag
 		</span>
 		Subscription
-	</a>
-	<a [href]="env.stripeUserLink"
-	   mat-menu-item
-	   target="_blank">
-		<span class="material-symbols-outlined notranslate">
-			credit_card
-		</span>
-		Account
 	</a>
 </mat-menu>
