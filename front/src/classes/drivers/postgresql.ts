@@ -1,5 +1,5 @@
 import { SQL } from "../sql";
-import { QueryParams, TypeName } from "../driver";
+import { QueryParams, Group } from "../driver";
 import { Server } from "../server";
 import { Database } from "../database";
 import { format } from "sql-formatter";
@@ -53,19 +53,19 @@ export class PostgreSQL extends SQL {
 			}},
 			typeGroups: [
 				{
-					name: TypeName.String,
+					name: Group.String,
 					proposition: ["varchar(size)", 'uuid', 'tsquery'],
 					full: ["character", 'char', 'character varying', 'varchar', 'uuid', 'tsquery', 'text'],
 				}, {
-					name: TypeName.Numeric,
+					name: Group.Numeric,
 					proposition: ['boolean', 'integer(size)', 'serial', 'decimal(size)', 'numeric(size)'],
 					full: ['bigint', 'bigserial', 'bit', 'bit varying', 'varbit', 'boolean', 'bytea', 'real', 'float4', 'smallint', 'int2', 'smallserial', 'serial2', 'serial', 'serial4', 'numeric', 'decimal', 'double precision', 'float8', 'integer', 'int', 'int4', 'interval']
 				}, {
-					name: TypeName.Date,
+					name: Group.Date,
 					proposition: ['date', 'timestamp(precision?)', 'time(precision?)'],
 					full: ['date', 'timestamp', 'time', 'timetz', 'timestamptz']
 				}, {
-					name: TypeName.Other,
+					name: Group.Other,
 					proposition: ['json', 'xml', 'cidr', 'macaddr'],
 					full: ['xml', 'json', 'jsonb', 'money', 'tsvector', 'macaddr', 'macaddr8', 'inet', 'cidr']
 				}

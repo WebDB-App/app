@@ -1,5 +1,5 @@
 import { SQL } from "../sql";
-import { QueryParams, TypeName } from "../driver";
+import { QueryParams, Group } from "../driver";
 import { Server } from "../server";
 import { Database } from "../database";
 
@@ -57,19 +57,19 @@ export class MySQL extends SQL {
 			}},
 			typeGroups: [
 				{
-					name: TypeName.String,
+					name: Group.String,
 					proposition: ["varchar(size)", 'longtext', 'longblob'],
 					full: ["varchar", 'longtext', 'longblob', 'char', 'binary', 'varbinary', 'blob', 'text', 'mediumblob', 'tinyblob', 'mediumtext', 'tinytext'],
 				}, {
-					name: TypeName.Numeric,
+					name: Group.Numeric,
 					proposition: ['boolean', 'integer(size)', 'bigint(size)', 'decimal(size)', 'float(size)'],
 					full: ['boolean', 'integer', 'bigint', 'decimal', 'float', 'bit', 'tinyint', 'smallint', 'mediumint', 'int', 'int unsigned', 'int zerofill', 'int unsigned zerofill', 'double', 'year']
 				}, {
-					name: TypeName.Date,
+					name: Group.Date,
 					proposition: ['date', 'datetime(precision?)', 'timestamp(precision?)', 'time(precision?)'],
 					full: ['date', 'datetime', 'timestamp', 'time']
 				}, {
-					name: TypeName.Other,
+					name: Group.Other,
 					proposition: ['enum("val1", "val2", "val3")', 'json'],
 					full: ['enum', 'json']
 				}

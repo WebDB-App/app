@@ -1,4 +1,4 @@
-import { Driver, FileType, QueryParams, TypeGroup, TypeName } from "./driver";
+import { Driver, FileType, QueryParams, TypeGroup, Group } from "./driver";
 import { Column } from "./column";
 import { Database } from "./database";
 import { Table } from "./table";
@@ -156,19 +156,19 @@ export class SQL implements Driver {
 		],
 		typeGroups: [
 			{
-				name: TypeName.String,
+				name: Group.String,
 				proposition: ["varchar(size)"],
 				full: ["varchar", 'char', 'binary', 'varbinary'],
 			}, {
-				name: TypeName.Numeric,
+				name: Group.Numeric,
 				proposition: ['boolean', 'integer(size)', 'bigint(size)', 'decimal(size)', 'float(size)'],
 				full: ['boolean', 'integer', 'bigint', 'decimal', 'float', 'bit', 'double', 'numeric']
 			}, {
-				name: TypeName.Date,
+				name: Group.Date,
 				proposition: ['date', 'datetime(precision?)', 'timestamp(precision?)', 'time(precision?)'],
 				full: ['date', 'datetime', 'timestamp', 'time']
 			}, {
-				name: TypeName.Other,
+				name: Group.Other,
 				proposition: ['enum("val1", "val2", "val3")', 'json'],
 				full: ['enum', 'json']
 			}

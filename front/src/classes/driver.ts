@@ -10,12 +10,12 @@ export interface Comparator {
 }
 
 export interface TypeGroup {
-	name: TypeName
+	name: Group
 	proposition: string[];
 	full: string[];
 }
 
-export enum TypeName {
+export enum Group {
 	'String' = 'String',
 	'Numeric' = 'Numeric',
 	'Date' = 'Date',
