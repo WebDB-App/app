@@ -145,14 +145,14 @@
 				</mat-form-field>
 			</div>
 
-			<ng-container *ngIf="server.driver && server.driver.disclaimerSsh && server.ssh.host">
+			<ng-container *ngIf="server.driver && server.driver.connection.disclaimerSsh && server.ssh.host">
 
 				<mat-divider></mat-divider>
 				<p style="display: flex; align-items: center; justify-content: center;">
 					<span class="material-symbols-outlined notranslate" style="margin-right: 8px">
 						warning
 					</span>
-					{{server.driver.disclaimerSsh}}
+					{{server.driver.connection.disclaimerSsh}}
 				</p>
 			</ng-container>
 
@@ -189,7 +189,7 @@
 					Use Default Params
 				</button>
 
-				<a [href]="server.driver ? server.driver.driverDocumentation : ''"
+				<a [href]="server.driver ? server.driver.docs.driver : ''"
 				   mat-button
 				   mat-stroked-button
 				   style="margin-left: 20px"

@@ -57,7 +57,7 @@ export class RequestService {
 	async connectServer(server: Server, full = true) {
 		// @ts-ignore
 		server.driver = new drivers[server.wrapper];
-		server.params = server.params || server.driver.defaultParams;
+		server.params = server.params || server.driver.connection.defaultParams;
 
 		const connect = await firstValueFrom(this.http.post<any>(environment.apiRootUrl + 'server/connect', Server.getShallow(server)));
 		if (!connect.error) {

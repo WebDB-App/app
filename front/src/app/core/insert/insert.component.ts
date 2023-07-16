@@ -112,12 +112,7 @@ export class InsertComponent implements OnInit, OnDestroy {
 			}
 		}
 
-		random.model = this.beautify(random.model || `/*
-const faker = require("@faker-js/faker");
-*/
-
-(() => {return faker. ;})()
-`);
+		random.model = this.beautify(random.model || `return faker.`);
 	}
 
 	beautify(str: string) {
@@ -165,7 +160,7 @@ const faker = require("@faker-js/faker");
 			const obj: any = {};
 			for (const [index, rand] of Object.entries(this.randomSource)) {
 				try {
-					obj[rand.column.name] = new Function("faker", "return " + rand.model)(faker);
+					obj[rand.column.name] = new Function("faker", rand.model)(faker);
 					this.randomSource[+index].error = "";
 				} catch (e) {
 					this.randomSource[+index].error = <string>e;

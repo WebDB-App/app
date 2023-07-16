@@ -68,11 +68,11 @@
 			</mat-slide-toggle>
 		</div>
 
-		<a [href]="selectedServer!.driver.languageDocumentation" mat-button target="_blank">
+		<a [href]="selectedServer!.driver.docs.language" mat-button target="_blank">
 			<span class="material-symbols-outlined notranslate">
 				menu_book
 			</span>
-			{{selectedServer!.driver.language === "sql" ? "SQL" : (selectedServer!.driver.language | titlecase)}}
+			{{selectedServer!.driver.language.id === "sql" ? "SQL" : (selectedServer!.driver.language.id | titlecase)}}
 		</a>
 
 		<div>

@@ -35,7 +35,7 @@ export class TriggerComponent implements OnInit, OnDestroy {
 		private request: RequestService,
 		private activatedRoute: ActivatedRoute
 	) {
-		this.editorOptions.language = Server.getSelected()?.driver.language!;
+		this.editorOptions.language = Server.getSelected()?.driver.language.id!;
 	}
 
 	async ngOnInit() {

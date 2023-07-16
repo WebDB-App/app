@@ -36,8 +36,8 @@ export class LoadComponent {
 	) {
 		this.selectedDatabase = Database.getSelected();
 		this.selectedServer = Server.getSelected();
-		this.editorOptions.language = this.selectedServer?.driver.language!;
-		this.acceptedExt = this.selectedServer?.driver.acceptedExt!;
+		this.editorOptions.language = this.selectedServer?.driver.language.id!;
+		this.acceptedExt = this.selectedServer?.driver.connection.acceptedExt!;
 	}
 
 	@HostListener('dragover', ['$event'])

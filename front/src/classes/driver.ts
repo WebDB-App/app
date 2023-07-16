@@ -33,31 +33,41 @@ export class FileType {
 }
 
 export interface Driver {
-	defaultParams: {};
-	driverDocumentation: string;
-	disclaimerSsh?: string;
-	extraAttributes: string[];
+
+	connection: {
+		defaultParams: {},
+		disclaimerSsh?: string,
+		acceptedExt: string[],
+		nameDel: string,
+		fileTypes: FileType[]
+	}
+
+	docs: {
+		driver: string,
+		types: string,
+		language: string
+	}
+
+	language: {
+		comparators: Comparator[]
+		id: string
+		keywords: string[];
+		functions: { [key: string]: string | null };
+		constraints: string[];
+		typeGroups: TypeGroup[],
+		extraAttributes: string[]
+		defaultFilter: string;
+	}
+
 	nodeLib: (queryParams: QueryParams) => string;
 	loadExtraLib: (http: HttpClient) => Promise<void>;
-	fileTypes: FileType[];
 
-	nameDel: string;
-	acceptedExt: string[];
-	availableComparator: Comparator[];
-	typesList: TypeGroup[];
 	extractEnum: (col: Column) => string[] | false;
 	extractConditionParams: (query: string) => QueryParams;
-
-	language: string;
-	languageDocumentation: string;
-	keywords: string[];
-	functions: { [key: string]: string | null };
-	constraints: string[];
 	format?: (code: string) => string;
 	generateSuggestions?: (textUntilPosition: string) => any[];
 
 	getBaseSort: (field: string, direction: 'asc' | 'desc') => string;
-	defaultFilter: string;
 	getBaseDelete: (table: Table) => string;
 	getBaseUpdate: (table: Table) => string;
 	getBaseSelect: (table: Table) => string;

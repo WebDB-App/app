@@ -1,8 +1,7 @@
 #container {
 	display: flex;
-	overflow: auto;
-	place-content: space-evenly;
-	height: calc(100vh - 112px);
+	flex-wrap: wrap;
+	justify-content: space-evenly;
 
 	.driver {
 		min-width: 440px;
@@ -14,12 +13,6 @@
 
 	.mat-expansion-panel-header {
 		height: 58px;
-	}
-}
-
-@media (max-width: 900px) {
-	#container {
-		display: inherit;
 	}
 }
 

@@ -1,4 +1,4 @@
-import { Driver, FileType, QueryParams, TypeGroup, TypeName } from "../driver";
+import { Driver, QueryParams, TypeName } from "../driver";
 import { Column } from "../column";
 import { Table } from "../table";
 import { Relation } from "../relation";
@@ -11,46 +11,55 @@ declare var monaco: any;
 
 export class MongoDB implements Driver {
 
-	defaultParams = {
-		serverSelectionTimeoutMS: 2000,
-		authSource: 'admin'
-	};
-	fileTypes: FileType[] = [
-		{extension: "json", name: "JSON"},
-		{extension: "bson", name: "BSON"},
-	];
-	languageDocumentation = "https://www.mongodb.com/docs/drivers/node/current/quick-reference/";
-	nameDel = '"';
-	driverDocumentation = "https://www.mongodb.com/docs/drivers/node/current/fundamentals/connection/connection-options/";
-	extraAttributes: string[] = [];
-	language = 'javascript';
-	constraints = [];
-	availableComparator = [
-		{symbol: '$gt', example: "", definition: "More than"},
-		{symbol: '$lt', example: "", definition: "Less than"},
-		{symbol: '$gte', example: "0", definition: "More or equal than"},
-		{symbol: '$lte', example: "0", definition: "Less or equal than"},
-		{symbol: '$eq', example: '"abc"', definition: "Strictly equal to"},
-		{symbol: '$ne', example: "'abc'", definition: "Strictly different to"},
-		{symbol: '$in', example: '["a", "b"]', definition: "If the array contain a least one match"},
-		{symbol: '$all', example: '["a", "b"]', definition: "If the array contains all elements"},
-		{symbol: '$exists', example: 'true', definition: "If the property exist"},
-		{symbol: '$range', example: '"a" AND "z"', definition: "If in the range of"},
-		{symbol: '$regexMatch', example: '/[a-z]/', definition: "If match regex"},
-		{symbol: '$text', example: ': { $search: "abc" }', definition: "Search text"},
-		{symbol: '$nin', example: '["a", "b"]', definition: "Is not in array of"},
-	];
-	typesList: TypeGroup[] = [
-		{
-			name: TypeName.String,
-			proposition: ["String"],
-			full: ["String"],
-		}
-	];
-	acceptedExt = ['.csv', '.tsv', '.json'];
-	functions = {};
-	keywords = [];
-	defaultFilter = "$eq";
+	connection = {
+		defaultParams: {
+			serverSelectionTimeoutMS: 2000,
+			authSource: 'admin'
+		},
+		acceptedExt: ['.csv', '.tsv', '.json'],
+		nameDel: '"',
+		fileTypes: [
+			{extension: "json", name: "JSON"},
+			{extension: "bson", name: "BSON"},
+		]
+	}
+
+	docs = {
+		driver: "https://www.mongodb.com/docs/drivers/node/current/fundamentals/connection/connection-options/",
+		types: "https://www.mongodb.com/docs/manual/reference/bson-types/",
+		language: "https://www.mongodb.com/docs/drivers/node/current/quick-reference/"
+	}
+
+	language = {
+		comparators: [
+			{symbol: '$gt', example: "", definition: "More than"},
+			{symbol: '$lt', example: "", definition: "Less than"},
+			{symbol: '$gte', example: "0", definition: "More or equal than"},
+			{symbol: '$lte', example: "0", definition: "Less or equal than"},
+			{symbol: '$eq', example: '"abc"', definition: "Strictly equal to"},
+			{symbol: '$ne', example: "'abc'", definition: "Strictly different to"},
+			{symbol: '$in', example: '["a", "b"]', definition: "If the array contain a least one match"},
+			{symbol: '$all', example: '["a", "b"]', definition: "If the array contains all elements"},
+			{symbol: '$exists', example: 'true', definition: "If the property exist"},
+			{symbol: '$range', example: '"a" AND "z"', definition: "If in the range of"},
+			{symbol: '$regexMatch', example: '/[a-z]/', definition: "If match regex"},
+			{symbol: '$text', example: ': { $search: "abc" }', definition: "Search text"},
+			{symbol: '$nin', example: '["a", "b"]', definition: "Is not in array of"},
+		],
+		id: "javascript",
+		keywords: [],
+		functions: {},
+		constraints: [],
+		typeGroups: [
+			{
+				name: TypeName.String,
+				proposition: ["String"],
+				full: ["String"],
+			}
+		],
+		extraAttributes: [],
+		defaultFilter: "$eq"
+	}
 
 	nodeLib(query: QueryParams) {
 		return `import {MongoClient} from "mongodb";
