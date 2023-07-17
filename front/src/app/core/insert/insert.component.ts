@@ -98,13 +98,17 @@ export class InsertComponent implements OnInit, OnDestroy {
 		const values = this.selectedServer!.driver.extractEnum(random.column);
 		if (values) {
 			random.model = `(() => {const enums = [${values.map(value => `'${value}'`).join(",")}];return enums[Math.floor(Math.random() * (enums.length))]})()`;
-		} else if (Table.getRelations().find(relation => relation.column_source === random.column.name)) {
-			const datas = await this.request.post('relation/exampleData', {
-				column: random.column.name,
-				limit: this.limit
-			});
-			if (datas) {
-				random.model = `(() => { const fk = [${datas.map((data: any) => `'${data.example}'`).join(",")}]; return fk[Math.floor(Math.random() * (fk.length))]; })()`;
+		} else {
+			const relation = Table.getRelations().find(relation => relation.column_source === random.column.name);
+			if (relation) {
+				const datas = await this.request.post('relation/exampleData', {
+					table: relation.table_dest,
+					column: relation.column_dest,
+					limit: this.limit
+				});
+				if (datas) {
+					random.model = `(() => { const fk = [${datas.map((data: any) => `'${data.example}'`).join(",")}]; return fk[Math.floor(Math.random() * (fk.length))]; })()`;
+				}
 			}
 		}
 

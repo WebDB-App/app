@@ -42,40 +42,12 @@
 
 		<div *ngIf="selectedTable" class="prebuild">
 			<button
-				(click)="prebuild('select')"
+				*ngFor="let prebuild of preBuilds"
+				(click)="loadPreBuild(prebuild.id)"
 				mat-icon-button
 				mat-stroked-button
-				matTooltip="Select">
-				<span class="material-symbols-outlined notranslate">description</span>
-			</button>
-			<button
-				*ngIf="isSQL()"
-				(click)="prebuild('select_join')"
-				mat-icon-button
-				mat-stroked-button
-					matTooltip="Select with relations">
-				<span class="material-symbols-outlined notranslate">file_present</span>
-			</button>
-			<button
-				(click)="prebuild('update')"
-				mat-icon-button
-				mat-stroked-button
-				matTooltip="Update">
-				<span class="material-symbols-outlined notranslate">edit_document</span>
-			</button>
-			<button
-				(click)="prebuild('insert')"
-				mat-icon-button
-				mat-stroked-button
-				matTooltip="Insert">
-				<span class="material-symbols-outlined notranslate">note_add</span>
-			</button>
-			<button
-				(click)="prebuild('delete')"
-				mat-icon-button
-				mat-stroked-button
-				matTooltip="Delete">
-				<span class="material-symbols-outlined notranslate">scan_delete</span>
+				[matTooltip]="prebuild.tooltip">
+				<span class="material-symbols-outlined notranslate">{{prebuild.icon}}</span>
 			</button>
 		</div>
 
