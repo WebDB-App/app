@@ -53,7 +53,9 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 			);
 		}
 
-		this.sub = this.request.loadingServer.subscribe(() => this.loading += 33);
+		this.sub = this.request.loadingServer.subscribe((progress) => {
+			this.loading = progress;
+		});
 	}
 
 	ngOnDestroy() {
@@ -61,19 +63,13 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 	}
 
 	async ngOnInit() {
-		const serverName = this.activatedRoute.snapshot.paramMap.get('server');
-		const databaseName = this.activatedRoute.snapshot.paramMap.get('database');
-		if (!serverName || !databaseName) {
-			this.loading = 100;
-			return;
-		}
-
+		this.loading = 0;
 		let server, database;
-		const local = Server.getAll().find(local => local.name === serverName);
+		const local = Server.getAll().find(local => local.name === this.activatedRoute.snapshot.paramMap.get('server'));
 
 		if (local) {
-			server = await this.request.connectServer(local);
-			database = server?.dbs.find(db => db.name === databaseName)!;
+			server = (await this.request.connectServers([local]))[0];
+			database = server?.dbs.find(db => db.name === this.activatedRoute.snapshot.paramMap.get('database'))!;
 		}
 
 		if (!server || !database) {
@@ -99,8 +95,6 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 			{link: "dump", icon: "ios_share"},
 			{link: "advanced", icon: "settings"},
 		]);
-
-		this.loading = 100;
 	}
 
 	ngAfterViewInit(): void {
@@ -119,12 +113,6 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	showSettings() {
 		this.dialog.open(ConfigDialog);
-	}
-
-	async reloadServer() {
-		this.loading = 0;
-		await this.request.reloadServer();
-		this.loading = 100;
 	}
 
 	showConnection() {

@@ -5,7 +5,6 @@ import { Table } from "../../../classes/table";
 import jsbeautifier from "js-beautify";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { RequestService } from "../../../shared/request.service";
-import { combineLatest, distinctUntilChanged, Subscription } from "rxjs";
 import { ActivatedRoute } from "@angular/router";
 import { Server } from "../../../classes/server";
 import { Database } from "../../../classes/database";
@@ -39,7 +38,6 @@ export class InsertComponent implements OnInit, OnDestroy {
 	selectedServer?: Server;
 	selectedDatabase?: Database;
 	selectedTable?: Table;
-	obs?: Subscription;
 
 	actionColum = "##ACTION##";
 	dataSource: MatTableDataSource<any> = new MatTableDataSource();
@@ -65,9 +63,7 @@ export class InsertComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit() {
-		this.obs = combineLatest([this.activatedRoute.parent?.params, this.request.serverReload]).pipe(
-			distinctUntilChanged()
-		).subscribe(async (_params) => {
+		this.activatedRoute.parent?.params.subscribe(async (_params) => {
 			this.dataSource = new MatTableDataSource();
 			this.dataSource.paginator = this.paginator;
 			this.selection.clear();
@@ -94,7 +90,6 @@ export class InsertComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnDestroy() {
-		this.obs?.unsubscribe();
 		clearInterval(this.interval);
 	}
 

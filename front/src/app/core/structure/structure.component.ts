@@ -10,7 +10,6 @@ import { Index, IndexSymbol } from "../../../classes";
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { ActivatedRoute, Router } from "@angular/router";
 import { DrawerService } from "../../../shared/drawer.service";
-import { combineLatest, distinctUntilChanged, Subscription } from "rxjs";
 import { HoverService } from "../../../shared/hover.service";
 import { isSQL } from "../../../shared/helper";
 
@@ -19,12 +18,11 @@ import { isSQL } from "../../../shared/helper";
 	templateUrl: './structure.component.html',
 	styleUrls: ['./structure.component.scss']
 })
-export class StructureComponent implements OnInit, OnDestroy, AfterViewChecked {
+export class StructureComponent implements OnInit, AfterViewChecked {
 
 	selectedTable?: Table;
 	selectedDatabase?: Database;
 	selectedServer?: Server;
-	obs!: Subscription;
 
 	actionColum = "##ACTION##";
 
@@ -72,15 +70,9 @@ export class StructureComponent implements OnInit, OnDestroy, AfterViewChecked {
 	}
 
 	async ngOnInit() {
-		this.obs = combineLatest([this.activatedRoute.parent?.params, this.request.serverReload]).pipe(
-			distinctUntilChanged()
-		).subscribe(async (_params) => {
+		this.activatedRoute.parent?.params.subscribe(async (_params) => {
 			await this.loadData()
 		});
-	}
-
-	ngOnDestroy(): void {
-		this.obs.unsubscribe();
 	}
 
 	ngAfterViewChecked() {

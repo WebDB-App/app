@@ -1,13 +1,13 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-import { environment } from "../../../environments/environment";
+import { environment } from "../../environments/environment";
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { firstValueFrom, Subscription } from "rxjs";
 import { Router } from "@angular/router";
-import { Server, SSH } from "../../../classes/server";
-import { RequestService } from "../../../shared/request.service";
-import * as drivers from '../../../classes/drivers';
+import { Server, SSH } from "../../classes/server";
+import { RequestService } from "../../shared/request.service";
+import * as drivers from '../../classes/drivers';
 import { DomSanitizer } from "@angular/platform-browser";
 import { MatIconRegistry } from "@angular/material/icon";
 
@@ -16,7 +16,7 @@ import { MatIconRegistry } from "@angular/material/icon";
 	templateUrl: './servers.component.html',
 	styleUrls: ['./servers.component.scss']
 })
-export class ServersComponent implements OnInit, OnDestroy {
+export class ServersComponent implements OnInit {
 
 	servers: Server[] = [];
 	showPassword = false;
@@ -40,21 +40,12 @@ export class ServersComponent implements OnInit, OnDestroy {
 			);
 		}
 
-		this.sub = this.request.loadingServer.subscribe(() => {
-			this.loading += 10;
+		this.sub = this.request.loadingServer.subscribe((progress) => {
+			this.loading = progress;
 		});
 	}
 
 	async ngOnInit() {
-		await this.reloadList();
-	}
-
-	ngOnDestroy() {
-		this.sub.unsubscribe();
-	}
-
-	async reloadList() {
-		this.loading = 0;
 		this.filterChanged('');
 
 		let servers = [];
@@ -64,7 +55,6 @@ export class ServersComponent implements OnInit, OnDestroy {
 			scan.scanned = true
 			return scan;
 		});
-		this.loading += 10;
 
 		const locals = Server.getAll().map(local => {
 			const scan = scans.find(sc => sc.name === local.name);
@@ -78,23 +68,16 @@ export class ServersComponent implements OnInit, OnDestroy {
 				locals.push(scan);
 			}
 		}
-		this.loading += 10;
 
-		for (let server of locals) {
-			servers.push(this.request.connectServer(server, false));
-		}
-
-		servers = await Promise.all(servers);
+		servers = await this.request.connectServers(locals, false);
 		this.servers = servers.sort((a, b) => {
 			return Number(b.connected) - Number(a.connected)
 		});
-
-		this.loading = 100;
 	}
 
 	async postLogged(localServer: Server, remoteServer: Server) {
 		Server.add(<Server>{...localServer, ...remoteServer});
-		await this.reloadList();
+		await this.ngOnInit();
 	}
 
 	async guess(srv: Server, user: string, password: string) {
@@ -158,7 +141,7 @@ export class ServersComponent implements OnInit, OnDestroy {
 
 		dialogRef.afterClosed().subscribe(async result => {
 			if (result) {
-				await this.reloadList();
+				await this.ngOnInit();
 			}
 		});
 	}
@@ -172,7 +155,7 @@ export class ServersComponent implements OnInit, OnDestroy {
 			if (result) {
 				this.snackBar.open(result.name + " Saved", "╳", {duration: 3000});
 			}
-			await this.reloadList();
+			await this.ngOnInit();
 		});
 	}
 
@@ -185,7 +168,7 @@ export class ServersComponent implements OnInit, OnDestroy {
 		dialogRef.afterClosed().subscribe(async result => {
 			if (result) {
 				this.snackBar.open(result.name + " Added", "╳", {duration: 3000});
-				await this.reloadList();
+				await this.ngOnInit();
 			}
 		});
 	}

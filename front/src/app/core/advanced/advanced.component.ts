@@ -4,7 +4,6 @@ import { Table } from "../../../classes/table";
 import { RequestService } from "../../../shared/request.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute, Router } from "@angular/router";
-import { combineLatest, distinctUntilChanged, Subscription } from "rxjs";
 import { Tabs } from "../tables/tables.component";
 import { isSQL } from "../../../shared/helper";
 import { Server } from "../../../classes/server";
@@ -20,7 +19,6 @@ export class TableAdvancedComponent {
 	selectedServer?: Server;
 	selectedDatabase?: Database;
 	selectedTable?: Table;
-	obs: Subscription
 	stats?: {
 		index_length: number,
 		data_length: number
@@ -34,9 +32,7 @@ export class TableAdvancedComponent {
 		private router: Router,
 		private snackBar: MatSnackBar
 	) {
-		this.obs = combineLatest([this.activatedRoute.parent?.params, this.request.serverReload]).pipe(
-			distinctUntilChanged()
-		).subscribe(async (_params) => {
+		this.activatedRoute.parent?.params.subscribe(async (_params) => {
 			this.selectedServer = Server.getSelected();
 			this.selectedDatabase = Database.getSelected();
 			this.selectedTable = Table.getSelected();
@@ -87,7 +83,7 @@ export class TableAdvancedComponent {
 	}
 
 	async goToNew(new_name: string) {
-		await this.request.reloadServer(undefined, false);
+		await this.request.reloadServer(false);
 		await this.router.navigate([
 			'/',
 			this.selectedServer?.name,
