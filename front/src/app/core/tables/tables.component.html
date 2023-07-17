@@ -27,7 +27,8 @@
 					 [hidden]="table.hide"
 					 class="entity">
 					<div style="display: flex">
-						<div [style.background-color]="tooltips[table.name] ? '#1e1e1e' : 'inherit'">
+						<div [style.background-color]="tooltips[table.name] ? '#1e1e1e' : 'inherit'"
+							style="display: flex;">
 							<button
 								(click)="getTooltip(table)"
 								mat-icon-button>
