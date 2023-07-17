@@ -15,9 +15,9 @@ class Controller {
 	}
 
 	async exampleData(req, res) {
-		const [driver, db, table] = await http.getLoggedDriver(req);
+		const [driver, db] = await http.getLoggedDriver(req);
 
-		res.send(await driver.exampleData(db, table, req.body.column, req.body.limit));
+		res.send(await driver.exampleData(db, req.body.table, req.body.column, req.body.limit));
 	}
 }
 

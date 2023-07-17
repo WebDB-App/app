@@ -22,7 +22,7 @@ import { DiffEditorModel } from "ngx-monaco-editor-v2";
 import { Server } from "../../classes/server";
 import { Configuration } from "../../classes/configuration";
 import { HttpClient } from "@angular/common/http";
-import { initBaseEditor } from "../helper";
+import { initBaseEditor, isSQL } from "../helper";
 
 declare var monaco: any;
 
@@ -249,6 +249,8 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 		this.codes[this.selectedDatabase!.name] = this.query;
 		localStorage.setItem(localStorageName, JSON.stringify(this.codes));
 	}
+
+	protected readonly isSQL = isSQL;
 }
 
 @Component({

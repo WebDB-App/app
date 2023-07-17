@@ -1,5 +1,4 @@
 - mongo harmonizer + nested
-- index
 - export
 - insert
 
@@ -54,7 +53,6 @@
 
 
 
-# Falso
 
 # Cockroachdb
 
