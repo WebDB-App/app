@@ -58,11 +58,10 @@ export class ExploreComponent implements OnInit, OnDestroy {
 			clearInterval(this.autoUp);
 			this.autoUp = false
 		}
-		this.obs?.unsubscribe();
 	}
 
 	ngOnInit() {
-		this.obs = combineLatest([this.activatedRoute.parent?.params, this.activatedRoute?.queryParams, this.request.serverReload]).pipe(
+		this.obs = combineLatest([this.activatedRoute.parent?.params, this.activatedRoute?.queryParams]).pipe(
 			distinctUntilChanged()
 		).subscribe(async (_params) => {
 			this.selectedServer = Server.getSelected();

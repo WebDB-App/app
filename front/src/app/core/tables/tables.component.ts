@@ -1,10 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { Server } from "../../../classes/server";
 import { Database } from "../../../classes/database";
 import { Table } from "../../../classes/table";
 import { DrawerService } from "../../../shared/drawer.service";
-import { combineLatest, distinctUntilChanged, Subscription } from "rxjs";
 import { RequestService } from "../../../shared/request.service";
 import { Column } from "../../../classes/column";
 import { Title } from "@angular/platform-browser";
@@ -29,9 +28,8 @@ export const Tabs: Tab[] = [
 	templateUrl: './tables.component.html',
 	styleUrls: ['./tables.component.scss']
 })
-export class TablesComponent implements OnInit, OnDestroy {
+export class TablesComponent implements OnInit {
 
-	obs?: Subscription;
 	selectedDatabase?: Database;
 	selectedServer?: Server;
 	selectedTable?: Table;
@@ -50,9 +48,7 @@ export class TablesComponent implements OnInit, OnDestroy {
 	}
 
 	async ngOnInit() {
-		this.obs = combineLatest([this.activatedRoute.paramMap, this.request.serverReload]).pipe(
-			distinctUntilChanged()
-		).subscribe(async (_params) => {
+		this.activatedRoute.paramMap.subscribe(async (_params) => {
 			this.selectedDatabase = Database.getSelected();
 			this.selectedServer = Server.getSelected();
 
@@ -85,10 +81,6 @@ export class TablesComponent implements OnInit, OnDestroy {
 				]);
 			}
 		});
-	}
-
-	ngOnDestroy(): void {
-		this.obs?.unsubscribe();
 	}
 
 	filterChanged(_value: string) {

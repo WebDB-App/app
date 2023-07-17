@@ -3,9 +3,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { ContainerComponent } from "./container/container.component";
 import { environment } from "../environments/environment";
 import { TablesComponent } from "./core/tables/tables.component";
-import { ServersComponent } from "./container/servers/servers.component";
+import { ServersComponent } from "./servers/servers.component";
 
 const appRoutes: Routes = [
+	{
+		path: '',
+		pathMatch: 'full',
+		component: ServersComponent,
+	},
 	{
 		path: ':server/:database',
 		component: ContainerComponent,
@@ -21,16 +26,6 @@ const appRoutes: Routes = [
 			}, {
 				path: '',
 				component: TablesComponent,
-			}
-		]
-	}, {
-		path: '',
-		component: ContainerComponent,
-		children: [
-			{
-				path: '',
-				pathMatch: 'full',
-				component: ServersComponent
 			}
 		]
 	}

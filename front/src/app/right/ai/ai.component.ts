@@ -4,7 +4,6 @@ import { Server } from "../../../classes/server";
 import { Licence } from "../../../classes/licence";
 import { RequestService } from "../../../shared/request.service";
 import { Configuration, OpenAIApi } from "openai";
-import { combineLatest, distinctUntilChanged, Subscription } from "rxjs";
 import { Configuration as WebConfig } from "../../../classes/configuration";
 import { marked } from 'marked';
 import { MatSelect } from "@angular/material/select";
@@ -50,14 +49,13 @@ class Msg {
 	templateUrl: './ai.component.html',
 	styleUrls: ['./ai.component.scss']
 })
-export class AiComponent implements OnInit, OnDestroy {
+export class AiComponent implements OnInit {
 
 	@ViewChild('select') select!: MatSelect;
 
 	selectedServer?: Server;
 	selectedDatabase?: Database;
 	licence?: Licence;
-	obs!: Subscription;
 	configuration: WebConfig = new WebConfig();
 	initialized = false
 
@@ -96,9 +94,7 @@ export class AiComponent implements OnInit, OnDestroy {
 			if (state && !this.initialized) {
 				this.initialized = true;
 
-				this.obs = combineLatest([this.select.selectionChange, this.request.serverReload]).pipe(
-					distinctUntilChanged()
-				).subscribe(async (_params) => {
+				this.select.selectionChange.subscribe(async (_params) => {
 					await this.loadSample();
 				});
 
@@ -117,10 +113,6 @@ export class AiComponent implements OnInit, OnDestroy {
 			preSent: this.preSent,
 			language: navigator.language
 		}, undefined)).txt;
-	}
-
-	ngOnDestroy(): void {
-		this.obs.unsubscribe();
 	}
 
 	initChat() {

@@ -12,7 +12,7 @@
 		</button>
 	</mat-form-field>
 
-	<button (click)="reloadList()"
+	<button (click)="ngOnInit()"
 			mat-flat-button>
 		<span class="material-symbols-outlined notranslate">
 			wifi_find
@@ -30,8 +30,17 @@
 	</button>
 </mat-toolbar>
 
-<mat-progress-bar *ngIf="loading >= 0 && loading < 100" [value]="loading" mode="determinate"
-				  style="position:absolute;"></mat-progress-bar>
+<div *ngIf="loading < 100"
+	 style="height: calc(100vh - 56px); justify-content: center; display: flex;">
+	<div *ngIf="loading >= 0"
+		 style="align-self: center;">
+		<mat-spinner
+			[value]="loading"
+			mode="determinate"
+			style="margin: 0px auto;"></mat-spinner>
+		<h2 style="color: #2196f3">Loading Servers ...</h2>
+	</div>
+</div>
 
 <div id="container">
 

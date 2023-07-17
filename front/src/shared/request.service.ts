@@ -15,11 +15,8 @@ import * as drivers from "../classes/drivers";
 })
 export class RequestService {
 
-	private serverSubject = new BehaviorSubject(<Server>{});
-	serverReload = this.serverSubject.asObservable();
-	private loadingSubject = new BehaviorSubject({});
+	private loadingSubject = new BehaviorSubject(0);
 	loadingServer = this.loadingSubject.asObservable();
-
 
 	constructor(
 		private http: HttpClient,
@@ -54,45 +51,63 @@ export class RequestService {
 		return result;
 	}
 
-	async connectServer(server: Server, full = true) {
+	async connectServers(servers: Server[], full = true) {
+		const toLoad = [];
+
+		for (let server of servers) {
 		// @ts-ignore
 		server.driver = new drivers[server.wrapper];
 		server.params = server.params || server.driver.connection.defaultParams;
 
 		const connect = await firstValueFrom(this.http.post<any>(environment.apiRootUrl + 'server/connect', Server.getShallow(server)));
-		if (!connect.error) {
-			server = await this.reloadServer(server, false, full);
-			server.connected = true;
-		} else {
-			server.connected = false;
+
+			server.connected = !connect.error;
+			toLoad.push(server);
 		}
-		return server;
+
+		return await this.loadServers(toLoad, full, false);
 	}
 
-	async reloadServer(server = Server.getSelected(), emit = true, full = true) {
+	async loadServers(servers: Server[], full: boolean, reloadPage: boolean) {
+		let loading = reloadPage ? 0 : 1;
+		this.loadingSubject.next(loading);
+
+		const promises = [];
+		for (const server of servers) {
+			if (!server.connected) {
+				continue;
+			}
+
 		const shallow = Server.getShallow(server);
-		const promises = [
+			promises.push(
 			new Promise(async resolve => {
 				server.dbs = await firstValueFrom(this.http.post<Database[]>(environment.apiRootUrl + 'server/structure', shallow))
-				this.loadingSubject.next({});
+					this.loadingSubject.next(loading += 33 / servers.length);
 				resolve(true);
 			})
-		];
+			)
+
 		if (full) {
 			promises.push(new Promise(async resolve => {
 				server.relations = await firstValueFrom(this.http.post<Relation[]>(environment.apiRootUrl + 'server/relations', shallow))
-				this.loadingSubject.next({});
+					this.loadingSubject.next(loading += 33 / servers.length);
 				resolve(true);
 			}));
 			promises.push(new Promise(async resolve => {
 				server.indexes = await firstValueFrom(this.http.post<Index[]>(environment.apiRootUrl + 'server/indexes', shallow))
-				this.loadingSubject.next({});
+					this.loadingSubject.next(loading += 33 / servers.length);
 				resolve(true);
 			}));
 		}
-
+		}
 		await Promise.all(promises);
 
+		this.loadingSubject.next(100);
+		return servers;
+	}
+
+	async reloadServer(reloadPage = true, server = Server.getSelected()) {
+		server = (await this.loadServers([server], true, reloadPage))[0];
 		if (server.name !== Server.getSelected()?.name) {
 			return server;
 		}
@@ -100,9 +115,6 @@ export class RequestService {
 		Database.reload(server.dbs);
 		Table.reload(Database.getSelected());
 
-		if (emit) {
-			this.serverSubject.next(server);
-		}
 		return server;
 	}
 }

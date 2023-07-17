@@ -1,7 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Table } from "../../../classes/table";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { combineLatest, distinctUntilChanged, Subscription } from "rxjs";
+import { Subscription } from "rxjs";
 import { ActivatedRoute } from "@angular/router";
 import { RequestService } from "../../../shared/request.service";
 import { Trigger } from "../../../classes/trigger";
@@ -12,7 +12,7 @@ import { Server } from "../../../classes/server";
 	templateUrl: './trigger.component.html',
 	styleUrls: ['./trigger.component.scss']
 })
-export class TriggerComponent implements OnInit, OnDestroy {
+export class TriggerComponent implements OnInit {
 
 	selectedTable?: Table;
 	obs!: Subscription;
@@ -39,15 +39,9 @@ export class TriggerComponent implements OnInit, OnDestroy {
 	}
 
 	async ngOnInit() {
-		this.obs = combineLatest([this.activatedRoute.parent?.params, this.request.serverReload]).pipe(
-			distinctUntilChanged()
-		).subscribe(async (_params) => {
+		this.activatedRoute.parent?.params.subscribe(async (_params) => {
 			await this.loadData()
 		});
-	}
-
-	ngOnDestroy(): void {
-		this.obs.unsubscribe();
 	}
 
 	async loadData() {

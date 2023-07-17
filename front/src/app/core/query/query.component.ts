@@ -1,11 +1,10 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from "@angular/material/table";
 import { MatPaginator } from "@angular/material/paginator";
 import { Server } from "../../../classes/server";
 import { Table } from "../../../classes/table";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Database } from "../../../classes/database";
-import { combineLatest, distinctUntilChanged, Subscription } from "rxjs";
 import { ActivatedRoute } from "@angular/router";
 import { RequestService } from "../../../shared/request.service";
 import { HistoryService, Query } from "../../../shared/history.service";
@@ -16,14 +15,13 @@ import { Configuration } from "../../../classes/configuration";
 	templateUrl: './query.component.html',
 	styleUrls: ['./query.component.scss']
 })
-export class QueryComponent implements OnInit, OnDestroy {
+export class QueryComponent implements OnInit {
 
 	configuration: Configuration = new Configuration();
 
 	selectedServer?: Server;
 	selectedDatabase?: Database;
 	selectedTable?: Table;
-	obs!: Subscription;
 
 	replayQuery: string = "";
 	queryHistory = new MatTableDataSource<Query>();
@@ -41,17 +39,11 @@ export class QueryComponent implements OnInit, OnDestroy {
 	ngOnInit() {
 		this.queryHistory.data = this.history.getLocal();
 
-		this.obs = combineLatest([this.activatedRoute.parent?.params, this.request.serverReload]).pipe(
-			distinctUntilChanged()
-		).subscribe(async (_params) => {
+		this.activatedRoute.parent?.params.subscribe(async (_params) => {
 			this.selectedDatabase = Database.getSelected();
 			this.selectedServer = Server.getSelected();
 			this.selectedTable = Table.getSelected();
 		});
-	}
-
-	ngOnDestroy(): void {
-		this.obs.unsubscribe();
 	}
 
 	addHistory(event: { query: string, nbResult: number }) {
