@@ -22,7 +22,7 @@ import { DiffEditorModel } from "ngx-monaco-editor-v2";
 import { Server } from "../../classes/server";
 import { Configuration } from "../../classes/configuration";
 import { HttpClient } from "@angular/common/http";
-import { initBaseEditor, isSQL } from "../helper";
+import { initBaseEditor } from "../helper";
 
 declare var monaco: any;
 
@@ -67,6 +67,29 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 	page = 0;
 	querySize!: number;
 	protected readonly Math = Math;
+	preBuilds: {id: string, tooltip: string, icon: string}[] = [
+		{
+			id: "select",
+			tooltip: "Select",
+			icon: "description"
+		}, {
+			id: "select_join",
+			tooltip: "Select with relations",
+			icon: "file_present"
+		}, {
+			id: "update",
+			tooltip: "Update",
+			icon: "edit_document"
+		}, {
+			id: "insert",
+			tooltip: "Insert",
+			icon: "note_add"
+		}, {
+			id: "delete",
+			tooltip: "Delete",
+			icon: "scan_delete"
+		},
+	];
 
 	constructor(
 		private snackBar: MatSnackBar,
@@ -94,7 +117,7 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 		this.editorOptions.language = this.selectedServer?.driver.language.id!;
 
 		if (this.selectedTable) {
-			this.prebuild("select");
+			this.loadPreBuild("select");
 			this.relations = Table.getRelations();
 		} else {
 			this.query = this.codes[this.selectedDatabase!.name];
@@ -195,7 +218,7 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 		this.isLoading = false;
 	}
 
-	prebuild(value: string) {
+	loadPreBuild(value: string) {
 		switch (value) {
 			case "delete":
 				this.query = this.selectedServer!.driver.getBaseDelete(this.selectedTable!);
@@ -249,8 +272,6 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 		this.codes[this.selectedDatabase!.name] = this.query;
 		localStorage.setItem(localStorageName, JSON.stringify(this.codes));
 	}
-
-	protected readonly isSQL = isSQL;
 }
 
 @Component({

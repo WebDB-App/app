@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Column } from "../../../classes/column";
 import { Server } from "../../../classes/server";
-import { isSQL } from "../../../shared/helper";
 import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
@@ -17,7 +16,6 @@ export class ColumnComponent implements OnInit {
 	fullType = false;
 	extraAttributes = Server.getSelected().driver.language.extraAttributes;
 	selectedServer?: Server;
-	protected readonly isSQL = isSQL;
 
 	constructor(
 		public snackBar: MatSnackBar

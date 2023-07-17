@@ -34,8 +34,15 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 	loading = 0;
 	selectedServer!: Server;
 	selectedDatabase!: Database;
-	panels: Panel[] = [];
-	protected readonly isSQL = isSQL;
+	panels: Panel[] = [
+		{link: "relations", icon: "attach_file"},
+		{link: "diagram", icon: "polyline"},
+		{link: "code", icon: "code"},
+		{link: "assistant", icon: "support_agent"},
+		{link: "load", icon: "exit_to_app"},
+		{link: "dump", icon: "ios_share"},
+		{link: "advanced", icon: "settings"},
+	];
 
 	constructor(
 		private domSanitizer: DomSanitizer,
@@ -81,20 +88,6 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 		Database.setSelected(database);
 		this.selectedServer = server;
 		this.selectedDatabase = database;
-
-		if (isSQL()) {
-			this.panels = [
-				{link: "relations", icon: "attach_file"},
-				{link: "diagram", icon: "polyline"},
-			];
-		}
-		this.panels = this.panels.concat([
-			{link: "code", icon: "code"},
-			{link: "assistant", icon: "support_agent"},
-			{link: "load", icon: "exit_to_app"},
-			{link: "dump", icon: "ios_share"},
-			{link: "advanced", icon: "settings"},
-		]);
 	}
 
 	ngAfterViewInit(): void {

@@ -51,8 +51,9 @@ export class UpdateDataDialogComponent {
 				continue;
 			}
 
-			if (relations.find(relation => relation.column_source === col.name)) {
-				const datas = await this.request.post('relation/exampleData', {column: col.name, limit});
+			const relation = relations.find(relation => relation.column_source === col.name);
+			if (relation) {
+				const datas = await this.request.post('relation/exampleData', {column: relation.column_dest, table: relation.table_dest, limit});
 				if (datas && datas.length < limit) {
 					this.updateSuggestions[col.name] = datas.map((data: any) => data.example);
 				}
