@@ -16,7 +16,7 @@ export class AdvancedComponent implements OnInit {
 	selectedServer?: Server;
 	selectedDatabase?: Database;
 	collations: string[] = [];
-	stats!: {
+	stats?: {
 		index_length: number,
 		data_length: number
 	};

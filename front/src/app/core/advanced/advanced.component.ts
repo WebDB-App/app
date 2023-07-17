@@ -21,7 +21,7 @@ export class TableAdvancedComponent {
 	selectedDatabase?: Database;
 	selectedTable?: Table;
 	obs: Subscription
-	stats!: {
+	stats?: {
 		index_length: number,
 		data_length: number
 	};

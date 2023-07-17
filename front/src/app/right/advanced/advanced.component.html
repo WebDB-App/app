@@ -20,7 +20,7 @@
 
 	<div style="padding: 20px">
 
-		<div fxLayout="row" fxLayoutAlign="space-between center">
+		<div fxLayout="row" fxLayoutAlign="space-between center" *ngIf="stats">
 			<span>Total Index Size : {{+stats.index_length | round}} Mb</span>
 			<span>Total Data Size : {{+stats.data_length | round}} Mb</span>
 		</div>
