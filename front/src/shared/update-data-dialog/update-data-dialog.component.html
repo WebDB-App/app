@@ -15,10 +15,11 @@
 					   matInput>
 				<mat-autocomplete #auto="matAutocomplete">
 					<ng-container *ngFor="let suggestion of column.value">
-						<mat-option (click)="snackBar.open('Copied to clipboard', '╳', {duration: 3000}); trigger.closePanel();"
-									*ngIf="suggestion.toString().indexOf(filter.value) >= 0"
-									[cdkCopyToClipboard]="suggestion.toString()"
-									[value]="suggestion">
+						<mat-option
+							(click)="snackBar.open('Copied to clipboard', '╳', {duration: 3000}); trigger.closePanel();"
+							*ngIf="suggestion.toString().indexOf(filter.value) >= 0"
+							[cdkCopyToClipboard]="suggestion.toString()"
+							[value]="suggestion">
 							{{suggestion}}
 						</mat-option>
 					</ng-container>

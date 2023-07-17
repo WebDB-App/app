@@ -11,8 +11,8 @@
 			#type="matButtonToggleGroup">
 			<mat-button-toggle
 				*ngFor="let symbol of symbols | keyvalue; let i = index"
-				[hidden]="!isSQL() && symbol.key === 'PRIMARY'"
 				[checked]="i === 0"
+				[hidden]="!isSQL() && symbol.key === 'PRIMARY'"
 				[value]="symbol.key">
 				{{symbol.key}} {{symbol.value}}
 			</mat-button-toggle>

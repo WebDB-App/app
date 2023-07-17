@@ -17,6 +17,7 @@ export class ColumnComponent implements OnInit {
 	fullType = false;
 	extraAttributes = Server.getSelected().driver.language.extraAttributes;
 	selectedServer?: Server;
+	protected readonly isSQL = isSQL;
 
 	constructor(
 		public snackBar: MatSnackBar
@@ -30,6 +31,4 @@ export class ColumnComponent implements OnInit {
 	addColumn() {
 		this.form?.columns.push(<Column>{});
 	}
-
-	protected readonly isSQL = isSQL;
 }

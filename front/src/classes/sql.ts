@@ -1,4 +1,4 @@
-import { Driver, FileType, QueryParams, TypeGroup, Group } from "./driver";
+import { Driver, Group, QueryParams } from "./driver";
 import { Column } from "./column";
 import { Database } from "./database";
 import { Table } from "./table";
@@ -179,7 +179,8 @@ export class SQL implements Driver {
 
 	nodeLib = (query: QueryParams) => "";
 
-	async loadExtraLib(http: HttpClient) {}
+	async loadExtraLib(http: HttpClient) {
+	}
 
 	format(code: string) {
 		code = format(code, {

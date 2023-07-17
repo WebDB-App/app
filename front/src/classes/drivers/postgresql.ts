@@ -1,5 +1,5 @@
 import { SQL } from "../sql";
-import { QueryParams, Group } from "../driver";
+import { Group, QueryParams } from "../driver";
 import { Server } from "../server";
 import { Database } from "../database";
 import { format } from "sql-formatter";
@@ -26,31 +26,33 @@ export class PostgreSQL extends SQL {
 				'OWNER TO',
 				'CREATE DOMAIN'
 			]),
-			functions: { ...this.language.functions, ...{
-				'ARRAY_AGG': null,
-				'ARRAY_CAT': '(anyarray, anyarray)',
-				'ARRAY_UPPER': '(anyarray, int)',
-				'ARRAY_REPLACE': '(anyarray, anyelement, anyelement)',
-				'ARRAY_REMOVE': '(anyarray, anyelement)',
-				'ARRAY_PREPEND': '(anyelement, anyarray)',
-				'ARRAY_LOWER': '(anyarray, int)',
-				'ARRAY_LENGTH': '(anyarray, int)',
-				'ARRAY_FILL': '(anyelement, int[], [, int[]])',
-				'ARRAY_APPEND': '(anyarray, anyelement)',
-				'ARRAY_TO_STRING': '(anyarray, text [, text])',
-				'STRING_AGG': '(expression, delimiter)',
-				'STRING_TO_ARRAY': '(text, text [, text])',
-				'EVERY': '',
-				'JSON_AGG': null,
-				'JSON_OBJECT_AGG': '(name, value)',
-				'JSON_ARRAY_LENGTH': '(json)',
-				'JSON_OBJECT_KEYS': '(json)',
-				'JSON_EACH': '(json)',
-				'JSON_ARRAY_ELEMENTS': '(json)',
-				'JSON_OBJECT': '([key, value[, key, value] ...])',
-				'TO_JSON': '(anyelement)',
-				'CRYPT': '(password text, salt text)'
-			}},
+			functions: {
+				...this.language.functions, ...{
+					'ARRAY_AGG': null,
+					'ARRAY_CAT': '(anyarray, anyarray)',
+					'ARRAY_UPPER': '(anyarray, int)',
+					'ARRAY_REPLACE': '(anyarray, anyelement, anyelement)',
+					'ARRAY_REMOVE': '(anyarray, anyelement)',
+					'ARRAY_PREPEND': '(anyelement, anyarray)',
+					'ARRAY_LOWER': '(anyarray, int)',
+					'ARRAY_LENGTH': '(anyarray, int)',
+					'ARRAY_FILL': '(anyelement, int[], [, int[]])',
+					'ARRAY_APPEND': '(anyarray, anyelement)',
+					'ARRAY_TO_STRING': '(anyarray, text [, text])',
+					'STRING_AGG': '(expression, delimiter)',
+					'STRING_TO_ARRAY': '(text, text [, text])',
+					'EVERY': '',
+					'JSON_AGG': null,
+					'JSON_OBJECT_AGG': '(name, value)',
+					'JSON_ARRAY_LENGTH': '(json)',
+					'JSON_OBJECT_KEYS': '(json)',
+					'JSON_EACH': '(json)',
+					'JSON_ARRAY_ELEMENTS': '(json)',
+					'JSON_OBJECT': '([key, value[, key, value] ...])',
+					'TO_JSON': '(anyelement)',
+					'CRYPT': '(password text, salt text)'
+				}
+			},
 			typeGroups: [
 				{
 					name: Group.String,
