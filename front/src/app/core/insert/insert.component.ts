@@ -12,6 +12,7 @@ import { initBaseEditor, loadLibAsset } from "../../../shared/helper";
 import { Column } from "../../../classes/column";
 import { MatPaginator } from "@angular/material/paginator";
 import { faker } from '@faker-js/faker';
+import * as falso from '@ngneat/falso';
 import { HttpClient } from "@angular/common/http";
 import { MatDialog } from "@angular/material/dialog";
 import { UpdateDataDialogComponent } from "../../../shared/update-data-dialog/update-data-dialog.component";
@@ -155,7 +156,7 @@ export class InsertComponent implements OnInit, OnDestroy {
 			const obj: any = {};
 			for (const [index, rand] of Object.entries(this.randomSource)) {
 				try {
-					const r = new Function("faker", rand.model)(faker);
+					const r = new Function("faker", "falso", rand.model)(faker, falso);
 					obj[rand.column.name] = typeof r === 'function' ? r() : r;
 					this.randomSource[+index].error = "";
 				} catch (e) {
@@ -246,14 +247,16 @@ export class InsertComponent implements OnInit, OnDestroy {
 	async initEditor(editor: any, column: string) {
 		initBaseEditor(editor);
 
-		await loadLibAsset(this.http, ['bson.d.ts', 'faker.d.ts']);
+		await loadLibAsset(this.http, ['bson.d.ts', 'faker.d.ts', 'falso.d.ts']);
 		monaco.languages.typescript.javascriptDefaults.addExtraLib(
 			`import * as bsonModule from "bson.d.ts";
 			import { faker as fakerModule } from "faker.d.ts";
+			import * as falsoModule from "falso.d.ts";
 
 			declare global {
 				var bson: typeof bsonModule;
 				var faker: typeof fakerModule;
+				var falso: typeof falsoModule;
 			}`,
 			`file:///main.tsx`
 		);

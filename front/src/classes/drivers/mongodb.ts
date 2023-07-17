@@ -6,10 +6,13 @@ import { HttpClient } from "@angular/common/http";
 import { Database } from "../database";
 import { loadLibAsset } from "../../shared/helper";
 import { Server } from "../server";
+import { Configuration } from "../configuration";
 
 declare var monaco: any;
 
 export class MongoDB implements Driver {
+
+	configuration: Configuration = new Configuration();
 
 	connection = {
 		defaultParams: {
@@ -17,7 +20,7 @@ export class MongoDB implements Driver {
 			authSource: 'admin'
 		},
 		acceptedExt: ['.csv', '.tsv', '.json'],
-		nameDel: '"',
+		nameDel: this.configuration.getByName("useNameDel")?.value ? '"' : '',
 		fileTypes: [
 			{extension: "json", name: "JSON"},
 			{extension: "bson", name: "BSON"},
@@ -117,7 +120,7 @@ async function main() {
 	}
 
 	getBaseSelect(table: Table) {
-		const cols = table.columns?.map(column => `${column.name}: "${column.type}"`);
+		const cols = table.columns?.map(column => `${this.connection.nameDel + column.name + this.connection.nameDel}: "${column.type}"`);
 		return `/*
 const db = (await new MongoClient()).db("${Database.getSelected().name}");
 const bson = require("bson");
@@ -129,16 +132,7 @@ db.collection("${table.name}").find({
 	}
 
 	getBaseSelectWithRelations(table: Table, relations: Relation[]) {
-		return '';
-		/*
-		const columns = table.columns.map(column => `${table.name}.${column.name}`).join(', ');
-
-		const joins: string[] = [];
-		for (const relation of relations) {
-			joins.push(`INNER JOIN ${relation.table_dest} ON ${relation.table_dest}.${relation.column_dest} = ${relation.table_source}.${relation.column_source}`)
-		}
-
-		return `SELECT ${columns} FROM ${table.name} ${joins.join("\n")} GROUP BY ${columns} HAVING 1 = 1`;*/
+		return "";
 	}
 
 	getBaseFilter(table: Table, conditions: string[], operand: 'AND' | 'OR') {

@@ -18,7 +18,7 @@
 			</mat-card-subtitle>
 		</mat-card-header>
 		<mat-card-content fxLayout="row" fxLayoutAlign="space-evenly center">
-			<span>{{licence?.email}}</span>
+			<span *ngIf="licence?.email">{{licence?.email}}</span>
 			<span *ngIf="licence?.expire! > 0">Expire : {{licence?.expire! * 1000 | date: 'mediumDate'}}</span>
 		</mat-card-content>
 	</mat-card>

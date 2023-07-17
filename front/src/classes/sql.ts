@@ -477,22 +477,30 @@ export class SQL implements Driver {
 		return `DELETE FROM ${this.connection.nameDel + table.name + this.connection.nameDel} WHERE ${cols.join(" AND ")}`;
 	}
 
+	getColForSelect(columns: Column[]) {
+		return columns.map(column => `${this.connection.nameDel + column.name + this.connection.nameDel}`);
+	}
+
+	getColForWhere(columns: Column[]) {
+		return columns.map(column => `${this.connection.nameDel + column.name + this.connection.nameDel} = '${column.type.replaceAll("'", '"')}'`);
+	}
+
 	getBaseInsert(table: Table) {
-		const cols = table.columns.map(column => `${this.connection.nameDel + column.name + this.connection.nameDel}`);
-		const colWithType = table.columns.map(column => `${this.connection.nameDel + column.name + this.connection.nameDel} = '${column.type}'`);
-		return `INSERT INTO ${this.connection.nameDel + table.name + this.connection.nameDel} (${cols.join(', ')}) VALUES (${colWithType.join(', ')})`;
+		const cols = this.getColForSelect(table.columns).join(', ');
+		const values = this.getColForWhere(table.columns).join(', ');
+		return `INSERT INTO ${this.connection.nameDel + table.name + this.connection.nameDel} (${cols}) VALUES (${values})`;
 	}
 
 	getBaseUpdate(table: Table) {
-		const cols = table.columns.map(column => `${this.connection.nameDel + column.name + this.connection.nameDel}`);
-		const colWithType = table.columns.map(column => `${this.connection.nameDel + column.name + this.connection.nameDel} = '${column.type}'`);
-		return `UPDATE ${this.connection.nameDel + table.name + this.connection.nameDel} SET ${cols!.map(col => `${col} = ''`)} WHERE ${colWithType.join(" AND ")}`;
+		const cols = this.getColForSelect(table.columns).map(col => `${col} = ''`);
+		const where = this.getColForWhere(table.columns).join(" AND ");
+		return `UPDATE ${this.connection.nameDel + table.name + this.connection.nameDel} SET ${cols} WHERE ${where}`;
 	}
 
 	getBaseSelect(table: Table) {
-		const cols = table.columns.map(column => `${this.connection.nameDel + column.name + this.connection.nameDel}`);
-		const colWithType = table.columns.map(column => `${this.connection.nameDel + column.name + this.connection.nameDel} = '${column.type}'`);
-		return `SELECT ${cols.join(', ')} FROM ${this.connection.nameDel + table.name + this.connection.nameDel} WHERE ${colWithType.join(" AND ")}`;
+		const cols = this.getColForSelect(table.columns).join(', ');
+		const where = this.getColForWhere(table.columns).join(" AND ");
+		return `SELECT ${cols} FROM ${this.connection.nameDel + table.name + this.connection.nameDel} WHERE ${where}`;
 	}
 
 	getBaseSelectWithRelations(table: Table, relations: Relation[]) {

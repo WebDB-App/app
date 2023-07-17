@@ -16,7 +16,6 @@ export class MySQL extends SQL {
 
 		this.connection = {
 			...this.connection,
-			nameDel: this.configuration.getByName("useNameDel")?.value ? "\`" : '',
 			disclaimerSsh: "MySQL require password for remote connection",
 			defaultParams: {
 				dateStrings: true,
