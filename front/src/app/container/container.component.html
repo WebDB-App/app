@@ -64,7 +64,7 @@
 			<div *ngIf="loading >= 0"
 				 style="align-self: center;">
 				<mat-spinner
-				[value]="loading"
+					[value]="loading"
 					mode="determinate"
 					style="margin: 0px auto;"></mat-spinner>
 				<h2>Loading {{activatedRoute.snapshot.paramMap.get('database')}} ...</h2>

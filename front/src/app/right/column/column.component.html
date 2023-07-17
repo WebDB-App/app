@@ -103,19 +103,19 @@
 			<div style="border-left: 1px solid #2196f3; padding-left: 4px;">
 				<ng-container *ngIf="fullType">
 					<button
-						mat-button
-						[cdkCopyToClipboard]="type"
 						(click)="snackBar.open('Copied to clipboard', '╳', {duration: 3000})"
-						*ngFor="let type of group.full">
+						*ngFor="let type of group.full"
+						[cdkCopyToClipboard]="type"
+						mat-button>
 						{{type}}
 					</button>
 				</ng-container>
 				<ng-container *ngIf="!fullType">
 					<button
-						mat-button
-						[cdkCopyToClipboard]="type"
 						(click)="snackBar.open('Copied to clipboard', '╳', {duration: 3000})"
-						*ngFor="let type of group.proposition">
+						*ngFor="let type of group.proposition"
+						[cdkCopyToClipboard]="type"
+						mat-button>
 						{{type}}
 					</button>
 				</ng-container>

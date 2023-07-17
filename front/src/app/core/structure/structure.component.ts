@@ -167,6 +167,7 @@ export class StructureComponent implements OnInit, OnDestroy, AfterViewChecked {
 export class AddIndexDialog {
 
 	symbols = IndexSymbol;
+	protected readonly isSQL = isSQL;
 
 	constructor(
 		public dialogRef: MatDialogRef<AddIndexDialog>,
@@ -182,8 +183,6 @@ export class AddIndexDialog {
 		this.snackBar.open(`Added Index ${name}`, "╳", {duration: 3000})
 		this.dialogRef.close(true);
 	}
-
-	protected readonly isSQL = isSQL;
 }
 
 @Component({
