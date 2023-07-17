@@ -9,7 +9,7 @@ export function isNested(data: any) {
 	return ['Object', 'Array'].indexOf(data?.constructor.name) >= 0;
 }
 
-export function isSQL(server: Server): boolean {
+export function isSQL(server = Server.getSelected()): boolean {
 	return server.driver instanceof SQL;
 }
 

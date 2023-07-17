@@ -27,7 +27,7 @@
 					<div>
 						<span>{{selectedServer.host}}</span>:<span>{{selectedServer.port}}</span>/<span>{{selectedDatabase.name}}</span>
 					</div>
-					<button (click)="reloadServer()" mat-icon-button>
+					<button (click)="request.reloadServer()" mat-icon-button>
 						<span class="material-symbols-outlined notranslate">
 							refresh
 						</span>
@@ -64,7 +64,7 @@
 			<div *ngIf="loading >= 0"
 				 style="align-self: center;">
 				<mat-spinner
-					[value]="loading"
+				[value]="loading"
 					mode="determinate"
 					style="margin: 0px auto;"></mat-spinner>
 				<h2>Loading {{activatedRoute.snapshot.paramMap.get('database')}} ...</h2>

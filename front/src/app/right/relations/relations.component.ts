@@ -33,7 +33,7 @@ export class RelationsComponent implements OnInit {
 		this.selectedDatabase = Database.getSelected();
 		this.selectedServer = Server.getSelected();
 
-		if (isSQL(this.selectedServer)) {
+		if (isSQL()) {
 			this.displayedColumns.push(this.actionColum);
 		}
 

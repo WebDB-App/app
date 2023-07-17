@@ -163,7 +163,21 @@ export default class MongoDB extends Driver {
 	}
 
 	async addIndex(database, table, name, type, columns) {
-		await this.connection.db(database).collection(table).createIndex({ title: 1 });
+		const opt = {};
+		const names = {};
+		if (type === "UNIQUE") {
+			opt["unique"] = true;
+			opt["name"] = name;
+		}
+		for (const column of columns) {
+			names[column] = 1;
+		}
+
+		try {
+			await this.connection.db(database).collection(table).createIndex(names, opt);
+		} catch (e) {
+			return {error: e.message};
+		}
 		return {};
 	}
 

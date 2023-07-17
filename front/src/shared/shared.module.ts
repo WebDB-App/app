@@ -5,7 +5,6 @@ import { BooleanPipe } from "./boolean.pipe";
 import { CellComponent } from './cell/cell.component';
 import { NgxJsonViewerModule } from "ngx-json-viewer";
 import { RouterLinkWithHref } from "@angular/router";
-import { IsSQLPipe } from "./is_sql.pipe";
 import { UpdateDataDialogComponent } from './update-data-dialog/update-data-dialog.component';
 import { FlexModule } from "@angular/flex-layout";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
@@ -24,14 +23,12 @@ import { FormsModule } from "@angular/forms";
 		RoundPipe,
 		BooleanPipe,
 		CellComponent,
-		IsSQLPipe,
 		UpdateDataDialogComponent
 	],
 	exports: [
 		RoundPipe,
 		BooleanPipe,
 		CellComponent,
-		IsSQLPipe
 	],
 	imports: [
 		CommonModule,

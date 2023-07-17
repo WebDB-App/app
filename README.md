@@ -1,5 +1,7 @@
-- mongo harmonizer
-- export, insert
+- mongo harmonizer + nested
+- index
+- export
+- insert
 
 
 

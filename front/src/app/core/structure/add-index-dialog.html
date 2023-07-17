@@ -9,8 +9,11 @@
 	<div style="margin: 0px auto;">
 		<mat-button-toggle-group
 			#type="matButtonToggleGroup">
-			<mat-button-toggle *ngFor="let symbol of symbols | keyvalue" [checked]="symbol.key === 'PRIMARY'"
-							   [value]="symbol.key">
+			<mat-button-toggle
+				*ngFor="let symbol of symbols | keyvalue; let i = index"
+				[hidden]="!isSQL() && symbol.key === 'PRIMARY'"
+				[checked]="i === 0"
+				[value]="symbol.key">
 				{{symbol.key}} {{symbol.value}}
 			</mat-button-toggle>
 		</mat-button-toggle-group>
