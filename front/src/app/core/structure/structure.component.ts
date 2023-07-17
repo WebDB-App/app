@@ -53,14 +53,14 @@ export class StructureComponent implements OnInit, OnDestroy, AfterViewChecked {
 		this.indexColumns = ['tags', 'columns', 'name'];
 		this.structureColumns = ['name', 'type', 'nullable'];
 
-		if (isSQL(this.selectedServer)) {
+		if (isSQL()) {
 			this.structureColumns.push('defaut');
 			this.indexColumns.push('cardinality');
 		}
 		if (this.selectedServer.driver.language.extraAttributes.length) {
 			this.structureColumns.push('extra');
 		}
-		if (isSQL(this.selectedServer)) {
+		if (isSQL()) {
 			this.structureColumns.push('comment');
 		}
 
@@ -182,6 +182,8 @@ export class AddIndexDialog {
 		this.snackBar.open(`Added Index ${name}`, "╳", {duration: 3000})
 		this.dialogRef.close(true);
 	}
+
+	protected readonly isSQL = isSQL;
 }
 
 @Component({

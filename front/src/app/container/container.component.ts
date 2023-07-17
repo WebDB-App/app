@@ -12,7 +12,6 @@ import { Server } from "../../classes/server";
 import { Database } from "../../classes/database";
 import { environment } from "../../environments/environment";
 import { RequestService } from "../../shared/request.service";
-import { MatSnackBar } from "@angular/material/snack-bar";
 import { isSQL } from "../../shared/helper";
 import { Subscription } from "rxjs";
 
@@ -42,8 +41,7 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 		private domSanitizer: DomSanitizer,
 		private matIconRegistry: MatIconRegistry,
 		private drawerService: DrawerService,
-		private snackBar: MatSnackBar,
-		private request: RequestService,
+		public request: RequestService,
 		public activatedRoute: ActivatedRoute,
 		public router: Router,
 		public dialog: MatDialog
@@ -65,7 +63,6 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 	async ngOnInit() {
 		const serverName = this.activatedRoute.snapshot.paramMap.get('server');
 		const databaseName = this.activatedRoute.snapshot.paramMap.get('database');
-
 		if (!serverName || !databaseName) {
 			this.loading = 100;
 			return;
@@ -89,7 +86,7 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 		this.selectedServer = server;
 		this.selectedDatabase = database;
 
-		if (isSQL(server)) {
+		if (isSQL()) {
 			this.panels = [
 				{link: "relations", icon: "attach_file"},
 				{link: "diagram", icon: "polyline"},
@@ -115,7 +112,7 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 
 		dialogRef.afterClosed().subscribe(async () => {
 			if (this.selectedServer) {
-				await this.reloadServer();
+				await this.request.reloadServer();
 			}
 		});
 	}

@@ -1,7 +1,7 @@
 <mat-toolbar fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="12px">
 	<mat-slide-toggle
 		[(ngModel)]="includeData"
-		[disabled]="!isSQL(selectedServer!)"
+		[disabled]="!isSQL()"
 		checked
 		color="primary">
 		Include Data
