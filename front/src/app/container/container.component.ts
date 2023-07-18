@@ -12,7 +12,6 @@ import { Server } from "../../classes/server";
 import { Database } from "../../classes/database";
 import { environment } from "../../environments/environment";
 import { RequestService } from "../../shared/request.service";
-import { isSQL } from "../../shared/helper";
 import { Subscription } from "rxjs";
 
 class Panel {
@@ -50,7 +49,6 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 		private drawerService: DrawerService,
 		public request: RequestService,
 		public activatedRoute: ActivatedRoute,
-		public router: Router,
 		public dialog: MatDialog
 	) {
 		for (const icon of ['gitlab', 'twitter', 'docker', 'webdb', 'chatgpt']) {

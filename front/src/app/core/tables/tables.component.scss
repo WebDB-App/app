@@ -4,29 +4,34 @@
 }
 
 #tableList {
-	height: 100%;
-	min-width: 17vw;
+	width: 17vw;
+	resize: horizontal;
 
-	mat-selection-list {
-		overflow: auto;
+	mat-list {
+		height: 100%;
 
-		.entity {
-			display: flex;
-			flex-direction: column;
+		mat-selection-list {
+			overflow-x: hidden;
+			overflow-y: auto;
 
-			::ng-deep .table td:nth-child(2) {
-				width: 0px;
-			}
+			.entity {
+				display: flex;
+				flex-direction: column;
 
-			&:hover {
-				.mat-icon-button {
-					opacity: 1;
+				::ng-deep .table td:nth-child(2) {
+					width: 0px;
 				}
-			}
 
-			.mat-icon-button {
-				opacity: 0.3;
-				align-self: center;
+				&:hover {
+					.mat-icon-button {
+						opacity: 1;
+					}
+				}
+
+				.mat-icon-button {
+					opacity: 0.3;
+					align-self: center;
+				}
 			}
 		}
 	}
