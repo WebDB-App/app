@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Column } from "../../../classes/column";
 import { Server } from "../../../classes/server";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { isSQL } from "../../../shared/helper";
 
 @Component({
 	selector: 'app-column',
@@ -29,4 +30,6 @@ export class ColumnComponent implements OnInit {
 	addColumn() {
 		this.form?.columns.push(<Column>{});
 	}
+
+    protected readonly isSQL = isSQL;
 }

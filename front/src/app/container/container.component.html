@@ -8,20 +8,11 @@
 		<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center"
 					 style="background-color: #444444; z-index: 1000">
 			<div fxLayout="row" fxLayoutGap="12px" style="align-items: center">
-				<button [disabled]="router.url === '/'"
-						[style.background-color]="router.url === '/' ? 'transparent' : '#1a1a1a'"
-						id="home"
-						mat-flat-button
+				<button id="home"
+						mat-stroked-button
 						routerLink="/">
 					<mat-icon style="height: 32px; width: 32px;" svgIcon="webdb"></mat-icon>
 				</button>
-
-				<div *ngIf="router.url === '/'">
-					<span id="title">
-						WebDB
-					</span>
-					<span style="font-size: 16px; padding-left: 16px;">v{{packageJson.version}}</span>
-				</div>
 
 				<div *ngIf="selectedServer && selectedDatabase" id="server">
 					<div>
@@ -42,7 +33,6 @@
 
 			<mat-button-toggle-group
 				(click)="drawer.toggle();"
-				*ngIf="router.url !== '/'"
 				class="panel">
 				<mat-button-toggle
 					*ngFor="let panel of panels"
@@ -85,13 +75,13 @@
 
 <mat-menu #external="matMenu" class="external">
 	<a (click)="showConnection()"
-	   *ngIf="selectedServer && selectedDatabase"
 	   mat-menu-item>
 		<span class="material-symbols-outlined notranslate">
 			signal_wifi_statusbar_not_connected
 		</span>
 		Connection Info
 	</a>
+	<mat-divider></mat-divider>
 	<a href="https://gitlab.com/web-db/landing/-/issues"
 	   mat-menu-item
 	   target="_blank">
@@ -114,6 +104,7 @@
 		<mat-icon svgIcon="twitter"></mat-icon>
 		Twitter
 	</a>
+	<mat-divider></mat-divider>
 	<a (click)="showSettings()"
 	   mat-menu-item>
 		<span class="material-symbols-outlined notranslate">
@@ -127,5 +118,9 @@
 			shopping_bag
 		</span>
 		Subscription
+	</a>
+	<a mat-menu-item>
+		<mat-icon svgIcon="webdb"></mat-icon>
+		v{{packageJson.version}}
 	</a>
 </mat-menu>

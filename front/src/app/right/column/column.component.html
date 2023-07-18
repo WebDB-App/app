@@ -17,6 +17,7 @@
 		<mat-form-field appearance="fill">
 			<mat-label>Type</mat-label>
 			<input [(ngModel)]="column.type"
+				   [disabled]="!isSQL()"
 				   matInput
 				   pattern="^(?!.*size).*$"
 				   required
@@ -37,6 +38,7 @@
 		</mat-form-field>
 
 		<mat-slide-toggle
+			[disabled]="!isSQL()"
 			[(ngModel)]="column.nullable"
 			color="primary">
 			Nullable
@@ -45,7 +47,7 @@
 		<mat-form-field>
 			<mat-label>Default Value on Null</mat-label>
 			<input [(ngModel)]="column.defaut"
-				   [disabled]="!column.nullable"
+				   [disabled]="!column.nullable || !isSQL()"
 				   autocomplete="off"
 				   matInput>
 		</mat-form-field>
