@@ -5,8 +5,6 @@ import { environment } from "../environments/environment";
 import { Database } from "../classes/database";
 import { Server } from "../classes/server";
 import { Table } from "../classes/table";
-import { Relation } from "../classes/relation";
-import { Index } from "../classes";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import * as drivers from "../classes/drivers";
 
@@ -77,30 +75,16 @@ export class RequestService {
 			if (!server.connected) {
 				continue;
 			}
-
-		const shallow = Server.getShallow(server);
 			promises.push(
-			new Promise(async resolve => {
-				server.dbs = await firstValueFrom(this.http.post<Database[]>(environment.apiRootUrl + 'server/structure', shallow))
-					this.loadingSubject.next(loading += 33 / servers.length);
-				resolve(true);
-			})
-			)
+				new Promise(async resolve => {
+					const res = await firstValueFrom(this.http.post<Database[]>(environment.apiRootUrl + `server/structure?full=${full}`, Server.getShallow(server)));
+					this.loadingSubject.next(loading += 100 / servers.length);
 
-		if (full) {
-			promises.push(new Promise(async resolve => {
-				server.relations = await firstValueFrom(this.http.post<Relation[]>(environment.apiRootUrl + 'server/relations', shallow))
-					this.loadingSubject.next(loading += 33 / servers.length);
-				resolve(true);
-			}));
-			promises.push(new Promise(async resolve => {
-				server.indexes = await firstValueFrom(this.http.post<Index[]>(environment.apiRootUrl + 'server/indexes', shallow))
-					this.loadingSubject.next(loading += 33 / servers.length);
-				resolve(true);
-			}));
+					resolve({...server, ...res});
+				})
+			);
 		}
-		}
-		await Promise.all(promises);
+		servers = <Server[]>(await Promise.all(promises));
 
 		this.loadingSubject.next(100);
 		return servers;

@@ -26,24 +26,49 @@ class Controller {
 
 	async getStructure(req, res) {
 		const driver = await wrapperModel.getDriver(req.body);
-		const structure = await driver.getStructure();
-		let dbLimit = subscriptionCtrl.getLimit();
+		const final = {
+			dbs: [],
+			indexes: [],
+			relations: []
+		};
+		const promises = [];
+		promises.push(
+			new Promise(async resolve => {
+				const structure = await driver.getDatabases();
+				let dbLimit = subscriptionCtrl.getLimit();
 
-		for (const str of Object.values(structure)) {
-			structure[str.name].system = driver.isSystemDbs(str.name);
+				for (const str of Object.values(structure)) {
+					structure[str.name].system = driver.isSystemDbs(str.name);
 
-			if (!structure[str.name].system && --dbLimit < 0) {
-				delete structure[str.name].tables;
-			}
-			if (structure[str.name].tables) {
-				for (const table of Object.values(structure[str.name].tables)) {
-					structure[str.name].tables[table.name].columns = Object.values(table.columns);
+					if (!structure[str.name].system && --dbLimit < 0) {
+						delete structure[str.name].tables;
+					}
+					if (structure[str.name].tables) {
+						for (const table of Object.values(structure[str.name].tables)) {
+							structure[str.name].tables[table.name].columns = Object.values(table.columns);
+						}
+
+						structure[str.name].tables = Object.values(str.tables);
+					}
 				}
-
-				structure[str.name].tables = Object.values(str.tables);
-			}
+				final.dbs = Object.values(structure).sort((a, b) => a.name.localeCompare(b.name));
+				resolve();
+			})
+		);
+		if (req.query.full) {
+			promises.push(
+				new Promise(async resolve => {
+					final.indexes = await driver.getIndexes();
+					resolve();
+				})
+			);
+			await Promise.all(promises);
+			final.relations = await driver.getRelations(final.dbs, final.indexes);
+		} else {
+			await Promise.all(promises);
 		}
-		res.send(Object.values(structure).sort((a, b) => a.name.localeCompare(b.name)));
+
+		res.send(final);
 	}
 
 	async getRelations(req, res) {
@@ -55,7 +80,7 @@ class Controller {
 	async getIndexes(req, res) {
 		const driver = await wrapperModel.getDriver(req.body);
 
-		res.send(await driver.getIndexes());
+		res.send();
 	}
 
 	async load(req, res) {

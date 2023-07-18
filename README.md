@@ -1,4 +1,4 @@
-- mongo harmonizer + nested
+- mongo harmonizer
 - export
 - insert
 
@@ -17,7 +17,7 @@
 
 
 
-- postgre array of type + plusieurs schemas
+- postgre nested type + plusieurs schemas
 - cloud (google, aurora, rds)
 - BLOB CRUD (download, upload)
 - revoir MySQL load avec tunnel (essayer en bash)
