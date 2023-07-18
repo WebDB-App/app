@@ -74,10 +74,10 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 		let server, database;
 		const local = Server.getAll().find(local => local.name === this.activatedRoute.snapshot.paramMap.get('server'));
 
-		if (local) {
-			server = (await this.request.connectServers([local]))[0];
+		try {
+			server = (await this.request.connectServers([local!]))[0];
 			database = server?.dbs.find(db => db.name === this.activatedRoute.snapshot.paramMap.get('database'))!;
-		}
+		} catch (e) {}
 
 		if (!server || !database) {
 			this.loading = -1;

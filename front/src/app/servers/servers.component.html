@@ -13,6 +13,7 @@
 	</mat-form-field>
 
 	<button (click)="ngOnInit()"
+			*ngIf="loading >= 100"
 			mat-flat-button>
 		<span class="material-symbols-outlined notranslate">
 			wifi_find

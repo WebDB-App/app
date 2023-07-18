@@ -83,7 +83,7 @@ export class TableAdvancedComponent {
 	}
 
 	async goToNew(new_name: string) {
-		await this.request.reloadServer(false);
+		await this.request.reloadServer();
 		await this.router.navigate([
 			'/',
 			this.selectedServer?.name,
