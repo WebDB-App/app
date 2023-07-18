@@ -269,7 +269,7 @@ export default class PostgreSQL extends SQL {
 		return this.runCommand("SELECT * FROM pg_database WHERE datistemplate = false");
 	}
 
-	async getStructure() {
+	async getDatabases() {
 		const dbs = await this.getDbs();
 		const struct = {};
 		const promises = [];

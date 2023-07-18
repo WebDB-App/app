@@ -158,7 +158,8 @@ export default class MongoDB extends Driver {
 		return [];
 	}
 
-	async getRelations() {
+	async getRelations(databases, indexes) {
+		//search full match between ObjectID col ou ObjectID[]
 		return [];
 	}
 
@@ -253,11 +254,7 @@ export default class MongoDB extends Driver {
 		return await this.runCommand(query, database);
 	}
 
-	getPropertyType(property) {
-		return property.constructor.name;
-	}
-
-	async getStructure() {
+	async getDatabases() {
 		const struct = {};
 		const promises = [];
 
@@ -282,35 +279,12 @@ export default class MongoDB extends Driver {
 					};
 
 					try {
-						(await coll.aggregate([{$sample: {size: this.sampleSize}}]).toArray()).map(sample => {
-							for (const [key, val] of Object.entries(sample)) {
-								const type = this.getPropertyType(val);
-
-								if (struct[database.name].tables[coll.collectionName].columns[key]) {
-									if (struct[database.name].tables[coll.collectionName].columns[key].type.indexOf(type) < 0) {
-										struct[database.name].tables[coll.collectionName].columns[key].type.push(type);
-									} else {
-										struct[database.name].tables[coll.collectionName].columns[key].nullable++;
-									}
-								} else {
-									struct[database.name].tables[coll.collectionName].columns[key] = {
-										name: key,
-										type: [type],
-										nullable: 1
-									};
-								}
-							}
-						});
+						const samples = await coll.aggregate([{$sample: {size: this.sampleSize}}]).toArray();
+						struct[database.name].tables[coll.collectionName].columns = this.inferColumn(samples);
 					} catch (e) {
 						//console.error(e);
-					} finally {
-						for (const [key] of Object.entries(struct[database.name].tables[coll.collectionName].columns)) {
-							struct[database.name].tables[coll.collectionName].columns[key].type = struct[database.name].tables[coll.collectionName].columns[key].type.join(" | ");
-							struct[database.name].tables[coll.collectionName].columns[key].nullable = struct[database.name].tables[coll.collectionName].columns[key].nullable < this.sampleSize;
-						}
-
-						resolve();
 					}
+					resolve();
 				}));
 			}
 		}
@@ -342,5 +316,53 @@ export default class MongoDB extends Driver {
 		} catch (e) {
 			return {error: e.message};
 		}
+	}
+
+	getPropertyType(property) {
+		const type = property.constructor.name;
+		if (type === "Array") {
+			return property.map(pro => this.getPropertyType(pro));
+		}
+		if (type === "Object") {
+			const types = {};
+			for (const [key, val] of Object.entries(property)) {
+				types[key] = this.getPropertyType(val);
+			}
+			return types;
+		}
+		return type;
+	}
+
+	inferColumn(samples) {
+		const columns = {};
+
+		samples.map(sample => {
+			for (const [key, val] of Object.entries(sample)) {
+				const type = this.getPropertyType(val);
+
+				if (columns[key]) {
+					if (columns[key].type.indexOf(type) < 0) {
+						columns[key].type.push(type);
+					} else {
+						columns[key].nullable++;
+					}
+
+
+				} else {
+					columns[key] = {
+						name: key,
+						type: [type],
+						nullable: 1
+					};
+				}
+			}
+		});
+
+		for (const [key] of Object.entries(columns)) {
+			columns[key].type = columns[key].type.join(" | ");
+			columns[key].nullable = columns[key].nullable < this.sampleSize;
+		}
+
+		return columns;
 	}
 }
