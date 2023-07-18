@@ -150,6 +150,11 @@ export class StructureComponent implements OnInit, AfterViewChecked {
 
 		return row[column];
 	}
+
+	applyFilter(event: Event) {
+		const filterValue = (event.target as HTMLInputElement).value;
+		this.structureSource.filter = filterValue.trim().toLowerCase();
+	}
 }
 
 

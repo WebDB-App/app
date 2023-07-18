@@ -159,7 +159,10 @@ export default class MongoDB extends Driver {
 	}
 
 	async getRelations(databases, indexes) {
-		//search full match between ObjectID col ou ObjectID[]
+		//match de type(null?array?) puis match de value min 2 max 100
+
+		//match entre tous les indexes
+		//si non match : flat si [] puis query
 		return [];
 	}
 
@@ -271,6 +274,7 @@ export default class MongoDB extends Driver {
 			for (const coll of await db.collections()) {
 				promises.push(new Promise(async resolve => {
 					const infos = collInfos.find(col => col.name === coll.collectionName);
+					let samples = [];
 
 					struct[database.name].tables[coll.collectionName] = {
 						name: coll.collectionName,
@@ -279,11 +283,9 @@ export default class MongoDB extends Driver {
 					};
 
 					try {
-						const samples = await coll.aggregate([{$sample: {size: this.sampleSize}}]).toArray();
-						struct[database.name].tables[coll.collectionName].columns = this.inferColumn(samples);
-					} catch (e) {
-						//console.error(e);
-					}
+						samples = await coll.aggregate([{$sample: {size: this.sampleSize}}]).toArray();
+					} catch (e) { /* empty */ }
+					struct[database.name].tables[coll.collectionName].columns = this.inferColumn(samples);
 					resolve();
 				}));
 			}
@@ -319,13 +321,17 @@ export default class MongoDB extends Driver {
 	}
 
 	getPropertyType(property) {
+		if (property === null) {
+			return "null";
+		}
+
 		const type = property.constructor.name;
 		if (type === "Array") {
-			return property.map(pro => this.getPropertyType(pro));
+			return property.sort().map(pro => this.getPropertyType(pro));
 		}
 		if (type === "Object") {
 			const types = {};
-			for (const [key, val] of Object.entries(property)) {
+			for (const [key, val] of Object.entries(property).sort()) {
 				types[key] = this.getPropertyType(val);
 			}
 			return types;
@@ -338,16 +344,20 @@ export default class MongoDB extends Driver {
 
 		samples.map(sample => {
 			for (const [key, val] of Object.entries(sample)) {
-				const type = this.getPropertyType(val);
+				if (val === null) {
+					continue;
+				}
 
+				//merge obj prop + nested null
+				//keep only first elem of array
+
+				const type = JSON.stringify(this.getPropertyType(val));
 				if (columns[key]) {
 					if (columns[key].type.indexOf(type) < 0) {
 						columns[key].type.push(type);
 					} else {
 						columns[key].nullable++;
 					}
-
-
 				} else {
 					columns[key] = {
 						name: key,
@@ -359,7 +369,7 @@ export default class MongoDB extends Driver {
 		});
 
 		for (const [key] of Object.entries(columns)) {
-			columns[key].type = columns[key].type.join(" | ");
+			columns[key].type = columns[key].type.map(ty => JSON.parse(ty));
 			columns[key].nullable = columns[key].nullable < this.sampleSize;
 		}
 

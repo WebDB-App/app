@@ -55,7 +55,7 @@ class Controller {
 				resolve();
 			})
 		);
-		if (req.query.full) {
+		if (+req.query.full) {
 			promises.push(
 				new Promise(async resolve => {
 					final.indexes = await driver.getIndexes();

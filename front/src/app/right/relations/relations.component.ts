@@ -83,4 +83,6 @@ export class RelationsComponent implements OnInit {
 		this.snackBar.open(`Added Relation ${relation.name}`, "╳", {duration: 3000});
 		await this.refreshData();
 	}
+
+    protected readonly isSQL = isSQL;
 }

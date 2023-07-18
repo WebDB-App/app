@@ -53,21 +53,21 @@ export class RequestService {
 		const toLoad = [];
 
 		for (let server of servers) {
-		// @ts-ignore
-		server.driver = new drivers[server.wrapper];
-		server.params = server.params || server.driver.connection.defaultParams;
+			// @ts-ignore
+			server.driver = new drivers[server.wrapper];
+			server.params = server.params || server.driver.connection.defaultParams;
 
-		const connect = await firstValueFrom(this.http.post<any>(environment.apiRootUrl + 'server/connect', Server.getShallow(server)));
+			const connect = await firstValueFrom(this.http.post<any>(environment.apiRootUrl + 'server/connect', Server.getShallow(server)));
 
 			server.connected = !connect.error;
 			toLoad.push(server);
 		}
 
-		return await this.loadServers(toLoad, full, false);
+		return await this.loadServers(toLoad, full);
 	}
 
-	async loadServers(servers: Server[], full: boolean, reloadPage: boolean) {
-		let loading = reloadPage ? 0 : 1;
+	async loadServers(servers: Server[], full: boolean) {
+		let loading = 0;
 		this.loadingSubject.next(loading);
 
 		const promises = [];
@@ -77,7 +77,7 @@ export class RequestService {
 			}
 			promises.push(
 				new Promise(async resolve => {
-					const res = await firstValueFrom(this.http.post<Database[]>(environment.apiRootUrl + `server/structure?full=${full}`, Server.getShallow(server)));
+					const res = await firstValueFrom(this.http.post<Database[]>(environment.apiRootUrl + `server/structure?full=${+full}`, Server.getShallow(server)));
 					this.loadingSubject.next(loading += 100 / servers.length);
 
 					resolve({...server, ...res});
@@ -90,8 +90,8 @@ export class RequestService {
 		return servers;
 	}
 
-	async reloadServer(reloadPage = true, server = Server.getSelected()) {
-		server = (await this.loadServers([server], true, reloadPage))[0];
+	async reloadServer(server = Server.getSelected()) {
+		server = (await this.loadServers([server], true))[0];
 		if (server.name !== Server.getSelected()?.name) {
 			return server;
 		}

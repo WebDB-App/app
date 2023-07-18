@@ -1,5 +1,12 @@
 <mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
-	<div><h2>Columns</h2></div>
+	<div>
+		<mat-form-field>
+			<mat-label>Search Column</mat-label>
+			<input (keyup)="applyFilter($event)"
+				   autocomplete="off"
+				   matInput>
+		</mat-form-field>
+	</div>
 	<button (click)="addColumn()" color="primary" mat-stroked-button>
 		<span class="material-symbols-outlined notranslate">
 			view_column_2
