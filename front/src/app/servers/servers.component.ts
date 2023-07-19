@@ -47,7 +47,7 @@ export class ServersComponent implements OnInit {
 
 	async ngOnInit() {
 		this.filterChanged('');
-
+		this.loading = 0;
 		let servers = [];
 
 		const scans = (await firstValueFrom(this.http.get<Server[]>(environment.apiRootUrl + 'server/scan'))).map(scan => {
@@ -55,6 +55,8 @@ export class ServersComponent implements OnInit {
 			scan.scanned = true
 			return scan;
 		});
+
+		this.loading = 10;
 
 		const locals = Server.getAll().map(local => {
 			const scan = scans.find(sc => sc.name === local.name);

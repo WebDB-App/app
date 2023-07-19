@@ -5,5 +5,4 @@ export * from "./postgresql";
 export * from "./sqlserver";
 export * from "./sqlite";
 export * from "./oracle";
-export * from "./elasticsearch";
-export * from "./redis";*/
+export * from "./elasticsearch";*/
