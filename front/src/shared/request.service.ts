@@ -72,14 +72,14 @@ export class RequestService {
 
 		const promises = [];
 		for (const server of servers) {
-			if (!server.connected) {
-				continue;
-			}
 			promises.push(
 				new Promise(async resolve => {
+					if (!server.connected) {
+						return resolve(server);
+					}
+
 					const res = await firstValueFrom(this.http.post<Database[]>(environment.apiRootUrl + `server/structure?full=${+full}`, Server.getShallow(server)));
 					this.loadingSubject.next(loading += 100 / servers.length);
-
 					resolve({...server, ...res});
 				})
 			);
