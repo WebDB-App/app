@@ -16,6 +16,7 @@ services:
 #
 #    mariadb:
 #        image: mariadb
+#        command: mysqld --default-authentication-plugin=mysql_native_password
 #        ports:
 #            - 3308:3306
 #        environment:
@@ -23,6 +24,7 @@ services:
 
     mysql:
         image: mysql
+        command: mysqld --default-authentication-plugin=mysql_native_password
         ports:
             - 3307:3306
         environment:

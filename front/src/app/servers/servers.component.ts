@@ -8,7 +8,7 @@ import { Router } from "@angular/router";
 import { Server, SSH } from "../../classes/server";
 import { RequestService } from "../../shared/request.service";
 import * as drivers from '../../classes/drivers';
-import { DomSanitizer } from "@angular/platform-browser";
+import { DomSanitizer, Title } from "@angular/platform-browser";
 import { MatIconRegistry } from "@angular/material/icon";
 
 @Component({
@@ -31,6 +31,7 @@ export class ServersComponent implements OnInit {
 		private request: RequestService,
 		private domSanitizer: DomSanitizer,
 		private matIconRegistry: MatIconRegistry,
+		private titleService: Title,
 		private dialog: MatDialog) {
 
 		for (const driver of this.driverNames) {
@@ -47,6 +48,7 @@ export class ServersComponent implements OnInit {
 
 	async ngOnInit() {
 		this.filterChanged('');
+		this.titleService.setTitle("WebDB – App");
 		this.loading = 0;
 		let servers = [];
 
