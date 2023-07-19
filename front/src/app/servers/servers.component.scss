@@ -56,7 +56,7 @@
 		display: flex;
 		flex-direction: column;
 		height: 330px;
-		width: 700px;
+		max-width: 700px;
 
 		> div {
 			place-content: space-around;
