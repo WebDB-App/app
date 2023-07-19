@@ -148,18 +148,18 @@ export class ExploreComponent implements OnInit, OnDestroy {
 			return;
 		}
 
-		const del = this.selectedServer?.driver.connection.nameDel || "'";
-		if (Column.isOfGroup(this.selectedServer?.driver!, this.selectedTable?.columns.find(col => col.name === column)!, Group.String)
-			&& !value.startsWith(del)) {
-			value = `${del + value + del}`;
-		}
-
 		this.params.chips += `${column} `;
 		if (this.selectedServer?.driver.language.comparators.find((comparator) => {
 			return value.toLowerCase().startsWith(comparator.symbol.toLowerCase())
 		})) {
 			this.params.chips += `${value};`;
 		} else {
+			const del = this.selectedServer?.driver.connection.nameDel || "'";
+			if (Column.isOfGroup(this.selectedServer?.driver!, this.selectedTable?.columns.find(col => col.name === column)!, Group.String)
+				&& !value.startsWith(del)) {
+				value = `${del + value + del}`;
+			}
+
 			this.params.chips += `${this.selectedServer?.driver.language.defaultFilter} ${value};`;
 		}
 
