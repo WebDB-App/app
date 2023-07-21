@@ -1,3 +1,5 @@
+warning special char
+
 # Mongo:
 - relations
 - mongo harmonizer
@@ -80,6 +82,7 @@
 - more comparator (symbol) with detail
 
 # Bin
+- Brew + chocolate + apt + yum
 - Node Single Executable Apps | https://tauri.app/ | https://webpack.electron.build/ | https://github.com/electron/electron/issues/21457#issuecomment-1269637018
 - ci + gitlab wiki
 - changelog en json avec opencommit et check last version

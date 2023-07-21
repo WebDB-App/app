@@ -26,6 +26,7 @@
 		 id="actions">
 
 		<button (click)="runQuery()"
+				[disabled]="query.trim().length < 1"
 				*ngIf="!diff"
 				color="primary"
 				mat-raised-button>

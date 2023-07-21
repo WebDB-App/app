@@ -16,12 +16,14 @@
 
 		<mat-form-field appearance="fill">
 			<mat-label>Type</mat-label>
-			<input [(ngModel)]="column.type"
-				   [disabled]="!isSQL()"
-				   matInput
-				   pattern="^(?!.*size).*$"
-				   required
-				   type="text">
+			<textarea
+				[(ngModel)]="column.type"
+				[disabled]="!isSQL()"
+				matInput
+				cdkTextareaAutosize
+				pattern="^(?!.*size).*$"
+				required>
+			</textarea>
 		</mat-form-field>
 
 		<mat-form-field *ngIf="extraAttributes.length" appearance="fill">
@@ -85,7 +87,7 @@
 
 		<div class="flex-spacer"></div>
 
-		<a [href]="selectedServer!.driver.docs.driver"
+		<a [href]="selectedServer!.driver.docs.types"
 		   mat-button
 		   mat-stroked-button
 		   style="margin-left: 20px"

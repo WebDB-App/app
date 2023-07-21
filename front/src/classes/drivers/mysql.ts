@@ -27,7 +27,6 @@ export class MySQL extends SQL {
 
 		this.language = {
 			...this.language,
-			// @ts-ignore
 			extraAttributes: ['auto_increment', 'on update CURRENT_TIMESTAMP'],
 			keywords: this.language.keywords.concat([
 				'AUTO_INCREMENT',
