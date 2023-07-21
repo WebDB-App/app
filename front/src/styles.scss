@@ -1,7 +1,7 @@
 @use '@angular/material' as mat;
 
 @import "@angular/material/theming";
-@import 'highlight.js/styles/base16/material-vivid.css';
+@import 'highlight.js/styles/vs2015.css';
 
 @include mat.core();
 
