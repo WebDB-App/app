@@ -1,7 +1,7 @@
 @use '@angular/material' as mat;
 
 @import "@angular/material/theming";
-@import 'highlight.js/styles/vs2015.css';
+@import 'highlight.js/scss/base16/materia';
 
 @include mat.core();
 
@@ -50,7 +50,7 @@ body {
 	background-color: transparent;
 
 	.mat-header-cell {
-		color: mat-color($angular-primary, 300);
+		color: mat.get-color-from-palette($angular-primary, 300);
 		font-size: 15px;
 
 		input {
@@ -112,8 +112,8 @@ body {
 		}
 
 		.mat-row:hover .mat-cell {
-			border-top: 1px solid mat-color($angular-primary, default);
-			border-bottom: 1px solid mat-color($angular-primary, default);
+			border-top: 1px solid mat.get-color-from-palette($angular-primary, default);
+			border-bottom: 1px solid mat.get-color-from-palette($angular-primary, default);
 		}
 
 		.mat-cell.selected {
@@ -123,11 +123,11 @@ body {
 }
 
 a {
-	color: mat-color($angular-primary, default)
+	color: mat.get-color-from-palette($angular-primary, default)
 }
 
 .snack-error {
-	background-color: mat-color($angular-accent, default)
+	background-color: mat.get-color-from-palette($angular-accent, default)
 }
 
 .mat-snack-bar-container {
