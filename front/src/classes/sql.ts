@@ -1,4 +1,4 @@
-import { Driver, Group, QueryParams } from "./driver";
+import { Comparator, Driver, Group, QueryParams, TypeGroup } from "./driver";
 import { Column } from "./column";
 import { Database } from "./database";
 import { Table } from "./table";
@@ -35,7 +35,16 @@ export class SQL implements Driver {
 		language: "https://www.w3schools.com/sql/sql_quickref.asp"
 	}
 
-	language = {
+	language: {
+		comparators: Comparator[]
+		id: string
+		keywords: string[];
+		functions: { [key: string]: string | null };
+		constraints: string[];
+		typeGroups: TypeGroup[],
+		extraAttributes: string[]
+		defaultFilter: string;
+	} = {
 		comparators: [
 			{symbol: '>', example: "", definition: "More than"},
 			{symbol: '<', example: "", definition: "Less than"},
@@ -251,7 +260,6 @@ export class SQL implements Driver {
 		});
 
 		Object.keys(this.language.functions).map(fct => {
-			// @ts-ignore
 			const detail = this.language.functions[fct] || '(expression)';
 			suggestions.push({
 				label: fct,

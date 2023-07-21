@@ -15,7 +15,7 @@ export class AddColumnComponent {
 
 	table?: Table;
 	form = {
-		columns: [<Column>{}, <Column>{}]
+		columns: [<Column>{}]
 	};
 
 	constructor(

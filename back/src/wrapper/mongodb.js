@@ -242,11 +242,16 @@ export default class MongoDB extends Driver {
 	}
 
 	async querySize(query, database) {
-		query = query.replace(".find(", ".countDocuments(");
-		query = query.replace(".toArray()", "");
+		if (query.indexOf(".find(") > 0) {
+			query = query.replace(".find(", ".countDocuments(");
+			query = query.replace(".toArray()", "");
+
+			const result = await this.runCommand(query, database);
+			return result.error ? "0" : result.toString();
+		}
 
 		const result = await this.runCommand(query, database);
-		return result.error ? "0" : result.toString();
+		return result.error ? "0" : "1";
 	}
 
 	async runPagedQuery(query, page, pageSize, database) {
