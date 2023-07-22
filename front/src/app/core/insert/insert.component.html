@@ -15,22 +15,22 @@
 		</div>
 
 		<div>
-			<a href="https://ngneat.github.io/falso/docs/getting-started"
-			   mat-button
-			   target="_blank">
+			<button
+				(click)="showIframe('https://ngneat.github.io/falso/docs/getting-started')"
+				mat-button>
 				<span class="material-symbols-outlined notranslate">
 					menu_book
 				</span>
 				Falso
-			</a>
-			<a href="https://v7.fakerjs.dev/api/"
-			   mat-button
-			   target="_blank">
+			</button>
+			<button
+				(click)="showIframe('https://v7.fakerjs.dev/api/')"
+				mat-button>
 				<span class="material-symbols-outlined notranslate">
 					menu_book
 				</span>
 				FakerJS
-			</a>
+			</button>
 			<a href="https://gitlab.com/web-db/landing/-/wikis/Generator"
 			   mat-button
 			   target="_blank">
@@ -80,6 +80,58 @@
 						</span>
 						Sample Data
 					</button>
+
+					<div>
+						<button
+							(click)="random.model = 'return faker.datatype.string()'"
+							mat-stroked-button
+							mat-icon-button>
+							<span class="material-symbols-outlined notranslate">
+								abc
+							</span>
+						</button>
+						<button
+							(click)="random.model = 'return faker.datatype.number()'"
+							mat-stroked-button
+							mat-icon-button>
+							<span class="material-symbols-outlined notranslate">
+								123
+							</span>
+						</button>
+						<button
+							(click)="random.model = 'return faker.datatype.datetime()'"
+							mat-stroked-button
+							mat-icon-button>
+							<span class="material-symbols-outlined notranslate">
+								calendar_month
+							</span>
+						</button>
+						<br>
+						<button
+							(click)="random.model = 'return faker.address.streetAddress(true)'"
+							mat-stroked-button
+							mat-icon-button>
+							<span class="material-symbols-outlined notranslate">
+								alternate_email
+							</span>
+						</button>
+						<button
+							(click)="random.model = 'return {\n\tfirst_name: faker.name.firstName(),\n\tlast_name: faker.name.lastName(),\n\tsex: faker.name.sex()\n}'"
+							mat-stroked-button
+							mat-icon-button>
+							<span class="material-symbols-outlined notranslate">
+								data_object
+							</span>
+						</button>
+						<button
+							(click)="random.model = 'return faker.address.streetAddress(true)'"
+							mat-stroked-button
+							mat-icon-button>
+							<span class="material-symbols-outlined notranslate">
+								location_on
+							</span>
+						</button>
+					</div>
 				</div>
 			</div>
 

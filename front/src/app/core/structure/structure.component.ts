@@ -188,7 +188,7 @@ export class AddIndexDialog {
 export class DropColumnDialog {
 
 	constructor(
-		public dialogRef: MatDialogRef<AddIndexDialog>,
+		public dialogRef: MatDialogRef<DropColumnDialog>,
 		private request: RequestService,
 		private snackBar: MatSnackBar,
 		@Inject(MAT_DIALOG_DATA) public column: Column,
