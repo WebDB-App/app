@@ -1,5 +1,3 @@
-warning special char
-
 # Mongo:
 - relations
 - mongo harmonizer

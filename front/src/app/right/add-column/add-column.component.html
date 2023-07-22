@@ -5,8 +5,8 @@
 
 		<div>
 			<button (click)="add()"
-					[disabled]="form.columns.length < 1"
-					color="accent"
+					[disabled]="!form.valid"
+					color="primary"
 					mat-flat-button>
 				<span class="material-symbols-outlined notranslate">
 					view_column_2
@@ -17,7 +17,7 @@
 	</mat-toolbar>
 
 	<div style="padding: 20px">
-		<app-column [form]="form" [to_update]="false"></app-column>
+		<app-column [form]="form"></app-column>
 	</div>
 
 </div>

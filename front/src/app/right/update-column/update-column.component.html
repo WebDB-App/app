@@ -1,12 +1,12 @@
-<div fxFlexFill fxLayout="column" fxLayoutAlign="start" fxLayoutGap="20px">
+<div fxFlexFill fxLayout="column" fxLayoutAlign="start" fxLayoutGap="20px" *ngIf="form">
 
 	<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
-		<div>Alter Column</div>
+		<div>Alter Column {{form.get('old')?.get('name')!.value}}</div>
 
 		<div>
 			<button (click)="update()"
-					[disabled]="form.columns.length < 1"
-					color="accent"
+					[disabled]="!form.valid || JSON.stringify(form.get('old')?.value) === JSON.stringify(form.get('columns')!.value[0])"
+					color="primary"
 					mat-flat-button>
 				<span class="material-symbols-outlined notranslate">
 					drive_file_rename_outline
@@ -17,6 +17,6 @@
 	</mat-toolbar>
 
 	<div style="padding: 20px">
-		<app-column [form]="form" [to_update]="true"></app-column>
+		<app-column [form]="form"></app-column>
 	</div>
 </div>

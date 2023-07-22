@@ -5,6 +5,7 @@ import { RequestService } from "../../../shared/request.service";
 import { ActivatedRoute } from "@angular/router";
 import { Database } from "../../../classes/database";
 import { Table } from "../../../classes/table";
+import { FormBuilder, FormGroup } from "@angular/forms";
 
 @Component({
 	selector: 'app-add-column',
@@ -14,15 +15,19 @@ import { Table } from "../../../classes/table";
 export class AddColumnComponent {
 
 	table?: Table;
-	form = {
-		columns: [<Column>{}]
-	};
+	form!: FormGroup;
 
 	constructor(
+		private fb: FormBuilder,
 		private activatedRoute: ActivatedRoute,
 		private snackBar: MatSnackBar,
 		private request: RequestService
 	) {
+		this.form = fb.group({
+			columns: fb.array([
+				Column.getFormGroup(),
+			])
+		});
 		this.activatedRoute.paramMap.subscribe(paramMap => {
 			this.table = Database.getSelected().tables!.find(table => table.name === paramMap.get('table'))
 		});
