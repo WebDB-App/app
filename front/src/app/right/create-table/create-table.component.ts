@@ -6,6 +6,7 @@ import { Router } from "@angular/router";
 import { Server } from "../../../classes/server";
 import { Database } from "../../../classes/database";
 import { DrawerService } from "../../../shared/drawer.service";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
 @Component({
 	selector: 'app-create-table',
@@ -14,29 +15,33 @@ import { DrawerService } from "../../../shared/drawer.service";
 })
 export class CreateTableComponent {
 
-	form = {
-		name: '',
-		columns: [<Column>{}, <Column>{}, <Column>{}, <Column>{}]
-	};
+	form!: FormGroup;
 
 	constructor(
+		private fb: FormBuilder,
 		private snackBar: MatSnackBar,
 		private router: Router,
 		private drawer: DrawerService,
 		private request: RequestService
 	) {
+		this.form = fb.group({
+			name: [null, [Validators.required, Validators.pattern(/^[a-zA-Z0-9-_]{2,50}$/)]],
+			columns: fb.array([
+				Column.getFormGroup(),
+			])
+		});
 	}
 
 	async create() {
 		await this.request.post('table/create', this.form);
 
-		this.snackBar.open(`Table ${this.form.name} Created`, "╳", {duration: 3000});
+		this.snackBar.open(`Table ${this.form.get('name')?.value} Created`, "╳", {duration: 3000});
 		await this.request.reloadServer();
 
 		await this.router.navigate([
 			Server.getSelected().name,
 			Database.getSelected().name,
-			this.form.name,
+			this.form.get('name')?.value,
 			'structure']);
 
 		await this.drawer.toggle();

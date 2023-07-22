@@ -1,69 +1,127 @@
-<div class="container">
+<div class="container" [formGroup]="form">
 
-	<div *ngFor="let column of form.columns; let i = index"
-		 class="column"
-		 fxLayout="row"
-		 fxLayoutAlign="space-around center"
-		 fxLayoutGap="20px">
+	<ng-container *ngIf="form.get('old')">
+		<div fxLayout="row"
+			fxLayoutAlign="space-around center"
+			fxLayoutGap="20px"
+			formGroupName="old">
+			<h4>Previous Values : </h4>
 
-		<mat-form-field appearance="outline">
-			<mat-label>Column Name</mat-label>
-			<input [(ngModel)]="column.name"
-				   autocomplete="off"
-				   matInput
-				   required>
-		</mat-form-field>
+			<mat-form-field appearance="fill">
+				<mat-label>Type</mat-label>
+				<textarea
+					formControlName="type"
+					matInput
+					cdkTextareaAutosize>
+				</textarea>
+			</mat-form-field>
 
-		<mat-form-field appearance="fill">
-			<mat-label>Type</mat-label>
-			<textarea
-				[(ngModel)]="column.type"
-				[disabled]="!isSQL()"
-				matInput
-				cdkTextareaAutosize
-				pattern="^(?!.*size).*$"
-				required>
-			</textarea>
-		</mat-form-field>
+			<mat-form-field *ngIf="extraAttributes.length" appearance="fill">
+				<mat-label>Extras</mat-label>
+				<mat-select formControlName="extra"
+							multiple>
+					<ng-container *ngFor="let ext of extraAttributes">
+						<mat-option
+							[value]="ext">
+							{{ext}}
+						</mat-option>
+					</ng-container>
+				</mat-select>
+			</mat-form-field>
 
-		<mat-form-field *ngIf="extraAttributes.length" appearance="fill">
-			<mat-label>Extras</mat-label>
-			<mat-select [(ngModel)]="column.extra"
-						multiple>
-				<ng-container *ngFor="let ext of extraAttributes">
-					<mat-option
-						[value]="ext">
-						{{ext}}
-					</mat-option>
-				</ng-container>
-			</mat-select>
-		</mat-form-field>
+			<mat-slide-toggle
+				formControlName="nullable"
+				color="primary">
+				Nullable
+			</mat-slide-toggle>
 
-		<mat-slide-toggle
-			[disabled]="!isSQL()"
-			[(ngModel)]="column.nullable"
-			color="primary">
-			Nullable
-		</mat-slide-toggle>
+			<mat-form-field>
+				<mat-label>Default Value on Null</mat-label>
+				<input formControlName="defaut"
+					   autocomplete="off"
+					   matInput>
+			</mat-form-field>
+		</div>
 
-		<mat-form-field>
-			<mat-label>Default Value on Null</mat-label>
-			<input [(ngModel)]="column.defaut"
-				   [disabled]="!column.nullable || !isSQL()"
-				   autocomplete="off"
-				   matInput>
-		</mat-form-field>
+		<mat-divider></mat-divider>
+		<br>
+		<br>
+	</ng-container>
 
-		<button (click)="form.columns.splice(i, 1)" *ngIf="!to_update" mat-icon-button mat-raised-button>
-			<span class="material-symbols-outlined notranslate">
-				remove
-			</span>
-		</button>
+	<ng-container formArrayName="columns">
+		<div *ngFor="let column of formColumn.controls; let i = index"
+			 [formGroupName]="i"
+			 class="column"
+			 fxLayout="row"
+			 fxLayoutAlign="space-around center"
+			 fxLayoutGap="20px">
 
-	</div>
+			<mat-form-field appearance="outline">
+				<mat-label>Column Name</mat-label>
+				<input formControlName="name"
+					   autocomplete="off"
+					   matInput>
+				<mat-error *ngIf="column.get('name')?.errors">
+					Prefer alpha, numeric and "_", "-"
+				</mat-error>
+			</mat-form-field>
+
+			<mat-form-field appearance="fill">
+				<mat-label>Type</mat-label>
+				<textarea
+					formControlName="type"
+					matInput
+					cdkTextareaAutosize>
+				</textarea>
+				<mat-error *ngIf="column.get('type')?.errors && column.get('type')!.errors!['required']">
+					You can paste a type from bottom list
+				</mat-error>
+				<mat-error *ngIf="column.get('type')?.errors && column.get('type')!.errors!['setLength']">
+					Set a length or precision to your type
+				</mat-error>
+			</mat-form-field>
+
+			<mat-form-field *ngIf="extraAttributes.length" appearance="fill">
+				<mat-label>Extras</mat-label>
+				<mat-select formControlName="extra"
+							multiple>
+					<ng-container *ngFor="let ext of extraAttributes">
+						<mat-option
+							[value]="ext">
+							{{ext}}
+						</mat-option>
+					</ng-container>
+				</mat-select>
+			</mat-form-field>
+
+			<mat-slide-toggle
+				formControlName="nullable"
+				color="primary">
+				Nullable
+			</mat-slide-toggle>
+
+			<mat-form-field>
+				<mat-label>Default Value on Null</mat-label>
+				<input formControlName="defaut"
+					   autocomplete="off"
+					   matInput>
+			</mat-form-field>
+
+			<button (click)="formColumn.removeAt(i)"
+					[disabled]="formColumn.controls.length <= 1"
+					*ngIf="!form.get('old')"
+					mat-icon-button
+					color="warn">
+				<span class="material-symbols-outlined notranslate">
+					remove
+				</span>
+			</button>
+
+		</div>
+	</ng-container>
 
 	<div style="text-align: center;">
-		<button (click)="addColumn()" *ngIf="!to_update" color="primary" mat-icon-button mat-stroked-button>
+		<button (click)="addColumn()" *ngIf="!form.get('old')" color="primary" mat-icon-button mat-stroked-button>
 			<span class="material-symbols-outlined notranslate">
 				add
 			</span>

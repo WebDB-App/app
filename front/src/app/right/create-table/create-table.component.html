@@ -1,16 +1,18 @@
-<div fxFlexFill fxLayout="column" fxLayoutAlign="start">
+<div fxFlexFill fxLayout="column" fxLayoutAlign="start" [formGroup]="form">
 	<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
 		<mat-form-field style="width: 50%;">
 			<mat-label>Table Name</mat-label>
 			<input
-				[(ngModel)]="form.name"
+				formControlName="name"
 				autocomplete="off"
-				matInput
-				required>
+				matInput>
+			<mat-error *ngIf="form.get('name')?.errors && form.get('name')!.errors!['pattern']">
+				Prefer alpha, numeric and "_", "-"
+			</mat-error>
 		</mat-form-field>
 
 		<button (click)="create()"
-				[disabled]="form.columns.length < 1 || !form.name"
+				[disabled]="!form.valid"
 				color="primary"
 				mat-flat-button>
 			<span class="material-symbols-outlined notranslate">
@@ -19,5 +21,8 @@
 			Create Table
 		</button>
 	</mat-toolbar>
-	<app-column [form]="form" [to_update]="false"></app-column>
+
+	<div style="padding: 20px">
+		<app-column [form]="form"></app-column>
+	</div>
 </div>

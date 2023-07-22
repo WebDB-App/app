@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Column } from "../../../classes/column";
 import { Server } from "../../../classes/server";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { isSQL } from "../../../shared/helper";
+import { FormArray, FormGroup } from "@angular/forms";
 
 @Component({
 	selector: 'app-column',
@@ -11,9 +11,9 @@ import { isSQL } from "../../../shared/helper";
 })
 export class ColumnComponent implements OnInit {
 
-	@Input() form!: { columns: Column[] };
-	@Input() to_update = true;
+	@Input() form!: FormGroup;
 
+	formColumn!: FormArray;
 	fullType = false;
 	extraAttributes = Server.getSelected().driver.language.extraAttributes;
 	selectedServer?: Server;
@@ -25,11 +25,10 @@ export class ColumnComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.selectedServer = Server.getSelected();
+		this.formColumn = <FormArray>this.form.get('columns');
 	}
 
 	addColumn() {
-		this.form?.columns.push(<Column>{});
+		this.formColumn.push(Column.getFormGroup());
 	}
-
-    protected readonly isSQL = isSQL;
 }
