@@ -20,7 +20,7 @@ import { QueryComponent } from './query/query.component';
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatTabsModule } from "@angular/material/tabs";
 import { DropTableDialog, TableAdvancedComponent, TruncateTableDialog } from "./advanced/advanced.component";
-import { InsertComponent } from "./insert/insert.component";
+import { IframeDialog, InsertComponent } from "./insert/insert.component";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { AddIndexDialog, DropColumnDialog, StructureComponent, } from './structure/structure.component';
@@ -52,6 +52,7 @@ import { OverlayModule } from "@angular/cdk/overlay";
 		InsertComponent,
 		AddIndexDialog,
 		DropColumnDialog,
+		IframeDialog,
 		DropTableDialog,
 		TruncateTableDialog,
 		StructureComponent,

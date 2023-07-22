@@ -44,7 +44,7 @@ import { HIGHLIGHT_OPTIONS, HighlightModule, HighlightOptions, } from 'ngx-highl
 		SubscriptionDialog,
 		CreateDatabaseDialog,
 		ConnectionDialog,
-		ConnectionInfoDialog
+		ConnectionInfoDialog,
 	],
 	imports: [
 		AppRoutingModule,

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from "@angular/material/table";
 import { SelectionModel } from "@angular/cdk/collections";
 import { Table } from "../../../classes/table";
@@ -14,8 +14,9 @@ import { MatPaginator } from "@angular/material/paginator";
 import { faker } from '@faker-js/faker';
 import * as falso from '@ngneat/falso';
 import { HttpClient } from "@angular/common/http";
-import { MatDialog } from "@angular/material/dialog";
+import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
 import { UpdateDataDialogComponent } from "../../../shared/update-data-dialog/update-data-dialog.component";
+import { DomSanitizer } from "@angular/platform-browser";
 
 const localStorageName = "insert-codes";
 
@@ -59,7 +60,8 @@ export class InsertComponent implements OnInit, OnDestroy {
 		private activatedRoute: ActivatedRoute,
 		private snackBar: MatSnackBar,
 		private http: HttpClient,
-		private dialog: MatDialog
+		private dialog: MatDialog,
+		private sanitizer: DomSanitizer
 	) {
 	}
 
@@ -279,5 +281,22 @@ export class InsertComponent implements OnInit, OnDestroy {
 				this.dataSource._updateChangeSubscription();
 			}
 		});
+	}
+
+	showIframe(src: string) {
+		this.dialog.open(IframeDialog, {
+			data: this.sanitizer.bypassSecurityTrustResourceUrl(src)
+		});
+	}
+}
+
+
+@Component({
+	templateUrl: 'iframe-dialog.html',
+})
+export class IframeDialog {
+	constructor(
+		@Inject(MAT_DIALOG_DATA) public src: string,
+	) {
 	}
 }
