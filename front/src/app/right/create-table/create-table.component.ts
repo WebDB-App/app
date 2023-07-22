@@ -33,7 +33,7 @@ export class CreateTableComponent {
 	}
 
 	async create() {
-		await this.request.post('table/create', this.form);
+		await this.request.post('table/create', this.form.value);
 
 		this.snackBar.open(`Table ${this.form.get('name')?.value} Created`, "╳", {duration: 3000});
 		await this.request.reloadServer();

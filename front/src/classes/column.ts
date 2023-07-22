@@ -54,28 +54,13 @@ export class Column {
 				return ["(size", "(precision"].find(str => control.value.indexOf(str) >= 0) ? {setLength: true} : null;
 			}
 		}
-		const fb = new FormGroup({
+
+		return new FormGroup({
 			name: new FormControl(from?.name || null, [Validators.required, Validators.pattern(/^[a-zA-Z0-9-_]{2,50}$/)]),
-			type: new FormControl({value: from?.type || null, disabled: !isSQL()}, [Validators.required, setLength()]),
-			nullable: new FormControl({value: from?.nullable || false, disabled: !isSQL()}),
-			defaut: new FormControl({value: from?.defaut || null, disabled: true}),
+			type: new FormControl(from?.type || null, [Validators.required, setLength()]),
+			nullable: new FormControl(from?.nullable || false),
+			defaut: new FormControl(from?.defaut || null),
 			extra: new FormControl(from?.extra || null),
-		});
-
-		if (fb.get('nullable')?.value === false) {
-			fb.get('defaut')?.disable();
-		} else {
-			fb.get('defaut')?.enable();
-		}
-
-		fb.get('nullable')?.valueChanges.subscribe((nullable) => {
-			if (nullable === false) {
-				fb.get('defaut')?.disable();
-			} else {
-				fb.get('defaut')?.enable();
-			}
-		});
-
-		return fb;
+		});;
 	}
 }

@@ -40,7 +40,7 @@ export class UpdateColumnComponent {
 	}
 
 	async update() {
-		await this.request.post('column/modify', this.form);
+		await this.request.post('column/modify', this.form.value);
 
 		//destrroy drawer
 		this.snackBar.open(`Columns Altered`, "╳", {duration: 3000});
