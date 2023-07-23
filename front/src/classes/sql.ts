@@ -163,26 +163,8 @@ export class SQL implements Driver {
 			'SET NULL',
 			'NO ACTION'
 		],
-		typeGroups: [
-			{
-				name: Group.String,
-				proposition: ["varchar(size)"],
-				full: ["varchar", 'char', 'binary', 'varbinary'],
-			}, {
-				name: Group.Numeric,
-				proposition: ['boolean', 'integer(size)', 'bigint(size)', 'decimal(size)', 'float(size)'],
-				full: ['boolean', 'integer', 'bigint', 'decimal', 'float', 'bit', 'double', 'numeric']
-			}, {
-				name: Group.Date,
-				proposition: ['date', 'datetime(precision?)', 'timestamp(precision?)', 'time(precision?)'],
-				full: ['date', 'datetime', 'timestamp', 'time']
-			}, {
-				name: Group.Other,
-				proposition: ['enum("val1", "val2", "val3")', 'json'],
-				full: ['enum', 'json']
-			}
-		],
 		extraAttributes: [],
+		typeGroups: [],
 		defaultFilter: "="
 	}
 
@@ -263,7 +245,7 @@ export class SQL implements Driver {
 			const detail = this.language.functions[fct] || '(expression)';
 			suggestions.push({
 				label: fct,
-				kind: monaco.languages.CompletionItemKind.Module,
+				kind: monaco.languages.CompletionItemKind.Function,
 				insertText: `${fct}()`,
 				detail
 			})
@@ -272,17 +254,18 @@ export class SQL implements Driver {
 		this.language.constraints.map(constraint => {
 			suggestions.push({
 				label: constraint,
-				kind: monaco.languages.CompletionItemKind.Function,
+				kind: monaco.languages.CompletionItemKind.Reference,
 				insertText: `${constraint}`
 			})
 		});
 
 		this.language.typeGroups.map(types => {
-			types.full.map(type => {
+			types.list.map(type => {
 				suggestions.push({
-					label: type.toUpperCase(),
+					label: type.id,
 					kind: monaco.languages.CompletionItemKind.TypeParameter,
-					insertText: `${type.toUpperCase()}`
+					insertText: `${type.id.toUpperCase()}`,
+					detail: type.description
 				})
 			})
 		});
@@ -371,7 +354,7 @@ export class SQL implements Driver {
 			Server.getSelected()?.dbs.map(db => {
 				suggestions.push({
 					label: db.name,
-					kind: monaco.languages.CompletionItemKind.Module,
+					kind: monaco.languages.CompletionItemKind.Function,
 					insertText: `${db.name} `
 				});
 

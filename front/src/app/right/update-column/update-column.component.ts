@@ -5,6 +5,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { RequestService } from "../../../shared/request.service";
 import { Column } from "../../../classes/column";
 import { FormBuilder, FormGroup } from "@angular/forms";
+import { DrawerService } from "../../../shared/drawer.service";
 
 @Component({
 	selector: 'app-update-column',
@@ -20,6 +21,7 @@ export class UpdateColumnComponent {
 		private activatedRoute: ActivatedRoute,
 		private snackBar: MatSnackBar,
 		private request: RequestService,
+		private drawer: DrawerService
 	) {
 		this.activatedRoute.paramMap.subscribe(paramMap => {
 			if (!Table.getSelected()) {
@@ -40,12 +42,11 @@ export class UpdateColumnComponent {
 	}
 
 	async update() {
-		await this.request.post('column/modify', this.form.value);
-
-		//destrroy drawer
-		this.snackBar.open(`Columns Altered`, "╳", {duration: 3000});
-
+		await this.request.post('column/modify', this.form.getRawValue());
 		await this.request.reloadServer();
+
+		this.drawer.toggle();
+		this.snackBar.open(`Columns Altered`, "╳", {duration: 3000});
 	}
 
 	protected readonly JSON = JSON;

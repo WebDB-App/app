@@ -54,11 +54,11 @@ export class MongoDB implements Driver {
 		functions: {},
 		constraints: [],
 		typeGroups: [
-			{
+			/*{
 				name: Group.String,
 				proposition: ["String"],
 				full: ["String"],
-			}
+			}*/
 		],
 		extraAttributes: [],
 		defaultFilter: "$eq"

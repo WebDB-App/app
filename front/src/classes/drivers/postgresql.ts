@@ -54,7 +54,7 @@ export class PostgreSQL extends SQL {
 				}
 			},
 			typeGroups: [
-				{
+				/*{
 					name: Group.String,
 					proposition: ["varchar(size)", 'uuid', 'tsquery'],
 					full: ["character", 'char', 'character varying', 'varchar', 'uuid', 'tsquery', 'text'],
@@ -70,7 +70,7 @@ export class PostgreSQL extends SQL {
 					name: Group.Other,
 					proposition: ['json', 'xml', 'cidr', 'macaddr'],
 					full: ['xml', 'json', 'jsonb', 'money', 'tsvector', 'macaddr', 'macaddr8', 'inet', 'cidr']
-				}
+				}*/
 			]
 		};
 
