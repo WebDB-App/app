@@ -21,5 +21,11 @@ export class QueryComponent implements OnInit {
 		this.activatedRoute.parent?.params.subscribe(async (_params) => {
 			this.selectedTable = Table.getSelected();
 		});
+
+		this.activatedRoute?.paramMap.subscribe(async (paramMap) => {
+			if (paramMap.get('code')) {
+				this.replayQuery = paramMap.get('code')!;
+			}
+		});
 	}
 }

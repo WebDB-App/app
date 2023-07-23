@@ -3,32 +3,26 @@
 	z-index: 20000;
 	top: 0px;
 
-	&.queryPage {
-		table-layout: fixed;
-		width: 100%
-	}
-
 	td {
 		padding: 0px;
 	}
 
 	ngx-monaco-editor {
-		height: 30vh;
-		min-width: 450px;
+		height: calc(100vh - 162px);
+		width: 33vw;
 	}
 }
 
 #actions {
-	top: calc(30vh - 1px);
 	padding: 10px 20px;
-	background-color: #303030;
-	z-index: 10000;
-}
-
-#editor, #actions {
-	position: sticky;
 }
 
 .prebuild > * {
 	margin: 0px 2px;
+}
+
+#results {
+	width: 100%;
+	height: calc(100vh - 162px);
+	overflow: auto;
 }
