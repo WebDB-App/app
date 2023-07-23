@@ -1,7 +1,104 @@
-<div class="mat-elevation-z8" fxLayout="column" fxLayoutAlign="none">
+<mat-toolbar
+	fxLayout="row"
+	fxLayoutAlign="space-between center"
+	id="actions">
 
-	<table [ngClass]="{'queryPage': selectedTable}"
-		   id="editor">
+	<button (click)="runQuery()"
+			*ngIf="!diff"
+			[disabled]="!query || query.trim().length < 1"
+			color="primary"
+			mat-raised-button>
+		<span class="material-symbols-outlined notranslate">play_arrow</span>
+		Execute
+	</button>
+
+	<button (click)="compareQuery()"
+			*ngIf="diff"
+			color="primary"
+			mat-raised-button>
+		<span class="material-symbols-outlined notranslate">difference</span>
+		Compare
+	</button>
+
+	<div *ngIf="selectedTable" class="prebuild">
+		<button
+			(click)="loadPreBuild(prebuild.id)"
+			*ngFor="let prebuild of preBuilds"
+			[matTooltip]="prebuild.tooltip"
+			mat-icon-button
+			mat-stroked-button>
+			<span class="material-symbols-outlined notranslate">{{prebuild.icon}}</span>
+		</button>
+	</div>
+
+	<div *ngIf="selectedTable">
+		<mat-slide-toggle
+			(click)="toggleDiff()"
+			color="primary"
+			matTooltip="Only first {{pageSize}} results will be prompt">
+			Compare Mode
+		</mat-slide-toggle>
+	</div>
+
+	<a [href]="selectedServer!.driver.docs.language" mat-button target="_blank">
+		<span class="material-symbols-outlined notranslate">
+			menu_book
+		</span>
+		{{selectedServer!.driver.language.id === "sql" ? "SQL" : (selectedServer!.driver.language.id | titlecase)}}
+	</a>
+
+	<mat-form-field appearance="outline" class="goToPage" *ngIf="querySize >= 1">
+		<mat-label>
+			Page
+		</mat-label>
+		<mat-select (selectionChange)="page = $event.value; runQuery()" [value]="page">
+			<mat-option
+				*ngFor="let item of [].constructor(Math.floor(querySize / pageSize) + 1); let i = index"
+				[value]="i">{{i}}</mat-option>
+		</mat-select>
+	</mat-form-field>
+
+	<div>
+		<button [matMenuTriggerFor]="advanced" mat-icon-button>
+			<mat-icon>more_vert</mat-icon>
+		</button>
+		<mat-menu #advanced="matMenu" xPosition="before">
+			<button [matMenuTriggerFor]="shortcuts" mat-menu-item>Shortcuts</button>
+			<button [matMenuTriggerFor]="exportQu" mat-menu-item>Export Query</button>
+			<button [matMenuTriggerFor]="exportRe" mat-menu-item>Export Results</button>
+			<button [matMenuTriggerFor]="disclaimer" mat-menu-item>Disclaimer</button>
+		</mat-menu>
+
+		<mat-menu #shortcuts="matMenu">
+			<button mat-menu-item>Alt + Space → <span style="color: #2196f3">Autocomplete</span></button>
+			<button mat-menu-item>Ctrl + s / Enter → <span style="color: #2196f3">Run Query</span></button>
+			<button mat-menu-item>Ctrl / ⌘ + f → <span style="color: #2196f3">Find and / or Replace</span></button>
+			<button mat-menu-item>Alt + Maj + f → <span style="color: #2196f3">Format Query</span></button>
+		</mat-menu>
+		<mat-menu #exportQu="matMenu">
+			<button (click)="exportQuery('node')" mat-menu-item>Node.JS</button>
+			<button (click)="exportQuery('PDO')" mat-menu-item>PHP</button>
+			<button (click)="exportQuery('JDBC')" mat-menu-item>Java</button>
+		</mat-menu>
+		<mat-menu #exportRe="matMenu">
+			<button (click)="exportResult('CSV')" mat-menu-item>CSV</button>
+			<button (click)="exportResult('JSON')" mat-menu-item>JSON</button>
+		</mat-menu>
+		<mat-menu #disclaimer="matMenu">
+			<pre style="color: white; padding: 0px 10px">Only most keyword/function <br>are proposed in autocomplete</pre>
+		</mat-menu>
+	</div>
+</mat-toolbar>
+
+<mat-progress-bar
+	[hidden]="!isLoading"
+	mode="query"
+	style="position: absolute; left: 0px; right: 0px; z-index: 10000000">
+</mat-progress-bar>
+
+<div style="display: flex">
+
+	<table id="editor">
 		<tr>
 			<td>
 				<ngx-monaco-editor
@@ -20,164 +117,32 @@
 		</tr>
 	</table>
 
-	<div class="mat-elevation-z8"
-		 fxLayout="row"
-		 fxLayoutAlign="space-between center"
-		 id="actions">
-
-		<button (click)="runQuery()"
-				*ngIf="!diff"
-				[disabled]="!query || query.trim().length < 1"
-				color="primary"
-				mat-raised-button>
-			<span class="material-symbols-outlined notranslate">play_arrow</span>
-			Execute
-		</button>
-
-		<button (click)="compareQuery()"
-				*ngIf="diff"
-				color="primary"
-				mat-raised-button>
-			<span class="material-symbols-outlined notranslate">difference</span>
-			Compare
-		</button>
-
-		<div *ngIf="selectedTable" class="prebuild">
-			<button
-				(click)="loadPreBuild(prebuild.id)"
-				*ngFor="let prebuild of preBuilds"
-				[matTooltip]="prebuild.tooltip"
-				mat-icon-button
-				mat-stroked-button>
-				<span class="material-symbols-outlined notranslate">{{prebuild.icon}}</span>
-			</button>
-		</div>
-
-		<div *ngIf="selectedTable">
-			<mat-slide-toggle
-				(click)="toggleDiff()"
-				color="primary"
-				matTooltip="Only first {{pageSize}} results will be prompt">
-				Compare Mode
-			</mat-slide-toggle>
-		</div>
-
-		<a [href]="selectedServer!.driver.docs.language" mat-button target="_blank">
-			<span class="material-symbols-outlined notranslate">
-				menu_book
-			</span>
-			{{selectedServer!.driver.language.id === "sql" ? "SQL" : (selectedServer!.driver.language.id | titlecase)}}
-		</a>
-
-		<div>
-			<button [matMenuTriggerFor]="advanced" mat-icon-button>
-				<mat-icon>more_vert</mat-icon>
-			</button>
-			<mat-menu #advanced="matMenu" xPosition="before">
-				<button [matMenuTriggerFor]="shortcuts" mat-menu-item>Shortcuts</button>
-				<button [matMenuTriggerFor]="export" mat-menu-item>Export Query</button>
-				<button [matMenuTriggerFor]="disclaimer" mat-menu-item>Disclaimer</button>
-			</mat-menu>
-
-			<mat-menu #shortcuts="matMenu">
-				<button mat-menu-item>Alt + Space → <span style="color: #2196f3">Autocomplete</span></button>
-				<button mat-menu-item>Ctrl + s / Enter → <span style="color: #2196f3">Run Query</span></button>
-				<button mat-menu-item>Ctrl / ⌘ + f → <span style="color: #2196f3">Find and / or Replace</span></button>
-				<button mat-menu-item>Alt + Maj + f → <span style="color: #2196f3">Format Query</span></button>
-			</mat-menu>
-			<mat-menu #export="matMenu">
-				<button (click)="exportQuery('node')" mat-menu-item>Node.JS</button>
-				<button (click)="exportQuery('PDO')" mat-menu-item>PHP</button>
-				<button (click)="exportQuery('JDBC')" mat-menu-item>Java</button>
-			</mat-menu>
-			<mat-menu #disclaimer="matMenu">
-				<pre style="color: white; padding: 0px 10px">Only most keyword/function <br>are proposed in autocomplete</pre>
-			</mat-menu>
-		</div>
-
-		<mat-progress-bar
-			[hidden]="!isLoading"
-			mode="query"
-			style="position: absolute; left: 0px; right: 0px; bottom: 0px;"></mat-progress-bar>
-	</div>
-
 	<ngx-monaco-diff-editor
 		*ngIf="diff && !isLoading"
 		[modifiedModel]="modifiedResult"
 		[options]="editorOptions"
 		[originalModel]="originalResult"
-		style="min-height: 50vh"
 	></ngx-monaco-diff-editor>
 
-	<div *ngIf="!diff && dataSource?.data">
+	<div *ngIf="!diff && dataSource?.data" id="results">
+		<table [dataSource]="dataSource!" class="table" mat-table>
+			<ng-container
+				*ngFor="let column of displayedColumns"
+				matColumnDef="{{column}}"
+			>
+				<th *matHeaderCellDef mat-header-cell>
+					{{column}}
+				</th>
+				<td *matCellDef="let row" mat-cell>
+					<app-cell
+						[column]="column"
+						[row]="row"
+					></app-cell>
+				</td>
+			</ng-container>
 
-		<mat-toolbar *ngIf="dataSource?.data?.length"
-					 fxLayout="row"
-					 fxLayoutAlign="space-between center"
-		>
-			<div style="display: flex; align-items: center;">
-				<mat-form-field appearance="outline" class="goToPage">
-					<mat-label>
-						Page
-					</mat-label>
-					<mat-select (selectionChange)="page = $event.value; runQuery()" [value]="page">
-						<mat-option
-							*ngFor="let item of [].constructor(Math.floor(querySize / pageSize) + 1); let i = index"
-							[value]="i">{{i}}</mat-option>
-					</mat-select>
-				</mat-form-field>
-				<mat-paginator
-					(page)="page = $event.pageIndex; runQuery()"
-					[length]="querySize"
-					[pageIndex]="page"
-					hidePageSize
-					pageSize="{{pageSize}}"
-				></mat-paginator>
-				<button
-					(click)="setAutoUp()"
-					[color]="autoUp ? 'primary' : undefined"
-					[ngClass]="{'mat-raised-button' : autoUp}"
-					mat-button
-					matTooltip="Reload data periodically">
-					<span class="material-symbols-outlined notranslate">
-						repeat
-					</span>
-				</button>
-			</div>
-			<mat-form-field>
-				<mat-label>
-					Export Result
-				</mat-label>
-				<mat-select #exportResultType (selectionChange)="exportResult(exportResultType.value)">
-					<mat-option [value]="'csv'">CSV</mat-option>
-					<mat-option [value]="'json'">JSON</mat-option>
-				</mat-select>
-			</mat-form-field>
-		</mat-toolbar>
-
-		<div class="scrollDiv">
-
-			<mat-divider></mat-divider>
-
-			<table [dataSource]="dataSource!" class="table" mat-table>
-				<ng-container
-					*ngFor="let column of displayedColumns"
-					matColumnDef="{{column}}"
-				>
-					<th *matHeaderCellDef mat-header-cell>
-						{{column}}
-					</th>
-					<td *matCellDef="let row" mat-cell>
-						<app-cell
-							[column]="column"
-							[row]="row"
-						></app-cell>
-					</td>
-				</ng-container>
-
-				<tr *matHeaderRowDef="displayedColumns!; sticky: true" mat-header-row></tr>
-				<tr *matRowDef="let row; columns: displayedColumns!;" mat-row></tr>
-			</table>
-		</div>
+			<tr *matHeaderRowDef="displayedColumns!; sticky: true" mat-header-row></tr>
+			<tr *matRowDef="let row; columns: displayedColumns!;" mat-row></tr>
+		</table>
 	</div>
 </div>

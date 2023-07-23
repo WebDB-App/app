@@ -4,6 +4,9 @@ import { HistoryService, Query } from "../../../shared/history.service";
 import { Configuration } from "../../../classes/configuration";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { DrawerService } from "../../../shared/drawer.service";
+import { Router } from "@angular/router";
+import { Table } from "../../../classes/table";
+import { Database } from "../../../classes/database";
 
 @Component({
 	selector: 'app-history',
@@ -20,7 +23,8 @@ export class HistoryComponent implements OnInit {
 	constructor(
 		public history: HistoryService,
 		public snackBar: MatSnackBar,
-		private drawer: DrawerService
+		private drawer: DrawerService,
+		private router: Router,
 	) {
 		this.drawer.drawer.openedChange.subscribe((state) => {
 			this.queryHistory = this.history.getLocal();
@@ -34,5 +38,10 @@ export class HistoryComponent implements OnInit {
 	changeStar(query: Query) {
 		query.star = !query.star;
 		this.history.saveLocal(this.queryHistory);
+	}
+
+	goToQuery(query: string) {
+		this.router.navigate([Server.getSelected().name, Database.getSelected().name, Table.getSelected().name, 'query', query]);
+		this.drawer.toggle();
 	}
 }

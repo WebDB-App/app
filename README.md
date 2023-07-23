@@ -1,6 +1,3 @@
-replay
-resize
-
 # Mongo:
 - relations
 - mongo harmonizer

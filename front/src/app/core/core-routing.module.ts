@@ -16,8 +16,11 @@ const routes: Routes = [
 		path: 'explore',
 		component: ExploreComponent
 	}, {
+		path: 'query/:code',
+		component: QueryComponent,
+	}, {
 		path: 'query',
-		component: QueryComponent
+		component: QueryComponent,
 	}, {
 		path: 'structure',
 		component: StructureComponent
