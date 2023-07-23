@@ -27,7 +27,7 @@ export class MySQL extends SQL {
 
 		this.language = {
 			...this.language,
-			extraAttributes: ['AUTO_INCREMENT', 'on update CURRENT_TIMESTAMP', 'ZEROFILL', 'UNSIGNED'],
+			extraAttributes: ['auto_increment', 'on update CURRENT_TIMESTAMP'],
 			keywords: this.language.keywords.concat([
 				'AUTO_INCREMENT',
 				'FOR EACH ROW'
@@ -58,8 +58,6 @@ export class MySQL extends SQL {
 			typeGroups: [
 				{
 					name: Group.String,
-					zerofill: true,
-					unsigned: true,
 					list: [
 						{
 							id: "Binary(size)",
@@ -87,12 +85,12 @@ export class MySQL extends SQL {
 							description: 'Where size is the number of characters to store.'
 						},
 						{
-							id: "VarChar(size)",
+							id: "VarChar(size!)",
 							bold: true,
 							description: 'Where size is the number of characters to store. Variable-length string.'
 						},
 						{
-							id: "VarBinary(size)",
+							id: "VarBinary(size!)",
 							description: 'Where size is the number of characters to store. Variable-length string'
 						}
 					]
@@ -100,25 +98,20 @@ export class MySQL extends SQL {
 					name: Group.Numeric,
 					list: [
 						{
-							id: 'Bool',
-							description: 'Synonym for TINYINT(1)'
+							id: "BigInt",
+							description: "Big integer value.\nValues range from -9223372036854775808 to 9223372036854775807."
 						},
 						{
-							id: "Boolean",
-							bold: true,
-							description: 'Synonym for TINYINT(1). Treated as a boolean data type where a value of 0 is considered to be FALSE and any other value is considered to be TRUE.'
+							id: "BigInt Unsigned",
+							description: "Big integer value.\nValues range from 0 to 18446744073709551615."
 						},
 						{
-							id: "BigInt(m)",
-							description: "Big integer value.\nSigned values range from -9223372036854775808 to 9223372036854775807. Unsigned values range from 0 to 18446744073709551615."
+							id: "BigInt ZeroFill",
+							description: "Big integer value.\nValues range from 0 to 18446744073709551615."
 						},
 						{
 							id: "Bit",
 							description: "Very small integer value that is equivalent to TINYINT(1).\nSigned values range from -128 to 127. Unsigned values range from 0 to 255."
-						},
-						{
-							id: "Dec(m, d)",
-							description: 'This is a synonym for the DECIMAL datatype.'
 						},
 						{
 							id: "Decimal(m, d)",
@@ -128,11 +121,7 @@ export class MySQL extends SQL {
 						{
 							id: "Double(m, d)",
 							bold: true,
-							description: "Double precision floating point number.\nWhere m is the total digits and d is the number of digits after the decimal.\n"
-						},
-						{
-							id: "Double Precision(m, d)",
-							description: 'This is a synonym for the DOUBLE datatype.'
+							description: "Double precision floating point number.\nWhere m is the total digits and d is the number of digits after the decimal."
 						},
 						{
 							id: "Float(m, d)",
@@ -143,38 +132,56 @@ export class MySQL extends SQL {
 							description: "Floating point number.\nWhere p is the precision."
 						},
 						{
-							id: "Fixed(m, d)",
-							description: 'This is a synonym for the DECIMAL datatype.'
-						},
-						{
-							id: "Int(m)",
+							id: "Int",
 							bold: true,
-							description: "A normal-sized integer that can be signed or unsigned. If signed, the allowable range is from -2147483648 to 2147483647. If unsigned, the allowable range is from 0 to 4294967295. You can specify a width of up to 11 digits."
+							description: "A normal-sized integer that can be signed or unsigned. Allowable range is from -2147483648 to 2147483647"
 						},
 						{
-							id: "Integer(m)",
-							description: "This is a synonym for the INT datatype."
+							id: "Int Unsigned",
+							bold: true,
+							description: "A normal-sized integer that can be signed or unsigned. Allowable range is from 0 to 4294967295"
 						},
 						{
-							id: "MediumInt(m)",
-							description: "Medium integer value.\nSigned values range from -8388608 to 8388607. Unsigned values range from 0 to 16777215."
+							id: "Int ZeroFill",
+							bold: true,
+							description: "A normal-sized integer that can be signed or unsigned. Allowable range is from 0 to 4294967295"
 						},
 						{
-							id: "Numeric(m, d)",
-							description: 'This is a synonym for the DECIMAL datatype.'
+							id: "MediumInt",
+							description: "Medium integer value.\nValues range from -8388608 to 8388607."
 						},
 						{
-							id: "Real(m, d)",
-							description: 'This is a synonym for the DOUBLE datatype.'
+							id: "MediumInt Unsigned",
+							description: "Medium integer value.\nValues range from 0 to 16777215."
 						},
 						{
-							id: "SmallInt(m)",
-							description: "Small integer value.\nSigned values range from -32768 to 32767. Unsigned values range from 0 to 65535."
+							id: "MediumInt ZeroFill",
+							description: "Medium integer value.\nVnsigned values range from 0 to 16777215."
 						},
 						{
-							id: "TinyInt(m)",
-							description: "Very small integer value.\nSigned values range from -128 to 127. Unsigned values range from 0 to 255."
+							id: "SmallInt",
+							description: "Small integer value.\nValues range from -32768 to 32767."
 						},
+						{
+							id: "SmallInt Unsigned",
+							description: "Small integer value.\nValues range from 0 to 65535."
+						},
+						{
+							id: "SmallInt ZeroFill",
+							description: "Small integer value.\nValues range from 0 to 65535."
+						},
+						{
+							id: "TinyInt",
+							description: "Very small integer value.\nValues range from -128 to 127"
+						},
+						{
+							id: "TinyInt Unsigned",
+							description: "Very small integer value.\nValues range from 0 to 255."
+						},
+						{
+							id: "TinyInt ZeroFill",
+							description: "Very small integer value.\nValues range from 0 to 255."
+						}
 					]
 
 
@@ -186,7 +193,7 @@ export class MySQL extends SQL {
 							description: "Values range from '1000-01-01' to '9999-12-31'.\nDisplayed as 'YYYY-MM-DD'."
 						},
 						{
-							id: "DateTime(precision?)",
+							id: "DateTime(precision)",
 							description: "Values range from '1000-01-01 00:00:00' to '9999-12-31 23:59:59'.\nDisplayed as 'YYYY-MM-DD HH:MM:SS'."
 						},
 						{
@@ -194,20 +201,20 @@ export class MySQL extends SQL {
 							description: "Values range from '-838:59:59' to '838:59:59'.\nDisplayed as 'HH:MM:SS'."
 						},
 						{
-							id: "Timestamp(precision?)",
+							id: "Timestamp(precision)",
 							bold: true,
 							description: "Values range from '1970-01-01 00:00:01' UTC to '2038-01-19 03:14:07' UTC.\nDisplayed as 'YYYY-MM-DD HH:MM:SS'."
 						},
 						{
-							id: "Year(2|4?)",
+							id: "Year(2|4)",
 							description: 'Year value as 2 digits or 4 digits.\nDefault is 4 digits.'
 						}
 					]
 				}, {
-					name: Group.BLOB,
+					name: Group.Blob,
 					list: [
 						{
-							id: "Blob(size?)",
+							id: "Blob(size)",
 							description: "Maximum size of 65,535 bytes.\nWhere size is the number of characters to store"
 						},
 						{

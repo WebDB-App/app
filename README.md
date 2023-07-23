@@ -1,6 +1,4 @@
-remove parenthese (isOfGroup)
-validayor : exclude parenthese of non numeric, non string
-
+landing sans legend avec liste des drivers et expansion panel
 
 # Mongo:
 - relations

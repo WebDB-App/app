@@ -96,8 +96,8 @@
 						<mat-error *ngIf="column.get('type')?.errors && column.get('type')!.errors!['required']">
 							Type is required
 						</mat-error>
-						<mat-error *ngIf="column.get('type')?.errors && column.get('type')!.errors!['setLength']">
-							Set a length or precision to your type
+						<mat-error *ngIf="column.get('type')?.errors && column.get('type')!.errors!['checkParams']">
+							Parentheses contains error
 						</mat-error>
 					</mat-form-field>
 
@@ -108,7 +108,7 @@
 							<mat-option *ngFor="let type of group.list" [value]="type.id">
 								<span
 									[matTooltip]="type.description ? type.description : ''"
-									[style.color]="type.bold ? '#2196f3' : null"
+									[style.color]="type.bold ? '#ff9800' : null"
 									matTooltipPosition="left">
 									{{type.id}}
 								</span>

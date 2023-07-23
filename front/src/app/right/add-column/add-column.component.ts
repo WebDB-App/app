@@ -6,6 +6,7 @@ import { ActivatedRoute } from "@angular/router";
 import { Database } from "../../../classes/database";
 import { Table } from "../../../classes/table";
 import { FormBuilder, FormGroup } from "@angular/forms";
+import { DrawerService } from "../../../shared/drawer.service";
 
 @Component({
 	selector: 'app-add-column',
@@ -21,7 +22,8 @@ export class AddColumnComponent {
 		private fb: FormBuilder,
 		private activatedRoute: ActivatedRoute,
 		private snackBar: MatSnackBar,
-		private request: RequestService
+		private request: RequestService,
+		private drawer: DrawerService
 	) {
 		this.form = fb.group({
 			columns: fb.array([
@@ -35,8 +37,9 @@ export class AddColumnComponent {
 
 	async add() {
 		await this.request.post('column/add', this.form.value);
+		await this.request.reloadServer();
 
 		this.snackBar.open(`Columns Added`, "╳", {duration: 3000});
-		await this.request.reloadServer();
+		this.drawer.toggle();
 	}
 }
