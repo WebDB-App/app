@@ -1,10 +1,10 @@
-<div fxFlexFill fxLayout="column" fxLayoutAlign="start" [formGroup]="form">
+<div [formGroup]="form" fxFlexFill fxLayout="column" fxLayoutAlign="start">
 	<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
 		<mat-form-field style="width: 50%;">
 			<mat-label>Table Name</mat-label>
 			<input
-				formControlName="name"
 				autocomplete="off"
+				formControlName="name"
 				matInput>
 			<mat-error *ngIf="form.get('name')?.errors && form.get('name')!.errors!['pattern']">
 				Prefer alpha, numeric and "_", "-"

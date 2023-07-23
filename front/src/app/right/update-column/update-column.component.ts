@@ -15,6 +15,7 @@ import { DrawerService } from "../../../shared/drawer.service";
 export class UpdateColumnComponent {
 
 	form!: FormGroup;
+	protected readonly JSON = JSON;
 
 	constructor(
 		private fb: FormBuilder,
@@ -48,6 +49,4 @@ export class UpdateColumnComponent {
 		this.drawer.toggle();
 		this.snackBar.open(`Columns Altered`, "╳", {duration: 3000});
 	}
-
-	protected readonly JSON = JSON;
 }

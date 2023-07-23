@@ -1,4 +1,4 @@
-import { Comparator, Driver, Group, QueryParams, TypeGroup } from "./driver";
+import { Comparator, Driver, QueryParams, TypeGroup } from "./driver";
 import { Column } from "./column";
 import { Database } from "./database";
 import { Table } from "./table";

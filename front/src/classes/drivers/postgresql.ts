@@ -1,5 +1,5 @@
 import { SQL } from "../sql";
-import { Group, QueryParams } from "../driver";
+import { QueryParams } from "../driver";
 import { Server } from "../server";
 import { Database } from "../database";
 import { format } from "sql-formatter";

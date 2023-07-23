@@ -1,13 +1,13 @@
 <div fxFlexFill fxLayout="column" fxLayoutAlign="space-between stretch">
 
-	<div class="container" [formGroup]="form">
+	<div [formGroup]="form" class="container">
 
-		<div *ngIf="form.get('old')" formGroupName="old" class="column">
+		<div *ngIf="form.get('old')" class="column" formGroupName="old">
 			<div>
 				<mat-form-field appearance="outline">
 					<mat-label>Column Name</mat-label>
-					<input formControlName="name"
-						   autocomplete="off"
+					<input autocomplete="off"
+						   formControlName="name"
 						   matInput>
 				</mat-form-field>
 			</div>
@@ -30,15 +30,15 @@
 			</mat-form-field>
 			<div class="nullable">
 				<mat-slide-toggle
-					formControlName="nullable"
-					color="primary">
+					color="primary"
+					formControlName="nullable">
 					Nullable
 				</mat-slide-toggle>
 
 				<mat-form-field>
 					<mat-label>Default Value on Null</mat-label>
-					<input formControlName="defaut"
-						   autocomplete="off"
+					<input autocomplete="off"
+						   formControlName="defaut"
 						   matInput>
 				</mat-form-field>
 			</div>
@@ -47,13 +47,13 @@
 		<div formArrayName="columns">
 			<div *ngFor="let column of formColumn.controls; let i = index"
 				 [formGroupName]="i"
-				class="column mat-elevation-z4">
+				 class="column mat-elevation-z4">
 
 				<div>
 					<mat-form-field appearance="outline">
 						<mat-label>Column Name</mat-label>
-						<input formControlName="name"
-							   autocomplete="off"
+						<input autocomplete="off"
+							   formControlName="name"
 							   matInput>
 						<mat-error *ngIf="column.get('name')?.errors">
 							Prefer alpha, numeric and "_", "-"
@@ -63,20 +63,20 @@
 					<div>
 						<button (click)="addColumn(column)"
 								*ngIf="!form.get('old')"
+								color="primary"
 								mat-icon-button
-								matTooltip="Duplicate column"
-								color="primary">
+								matTooltip="Duplicate column">
 							<span class="material-symbols-outlined notranslate">
 								content_copy
 							</span>
 						</button>
 
 						<button (click)="formColumn.removeAt(i)"
-								[disabled]="formColumn.controls.length <= 1"
 								*ngIf="!form.get('old')"
-								matTooltip="Remove column"
+								[disabled]="formColumn.controls.length <= 1"
+								color="warn"
 								mat-icon-button
-								color="warn">
+								matTooltip="Remove column">
 							<span class="material-symbols-outlined notranslate">
 								remove
 							</span>
@@ -103,12 +103,13 @@
 
 					<mat-select
 						(selectionChange)="column.get('type')?.patchValue($event.value)">
-						<mat-optgroup *ngFor="let group of selectedServer!.driver.language.typeGroups" [label]="group.name">
+						<mat-optgroup *ngFor="let group of selectedServer!.driver.language.typeGroups"
+									  [label]="group.name">
 							<mat-option *ngFor="let type of group.list" [value]="type.id">
 								<span
 									[matTooltip]="type.description ? type.description : ''"
-									matTooltipPosition="left"
-									[style.color]="type.bold ? '#2196f3' : null">
+									[style.color]="type.bold ? '#2196f3' : null"
+									matTooltipPosition="left">
 									{{type.id}}
 								</span>
 							</mat-option>
@@ -118,8 +119,8 @@
 
 				<mat-form-field *ngIf="extraAttributes.length" appearance="fill">
 					<mat-label>Extras</mat-label>
-					<mat-select formControlName="extra"
-								disableOptionCentering
+					<mat-select disableOptionCentering
+								formControlName="extra"
 								multiple>
 						<ng-container *ngFor="let ext of extraAttributes">
 							<mat-option
@@ -133,15 +134,15 @@
 				<div class="nullable">
 					<mat-slide-toggle
 						#nullable
-						formControlName="nullable"
-						color="primary">
+						color="primary"
+						formControlName="nullable">
 						Nullable
 					</mat-slide-toggle>
 
 					<mat-form-field [style.opacity]="nullable.checked ? 1 : 0.5">
 						<mat-label>Default Value on Null</mat-label>
-						<input formControlName="defaut"
-							   autocomplete="off"
+						<input autocomplete="off"
+							   formControlName="defaut"
 							   matInput>
 					</mat-form-field>
 				</div>

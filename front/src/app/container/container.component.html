@@ -19,8 +19,8 @@
 						<span>{{selectedServer.host}}</span>:<span>{{selectedServer.port}}</span>/<span>{{selectedDatabase.name}}</span>
 					</div>
 					<button
-						*ngIf="loading >= 100"
 						(click)="request.reloadServer()"
+						*ngIf="loading >= 100"
 						mat-icon-button>
 						<span class="material-symbols-outlined notranslate">
 							refresh

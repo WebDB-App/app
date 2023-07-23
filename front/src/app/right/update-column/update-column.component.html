@@ -1,4 +1,4 @@
-<div fxFlexFill fxLayout="column" fxLayoutAlign="start" fxLayoutGap="20px" *ngIf="form">
+<div *ngIf="form" fxFlexFill fxLayout="column" fxLayoutAlign="start" fxLayoutGap="20px">
 
 	<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
 		<div>Alter Column {{form.get('old')?.get('name')!.value}}</div>
