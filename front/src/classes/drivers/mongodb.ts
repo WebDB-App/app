@@ -1,4 +1,4 @@
-import { Driver, Group, QueryParams } from "../driver";
+import { Driver, QueryParams } from "../driver";
 import { Column } from "../column";
 import { Table } from "../table";
 import { Relation } from "../relation";

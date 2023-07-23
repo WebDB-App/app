@@ -21,7 +21,8 @@
 				</th>
 				<td *matCellDef="let element"
 					mat-cell>
-					<pre><code [highlight]="element.query" [lineNumbers]="true" [languages]="[selectedServer?.driver!.language.id]"></code></pre>
+					<pre><code [highlight]="element.query" [languages]="[selectedServer?.driver!.language.id]"
+							   [lineNumbers]="true"></code></pre>
 				</td>
 			</ng-container>
 

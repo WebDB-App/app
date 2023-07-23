@@ -1,5 +1,5 @@
 <mat-sidenav-container autosize fxFlexFill id="container">
-	<mat-sidenav disableClose mode="side" opened class="mat-elevation-z8" id="tableList">
+	<mat-sidenav class="mat-elevation-z8" disableClose id="tableList" mode="side" opened>
 		<mat-list fxLayout="column">
 
 			<mat-list-item>
@@ -28,7 +28,7 @@
 					 class="entity">
 					<div style="display: flex">
 						<div [style.background-color]="tooltips[table.name] ? '#1e1e1e' : 'inherit'"
-							style="display: flex;">
+							 style="display: flex;">
 							<button
 								(click)="getTooltip(table)"
 								mat-icon-button>

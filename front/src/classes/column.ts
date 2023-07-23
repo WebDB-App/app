@@ -1,8 +1,7 @@
 import { Index } from "./index";
 import { Relation } from "./relation";
 import { Driver, Group } from "./driver";
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
-import { isSQL } from "../shared/helper";
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from "@angular/forms";
 
 export class Column {
 	name!: string;
@@ -48,7 +47,7 @@ export class Column {
 
 	static getFormGroup(from?: Column) {
 		const setLength = () => {
-			return (control: AbstractControl) : ValidationErrors | null => {
+			return (control: AbstractControl): ValidationErrors | null => {
 				if (!control.value) {
 					return null;
 				}
@@ -62,6 +61,7 @@ export class Column {
 			nullable: new FormControl(from?.nullable || false),
 			defaut: new FormControl(from?.defaut || null),
 			extra: new FormControl(from?.extra || null),
-		});;
+		});
+
 	}
 }

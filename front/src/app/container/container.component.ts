@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 import packageJson from '../../../package.json';
 import { MatDrawer } from "@angular/material/sidenav";
 import { DrawerService } from "../../shared/drawer.service";
@@ -75,7 +75,8 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 		try {
 			server = (await this.request.connectServers([local!]))[0];
 			database = server?.dbs.find(db => db.name === this.activatedRoute.snapshot.paramMap.get('database'))!;
-		} catch (e) {}
+		} catch (e) {
+		}
 
 		if (!server || !database) {
 			this.loading = -1;

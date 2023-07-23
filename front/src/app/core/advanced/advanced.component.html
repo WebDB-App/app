@@ -38,7 +38,7 @@
 
 			<ng-container *ngIf="!selectedTable?.view">
 
-				<div fxLayout="row" fxLayoutAlign="space-between center" *ngIf="stats">
+				<div *ngIf="stats" fxLayout="row" fxLayoutAlign="space-between center">
 					<span>Index Size : {{+stats.index_length  | round}} Mb</span>
 					<span>Data Size : {{+stats.data_length  | round}} Mb</span>
 				</div>

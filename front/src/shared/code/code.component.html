@@ -20,14 +20,14 @@
 		</tr>
 	</table>
 
-	<div fxLayout="row"
+	<div class="mat-elevation-z8"
+		 fxLayout="row"
 		 fxLayoutAlign="space-between center"
-		 class="mat-elevation-z8"
 		 id="actions">
 
 		<button (click)="runQuery()"
-				[disabled]="!query || query.trim().length < 1"
 				*ngIf="!diff"
+				[disabled]="!query || query.trim().length < 1"
 				color="primary"
 				mat-raised-button>
 			<span class="material-symbols-outlined notranslate">play_arrow</span>
@@ -44,11 +44,11 @@
 
 		<div *ngIf="selectedTable" class="prebuild">
 			<button
-				*ngFor="let prebuild of preBuilds"
 				(click)="loadPreBuild(prebuild.id)"
+				*ngFor="let prebuild of preBuilds"
+				[matTooltip]="prebuild.tooltip"
 				mat-icon-button
-				mat-stroked-button
-				[matTooltip]="prebuild.tooltip">
+				mat-stroked-button>
 				<span class="material-symbols-outlined notranslate">{{prebuild.icon}}</span>
 			</button>
 		</div>

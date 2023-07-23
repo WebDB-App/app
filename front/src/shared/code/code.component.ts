@@ -66,8 +66,7 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 	dataSource?: MatTableDataSource<any>
 	page = 0;
 	querySize!: number;
-	protected readonly Math = Math;
-	preBuilds: {id: string, tooltip: string, icon: string}[] = [
+	preBuilds: { id: string, tooltip: string, icon: string }[] = [
 		{
 			id: "select",
 			tooltip: "Select",
@@ -90,6 +89,7 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 			icon: "scan_delete"
 		},
 	];
+	protected readonly Math = Math;
 
 	constructor(
 		private snackBar: MatSnackBar,

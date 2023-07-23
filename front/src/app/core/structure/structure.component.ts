@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, ElementRef, Inject, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, Inject, OnInit } from '@angular/core';
 import { Table } from "../../../classes/table";
 import { Database } from "../../../classes/database";
 import { Server } from "../../../classes/server";
