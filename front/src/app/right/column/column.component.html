@@ -2,35 +2,33 @@
 
 	<div class="container" [formGroup]="form">
 
-		<ng-container *ngIf="form.get('old')">
-			<div fxLayout="row"
-				 fxLayoutAlign="space-around center"
-				 fxLayoutGap="20px"
-				 formGroupName="old">
-				<h4>Previous Values : </h4>
-
+		<div *ngIf="form.get('old')" formGroupName="old" class="column">
+			<div>
+				<mat-form-field appearance="outline">
+					<mat-label>Column Name</mat-label>
+					<input formControlName="name"
+						   autocomplete="off"
+						   matInput>
+				</mat-form-field>
+			</div>
+			<div class="type">
 				<mat-form-field appearance="fill">
 					<mat-label>Type</mat-label>
 					<textarea
+						cdkTextareaAutosize
 						formControlName="type"
 						matInput
-						cdkTextareaAutosize>
-				</textarea>
+						type="text">
+					</textarea>
 				</mat-form-field>
-
-				<mat-form-field *ngIf="extraAttributes.length" appearance="fill">
-					<mat-label>Extras</mat-label>
-					<mat-select formControlName="extra"
-								multiple>
-						<ng-container *ngFor="let ext of extraAttributes">
-							<mat-option
-								[value]="ext">
-								{{ext}}
-							</mat-option>
-						</ng-container>
-					</mat-select>
-				</mat-form-field>
-
+			</div>
+			<mat-form-field *ngIf="extraAttributes.length" appearance="fill">
+				<mat-label>Extras</mat-label>
+				<mat-select formControlName="extra"
+							multiple>
+				</mat-select>
+			</mat-form-field>
+			<div class="nullable">
 				<mat-slide-toggle
 					formControlName="nullable"
 					color="primary">
@@ -44,48 +42,84 @@
 						   matInput>
 				</mat-form-field>
 			</div>
+		</div>
 
-			<mat-divider></mat-divider>
-			<br>
-			<br>
-		</ng-container>
-
-		<ng-container formArrayName="columns">
+		<div formArrayName="columns">
 			<div *ngFor="let column of formColumn.controls; let i = index"
 				 [formGroupName]="i"
-				 class="column"
-				 fxLayout="row"
-				 fxLayoutAlign="space-around center"
-				 fxLayoutGap="20px">
+				class="column mat-elevation-z4">
 
-				<mat-form-field appearance="outline">
-					<mat-label>Column Name</mat-label>
-					<input formControlName="name"
-						   autocomplete="off"
-						   matInput>
-					<mat-error *ngIf="column.get('name')?.errors">
-						Prefer alpha, numeric and "_", "-"
-					</mat-error>
-				</mat-form-field>
+				<div>
+					<mat-form-field appearance="outline">
+						<mat-label>Column Name</mat-label>
+						<input formControlName="name"
+							   autocomplete="off"
+							   matInput>
+						<mat-error *ngIf="column.get('name')?.errors">
+							Prefer alpha, numeric and "_", "-"
+						</mat-error>
+					</mat-form-field>
 
-				<mat-form-field appearance="fill">
-					<mat-label>Type</mat-label>
-					<textarea
-						formControlName="type"
-						matInput
-						cdkTextareaAutosize>
-					</textarea>
-					<mat-error *ngIf="column.get('type')?.errors && column.get('type')!.errors!['required']">
-						You can paste a type from bottom list
-					</mat-error>
-					<mat-error *ngIf="column.get('type')?.errors && column.get('type')!.errors!['setLength']">
-						Set a length or precision to your type
-					</mat-error>
-				</mat-form-field>
+					<div>
+						<button (click)="addColumn(column)"
+								*ngIf="!form.get('old')"
+								mat-icon-button
+								matTooltip="Duplicate column"
+								color="primary">
+							<span class="material-symbols-outlined notranslate">
+								content_copy
+							</span>
+						</button>
+
+						<button (click)="formColumn.removeAt(i)"
+								[disabled]="formColumn.controls.length <= 1"
+								*ngIf="!form.get('old')"
+								matTooltip="Remove column"
+								mat-icon-button
+								color="warn">
+							<span class="material-symbols-outlined notranslate">
+								remove
+							</span>
+						</button>
+					</div>
+				</div>
+
+				<div class="type">
+					<mat-form-field appearance="fill">
+						<mat-label>Type</mat-label>
+						<textarea
+							cdkTextareaAutosize
+							formControlName="type"
+							matInput
+							type="text">
+						</textarea>
+						<mat-error *ngIf="column.get('type')?.errors && column.get('type')!.errors!['required']">
+							Type is required
+						</mat-error>
+						<mat-error *ngIf="column.get('type')?.errors && column.get('type')!.errors!['setLength']">
+							Set a length or precision to your type
+						</mat-error>
+					</mat-form-field>
+
+					<mat-select
+						(selectionChange)="column.get('type')?.patchValue($event.value)">
+						<mat-optgroup *ngFor="let group of selectedServer!.driver.language.typeGroups" [label]="group.name">
+							<mat-option *ngFor="let type of group.list" [value]="type.id">
+								<span
+									[matTooltip]="type.description ? type.description : ''"
+									matTooltipPosition="left"
+									[style.color]="type.bold ? '#2196f3' : null">
+									{{type.id}}
+								</span>
+							</mat-option>
+						</mat-optgroup>
+					</mat-select>
+				</div>
 
 				<mat-form-field *ngIf="extraAttributes.length" appearance="fill">
 					<mat-label>Extras</mat-label>
 					<mat-select formControlName="extra"
+								disableOptionCentering
 								multiple>
 						<ng-container *ngFor="let ext of extraAttributes">
 							<mat-option
@@ -96,97 +130,45 @@
 					</mat-select>
 				</mat-form-field>
 
-				<mat-slide-toggle
-					#nullable
-					formControlName="nullable"
-					color="primary">
-					Nullable
-				</mat-slide-toggle>
+				<div class="nullable">
+					<mat-slide-toggle
+						#nullable
+						formControlName="nullable"
+						color="primary">
+						Nullable
+					</mat-slide-toggle>
 
-				<mat-form-field [style.opacity]="nullable.checked ? 1 : 0.5">
-					<mat-label>Default Value on Null</mat-label>
-					<input formControlName="defaut"
-						   autocomplete="off"
-						   matInput>
-				</mat-form-field>
-
-				<button (click)="formColumn.removeAt(i)"
-						[disabled]="formColumn.controls.length <= 1"
-						*ngIf="!form.get('old')"
-						mat-icon-button
-						color="warn">
-					<span class="material-symbols-outlined notranslate">
-						remove
-					</span>
-				</button>
+					<mat-form-field [style.opacity]="nullable.checked ? 1 : 0.5">
+						<mat-label>Default Value on Null</mat-label>
+						<input formControlName="defaut"
+							   autocomplete="off"
+							   matInput>
+					</mat-form-field>
+				</div>
 
 			</div>
-		</ng-container>
-
-		<div style="text-align: center;">
-			<button (click)="addColumn()" *ngIf="!form.get('old')" color="primary" mat-icon-button mat-stroked-button>
-			<span class="material-symbols-outlined notranslate">
-				add
-			</span>
-			</button>
 		</div>
 	</div>
 
-	<mat-expansion-panel>
-		<mat-expansion-panel-header>
-			<mat-panel-title>
-				List of Data Type
-			</mat-panel-title>
+	<div class="actions">
+		<button (click)="addColumn()"
+				*ngIf="!form.get('old')"
+				color="primary"
+				mat-stroked-button>
+			<span class="material-symbols-outlined notranslate">
+				add
+			</span>
+			Column
+		</button>
 
-			<mat-panel-description>
-				<mat-slide-toggle
-					(click)="$event.stopPropagation()"
-					[(ngModel)]="fullType"
-					color="primary">
-					Full List
-				</mat-slide-toggle>
-
-				<div class="flex-spacer"></div>
-
-				<a [href]="selectedServer!.driver.docs.types"
-				   (click)="$event.stopPropagation()"
-				   mat-button
-				   mat-stroked-button
-				   style="margin-left: 20px"
-				   target="_blank">
-					<span class="material-symbols-outlined notranslate">
-						menu_book
-					</span>
-					Types of {{selectedServer?.wrapper}}
-				</a>
-			</mat-panel-description>
-		</mat-expansion-panel-header>
-
-		<div>
-			<div *ngFor="let group of selectedServer!.driver.language.typeGroups" class="types mat-elevation-z2">
-
-				<h2 style="color: #2196f3">{{group.name}}</h2>
-				<div>
-					<ng-container *ngIf="fullType">
-						<button
-							(click)="snackBar.open('Copied to clipboard', '╳', {duration: 3000})"
-							*ngFor="let type of group.full"
-							[cdkCopyToClipboard]="type"
-							mat-button>
-							{{type}}
-						</button>
-					</ng-container>
-					<ng-container *ngIf="!fullType">
-						<button
-							(click)="snackBar.open('Copied to clipboard', '╳', {duration: 3000})"
-							*ngFor="let type of group.proposition"
-							[cdkCopyToClipboard]="type"
-							mat-button>
-							{{type}}
-						</button>
-					</ng-container>
-				</div>
-			</div>
-		</div>
-	</mat-expansion-panel>
+		<a *ngIf="selectedServer"
+		   [href]="selectedServer!.driver.docs.types"
+		   mat-button
+		   target="_blank">
+			<span class="material-symbols-outlined notranslate">
+				help
+			</span>
+			{{selectedServer.wrapper}} Data Types
+		</a>
+	</div>
 </div>

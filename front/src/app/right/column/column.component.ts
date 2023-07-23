@@ -14,7 +14,6 @@ export class ColumnComponent implements OnInit {
 	@Input() form!: FormGroup;
 
 	formColumn!: FormArray;
-	fullType = false;
 	extraAttributes = Server.getSelected().driver.language.extraAttributes;
 	selectedServer?: Server;
 
@@ -28,7 +27,7 @@ export class ColumnComponent implements OnInit {
 		this.formColumn = <FormArray>this.form.get('columns');
 	}
 
-	addColumn() {
-		this.formColumn.push(Column.getFormGroup());
+	addColumn(column?: any) {
+		this.formColumn.push(column || Column.getFormGroup());
 	}
 }

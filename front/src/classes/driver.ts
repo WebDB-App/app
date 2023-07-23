@@ -9,17 +9,25 @@ export interface Comparator {
 	definition: string
 }
 
-export interface TypeGroup {
-	name: Group
-	proposition: string[];
-	full: string[];
+export class TypeData {
+	id!: string;
+	bold? = false;
+	description?: string;
+}
+
+export class TypeGroup {
+	name!: Group
+	list!: TypeData[];
+	unsigned? = false;
+	zerofill? = false;
 }
 
 export enum Group {
 	'String' = 'String',
 	'Numeric' = 'Numeric',
 	'Date' = 'Date',
-	'Other' = 'Other'
+	'BLOB' = 'BLOB',
+	'Complex' = 'Complex'
 }
 
 export class QueryParams {

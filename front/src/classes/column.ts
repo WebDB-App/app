@@ -39,10 +39,11 @@ export class Column {
 
 	static isOfGroup(driver: Driver, column: Column, group: Group) {
 		const parenthese = column.type.indexOf('(');
-		const stringTypes = driver.language.typeGroups.find(type => type.name === group)!.full!;
+		const stringTypes = driver.language.typeGroups.find(type => type.name === group)!.list!;
 		const columnType = parenthese >= 0 ? column.type.substring(0, parenthese) : column.type;
 
-		return stringTypes.indexOf(columnType) >= 0;
+		//TODO
+		return stringTypes.map(type => type.id).indexOf(columnType) >= 0;
 	}
 
 	static getFormGroup(from?: Column) {

@@ -1,3 +1,7 @@
+remove parenthese (isOfGroup)
+validayor : exclude parenthese of non numeric, non string
+
+
 # Mongo:
 - relations
 - mongo harmonizer
