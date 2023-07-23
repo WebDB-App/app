@@ -1,4 +1,5 @@
-landing sans legend avec liste des drivers et expansion panel
+replay
+resize
 
 # Mongo:
 - relations

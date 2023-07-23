@@ -39,6 +39,7 @@ import { MatExpansionModule } from "@angular/material/expansion";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { ClipboardModule } from "@angular/cdk/clipboard";
 import { HighlightModule } from 'ngx-highlightjs';
+import { HistoryComponent } from "./history/history.component";
 
 
 @NgModule({
@@ -50,6 +51,7 @@ import { HighlightModule } from 'ngx-highlightjs';
 		DumpComponent,
 		ColumnComponent,
 		DropDatabaseDialog,
+		HistoryComponent,
 		CreateTableComponent,
 		UpdateColumnComponent,
 		AddColumnComponent,

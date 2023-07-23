@@ -36,6 +36,7 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 	panels: Panel[] = [
 		{link: "relations", icon: "attach_file"},
 		{link: "diagram", icon: "polyline"},
+		{link: "history", icon: "history"},
 		{link: "code", icon: "code"},
 		{link: "assistant", icon: "support_agent"},
 		{link: "load", icon: "exit_to_app"},
