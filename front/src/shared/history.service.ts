@@ -2,9 +2,17 @@ import { Injectable } from "@angular/core";
 import { Database } from "../classes/database";
 
 export class Query {
-	query!: string;
-	nbResult!: number;
-	star? = false;
+	query: string;
+	nbResult: number;
+	star: boolean
+	date: number;
+
+	constructor(query: string, nbResult: number, star = false, date = Date.now()) {
+		this.query = query;
+		this.nbResult = nbResult;
+		this.star = star;
+		this.date = date;
+	}
 }
 
 @Injectable({
@@ -23,5 +31,13 @@ export class HistoryService {
 	saveLocal(queries: Query[], database = Database.getSelected()) {
 		queries = queries.slice(0, 100);
 		localStorage.setItem("queries-" + database.name, JSON.stringify(queries))
+	}
+
+	addLocal(query: Query) {
+		let queryHistory = this.getLocal();
+		if (queryHistory[0]?.query === query.query) {
+			return;
+		}
+		this.saveLocal([query].concat(queryHistory));
 	}
 }

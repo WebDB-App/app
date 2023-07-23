@@ -7,7 +7,6 @@ import {
 	OnChanges,
 	OnDestroy,
 	OnInit,
-	Output,
 	SimpleChanges
 } from '@angular/core';
 import { MatTableDataSource } from "@angular/material/table";
@@ -23,6 +22,7 @@ import { Server } from "../../classes/server";
 import { Configuration } from "../../classes/configuration";
 import { HttpClient } from "@angular/common/http";
 import { initBaseEditor } from "../helper";
+import { HistoryService, Query } from "../history.service";
 
 declare var monaco: any;
 
@@ -35,10 +35,9 @@ const localStorageName = "right-code";
 })
 export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 
-	@Output() addHistory = new EventEmitter();
-
 	@Input() query = '';
 	@Input() selectedTable?: Table;
+
 	codes: { [key: string]: string } = JSON.parse(localStorage.getItem(localStorageName) || "{}");
 	interval?: NodeJS.Timer;
 	configuration: Configuration = new Configuration();
@@ -95,7 +94,8 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 		private snackBar: MatSnackBar,
 		private request: RequestService,
 		private dialog: MatDialog,
-		private http: HttpClient
+		private http: HttpClient,
+		private history: HistoryService
 	) {
 	}
 
@@ -183,7 +183,7 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 			if (this.querySize === 0) {
 				result.push({" ": "No Data"});
 			} else if (this.selectedTable) {
-				this.addHistory.emit({query: this.query, nbResult: this.querySize});
+				this.history.addLocal(new Query(this.query, this.querySize));
 			}
 
 			if (!Array.isArray(result)) {
@@ -207,7 +207,7 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 				page: 0
 			}, undefined, undefined, undefined, undefined, false)
 			if (data.length) {
-				this.addHistory.emit({query, nbResult: data.length});
+				this.history.addLocal(new Query(query, data.length));
 			}
 
 			return JSON.stringify(data, null, "\t");

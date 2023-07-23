@@ -10,6 +10,7 @@ import { UpdateColumnComponent } from "./update-column/update-column.component";
 import { AddColumnComponent } from "./add-column/add-column.component";
 import { CreateTableComponent } from "./create-table/create-table.component";
 import { AiComponent } from "./ai/ai.component";
+import { HistoryComponent } from "./history/history.component";
 
 const routes: Routes = [
 	{
@@ -24,6 +25,9 @@ const routes: Routes = [
 	}, {
 		path: 'diagram',
 		component: DiagramComponent
+	}, {
+		path: 'history',
+		component: HistoryComponent
 	}, {
 		path: 'code',
 		component: CodeComponent
