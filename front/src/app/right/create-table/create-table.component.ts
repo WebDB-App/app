@@ -34,16 +34,15 @@ export class CreateTableComponent {
 
 	async create() {
 		await this.request.post('table/create', this.form.value);
-
-		this.snackBar.open(`Table ${this.form.get('name')?.value} Created`, "╳", {duration: 3000});
 		await this.request.reloadServer();
 
+		await this.drawer.toggle();
 		await this.router.navigate([
 			Server.getSelected().name,
 			Database.getSelected().name,
 			this.form.get('name')?.value,
 			'structure']);
 
-		await this.drawer.toggle();
+		this.snackBar.open(`Table ${this.form.get('name')?.value} Created`, "╳", {duration: 3000});
 	}
 }

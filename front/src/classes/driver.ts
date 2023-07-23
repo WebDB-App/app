@@ -17,16 +17,14 @@ export class TypeData {
 
 export class TypeGroup {
 	name!: Group
-	list!: TypeData[];
-	unsigned? = false;
-	zerofill? = false;
+	list!: TypeData[]
 }
 
 export enum Group {
 	'String' = 'String',
 	'Numeric' = 'Numeric',
 	'Date' = 'Date',
-	'BLOB' = 'BLOB',
+	'Blob' = 'Blob',
 	'Complex' = 'Complex'
 }
 

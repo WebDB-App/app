@@ -84,6 +84,7 @@
 					<div>
 						<button
 							(click)="random.model = 'return faker.datatype.string()'"
+							matTooltip="String"
 							mat-icon-button
 							mat-stroked-button>
 							<span class="material-symbols-outlined notranslate">
@@ -92,6 +93,7 @@
 						</button>
 						<button
 							(click)="random.model = 'return faker.datatype.number()'"
+							matTooltip="Number"
 							mat-icon-button
 							mat-stroked-button>
 							<span class="material-symbols-outlined notranslate">
@@ -100,6 +102,7 @@
 						</button>
 						<button
 							(click)="random.model = 'return faker.datatype.datetime()'"
+							matTooltip="DateTime"
 							mat-icon-button
 							mat-stroked-button>
 							<span class="material-symbols-outlined notranslate">
@@ -108,7 +111,8 @@
 						</button>
 						<br>
 						<button
-							(click)="random.model = 'return faker.address.streetAddress(true)'"
+							(click)="random.model = 'return faker.internet.email()'"
+							matTooltip="Mail"
 							mat-icon-button
 							mat-stroked-button>
 							<span class="material-symbols-outlined notranslate">
@@ -117,6 +121,7 @@
 						</button>
 						<button
 							(click)="random.model = 'return {\n\tfirst_name: faker.name.firstName(),\n\tlast_name: faker.name.lastName(),\n\tsex: faker.name.sex()\n}'"
+							matTooltip="User Object"
 							mat-icon-button
 							mat-stroked-button>
 							<span class="material-symbols-outlined notranslate">
@@ -125,6 +130,7 @@
 						</button>
 						<button
 							(click)="random.model = 'return faker.address.streetAddress(true)'"
+							matTooltip="Street Address"
 							mat-icon-button
 							mat-stroked-button>
 							<span class="material-symbols-outlined notranslate">

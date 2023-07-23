@@ -2,6 +2,8 @@ import { Index } from "./index";
 import { Relation } from "./relation";
 import { Driver, Group } from "./driver";
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from "@angular/forms";
+import { faker } from "@faker-js/faker";
+import * as falso from "@ngneat/falso";
 
 export class Column {
 	name!: string;
@@ -41,23 +43,33 @@ export class Column {
 		const stringTypes = driver.language.typeGroups.find(type => type.name === group)!.list!;
 		const columnType = parenthese >= 0 ? column.type.substring(0, parenthese) : column.type;
 
-		//TODO
-		return stringTypes.map(type => type.id).indexOf(columnType) >= 0;
+		return stringTypes.map(type => type.id.toLowerCase().replace(/\([^)]*\)/g, "")).indexOf(columnType.toLowerCase()) >= 0;
 	}
 
 	static getFormGroup(from?: Column) {
-		const setLength = () => {
+		const checkParams = () => {
 			return (control: AbstractControl): ValidationErrors | null => {
 				if (!control.value) {
 					return null;
 				}
-				return ["(size", "(precision"].find(str => control.value.indexOf(str) >= 0) ? {setLength: true} : null;
+				const par = /\(([^)]+)\)/.exec(control.value);
+				if (!par) {
+					return null;
+				}
+
+				try {
+					new Function(par[1])();
+					return null;
+				} catch (e) {
+					console.log(e);
+					return {checkParams: true};
+				}
 			}
 		}
 
 		return new FormGroup({
 			name: new FormControl(from?.name || null, [Validators.required, Validators.pattern(/^[a-zA-Z0-9-_]{2,50}$/)]),
-			type: new FormControl(from?.type || null, [Validators.required, setLength()]),
+			type: new FormControl(from?.type || null, [Validators.required, checkParams()]),
 			nullable: new FormControl(from?.nullable || false),
 			defaut: new FormControl(from?.defaut || null),
 			extra: new FormControl(from?.extra || null),

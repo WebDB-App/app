@@ -5,7 +5,7 @@ class Controller {
 	async add(req, res) {
 		const [driver, database, table] = await http.getLoggedDriver(req);
 
-		res.send(await driver.addColumns(database, table, req.body.columns.map(col => col.length)));
+		res.send(await driver.addColumns(database, table, req.body.columns));
 	}
 
 	async drop(req, res) {
