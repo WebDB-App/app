@@ -28,19 +28,19 @@
 			  class="history">
 		<mat-card-content>
 		<pre><code [highlight]="his.query"
-				   [languages]="[selectedServer?.driver!.language.id]"
+				   [languages]="[selectedServer.driver!.language.id]"
 				   [lineNumbers]="true">
 		</code></pre>
 		</mat-card-content>
 
 		<mat-card-actions>
-			<span>
+			<h4>
 				{{his.nbResult}} rows
-			</span>
+			</h4>
 
-			<span>
+			<h4>
 				{{his.date | date: 'HH:mm:ss dd/MM'}}
-			</span>
+			</h4>
 
 			<div>
 				<button mat-icon-button

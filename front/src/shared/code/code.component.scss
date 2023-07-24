@@ -1,16 +1,17 @@
-#editor {
-	border-spacing: 0px;
-	z-index: 20000;
-	top: 0px;
+//z-index: 20000;
 
-	td {
-		padding: 0px;
-	}
+#container {
+	display: flex;
+	height: calc(100vh - 162px);
+}
 
-	ngx-monaco-editor {
-		height: calc(100vh - 162px);
-		width: 33vw;
-	}
+#container.diff, ngx-monaco-diff-editor{
+	height: calc(50vh - 81px) !important;
+}
+
+ngx-monaco-editor {
+	flex: 0 0 50%;
+	height: 100%;
 }
 
 #actions {
@@ -22,7 +23,8 @@
 }
 
 #results {
+	flex: 0 0 50%;
 	width: 100%;
-	height: calc(100vh - 162px);
+	height: 100%;
 	overflow: auto;
 }
