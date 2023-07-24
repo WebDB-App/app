@@ -1,3 +1,143 @@
-<app-code [query]="replayQuery"
-		  [selectedTable]="selectedTable!">
-</app-code>
+<mat-toolbar
+	fxLayout="row"
+	fxLayoutAlign="space-between center"
+	id="actions">
+
+	<button (click)="runQuery()"
+			*ngIf="!diff"
+			[disabled]="!query || query.trim().length < 1"
+			color="primary"
+			mat-raised-button>
+		<span class="material-symbols-outlined notranslate">play_arrow</span>
+		Execute
+	</button>
+
+	<button (click)="runQuery()"
+			*ngIf="diff"
+			color="primary"
+			mat-raised-button>
+		<span class="material-symbols-outlined notranslate">difference</span>
+		Compare
+	</button>
+
+	<div *ngIf="selectedTable" class="prebuild">
+		<button
+			(click)="loadPreBuild(prebuild.id)"
+			*ngFor="let prebuild of preBuilds"
+			[matTooltip]="prebuild.tooltip"
+			mat-icon-button
+			mat-stroked-button>
+			<span class="material-symbols-outlined notranslate">{{prebuild.icon}}</span>
+		</button>
+	</div>
+
+	<div *ngIf="selectedTable">
+		<mat-slide-toggle
+			(click)="toggleDiff()"
+			color="primary">
+			Compare Mode
+		</mat-slide-toggle>
+	</div>
+
+	<mat-form-field appearance="outline" class="goToPage" *ngIf="querySize >= 1">
+		<mat-label>
+			Page
+		</mat-label>
+		<mat-select (selectionChange)="page = $event.value; runQuery()" [value]="page">
+			<mat-option
+				*ngFor="let item of [].constructor(Math.floor(querySize / pageSize) + 1); let i = index"
+				[value]="i">{{i}}</mat-option>
+		</mat-select>
+	</mat-form-field>
+
+	<mat-form-field (change)="runQuery()" *ngIf="querySize >= 1 || diff" style="margin-bottom: -1.25em; width: 80px; margin-left: 12px">
+		<mat-label>
+			Items per page
+		</mat-label>
+		<input
+			[(ngModel)]="pageSize"
+			matInput
+			type="number"
+			min="50"
+			step="50"
+			max="5000"
+		>
+	</mat-form-field>
+
+	<div>
+		<button [matMenuTriggerFor]="advanced" mat-icon-button>
+			<mat-icon>more_vert</mat-icon>
+		</button>
+		<mat-menu #advanced="matMenu" xPosition="before">
+			<button (click)="exportQuery()" mat-menu-item>Export Query</button>
+			<button (click)="exportResult()" mat-menu-item>Export All Results</button>
+			<a [href]="selectedServer!.driver.docs.language" mat-menu-item target="_blank">
+				{{selectedServer!.driver.language.id === "sql" ? "SQL" : (selectedServer!.driver.language.id | titlecase)}} Doc
+			</a>
+			<button [matMenuTriggerFor]="shortcuts" mat-menu-item>Shortcuts</button>
+			<button [matMenuTriggerFor]="disclaimer" mat-menu-item>Disclaimer</button>
+		</mat-menu>
+
+		<mat-menu #shortcuts="matMenu">
+			<button mat-menu-item>Alt + Space → <span style="color: #2196f3">Autocomplete</span></button>
+			<button mat-menu-item>Ctrl + s / Enter → <span style="color: #2196f3">Run Query</span></button>
+			<button mat-menu-item>Ctrl / ⌘ + f → <span style="color: #2196f3">Find and / or Replace</span></button>
+			<button mat-menu-item>Alt + Maj + f → <span style="color: #2196f3">Format Query</span></button>
+		</mat-menu>
+		<mat-menu #disclaimer="matMenu">
+			<pre style="color: white; padding: 0px 10px">Only most keyword/function <br>are proposed in autocomplete</pre>
+		</mat-menu>
+	</div>
+</mat-toolbar>
+
+<mat-progress-bar
+	[hidden]="!isLoading"
+	mode="query"
+	style="position: absolute; left: 0px; right: 0px; z-index: 10000000">
+</mat-progress-bar>
+
+<div id="container" [class.diff]="diff">
+	<ngx-monaco-editor
+		(onInit)="initEditor($event, 0)"
+		[(ngModel)]="query"
+		[options]="editorOptions">
+	</ngx-monaco-editor>
+
+	<ngx-monaco-editor
+		[hidden]="!diff"
+		(onInit)="initEditor($event, 1)"
+		[(ngModel)]="query2"
+		[options]="editorOptions">
+	</ngx-monaco-editor>
+
+	<div *ngIf="!diff && dataSource?.data && dataSource!.data!.length > 0" id="results">
+		<table [dataSource]="dataSource!" class="table" mat-table>
+			<ng-container
+				*ngFor="let column of displayedColumns"
+				matColumnDef="{{column}}"
+			>
+				<th *matHeaderCellDef mat-header-cell>
+					{{column}}
+				</th>
+				<td *matCellDef="let row" mat-cell>
+					<app-cell
+						[column]="column"
+						[row]="row"
+					></app-cell>
+				</td>
+			</ng-container>
+
+			<tr *matHeaderRowDef="displayedColumns!; sticky: true" mat-header-row></tr>
+			<tr *matRowDef="let row; columns: displayedColumns!;" mat-row></tr>
+		</table>
+	</div>
+</div>
+
+<div *ngIf="diff && !isLoading">
+	<mat-divider></mat-divider>
+	<ngx-monaco-diff-editor
+		[modifiedModel]="modifiedResult"
+		[options]="editorOptions"
+		[originalModel]="originalResult"
+	></ngx-monaco-diff-editor>
+</div>

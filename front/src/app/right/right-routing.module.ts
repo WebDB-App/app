@@ -5,7 +5,6 @@ import { RelationsComponent } from "./relations/relations.component";
 import { LoadComponent } from "./load/load.component";
 import { DumpComponent } from "./dump/dump.component";
 import { DiagramComponent } from "./diagram/diagram.component";
-import { CodeComponent } from "../../shared/code/code.component";
 import { UpdateColumnComponent } from "./update-column/update-column.component";
 import { AddColumnComponent } from "./add-column/add-column.component";
 import { CreateTableComponent } from "./create-table/create-table.component";
@@ -28,9 +27,6 @@ const routes: Routes = [
 	}, {
 		path: 'history',
 		component: HistoryComponent
-	}, {
-		path: 'code',
-		component: CodeComponent
 	}, {
 		path: 'advanced',
 		component: AdvancedComponent

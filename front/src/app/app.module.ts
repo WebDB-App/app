@@ -6,7 +6,6 @@ import { AppRoutingModule } from "./app-routing.module";
 import { ConnectionInfoDialog, ContainerComponent } from './container/container.component';
 import { MatCardModule } from "@angular/material/card";
 import { FlexModule } from "@angular/flex-layout";
-import { CodeModule } from "../shared/code/code.module";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";
@@ -29,11 +28,50 @@ import { MatSelectModule } from "@angular/material/select";
 import { HttpClientModule } from "@angular/common/http";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
-import { MonacoEditorModule } from "ngx-monaco-editor-v2";
+import { MonacoEditorModule, NgxMonacoEditorConfig } from "ngx-monaco-editor-v2";
 import { MatButtonToggleModule } from "@angular/material/button-toggle";
 import { MatStepperModule } from "@angular/material/stepper";
 import { ClipboardModule } from "@angular/cdk/clipboard";
 import { HIGHLIGHT_OPTIONS, HighlightModule, HighlightOptions, } from 'ngx-highlightjs';
+import { Server } from "../classes/server";
+
+declare var monaco: any;
+
+export const monacoConfig: NgxMonacoEditorConfig = {
+	defaultOptions: {
+		padding: {top: 10},
+		minimap: {enabled: false},
+		theme: 'vs-dark',
+		automaticLayout: true,
+		tabSize: 4
+	}, onMonacoLoad: () => {
+		monaco.languages.registerDocumentFormattingEditProvider('sql', {
+			provideDocumentFormattingEdits(model: any, options: any) {
+				return [
+					{
+						range: model.getFullModelRange(),
+						text: Server.getSelected().driver.format!(model.getValue())
+					}
+				];
+			},
+		});
+		monaco.languages.registerCompletionItemProvider('sql', {
+			triggerCharacters: [".", '"', "'", '`', '(', '{', '['],
+			provideCompletionItems: (model: any, position: any) => {
+				const textUntilPosition = model.getValueInRange({
+					startLineNumber: position.lineNumber,
+					startColumn: 0,
+					endLineNumber: position.lineNumber,
+					endColumn: position.column,
+				});
+
+				return {
+					suggestions: Server.getSelected().driver.generateSuggestions!(textUntilPosition)
+				};
+			}
+		});
+	}
+};
 
 @NgModule({
 	declarations: [
@@ -50,9 +88,9 @@ import { HIGHLIGHT_OPTIONS, HighlightModule, HighlightOptions, } from 'ngx-highl
 		AppRoutingModule,
 		BrowserModule,
 		BrowserAnimationsModule,
+		MonacoEditorModule.forRoot(monacoConfig),
 		MatCardModule,
 		FlexModule,
-		CodeModule,
 		HighlightModule,
 		MatToolbarModule,
 		MatButtonModule,
