@@ -56,7 +56,6 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 		code: '',
 		language: 'json'
 	};
-	autoUp: boolean | NodeJS.Timer = false;
 	diff = false;
 	query2 = '';
 	pageSize = 50;
@@ -135,10 +134,6 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 	}
 
 	ngOnDestroy(): void {
-		if (this.autoUp && typeof this.autoUp === "number") {
-			clearInterval(this.autoUp);
-			this.autoUp = false
-		}
 		clearInterval(this.interval);
 	}
 
@@ -239,33 +234,24 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 		setTimeout(() => this.editors.map(editor => editor.trigger("editor", "editor.action.formatDocument")), 1);
 	}
 
-	exportQuery(language: string) {
-		this.dialog.open(ExportQueryDialog, {data: {language, query: this.query}});
+	exportQuery() {
+		this.dialog.open(ExportQueryDialog, {data: this.query});
 	}
 
-	exportResult(type: string) {
-		this.dialog.open(ExportResultDialog, {data: {type, result: this.dataSource!.data}});
+	async exportResult() {
+		this.isLoading = true;
+		const data = await this.request.post('database/query', {
+			query: this.query,
+			pageSize: this.querySize,
+			page: 0
+		}, undefined, undefined, undefined, undefined, false);
+		this.isLoading = false;
+		this.dialog.open(ExportResultDialog, {data});
 	}
 
 	toggleDiff() {
 		this.diff = !this.diff;
 		this.query2 = this.query;
-	}
-
-	setAutoUp() {
-		if (this.autoUp && typeof this.autoUp === "number") {
-			clearInterval(this.autoUp);
-			this.autoUp = false
-		} else {
-			this.autoUp = setInterval(async () => {
-				if (this.diff) {
-					await this.compareQuery();
-				} else {
-					await this.runQuery();
-				}
-
-			}, this.configuration.getByName('reloadData')?.value * 1000);
-		}
 	}
 
 	saveCode() {
@@ -280,32 +266,42 @@ export class CodeComponent implements OnInit, OnChanges, OnDestroy {
 export class ExportResultDialog {
 
 	str!: string;
+	type = "JSON";
 	editorOptions = {
 		readOnly: true,
 		language: ''
 	};
+	isLoading = true;
 
 	constructor(
-		@Inject(MAT_DIALOG_DATA) public data: { result: any[], type: string },
+		@Inject(MAT_DIALOG_DATA) public data: any[],
 	) {
-		switch (data.type) {
-			case "csv":
-				this.str = Object.keys(data.result[0]).join(',') + '\n';
-				this.editorOptions.language = 'csv';
-				for (let res of data.result) {
-					this.str += Object.values(res).join(',') + '\n';
-				}
-				break;
-			case "json":
-				this.str = JSON.stringify(data.result, null, "\t");
-				this.editorOptions.language = 'json';
-				break;
-		}
+		this.show();
+	}
+
+	show() {
+		this.isLoading = true;
+		setTimeout(() => {
+			switch (this.type) {
+				case "CSV":
+					this.str = Object.keys(this.data[0]).join(',') + '\n';
+					this.editorOptions.language = 'csv';
+					for (let res of this.data) {
+						this.str += Object.values(res).join(',') + '\n';
+					}
+					break;
+				case "JSON":
+					this.str = JSON.stringify(this.data, null, "\t");
+					this.editorOptions.language = 'json';
+					break;
+			}
+			this.isLoading = false;
+		});
 	}
 
 	download() {
 		const blob = new Blob([this.str], {type: "text/plain;charset=utf-8"});
-		saveAs(blob, Table.getSelected().name + '.' + this.data.type);
+		saveAs(blob, Table.getSelected().name + '.' + this.type);
 	}
 }
 
@@ -315,19 +311,28 @@ export class ExportResultDialog {
 export class ExportQueryDialog {
 
 	str!: string;
+	framework = "NODE";
+	isLoading = true;
 	editorOptions = {
 		language: ""
 	};
 	protected readonly initBaseEditor = initBaseEditor;
 
 	constructor(
-		@Inject(MAT_DIALOG_DATA) public data: { query: string, language: string },
+		@Inject(MAT_DIALOG_DATA) public data: string,
 	) {
-		const queryParams = Server.getSelected().driver.extractConditionParams(data.query);
+		this.show();
+	}
 
-		switch (data.language) {
-			case "JDBC":
-				this.str = `//with JDBC lib
+	show() {
+		this.isLoading = true;
+
+		setTimeout(() => {
+			const queryParams = Server.getSelected().driver.extractConditionParams(this.data);
+
+			switch (this.framework) {
+				case "JDBC":
+					this.str = `//with JDBC lib
 
 import java.sql.*;
 
@@ -346,14 +351,14 @@ class MysqlCon {
 		con.close();
 	} catch(Exception e) {}
 }`;
-				this.editorOptions.language = "java";
-				break;
-			case "node":
-				this.str = Server.getSelected().driver.nodeLib(queryParams);
-				this.editorOptions.language = "javascript";
-				break;
-			case "PDO":
-				this.str = `//with PDO lib
+					this.editorOptions.language = "java";
+					break;
+				case "NODE":
+					this.str = Server.getSelected().driver.nodeLib(queryParams);
+					this.editorOptions.language = "javascript";
+					break;
+				case "PDO":
+					this.str = `//with PDO lib
 <?php
 
 	$pdo = new PDO("${Server.getSelected().wrapper.toLowerCase()}:host=${Server.getSelected().host};port=${Server.getSelected().port};dbname=${Database.getSelected().name};user=${Server.getSelected().user};password=${Server.getSelected().password}");
@@ -363,8 +368,10 @@ class MysqlCon {
 	$results = $query->fetchAll();
 
 ?>`;
-				this.editorOptions.language = "php";
-				break;
-		}
+					this.editorOptions.language = "php";
+					break;
+			}
+			this.isLoading = false;
+		});
 	}
 }

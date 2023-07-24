@@ -1,11 +1,12 @@
 <div mat-dialog-title>
-	<h2>Export query to {{data.language}} ?</h2>
+	<h2>Export Query</h2>
 	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
 		<mat-icon>close</mat-icon>
 	</button>
 </div>
 <div mat-dialog-content style="overflow: hidden;">
 	<ngx-monaco-editor
+		*ngIf="!isLoading"
 		(onInit)="initBaseEditor($event)"
 		[(ngModel)]="str"
 		[options]="editorOptions"
@@ -13,6 +14,11 @@
 	</ngx-monaco-editor>
 </div>
 <mat-dialog-actions fxLayout="row" fxLayoutAlign="space-around center">
+	<mat-button-toggle-group [(ngModel)]="framework" (change)="show()">
+		<mat-button-toggle value="NODE">Node.JS</mat-button-toggle>
+		<mat-button-toggle value="PDO">PDO</mat-button-toggle>
+		<mat-button-toggle value="JDBC">JDBC</mat-button-toggle>
+	</mat-button-toggle-group>
 	<button [cdkCopyToClipboard]="str" color="primary" mat-raised-button>
 		Copy
 	</button>

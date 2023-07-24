@@ -63,9 +63,9 @@
 			<mat-icon>more_vert</mat-icon>
 		</button>
 		<mat-menu #advanced="matMenu" xPosition="before">
+			<button (click)="exportQuery()" mat-menu-item>Export Query</button>
+			<button (click)="exportResult()" mat-menu-item>Export All Results</button>
 			<button [matMenuTriggerFor]="shortcuts" mat-menu-item>Shortcuts</button>
-			<button [matMenuTriggerFor]="exportQu" mat-menu-item>Export Query</button>
-			<button [matMenuTriggerFor]="exportRe" mat-menu-item>Export Results</button>
 			<button [matMenuTriggerFor]="disclaimer" mat-menu-item>Disclaimer</button>
 		</mat-menu>
 
@@ -74,15 +74,6 @@
 			<button mat-menu-item>Ctrl + s / Enter → <span style="color: #2196f3">Run Query</span></button>
 			<button mat-menu-item>Ctrl / ⌘ + f → <span style="color: #2196f3">Find and / or Replace</span></button>
 			<button mat-menu-item>Alt + Maj + f → <span style="color: #2196f3">Format Query</span></button>
-		</mat-menu>
-		<mat-menu #exportQu="matMenu">
-			<button (click)="exportQuery('node')" mat-menu-item>Node.JS</button>
-			<button (click)="exportQuery('PDO')" mat-menu-item>PHP</button>
-			<button (click)="exportQuery('JDBC')" mat-menu-item>Java</button>
-		</mat-menu>
-		<mat-menu #exportRe="matMenu">
-			<button (click)="exportResult('CSV')" mat-menu-item>CSV</button>
-			<button (click)="exportResult('JSON')" mat-menu-item>JSON</button>
 		</mat-menu>
 		<mat-menu #disclaimer="matMenu">
 			<pre style="color: white; padding: 0px 10px">Only most keyword/function <br>are proposed in autocomplete</pre>
@@ -96,35 +87,21 @@
 	style="position: absolute; left: 0px; right: 0px; z-index: 10000000">
 </mat-progress-bar>
 
-<div style="display: flex">
+<div id="container" [class.diff]="diff">
+	<ngx-monaco-editor
+		(onInit)="initEditor($event, 0)"
+		[(ngModel)]="query"
+		[options]="editorOptions">
+	</ngx-monaco-editor>
 
-	<table id="editor">
-		<tr>
-			<td>
-				<ngx-monaco-editor
-					(onInit)="initEditor($event, 0)"
-					[(ngModel)]="query"
-					[options]="editorOptions">
-				</ngx-monaco-editor>
-			</td>
-			<td [hidden]="!diff">
-				<ngx-monaco-editor
-					(onInit)="initEditor($event, 1)"
-					[(ngModel)]="query2"
-					[options]="editorOptions">
-				</ngx-monaco-editor>
-			</td>
-		</tr>
-	</table>
+	<ngx-monaco-editor
+		[hidden]="!diff"
+		(onInit)="initEditor($event, 1)"
+		[(ngModel)]="query2"
+		[options]="editorOptions">
+	</ngx-monaco-editor>
 
-	<ngx-monaco-diff-editor
-		*ngIf="diff && !isLoading"
-		[modifiedModel]="modifiedResult"
-		[options]="editorOptions"
-		[originalModel]="originalResult"
-	></ngx-monaco-diff-editor>
-
-	<div *ngIf="!diff && dataSource?.data" id="results">
+	<div *ngIf="!diff && dataSource?.data && dataSource!.data!.length > 0" id="results">
 		<table [dataSource]="dataSource!" class="table" mat-table>
 			<ng-container
 				*ngFor="let column of displayedColumns"
@@ -145,4 +122,13 @@
 			<tr *matRowDef="let row; columns: displayedColumns!;" mat-row></tr>
 		</table>
 	</div>
+</div>
+
+<div *ngIf="diff">
+	<mat-divider></mat-divider>
+	<ngx-monaco-diff-editor
+		[modifiedModel]="modifiedResult"
+		[options]="editorOptions"
+		[originalModel]="originalResult"
+	></ngx-monaco-diff-editor>
 </div>

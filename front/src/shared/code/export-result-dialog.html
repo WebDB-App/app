@@ -1,17 +1,22 @@
 <div mat-dialog-title>
-	<h2>Export result to {{data.type}}</h2>
+	<h2>Export Results</h2>
 	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
 		<mat-icon>close</mat-icon>
 	</button>
 </div>
 <div mat-dialog-content style="overflow: hidden;">
 	<ngx-monaco-editor
+		*ngIf="!isLoading"
 		[(ngModel)]="str"
 		[options]="editorOptions"
 		style="width: 500px; height: 500px">
 	</ngx-monaco-editor>
 </div>
 <mat-dialog-actions fxLayout="row" fxLayoutAlign="space-around center">
+	<mat-button-toggle-group [(ngModel)]="type" (change)="show()">
+		<mat-button-toggle value="CSV">CSV</mat-button-toggle>
+		<mat-button-toggle value="JSON">JSON</mat-button-toggle>
+	</mat-button-toggle-group>
 	<button [cdkCopyToClipboard]="str" color="primary" mat-stroked-button>
 		Copy
 	</button>
