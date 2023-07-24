@@ -4,7 +4,6 @@ import { CoreRoutingModule } from './core-routing.module';
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatSelectModule } from "@angular/material/select";
-import { MatRadioModule } from "@angular/material/radio";
 import { MatListModule } from "@angular/material/list";
 import { MatIconModule } from "@angular/material/icon";
 import { FlexModule } from "@angular/flex-layout";
@@ -16,7 +15,7 @@ import { MatPaginatorModule } from "@angular/material/paginator";
 import { MatTableModule } from "@angular/material/table";
 import { MatSortModule } from "@angular/material/sort";
 import { MatCheckboxModule } from "@angular/material/checkbox";
-import { QueryComponent } from './query/query.component';
+import { QueryComponent, ExportQueryDialog, ExportResultDialog } from './query/query.component';
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatTabsModule } from "@angular/material/tabs";
 import { DropTableDialog, TableAdvancedComponent, TruncateTableDialog } from "./advanced/advanced.component";
@@ -31,9 +30,7 @@ import { FormsModule } from "@angular/forms";
 import { MatCardModule } from "@angular/material/card";
 import { MatChipsModule } from "@angular/material/chips";
 import { ClipboardModule } from "@angular/cdk/clipboard";
-import { CodeModule } from "../../shared/code/code.module";
 import { MatMenuModule } from "@angular/material/menu";
-import { MonacoEditorModule } from "ngx-monaco-editor-v2";
 import { DragDropModule } from "@angular/cdk/drag-drop";
 import { TriggerComponent } from "./trigger/trigger.component";
 import { SharedModule } from "../../shared/shared.module";
@@ -43,6 +40,8 @@ import { MatExpansionModule } from "@angular/material/expansion";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { HighlightModule } from "ngx-highlightjs";
 import { OverlayModule } from "@angular/cdk/overlay";
+import { MonacoEditorModule } from "ngx-monaco-editor-v2";
+
 
 @NgModule({
 	declarations: [
@@ -50,6 +49,8 @@ import { OverlayModule } from "@angular/cdk/overlay";
 		QueryComponent,
 		TableAdvancedComponent,
 		InsertComponent,
+		ExportQueryDialog,
+		ExportResultDialog,
 		AddIndexDialog,
 		DropColumnDialog,
 		IframeDialog,
@@ -65,7 +66,6 @@ import { OverlayModule } from "@angular/cdk/overlay";
 		MatSidenavModule,
 		MatFormFieldModule,
 		MatSelectModule,
-		MatRadioModule,
 		MatListModule,
 		MatIconModule,
 		FlexModule,
@@ -88,15 +88,14 @@ import { OverlayModule } from "@angular/cdk/overlay";
 		MatChipsModule,
 		MatExpansionModule,
 		ClipboardModule,
-		CodeModule,
-		MonacoEditorModule,
 		MatMenuModule,
 		DragDropModule,
 		SharedModule,
 		NgxJsonViewerModule,
 		MatAutocompleteModule,
 		HighlightModule,
-		OverlayModule
+		OverlayModule,
+		MonacoEditorModule
 	]
 })
 export class CoreModule {
