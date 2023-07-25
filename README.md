@@ -76,7 +76,7 @@
 - quick search ObjectID, Date
 
 # Postgre
-- types (icon = data_object)
+- user defined types (icon = data_object)
 - more comparator (symbol) with detail
 
 # Bin

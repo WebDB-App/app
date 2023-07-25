@@ -51,7 +51,7 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 		public activatedRoute: ActivatedRoute,
 		public dialog: MatDialog
 	) {
-		for (const icon of ['gitlab', 'twitter', 'docker', 'webdb', 'chatgpt']) {
+		for (const icon of ['gitlab', 'stackoverflow', 'docker', 'webdb', 'chatgpt']) {
 			this.matIconRegistry.addSvgIcon(
 				icon,
 				this.domSanitizer.bypassSecurityTrustResourceUrl(`/assets/${icon}.svg`)

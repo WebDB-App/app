@@ -50,7 +50,9 @@
 		</mat-select>
 	</mat-form-field>
 
-	<mat-form-field (change)="runQuery()" *ngIf="querySize >= 1 || diff" style="margin-bottom: -1.25em; width: 80px; margin-left: 12px">
+	<mat-form-field (change)="page = 0; runQuery()"
+					*ngIf="querySize >= 1 || diff"
+					style="margin-bottom: -1.25em; width: 80px; margin-left: 12px">
 		<mat-label>
 			Items per page
 		</mat-label>
