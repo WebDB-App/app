@@ -81,63 +81,39 @@
 						Sample Data
 					</button>
 
-					<div>
-						<button
-							(click)="random.model = 'return faker.datatype.string()'"
-							matTooltip="String"
-							mat-icon-button
-							mat-stroked-button>
-							<span class="material-symbols-outlined notranslate">
-								abc
-							</span>
+					<button [matMenuTriggerFor]="example" mat-button>
+						<span class="material-symbols-outlined notranslate">
+							code
+						</span>
+						Example
+					</button>
+					<mat-menu #example="matMenu" xPosition="before">
+						<button (click)="random.model = 'return faker.datatype.string()'"
+								mat-menu-item>
+							String
 						</button>
-						<button
-							(click)="random.model = 'return faker.datatype.number()'"
-							matTooltip="Number"
-							mat-icon-button
-							mat-stroked-button>
-							<span class="material-symbols-outlined notranslate">
-								123
-							</span>
+						<button (click)="random.model = 'return faker.datatype.number()'"
+								mat-menu-item>
+							Number
 						</button>
-						<button
-							(click)="random.model = 'return faker.datatype.datetime()'"
-							matTooltip="DateTime"
-							mat-icon-button
-							mat-stroked-button>
-							<span class="material-symbols-outlined notranslate">
-								calendar_month
-							</span>
+						<button (click)="random.model = 'return faker.datatype.datetime()'"
+								mat-menu-item>
+							DateTime
 						</button>
-						<br>
-						<button
-							(click)="random.model = 'return faker.internet.email()'"
-							matTooltip="Mail"
-							mat-icon-button
-							mat-stroked-button>
-							<span class="material-symbols-outlined notranslate">
-								alternate_email
-							</span>
+						<button (click)="random.model = 'return faker.internet.email()'"
+								mat-menu-item>
+							Mail
 						</button>
 						<button
 							(click)="random.model = 'return {\n\tfirst_name: faker.name.firstName(),\n\tlast_name: faker.name.lastName(),\n\tsex: faker.name.sex()\n}'"
-							matTooltip="User Object"
-							mat-icon-button
-							mat-stroked-button>
-							<span class="material-symbols-outlined notranslate">
-								data_object
-							</span>
+							mat-menu-item>
+							Object
 						</button>
-						<button
-							(click)="random.model = 'return faker.address.streetAddress(true)'"
-							matTooltip="Street Address"
-							mat-icon-button
-							mat-stroked-button>
-							<span class="material-symbols-outlined notranslate">
-								location_on
-							</span>
+						<button (click)="random.model = 'return faker.address.streetAddress(true)'"
+								mat-menu-item>
+							Address
 						</button>
-					</div>
+					</mat-menu>
 				</div>
 			</div>
 
