@@ -12,58 +12,61 @@
 		Execute
 	</button>
 
-	<button (click)="runQuery()"
-			*ngIf="diff"
-			color="primary"
-			mat-raised-button>
+	<button
+		(click)="runQuery()"
+		*ngIf="diff"
+		color="primary"
+		mat-raised-button>
 		<span class="material-symbols-outlined notranslate">difference</span>
 		Compare
 	</button>
 
 	<div *ngIf="selectedTable" class="prebuild">
-		<button
-			(click)="loadPreBuild(prebuild.id)"
-			*ngFor="let prebuild of preBuilds"
-			[matTooltip]="prebuild.tooltip"
-			mat-icon-button
-			mat-stroked-button>
-			<span class="material-symbols-outlined notranslate">{{prebuild.icon}}</span>
-		</button>
+		<mat-form-field appearance="fill" style="margin-bottom: -1.25em;">
+			<mat-label>
+				Pre Built
+			</mat-label>
+			<mat-select>
+				<mat-option
+					(click)="loadPreBuild(prebuild)"
+					*ngFor="let prebuild of ['select', 'select_join', 'update', 'insert', 'delete']">
+					{{prebuild | titlecase}}
+				</mat-option>
+			</mat-select>
+		</mat-form-field>
 	</div>
 
 	<div *ngIf="selectedTable">
-		<mat-slide-toggle
-			(click)="toggleDiff()"
-			color="primary">
-			Compare Mode
-		</mat-slide-toggle>
+
+		<button
+			(click)="diff = !diff; query2 = query;"
+			[class.mat-raised-button]="diff"
+			mat-button>
+			<span class="material-symbols-outlined notranslate">difference</span>
+			Mode
+		</button>
 	</div>
 
-	<mat-form-field appearance="outline" class="goToPage" *ngIf="querySize >= 1">
-		<mat-label>
-			Page
-		</mat-label>
-		<mat-select (selectionChange)="page = $event.value; runQuery()" [value]="page">
-			<mat-option
-				*ngFor="let item of [].constructor(Math.floor(querySize / pageSize) + 1); let i = index"
-				[value]="i">{{i}}</mat-option>
-		</mat-select>
-	</mat-form-field>
+	<div style="display: flex; align-items: center">
+		<mat-form-field appearance="outline" class="goToPage" *ngIf="querySize >= 1">
+			<mat-label>
+				Page
+			</mat-label>
+			<mat-select (selectionChange)="page = $event.value; runQuery()" [value]="page">
+				<mat-option
+					*ngFor="let item of [].constructor(Math.floor(querySize / pageSize) + 1); let i = index"
+					[value]="i">{{i}}</mat-option>
+			</mat-select>
+		</mat-form-field>
 
-	<mat-form-field (change)="page = 0; runQuery()"
-					style="margin-bottom: -1.25em; width: 80px; margin-left: 12px">
-		<mat-label>
-			Items per page
-		</mat-label>
-		<input
-			[(ngModel)]="pageSize"
-			matInput
-			type="number"
-			min="50"
-			step="50"
-			max="5000"
-		>
-	</mat-form-field>
+		<mat-paginator
+			(page)="page = $event.pageIndex; pageSize = $event.pageSize; runQuery()"
+			[length]="querySize"
+			[pageIndex]="page"
+			[pageSize]="pageSize"
+			[pageSizeOptions]="[50, 100, 500]"
+		></mat-paginator>
+	</div>
 
 	<div>
 		<button [matMenuTriggerFor]="advanced" mat-icon-button>
