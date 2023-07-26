@@ -24,7 +24,7 @@
 	<div *ngIf="selectedTable" class="prebuild">
 		<mat-form-field appearance="fill" style="margin-bottom: -1.25em;">
 			<mat-label>
-				Pre Built
+				Pre Built Queries
 			</mat-label>
 			<mat-select>
 				<mat-option
@@ -64,7 +64,7 @@
 			[length]="querySize"
 			[pageIndex]="page"
 			[pageSize]="pageSize"
-			[pageSizeOptions]="[50, 100, 500]"
+			[pageSizeOptions]="[50, 100, 500, 2000]"
 		></mat-paginator>
 	</div>
 

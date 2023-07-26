@@ -1,4 +1,3 @@
-add own type to autocomplete + right-column
 default -> function suggestions (ex : generate_random_uuid())
 mongo : export
 
@@ -22,66 +21,55 @@ mongo : export
 
 - mongo : relations + harmonizer + insert
 - postgre : plusieurs schemas
+- add own type to autocomplete + right-column
 - cloud (google, aurora, rds)
 - BLOB CRUD (download, upload)
-- revoir MySQL load avec tunnel (essayer en bash)
 - finir present
 - Finir EDR
-- save resize in localstorage
 - trigger : postgre + mongo
-- docker scout cves "$IMAGE_PATH" --exit-code
-- afficher resulat Unit Test en front avec plusieurs version de bdd
 - Server gît avec autobackup en var d'env
+- SQLServer
+- Export Query : tester tout + btn to export via IA (Stripe Metadata additionnal feature)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 - sql function doc (https://www.w3resource.com/PostgreSQL/postgresql_array_remove-function.php)
-
-# Export Query
-- tester tout
-- btn to export via IA (Stripe Metadata additionnal feature)
-
-# SQLServer
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Cockroachdb
-
-# Oracle
-- https://github.com/oracle/docker-images/blob/main/OracleDatabase/SingleInstance/README.md
+- afficher resulat Unit Test en front avec plusieurs version de bdd
+- Cockroachdb
+- Oracle : https://github.com/oracle/docker-images/blob/main/OracleDatabase/SingleInstance/README.md
 
 # SQLite
 - https://hub.docker.com/r/nouchka/sqlite3/
 - https://www.npmjs.com/package/better-sqlite3
 
-# Cloud DB
-- digital
-- atlas?
-- azure
-
 # MongoDB
 - traduction (collection vs table, etc)
 - autocomplete table and column and types
 - quick search ObjectID, Date
-
-# Postgre
-- user defined types (icon = data_object)
-- more comparator (symbol) with detail
 
 # Bin
 - Brew + chocolate + apt + yum
@@ -101,10 +89,23 @@ mongo : export
 - https://media.licdn.com/dms/image/D4E22AQGx27end7jE5Q/feedshare-shrink_800/0/1684474332765?e=1688601600&v=beta&t=g1NR0-Uuifv4muNn1Hps1p8H5BjYDOU9w1Sej-NkkqY
 - https://external-preview.redd.it/chatgpt-for-data-science-cheat-sheet-v0-Odpv_XqB8SiefptXNzZP-t9AjrVOxg0IF81UuKFx2sw.jpg?auto=webp&s=2b8b8a80fa2c3a4b6f85545cffa26726021a60a4
 
-# Redis
-- pub/sub
 
-# ElasticSearch
-- https://elasticvue.com/
 
-# renameDatabase
+
+
+
+
+
+
+
+
+
+
+
+- Cloud DB : digital + atlas? + azure
+- ElasticSearch : https://elasticvue.com/
+- Postgre : more comparator (symbol) with detail
+- renameDatabase
+- save resize in localstorage
+- docker scout cves "$IMAGE_PATH" --exit-code
+- revoir MySQL load avec tunnel (essayer en bash)
