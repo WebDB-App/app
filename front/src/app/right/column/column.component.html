@@ -112,7 +112,42 @@
 						</mat-error>
 					</mat-form-field>
 
+					<button (click)="typeSuggestion.open()"
+							color="primary"
+							mat-icon-button
+							mat-stroked-button>
+						<span class="material-symbols-outlined notranslate">
+							title
+						</span>
+					</button>
+
 					<mat-select
+						#typeSuggestion
+						(selectionChange)="column.get('type')?.patchValue($event.value)">
+						<mat-optgroup *ngFor="let group of selectedServer!.driver.language.typeGroups"
+									  [label]="group.name">
+							<mat-option *ngFor="let type of group.list" [value]="type.id">
+								<span
+									[matTooltip]="type.description ? type.description : ''"
+									[style.color]="type.bold ? '#ff9800' : null"
+									matTooltipPosition="left">
+									{{type.id}}
+								</span>
+							</mat-option>
+						</mat-optgroup>
+					</mat-select>
+
+					<button (click)="fctSuggestion.open()"
+							color="primary"
+							mat-icon-button
+							mat-stroked-button>
+						<span class="material-symbols-outlined notranslate">
+							function
+						</span>
+					</button>
+
+					<mat-select
+						#fctSuggestion
 						(selectionChange)="column.get('type')?.patchValue($event.value)">
 						<mat-optgroup *ngFor="let group of selectedServer!.driver.language.typeGroups"
 									  [label]="group.name">

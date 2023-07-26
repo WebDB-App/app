@@ -30,13 +30,13 @@
 			resize: vertical;
 		}
 
-		.mat-select {
-			width: 18px;
-			margin: 0px 10px;
+		button {
+			margin-left: 12px;
+		}
 
-			.mat-select-value {
-				display: none;
-			}
+		.mat-select {
+			width: 0;
+			visibility: hidden;
 		}
 	}
 

@@ -64,7 +64,7 @@ class Controller {
 			);
 			promises.push(
 				new Promise(async resolve => {
-					final.types = await driver.getTypes();
+					//final.types = await driver.getTypes();
 					resolve();
 				})
 			);

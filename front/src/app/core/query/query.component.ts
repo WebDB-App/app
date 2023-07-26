@@ -1,6 +1,6 @@
 import { Component, HostListener, Inject, OnInit } from '@angular/core';
 import { Table } from "../../../classes/table";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { DiffEditorModel } from "ngx-monaco-editor-v2";
 import { MatTableDataSource } from "@angular/material/table";
 import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
@@ -58,6 +58,7 @@ export class QueryComponent implements OnInit {
 		private http: HttpClient,
 		private history: HistoryService,
 		private activatedRoute: ActivatedRoute,
+		private router: Router
 	) {
 	}
 
@@ -94,61 +95,56 @@ export class QueryComponent implements OnInit {
 	}
 
 	async runQuery() {
+		this.isLoading = true;
 		if (this.diff) {
 			await this._runCompare();
 		} else {
 			await this._runSingle();
 		}
+		this.router.navigate([Server.getSelected().name, Database.getSelected().name, Table.getSelected().name, 'query', this.query]);
+		this.isLoading = false;
 		setTimeout(() => this.editors.map(editor => editor.trigger("editor", "editor.action.formatDocument")), 1);
 	}
 
 	async _runSingle() {
-		this.isLoading = true;
+		let result = [];
+		await Promise.all([
+			result = await this.request.post('database/query', {
+				query: this.query,
+				pageSize: this.pageSize,
+				page: this.page
+			}, undefined, undefined, undefined, undefined, false),
+			this.querySize = await this.request.post('database/querySize', {query: this.query})
+		]);
 
-		try {
-			let result;
-			await Promise.all([
-				result = await this.request.post('database/query', {
-					query: this.query,
-					pageSize: this.pageSize,
-					page: this.page
-				}, undefined, undefined, undefined, undefined, false),
-				this.querySize = await this.request.post('database/querySize', {query: this.query})
-			]);
+		monaco.editor.setModelMarkers(this.editors[0].getModel(), "owner", []);
 
-			monaco.editor.setModelMarkers(this.editors[0].getModel(), "owner", []);
+		if (result.error) {
+			const pos = +result.position || 0;
+			const startLineNumber = this.query.substring(0, pos).split(/\r\n|\r|\n/).length
 
-			if (result.error) {
-				const pos = +result.position || 0;
-				const startLineNumber = this.query.substring(0, pos).split(/\r\n|\r|\n/).length
-
-				monaco.editor.setModelMarkers(this.editors[0].getModel(), "owner", [{
-					startLineNumber: startLineNumber,
-					startColumn: 0,
-					endLineNumber: +result.position ? startLineNumber : Infinity,
-					endColumn: Infinity,
-					message: result.error,
-					severity: monaco.MarkerSeverity.Error
-				}]);
-			}
-
+			monaco.editor.setModelMarkers(this.editors[0].getModel(), "owner", [{
+				startLineNumber: startLineNumber,
+				startColumn: 0,
+				endLineNumber: +result.position ? startLineNumber : Infinity,
+				endColumn: Infinity,
+				message: result.error,
+				severity: monaco.MarkerSeverity.Error
+			}]);
+		} else {
 			if (this.querySize === 0) {
 				result.push({" ": "No Data"});
 			} else if (this.selectedTable) {
 				this.history.addLocal(new Query(this.query, this.querySize));
 			}
-
-			if (!Array.isArray(result)) {
-				result = [result];
-			}
-
-			this.displayedColumns = [...new Set(result.flatMap(res => Object.keys(res)))];
-			this.dataSource = new MatTableDataSource(result);
-		} catch (err: unknown) {
-			this.dataSource = new MatTableDataSource();
-		} finally {
-			this.isLoading = false;
 		}
+
+		if (!Array.isArray(result)) {
+			result = [result];
+		}
+
+		this.displayedColumns = [...new Set(result.flatMap(res => Object.keys(res)))];
+		this.dataSource = new MatTableDataSource(result);
 	}
 
 	async _runCompare() {
@@ -165,9 +161,7 @@ export class QueryComponent implements OnInit {
 			return JSON.stringify(data, null, "\t");
 		}
 
-		this.isLoading = true;
 		[this.originalResult.code, this.modifiedResult.code] = await Promise.all([run(this.query), run(this.query2)]);
-		this.isLoading = false;
 	}
 
 	loadPreBuild(value: string) {
