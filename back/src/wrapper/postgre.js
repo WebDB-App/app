@@ -274,7 +274,7 @@ export default class PostgreSQL extends SQL {
 			pg_enum.enumlabel AS enumlabel
 			FROM pg_type
 			JOIN pg_enum
-			ON pg_enum.enumtypid = pg_type.oid;`);
+			ON pg_enum.enumtypid = pg_type.oid;`, database);
 	}
 
 	async getDatabases() {

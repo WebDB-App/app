@@ -1,7 +1,8 @@
-add own type to autocomplete + column
+add own type to autocomplete + right-column
 default -> function suggestions (ex : generate_random_uuid())
-postgre : size mandatory ?
 mongo : export
+
+
 
 
 
@@ -26,6 +27,7 @@ mongo : export
 - revoir MySQL load avec tunnel (essayer en bash)
 - finir present
 - Finir EDR
+- save resize in localstorage
 - trigger : postgre + mongo
 - docker scout cves "$IMAGE_PATH" --exit-code
 - afficher resulat Unit Test en front avec plusieurs version de bdd
