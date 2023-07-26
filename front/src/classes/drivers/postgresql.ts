@@ -17,6 +17,7 @@ export class PostgreSQL extends SQL {
 
 		this.language = {
 			...this.language,
+			ownType: true,
 			keywords: this.language.keywords.concat([
 				'CREATE SCHEMA',
 				'ALTER SCHEMA',
@@ -39,6 +40,7 @@ export class PostgreSQL extends SQL {
 					'ARRAY_FILL': '(anyelement, int[], [, int[]])',
 					'ARRAY_APPEND': '(anyarray, anyelement)',
 					'ARRAY_TO_STRING': '(anyarray, text [, text])',
+					'UNNEST': '(anyarray)',
 					'STRING_AGG': '(expression, delimiter)',
 					'STRING_TO_ARRAY': '(text, text [, text])',
 					'EVERY': '',
@@ -55,215 +57,219 @@ export class PostgreSQL extends SQL {
 			},
 			typeGroups: [
 				{
-				name: Group.String,
-				list: [
-					{
-						id: "Binary(size)",
-						description: 'Where size is the number of binary characters to store. Fixed-length strings. Space padded on right to equal size characters.'
-					},
-					{
-						id: "Char(size)",
-						description: 'Where size is the number of characters to store. Fixed-length strings. Space padded on right to equal size characters.'
-					},
-					{
-						id: "MediumText",
-						description: 'Where size is the number of characters to store.'
-					},
-					{
-						id: "LongText",
-						bold: true,
-						description: 'Where size is the number of characters to store.'
-					},
-					{
-						id: "Text",
-						description: 'Where size is the number of characters to store.'
-					},
-					{
-						id: "TinyText",
-						description: 'Where size is the number of characters to store.'
-					},
-					{
-						id: "VarChar(size!)",
-						bold: true,
-						description: 'Where size is the number of characters to store. Variable-length string.'
-					},
-					{
-						id: "VarBinary(size!)",
-						description: 'Where size is the number of characters to store. Variable-length string'
-					}
-				]
-			}, {
-				name: Group.Numeric,
-				list: [
-					{
-						id: "BigInt",
-						description: "Big integer value.\nValues range from -9223372036854775808 to 9223372036854775807."
-					},
-					{
-						id: "BigInt Unsigned",
-						description: "Big integer value.\nValues range from 0 to 18446744073709551615."
-					},
-					{
-						id: "BigInt ZeroFill",
-						description: "Big integer value.\nValues range from 0 to 18446744073709551615."
-					},
-					{
-						id: "Bit",
-						description: "Very small integer value that is equivalent to TINYINT(1).\nSigned values range from -128 to 127. Unsigned values range from 0 to 255."
-					},
-					{
-						id: "Decimal(m, d)",
-						bold: true,
-						description: 'Unpacked fixed point number.\nm defaults to 10, if not specified.\nd defaults to 0, if not specified.\nWhere m is the total digits and d is the number of digits after the decimal.'
-					},
-					{
-						id: "Double(m, d)",
-						bold: true,
-						description: "Double precision floating point number.\nWhere m is the total digits and d is the number of digits after the decimal."
-					},
-					{
-						id: "Float(m, d)",
-						description: "Single precision floating point number.\nWhere m is the total digits and d is the number of digits after the decimal."
-					},
-					{
-						id: "Float(precision)",
-						description: "Floating point number.\nWhere p is the precision."
-					},
-					{
-						id: "Int",
-						bold: true,
-						description: "A normal-sized integer that can be signed or unsigned. Allowable range is from -2147483648 to 2147483647"
-					},
-					{
-						id: "Int Unsigned",
-						bold: true,
-						description: "A normal-sized integer that can be signed or unsigned. Allowable range is from 0 to 4294967295"
-					},
-					{
-						id: "Int ZeroFill",
-						bold: true,
-						description: "A normal-sized integer that can be signed or unsigned. Allowable range is from 0 to 4294967295"
-					},
-					{
-						id: "MediumInt",
-						description: "Medium integer value.\nValues range from -8388608 to 8388607."
-					},
-					{
-						id: "MediumInt Unsigned",
-						description: "Medium integer value.\nValues range from 0 to 16777215."
-					},
-					{
-						id: "MediumInt ZeroFill",
-						description: "Medium integer value.\nVnsigned values range from 0 to 16777215."
-					},
-					{
-						id: "SmallInt",
-						description: "Small integer value.\nValues range from -32768 to 32767."
-					},
-					{
-						id: "SmallInt Unsigned",
-						description: "Small integer value.\nValues range from 0 to 65535."
-					},
-					{
-						id: "SmallInt ZeroFill",
-						description: "Small integer value.\nValues range from 0 to 65535."
-					},
-					{
-						id: "TinyInt",
-						description: "Very small integer value.\nValues range from -128 to 127"
-					},
-					{
-						id: "TinyInt Unsigned",
-						description: "Very small integer value.\nValues range from 0 to 255."
-					},
-					{
-						id: "TinyInt ZeroFill",
-						description: "Very small integer value.\nValues range from 0 to 255."
-					}
-				]
-
-
-			}, {
-				name: Group.Date,
-				list: [
-					{
-						id: "Date",
-						description: "Values range from '1000-01-01' to '9999-12-31'.\nDisplayed as 'YYYY-MM-DD'."
-					},
-					{
-						id: "DateTime(precision)",
-						description: "Values range from '1000-01-01 00:00:00' to '9999-12-31 23:59:59'.\nDisplayed as 'YYYY-MM-DD HH:MM:SS'."
-					},
-					{
-						id: "Time",
-						description: "Values range from '-838:59:59' to '838:59:59'.\nDisplayed as 'HH:MM:SS'."
-					},
-					{
-						id: "Timestamp(precision)",
-						bold: true,
-						description: "Values range from '1970-01-01 00:00:01' UTC to '2038-01-19 03:14:07' UTC.\nDisplayed as 'YYYY-MM-DD HH:MM:SS'."
-					},
-					{
-						id: "Year(2|4)",
-						description: 'Year value as 2 digits or 4 digits.\nDefault is 4 digits.'
-					}
-				]
-			}, {
-				name: Group.Blob,
-				list: [
-					{
-						id: "Blob(size)",
-						description: "Maximum size of 65,535 bytes.\nWhere size is the number of characters to store"
-					},
-					{
-						id: "LongBlob",
-						bold: true,
-						description: "Maximum size of 4GB or 4,294,967,295 characters."
-					},
-					{
-						id: "MediumBlob",
-						description: "Maximum size of 16,777,215 bytes."
-					},
-					{
-						id: 'TinyBlob',
-						description: 'Maximum size of 255 bytes.'
-					}
-				]
-			}, {
-				name: Group.Complex,
-				list: [
-					{
-						id: "Enum('a', 'b', 'c')",
-						bold: true,
-						description: " An enumeration, which is a fancy term for list. When defining an ENUM, you are creating a list of items from which the value must be selected (or it can be NULL). For example, if you wanted your field to contain \"A\" or \"B\" or \"C\", you would define your ENUM as ENUM ('A', 'B', 'C') and only those values (or NULL) could ever populate that field."
-					},
-					{
-						id: "Json",
-						bold: true,
-					},
-					{
-						id: "Set('a', 'b', 'c')",
-					}
-				]
-			}
-				/*{
 					name: Group.String,
-					proposition: ["varchar(size)", 'uuid', 'tsquery'],
-					full: ["character", 'char', 'character varying', 'varchar', 'uuid', 'tsquery', 'text'],
+					list: [
+						{
+							id: "char(size)",
+							description: 'Where size is the number of characters to store. Fixed-length strings. Space padded on right to equal size characters.'
+						},
+						{
+							id: "character(size)",
+							description: 'Where size is the number of characters to store. Fixed-length strings. Space padded on right to equal size characters.'
+						},
+						{
+							id: "character varying(size)",
+							description: 'Where size is the number of characters to store. Variable-length string.'
+						},
+						{
+							id: "text",
+							bold: true,
+							description: 'Variable-length string.'
+						},
+						{
+							id: "uuid",
+							bold: true,
+							description: 'Universally unique identifier'
+						}
+					]
 				}, {
 					name: Group.Numeric,
-					proposition: ['boolean', 'integer(size)', 'serial', 'decimal(size)', 'numeric(size)'],
-					full: ['bigint', 'bigserial', 'bit', 'bit varying', 'varbit', 'boolean', 'bytea', 'real', 'float4', 'smallint', 'int2', 'smallserial', 'serial2', 'serial', 'serial4', 'numeric', 'decimal', 'double precision', 'float8', 'integer', 'int', 'int4', 'interval']
+					list: [
+						{
+							id: "bigint",
+							description: "Big integer value which is equivalent to int8.\n8-byte signed integer."
+						},
+						{
+							id: "bigserial",
+							description: "Big auto-incrementing integer value which is equivalent to serial8.\n8-byte signed integer that is auto-incrementing."
+						},
+						{
+							id: "bit(size)",
+							description: "Fixed-length bit string\nWhere size is the length of the bit string."
+						},
+						{
+							id: "bit varying(size)",
+							description: "Variable-length bit string\nWhere size is the length of the bit string."
+						},
+						{
+							id: "bool",
+							description: "Logical boolean data type - true or false"
+						},
+						{
+							id: "boolean",
+							bold: true,
+							description: "Logical boolean data type - true or false"
+						},
+						{
+							id: "double precision",
+							description: "8 byte, double precision, floating-point number"
+						},
+						{
+							id: "int",
+							bold: true,
+							description: "Equivalent to int4. \n4-byte signed integer."
+						},
+						{
+							id: "integer",
+							description: "Equivalent to int4. \n4-byte signed integer."
+						},
+						{
+							id: "numeric(m,d)",
+							bold: true,
+							description: "Where m is the total digits and d is the number of digits after the decimal."
+						},
+						{
+							id: "money",
+							description: "Currency value."
+						},
+						{
+							id: "real",
+							description: "4-byte, single precision, floating-point number"
+						},
+						{
+							id: "serial",
+							bold: true,
+							description: "Auto-incrementing integer value which is equivalent to serial4.\n4-byte signed integer that is auto-incrementing."
+						},
+						{
+							id: "smallint",
+							description: "Equivalent to int2.\n2-byte signed integer."
+						},
+						{
+							id: "smallserial",
+							description: "Small auto-incrementing integer value which is equivalent to serial2.\n2-byte signed integer that is auto-incrementing."
+						},
+						{
+							id: "varbit(size)",
+							description: "Variable-length bit string\nWhere size is the length of the bit string."
+						},
+					]
 				}, {
 					name: Group.Date,
-					proposition: ['date', 'timestamp(precision?)', 'time(precision?)'],
-					full: ['date', 'timestamp', 'time', 'timetz', 'timestamptz']
+					list: [
+						{
+							id: "date",
+							description: "Displayed as 'YYYY-MM-DD'."
+						},
+						{
+							id: "time",
+							description: "Displayed as 'HH:MM:SS' with no time zone."
+						},
+						{
+							id: "time with time zone",
+							description: "Displayed as 'HH:MM:SS-TZ' with time zone.\nEquivalent to timetz."
+						},
+						{
+							id: "time without time zone",
+							description: "Displayed as 'HH:MM:SS' with no time zone."
+						},
+						{
+							id: "timestamp",
+							description: "Displayed as 'YYYY-MM-DD HH:MM:SS'."
+						},
+						{
+							id: "timestamp with time zone",
+							bold: true,
+							description: "Displayed as 'YYYY-MM-DD HH:MM:SS-TZ'.\nEquivalent to timestamptz."
+						},
+						{
+							id: "timestamp without time zone",
+							description: "Displayed as 'YYYY-MM-DD HH:MM:SS'."
+						},
+					]
 				}, {
-					name: Group.Other,
-					proposition: ['json', 'xml', 'cidr', 'macaddr'],
-					full: ['xml', 'json', 'jsonb', 'money', 'tsvector', 'macaddr', 'macaddr8', 'inet', 'cidr']
-				}*/
-			]
+					name: Group.Blob,
+					list: [
+						{
+							id: "bytea",
+							bold: true,
+							description: "Binary data (“byte array”)"
+						},
+						{
+							id: "jsonb",
+							description: "Binary JSON data, decomposed"
+						},
+					]
+				}, {
+					name: Group.Complex,
+					list: [
+						{
+							id: "xml",
+							description: "An enumeration, which is a fancy term for list. When defining an ENUM, you are creating a list of items from which the value must be selected (or it can be NULL). For example, if you wanted your field to contain \"A\" or \"B\" or \"C\", you would define your ENUM as ENUM ('A', 'B', 'C') and only those values (or NULL) could ever populate that field."
+						},
+						{
+							id: "json",
+							bold: true,
+							description: 'Textual JSON data'
+						}
+					]
+				}, {
+					name: Group.Network,
+					list: [
+						{
+							id: "cidr",
+							description: "IPv4 or IPv6 network address"
+						},
+						{
+							id: "inet",
+							description: 'IPv4 or IPv6 host address'
+						},
+						{
+							id: "macaddr",
+							description: 'MAC (Media Access Control) address'
+						},
+						{
+							id: "macaddr8",
+							description: 'MAC (Media Access Control) address (EUI-64 format)'
+						}
+					]
+				}, {
+					name: Group.Geo,
+					list: [
+						{
+							id: "box",
+							description: "Rectangular box on a plane"
+						},
+						{
+							id: "circle",
+							description: 'Circle on a plane'
+						},
+						{
+							id: "line",
+							description: 'Infinite line on a plane'
+						},
+						{
+							id: "lseg",
+							description: 'Line segment on a plane'
+						},
+						{
+							id: "path",
+							description: 'Geometric path on a plane'
+						},
+						{
+							id: "point",
+							description: 'Geometric point on a plane'
+						},
+						{
+							id: "polygon",
+							description: 'Closed geometric path on a plane\n'
+						},
+						{
+							id: "macaddr8",
+							description: 'MAC (Media Access Control) address (EUI-64 format)'
+						}
+					]
+				}]
 		};
 
 		this.nodeLib = (query: QueryParams) => {

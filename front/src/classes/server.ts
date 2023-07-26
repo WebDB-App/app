@@ -2,6 +2,7 @@ import { Database } from "./database";
 import { Relation } from "./relation";
 import { Index } from "./index";
 import { Driver } from "./driver";
+import { Type } from "./types";
 
 const localStorageName = "servers";
 let selected: Server;
@@ -27,6 +28,7 @@ export class Server {
 	isLoading!: boolean;
 	relations!: Relation[];
 	dbs!: Database[];
+	types!: Type[];
 	indexes!: Index[];
 	driver!: Driver;
 	params?: {};

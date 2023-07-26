@@ -22,6 +22,10 @@ export default class Driver {
 		this.params = params;
 	}
 
+	async getTypes() {
+		return [];
+	}
+
 	async scan(host, from, to) {
 		const scanned = await nodePortScanner(host, Array.from(Array(to + 1).keys()).slice(from));
 		return scanned.ports.open.map(port => {

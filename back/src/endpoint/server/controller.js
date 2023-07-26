@@ -62,6 +62,12 @@ class Controller {
 					resolve();
 				})
 			);
+			promises.push(
+				new Promise(async resolve => {
+					final.types = await driver.getTypes();
+					resolve();
+				})
+			);
 			await Promise.all(promises);
 			final.relations = await driver.getRelations(final.dbs, final.indexes);
 		} else {

@@ -25,7 +25,9 @@ export enum Group {
 	'Numeric' = 'Numeric',
 	'Date' = 'Date',
 	'Blob' = 'Blob',
-	'Complex' = 'Complex'
+	'Complex' = 'Complex',
+	'Network' = 'Network',
+	'Geo' = 'Geo'
 }
 
 export class QueryParams {
@@ -63,6 +65,8 @@ export interface Driver {
 		typeGroups: TypeGroup[],
 		extraAttributes: string[]
 		defaultFilter: string;
+		ownType: boolean;
+		arrayType: boolean;
 	}
 
 	nodeLib: (queryParams: QueryParams) => string;

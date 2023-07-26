@@ -44,6 +44,8 @@ export class SQL implements Driver {
 		typeGroups: TypeGroup[],
 		extraAttributes: string[]
 		defaultFilter: string;
+		ownType: boolean;
+		arrayType: boolean;
 	} = {
 		comparators: [
 			{symbol: '>', example: "", definition: "More than"},
@@ -165,7 +167,9 @@ export class SQL implements Driver {
 		],
 		extraAttributes: [],
 		typeGroups: [],
-		defaultFilter: "="
+		defaultFilter: "=",
+		ownType: false,
+		arrayType: true
 	}
 
 	nodeLib = (query: QueryParams) => "";
@@ -264,7 +268,7 @@ export class SQL implements Driver {
 				suggestions.push({
 					label: type.id,
 					kind: monaco.languages.CompletionItemKind.TypeParameter,
-					insertText: `${type.id.toUpperCase()}`,
+					insertText: `${type.id}`,
 					detail: type.description
 				})
 			})

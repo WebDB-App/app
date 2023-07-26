@@ -15,6 +15,7 @@
 				<mat-form-field appearance="fill">
 					<mat-label>Type</mat-label>
 					<textarea
+						#type
 						cdkTextareaAutosize
 						formControlName="type"
 						matInput
@@ -22,13 +23,22 @@
 					</textarea>
 				</mat-form-field>
 			</div>
-			<mat-form-field *ngIf="extraAttributes.length" appearance="fill">
-				<mat-label>Extras</mat-label>
-				<mat-select formControlName="extra"
-							multiple>
-				</mat-select>
-			</mat-form-field>
-			<div class="nullable">
+			<div class="options">
+				<mat-form-field *ngIf="extraAttributes.length" appearance="fill">
+					<mat-label>Extras</mat-label>
+					<mat-select formControlName="extra"
+								multiple>
+					</mat-select>
+				</mat-form-field>
+
+				<mat-slide-toggle
+					*ngIf="selectedServer!.driver.language.arrayType"
+					[checked]="type.value.endsWith('[]')"
+					disabled
+					color="primary">
+					Array
+				</mat-slide-toggle>
+
 				<mat-slide-toggle
 					color="primary"
 					formControlName="nullable">
@@ -88,6 +98,7 @@
 					<mat-form-field appearance="fill">
 						<mat-label>Type</mat-label>
 						<textarea
+							#type
 							cdkTextareaAutosize
 							formControlName="type"
 							matInput
@@ -117,21 +128,29 @@
 					</mat-select>
 				</div>
 
-				<mat-form-field *ngIf="extraAttributes.length" appearance="fill">
-					<mat-label>Extras</mat-label>
-					<mat-select disableOptionCentering
-								formControlName="extra"
-								multiple>
-						<ng-container *ngFor="let ext of extraAttributes">
-							<mat-option
-								[value]="ext">
-								{{ext}}
-							</mat-option>
-						</ng-container>
-					</mat-select>
-				</mat-form-field>
+				<div class="options">
+					<mat-form-field *ngIf="extraAttributes.length" appearance="fill">
+						<mat-label>Extras</mat-label>
+						<mat-select disableOptionCentering
+									formControlName="extra"
+									multiple>
+							<ng-container *ngFor="let ext of extraAttributes">
+								<mat-option
+									[value]="ext">
+									{{ext}}
+								</mat-option>
+							</ng-container>
+						</mat-select>
+					</mat-form-field>
 
-				<div class="nullable">
+					<mat-slide-toggle
+						*ngIf="selectedServer!.driver.language.arrayType"
+						[checked]="type.value.endsWith('[]')"
+						(change)="type.value = type.value.endsWith('[]') ? type.value.substring(0, type.value.indexOf('[]')) : type.value + '[]'"
+						color="primary">
+						Array
+					</mat-slide-toggle>
+
 					<mat-slide-toggle
 						#nullable
 						color="primary"

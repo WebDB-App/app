@@ -87,6 +87,10 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 		Database.setSelected(database);
 		this.selectedServer = server;
 		this.selectedDatabase = database;
+
+		if (this.selectedServer.driver.language.ownType) {
+			this.panels.unshift({link: "types", icon: "data_object"});
+		}
 	}
 
 	ngAfterViewInit(): void {
