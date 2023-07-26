@@ -54,7 +54,7 @@ export class SQL implements Driver {
 			{symbol: '<=', example: "0", definition: "Less or equal than"},
 			{symbol: '=', example: "'0'", definition: "Strictly equal to"},
 			{symbol: '!=', example: "'0'", definition: "Strictly different to"},
-			{symbol: 'IN', example: '("0", "1")', definition: "Is in array of"},
+			{symbol: 'IN', example: "('0', '1')", definition: "Is in array of"},
 			{symbol: 'BETWEEN', example: "'a' AND 'b'", definition: "If in the range of"},
 			{symbol: 'REGEXP', example: "'[a-z]'", definition: "If match regex"},
 			{symbol: 'LIKE', example: "'abc%'", definition: "Equal to"},

@@ -12,9 +12,13 @@ ngx-monaco-diff-editor {
 }
 
 ngx-monaco-editor {
-	flex: 0 0 50%;
-	width: 0%;
+	width: 50%;
 	height: 100%;
+
+	&:first-child {
+		resize: horizontal;
+		overflow: auto;
+	}
 }
 
 #actions {
