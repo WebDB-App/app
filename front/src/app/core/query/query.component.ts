@@ -52,30 +52,6 @@ export class QueryComponent implements OnInit {
 	displayedColumns?: string[];
 	dataSource?: MatTableDataSource<any>;
 
-	preBuilds: { id: string, tooltip: string, icon: string }[] = [
-		{
-			id: "select",
-			tooltip: "Select",
-			icon: "description"
-		}, {
-			id: "select_join",
-			tooltip: "Select with relations",
-			icon: "file_present"
-		}, {
-			id: "update",
-			tooltip: "Update",
-			icon: "edit_document"
-		}, {
-			id: "insert",
-			tooltip: "Insert",
-			icon: "note_add"
-		}, {
-			id: "delete",
-			tooltip: "Delete",
-			icon: "scan_delete"
-		},
-	];
-
 	constructor(
 		private request: RequestService,
 		private dialog: MatDialog,
@@ -228,11 +204,6 @@ export class QueryComponent implements OnInit {
 		}, undefined, undefined, undefined, undefined, false);
 		this.isLoading = false;
 		this.dialog.open(ExportResultDialog, {data});
-	}
-
-	toggleDiff() {
-		this.diff = !this.diff;
-		this.query2 = this.query;
 	}
 
 	protected readonly Math = Math;
