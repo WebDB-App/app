@@ -1,0 +1,33 @@
+<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
+	<mat-form-field>
+		<mat-label>Search Types</mat-label>
+		<input #filter
+			   autocomplete="off"
+			   matInput>
+	</mat-form-field>
+
+	<button (click)="addType()" color="primary" mat-stroked-button>
+		<span class="material-symbols-outlined notranslate">
+			data_object
+		</span>
+		Add Type
+	</button>
+</mat-toolbar>
+
+<div style="height: calc(100vh - 56px); overflow: auto">
+	<mat-card *ngFor="let type of selectedTypes"
+			  [hidden]="type.name.toLowerCase().indexOf(filter.value.toLowerCase()) < 0"
+			  class="type">
+		<mat-card-content>
+			<ngx-monaco-editor
+				[(ngModel)]="type.elements"
+				[options]="editorOptions"
+				style="width: 100%"
+			></ngx-monaco-editor>
+		</mat-card-content>
+
+		<mat-card-actions>
+
+		</mat-card-actions>
+	</mat-card>
+</div>

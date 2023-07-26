@@ -40,6 +40,7 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { ClipboardModule } from "@angular/cdk/clipboard";
 import { HighlightModule } from 'ngx-highlightjs';
 import { HistoryComponent } from "./history/history.component";
+import { TypesComponent } from "./types/types.component";
 
 
 @NgModule({
@@ -52,6 +53,7 @@ import { HistoryComponent } from "./history/history.component";
 		ColumnComponent,
 		DropDatabaseDialog,
 		HistoryComponent,
+		TypesComponent,
 		CreateTableComponent,
 		UpdateColumnComponent,
 		AddColumnComponent,

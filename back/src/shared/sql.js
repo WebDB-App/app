@@ -171,6 +171,7 @@ export default class SQL extends Driver {
 	}
 
 	cleanQuery(query) {
+		query = query.replaceAll(/(\r|\n|\r|\t)/gm, " ");
 		return query.trim().endsWith(";") ? query.trim().slice(0, -1) : query;
 	}
 

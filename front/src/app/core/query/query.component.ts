@@ -123,6 +123,7 @@ export class QueryComponent implements OnInit {
 		} else {
 			await this._runSingle();
 		}
+		setTimeout(() => this.editors.map(editor => editor.trigger("editor", "editor.action.formatDocument")), 1);
 	}
 
 	async _runSingle() {

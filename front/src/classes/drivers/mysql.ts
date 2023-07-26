@@ -27,6 +27,7 @@ export class MySQL extends SQL {
 
 		this.language = {
 			...this.language,
+			arrayType: false,
 			extraAttributes: ['auto_increment', 'on update CURRENT_TIMESTAMP'],
 			keywords: this.language.keywords.concat([
 				'AUTO_INCREMENT',
@@ -60,37 +61,37 @@ export class MySQL extends SQL {
 					name: Group.String,
 					list: [
 						{
-							id: "Binary(size)",
+							id: "binary(size)",
 							description: 'Where size is the number of binary characters to store. Fixed-length strings. Space padded on right to equal size characters.'
 						},
 						{
-							id: "Char(size)",
+							id: "char(size)",
 							description: 'Where size is the number of characters to store. Fixed-length strings. Space padded on right to equal size characters.'
 						},
 						{
-							id: "MediumText",
+							id: "mediumtext",
 							description: 'Where size is the number of characters to store.'
 						},
 						{
-							id: "LongText",
+							id: "longtext",
 							bold: true,
 							description: 'Where size is the number of characters to store.'
 						},
 						{
-							id: "Text",
+							id: "text",
 							description: 'Where size is the number of characters to store.'
 						},
 						{
-							id: "TinyText",
+							id: "tinytext",
 							description: 'Where size is the number of characters to store.'
 						},
 						{
-							id: "VarChar(size!)",
+							id: "varchar(size!)",
 							bold: true,
 							description: 'Where size is the number of characters to store. Variable-length string.'
 						},
 						{
-							id: "VarBinary(size!)",
+							id: "varbinary(size!)",
 							description: 'Where size is the number of characters to store. Variable-length string'
 						}
 					]
@@ -98,88 +99,88 @@ export class MySQL extends SQL {
 					name: Group.Numeric,
 					list: [
 						{
-							id: "BigInt",
+							id: "bingint",
 							description: "Big integer value.\nValues range from -9223372036854775808 to 9223372036854775807."
 						},
 						{
-							id: "BigInt Unsigned",
+							id: "bigint unsigned",
 							description: "Big integer value.\nValues range from 0 to 18446744073709551615."
 						},
 						{
-							id: "BigInt ZeroFill",
+							id: "bigint zerofill",
 							description: "Big integer value.\nValues range from 0 to 18446744073709551615."
 						},
 						{
-							id: "Bit",
-							description: "Very small integer value that is equivalent to TINYINT(1).\nSigned values range from -128 to 127. Unsigned values range from 0 to 255."
+							id: "bit",
+							description: "Very small integer value that is equivalent to TINYINT(1).\nSigned values range from -128 to 127. unsigned values range from 0 to 255."
 						},
 						{
-							id: "Decimal(m, d)",
+							id: "decimal(m, d)",
 							bold: true,
 							description: 'Unpacked fixed point number.\nm defaults to 10, if not specified.\nd defaults to 0, if not specified.\nWhere m is the total digits and d is the number of digits after the decimal.'
 						},
 						{
-							id: "Double(m, d)",
+							id: "double(m, d)",
 							bold: true,
 							description: "Double precision floating point number.\nWhere m is the total digits and d is the number of digits after the decimal."
 						},
 						{
-							id: "Float(m, d)",
+							id: "float(m, d)",
 							description: "Single precision floating point number.\nWhere m is the total digits and d is the number of digits after the decimal."
 						},
 						{
-							id: "Float(precision)",
+							id: "float(precision)",
 							description: "Floating point number.\nWhere p is the precision."
 						},
 						{
-							id: "Int",
+							id: "int",
 							bold: true,
 							description: "A normal-sized integer that can be signed or unsigned. Allowable range is from -2147483648 to 2147483647"
 						},
 						{
-							id: "Int Unsigned",
+							id: "int unsigned",
 							bold: true,
 							description: "A normal-sized integer that can be signed or unsigned. Allowable range is from 0 to 4294967295"
 						},
 						{
-							id: "Int ZeroFill",
+							id: "int zerofill",
 							bold: true,
 							description: "A normal-sized integer that can be signed or unsigned. Allowable range is from 0 to 4294967295"
 						},
 						{
-							id: "MediumInt",
+							id: "mediumint",
 							description: "Medium integer value.\nValues range from -8388608 to 8388607."
 						},
 						{
-							id: "MediumInt Unsigned",
+							id: "mediumint unsigned",
 							description: "Medium integer value.\nValues range from 0 to 16777215."
 						},
 						{
-							id: "MediumInt ZeroFill",
+							id: "mediumint zerofill",
 							description: "Medium integer value.\nVnsigned values range from 0 to 16777215."
 						},
 						{
-							id: "SmallInt",
+							id: "smallint",
 							description: "Small integer value.\nValues range from -32768 to 32767."
 						},
 						{
-							id: "SmallInt Unsigned",
+							id: "smallint unsigned",
 							description: "Small integer value.\nValues range from 0 to 65535."
 						},
 						{
-							id: "SmallInt ZeroFill",
+							id: "smallint zerofill",
 							description: "Small integer value.\nValues range from 0 to 65535."
 						},
 						{
-							id: "TinyInt",
+							id: "tinyint",
 							description: "Very small integer value.\nValues range from -128 to 127"
 						},
 						{
-							id: "TinyInt Unsigned",
+							id: "tinyint unsigned",
 							description: "Very small integer value.\nValues range from 0 to 255."
 						},
 						{
-							id: "TinyInt ZeroFill",
+							id: "tinyint zerofill",
 							description: "Very small integer value.\nValues range from 0 to 255."
 						}
 					]
@@ -189,24 +190,24 @@ export class MySQL extends SQL {
 					name: Group.Date,
 					list: [
 						{
-							id: "Date",
+							id: "date",
 							description: "Values range from '1000-01-01' to '9999-12-31'.\nDisplayed as 'YYYY-MM-DD'."
 						},
 						{
-							id: "DateTime(precision)",
+							id: "datetime(precision)",
 							description: "Values range from '1000-01-01 00:00:00' to '9999-12-31 23:59:59'.\nDisplayed as 'YYYY-MM-DD HH:MM:SS'."
 						},
 						{
-							id: "Time",
+							id: "time",
 							description: "Values range from '-838:59:59' to '838:59:59'.\nDisplayed as 'HH:MM:SS'."
 						},
 						{
-							id: "Timestamp(precision)",
+							id: "timestamp(precision)",
 							bold: true,
 							description: "Values range from '1970-01-01 00:00:01' UTC to '2038-01-19 03:14:07' UTC.\nDisplayed as 'YYYY-MM-DD HH:MM:SS'."
 						},
 						{
-							id: "Year(2|4)",
+							id: "year(2|4)",
 							description: 'Year value as 2 digits or 4 digits.\nDefault is 4 digits.'
 						}
 					]
@@ -214,20 +215,20 @@ export class MySQL extends SQL {
 					name: Group.Blob,
 					list: [
 						{
-							id: "Blob(size)",
+							id: "blob(size)",
 							description: "Maximum size of 65,535 bytes.\nWhere size is the number of characters to store"
 						},
 						{
-							id: "LongBlob",
+							id: "longblob",
 							bold: true,
 							description: "Maximum size of 4GB or 4,294,967,295 characters."
 						},
 						{
-							id: "MediumBlob",
+							id: "mediumblob",
 							description: "Maximum size of 16,777,215 bytes."
 						},
 						{
-							id: 'TinyBlob',
+							id: 'tinyblob',
 							description: 'Maximum size of 255 bytes.'
 						}
 					]
@@ -235,16 +236,44 @@ export class MySQL extends SQL {
 					name: Group.Complex,
 					list: [
 						{
-							id: "Enum('a', 'b', 'c')",
+							id: "enum('a', 'b', 'c')",
 							bold: true,
 							description: " An enumeration, which is a fancy term for list. When defining an ENUM, you are creating a list of items from which the value must be selected (or it can be NULL). For example, if you wanted your field to contain \"A\" or \"B\" or \"C\", you would define your ENUM as ENUM ('A', 'B', 'C') and only those values (or NULL) could ever populate that field."
 						},
 						{
-							id: "Json",
+							id: "json",
 							bold: true,
 						},
 						{
-							id: "Set('a', 'b', 'c')",
+							id: "set('a', 'b', 'c')",
+						}
+					]
+				}, {
+					name: Group.Geo,
+					list: [
+						{
+							id: "geometry",
+						},
+						{
+							id: "linestring",
+						},
+						{
+							id: "point",
+						},
+						{
+							id: "polygon",
+						},
+						{
+							id: "multipoint",
+						},
+						{
+							id: "multilinestring",
+						},
+						{
+							id: "multipolygon",
+						},
+						{
+							id: "geometrycollection",
 						}
 					]
 				}

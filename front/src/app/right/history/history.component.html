@@ -18,7 +18,6 @@
 			clear_all
 		</span>
 	</button>
-
 </mat-toolbar>
 
 <div style="height: calc(100vh - 56px); overflow: auto">
@@ -27,10 +26,10 @@
 			  [style.background-color]="his.star ? '#1e1e1e' : 'inherit'"
 			  class="history">
 		<mat-card-content>
-		<pre><code [highlight]="his.query"
-				   [languages]="[selectedServer.driver!.language.id]"
-				   [lineNumbers]="true">
-		</code></pre>
+			<pre><code [highlight]="his.query"
+					   [languages]="[selectedServer.driver!.language.id]"
+					   [lineNumbers]="true">
+			</code></pre>
 		</mat-card-content>
 
 		<mat-card-actions>
