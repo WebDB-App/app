@@ -37,14 +37,6 @@ export class RelationsComponent implements OnInit {
 			this.displayedColumns.push(this.actionColum);
 		}
 
-		await this.refreshData(true);
-	}
-
-	async refreshData(pageLoad = false) {
-		if (!pageLoad) {
-			await this.request.reloadServer();
-		}
-
 		this.constraints = this.selectedServer?.driver.language.constraints;
 		this.relations = this.selectedServer?.relations.filter(relation => relation.database === this.selectedDatabase?.name);
 		this.dataSource = new MatTableDataSource(this.relations);
@@ -61,10 +53,8 @@ export class RelationsComponent implements OnInit {
 
 	async delete(relation: Relation) {
 		await this.request.post('relation/drop', {relation});
-
+		await this.request.reloadServer();
 		this.snackBar.open(`Dropped ${relation.name}`, "╳", {duration: 3000});
-
-		await this.refreshData();
 	}
 
 	async add(sourceTable: Table, sourceColumn: string, destTable: Table, destColumn: string, update_rule: string, delete_rule: string) {
@@ -80,8 +70,7 @@ export class RelationsComponent implements OnInit {
 		};
 
 		await this.request.post('relation/add', {relation});
-
+		await this.request.reloadServer();
 		this.snackBar.open(`Added Relation ${relation.name}`, "╳", {duration: 3000});
-		await this.refreshData();
 	}
 }

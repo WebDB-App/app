@@ -25,7 +25,16 @@ mongo : export + relations + harmonizer + insert
 - trigger : postgre + mongo
 - Server gît avec autobackup en var d'env
 - SQLServer
+- graphql
 - Export Query : tester tout + btn to export via IA (Stripe Metadata additionnal feature)
+
+
+
+
+
+
+
+
 
 
 
