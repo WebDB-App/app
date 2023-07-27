@@ -1,5 +1,4 @@
 <mat-drawer-container>
-
 	<mat-drawer #drawer mode="over" position="end">
 		<router-outlet *ngIf="loading >= 100" name="right"></router-outlet>
 	</mat-drawer>
@@ -69,34 +68,15 @@
 		</div>
 
 		<router-outlet *ngIf="loading >= 100"></router-outlet>
-
 	</mat-drawer-content>
 </mat-drawer-container>
 
 <mat-menu #external="matMenu" class="external">
-	<a (click)="showConnection()"
-	   mat-menu-item>
-		<span class="material-symbols-outlined notranslate">
-			signal_wifi_statusbar_not_connected
-		</span>
-		Connection Info
-	</a>
-	<mat-divider></mat-divider>
-	<a href="https://gitlab.com/web-db/landing/-/issues"
+	<a href="https://gitlab.com/web-db/landing/"
 	   mat-menu-item
 	   target="_blank">
-		<span class="material-symbols-outlined notranslate">
-			support
-		</span>
-		Support
-	</a>
-	<a href="https://gitlab.com/web-db/landing/-/wikis/Welcome"
-	   mat-menu-item
-	   target="_blank">
-		<span class="material-symbols-outlined notranslate">
-			menu_book
-		</span>
-		Documentation
+		<mat-icon svgIcon="gitlab"></mat-icon>
+		Gitlab
 	</a>
 	<a href="https://stackoverflow.com/users/21482136/webdb"
 	   mat-menu-item

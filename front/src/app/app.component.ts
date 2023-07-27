@@ -1,9 +1,23 @@
 import { Component, HostListener } from '@angular/core';
 import { environment } from "../environments/environment";
+import { MatDialog } from "@angular/material/dialog";
 
 @Component({
 	selector: 'app-root',
-	template: '<router-outlet></router-outlet>'
+	template: `
+		<router-outlet></router-outlet>
+
+		<div style="position: fixed; bottom: 12px; right: 12px; z-index: 10000000000">
+			<a href="https://gitlab.com/web-db/landing/-/issues/new"
+			   target="_blank"
+				matTooltip="Create Issue"
+				mat-icon-button>
+				<span class="material-symbols-outlined notranslate">
+					bug_report
+				</span>
+			</a>
+		</div>
+	`
 })
 export class AppComponent {
 

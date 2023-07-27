@@ -20,6 +20,11 @@ export class AdvancedComponent implements OnInit {
 		index_length: number,
 		data_length: number
 	};
+	str = "";
+	editorOptions = {
+		language: 'json',
+		readOnly: true
+	};
 
 	constructor(private dialog: MatDialog,
 				private snackBar: MatSnackBar,
@@ -33,6 +38,7 @@ export class AdvancedComponent implements OnInit {
 
 		this.collations = await this.request.post('database/availableCollations', undefined);
 		this.stats = await this.request.post('database/stats', undefined);
+		this.str = JSON.stringify(this.selectedServer, null, 4);
 
 		if (!this.collations.includes(this.selectedDatabase!.collation)) {
 			this.collations.push(this.selectedDatabase!.collation)

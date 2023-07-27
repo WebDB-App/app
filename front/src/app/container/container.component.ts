@@ -110,28 +110,6 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 	showSettings() {
 		this.dialog.open(ConfigDialog);
 	}
-
-	showConnection() {
-		this.dialog.open(ConnectionInfoDialog, {
-			data: this.selectedServer
-		});
-	}
 }
 
-@Component({
-	templateUrl: 'connection-dialog.html',
-})
-export class ConnectionInfoDialog {
-	str = "";
-	editorOptions = {
-		language: 'json',
-		readOnly: true
-	};
-
-	constructor(
-		@Inject(MAT_DIALOG_DATA) public server: Server,
-	) {
-		this.str = JSON.stringify(server, null, 4)
-	}
-}
 
