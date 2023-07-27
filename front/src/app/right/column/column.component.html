@@ -98,7 +98,6 @@
 					<mat-form-field appearance="fill">
 						<mat-label>Type</mat-label>
 						<textarea
-							#type
 							cdkTextareaAutosize
 							formControlName="type"
 							matInput
@@ -138,6 +137,7 @@
 					</mat-select>
 
 					<button (click)="fctSuggestion.open()"
+							*ngIf="selectedServer!.driver.language.fctAsDefault"
 							color="primary"
 							mat-icon-button
 							mat-stroked-button>
@@ -149,17 +149,10 @@
 					<mat-select
 						#fctSuggestion
 						(selectionChange)="column.get('type')?.patchValue($event.value)">
-						<mat-optgroup *ngFor="let group of selectedServer!.driver.language.typeGroups"
-									  [label]="group.name">
-							<mat-option *ngFor="let type of group.list" [value]="type.id">
-								<span
-									[matTooltip]="type.description ? type.description : ''"
-									[style.color]="type.bold ? '#ff9800' : null"
-									matTooltipPosition="left">
-									{{type.id}}
-								</span>
-							</mat-option>
-						</mat-optgroup>
+						<mat-option *ngFor="let fct of selectedServer!.driver.language.functions | keyvalue"
+									[value]="fct.key + ' ' + fct.value || '(expression)'">
+							{{fct.key}} {{fct.value}}
+						</mat-option>
 					</mat-select>
 				</div>
 
@@ -180,20 +173,19 @@
 
 					<mat-slide-toggle
 						*ngIf="selectedServer!.driver.language.arrayType"
-						[checked]="type.value.endsWith('[]')"
-						(change)="type.value = type.value.endsWith('[]') ? type.value.substring(0, type.value.indexOf('[]')) : type.value + '[]'"
+						[checked]="column.get('type')!.value.endsWith('[]')"
+						(change)="column.get('type')!.patchValue(column.get('type')!.value.endsWith('[]') ? column.get('type')!.value.substring(0, column.get('type')!.value.indexOf('[]')) : column.get('type')!.value + '[]')"
 						color="primary">
 						Array
 					</mat-slide-toggle>
 
 					<mat-slide-toggle
-						#nullable
 						color="primary"
 						formControlName="nullable">
 						Nullable
 					</mat-slide-toggle>
 
-					<mat-form-field [style.opacity]="nullable.checked ? 1 : 0.5">
+					<mat-form-field [style.opacity]="column.get('nullable')!.value ? 1 : 0.5">
 						<mat-label>Default Value on Null</mat-label>
 						<input autocomplete="off"
 							   formControlName="defaut"

@@ -18,6 +18,8 @@ export default class SQL extends Driver {
 			cmd += `${column.extra.join(" ")} `;
 		}
 
+		//TODO
+		//sql alter table : name, fct as default, null as default
 		//wrap defaultValue -> attention NULL / function()
 		if (column.defaut) {
 			if (column.defaut !== "NULL" && !column.defaut.endsWith(")")

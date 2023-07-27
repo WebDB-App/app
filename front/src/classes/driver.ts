@@ -67,6 +67,7 @@ export interface Driver {
 		defaultFilter: string;
 		ownType: boolean;
 		arrayType: boolean;
+		fctAsDefault: boolean;
 	}
 
 	nodeLib: (queryParams: QueryParams) => string;
