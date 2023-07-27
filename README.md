@@ -1,5 +1,4 @@
-default -> function suggestions (ex : generate_random_uuid())
-mongo : export
+mongo : export + relations + harmonizer + insert
 
 
 
@@ -16,12 +15,9 @@ mongo : export
 
 
 
-
-
-
-- mongo : relations + harmonizer + insert
 - postgre : plusieurs schemas
 - add own type to autocomplete + right-column
+- finir own_object
 - cloud (google, aurora, rds)
 - BLOB CRUD (download, upload)
 - finir present

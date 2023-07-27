@@ -52,6 +52,7 @@ export class MongoDB implements Driver {
 		id: "javascript",
 		ownType: false,
 		arrayType: true,
+		fctAsDefault: true,
 		keywords: [],
 		functions: {},
 		constraints: [],

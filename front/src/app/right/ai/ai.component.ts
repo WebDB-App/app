@@ -35,7 +35,7 @@ class Msg {
 		const htmlDoc = parser.parseFromString(mark, 'text/html');
 
 		for (const child of htmlDoc.body.children) {
-			if (child.innerHTML.startsWith("<code>") || child.innerHTML.startsWith("<pre>") && user === Role.Assistant) {
+			if ((child.innerHTML.startsWith("<code") || child.innerHTML.startsWith("<pre")) && user === Role.Assistant) {
 				this.marked.push({code: child.getElementsByTagName('code')[0].outerText});
 			} else {
 				this.marked.push({html: child.innerHTML});
@@ -179,7 +179,7 @@ export class AiComponent implements OnInit {
 				pageSize: 15,
 				page: 0
 			}, undefined, undefined, undefined, undefined, false);
-			await this.sendMessage("Here a sample in JSON : " + JSON.stringify(result));
+			await this.sendMessage("Here is the result of the query `" + query + "` : " + JSON.stringify(result));
 		} catch (err: any) {
 			await this.sendMessage("There is an error : " + err.error);
 		} finally {

@@ -183,7 +183,7 @@
 						appearance="fill"
 						class="sendMessage">
 			<mat-label>Ask anything about `{{selectedDatabase?.name}}`</mat-label>
-			<textarea #message cdkTextareaAutosize matInput></textarea>
+			<textarea #message cdkTextareaAutosize matInput style="max-height: 60vh;"></textarea>
 			<button (click)="sendMessage(message.value); message.value = ''"
 					[disabled]="!message.value"
 					mat-icon-button

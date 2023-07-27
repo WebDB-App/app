@@ -52,7 +52,8 @@ export class PostgreSQL extends SQL {
 					'JSON_ARRAY_ELEMENTS': '(json)',
 					'JSON_OBJECT': '([key, value[, key, value] ...])',
 					'TO_JSON': '(anyelement)',
-					'CRYPT': '(password text, salt text)'
+					'CRYPT': '(password text, salt text)',
+					'GEN_RANDOM_UUID': '()'
 				}
 			},
 			typeGroups: [
