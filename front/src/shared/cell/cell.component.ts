@@ -2,6 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Table } from "../../classes/table";
 import { Relation } from "../../classes/relation";
 import { isNested } from "../helper";
+import { Server } from "../../classes/server";
+import { Database } from "../../classes/database";
 
 @Component({
 	selector: 'app-cell',
@@ -25,7 +27,7 @@ export class CellComponent implements OnInit {
 	ngOnInit(): void {
 		this.relations = Table.getRelations();
 		const fk = this.relations?.find(relation => relation.column_source === this.column);
-		this.fkLink = !fk ? undefined : ['../../', fk.table_dest];
+		this.fkLink = !fk ? undefined : ['/', Server.getSelected().name, Database.getSelected().name, fk.table_dest, 'explore'];
 
 		this.nested = isNested(this.row[this.column]);
 		if (this.nested) {
