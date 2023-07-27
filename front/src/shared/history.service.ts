@@ -1,6 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Database } from "../classes/database";
 
+export const maxHistory = 200;
+
 export class Query {
 	query: string;
 	nbResult: number;
@@ -29,7 +31,7 @@ export class HistoryService {
 	}
 
 	saveLocal(queries: Query[], database = Database.getSelected()) {
-		queries = queries.slice(0, 100);
+		queries = queries.slice(0, maxHistory);
 		localStorage.setItem("queries-" + database.name, JSON.stringify(queries))
 	}
 

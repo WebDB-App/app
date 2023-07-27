@@ -225,10 +225,11 @@ a {
 .hljs {
 	white-space: pre-wrap;
 	border-radius: 4px;
+	background-color: rgba(0, 0, 0, 0.25);
 }
 
 .hljs-ln-code {
-	padding-left: 10px !important;
+	padding-left: 12px !important;
 }
 
 .editor-container {
