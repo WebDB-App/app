@@ -173,8 +173,8 @@
 
 					<mat-slide-toggle
 						*ngIf="selectedServer!.driver.language.arrayType"
-						[checked]="column.get('type')!.value.endsWith('[]')"
-						(change)="column.get('type')!.patchValue(column.get('type')!.value.endsWith('[]') ? column.get('type')!.value.substring(0, column.get('type')!.value.indexOf('[]')) : column.get('type')!.value + '[]')"
+						[checked]="column.get('type')?.value && column.get('type')!.value.endsWith('[]')"
+						(change)="column.get('type')!.patchValue(column.get('type')?.value && column.get('type')!.value.endsWith('[]') ? column.get('type')!.value.substring(0, column.get('type')!.value.indexOf('[]')) : column.get('type')!.value + '[]')"
 						color="primary">
 						Array
 					</mat-slide-toggle>

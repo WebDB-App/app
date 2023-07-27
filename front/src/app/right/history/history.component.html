@@ -9,22 +9,25 @@
 			   matInput>
 	</mat-form-field>
 
-	<button
-		(click)="queryHistory = []; history.saveLocal(queryHistory)"
-		*ngIf="queryHistory.length"
-		mat-button
-		matTooltip="Clear History">
+	<div>
+		<span>{{queryHistory.length}} / {{maxHistory}}</span>
+
+		<button
+			(click)="queryHistory = []; history.saveLocal(queryHistory)"
+			*ngIf="queryHistory.length"
+			mat-button
+			matTooltip="Clear History">
 		<span class="material-symbols-outlined notranslate">
 			clear_all
 		</span>
-	</button>
+		</button>
+	</div>
 </mat-toolbar>
 
-<div style="height: calc(100vh - 56px); overflow: auto">
+<div style="height: calc(100vh - 56px); overflow: auto; max-width: 50vw;">
 	<mat-card *ngFor="let his of queryHistory"
 			  [hidden]="his.query.toLowerCase().indexOf(filter.toLowerCase()) < 0"
-			  [style.background-color]="his.star ? '#1e1e1e' : 'inherit'"
-			  class="history">
+			  [style.background-color]="his.star ? '#1e1e1e' : 'inherit'">
 		<mat-card-content>
 			<pre><code [highlight]="his.query"
 					   [languages]="[selectedServer.driver!.language.id]"
@@ -43,6 +46,7 @@
 
 			<div>
 				<button mat-icon-button
+						matTooltip="Highlight query"
 						(click)="changeStar(his)"
 						[color]="his.star ? 'primary': undefined">
 					<span class="material-symbols-outlined notranslate">star</span>
@@ -50,6 +54,7 @@
 
 				<button
 					(click)="goToQuery(his.query)"
+					matTooltip="Replay query"
 					mat-icon-button>
 					<span class="material-symbols-outlined notranslate">replay</span>
 				</button>
@@ -58,8 +63,7 @@
 					(click)="snackBar.open('Copied to clipboard', '╳', {duration: 3000})"
 					[cdkCopyToClipboard]="his.query"
 					mat-icon-button
-					matTooltip="Copy to clipboard"
-					matTooltipPosition="above">
+					matTooltip="Copy to clipboard">
 					<span class="material-symbols-outlined notranslate">
 						file_copy
 					</span>

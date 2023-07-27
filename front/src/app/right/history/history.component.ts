@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Server } from "../../../classes/server";
-import { HistoryService, Query } from "../../../shared/history.service";
+import { HistoryService, maxHistory, Query } from "../../../shared/history.service";
 import { Configuration } from "../../../classes/configuration";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { DrawerService } from "../../../shared/drawer.service";
@@ -44,4 +44,6 @@ export class HistoryComponent implements OnInit {
 		this.router.navigate([Server.getSelected().name, Database.getSelected().name, Table.getSelected().name, 'query', query]);
 		this.drawer.toggle();
 	}
+
+	protected readonly maxHistory = maxHistory;
 }
