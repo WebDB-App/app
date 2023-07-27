@@ -50,9 +50,9 @@ export default class SQL extends Driver {
 		ADD CONSTRAINT ${this.nameDel + relation.name + this.nameDel}
 		FOREIGN KEY (${this.nameDel + relation.column_source + this.nameDel})
 		REFERENCES ${this.nameDel + relation.table_dest + this.nameDel} (${this.nameDel + relation.column_dest + this.nameDel})
-			ON DELETE ${this.nameDel + relation.delete_rule + this.nameDel}
-			ON UPDATE ${this.nameDel + relation.update_rule + this.nameDel}`,
-			relation.database);
+			ON DELETE ${relation.delete_rule}
+			ON UPDATE ${relation.update_rule}`,
+		relation.database);
 	}
 
 	async dropRelation(relation) {

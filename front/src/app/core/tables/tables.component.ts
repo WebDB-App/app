@@ -112,7 +112,7 @@ export class TablesComponent implements OnInit {
 			const relation = relations.find(relation => relation.column_source === col.name);
 			const tags = Column.getTags(col, indexes, relation);
 
-			str += `<tr class="mat-row"><td class="mat-cell">${col.name}</td><td class="mat-cell">${tags.join('　')}</td></tr>`;
+			str += `<tr class="mat-row"><td class="mat-cell">${col.name}</td><td class="mat-cell">${tags.join('　')}</td><td class="mat-cell">${col.type.substring(0, 12)}</td></tr>`;
 		}
 
 		this.tooltips[table.name] = str + "</table>";

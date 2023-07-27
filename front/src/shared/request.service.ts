@@ -96,6 +96,7 @@ export class RequestService {
 			return server;
 		}
 
+		Server.setSelected(server);
 		Database.reload(server.dbs);
 		Table.reload(Database.getSelected());
 

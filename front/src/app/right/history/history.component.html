@@ -9,8 +9,8 @@
 			   matInput>
 	</mat-form-field>
 
-	<div>
-		<span>{{queryHistory.length}} / {{maxHistory}}</span>
+	<div style="display: flex; align-items: center;">
+		<span matTooltip="History size">{{queryHistory.length}} / {{maxHistory}}</span>
 
 		<button
 			(click)="queryHistory = []; history.saveLocal(queryHistory)"
