@@ -28,8 +28,7 @@ html, body {
 
 body {
 	margin: 0;
-	font-family: Roboto, "Helvetica Neue", sans-serif;
-	font-weight: lighter !important;
+	font-family: 'Noto Sans', sans-serif;
 }
 
 .mat-tooltip {
@@ -250,15 +249,14 @@ code, .hljs {
 	white-space: pre-wrap;
 	border-radius: 4px;
 	background-color: rgba(0, 0, 0, 0.25);
-	font-family: 'Roboto', sans-serif;
-	tab-size: 35px;
-	word-spacing: 2px;
-	font-weight: 400;
+	font-family: 'Fira Code', monospace;
 	display: block;
 	padding: 10px 12px;
+	box-shadow: none;
+	transition: box-shadow 0.1s linear;
 
 	&:hover {
-		box-shadow: inset 0px 0px 10px 0px mat.get-color-from-palette($angular-primary, default);
+		box-shadow: 0px 0px 0px 2px #2196f3;
 	}
 }
 
@@ -289,7 +287,7 @@ code, .hljs {
 	--ngx-json-null: white;
 	--ngx-json-undefined: white;
 
-	--ngx-json-font-family: Roboto;
+	--ngx-json-font-family: 'Noto Sans', sans-serif;
 }
 
 //https://stackoverflow.com/questions/45089178/how-to-get-primary-or-accent-color-of-currently-applied-theme-in-angular-materia

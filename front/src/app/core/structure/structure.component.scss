@@ -7,4 +7,9 @@ table {
 		border-top: 1px solid #2196f3;
 		border-bottom: 1px solid #2196f3;
 	}
+
+	::ng-deep app-cell {
+		font-weight: inherit;
+		letter-spacing: inherit;
+	}
 }

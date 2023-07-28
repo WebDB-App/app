@@ -22,12 +22,8 @@
 	overflow-wrap: break-word;
 	height: 100%;
 
-	.mat-card-content {
-		overflow: auto;
-
-		.responseCode {
-			position: relative;
-		}
+	.responseCode {
+		position: relative;
 	}
 }
 

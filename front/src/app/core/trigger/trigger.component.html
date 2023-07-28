@@ -14,7 +14,7 @@
 		 style="margin: 100px; width: 100%; display: flex; place-content: center;">
 		No trigger for this table
 	</div>
-	<div *ngFor="let trigger of triggers" class="triggers">
+	<div *ngFor="let trigger of triggers">
 		<mat-card>
 			<mat-card-header>
 				<mat-card-subtitle style="display: flex">
@@ -46,8 +46,7 @@
 			<mat-card-content>
 				<ngx-monaco-editor
 					[(ngModel)]="trigger.code"
-					[options]="editorOptions"
-					style="height: 50vh; width: 38vw">
+					[options]="editorOptions">
 				</ngx-monaco-editor>
 			</mat-card-content>
 			<mat-card-footer fxLayout="row" fxLayoutAlign="space-around center">
