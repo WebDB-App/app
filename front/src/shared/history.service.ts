@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Database } from "../classes/database";
 import { singleLine } from "./helper";
 
-const maxHistory = 200;
+const maxHistory = 100;
 
 export class Query {
 	query: string;
