@@ -22,15 +22,11 @@
 	overflow-wrap: break-word;
 	height: 100%;
 
-	.mat-card {
-		margin: 10px;
+	.mat-card-content {
+		overflow: auto;
 
-		.mat-card-content {
-			overflow: auto;
-
-			.responseCode {
-				position: relative;
-			}
+		.responseCode {
+			position: relative;
 		}
 	}
 }

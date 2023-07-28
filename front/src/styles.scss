@@ -51,7 +51,7 @@ body {
 	background-color: transparent;
 
 	.mat-header-cell {
-		color: mat.get-color-from-palette($angular-primary, 300);
+		color: mat.get-color-from-palette($angular-primary, default);
 		font-size: 15px;
 
 		input {
@@ -223,6 +223,9 @@ a {
 }
 
 .mat-card {
+	margin: 24px 18px;
+	padding: 0px;
+
 	&:hover {
 		box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
 
@@ -253,10 +256,9 @@ code, .hljs {
 	font-weight: 400;
 	display: block;
 	padding: 10px 12px;
-	border: 1px solid transparent;
 
 	&:hover {
-		border: 1px solid mat.get-color-from-palette($angular-primary, 300);
+		box-shadow: inset 0px 0px 10px 0px mat.get-color-from-palette($angular-primary, default);
 	}
 }
 
