@@ -1,27 +1,43 @@
 #container {
+	flex-wrap: wrap;
+	justify-content: center;
 	display: flex;
-	width: 100%;
-	overflow: auto;
 
-	.triggers {
-		mat-card {
-			margin: 12px;
+	.mat-card {
+		margin: 12px;
 
-			.mat-card-header {
-				display: block;
+		.mat-card-header {
+			display: block;
 
-				.timing-event {
-					margin-top: 12px;
-
-					mat-form-field {
-						width: 130px;
-					}
-				}
-			}
-
-			.mat-card-footer {
+			::ng-deep .mat-card-header-text {
 				margin: 0px;
 			}
+
+			.timing-event {
+				margin-top: 12px;
+
+				mat-form-field {
+					width: 130px;
+				}
+			}
+		}
+
+		.mat-card-content {
+			resize: both;
+			overflow: auto;
+			height: 300px;
+			width: 500px;
+			min-height: 300px;
+			min-width: 500px;
+
+			ngx-monaco-editor {
+				height: 100%;
+				width: 100%;
+			}
+		}
+
+		.mat-card-footer {
+			margin: 0px;
 		}
 	}
 }
