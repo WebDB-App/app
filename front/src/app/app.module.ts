@@ -43,7 +43,10 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 		minimap: {enabled: false},
 		theme: 'vs-dark',
 		automaticLayout: true,
-		tabSize: 4
+		fontSize: '14px',
+		fontWeight: '400',
+		fontFamily: 'roboto',
+		tabSize: 8
 	}, onMonacoLoad: () => {
 		monaco.languages.registerDocumentFormattingEditProvider('sql', {
 			provideDocumentFormattingEdits(model: any, options: any) {

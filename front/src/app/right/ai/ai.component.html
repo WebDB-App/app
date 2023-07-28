@@ -134,10 +134,9 @@
 						<div class="actions">
 							<button
 								(click)="runQuery(mrk.code);"
-								color="primary"
 								mat-icon-button
 								matTooltip="Run and send result to IA"
-								matTooltipPosition="above">
+								matTooltipPosition="left">
 								<span class="material-symbols-outlined notranslate">
 									fast_forward
 								</span>
@@ -145,10 +144,7 @@
 							<button
 								(click)="snackBar.open('Copied to clipboard', '╳', {duration: 3000})"
 								[cdkCopyToClipboard]="mrk.code"
-								color="primary"
-								mat-icon-button
-								matTooltip="Copy to clipboard"
-								matTooltipPosition="above">
+								mat-icon-button>
 								<span class="material-symbols-outlined notranslate">
 									file_copy
 								</span>
@@ -157,19 +153,17 @@
 						<pre><code [highlight]="mrk.code" [lineNumbers]="true"></code></pre>
 					</div>
 
-					<ng-container *ngIf="mrk.html">
+					<div class="actions" *ngIf="mrk.html">
 						<button
 							(click)="message.value = ch.txt"
 							*ngIf="ch.user === Role.User"
-							class="actions"
-							mat-icon-button
-							style="margin-top: -10px;">
+							mat-icon-button>
 							<span class="material-symbols-outlined notranslate">
 								edit
 							</span>
 						</button>
-						<div [innerHTML]="mrk.html"></div>
-					</ng-container>
+					</div>
+					<div [innerHTML]="mrk.html"></div>
 				</div>
 
 			</mat-card-content>

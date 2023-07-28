@@ -30,21 +30,14 @@
 			</span>
 		</mat-button-toggle>
 	</mat-button-toggle-group>
-
-
 </mat-toolbar>
 
 <div style="height: calc(100vh - 56px); overflow: auto; max-width: 50vw;">
 
 	<mat-card *ngFor="let his of queryHistory.sort(sortHistory())"
 			  [hidden]="his.query.toLowerCase().indexOf(filter.toLowerCase()) < 0"
-			  [style.background-color]="his.star ? '#121212' : 'inherit'">
+			  [style.background-color]="his.star ? 'black' : undefined">
 		<mat-card-content>
-			<pre><code [highlight]="his.query"
-					   [languages]="[selectedServer.driver!.language.id]"
-					   [lineNumbers]="true">
-			</code></pre>
-
 			<div class="actions">
 				<button mat-icon-button
 						(click)="changeStar(his)">
@@ -74,6 +67,10 @@
 					</span>
 				</button>
 			</div>
+			<pre><code [highlight]="his.query"
+					   [languages]="[selectedServer.driver!.language.id]"
+					   [lineNumbers]="true">
+			</code></pre>
 		</mat-card-content>
 
 		<mat-card-actions>

@@ -18,14 +18,6 @@ export function isSQL(server = Server.getSelected()): boolean {
 }
 
 export function initBaseEditor(editor: any) {
-	editor.addCommand(monaco.KeyMod.Alt | monaco.KeyCode.Space,
-		() => {
-			editor.trigger('', 'editor.action.triggerSuggest', '');
-		},
-		'editorTextFocus && !editorHasSelection && ' +
-		'!editorHasMultipleSelections && !editorTabMovesFocus && ' +
-		'!hasQuickSuggest');
-
 	setTimeout(() => editor.trigger("editor", "editor.action.formatDocument"));
 }
 
