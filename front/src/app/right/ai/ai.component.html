@@ -157,6 +157,8 @@
 						<button
 							(click)="message.value = ch.txt"
 							*ngIf="ch.user === Role.User"
+							matTooltip="Edit request"
+							matTooltipPosition="left"
 							mat-icon-button>
 							<span class="material-symbols-outlined notranslate">
 								edit
