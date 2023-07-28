@@ -17,13 +17,9 @@
 	}
 }
 
-.actions {
-	position: absolute;
-	right: 15px;
-}
-
 #container {
 	overflow: auto;
+	overflow-wrap: break-word;
 	height: 100%;
 
 	.mat-card {
@@ -31,6 +27,10 @@
 
 		.mat-card-content {
 			overflow: auto;
+
+			.responseCode {
+				position: relative;
+			}
 		}
 	}
 }

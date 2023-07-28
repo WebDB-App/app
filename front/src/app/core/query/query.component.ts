@@ -62,10 +62,14 @@ export class QueryComponent implements OnInit {
 	) {
 	}
 
-	@HostListener('keydown', ['$event'])
+	@HostListener('window:keydown', ['$event'])
 	async onKeyDown(event: KeyboardEvent) {
 		if ((event.metaKey || event.ctrlKey) && ['Enter', 's'].indexOf(event.key) >= 0) {
 			await this.runQuery();
+			event.preventDefault();
+		}
+		if (event.altKey && event.code === "Space") {
+			this.editors[0].trigger('', 'editor.action.triggerSuggest', '');
 			event.preventDefault();
 		}
 	}

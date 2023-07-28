@@ -10,7 +10,7 @@ import { environment } from "../environments/environment";
 			<a href="https://gitlab.com/web-db/landing/-/issues/new"
 			   target="_blank"
 			   style="color: white"
-			   matTooltip="Create Issue"
+			   matTooltip="Report Issue"
 			   mat-icon-button>
 				<span class="material-symbols-outlined notranslate">
 					bug_report
