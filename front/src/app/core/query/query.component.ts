@@ -78,6 +78,8 @@ export class QueryComponent implements OnInit {
 		this.activatedRoute.parent?.params.subscribe(async (_params) => {
 			this.selectedTable = Table.getSelected();
 			this.relations = Table.getRelations();
+			this.querySize = -1;
+			this.dataSource = new MatTableDataSource<any>();
 			this.loadPreBuild("select");
 		});
 
@@ -145,6 +147,7 @@ export class QueryComponent implements OnInit {
 
 		this.displayedColumns = [...new Set(result.flatMap(res => Object.keys(res)))];
 		this.dataSource = new MatTableDataSource(result);
+		console.log(this.displayedColumns, this.dataSource.data);
 	}
 
 	async _runCompare() {
