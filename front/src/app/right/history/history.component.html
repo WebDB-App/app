@@ -40,12 +40,16 @@
 		<mat-card-content>
 			<div class="actions">
 				<button mat-icon-button
+						matTooltipPosition="left"
+						matTooltip="Add to favorite"
 						(click)="changeStar(his)">
 					<span class="material-symbols-outlined notranslate">star</span>
 				</button>
 
 				<button
 					(click)="goToQuery(his.query)"
+					matTooltip="Replay query"
+					matTooltipPosition="left"
 					mat-icon-button>
 					<span class="material-symbols-outlined notranslate">replay</span>
 				</button>

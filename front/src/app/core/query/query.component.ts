@@ -58,7 +58,7 @@ export class QueryComponent implements OnInit {
 		private http: HttpClient,
 		private history: HistoryService,
 		private activatedRoute: ActivatedRoute,
-		private router: Router
+		private router: Router,
 	) {
 	}
 
@@ -107,7 +107,12 @@ export class QueryComponent implements OnInit {
 		} else {
 			await this._runSingle();
 		}
-		this.router.navigate([Server.getSelected().name, Database.getSelected().name, Table.getSelected().name, 'query', this.query]);
+		this.router.navigate([], {
+			relativeTo: this.activatedRoute,
+			queryParams: {query: this.query},
+			queryParamsHandling: 'merge',
+			skipLocationChange: true
+		});
 		this.isLoading = false;
 		setTimeout(() => this.editors.map(editor => editor.trigger("editor", "editor.action.formatDocument")), 1);
 	}

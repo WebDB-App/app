@@ -3,21 +3,7 @@ import { environment } from "../environments/environment";
 
 @Component({
 	selector: 'app-root',
-	template: `
-		<router-outlet></router-outlet>
-
-		<div style="position: fixed; bottom: 12px; right: 12px; z-index: 10000000000">
-			<a href="https://gitlab.com/web-db/landing/-/issues/new"
-			   target="_blank"
-			   style="color: white"
-			   matTooltip="Report Issue"
-			   mat-icon-button>
-				<span class="material-symbols-outlined notranslate">
-					bug_report
-				</span>
-			</a>
-		</div>
-	`
+	template: `<router-outlet></router-outlet>`
 })
 export class AppComponent {
 
