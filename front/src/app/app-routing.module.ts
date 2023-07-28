@@ -3,13 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { ContainerComponent } from "./container/container.component";
 import { environment } from "../environments/environment";
 import { TablesComponent } from "./core/tables/tables.component";
-import { ServersComponent } from "./servers/servers.component";
+import { ConnectionComponent } from "./connection/connection.component";
 
 const appRoutes: Routes = [
 	{
 		path: '',
 		pathMatch: 'full',
-		component: ServersComponent,
+		component: ConnectionComponent,
 	},
 	{
 		path: ':server/:database',

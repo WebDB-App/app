@@ -13,7 +13,7 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatMenuModule } from "@angular/material/menu";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatSidenavModule } from "@angular/material/sidenav";
-import { ConnectionDialog, CreateDatabaseDialog, ServersComponent } from "./servers/servers.component";
+import { AddConnectionDialog, CreateDatabaseDialog, ConnectionComponent } from "./connection/connection.component";
 import { ConfigDialog } from "./container/config/config-dialog.component";
 import { SubscriptionDialog } from "./container/subscription/subscription-dialog.component";
 import { MatFormFieldModule } from "@angular/material/form-field";
@@ -77,11 +77,11 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 	declarations: [
 		AppComponent,
 		ContainerComponent,
-		ServersComponent,
+		ConnectionComponent,
 		ConfigDialog,
 		SubscriptionDialog,
 		CreateDatabaseDialog,
-		ConnectionDialog,
+		AddConnectionDialog,
 	],
 	imports: [
 		AppRoutingModule,

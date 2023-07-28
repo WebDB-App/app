@@ -9,30 +9,71 @@
 			   matInput>
 	</mat-form-field>
 
-	<div style="display: flex; align-items: center;">
-		<span matTooltip="History size">{{queryHistory.length}} / {{maxHistory}}</span>
+	<mat-button-toggle-group
+		(change)="sort = $event.value"
+	>
+		<mat-button-toggle
+			matTooltip="From most recent to older"
+			checked
+			value="time"
+		>
+			<span class="material-symbols-outlined notranslate">
+				schedule
+			</span>
+		</mat-button-toggle>
+		<mat-button-toggle
+			matTooltip="From most runned to least runned"
+			value="occurrence"
+		>
+			<span class="material-symbols-outlined notranslate">
+				play_circle
+			</span>
+		</mat-button-toggle>
+	</mat-button-toggle-group>
 
-		<button
-			(click)="queryHistory = []; history.saveLocal(queryHistory)"
-			*ngIf="queryHistory.length"
-			mat-button
-			matTooltip="Clear History">
-		<span class="material-symbols-outlined notranslate">
-			clear_all
-		</span>
-		</button>
-	</div>
+
 </mat-toolbar>
 
 <div style="height: calc(100vh - 56px); overflow: auto; max-width: 50vw;">
-	<mat-card *ngFor="let his of queryHistory"
+
+	<mat-card *ngFor="let his of queryHistory.sort(sortHistory())"
 			  [hidden]="his.query.toLowerCase().indexOf(filter.toLowerCase()) < 0"
-			  [style.background-color]="his.star ? '#1e1e1e' : 'inherit'">
+			  [style.background-color]="his.star ? '#121212' : 'inherit'">
 		<mat-card-content>
 			<pre><code [highlight]="his.query"
 					   [languages]="[selectedServer.driver!.language.id]"
 					   [lineNumbers]="true">
 			</code></pre>
+
+			<div class="actions">
+				<button mat-icon-button
+						(click)="changeStar(his)">
+					<span class="material-symbols-outlined notranslate">star</span>
+				</button>
+
+				<button
+					(click)="goToQuery(his.query)"
+					mat-icon-button>
+					<span class="material-symbols-outlined notranslate">replay</span>
+				</button>
+
+				<button
+					(click)="snackBar.open('Copied to clipboard', '╳', {duration: 3000})"
+					[cdkCopyToClipboard]="his.query"
+					mat-icon-button>
+					<span class="material-symbols-outlined notranslate">
+						file_copy
+					</span>
+				</button>
+
+				<button
+					(click)="remove(his)"
+					mat-icon-button>
+					<span class="material-symbols-outlined notranslate">
+						delete
+					</span>
+				</button>
+			</div>
 		</mat-card-content>
 
 		<mat-card-actions>
@@ -41,34 +82,12 @@
 			</h4>
 
 			<h4>
-				{{his.date | date: 'HH:mm:ss dd/MM'}}
+				{{his.date | date: 'HH:mm dd/MM'}}
 			</h4>
 
-			<div>
-				<button mat-icon-button
-						matTooltip="Highlight query"
-						(click)="changeStar(his)"
-						[color]="his.star ? 'primary': undefined">
-					<span class="material-symbols-outlined notranslate">star</span>
-				</button>
-
-				<button
-					(click)="goToQuery(his.query)"
-					matTooltip="Replay query"
-					mat-icon-button>
-					<span class="material-symbols-outlined notranslate">replay</span>
-				</button>
-
-				<button
-					(click)="snackBar.open('Copied to clipboard', '╳', {duration: 3000})"
-					[cdkCopyToClipboard]="his.query"
-					mat-icon-button
-					matTooltip="Copy to clipboard">
-					<span class="material-symbols-outlined notranslate">
-						file_copy
-					</span>
-				</button>
-			</div>
+			<h4>
+				{{his.occurrence}} runs
+			</h4>
 		</mat-card-actions>
 	</mat-card>
 </div>
