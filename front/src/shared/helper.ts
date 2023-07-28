@@ -5,6 +5,10 @@ import { firstValueFrom } from "rxjs";
 
 declare var monaco: any;
 
+export function singleLine(code: string) {
+	return code.replaceAll(/(\r|\n|\t)/gm, " ").replaceAll(/  +/gm, " ").trim();
+}
+
 export function isNested(data: any) {
 	return ['Object', 'Array'].indexOf(data?.constructor.name) >= 0;
 }

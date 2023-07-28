@@ -12,11 +12,11 @@ import { DomSanitizer, Title } from "@angular/platform-browser";
 import { MatIconRegistry } from "@angular/material/icon";
 
 @Component({
-	selector: 'app-servers',
-	templateUrl: './servers.component.html',
-	styleUrls: ['./servers.component.scss']
+	selector: 'app-connection',
+	templateUrl: './connection.component.html',
+	styleUrls: ['./connection.component.scss']
 })
-export class ServersComponent implements OnInit {
+export class ConnectionComponent implements OnInit {
 
 	servers: Server[] = [];
 	showPassword = false;
@@ -151,7 +151,7 @@ export class ServersComponent implements OnInit {
 	}
 
 	editConnection(server: Server) {
-		const dialogRef = this.dialog.open(ConnectionDialog, {
+		const dialogRef = this.dialog.open(AddConnectionDialog, {
 			data: server,
 		});
 
@@ -164,7 +164,7 @@ export class ServersComponent implements OnInit {
 	}
 
 	addServer() {
-		const dialogRef = this.dialog.open(ConnectionDialog, {
+		const dialogRef = this.dialog.open(AddConnectionDialog, {
 			data: new Server(),
 			disableClose: true
 		});
@@ -209,9 +209,9 @@ export class ServersComponent implements OnInit {
 }
 
 @Component({
-	templateUrl: 'connection-dialog.html',
+	templateUrl: 'add-connection-dialog.html',
 })
-export class ConnectionDialog {
+export class AddConnectionDialog {
 
 	pubRsa!: string;
 	newConnection = false;
@@ -228,7 +228,7 @@ export class ConnectionDialog {
 	constructor(
 		public snackBar: MatSnackBar,
 		private http: HttpClient,
-		private dialogRef: MatDialogRef<ConnectionDialog>,
+		private dialogRef: MatDialogRef<AddConnectionDialog>,
 		@Inject(MAT_DIALOG_DATA) public server: Server,
 	) {
 		this.http.get(environment.rootUrl + 'id_rsa.pub', {responseType: 'text'}).subscribe((res) => {

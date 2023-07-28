@@ -1,19 +1,22 @@
 import { Injectable } from "@angular/core";
 import { Database } from "../classes/database";
+import { singleLine } from "./helper";
 
-export const maxHistory = 200;
+const maxHistory = 200;
 
 export class Query {
 	query: string;
 	nbResult: number;
 	star: boolean
 	date: number;
+	occurrence: number
 
-	constructor(query: string, nbResult: number, star = false, date = Date.now()) {
+	constructor(query: string, nbResult: number, star = false, date = Date.now(), occurrence = 1) {
 		this.query = query;
 		this.nbResult = nbResult;
 		this.star = star;
 		this.date = date;
+		this.occurrence = occurrence;
 	}
 }
 
@@ -37,9 +40,17 @@ export class HistoryService {
 
 	addLocal(query: Query) {
 		let queryHistory = this.getLocal();
-		if (queryHistory[0]?.query === query.query) {
-			return;
+		const single = singleLine(query.query);
+		const index = queryHistory.findIndex(query => singleLine(query.query) === single);
+
+		if (index < 0) {
+			queryHistory = [query].concat(queryHistory);
+		} else {
+			queryHistory[index].occurrence++;
+			queryHistory[index].date = Date.now();
+			queryHistory[index].nbResult = query.nbResult;
 		}
-		this.saveLocal([query].concat(queryHistory));
+
+		this.saveLocal(queryHistory);
 	}
 }

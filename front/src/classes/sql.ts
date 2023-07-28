@@ -8,6 +8,7 @@ import { HistoryService } from "../shared/history.service";
 import { Relation } from "./relation";
 import { Configuration } from "./configuration";
 import { HttpClient } from "@angular/common/http";
+import { singleLine } from "../shared/helper";
 
 //import * as monaco from 'monaco-editor'
 declare var monaco: any;
@@ -228,7 +229,7 @@ export class SQL implements Driver {
 
 	extractConditionParams(query: string): QueryParams {
 		const result = <QueryParams>{
-			query: query.toLowerCase().replaceAll(/(\r|\n|\r|\t)/gm, " ").replaceAll(/  +/gm, " "),
+			query: singleLine(query.toLowerCase()),
 			params: []
 		};
 		if (result.query.indexOf("where") < 0) {
@@ -451,7 +452,7 @@ export class SQL implements Driver {
 	}
 
 	cleanSentence(sentence: string) {
-		return sentence.replaceAll(/(\r|\n|\r|\t|,)/gm, " ").replaceAll(/  +/gm, " ");
+		return sentence.replaceAll(/(\r|\n|\t|,)/gm, " ").replaceAll(/  +/gm, " ");
 	}
 
 	preselectNext(suggestions: any[], previousToken: string): any[] {

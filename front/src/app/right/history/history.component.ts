@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Server } from "../../../classes/server";
-import { HistoryService, maxHistory, Query } from "../../../shared/history.service";
+import { HistoryService, Query } from "../../../shared/history.service";
 import { Configuration } from "../../../classes/configuration";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { DrawerService } from "../../../shared/drawer.service";
@@ -19,6 +19,7 @@ export class HistoryComponent implements OnInit {
 	selectedServer!: Server;
 	queryHistory: Query[] = [];
 	filter = "";
+	sort: 'time' | 'occurrence' = 'time';
 
 	constructor(
 		public history: HistoryService,
@@ -45,5 +46,24 @@ export class HistoryComponent implements OnInit {
 		this.drawer.toggle();
 	}
 
-	protected readonly maxHistory = maxHistory;
+	sortHistory() {
+		return (a: Query, b: Query) => {
+			if (a.star) {
+				return -1;
+			}
+			if (b.star) {
+				return 1;
+			}
+
+			if (this.sort === 'time') {
+				return b.date - a.date;
+			}
+			return b.occurrence - a.occurrence;
+		};
+	}
+
+	remove(his: Query) {
+		this.queryHistory.splice(this.queryHistory.findIndex(query => query.query === his.query), 1);
+		this.history.saveLocal(this.queryHistory);
+	}
 }
