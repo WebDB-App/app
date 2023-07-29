@@ -124,10 +124,6 @@ export default class PostgreSQL extends SQL {
 		return true;
 	}
 
-	async modifyColumn(database, table, old, column) {
-		return await this.runCommand(`ALTER TABLE ${table} CHANGE ${old.name} ${this.columnToSQL(column)}`, database);
-	}
-
 	async getRelations() {
 		const dbs = await this.getDbs();
 		const promises = [];
