@@ -40,6 +40,18 @@ export default class SQL extends Driver {
 		return sql;
 	}
 
+	async modifyColumn(database, table, old, column) {
+		if (old.name !== column.name) {
+			await this.runCommand(`ALTER TABLE ${table} RENAME COLUMN ${old.name} TO ${column.name}`, database);
+			old.name = column.name;
+		}
+		if (JSON.stringify(old) === JSON.stringify(column)) {
+			return {ok: true};
+		}
+
+		return await this.runCommand(`ALTER TABLE ${table} CHANGE ${old.name} ${this.columnToSQL(column)}`, database);
+	}
+
 	async createDatabase(name) {
 		return await this.runCommand(`CREATE DATABASE ${this.nameDel + name + this.nameDel}`);
 	}
