@@ -27,6 +27,7 @@ mongo : export + relations + harmonizer + insert
 - SQLServer
 - graphql
 - Export Query : tester tout + btn to export via IA (Stripe Metadata additionnal feature)
+- revoir MySQL load avec tunnel (essayer en bash)
 
 
 
@@ -106,11 +107,10 @@ mongo : export + relations + harmonizer + insert
 
 
 
-
+- datahog / sentry
 - Cloud DB : digital + atlas? + azure
 - ElasticSearch : https://elasticvue.com/
 - Postgre : more comparator (symbol) with detail
 - renameDatabase
 - save resize in localstorage
 - docker scout cves "$IMAGE_PATH" --exit-code
-- revoir MySQL load avec tunnel (essayer en bash)

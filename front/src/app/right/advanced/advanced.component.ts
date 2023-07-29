@@ -38,7 +38,9 @@ export class AdvancedComponent implements OnInit {
 
 		this.collations = await this.request.post('database/availableCollations', undefined);
 		this.stats = await this.request.post('database/stats', undefined);
-		this.str = JSON.stringify(this.selectedServer, null, 4);
+
+		const {driver, ...rest} = {...this.selectedServer};
+		this.str = JSON.stringify(rest, null, 4);
 
 		if (!this.collations.includes(this.selectedDatabase!.collation)) {
 			this.collations.push(this.selectedDatabase!.collation)
