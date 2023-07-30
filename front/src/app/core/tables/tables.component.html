@@ -24,6 +24,7 @@
 
 			<mat-selection-list [multiple]="false">
 				<div *ngFor="let table of selectedDatabase?.tables"
+					 [style.border-right]="selectedTable?.name === table.name ? '2px solid #2196f3' : undefined"
 					 [hidden]="table.hide"
 					 class="entity">
 					<div style="display: flex">
@@ -39,8 +40,7 @@
 						</div>
 						<mat-list-option
 							(click)="changeTable(table.name)"
-							[class.mat-list-single-selected-option]="selectedTable?.name === table.name"
-							[style.border-right]="selectedTable?.name === table.name ? '2px solid #2196f3' : undefined">
+							[class.mat-list-single-selected-option]="selectedTable?.name === table.name">
 							{{table.name}}
 						</mat-list-option>
 					</div>
@@ -75,10 +75,10 @@
 			<a #rla="routerLinkActive" *ngFor="let tab of tabs"
 			   [active]="rla.isActive"
 			   [routerLinkActive]="['mat-list-single-selected-option', 'mat-tab-label-active']"
-			   [routerLink]="[tab.link]"
+			   [routerLink]="[tab]"
 			   mat-tab-link
 			   style="width: 100%">
-				{{tab.link | titlecase}}
+				{{tab | titlecase}}
 			</a>
 		</nav>
 		<mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>

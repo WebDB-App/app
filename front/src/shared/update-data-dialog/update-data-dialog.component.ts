@@ -22,22 +22,27 @@ export class UpdateDataDialogComponent {
 		public dialogRef: MatDialogRef<UpdateDataDialogComponent>,
 		public snackBar: MatSnackBar,
 		private request: RequestService,
-		@Inject(MAT_DIALOG_DATA) public old: any,
+		@Inject(MAT_DIALOG_DATA) public data: {
+			row: {},
+			updateInPlace: boolean
+		},
 	) {
-		this.str = JSON.stringify(old, null, "\t");
+		this.str = JSON.stringify(data.row, null, "\t");
 		this.loadSuggestions();
 	}
 
 	async update() {
 		const n = JSON.parse(this.str);
-		const nb = await this.request.post('data/update', {old_data: this.old, new_data: n});
 
-		this.snackBar.open(`${nb} row(s) updated`, "╳", {duration: 3000});
+		if (this.data.updateInPlace) {
+			const nb = await this.request.post('data/update', {old_data: this.data.row, new_data: n});
+			this.snackBar.open(`${nb} row(s) updated`, "╳", {duration: 3000});
+		}
 		this.dialogRef.close(n);
 	}
 
 	isTouched() {
-		return JSON.stringify(this.old, null, "\t") !== this.str;
+		return JSON.stringify(this.data.row, null, "\t") !== this.str;
 	}
 
 	async loadSuggestions() {
