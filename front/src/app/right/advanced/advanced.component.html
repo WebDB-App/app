@@ -39,7 +39,7 @@
 		<div fxLayout="row" fxLayoutAlign="space-between center">
 			<mat-form-field color="accent">
 				<mat-label>Collation</mat-label>
-				<mat-select #collation [value]="selectedDatabase!.collation">
+				<mat-select #collation [value]="selectedDatabase!.collation" disableOptionCentering>
 					<mat-option *ngFor="let collation of collations" [value]="collation">{{collation}}</mat-option>
 				</mat-select>
 			</mat-form-field>
@@ -49,7 +49,7 @@
 					color="accent"
 					mat-stroked-button>
 				<span class="material-symbols-outlined notranslate">
-				  update
+					database
 				</span>
 				Convert Entire Database
 			</button>
