@@ -109,9 +109,7 @@ export class QueryComponent implements OnInit {
 		}
 		this.router.navigate([], {
 			relativeTo: this.activatedRoute,
-			queryParams: {query: this.query},
-			queryParamsHandling: 'merge',
-			skipLocationChange: true
+			queryParams: {query: this.query}
 		});
 		this.isLoading = false;
 		setTimeout(() => this.editors.map(editor => editor.trigger("editor", "editor.action.formatDocument")), 1);
@@ -156,7 +154,6 @@ export class QueryComponent implements OnInit {
 
 		this.displayedColumns = [...new Set(result.flatMap(res => Object.keys(res)))];
 		this.dataSource = new MatTableDataSource(result);
-		console.log(this.displayedColumns, this.dataSource.data);
 	}
 
 	async _runCompare() {

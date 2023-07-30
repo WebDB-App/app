@@ -188,7 +188,10 @@ export class ExploreComponent implements OnInit, OnDestroy {
 
 	editRow(i: number, row: any) {
 		const dialogRef = this.dialog.open(UpdateDataDialogComponent, {
-			data: row,
+			data: {
+				row,
+				updateInPlace: true
+			},
 		});
 
 		dialogRef.afterClosed().subscribe(async result => {

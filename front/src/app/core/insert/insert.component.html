@@ -2,7 +2,7 @@
 	<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
 
 		<div>
-			<button (click)="generate(+addGenNb.value, static)" color="primary" mat-flat-button>
+			<button (click)="generate(+addGenNb.value, result)" color="primary" mat-flat-button>
 				<span class="material-symbols-outlined notranslate">
 					auto_mode
 				</span>
@@ -124,7 +124,7 @@
 	</mat-tab-group>
 </div>
 
-<div #static class="static">
+<div #result class="result">
 	<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
 		<div>
 			<button (click)="addRows(+addRowNb.value)" mat-stroked-button>
@@ -153,6 +153,7 @@
 
 		<button (click)="insert()"
 				[disabled]="dataSource.data.length < 1"
+				color="primary"
 				mat-flat-button>
 			<span class="material-symbols-outlined notranslate">
 				note_add
@@ -161,7 +162,7 @@
 		</button>
 	</mat-toolbar>
 
-	<div class="scrollDiv mat-elevation-z8">
+	<div class="mat-elevation-z8">
 		<table [dataSource]="dataSource" class="table" mat-table>
 			<ng-container
 				*ngFor="let column of displayedColumns"
@@ -214,8 +215,8 @@
 				</ng-container>
 			</ng-container>
 
-			<tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
-			<tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+			<tr *matHeaderRowDef="displayedColumns!; sticky: true" mat-header-row></tr>
+			<tr *matRowDef="let row; columns: displayedColumns!;" mat-row></tr>
 		</table>
 	</div>
 	<mat-paginator

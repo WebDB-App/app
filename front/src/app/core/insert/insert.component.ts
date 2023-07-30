@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from "@angular/material/table";
 import { SelectionModel } from "@angular/cdk/collections";
 import { Table } from "../../../classes/table";
@@ -33,7 +33,7 @@ declare var monaco: any;
 	templateUrl: './insert.component.html',
 	styleUrls: ['./insert.component.scss']
 })
-export class InsertComponent implements OnInit, OnDestroy {
+export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 
 	@ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -67,8 +67,7 @@ export class InsertComponent implements OnInit, OnDestroy {
 
 	ngOnInit() {
 		this.activatedRoute.parent?.params.subscribe(async (_params) => {
-			this.dataSource = new MatTableDataSource();
-			this.dataSource.paginator = this.paginator;
+			this.dataSource.data = [];
 			this.selection.clear();
 			this.randomSource = [];
 			clearInterval(this.interval);
@@ -90,6 +89,10 @@ export class InsertComponent implements OnInit, OnDestroy {
 
 			this.interval = setInterval(() => this.saveCode(), 1000);
 		});
+	}
+
+	ngAfterViewInit() {
+		this.dataSource.paginator = this.paginator
 	}
 
 	ngOnDestroy() {
@@ -138,6 +141,11 @@ export class InsertComponent implements OnInit, OnDestroy {
 
 	addRows(length: number) {
 		const obj: any = {};
+		this.displayedColumns?.map(col => {
+			if (col !== this.actionColum) {
+				obj[col] = null
+			};
+		});
 
 		const newRows = Array.from({length}, (_, k) => obj);
 		this.dataSource.data = this.dataSource.data.concat(newRows);
@@ -145,7 +153,6 @@ export class InsertComponent implements OnInit, OnDestroy {
 
 	async insert() {
 		const result = await this.request.post('data/insert', this.dataSource.data);
-
 		this.snackBar.open(`${result} Affected Rows`, "╳", {duration: 3000});
 	}
 
@@ -153,7 +160,6 @@ export class InsertComponent implements OnInit, OnDestroy {
 		this.dataSource.data = this.dataSource.data.filter((row) => {
 			return !this.selection.isSelected(row);
 		});
-
 		this.selection.clear();
 	}
 
@@ -272,7 +278,10 @@ export class InsertComponent implements OnInit, OnDestroy {
 
 	editRow(i: number, row: any) {
 		const dialogRef = this.dialog.open(UpdateDataDialogComponent, {
-			data: row,
+			data: {
+				row,
+				updateInPlace: false
+			},
 		});
 
 		dialogRef.afterClosed().subscribe(async result => {

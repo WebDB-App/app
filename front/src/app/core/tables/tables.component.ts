@@ -9,19 +9,7 @@ import { Column } from "../../../classes/column";
 import { Title } from "@angular/platform-browser";
 import { MatSnackBar } from "@angular/material/snack-bar";
 
-class Tab {
-	link!: string
-	icon!: string
-}
-
-export const Tabs: Tab[] = [
-	{link: "explore", icon: "quick_reference_all"},
-	{link: "query", icon: "code_blocks"},
-	{link: "structure", icon: "view_week"},
-	{link: "insert", icon: "note_add"},
-	{link: "trigger", icon: "device_hub"},
-	{link: "advanced", icon: "more_horiz"},
-];
+export const Tabs: string[] = ["explore", "query", "structure", "insert", "trigger", "advanced"];
 
 @Component({
 	selector: 'app-tables',

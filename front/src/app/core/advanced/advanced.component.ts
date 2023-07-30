@@ -89,7 +89,7 @@ export class TableAdvancedComponent {
 			this.selectedServer?.name,
 			this.selectedDatabase?.name,
 			new_name,
-			Tabs.at(-1)!.link]
+			Tabs.at(-1)!]
 		);
 	}
 

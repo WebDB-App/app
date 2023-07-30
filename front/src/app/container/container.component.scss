@@ -33,6 +33,11 @@ mat-drawer {
 		min-width: inherit;
 		height: 56px;
 	}
+
+	::ng-deep .mat-ink-bar {
+		top: 0;
+		bottom: inherit;
+	}
 }
 
 ::ng-deep .external .material-symbols-outlined {

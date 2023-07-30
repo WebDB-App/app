@@ -61,7 +61,6 @@ export class Column {
 					new Function(par[1])();
 					return null;
 				} catch (e) {
-					console.log(e);
 					return {checkParams: true};
 				}
 			}
