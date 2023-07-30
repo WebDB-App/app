@@ -33,7 +33,7 @@
 						</mat-form-field>
 
 						<mat-slide-toggle
-							color="accent"
+							color="primary"
 							formControlName="nullable">
 							Nullable
 						</mat-slide-toggle>
@@ -86,7 +86,7 @@
 
 						<div>
 							<button (click)="typeSuggestion.open()"
-									color="accent"
+									color="primary"
 									matTooltip="Choose from type list"
 									mat-icon-button>
 								<span class="material-symbols-outlined notranslate">
@@ -112,7 +112,7 @@
 
 							<button (click)="fctSuggestion.open()"
 									*ngIf="selectedServer!.driver.language.fctAsDefault"
-									color="accent"
+									color="primary"
 									matTooltip="Choose from function list"
 									mat-icon-button>
 								<span class="material-symbols-outlined notranslate">
@@ -132,7 +132,7 @@
 							<button (click)="column.get('type')!.patchValue(column.get('type')?.value && column.get('type')!.value.endsWith('[]') ? column.get('type')!.value.substring(0, column.get('type')!.value.indexOf('[]')) : column.get('type')!.value + '[]')"
 									*ngIf="selectedServer!.driver.language.arrayType"
 									[class.mat-raised-button]="column.get('type')?.value && column.get('type')!.value.endsWith('[]')"
-									color="accent"
+									color="primary"
 									matTooltip="Set type an array of"
 									mat-icon-button>
 								<span class="material-symbols-outlined notranslate">
@@ -155,7 +155,7 @@
 						</mat-form-field>
 
 						<mat-slide-toggle
-							color="accent"
+							color="primary"
 							formControlName="nullable">
 							Nullable
 						</mat-slide-toggle>
@@ -172,7 +172,7 @@
 				<mat-card-actions>
 					<button (click)="addColumn(column)"
 							*ngIf="!form.get('old')"
-							color="accent"
+							color="primary"
 							mat-button>
 						Duplicate
 					</button>
@@ -192,7 +192,7 @@
 	<div class="actions">
 		<button (click)="addColumn()"
 				*ngIf="!form.get('old')"
-				color="accent"
+				color="primary"
 				mat-stroked-button>
 			<span class="material-symbols-outlined notranslate">
 				add

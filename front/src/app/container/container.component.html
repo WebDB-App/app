@@ -8,8 +8,7 @@
 					 style="background-color: #444444; z-index: 1000">
 			<div fxLayout="row" fxLayoutGap="12px" style="align-items: center">
 				<button id="home"
-						color="accent"
-						mat-stroked-button
+						mat-raised-button
 						routerLink="/">
 					<mat-icon style="height: 32px; width: 32px;" svgIcon="webdb"></mat-icon>
 				</button>
@@ -17,17 +16,8 @@
 				<div *ngIf="selectedServer && selectedDatabase" id="server">
 					<div>
 						<span>{{selectedServer.host}}</span>:<span>{{selectedServer.port}}</span>
-						<br>
-						<span>{{selectedDatabase.name}}</span>
+						<span style="color: #ff9800;">{{selectedDatabase.name}}</span>
 					</div>
-					<button
-						(click)="request.reloadServer()"
-						*ngIf="loading >= 100"
-						mat-icon-button>
-						<span class="material-symbols-outlined notranslate">
-							refresh
-						</span>
-					</button>
 				</div>
 			</div>
 
@@ -53,20 +43,28 @@
 
 			<div class="flex-spacer"></div>
 
+			<button
+				(click)="request.reloadServer()"
+				*ngIf="selectedServer && selectedDatabase && loading >= 100"
+				color="accent"
+				mat-button>
+				<span class="material-symbols-outlined notranslate">
+					refresh
+				</span>
+			</button>
 			<button [matMenuTriggerFor]="help" mat-button>
 				<span class="material-symbols-outlined notranslate">
 					help
 				</span>
 			</button>
-			<button (click)="showSettings()" mat-button>
-				<span class="material-symbols-outlined notranslate">
-					settings
-				</span>
-			</button>
-
 			<button [matMenuTriggerFor]="user" mat-button>
 				<span class="material-symbols-outlined notranslate">
 					person
+				</span>
+			</button>
+			<button (click)="showSettings()" mat-button>
+				<span class="material-symbols-outlined notranslate">
+					settings
 				</span>
 			</button>
 		</mat-toolbar>
@@ -76,9 +74,10 @@
 			<div *ngIf="loading >= 0"
 				 style="align-self: center;">
 				<mat-spinner
+					color="accent"
 					mode="indeterminate"
 					style="margin: 0px auto;"></mat-spinner>
-				<h2 style="color: #2196f3">Loading {{activatedRoute.snapshot.paramMap.get('database')}} ...</h2>
+				<h2 style="color: #ff9800">Loading {{activatedRoute.snapshot.paramMap.get('database')}} ...</h2>
 			</div>
 
 			<mat-error *ngIf="loading === -1">
