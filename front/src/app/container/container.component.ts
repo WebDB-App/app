@@ -5,7 +5,7 @@ import { MatDrawer } from "@angular/material/sidenav";
 import { DrawerService } from "../../shared/drawer.service";
 import { MatIconRegistry } from "@angular/material/icon";
 import { DomSanitizer } from "@angular/platform-browser";
-import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
+import { MatDialog } from "@angular/material/dialog";
 import { SubscriptionDialog } from "./subscription/subscription-dialog.component";
 import { ConfigDialog } from "./config/config-dialog.component";
 import { Server } from "../../classes/server";
@@ -110,6 +110,8 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 	showSettings() {
 		this.dialog.open(ConfigDialog);
 	}
+
+	protected readonly environment = environment;
 }
 
 

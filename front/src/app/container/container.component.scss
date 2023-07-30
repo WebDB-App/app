@@ -14,23 +14,28 @@ mat-drawer {
 	display: flex;
 	align-items: center;
 
-	span {
-		margin: 0px 6px;
+	> div {
+		line-height: 20px;
+		font-weight: 400;
+		font-size: 18px;
+		text-align: center;
+
+		span {
+			margin: 0px 10px;
+		}
+	}
+}
+
+.panel {
+	border-bottom: none;
+
+	.mat-tab-link {
+		min-width: inherit;
+		height: 56px;
 	}
 }
 
 ::ng-deep .external .material-symbols-outlined {
 	margin-right: 16px;
 	vertical-align: middle;
-}
-
-.panel {
-	::ng-deep .mat-button-toggle-button {
-		height: 100%;
-		width: 55px;
-	}
-}
-
-.blur {
-	filter: blur(2px);
 }
