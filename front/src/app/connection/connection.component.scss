@@ -5,9 +5,10 @@
 
 	.driver {
 		min-width: 470px;
+		margin-top: 15px;
 
 		.logo {
-			margin: 15px auto;
+			margin: 15px;
 		}
 	}
 
@@ -17,11 +18,9 @@
 }
 
 ::ng-deep .driver {
-	margin: 15px;
-
 	.logo {
 		background-color: #ffffff;
-		border-radius: 3px;
+		border-radius: 50px;
 		text-align: center;
 		opacity: 0.6;
 
@@ -47,12 +46,13 @@
 	}
 
 	.driver {
+		margin: 15px;
 		cursor: pointer;
 		align-self: center;
 	}
 
 	.mat-horizontal-stepper-content {
-		justify-content: space-evenly;
+		justify-content: space-around;
 		display: flex;
 		flex-direction: column;
 		height: 330px;

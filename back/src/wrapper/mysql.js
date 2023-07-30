@@ -73,6 +73,10 @@ export default class MySQL extends SQL {
 		return await super.insert(db, table, datas);
 	}
 
+	async modifyColumn(database, table, old, column) {
+		return await this.runCommand(`ALTER TABLE \`${table}\` CHANGE \`${old.name}\` ${this.columnToSQL(column)}`, database);
+	}
+
 	async replaceTrigger(database, table, trigger) {
 		return await this.runCommand(`CREATE OR REPLACE TRIGGER ${trigger.name} ${trigger.timing} ${trigger.event} ON ${table} ${trigger.code}`, database);
 	}

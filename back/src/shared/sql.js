@@ -18,9 +18,6 @@ export default class SQL extends Driver {
 			cmd += `${column.extra.join(" ")} `;
 		}
 
-		//TODO
-		//sql alter table : name, fct as default, null as default
-		//wrap defaultValue -> attention NULL / function()
 		if (column.defaut) {
 			if (column.defaut !== "NULL" && !column.defaut.endsWith(")")
 				&& !["'", "\"", "`"].find(quote => column.defaut.startsWith(quote))) {
@@ -43,13 +40,12 @@ export default class SQL extends Driver {
 	async modifyColumn(database, table, old, column) {
 		if (old.name !== column.name) {
 			await this.runCommand(`ALTER TABLE ${table} RENAME COLUMN ${old.name} TO ${column.name}`, database);
-			old.name = column.name;
 		}
 		if (JSON.stringify(old) === JSON.stringify(column)) {
 			return {ok: true};
 		}
 
-		return await this.runCommand(`ALTER TABLE ${table} CHANGE ${old.name} ${this.columnToSQL(column)}`, database);
+		return await this.runCommand(`ALTER TABLE ${table} ALTER COLUMN ${column.name} TYPE ${column.type}`, database);
 	}
 
 	async createDatabase(name) {

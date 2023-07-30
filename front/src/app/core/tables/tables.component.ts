@@ -20,7 +20,7 @@ export const Tabs: Tab[] = [
 	{link: "structure", icon: "view_week"},
 	{link: "insert", icon: "note_add"},
 	{link: "trigger", icon: "device_hub"},
-	{link: "advanced", icon: "settings_applications"},
+	{link: "advanced", icon: "more_horiz"},
 ];
 
 @Component({
