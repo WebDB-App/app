@@ -9,7 +9,7 @@
 			   onclick="this.value=null" type="file"/>
 		<button
 			(click)="inputFile.click()"
-			color="primary"
+			color="accent"
 			fxFill
 			mat-stroked-button>
 			<span class="material-symbols-outlined notranslate">
@@ -50,7 +50,7 @@
 			(click)="importFiles()"
 			*ngIf="!isLoading"
 			[disabled]="files.length < 1"
-			color="primary"
+			color="accent"
 			mat-raised-button>
 			<span class="material-symbols-outlined notranslate">
 				exit_to_app
@@ -61,7 +61,7 @@
 		<mat-spinner
 			*ngIf="isLoading"
 			[diameter]="30"
-			color="primary"
+			color="accent"
 		></mat-spinner>
 	</div>
 </div>

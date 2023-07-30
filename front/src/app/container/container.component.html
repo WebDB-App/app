@@ -1,5 +1,5 @@
 <mat-drawer-container>
-	<mat-drawer #drawer mode="over" position="end">
+	<mat-drawer #drawer mode="over" position="end" id="right">
 		<router-outlet *ngIf="loading >= 100" name="right"></router-outlet>
 	</mat-drawer>
 
@@ -122,6 +122,7 @@
 		Subscription
 	</a>
 	<a [href]="environment.stripeUserLink"
+	   target="_blank"
 	   mat-menu-item>
 		<span class="material-symbols-outlined notranslate">
 			credit_card

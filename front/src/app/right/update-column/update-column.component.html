@@ -6,7 +6,7 @@
 		<div>
 			<button (click)="update()"
 					[disabled]="!form.valid || JSON.stringify(form.get('old')?.value) === JSON.stringify(form.get('columns')!.value[0])"
-					color="primary"
+					color="accent"
 					mat-flat-button>
 				<span class="material-symbols-outlined notranslate">
 					drive_file_rename_outline

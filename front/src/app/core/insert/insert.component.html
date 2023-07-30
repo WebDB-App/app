@@ -153,7 +153,6 @@
 
 		<button (click)="insert()"
 				[disabled]="dataSource.data.length < 1"
-				color="accent"
 				mat-flat-button>
 			<span class="material-symbols-outlined notranslate">
 				note_add
@@ -187,7 +186,7 @@
 					</th>
 					<td *matCellDef="let row; let i = index" mat-cell>
 						<button (click)="editRow(i, row)"
-								color="accent"
+								color="primary"
 								mat-icon-button>
 							<span class="material-symbols-outlined notranslate">
 								edit
