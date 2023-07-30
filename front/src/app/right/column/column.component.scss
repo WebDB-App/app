@@ -3,55 +3,50 @@
 }
 
 .container {
-	padding: 25px;
 	overflow: auto;
 	display: flex;
 }
 
-.column {
-	margin-bottom: 15px;
-	border-radius: 4px;
-	padding: 16px;
+.mat-card {
 	display: flex;
 	flex-direction: column;
 	min-width: 28vw;
 
-	.options {
-		gap: 20px;
-	}
-
-	.type {
-		> .mat-form-field {
+	.mat-card-header {
+		.mat-form-field {
 			width: 100%;
 		}
 
-		textarea {
-			min-height: 16px;
-			resize: vertical;
-		}
-
-		button {
-			margin-left: 12px;
-		}
-
-		.mat-select {
-			width: 0;
-			visibility: hidden;
+		::ng-deep .mat-card-header-text {
+			margin: 0px;
 		}
 	}
 
-	.mat-form-field {
-		min-width: 250px;
+	.mat-card-content {
+		> div {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+
+			.mat-form-field {
+				flex: 1;
+			}
+
+			textarea {
+				min-height: 16px;
+				resize: vertical;
+			}
+
+			.mat-select {
+				width: 0;
+				visibility: hidden;
+			}
+		}
 	}
 
-	> * {
-		margin: 6px 0px;
-	}
-
-	> div {
+	.mat-card-actions {
 		display: flex;
-		justify-content: space-between;
-		align-items: center;
+		justify-content: space-evenly;
 	}
 }
 

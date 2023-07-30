@@ -9,7 +9,7 @@ export default class MongoDB extends Driver {
 	commonUser = ["mongo"];
 	commonPass = ["mongo"];
 	systemDbs = ["admin", "config", "local"];
-	sampleSize = process.env.MONGO_SAMPLE || 1000;
+	sampleSize = process.env.NOSQL_SAMPLE || 1000;
 
 	async scan() {
 		return super.scan(this.host, 27010, 27020);
@@ -218,6 +218,10 @@ export default class MongoDB extends Driver {
 	}
 
 	async runCommand(command, database = false) {
+		if (process.env.DISABLE_EVAL === "true") {
+			return {error: "Code evaluation is disable by backend configuration"};
+		}
+
 		let db = this.connection;
 		const start = Date.now();
 

@@ -1,3 +1,7 @@
+sql alter table : name, fct as default, null as default
+wrap defaultValue -> attention NULL / function()
+postgre : addtable
+
 mongo : export + relations + harmonizer + insert
 
 
@@ -16,8 +20,7 @@ mongo : export + relations + harmonizer + insert
 
 
 - postgre : plusieurs schemas
-- add own type to autocomplete + right-column
-- finir own_object
+- finir own_object + autocomplete + right-column
 - cloud (google, aurora, rds)
 - BLOB CRUD (download, upload)
 - finir present
