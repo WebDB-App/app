@@ -15,7 +15,9 @@
 
 				<div *ngIf="selectedServer && selectedDatabase" id="server">
 					<div>
-						<span>{{selectedServer.host}}</span>:<span>{{selectedServer.port}}</span>/<span>{{selectedDatabase.name}}</span>
+						<span>{{selectedServer.host}}</span>:<span>{{selectedServer.port}}</span>
+						<br>
+						<span>{{selectedDatabase.name}}</span>
 					</div>
 					<button
 						(click)="request.reloadServer()"
@@ -30,23 +32,40 @@
 
 			<div class="flex-spacer"></div>
 
-			<mat-button-toggle-group
-				(click)="drawer.toggle();"
-				class="panel">
-				<mat-button-toggle
-					*ngFor="let panel of panels"
-					[routerLinkActive]="'mat-button-toggle-checked'"
-					[routerLink]="[{outlets: {right: [panel.link]}}]"
-				>
+			<nav [tabPanel]="tabPanel"
+				 (click)="drawer.toggle();"
+				 mat-tab-nav-bar
+				 class="panel"
+				 color="accent">
+				<a #rla="routerLinkActive"
+				   *ngFor="let panel of panels"
+				   [routerLinkActive]="'mat-button-toggle-checked'"
+				   [routerLink]="[{outlets: {right: [panel.link]}}]"
+				   [active]="rla.isActive"
+				   mat-tab-link>
 					<span class="material-symbols-outlined notranslate">
 						{{panel.icon}}
 					</span>
-				</mat-button-toggle>
-			</mat-button-toggle-group>
+				</a>
+			</nav>
+			<mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
 
-			<button [matMenuTriggerFor]="external" mat-icon-button style="margin-left: 14px">
+			<div class="flex-spacer"></div>
+
+			<button [matMenuTriggerFor]="help" mat-button>
 				<span class="material-symbols-outlined notranslate">
-					apps
+					help
+				</span>
+			</button>
+			<button (click)="showSettings()" mat-button>
+				<span class="material-symbols-outlined notranslate">
+					settings
+				</span>
+			</button>
+
+			<button [matMenuTriggerFor]="user" mat-button>
+				<span class="material-symbols-outlined notranslate">
+					person
 				</span>
 			</button>
 		</mat-toolbar>
@@ -71,27 +90,30 @@
 	</mat-drawer-content>
 </mat-drawer-container>
 
-<mat-menu #external="matMenu" class="external">
+<mat-menu #help="matMenu" class="external">
 	<a href="https://gitlab.com/web-db/landing/-/issues"
 	   mat-menu-item
 	   target="_blank">
-		<mat-icon svgIcon="gitlab"></mat-icon>
+		<span class="material-symbols-outlined notranslate">
+			bug_report
+		</span>
 		Issues
 	</a>
 	<a href="https://gitlab.com/web-db/landing/-/wikis/home"
 	   mat-menu-item
 	   target="_blank">
-		<mat-icon svgIcon="gitlab"></mat-icon>
+		<span class="material-symbols-outlined notranslate">
+			menu_book
+		</span>
 		Documentation
 	</a>
-	<mat-divider></mat-divider>
-	<a (click)="showSettings()"
-	   mat-menu-item>
-		<span class="material-symbols-outlined notranslate">
-			tune
-		</span>
-		Configuration
+	<a mat-menu-item>
+		<mat-icon svgIcon="webdb"></mat-icon>
+		v{{packageJson.version}}
 	</a>
+</mat-menu>
+
+<mat-menu #user="matMenu" class="external">
 	<a (click)="showSubscription()"
 	   mat-menu-item>
 		<span class="material-symbols-outlined notranslate">
@@ -99,8 +121,11 @@
 		</span>
 		Subscription
 	</a>
-	<a mat-menu-item>
-		<mat-icon svgIcon="webdb"></mat-icon>
-		v{{packageJson.version}}
+	<a [href]="environment.stripeUserLink"
+	   mat-menu-item>
+		<span class="material-symbols-outlined notranslate">
+			credit_card
+		</span>
+		Billing
 	</a>
 </mat-menu>

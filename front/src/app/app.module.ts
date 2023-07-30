@@ -34,6 +34,7 @@ import { MatStepperModule } from "@angular/material/stepper";
 import { ClipboardModule } from "@angular/cdk/clipboard";
 import { HIGHLIGHT_OPTIONS, HighlightModule, HighlightOptions, } from 'ngx-highlightjs';
 import { Server } from "../classes/server";
+import { MatTabsModule } from "@angular/material/tabs";
 
 declare var monaco: any;
 
@@ -116,7 +117,8 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 		MonacoEditorModule,
 		MatButtonToggleModule,
 		MatStepperModule,
-		ClipboardModule
+		ClipboardModule,
+		MatTabsModule
 	],
 	providers: [
 		{
