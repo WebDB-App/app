@@ -3,7 +3,7 @@
 		[(ngModel)]="includeData"
 		[disabled]="!isSQL()"
 		checked
-		color="primary">
+		color="accent">
 		Include Data
 	</mat-slide-toggle>
 
@@ -16,7 +16,7 @@
 
 	<button (click)="dump(group.value)"
 			[disabled]="checklistSelection.isEmpty()"
-			color="primary"
+			color="accent"
 			mat-raised-button>
 			<span class="material-symbols-outlined notranslate">
 				upload
@@ -32,7 +32,7 @@
 		<mat-checkbox (change)="checklistSelection.toggle(node);"
 					  [checked]="checklistSelection.isSelected(node)"
 					  class="checklist-leaf-node"
-					  color="primary">
+					  color="accent">
 			{{node.name}}
 		</mat-checkbox>
 	</mat-tree-node>
@@ -46,7 +46,7 @@
 			<mat-checkbox (change)="itemSelectionToggle(node)"
 						  [checked]="descendantsAllSelected(node)"
 						  [indeterminate]="descendantsPartiallySelected(node)"
-						  color="primary">
+						  color="accent">
 				{{node.name}}
 			</mat-checkbox>
 		</div>

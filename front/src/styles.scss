@@ -128,7 +128,7 @@ a {
 }
 
 .snack-error {
-	background-color: mat.get-color-from-palette($angular-accent, default)
+	background-color: mat.get-color-from-palette($angular-warn, default)
 }
 
 .mat-snack-bar-container {
@@ -254,7 +254,7 @@ code, .hljs {
 	transition: box-shadow 0.1s linear;
 
 	&:hover {
-		box-shadow: 0px 0px 0px 2px #2196f3;
+		box-shadow: 0px 0px 0px 2px mat.get-color-from-palette($angular-primary, default);
 	}
 }
 
@@ -274,7 +274,7 @@ code, .hljs {
 	--ngx-json-array: #eaeaea;
 	--ngx-json-object: #eaeaea;
 	--ngx-json-toggler: white;
-	--ngx-json-key: #2196f3;
+	--ngx-json-key: mat.get-color-from-palette($angular-primary, default);
 	--ngx-json-separator: white;
 	--ngx-json-value: white;
 
@@ -286,6 +286,24 @@ code, .hljs {
 	--ngx-json-undefined: white;
 
 	--ngx-json-font-family: 'Noto Sans', sans-serif;
+}
+
+#right {
+	.table {
+		.mat-header-cell {
+			color: mat.get-color-from-palette($angular-accent, default);
+		}
+		.mat-row:hover .mat-cell {
+			border-top: 1px solid mat.get-color-from-palette($angular-accent, default);
+			border-bottom: 1px solid mat.get-color-from-palette($angular-accent, default);
+		}
+	}
+
+	code, .hljs {
+		&:hover {
+			box-shadow: 0px 0px 0px 2px mat.get-color-from-palette($angular-accent, default);
+		}
+	}
 }
 
 //https://stackoverflow.com/questions/45089178/how-to-get-primary-or-accent-color-of-currently-applied-theme-in-angular-materia
