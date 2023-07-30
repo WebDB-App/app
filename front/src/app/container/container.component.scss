@@ -38,6 +38,10 @@ mat-drawer {
 		top: 0;
 		bottom: inherit;
 	}
+
+	::ng-deep .mat-tab-link {
+		color: #ff9800;
+	}
 }
 
 ::ng-deep .external .material-symbols-outlined {

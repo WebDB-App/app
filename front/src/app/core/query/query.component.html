@@ -21,29 +21,27 @@
 		Compare
 	</button>
 
-	<div *ngIf="selectedTable" class="prebuild">
-		<mat-form-field appearance="fill" style="margin-bottom: -1.25em;">
-			<mat-label>
-				Pre Built Queries
-			</mat-label>
-			<mat-select>
-				<mat-option
-					(click)="loadPreBuild(prebuild)"
-					*ngFor="let prebuild of ['select', 'select_join', 'update', 'insert', 'delete']">
-					{{prebuild | titlecase}}
-				</mat-option>
-			</mat-select>
-		</mat-form-field>
+	<div *ngIf="selectedTable">
+		<button [matMenuTriggerFor]="preBuilt" mat-button>
+			<span class="material-symbols-outlined notranslate">factory</span>
+			Pre Built
+		</button>
+		<mat-menu #preBuilt="matMenu" xPosition="before">
+			<button (click)="loadPreBuild(prebuild)"
+					*ngFor="let prebuild of ['select', 'select_join', 'update', 'insert', 'delete']"
+					mat-menu-item>
+				{{prebuild | titlecase}}
+			</button>
+		</mat-menu>
 	</div>
 
 	<div *ngIf="selectedTable">
-
 		<button
 			(click)="diff = !diff; query2 = query;"
 			[class.mat-raised-button]="diff"
 			mat-button>
-			<span class="material-symbols-outlined notranslate">difference</span>
-			Mode
+			<span class="material-symbols-outlined notranslate">splitscreen_left</span>
+			Compare Mode
 		</button>
 	</div>
 
@@ -81,7 +79,6 @@
 			<button [matMenuTriggerFor]="shortcuts" mat-menu-item>Shortcuts</button>
 			<button [matMenuTriggerFor]="disclaimer" mat-menu-item>Disclaimer</button>
 		</mat-menu>
-
 		<mat-menu #shortcuts="matMenu">
 			<button mat-menu-item>Alt + Space → <span style="color: #2196f3">Autocomplete</span></button>
 			<button mat-menu-item>Ctrl + s / Enter → <span style="color: #2196f3">Run Query</span></button>
