@@ -109,7 +109,7 @@ mongo : export + relations + harmonizer + insert
 
 
 
-
+- reload stats periodically
 - datahog / sentry
 - Cloud DB : digital + atlas? + azure
 - ElasticSearch : https://elasticvue.com/

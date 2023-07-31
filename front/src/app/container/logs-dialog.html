@@ -1,0 +1,16 @@
+<div mat-dialog-title>
+	<button
+		(click)="file = file === 'out.log' ? 'err.log' : 'out.log'; load()"
+		color="primary"
+		mat-flat-button
+		mat-button>
+		{{file}}
+	</button>
+
+	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
+		<mat-icon>close</mat-icon>
+	</button>
+</div>
+<div mat-dialog-content>
+	<pre><code style="overflow: auto; white-space: inherit" [innerHTML]="str"></code></pre>
+</div>

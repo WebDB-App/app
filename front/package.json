@@ -27,6 +27,7 @@
 		"@types/js-beautify": "latest",
 		"@types/marked": "^5.0.0",
 		"@types/node": "latest",
+		"ansi-to-html": "^0.7.2",
 		"bson": "latest",
 		"file-saver-es": "latest",
 		"highlight.js": "^11.8.0",
