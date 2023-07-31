@@ -1,7 +1,7 @@
 <div mat-dialog-title>
 	<button
 		(click)="file = file === 'out.log' ? 'err.log' : 'out.log'; load()"
-		color="primary"
+		[color]="file === 'out.log' ? 'primary' : 'warn'"
 		mat-flat-button
 		mat-button>
 		{{file}}
@@ -12,5 +12,5 @@
 	</button>
 </div>
 <div mat-dialog-content>
-	<pre><code style="overflow: auto; white-space: inherit" [innerHTML]="str"></code></pre>
+	<pre><code style="overflow: auto; white-space: inherit; height: calc(65vh - 50px); width: calc(80vw - 85px);" [innerHTML]="str"></code></pre>
 </div>
