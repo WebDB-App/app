@@ -43,15 +43,6 @@
 
 			<div class="flex-spacer"></div>
 
-			<button
-				(click)="request.reloadServer()"
-				*ngIf="selectedServer && selectedDatabase && loading >= 100"
-				color="accent"
-				mat-button>
-				<span class="material-symbols-outlined notranslate">
-					refresh
-				</span>
-			</button>
 			<button [matMenuTriggerFor]="help" mat-button>
 				<span class="material-symbols-outlined notranslate">
 					help
@@ -91,6 +82,28 @@
 </mat-drawer-container>
 
 <mat-menu #help="matMenu" class="external">
+	<a (click)="showConnection()"
+	   mat-menu-item>
+		<span class="material-symbols-outlined notranslate">
+			signal_wifi_statusbar_not_connected
+		</span>
+		Connection Details
+	</a>
+	<a (click)="request.reloadServer()"
+	   mat-menu-item>
+		<span class="material-symbols-outlined notranslate">
+			refresh
+		</span>
+		Reload Connection
+	</a>
+	<a (click)="showLogs()"
+	   mat-menu-item>
+		<span class="material-symbols-outlined notranslate">
+			receipt_long
+		</span>
+		App Logs
+	</a>
+	<mat-divider></mat-divider>
 	<a href="https://gitlab.com/web-db/landing/-/issues"
 	   mat-menu-item
 	   target="_blank">
@@ -107,6 +120,7 @@
 		</span>
 		Documentation
 	</a>
+	<mat-divider></mat-divider>
 	<a mat-menu-item>
 		<mat-icon svgIcon="webdb"></mat-icon>
 		v{{packageJson.version}}

@@ -20,15 +20,6 @@
 
 	<div style="padding: 20px">
 
-		<h4>Connection details</h4>
-		<ngx-monaco-editor
-			[(ngModel)]="str"
-			[options]="editorOptions"
-			style="height: 30vh"
-		></ngx-monaco-editor>
-
-		<mat-divider></mat-divider>
-
 		<div *ngIf="stats" fxLayout="row" fxLayoutAlign="space-between center">
 			<span>Total Index Size : {{+stats.index_length | round}} Mb</span>
 			<span>Total Data Size : {{+stats.data_length | round}} Mb</span>

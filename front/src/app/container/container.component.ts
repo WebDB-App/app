@@ -5,7 +5,7 @@ import { MatDrawer } from "@angular/material/sidenav";
 import { DrawerService } from "../../shared/drawer.service";
 import { MatIconRegistry } from "@angular/material/icon";
 import { DomSanitizer } from "@angular/platform-browser";
-import { MatDialog } from "@angular/material/dialog";
+import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
 import { SubscriptionDialog } from "./subscription/subscription-dialog.component";
 import { ConfigDialog } from "./config/config-dialog.component";
 import { Server } from "../../classes/server";
@@ -13,6 +13,8 @@ import { Database } from "../../classes/database";
 import { environment } from "../../environments/environment";
 import { RequestService } from "../../shared/request.service";
 import { Subscription } from "rxjs";
+import { HttpClient } from "@angular/common/http";
+import Convert from 'ansi-to-html';
 
 class Panel {
 	link!: string
@@ -27,6 +29,7 @@ class Panel {
 export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	@ViewChild("drawer") drawer!: MatDrawer;
+	protected readonly environment = environment;
 	sub!: Subscription;
 	env = environment;
 	packageJson = packageJson
@@ -111,7 +114,58 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 		this.dialog.open(ConfigDialog);
 	}
 
-	protected readonly environment = environment;
+	showConnection() {
+		this.dialog.open(ConnectionInfoDialog, {
+			data: this.selectedServer
+		});
+	}
+
+	showLogs() {
+		this.dialog.open(LogsDialog);
+	}
+}
+
+@Component({
+	templateUrl: 'connection-dialog.html',
+})
+export class ConnectionInfoDialog {
+	str = "";
+	editorOptions = {
+		language: 'json',
+		readOnly: true
+	};
+
+	constructor(
+		@Inject(MAT_DIALOG_DATA) public server: Server,
+	) {
+		const {driver, ...rest} = {...this.server};
+		this.str = JSON.stringify(rest, null, 4);
+	}
+}
+
+@Component({
+	templateUrl: 'logs-dialog.html',
+})
+export class LogsDialog {
+	str = "";
+	file: 'out.log' | 'err.log' = 'out.log';
+
+	constructor(
+		private http: HttpClient,
+		@Inject(MAT_DIALOG_DATA) public server: Server,
+	) {
+		this.load();
+		setInterval(this.load, 2000);
+	}
+
+	load() {
+		const convert = new Convert();
+
+		this.http.get(`${environment.rootUrl}logs/${this.file}`, {responseType: 'text'}).subscribe(txt => {
+			const str = convert.toHtml(txt);
+			this.str = str.split('\n').reverse().join('\n');
+		});
+	};
 }
 
 
