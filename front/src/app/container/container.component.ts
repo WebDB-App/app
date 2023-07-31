@@ -156,7 +156,6 @@ export class LogsDialog {
 		@Inject(MAT_DIALOG_DATA) public server: Server,
 	) {
 		this.load();
-		setInterval(this.load, 2000);
 	}
 
 	load() {
