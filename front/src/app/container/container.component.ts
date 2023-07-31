@@ -152,6 +152,7 @@ export class LogsDialog {
 
 	constructor(
 		private http: HttpClient,
+		private sanitizer: DomSanitizer,
 		@Inject(MAT_DIALOG_DATA) public server: Server,
 	) {
 		this.load();
@@ -159,11 +160,10 @@ export class LogsDialog {
 	}
 
 	load() {
-		const convert = new Convert();
+		const convert = new Convert({colors: {4: '#2196f3'}});
 
 		this.http.get(`${environment.rootUrl}logs/${this.file}`, {responseType: 'text'}).subscribe(txt => {
-			const str = convert.toHtml(txt);
-			this.str = str.split('\n').reverse().join('\n');
+			this.str = <string>this.sanitizer.bypassSecurityTrustHtml(convert.toHtml(txt).split('\n').reverse().join('\n'));
 		});
 	};
 }
