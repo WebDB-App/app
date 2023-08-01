@@ -10,7 +10,7 @@
 	</mat-form-field>
 
 	<mat-button-toggle-group
-		(change)="sort = $event.value"
+		(change)="order = $event.value"
 	>
 		<mat-button-toggle
 			matTooltip="From most recent to older"
@@ -34,7 +34,7 @@
 
 <div style="height: calc(100vh - 56px); overflow: auto; max-width: 50vw;">
 
-	<mat-card *ngFor="let his of queryHistory.sort(sortHistory())"
+	<mat-card *ngFor="let his of queryHistory | sort: order"
 			  [hidden]="his.query.toLowerCase().indexOf(filter.toLowerCase()) < 0"
 			  [style.background-color]="his.star ? 'black' : undefined">
 		<mat-card-content>
