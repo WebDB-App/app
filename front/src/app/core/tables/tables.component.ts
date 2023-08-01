@@ -3,11 +3,13 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Server } from "../../../classes/server";
 import { Database } from "../../../classes/database";
 import { Table } from "../../../classes/table";
-import { DrawerService } from "../../../shared/drawer.service";
 import { RequestService } from "../../../shared/request.service";
 import { Column } from "../../../classes/column";
 import { Title } from "@angular/platform-browser";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { DropTableDialog } from "../advanced/advanced.component";
 
 @Component({
 	selector: 'app-tables',
@@ -27,7 +29,7 @@ export class TablesComponent implements OnInit {
 		private router: Router,
 		private titleService: Title,
 		private snackBar: MatSnackBar,
-		private drawer: DrawerService,
+		private dialog: MatDialog,
 		private request: RequestService,
 		private activatedRoute: ActivatedRoute
 	) {
@@ -106,10 +108,15 @@ export class TablesComponent implements OnInit {
 	}
 
 	async addTable() {
-		this.drawer.toggle();
-		await this.router.navigate(
-			[{outlets: {right: ['table', 'create']}}],
-			{relativeTo: this.activatedRoute.parent})
+		this.dialog.open(CreateTableDialog, {
+			hasBackdrop: false
+		});
+	}
+
+	addView() {
+		this.dialog.open(CreateViewDialog, {
+			hasBackdrop: false
+		});
 	}
 
 	async changeTable(name: string) {
@@ -122,10 +129,62 @@ export class TablesComponent implements OnInit {
 
 		await this.router.navigateByUrl(url);
 	}
+}
 
-	addView() {
 
+@Component({
+	templateUrl: 'create-table-dialog.html',
+})
+export class CreateTableDialog {
+
+	form!: FormGroup;
+
+	constructor(
+		public dialogRef: MatDialogRef<CreateTableDialog>,
+		private fb: FormBuilder,
+		private request: RequestService,
+		private snackBar: MatSnackBar,
+		private router: Router,
+	) {
+		this.form = fb.group({
+			name: [null, [Validators.required, Validators.pattern(/^[a-zA-Z0-9-_]{2,50}$/)]],
+			columns: fb.array([
+				Column.getFormGroup(),
+			])
+		});
 	}
 
-	protected readonly event = event;
+	async create() {
+		await this.request.post('table/create', this.form.value);
+		await this.request.reloadServer();
+
+		await this.router.navigate([
+			Server.getSelected().name,
+			Database.getSelected().name,
+			this.form.get('name')?.value,
+			'structure']);
+
+		this.snackBar.open(`Table ${this.form.get('name')?.value} Created`, "╳", {duration: 3000});
+		this.dialogRef.close(true);
+	}
+}
+
+
+@Component({
+	templateUrl: 'create-view-dialog.html',
+})
+export class CreateViewDialog {
+
+	form!: FormGroup;
+
+	constructor(
+		public dialogRef: MatDialogRef<CreateViewDialog>,
+		private fb: FormBuilder,
+		private request: RequestService,
+		private snackBar: MatSnackBar,
+	) {
+		this.form = fb.group({
+			name: [null, [Validators.required, Validators.pattern(/^[a-zA-Z0-9-_]{2,50}$/)]]
+		});
+	}
 }

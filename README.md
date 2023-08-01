@@ -1,4 +1,3 @@
-column dans modal
 Checkbox pour actions : duplicate + export data
 
 

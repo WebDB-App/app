@@ -22,11 +22,16 @@ import { DropTableDialog, TableAdvancedComponent, TruncateTableDialog } from "./
 import { IframeDialog, InsertComponent } from "./insert/insert.component";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
-import { AddIndexDialog, DropColumnDialog, StructureComponent, } from './structure/structure.component';
+import {
+	AddColumnDialog,
+	AddIndexDialog,
+	DropColumnDialog,
+	StructureComponent, UpdateColumnDialog,
+} from './structure/structure.component';
 import { MatButtonToggleModule } from "@angular/material/button-toggle";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatCardModule } from "@angular/material/card";
 import { MatChipsModule } from "@angular/material/chips";
 import { ClipboardModule } from "@angular/cdk/clipboard";
@@ -34,13 +39,14 @@ import { MatMenuModule } from "@angular/material/menu";
 import { DragDropModule } from "@angular/cdk/drag-drop";
 import { TriggerComponent } from "./trigger/trigger.component";
 import { SharedModule } from "../../shared/shared.module";
-import { TablesComponent } from "./tables/tables.component";
+import { CreateTableDialog, CreateViewDialog, TablesComponent } from "./tables/tables.component";
 import { NgxJsonViewerModule } from "ngx-json-viewer";
 import { MatExpansionModule } from "@angular/material/expansion";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { HighlightModule } from "ngx-highlightjs";
 import { OverlayModule } from "@angular/cdk/overlay";
 import { MonacoEditorModule } from "ngx-monaco-editor-v2";
+import { ColumnComponent } from "./column/column.component";
 
 
 @NgModule({
@@ -59,6 +65,11 @@ import { MonacoEditorModule } from "ngx-monaco-editor-v2";
 		StructureComponent,
 		TriggerComponent,
 		TablesComponent,
+		ColumnComponent,
+		AddColumnDialog,
+		CreateViewDialog,
+		CreateTableDialog,
+		UpdateColumnDialog,
 	],
 	imports: [
 		CommonModule,
@@ -95,7 +106,8 @@ import { MonacoEditorModule } from "ngx-monaco-editor-v2";
 		MatAutocompleteModule,
 		HighlightModule,
 		OverlayModule,
-		MonacoEditorModule
+		MonacoEditorModule,
+		ReactiveFormsModule
 	]
 })
 export class CoreModule {
