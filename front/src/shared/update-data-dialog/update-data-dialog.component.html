@@ -8,17 +8,15 @@
 	<div style="display: flex; justify-content: space-between;">
 		<div *ngFor="let column of updateSuggestions | keyvalue">
 			<mat-form-field appearance="fill">
-				<mat-label>Suggestion of `{{column.key}}`</mat-label>
+				<mat-label>{{column.key}}</mat-label>
 				<input #filter
-					   #trigger="matAutocompleteTrigger"
 					   [matAutocomplete]="auto"
 					   matInput>
 				<mat-autocomplete #auto="matAutocomplete">
 					<ng-container *ngFor="let suggestion of column.value">
 						<mat-option
-							(click)="snackBar.open('Copied to clipboard', '╳', {duration: 3000}); trigger.closePanel();"
+							(click)="setValue(column.key, suggestion)"
 							*ngIf="suggestion.toString().indexOf(filter.value) >= 0"
-							[cdkCopyToClipboard]="suggestion.toString()"
 							[value]="suggestion">
 							{{suggestion}}
 						</mat-option>
