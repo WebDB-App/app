@@ -39,7 +39,7 @@ import { MatExpansionModule } from "@angular/material/expansion";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { ClipboardModule } from "@angular/cdk/clipboard";
 import { HighlightModule } from 'ngx-highlightjs';
-import { HistoryComponent } from "./history/history.component";
+import { HistoryComponent, SortPipe } from "./history/history.component";
 import { TypesComponent } from "./types/types.component";
 
 
@@ -54,6 +54,7 @@ import { TypesComponent } from "./types/types.component";
 		DropDatabaseDialog,
 		HistoryComponent,
 		TypesComponent,
+		SortPipe,
 		CreateTableComponent,
 		UpdateColumnComponent,
 		AddColumnComponent,

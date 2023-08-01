@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { Server } from "../../../classes/server";
 import { HistoryService, Query } from "../../../shared/history.service";
 import { Configuration } from "../../../classes/configuration";
@@ -19,7 +19,7 @@ export class HistoryComponent implements OnInit {
 	selectedServer!: Server;
 	queryHistory: Query[] = [];
 	filter = "";
-	sort: 'time' | 'occurrence' = 'time';
+	order: 'time' | 'occurrence' = 'time';
 
 	constructor(
 		public history: HistoryService,
@@ -46,8 +46,23 @@ export class HistoryComponent implements OnInit {
 		this.drawer.toggle();
 	}
 
-	sortHistory() {
-		return (a: Query, b: Query) => {
+	remove(his: Query) {
+		this.queryHistory.splice(this.queryHistory.findIndex(query => query.query === his.query), 1);
+		this.history.saveLocal(this.queryHistory);
+	}
+}
+
+@Pipe({name: 'sort'})
+export class SortPipe implements PipeTransform {
+
+	/**
+	 *
+	 * @param array
+	 * @param order
+	 * @returns {array}
+	 */
+	transform(array: Query[], order: 'time' | 'occurrence') {
+		return array.sort((a: Query, b: Query) => {
 			if (a.star) {
 				return -1;
 			}
@@ -55,15 +70,10 @@ export class HistoryComponent implements OnInit {
 				return 1;
 			}
 
-			if (this.sort === 'time') {
+			if (order === 'time') {
 				return b.date - a.date;
 			}
 			return b.occurrence - a.occurrence;
-		};
-	}
-
-	remove(his: Query) {
-		this.queryHistory.splice(this.queryHistory.findIndex(query => query.query === his.query), 1);
-		this.history.saveLocal(this.queryHistory);
+		});
 	}
 }
