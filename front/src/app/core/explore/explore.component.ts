@@ -197,8 +197,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 
 		dialogRef.afterClosed().subscribe(async result => {
 			if (result) {
-				this.dataSource.data[i] = result;
-				this.dataSource._updateChangeSubscription();
+				this.refreshData();
 			}
 		});
 	}
