@@ -192,6 +192,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 				row,
 				updateInPlace: true
 			},
+			hasBackdrop: false
 		});
 
 		dialogRef.afterClosed().subscribe(async result => {

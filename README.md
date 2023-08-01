@@ -1,3 +1,8 @@
+column dans modal
+Checkbox pour actions : duplicate
+
+
+
 sql alter table : name, fct as default, null as default
 wrap defaultValue -> attention NULL / function()
 postgre : addtable
@@ -26,6 +31,7 @@ mongo : export + relations + harmonizer + insert
 - finir present
 - Finir EDR
 - trigger : postgre + mongo
+- create views
 - Server gît avec autobackup en var d'env
 - SQLServer
 - graphql

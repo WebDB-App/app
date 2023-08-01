@@ -1,9 +1,24 @@
-<div mat-dialog-title>
-	<h2>Add Index on {{table.name}}</h2>
+<div mat-dialog-title
+	 cdkDrag
+	 cdkDragRootElement=".cdk-overlay-pane"
+	 cdkDragHandle>
+	<div style="display: flex">
+		<button
+			style="cursor: grab"
+			mat-icon-button
+			cdkDragHandle>
+			<span  class="material-symbols-outlined">
+				drag_indicator
+			</span>
+		</button>
+		<h2>Add Index on {{table.name}}</h2>
+	</div>
+
 	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
 		<mat-icon>close</mat-icon>
 	</button>
 </div>
+
 <mat-dialog-content fxLayout="column" fxLayoutAlign="space-between stretch"
 					style="margin: 0px; padding: 0px !important; gap: 26px">
 	<div style="margin: 0px auto;">

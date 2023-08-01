@@ -1,5 +1,17 @@
-<div mat-dialog-title>
-	<h2>Update Data</h2>
+<div mat-dialog-title
+	 cdkDrag
+	 cdkDragRootElement=".cdk-overlay-pane">
+	<div style="display: flex">
+		<button
+			style="cursor: grab"
+			mat-icon-button
+			cdkDragHandle>
+			<span  class="material-symbols-outlined">
+				drag_indicator
+			</span>
+		</button>
+		<h2>Update Data</h2>
+	</div>
 	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
 		<mat-icon>close</mat-icon>
 	</button>
@@ -28,7 +40,7 @@
 	<ngx-monaco-editor
 		[(ngModel)]="str"
 		[options]="editorOptions"
-		style="height: 50vh; width: 38vw"
+		style="height: 50vh; width: 38vw; resize: both; overflow: auto"
 	></ngx-monaco-editor>
 </div>
 <div fxLayout="row" fxLayoutAlign="space-around center" mat-dialog-actions>

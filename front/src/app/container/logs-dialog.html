@@ -1,16 +1,26 @@
-<div mat-dialog-title>
-	<button
-		(click)="file = file === 'out.log' ? 'err.log' : 'out.log'; load()"
-		[color]="file === 'out.log' ? 'primary' : 'warn'"
-		mat-flat-button
-		mat-button>
-		{{file}}
-	</button>
+<div mat-dialog-title
+	 cdkDrag
+	 cdkDragRootElement=".cdk-overlay-pane"
+	 cdkDragHandle>
+	<div style="display: flex">
+		<button
+			style="cursor: grab"
+			mat-icon-button
+			cdkDragHandle>
+			<span  class="material-symbols-outlined">
+				drag_indicator
+			</span>
+		</button>
+		<h2
+			[style.color]="file === 'out.log' ? '#2196f3' : '#f44336'">
+			{{file}}
+		</h2>
+	</div>
 
 	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
 		<mat-icon>close</mat-icon>
 	</button>
 </div>
 <div mat-dialog-content>
-	<pre><code style="overflow: auto; white-space: inherit; height: calc(65vh - 50px); width: calc(80vw - 85px);" [innerHTML]="str"></code></pre>
+	<pre><code style="overflow: auto; white-space: inherit; height: calc(65vh - 50px); width: calc(80vw - 85px); resize: both" [innerHTML]="str"></code></pre>
 </div>

@@ -1,15 +1,28 @@
-<div mat-dialog-title>
-	<h2>Export Results</h2>
+<div mat-dialog-title
+	 cdkDrag
+	 cdkDragRootElement=".cdk-overlay-pane">
+	<div style="display: flex">
+		<button
+			style="cursor: grab"
+			mat-icon-button
+			cdkDragHandle>
+			<span  class="material-symbols-outlined">
+				drag_indicator
+			</span>
+		</button>
+		<h2>Export Results</h2>
+	</div>
 	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
 		<mat-icon>close</mat-icon>
 	</button>
 </div>
+
 <div mat-dialog-content style="overflow: hidden;">
 	<ngx-monaco-editor
 		*ngIf="!isLoading"
 		[(ngModel)]="str"
 		[options]="editorOptions"
-		style="width: 500px; height: 500px">
+		style="width: 500px; height: 500px; resize: both; overflow: auto">
 	</ngx-monaco-editor>
 </div>
 <mat-dialog-actions fxLayout="row" fxLayoutAlign="space-around center">

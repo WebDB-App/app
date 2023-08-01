@@ -282,6 +282,7 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 				row,
 				updateInPlace: false
 			},
+			hasBackdrop: false
 		});
 
 		dialogRef.afterClosed().subscribe(async result => {
@@ -294,7 +295,8 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 
 	showIframe(src: string) {
 		this.dialog.open(IframeDialog, {
-			data: this.sanitizer.bypassSecurityTrustResourceUrl(src)
+			data: this.sanitizer.bypassSecurityTrustResourceUrl(src),
+			hasBackdrop: false
 		});
 	}
 }

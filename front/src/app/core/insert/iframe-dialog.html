@@ -1,9 +1,24 @@
-<div style="position: relative">
-	<button aria-label="close dialog"
-			mat-dialog-close
+<div mat-dialog-title
+	 cdkDrag
+	 cdkDragRootElement=".cdk-overlay-pane">
+	<div style="display: flex">
+		<button
+			style="cursor: grab"
 			mat-icon-button
-			style="position: absolute; right: -24px; top: -24px">
+			cdkDragHandle>
+			<span  class="material-symbols-outlined">
+				drag_indicator
+			</span>
+		</button>
+		<h2>External Doc</h2>
+	</div>
+	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
 		<mat-icon>close</mat-icon>
 	</button>
 </div>
-<iframe [src]="src" style="border: 0px; height: 85vh; width: 70vw;"></iframe>
+
+<div style="height: 70vh; width: 70vw; resize: both; overflow: hidden">
+	<iframe [src]="src" style="border: 0px; height: 100%; width: 100%"></iframe>
+</div>
+
+

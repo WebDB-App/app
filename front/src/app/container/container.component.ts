@@ -116,12 +116,16 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	showConnection() {
 		this.dialog.open(ConnectionInfoDialog, {
-			data: this.selectedServer
+			data: this.selectedServer,
+			hasBackdrop: false
 		});
 	}
 
-	showLogs() {
-		this.dialog.open(LogsDialog);
+	showLogs(file: string) {
+		this.dialog.open(LogsDialog, {
+			data: file,
+			hasBackdrop: false
+		});
 	}
 }
 
@@ -146,16 +150,21 @@ export class ConnectionInfoDialog {
 @Component({
 	templateUrl: 'logs-dialog.html',
 })
-export class LogsDialog {
+export class LogsDialog implements OnDestroy {
 	str = "";
-	file: 'out.log' | 'err.log' = 'out.log';
+	interval?: NodeJS.Timer;
 
 	constructor(
 		private http: HttpClient,
 		private sanitizer: DomSanitizer,
-		@Inject(MAT_DIALOG_DATA) public server: Server,
+		@Inject(MAT_DIALOG_DATA) public file: 'out.log' | 'err.log',
 	) {
 		this.load();
+		this.interval = setInterval(() => {this.load()}, 2000);
+	}
+
+	ngOnDestroy() {
+		clearInterval(this.interval);
 	}
 
 	load() {
