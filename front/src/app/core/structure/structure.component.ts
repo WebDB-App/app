@@ -12,6 +12,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { DrawerService } from "../../../shared/drawer.service";
 import { HoverService } from "../../../shared/hover.service";
 import { isSQL } from "../../../shared/helper";
+import { FormBuilder, FormGroup } from "@angular/forms";
 
 @Component({
 	selector: 'app-structure',
@@ -101,20 +102,30 @@ export class StructureComponent implements OnInit, AfterViewChecked {
 	}
 
 	async addColumn() {
-		this.drawer.toggle();
-		await this.router.navigate(
-			[{outlets: {right: ['column', 'add', this.selectedTable?.name]}}],
-			{relativeTo: this.activatedRoute.parent?.parent})
+		const dialogRef = this.dialog.open(AddColumnDialog, {
+			hasBackdrop: false
+		});
+
+		dialogRef.afterClosed().subscribe(async (result) => {
+			if (!result) {
+				return;
+			}
+			await this.refreshData();
+		});
 	}
 
-	async updateStructure(row: Column) {
-		await this.router.navigate(
-			[{outlets: {right: ['column', 'update', '']}}],
-			{relativeTo: this.activatedRoute.parent?.parent})
-		this.drawer.toggle();
-		await this.router.navigate(
-			[{outlets: {right: ['column', 'update', row.name]}}],
-			{relativeTo: this.activatedRoute.parent?.parent})
+	async updateColumn(row: Column) {
+		const dialogRef = this.dialog.open(UpdateColumnDialog, {
+			data: row,
+			hasBackdrop: false
+		});
+
+		dialogRef.afterClosed().subscribe(async (result) => {
+			if (!result) {
+				return;
+			}
+			await this.refreshData();
+		});
 	}
 
 	async deleteIndex(row: any) {
@@ -204,6 +215,68 @@ export class DropColumnDialog {
 		await this.request.post('column/drop', {column: this.column.name});
 
 		this.snackBar.open(`Dropped Column ${this.column.name}`, "╳", {duration: 3000})
+		this.dialogRef.close(true);
+	}
+}
+
+@Component({
+	templateUrl: 'add-column-dialog.html',
+})
+export class AddColumnDialog {
+
+	selectedTable!: Table;
+	form!: FormGroup;
+
+	constructor(
+		public dialogRef: MatDialogRef<AddColumnDialog>,
+		private fb: FormBuilder,
+		private request: RequestService,
+		private snackBar: MatSnackBar,
+	) {
+		this.selectedTable = Table.getSelected();
+		this.form = fb.group({
+			columns: fb.array([
+				Column.getFormGroup(),
+			])
+		});
+	}
+
+	async add() {
+		await this.request.post('column/add', this.form.value);
+		this.snackBar.open(`Columns Added`, "╳", {duration: 3000});
+		this.dialogRef.close(true);
+	}
+}
+
+@Component({
+	templateUrl: 'update-column-dialog.html',
+})
+export class UpdateColumnDialog {
+
+	form!: FormGroup;
+	protected readonly JSON = JSON;
+
+	constructor(
+		public dialogRef: MatDialogRef<AddColumnDialog>,
+		private request: RequestService,
+		private fb: FormBuilder,
+		private snackBar: MatSnackBar,
+		@Inject(MAT_DIALOG_DATA) public column: Column,
+	) {
+		const old = Column.getFormGroup(column);
+		old.disable();
+
+		this.form = fb.group({
+			old,
+			columns: fb.array([
+				Column.getFormGroup(column)
+			])
+		});
+	}
+
+	async update() {
+		await this.request.post('column/modify', this.form.getRawValue());
+		this.snackBar.open(`Columns Altered`, "╳", {duration: 3000});
 		this.dialogRef.close(true);
 	}
 }

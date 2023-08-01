@@ -22,11 +22,7 @@ import { MatButtonToggleModule } from "@angular/material/button-toggle";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { MatTableModule } from "@angular/material/table";
 import { RightRoutingModule } from "./right-routing.module";
-import { ColumnComponent } from "./column/column.component";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
-import { CreateTableComponent } from './create-table/create-table.component';
-import { UpdateColumnComponent } from './update-column/update-column.component';
-import { AddColumnComponent } from './add-column/add-column.component';
 import { DragDropModule } from "@angular/cdk/drag-drop";
 import { CdkColumnDef } from "@angular/cdk/table";
 import { MatTooltipModule } from "@angular/material/tooltip";
@@ -50,14 +46,10 @@ import { TypesComponent } from "./types/types.component";
 		RelationsComponent,
 		LoadComponent,
 		DumpComponent,
-		ColumnComponent,
 		DropDatabaseDialog,
 		HistoryComponent,
 		TypesComponent,
 		SortPipe,
-		CreateTableComponent,
-		UpdateColumnComponent,
-		AddColumnComponent,
 		AiComponent
 	],
 	exports: [

@@ -30,7 +30,7 @@
 		<td *matCellDef="let row;" [class]="'hover-' + row['name']" mat-cell>
 			<ng-container *ngIf="column === actionColum">
 
-				<button (click)="updateStructure(row)"
+				<button (click)="updateColumn(row)"
 						color="primary"
 						mat-icon-button>
 					<span class="material-symbols-outlined notranslate">
