@@ -4,7 +4,6 @@ import { Table } from "../../../classes/table";
 import { RequestService } from "../../../shared/request.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute, Router } from "@angular/router";
-import { Tabs } from "../tables/tables.component";
 import { isSQL } from "../../../shared/helper";
 import { Server } from "../../../classes/server";
 import { Database } from "../../../classes/database";
@@ -89,7 +88,7 @@ export class TableAdvancedComponent {
 			this.selectedServer?.name,
 			this.selectedDatabase?.name,
 			new_name,
-			Tabs.at(-1)!]
+			"advanced"]
 		);
 	}
 

@@ -9,8 +9,6 @@ import { Column } from "../../../classes/column";
 import { Title } from "@angular/platform-browser";
 import { MatSnackBar } from "@angular/material/snack-bar";
 
-export const Tabs: string[] = ["explore", "query", "structure", "insert", "trigger", "advanced"];
-
 @Component({
 	selector: 'app-tables',
 	templateUrl: './tables.component.html',
@@ -23,7 +21,7 @@ export class TablesComponent implements OnInit {
 	selectedTable?: Table;
 
 	tooltips: { [key: string]: string } = {};
-	tabs = Tabs;
+	tabs!: string[];
 
 	constructor(
 		private router: Router,
@@ -60,6 +58,7 @@ export class TablesComponent implements OnInit {
 			this.titleService.setTitle(table.name + " – " + this.selectedDatabase.name + " – " + this.selectedServer.port);
 			this.selectedTable = table;
 			Table.setSelected(this.selectedTable!);
+			this.tabs = table.view ? ["explore", "query", "structure", "trigger", "advanced"] : ["explore", "query", "structure", "insert", "trigger", "advanced"];
 
 			if (!this.activatedRoute.snapshot.paramMap.get('table')) {
 				await this.router.navigate([
@@ -123,4 +122,10 @@ export class TablesComponent implements OnInit {
 
 		await this.router.navigateByUrl(url);
 	}
+
+	addView() {
+
+	}
+
+	protected readonly event = event;
 }

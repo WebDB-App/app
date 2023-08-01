@@ -17,6 +17,7 @@ import { MatOptionModule } from "@angular/material/core";
 import { MonacoEditorModule } from "ngx-monaco-editor-v2";
 import { ClipboardModule } from "@angular/cdk/clipboard";
 import { FormsModule } from "@angular/forms";
+import { DragDropModule } from "@angular/cdk/drag-drop";
 
 @NgModule({
 	declarations: [
@@ -44,7 +45,8 @@ import { FormsModule } from "@angular/forms";
 		MatOptionModule,
 		MonacoEditorModule,
 		ClipboardModule,
-		FormsModule
+		FormsModule,
+		DragDropModule
 	]
 })
 export class SharedModule {

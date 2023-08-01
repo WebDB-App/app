@@ -61,10 +61,11 @@ export class StructureComponent implements OnInit, AfterViewChecked {
 		if (isSQL()) {
 			this.structureColumns.push('comment');
 		}
+		if (!this.selectedTable.view) {
+			this.structureColumns.push(this.actionColum);
+		}
 
-		this.structureColumns.push(this.actionColum);
 		this.indexColumns.push(this.actionColum);
-
 		this.structureSource = new MatTableDataSource(this.selectedTable?.columns);
 		this.indexSource = new MatTableDataSource(Table.getIndexes());
 	}
@@ -126,6 +127,7 @@ export class StructureComponent implements OnInit, AfterViewChecked {
 	addIndex() {
 		const dialogRef = this.dialog.open(AddIndexDialog, {
 			data: this.selectedTable,
+			hasBackdrop: false
 		});
 
 		dialogRef.afterClosed().subscribe(async (result) => {
@@ -157,12 +159,13 @@ export class StructureComponent implements OnInit, AfterViewChecked {
 	}
 }
 
-
 @Component({
 	templateUrl: 'add-index-dialog.html',
 })
 export class AddIndexDialog {
 
+	selectedServer?: Server;
+	selectedDatabase?: Database;
 	symbols = IndexSymbol;
 	protected readonly isSQL = isSQL;
 
@@ -172,10 +175,12 @@ export class AddIndexDialog {
 		private snackBar: MatSnackBar,
 		@Inject(MAT_DIALOG_DATA) public table: Table,
 	) {
+		this.selectedServer = Server.getSelected();
+		this.selectedDatabase = Database.getSelected();
 	}
 
 	async createIndex(name: string, type: string, columns: string[]) {
-		await this.request.post('index/add', {name, type, columns});
+		await this.request.post('index/add', {name, type, columns}, this.table, this.selectedDatabase, this.selectedServer);
 
 		this.snackBar.open(`Added Index ${name}`, "╳", {duration: 3000})
 		this.dialogRef.close(true);

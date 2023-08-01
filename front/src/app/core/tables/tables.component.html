@@ -22,7 +22,7 @@
 				No table
 			</mat-list-item>
 
-			<mat-selection-list [multiple]="false">
+			<mat-selection-list [multiple]="false" (selectionChange)="changeTable(tables.selectedOptions.selected[0].value)" #tables>
 				<div *ngFor="let table of selectedDatabase?.tables"
 					 [style.border-right]="selectedTable?.name === table.name ? '2px solid #2196f3' : undefined"
 					 [hidden]="table.hide"
@@ -39,7 +39,7 @@
 							</button>
 						</div>
 						<mat-list-option
-							(click)="changeTable(table.name)"
+							[value]="table.name"
 							[class.mat-list-single-selected-option]="selectedTable?.name === table.name">
 							{{table.name}}
 						</mat-list-option>
@@ -58,12 +58,22 @@
 			<mat-list-item>
 				<button (click)="addTable()"
 						color="primary"
-						mat-stroked-button
-						style="width: 100%;">
+						mat-stroked-button>
 					<span class="material-symbols-outlined notranslate">
-						table
+						add_box
 					</span>
-					Create Table
+					Table
+				</button>
+
+				<div class="flex-spacer"></div>
+
+				<button (click)="addView()"
+						color="primary"
+						mat-stroked-button>
+					<span class="material-symbols-outlined notranslate">
+						shadow_add
+					</span>
+					View
 				</button>
 			</mat-list-item>
 
@@ -72,7 +82,8 @@
 
 	<div [hidden]="!selectedDatabase?.tables?.length">
 		<nav [tabPanel]="tabPanel" mat-tab-nav-bar>
-			<a #rla="routerLinkActive" *ngFor="let tab of tabs"
+			<a #rla="routerLinkActive"
+			   *ngFor="let tab of tabs"
 			   [active]="rla.isActive"
 			   [routerLinkActive]="['mat-list-single-selected-option', 'mat-tab-label-active']"
 			   [routerLink]="[tab]"

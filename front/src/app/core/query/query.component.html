@@ -28,7 +28,7 @@
 		</button>
 		<mat-menu #preBuilt="matMenu" xPosition="before">
 			<button (click)="loadPreBuild(prebuild)"
-					*ngFor="let prebuild of ['select', 'select_join', 'update', 'insert', 'delete']"
+					*ngFor="let prebuild of prebuilds"
 					mat-menu-item>
 				{{prebuild | titlecase}}
 			</button>
@@ -71,8 +71,8 @@
 			<mat-icon>more_vert</mat-icon>
 		</button>
 		<mat-menu #advanced="matMenu" xPosition="before">
-			<button (click)="exportQuery()" mat-menu-item>Export Query</button>
-			<button (click)="exportResult()" mat-menu-item>Export All Results</button>
+			<button (click)="exportQuery()" [disabled]="querySize < 1" mat-menu-item>Export Query</button>
+			<button (click)="exportResult()" [disabled]="querySize < 1" mat-menu-item>Export All Results</button>
 			<a [href]="selectedServer!.driver.docs.language" mat-menu-item target="_blank">
 				{{selectedServer!.driver.language.id === "sql" ? "SQL" : (selectedServer!.driver.language.id | titlecase)}} Doc
 			</a>

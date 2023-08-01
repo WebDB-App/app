@@ -23,6 +23,8 @@ declare var monaco: any;
 })
 export class QueryComponent implements OnInit {
 
+	protected readonly Math = Math;
+	prebuilds!: string[];
 	configuration: Configuration = new Configuration();
 	selectedServer?: Server;
 	selectedDatabase?: Database;
@@ -81,6 +83,7 @@ export class QueryComponent implements OnInit {
 
 		this.activatedRoute.parent?.params.subscribe(async (_params) => {
 			this.selectedTable = Table.getSelected();
+			this.prebuilds = this.selectedTable.view ? ['select', 'select_join'] : ['select', 'select_join', 'update', 'insert', 'delete'];
 			this.relations = Table.getRelations();
 			this.querySize = -1;
 			this.dataSource = new MatTableDataSource<any>();
@@ -107,10 +110,7 @@ export class QueryComponent implements OnInit {
 		} else {
 			await this._runSingle();
 		}
-		this.router.navigate([], {
-			relativeTo: this.activatedRoute,
-			queryParams: {query: this.query}
-		});
+		this.router.navigate([Server.getSelected().name, Database.getSelected().name, Table.getSelected().name, 'query', this.query]);
 		this.isLoading = false;
 		setTimeout(() => this.editors.map(editor => editor.trigger("editor", "editor.action.formatDocument")), 1);
 	}
@@ -195,7 +195,10 @@ export class QueryComponent implements OnInit {
 	}
 
 	exportQuery() {
-		this.dialog.open(ExportQueryDialog, {data: this.query});
+		this.dialog.open(ExportQueryDialog, {
+			data: this.query,
+			hasBackdrop: false
+		});
 	}
 
 	async exportResult() {
@@ -206,10 +209,11 @@ export class QueryComponent implements OnInit {
 			page: 0
 		}, undefined, undefined, undefined, undefined, false);
 		this.isLoading = false;
-		this.dialog.open(ExportResultDialog, {data});
+		this.dialog.open(ExportResultDialog, {
+			data,
+			hasBackdrop: false
+		});
 	}
-
-	protected readonly Math = Math;
 }
 
 

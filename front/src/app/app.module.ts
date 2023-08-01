@@ -35,6 +35,7 @@ import { ClipboardModule } from "@angular/cdk/clipboard";
 import { HIGHLIGHT_OPTIONS, HighlightModule, HighlightOptions, } from 'ngx-highlightjs';
 import { Server } from "../classes/server";
 import { MatTabsModule } from "@angular/material/tabs";
+import { DragDropModule } from "@angular/cdk/drag-drop";
 
 declare var monaco: any;
 
@@ -120,7 +121,8 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 		MatButtonToggleModule,
 		MatStepperModule,
 		ClipboardModule,
-		MatTabsModule
+		MatTabsModule,
+		DragDropModule
 	],
 	providers: [
 		{

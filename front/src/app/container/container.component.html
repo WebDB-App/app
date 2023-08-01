@@ -43,12 +43,28 @@
 
 			<div class="flex-spacer"></div>
 
+			<button mat-button
+					color="accent"
+					matTooltip="Reload Connection"
+					(click)="request.reloadServer()">
+				<span class="material-symbols-outlined notranslate">
+					refresh
+				</span>
+			</button>
+			<button
+				mat-button
+				matTooltip="Query Logs"
+				(click)="showLogs('out.log')">
+				<span class="material-symbols-outlined notranslate">
+					receipt_long
+				</span>
+			</button>
 			<button [matMenuTriggerFor]="help" mat-button>
 				<span class="material-symbols-outlined notranslate">
 					help
 				</span>
 			</button>
-			<button [matMenuTriggerFor]="user" mat-button>
+			<button [matMenuTriggerFor]="user" mat-button hidden>
 				<span class="material-symbols-outlined notranslate">
 					person
 				</span>
@@ -89,20 +105,6 @@
 		</span>
 		Connection Details
 	</a>
-	<a (click)="request.reloadServer()"
-	   mat-menu-item>
-		<span class="material-symbols-outlined notranslate">
-			refresh
-		</span>
-		Reload Connection
-	</a>
-	<a (click)="showLogs()"
-	   mat-menu-item>
-		<span class="material-symbols-outlined notranslate">
-			receipt_long
-		</span>
-		App Logs
-	</a>
 	<mat-divider></mat-divider>
 	<a href="https://gitlab.com/web-db/landing/-/issues"
 	   mat-menu-item
@@ -121,8 +123,17 @@
 		Documentation
 	</a>
 	<mat-divider></mat-divider>
+	<button
+		mat-menu-item
+		(click)="showLogs('err.log')">
+		<span class="material-symbols-outlined notranslate">
+			error
+		</span>
+		Error Logs
+	</button>
 	<a mat-menu-item>
 		<mat-icon svgIcon="webdb"></mat-icon>
+		Beta
 		v{{packageJson.version}}
 	</a>
 </mat-menu>
