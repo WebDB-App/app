@@ -69,4 +69,10 @@ export class UpdateDataDialogComponent {
 			}
 		}
 	}
+
+	setValue(column: string, value: any) {
+		const row = JSON.parse(this.str);
+		row[column] = value;
+		this.str = JSON.stringify(row, null, "\t");
+	}
 }
