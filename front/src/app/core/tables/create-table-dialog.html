@@ -1,26 +1,67 @@
-<div [formGroup]="form" fxFlexFill fxLayout="column" fxLayoutAlign="start">
-	<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
-		<mat-form-field style="width: 50%;">
-			<mat-label>Table Name</mat-label>
-			<input
-				autocomplete="off"
-				formControlName="name"
-				matInput>
-			<mat-error *ngIf="form.get('name')?.errors && form.get('name')!.errors!['pattern']">
-				Prefer alpha, numeric and "_", "-"
-			</mat-error>
-		</mat-form-field>
+<ng-container [formGroup]="form">
+	<div mat-dialog-title
+		 cdkDrag
+		 cdkDragRootElement=".cdk-overlay-pane"
+		 cdkDragHandle>
+		<div style="display: flex">
+			<button
+				style="cursor: grab"
+				mat-icon-button
+				cdkDragHandle>
+				<span  class="material-symbols-outlined">
+					drag_indicator
+				</span>
+			</button>
+			<mat-form-field style="width: 50%;">
+				<mat-label>Table Name</mat-label>
+				<input
+					autocomplete="off"
+					formControlName="name"
+					matInput>
+				<mat-error *ngIf="form.get('name')?.errors && form.get('name')!.errors!['pattern']">
+					Prefer alpha, numeric and "_", "-"
+				</mat-error>
+			</mat-form-field>
+		</div>
+
+		<button aria-label="close dialog" mat-dialog-close mat-icon-button>
+			<mat-icon>close</mat-icon>
+		</button>
+	</div>
+
+	<mat-dialog-content>
+		<app-column [form]="form"></app-column>
+	</mat-dialog-content>
+
+	<mat-dialog-actions>
+		<button (click)="addColumn()"
+				*ngIf="!form.get('old')"
+				color="primary"
+				mat-stroked-button>
+			<span class="material-symbols-outlined notranslate">
+				add
+			</span>
+			Column
+		</button>
+
+		<a *ngIf="selectedServer"
+		   [href]="selectedServer!.driver.docs.types"
+		   mat-button
+		   target="_blank">
+			<span class="material-symbols-outlined notranslate">
+				help
+			</span>
+			{{selectedServer.wrapper}} Data Types
+		</a>
 
 		<button (click)="create()"
 				[disabled]="!form.valid"
 				color="primary"
 				mat-flat-button>
-			<span class="material-symbols-outlined notranslate">
-				add
-			</span>
+				<span class="material-symbols-outlined notranslate">
+					add
+				</span>
 			Create Table
 		</button>
-	</mat-toolbar>
-
-	<app-column [form]="form"></app-column>
-</div>
+	</mat-dialog-actions>
+</ng-container>

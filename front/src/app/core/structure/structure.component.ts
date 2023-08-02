@@ -12,7 +12,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { DrawerService } from "../../../shared/drawer.service";
 import { HoverService } from "../../../shared/hover.service";
 import { isSQL } from "../../../shared/helper";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
 
 @Component({
 	selector: 'app-structure',
@@ -224,6 +224,7 @@ export class DropColumnDialog {
 })
 export class AddColumnDialog {
 
+	selectedServer?: Server;
 	selectedTable!: Table;
 	form!: FormGroup;
 
@@ -233,6 +234,7 @@ export class AddColumnDialog {
 		private request: RequestService,
 		private snackBar: MatSnackBar,
 	) {
+		this.selectedServer = Server.getSelected();
 		this.selectedTable = Table.getSelected();
 		this.form = fb.group({
 			columns: fb.array([
@@ -241,10 +243,14 @@ export class AddColumnDialog {
 		});
 	}
 
-	async add() {
+	async apply() {
 		await this.request.post('column/add', this.form.value);
 		this.snackBar.open(`Columns Added`, "╳", {duration: 3000});
 		this.dialogRef.close(true);
+	}
+
+	addColumn(column?: any) {
+		this.form.get("columns")!.value.push(column || Column.getFormGroup());
 	}
 }
 

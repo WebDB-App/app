@@ -137,6 +137,7 @@ export class TablesComponent implements OnInit {
 })
 export class CreateTableDialog {
 
+	selectedServer: Server;
 	form!: FormGroup;
 
 	constructor(
@@ -146,12 +147,17 @@ export class CreateTableDialog {
 		private snackBar: MatSnackBar,
 		private router: Router,
 	) {
+		this.selectedServer = Server.getSelected();
 		this.form = fb.group({
 			name: [null, [Validators.required, Validators.pattern(/^[a-zA-Z0-9-_]{2,50}$/)]],
 			columns: fb.array([
 				Column.getFormGroup(),
 			])
 		});
+	}
+
+	addColumn(column?: any) {
+		this.form.get("columns")!.value.push(column || Column.getFormGroup());
 	}
 
 	async create() {

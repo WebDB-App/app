@@ -51,7 +51,7 @@
 			   required>
 	</mat-form-field>
 </mat-dialog-content>
-<mat-dialog-actions fxLayout="row" fxLayoutAlign="space-around center">
+<mat-dialog-actions>
 	<button (click)="createIndex(name.value, type.value, columns.value)"
 			[disabled]="!name.value || !type.value || !columns.value"
 			color="primary"
