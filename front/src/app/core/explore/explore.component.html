@@ -112,7 +112,10 @@
 				</ng-container>
 
 				<ng-container *ngIf="column === actionColum">
-					<button [matMenuTriggerFor]="actions" [disabled]="selection.isEmpty()" mat-icon-button>
+					<button
+						[matMenuTriggerFor]="actions"
+						[disabled]="selection.isEmpty()"
+						mat-icon-button>
 						<span class="material-symbols-outlined notranslate">
 							more_vert
 						</span>
@@ -121,7 +124,7 @@
 						(change)="$event ? toggleAllRows() : null"
 						[checked]="selection.hasValue() && isAllSelected()"
 						[indeterminate]="selection.hasValue() && !isAllSelected()"
-						color="warn">
+						color="primary">
 					</mat-checkbox>
 				</ng-container>
 
@@ -132,7 +135,6 @@
 
 				<ng-container *ngIf="column === actionColum">
 					<button (click)="editRow(i, row)"
-							color="primary"
 							mat-icon-button>
 						<span class="material-symbols-outlined notranslate">
 							edit
@@ -143,7 +145,7 @@
 						(change)="$event ? selection.toggle(row) : null"
 						(click)="shiftCheckBox($event, row); $event.stopPropagation();"
 						[checked]="selection.isSelected(row)"
-						color="warn">
+						color="primary">
 					</mat-checkbox>
 				</ng-container>
 
