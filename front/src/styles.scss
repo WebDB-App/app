@@ -49,6 +49,7 @@ body {
 	width: 100%;
 	white-space: nowrap;
 	border-spacing: 0px;
+	border-collapse: collapse;
 	background-color: transparent;
 
 	.mat-header-cell {
@@ -67,8 +68,7 @@ body {
 	}
 
 	.mat-cell {
-		border-top: 1px solid transparent;
-		border-bottom: 1px solid transparent;
+		border: 1px solid transparent;
 
 		.material-symbols-outlined {
 			font-size: 20px;
@@ -113,13 +113,12 @@ body {
 			}
 		}
 
-		.mat-row:hover .mat-cell {
-			border-top: 1px solid mat.get-color-from-palette($angular-primary, default);
-			border-bottom: 1px solid mat.get-color-from-palette($angular-primary, default);
+		.mat-row:hover {
+			background-color: #1e1e1e;
 		}
 
-		.mat-cell.selected {
-			background-color: #1e1e1e;
+		.mat-cell.selected app-cell {
+			border: 1px solid mat.get-color-from-palette($angular-primary, default);
 		}
 	}
 }

@@ -1,4 +1,8 @@
-Checkbox pour actions : duplicate + export data
+right click: copy, paste, set null, delete rows, export to csv/json
+
+
+
+
 
 
 
