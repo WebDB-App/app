@@ -1,7 +1,3 @@
-:host {
-	height: calc(100vh - 56px)
-}
-
 .container {
 	overflow: auto;
 	display: flex;
@@ -23,7 +19,7 @@
 	}
 
 	.mat-card-content {
-		> div {
+		> div:not(.actions) {
 			display: flex;
 			align-items: center;
 			gap: 12px;
@@ -43,16 +39,4 @@
 			}
 		}
 	}
-
-	.mat-card-actions {
-		display: flex;
-		justify-content: space-evenly;
-	}
-}
-
-.actions {
-	display: flex;
-	padding: 10px;
-	border-top: 1px solid black;
-	justify-content: space-around;
 }

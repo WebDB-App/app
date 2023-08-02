@@ -13,8 +13,8 @@
 			   required>
 	</mat-form-field>
 </div>
-<div fxLayout="row" fxLayoutAlign="space-around center" mat-dialog-actions>
+<mat-dialog-actions>
 	<button (click)="createDb(name.value)" [disabled]="!name.value || alreadyExist(name.value)" color="primary"
 			mat-raised-button>Create
 	</button>
-</div>
+</mat-dialog-actions>

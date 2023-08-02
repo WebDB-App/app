@@ -43,7 +43,7 @@
 		style="height: 50vh; width: 38vw; resize: both; overflow: auto"
 	></ngx-monaco-editor>
 </div>
-<div fxLayout="row" fxLayoutAlign="space-around center" mat-dialog-actions>
+<mat-dialog-actions>
 	<button (click)="update()"
 			[disabled]="!isTouched()"
 			color="primary"
@@ -53,4 +53,4 @@
 		</span>
 		Apply Changes
 	</button>
-</div>
+</mat-dialog-actions>

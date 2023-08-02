@@ -52,18 +52,20 @@
 	}
 
 	.mat-horizontal-stepper-content {
-		justify-content: space-around;
+		padding: 12px 0px;
+		justify-content: space-evenly;
 		display: flex;
 		flex-direction: column;
-		height: 330px;
 		max-width: 700px;
+		gap: 20px;
 
 		> div {
-			place-content: space-around;
+			place-content: space-between;
 			flex-direction: row;
 			box-sizing: border-box;
 			display: flex;
 			align-items: center;
+			padding: 0px 50px;
 		}
 	}
 

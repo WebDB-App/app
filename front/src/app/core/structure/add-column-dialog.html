@@ -1,20 +1,54 @@
-<div fxFlexFill fxLayout="column" fxLayoutAlign="start">
-
-	<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
-		<div>Add Column for {{selectedTable.name}}</div>
-
-		<div>
-			<button (click)="add()"
-					[disabled]="!form.valid"
-					color="primary"
-					mat-flat-button>
-				<span class="material-symbols-outlined notranslate">
-					view_column_2
-				</span>
-				Apply
-			</button>
-		</div>
-	</mat-toolbar>
-
-	<app-column [form]="form"></app-column>
+<div mat-dialog-title
+	 cdkDrag
+	 cdkDragRootElement=".cdk-overlay-pane">
+	<div style="display: flex">
+		<button
+			style="cursor: grab"
+			mat-icon-button
+			cdkDragHandle>
+			<span  class="material-symbols-outlined">
+				drag_indicator
+			</span>
+		</button>
+		<h2>Add Column for {{selectedTable.name}}</h2>
+	</div>
+	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
+		<mat-icon>close</mat-icon>
+	</button>
 </div>
+
+<mat-dialog-content>
+	<app-column [form]="form"></app-column>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+	<button (click)="addColumn()"
+			*ngIf="!form.get('old')"
+			color="primary"
+			mat-stroked-button>
+		<span class="material-symbols-outlined notranslate">
+			add
+		</span>
+		Column
+	</button>
+
+	<a *ngIf="selectedServer"
+	   [href]="selectedServer!.driver.docs.types"
+	   mat-button
+	   target="_blank">
+		<span class="material-symbols-outlined notranslate">
+			help
+		</span>
+		{{selectedServer.wrapper}} Data Types
+	</a>
+
+	<button (click)="apply()"
+			[disabled]="!form.valid"
+			color="primary"
+			mat-flat-button>
+		<span class="material-symbols-outlined notranslate">
+			view_column_2
+		</span>
+		Apply
+	</button>
+</mat-dialog-actions>
