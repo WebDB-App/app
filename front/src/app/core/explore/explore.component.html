@@ -112,13 +112,9 @@
 				</ng-container>
 
 				<ng-container *ngIf="column === actionColum">
-					<button (click)="removeRows()"
-							[disabled]="selection.isEmpty()"
-							color="warn"
-							mat-icon-button
-							style="width: 36px;">
+					<button [matMenuTriggerFor]="actions" [disabled]="selection.isEmpty()" mat-icon-button>
 						<span class="material-symbols-outlined notranslate">
-							delete
+							more_vert
 						</span>
 					</button>
 					<mat-checkbox
@@ -168,3 +164,20 @@
 
 	</table>
 </div>
+
+<mat-menu #actions="matMenu">
+	<span mat-menu-item>
+		Duplicate
+	</span>
+	<span mat-menu-item>
+		Export to CSV
+	</span>
+	<span mat-menu-item>
+		Export to JSON
+	</span>
+	<span
+		mat-menu-item
+		(click)="removeRows()">
+		Delete
+	</span>
+</mat-menu>
