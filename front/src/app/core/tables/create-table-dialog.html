@@ -12,16 +12,7 @@
 					drag_indicator
 				</span>
 			</button>
-			<mat-form-field style="width: 50%;">
-				<mat-label>Table Name</mat-label>
-				<input
-					autocomplete="off"
-					formControlName="name"
-					matInput>
-				<mat-error *ngIf="form.get('name')?.errors && form.get('name')!.errors!['pattern']">
-					Prefer alpha, numeric and "_", "-"
-				</mat-error>
-			</mat-form-field>
+			<h2>New Table</h2>
 		</div>
 
 		<button aria-label="close dialog" mat-dialog-close mat-icon-button>
@@ -30,6 +21,17 @@
 	</div>
 
 	<mat-dialog-content>
+		<mat-form-field appearance="fill" style="width: 100%">
+			<mat-label>Table Name</mat-label>
+			<input
+				autocomplete="off"
+				formControlName="name"
+				matInput>
+			<mat-error *ngIf="form.get('name')?.errors && form.get('name')!.errors!['pattern']">
+				Prefer alpha, numeric and "_", "-"
+			</mat-error>
+		</mat-form-field>
+
 		<app-column [form]="form"></app-column>
 	</mat-dialog-content>
 
@@ -59,7 +61,7 @@
 				color="primary"
 				mat-flat-button>
 				<span class="material-symbols-outlined notranslate">
-					add
+					table
 				</span>
 			Create Table
 		</button>

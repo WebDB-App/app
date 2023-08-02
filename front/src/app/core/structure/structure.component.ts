@@ -250,7 +250,8 @@ export class AddColumnDialog {
 	}
 
 	addColumn(column?: any) {
-		this.form.get("columns")!.value.push(column || Column.getFormGroup());
+		const cols = this.form.get("columns") as FormArray;
+		cols.push(column || Column.getFormGroup());
 	}
 }
 
@@ -260,6 +261,7 @@ export class AddColumnDialog {
 export class UpdateColumnDialog {
 
 	form!: FormGroup;
+	selectedServer?: Server;
 	protected readonly JSON = JSON;
 
 	constructor(
@@ -269,6 +271,7 @@ export class UpdateColumnDialog {
 		private snackBar: MatSnackBar,
 		@Inject(MAT_DIALOG_DATA) public column: Column,
 	) {
+		this.selectedServer = Server.getSelected();
 		const old = Column.getFormGroup(column);
 		old.disable();
 

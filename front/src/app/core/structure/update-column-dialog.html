@@ -1,20 +1,45 @@
-<div *ngIf="form" fxFlexFill fxLayout="column" fxLayoutAlign="start" fxLayoutGap="20px">
+<div mat-dialog-title
+	 cdkDrag
+	 cdkDragRootElement=".cdk-overlay-pane">
+	<div style="display: flex">
+		<button
+			style="cursor: grab"
+			mat-icon-button
+			cdkDragHandle>
+			<span  class="material-symbols-outlined">
+				drag_indicator
+			</span>
+		</button>
+		<h2>Alter Column {{form.get('old')?.get('name')!.value}}</h2>
+	</div>
+	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
+		<mat-icon>close</mat-icon>
+	</button>
+</div>
 
-	<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
-		<div>Alter Column {{form.get('old')?.get('name')!.value}}</div>
+<mat-dialog-content>
+	<app-column [form]="form"></app-column>
+</mat-dialog-content>
 
-		<div>
-			<button (click)="update()"
-					[disabled]="!form.valid || JSON.stringify(form.get('old')?.value) === JSON.stringify(form.get('columns')!.value[0])"
-					color="primary"
-					mat-flat-button>
+<mat-dialog-actions>
+
+	<a *ngIf="selectedServer"
+	   [href]="selectedServer!.driver.docs.types"
+	   mat-button
+	   target="_blank">
+		<span class="material-symbols-outlined notranslate">
+			help
+		</span>
+		{{selectedServer.wrapper}} Data Types
+	</a>
+
+	<button (click)="update()"
+			[disabled]="!form.valid || JSON.stringify(form.get('old')?.value) === JSON.stringify(form.get('columns')!.value[0])"
+			color="primary"
+			mat-flat-button>
 				<span class="material-symbols-outlined notranslate">
 					drive_file_rename_outline
 				</span>
-				Apply
-			</button>
-		</div>
-	</mat-toolbar>
-
-	<app-column [form]="form"></app-column>
-</div>
+		Apply
+	</button>
+</mat-dialog-actions>

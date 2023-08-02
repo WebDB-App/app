@@ -8,7 +8,7 @@ import { Column } from "../../../classes/column";
 import { Title } from "@angular/platform-browser";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { DropTableDialog } from "../advanced/advanced.component";
 
 @Component({
@@ -157,7 +157,8 @@ export class CreateTableDialog {
 	}
 
 	addColumn(column?: any) {
-		this.form.get("columns")!.value.push(column || Column.getFormGroup());
+		const cols = this.form.get("columns") as FormArray;
+		cols.push(column || Column.getFormGroup());
 	}
 
 	async create() {
