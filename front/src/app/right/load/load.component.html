@@ -31,8 +31,7 @@
 		<ngx-monaco-editor
 			*ngIf="files[i].text.length < 10000000"
 			[(ngModel)]="files[i].text"
-			[options]="editorOptions"
-			style="width: 50vw; height: 50vh">
+			[options]="editorOptions">
 		</ngx-monaco-editor>
 	</div>
 

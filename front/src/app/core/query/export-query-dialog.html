@@ -22,8 +22,7 @@
 		*ngIf="!isLoading"
 		(onInit)="initBaseEditor($event)"
 		[(ngModel)]="str"
-		[options]="editorOptions"
-		style="width: 500px; height: 500px;  resize: both; overflow: auto">
+		[options]="editorOptions">
 	</ngx-monaco-editor>
 </div>
 <mat-dialog-actions>

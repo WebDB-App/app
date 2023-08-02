@@ -91,7 +91,7 @@ export class QueryComponent implements OnInit {
 		});
 
 		this.activatedRoute?.paramMap.subscribe(async (paramMap) => {
-			if (paramMap.get('code')) {
+			if (paramMap.get('code') && paramMap.get('code')?.trim()) {
 				this.query = paramMap.get('code')!;
 			}
 		});

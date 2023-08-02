@@ -21,7 +21,7 @@ const routes: Routes = [
 	}, {
 		path: 'query',
 		pathMatch: 'full',
-		redirectTo: 'query/'
+		redirectTo: 'query/ '
 	}, {
 		path: 'structure',
 		component: StructureComponent
