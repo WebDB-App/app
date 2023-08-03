@@ -256,6 +256,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 			if (!result) {
 				return;
 			}
+			this.selection.clear();
 			await this.refreshData();
 		});
 	}

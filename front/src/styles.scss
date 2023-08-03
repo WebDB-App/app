@@ -152,6 +152,7 @@ a {
 .mat-dialog-container {
 	padding: 8px 8px 18px 8px !important;
 	overflow: inherit !important;
+	border: 1px solid black;
 
 	.mat-dialog-title {
 		display: flex !important;
@@ -264,7 +265,7 @@ code, .hljs {
 	box-shadow: none;
 	transition: box-shadow 0.1s linear;
 
-	&:hover {
+	app-root &:hover {
 		box-shadow: 0px 0px 0px 2px mat.get-color-from-palette($angular-primary, default);
 	}
 }
