@@ -168,9 +168,14 @@ a {
 		justify-content: space-between;
 		margin: 0px;
 
+		> div {
+			display: flex;
+			align-items: center;
+		}
+
 		h3 {
-			margin: 0px 30px 0px 10px !important;
 			align-self: center;
+			margin: 0px 30px 0px 10px !important;
 		}
 	}
 

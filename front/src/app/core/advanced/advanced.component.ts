@@ -38,9 +38,15 @@ export class TableAdvancedComponent implements OnDestroy {
 			this.selectedDatabase = Database.getSelected();
 			this.selectedTable = Table.getSelected();
 		});
+
+		this.loadStats();
 		this.interval = setInterval(async () => {
-			this.stats = await this.request.post('table/stats', undefined);
+			this.loadStats();
 		}, 2000);
+	}
+
+	async loadStats() {
+		this.stats = await this.request.post('table/stats', undefined);
 	}
 
 	ngOnDestroy() {

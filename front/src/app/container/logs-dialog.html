@@ -1,8 +1,7 @@
 <div cdkDrag
-	 cdkDragHandle
 	 cdkDragRootElement=".cdk-overlay-pane"
 	 mat-dialog-title>
-	<div style="display: flex">
+	<div>
 		<button
 			cdkDragHandle
 			mat-icon-button
@@ -14,6 +13,13 @@
 		<h3>
 			{{file}}
 		</h3>
+
+		<mat-slide-toggle
+			(click)="toggleAutoRefresh()"
+			style="font-size: 12px"
+			checked>
+			Auto refresh
+		</mat-slide-toggle>
 	</div>
 
 	<button aria-label="close dialog" mat-dialog-close mat-icon-button>

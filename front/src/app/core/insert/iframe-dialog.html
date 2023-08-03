@@ -1,7 +1,7 @@
 <div cdkDrag
 	 cdkDragRootElement=".cdk-overlay-pane"
 	 mat-dialog-title>
-	<div style="display: flex">
+	<div>
 		<button
 			cdkDragHandle
 			mat-icon-button
@@ -11,6 +11,13 @@
 			</span>
 		</button>
 		<h3>External Doc</h3>
+		<a [href]="src"
+			target="_blank"
+			mat-icon-button>
+			<span class="material-symbols-outlined">
+				link
+			</span>
+		</a>
 	</div>
 	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
 		<mat-icon>close</mat-icon>

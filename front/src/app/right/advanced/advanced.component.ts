@@ -34,6 +34,8 @@ export class AdvancedComponent implements OnInit, OnDestroy {
 		this.selectedServer = Server.getSelected();
 
 		this.collations = await this.request.post('database/availableCollations', undefined);
+
+		this.stats = await this.request.post('database/stats', undefined);
 		this.interval = setInterval(async () => {
 			this.stats = await this.request.post('database/stats', undefined);
 		}, 2000);
