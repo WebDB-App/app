@@ -4,8 +4,8 @@ import { saveAs } from "file-saver-es";
 import { Table } from "../../classes/table";
 
 @Component({
-  templateUrl: './export-result-dialog.html',
-  styleUrls: ['./export-result-dialog.scss']
+	templateUrl: './export-result-dialog.html',
+	styleUrls: ['./export-result-dialog.scss']
 })
 export class ExportResultDialog {
 

@@ -29,7 +29,6 @@ class Panel {
 export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	@ViewChild("drawer") drawer!: MatDrawer;
-	protected readonly environment = environment;
 	sub!: Subscription;
 	env = environment;
 	packageJson = packageJson
@@ -45,6 +44,7 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 		{link: "dump", icon: "ios_share"},
 		{link: "advanced", icon: "instant_mix"},
 	];
+	protected readonly environment = environment;
 
 	constructor(
 		private domSanitizer: DomSanitizer,
@@ -160,7 +160,9 @@ export class LogsDialog implements OnDestroy {
 		@Inject(MAT_DIALOG_DATA) public file: 'out.log' | 'err.log',
 	) {
 		this.load();
-		this.interval = setInterval(() => {this.load()}, 2000);
+		this.interval = setInterval(() => {
+			this.load()
+		}, 2000);
 	}
 
 	ngOnDestroy() {

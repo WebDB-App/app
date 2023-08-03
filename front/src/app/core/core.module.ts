@@ -15,7 +15,7 @@ import { MatPaginatorModule } from "@angular/material/paginator";
 import { MatTableModule } from "@angular/material/table";
 import { MatSortModule } from "@angular/material/sort";
 import { MatCheckboxModule } from "@angular/material/checkbox";
-import { QueryComponent, ExportQueryDialog } from './query/query.component';
+import { ExportQueryDialog, QueryComponent } from './query/query.component';
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatTabsModule } from "@angular/material/tabs";
 import { DropTableDialog, TableAdvancedComponent, TruncateTableDialog } from "./advanced/advanced.component";
@@ -26,7 +26,8 @@ import {
 	AddColumnDialog,
 	AddIndexDialog,
 	DropColumnDialog,
-	StructureComponent, UpdateColumnDialog,
+	StructureComponent,
+	UpdateColumnDialog,
 } from './structure/structure.component';
 import { MatButtonToggleModule } from "@angular/material/button-toggle";
 import { MatDialogModule } from "@angular/material/dialog";

@@ -13,8 +13,8 @@
 		(change)="order = $event.value"
 	>
 		<mat-button-toggle
-			matTooltip="From most recent to older"
 			checked
+			matTooltip="From most recent to older"
 			value="time"
 		>
 			<span class="material-symbols-outlined notranslate">
@@ -39,18 +39,18 @@
 			  [style.background-color]="his.star ? 'black' : undefined">
 		<mat-card-content>
 			<div class="actions">
-				<button mat-icon-button
-						matTooltipPosition="left"
+				<button (click)="changeStar(his)"
+						mat-icon-button
 						matTooltip="Add to favorite"
-						(click)="changeStar(his)">
+						matTooltipPosition="left">
 					<span class="material-symbols-outlined notranslate">star</span>
 				</button>
 
 				<button
 					(click)="goToQuery(his.query)"
+					mat-icon-button
 					matTooltip="Replay query"
-					matTooltipPosition="left"
-					mat-icon-button>
+					matTooltipPosition="left">
 					<span class="material-symbols-outlined notranslate">replay</span>
 				</button>
 

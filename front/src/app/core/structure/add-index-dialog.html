@@ -1,13 +1,13 @@
-<div mat-dialog-title
-	 cdkDrag
+<div cdkDrag
+	 cdkDragHandle
 	 cdkDragRootElement=".cdk-overlay-pane"
-	 cdkDragHandle>
+	 mat-dialog-title>
 	<div style="display: flex">
 		<button
-			style="cursor: grab"
+			cdkDragHandle
 			mat-icon-button
-			cdkDragHandle>
-			<span  class="material-symbols-outlined">
+			style="cursor: grab">
+			<span class="material-symbols-outlined">
 				drag_indicator
 			</span>
 		</button>

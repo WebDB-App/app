@@ -35,9 +35,9 @@
 
 			<div style="width: 100%;">
 				<mat-form-field
-					color="accent"
 					[hidden]="!key || changing"
 					appearance="fill"
+					color="accent"
 					style="margin-bottom: -1.25em; width: 100%;">
 					<mat-label>Pre-sent data</mat-label>
 					<mat-select #select [(ngModel)]="preSent" multiple>
@@ -154,13 +154,13 @@
 						<pre><code [highlight]="mrk.code" [lineNumbers]="true"></code></pre>
 					</div>
 
-					<div class="actions" *ngIf="mrk.html">
+					<div *ngIf="mrk.html" class="actions">
 						<button
 							(click)="message.value = ch.txt"
 							*ngIf="ch.user === Role.User"
+							mat-icon-button
 							matTooltip="Edit request"
-							matTooltipPosition="left"
-							mat-icon-button>
+							matTooltipPosition="left">
 							<span class="material-symbols-outlined notranslate">
 								edit
 							</span>
@@ -177,9 +177,9 @@
 
 	<div [hidden]="!key" style="padding: 6px">
 		<mat-form-field (keydown.enter)="sendMessage(message.value); message.value = ''"
-						color="accent"
 						appearance="fill"
-						class="sendMessage">
+						class="sendMessage"
+						color="accent">
 			<mat-label>Ask anything about `{{selectedDatabase?.name}}`</mat-label>
 			<textarea #message cdkTextareaAutosize matInput style="max-height: 60vh;"></textarea>
 			<button (click)="sendMessage(message.value); message.value = ''"

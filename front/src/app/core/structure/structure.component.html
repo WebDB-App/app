@@ -7,8 +7,8 @@
 				   matInput>
 		</mat-form-field>
 	</div>
-	<button *ngIf="!selectedTable?.view"
-			(click)="addColumn()"
+	<button (click)="addColumn()"
+			*ngIf="!selectedTable?.view"
 			color="primary"
 			mat-stroked-button>
 		<span class="material-symbols-outlined notranslate">

@@ -191,7 +191,11 @@ export class AddIndexDialog {
 	}
 
 	async createIndex(name: string, type: string, columns: string[]) {
-		await this.request.post('index/add', {name, type, columns}, this.table, this.selectedDatabase, this.selectedServer);
+		await this.request.post('index/add', {
+			name,
+			type,
+			columns
+		}, this.table, this.selectedDatabase, this.selectedServer);
 
 		this.snackBar.open(`Added Index ${name}`, "╳", {duration: 3000})
 		this.dialogRef.close(true);

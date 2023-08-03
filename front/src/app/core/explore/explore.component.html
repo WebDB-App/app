@@ -113,8 +113,8 @@
 
 				<ng-container *ngIf="column === actionColum">
 					<button
-						[matMenuTriggerFor]="actions"
 						[disabled]="selection.isEmpty()"
+						[matMenuTriggerFor]="actions"
 						mat-icon-button>
 						<span class="material-symbols-outlined notranslate">
 							settings_applications
@@ -127,7 +127,7 @@
 						color="primary">
 					</mat-checkbox>
 					<span *ngIf="selection.selected.length > 0"
-						style="font-size: 12px">
+						  style="font-size: 12px">
 						<br>
 						{{selection.selected.length}} Selected
 					</span>
@@ -173,17 +173,17 @@
 </div>
 
 <mat-menu #actions="matMenu">
-	<span mat-menu-item
-		  (click)="batchUpdate()">
+	<span (click)="batchUpdate()"
+		  mat-menu-item>
 		Batch Update
 	</span>
-	<span mat-menu-item
-		  (click)="exportRows()">
+	<span (click)="exportRows()"
+		  mat-menu-item>
 		Export
 	</span>
 	<span
-		mat-menu-item
-		(click)="removeRows()">
+		(click)="removeRows()"
+		mat-menu-item>
 		Delete
 	</span>
 </mat-menu>

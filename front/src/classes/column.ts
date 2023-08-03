@@ -2,8 +2,6 @@ import { Index } from "./index";
 import { Relation } from "./relation";
 import { Driver, Group } from "./driver";
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from "@angular/forms";
-import { faker } from "@faker-js/faker";
-import * as falso from "@ngneat/falso";
 
 export class Column {
 	name!: string;

@@ -46,7 +46,7 @@
 	</div>
 
 	<div style="display: flex; align-items: center">
-		<mat-form-field appearance="outline" class="goToPage" *ngIf="querySize >= 1">
+		<mat-form-field *ngIf="querySize >= 1" appearance="outline" class="goToPage">
 			<mat-label>
 				Page
 			</mat-label>
@@ -61,8 +61,8 @@
 			(page)="page = $event.pageIndex; pageSize = $event.pageSize; runQuery()"
 			[length]="querySize"
 			[pageIndex]="page"
-			[pageSize]="pageSize"
 			[pageSizeOptions]="[50, 100, 500, 2000]"
+			[pageSize]="pageSize"
 		></mat-paginator>
 	</div>
 
@@ -74,7 +74,8 @@
 			<button (click)="exportQuery()" [disabled]="querySize < 1" mat-menu-item>Export Query</button>
 			<button (click)="exportResult()" [disabled]="querySize < 1" mat-menu-item>Export All Results</button>
 			<a [href]="selectedServer!.driver.docs.language" mat-menu-item target="_blank">
-				{{selectedServer!.driver.language.id === "sql" ? "SQL" : (selectedServer!.driver.language.id | titlecase)}} Doc
+				{{selectedServer!.driver.language.id === "sql" ? "SQL" : (selectedServer!.driver.language.id | titlecase)}}
+				Doc
 			</a>
 			<button [matMenuTriggerFor]="shortcuts" mat-menu-item>Shortcuts</button>
 			<button [matMenuTriggerFor]="disclaimer" mat-menu-item>Disclaimer</button>
@@ -86,7 +87,8 @@
 			<button mat-menu-item>Alt + Maj + f → <span style="color: #2196f3">Format Query</span></button>
 		</mat-menu>
 		<mat-menu #disclaimer="matMenu">
-			<pre style="color: white; padding: 0px 10px">Only most keyword/function <br>are proposed in autocomplete</pre>
+			<pre
+				style="color: white; padding: 0px 10px">Only most keyword/function <br>are proposed in autocomplete</pre>
 		</mat-menu>
 	</div>
 </mat-toolbar>
@@ -97,7 +99,7 @@
 	style="position: absolute; left: 0px; right: 0px; z-index: 10000000">
 </mat-progress-bar>
 
-<div id="container" [class.diff]="diff">
+<div [class.diff]="diff" id="container">
 	<ngx-monaco-editor
 		(onInit)="initEditor($event, 0)"
 		[(ngModel)]="query"
@@ -106,9 +108,9 @@
 	</ngx-monaco-editor>
 
 	<ngx-monaco-editor
-		[hidden]="!diff"
 		(onInit)="initEditor($event, 1)"
 		[(ngModel)]="query2"
+		[hidden]="!diff"
 		[options]="editorOptions">
 	</ngx-monaco-editor>
 

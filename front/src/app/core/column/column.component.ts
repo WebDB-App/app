@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Column } from "../../../classes/column";
 import { Server } from "../../../classes/server";
 import { MatSnackBar } from "@angular/material/snack-bar";

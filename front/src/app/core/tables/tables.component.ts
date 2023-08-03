@@ -7,9 +7,8 @@ import { RequestService } from "../../../shared/request.service";
 import { Column } from "../../../classes/column";
 import { Title } from "@angular/platform-browser";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
+import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { DropTableDialog } from "../advanced/advanced.component";
 
 @Component({
 	selector: 'app-tables',

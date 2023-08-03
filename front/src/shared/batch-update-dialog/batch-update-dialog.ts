@@ -7,8 +7,8 @@ import { Database } from "../../classes/database";
 import { Table } from "../../classes/table";
 
 @Component({
-  templateUrl: './batch-update-dialog.html',
-  styleUrls: ['./batch-update-dialog.scss']
+	templateUrl: './batch-update-dialog.html',
+	styleUrls: ['./batch-update-dialog.scss']
 })
 export class BatchUpdateDialog {
 
@@ -67,7 +67,10 @@ export class BatchUpdateDialog {
 			for (const [key, val] of Object.entries(replacer)) {
 				new_data[key] = val;
 			}
-			await this.request.post('data/update', {old_data, new_data}, this.selectedTable, this.selectedDatabase, this.selectedServer);
+			await this.request.post('data/update', {
+				old_data,
+				new_data
+			}, this.selectedTable, this.selectedDatabase, this.selectedServer);
 		}
 
 		this.snackBar.open(`${nb} row(s) updated`, "╳", {duration: 3000});

@@ -1,12 +1,12 @@
-<div mat-dialog-title
-	 cdkDrag
-	 cdkDragRootElement=".cdk-overlay-pane">
+<div cdkDrag
+	 cdkDragRootElement=".cdk-overlay-pane"
+	 mat-dialog-title>
 	<div style="display: flex">
 		<button
-			style="cursor: grab"
+			cdkDragHandle
 			mat-icon-button
-			cdkDragHandle>
-			<span  class="material-symbols-outlined">
+			style="cursor: grab">
+			<span class="material-symbols-outlined">
 				drag_indicator
 			</span>
 		</button>
@@ -19,14 +19,14 @@
 
 <div mat-dialog-content style="overflow: hidden;">
 	<mat-progress-bar
-		style="margin-bottom: 14px"
-		[value]="loading"
 		*ngIf="loading >= 1 && loading < 100"
+		[value]="loading"
 		mode="determinate"
+		style="margin-bottom: 14px"
 	></mat-progress-bar>
 	<mat-form-field appearance="fill" style="width: 100%">
 		<mat-label>Column to Update</mat-label>
-		<mat-select multiple (selectionChange)="show($event.value)">
+		<mat-select (selectionChange)="show($event.value)" multiple>
 			<mat-option *ngFor="let column of columns" [value]="column">
 				{{column}}
 			</mat-option>
@@ -39,8 +39,8 @@
 </div>
 <mat-dialog-actions>
 	<button
-		*ngIf="loading >= 100"
 		(click)="update()"
+		*ngIf="loading >= 100"
 		color="primary"
 		mat-stroked-button>
 		Update {{data.length}} Rows
