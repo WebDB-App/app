@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnDestroy } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { Table } from "../../../classes/table";
 import { RequestService } from "../../../shared/request.service";
@@ -13,11 +13,13 @@ import { Database } from "../../../classes/database";
 	templateUrl: './advanced.component.html',
 	styleUrls: ['./advanced.component.scss']
 })
-export class TableAdvancedComponent {
+export class TableAdvancedComponent implements OnDestroy {
 
 	selectedServer?: Server;
 	selectedDatabase?: Database;
 	selectedTable?: Table;
+
+	interval?: NodeJS.Timer;
 	stats?: {
 		index_length: number,
 		data_length: number
@@ -35,13 +37,14 @@ export class TableAdvancedComponent {
 			this.selectedServer = Server.getSelected();
 			this.selectedDatabase = Database.getSelected();
 			this.selectedTable = Table.getSelected();
-
-			await this.getStats();
 		});
+		this.interval = setInterval(async () => {
+			this.stats = await this.request.post('table/stats', undefined);
+		}, 2000);
 	}
 
-	async getStats() {
-		this.stats = await this.request.post('table/stats', undefined);
+	ngOnDestroy() {
+		clearInterval(this.interval);
 	}
 
 	drop() {
@@ -65,7 +68,6 @@ export class TableAdvancedComponent {
 				return;
 			}
 			this.snackBar.open(`Table ${this.selectedTable?.name} truncated`, "╳", {duration: 3000});
-			await this.getStats();
 		});
 	}
 

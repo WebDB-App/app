@@ -10,9 +10,10 @@ import { Configuration } from "../../../classes/configuration";
 import { RequestService } from "../../../shared/request.service";
 import { SelectionModel } from "@angular/cdk/collections";
 import { MatDialog } from "@angular/material/dialog";
-import { UpdateDataDialogComponent } from "../../../shared/update-data-dialog/update-data-dialog.component";
+import { UpdateDataDialog } from "../../../shared/update-data-dialog/update-data-dialog";
 import { Group } from "../../../classes/driver";
 import { Column } from "../../../classes/column";
+import { ExportResultDialog } from "../../../shared/export-result-dialog/export-result-dialog";
 
 @Component({
 	selector: 'app-explore',
@@ -187,7 +188,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 	}
 
 	editRow(i: number, row: any) {
-		const dialogRef = this.dialog.open(UpdateDataDialogComponent, {
+		const dialogRef = this.dialog.open(UpdateDataDialog, {
 			data: {
 				row,
 				updateInPlace: true
@@ -242,5 +243,18 @@ export class ExploreComponent implements OnInit, OnDestroy {
 			return;
 		}
 		this.selection.select(...this.dataSource.data);
+	}
+
+
+	batchUpdate() {
+		//update n rows
+		//show monaco with empty
+	}
+
+	exportRows() {
+		this.dialog.open(ExportResultDialog, {
+			data: this.selection.selected,
+			hasBackdrop: false
+		});
 	}
 }

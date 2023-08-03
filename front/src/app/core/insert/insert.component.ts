@@ -15,7 +15,7 @@ import { faker } from '@faker-js/faker';
 import * as falso from '@ngneat/falso';
 import { HttpClient } from "@angular/common/http";
 import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
-import { UpdateDataDialogComponent } from "../../../shared/update-data-dialog/update-data-dialog.component";
+import { UpdateDataDialog } from "../../../shared/update-data-dialog/update-data-dialog";
 import { DomSanitizer } from "@angular/platform-browser";
 
 const localStorageName = "insert-codes";
@@ -87,7 +87,7 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 				this.randomSource.push(random);
 			}
 
-			this.interval = setInterval(() => this.saveCode(), 1000);
+			this.interval = setInterval(() => this.saveCode(), 2000);
 		});
 	}
 
@@ -277,7 +277,7 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 	}
 
 	editRow(i: number, row: any) {
-		const dialogRef = this.dialog.open(UpdateDataDialogComponent, {
+		const dialogRef = this.dialog.open(UpdateDataDialog, {
 			data: {
 				row,
 				updateInPlace: false

@@ -5,7 +5,6 @@ import { DiffEditorModel } from "ngx-monaco-editor-v2";
 import { MatTableDataSource } from "@angular/material/table";
 import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
 import { HttpClient } from "@angular/common/http";
-import { saveAs } from "file-saver-es";
 import { Server } from "../../../classes/server";
 import { Database } from "../../../classes/database";
 import { RequestService } from "../../../shared/request.service";
@@ -13,6 +12,7 @@ import { Relation } from "../../../classes/relation";
 import { Configuration } from "../../../classes/configuration";
 import { HistoryService, Query } from "../../../shared/history.service";
 import { initBaseEditor } from "../../../shared/helper";
+import { ExportResultDialog } from "../../../shared/export-result-dialog/export-result-dialog";
 
 declare var monaco: any;
 
@@ -213,52 +213,6 @@ export class QueryComponent implements OnInit {
 			data,
 			hasBackdrop: false
 		});
-	}
-}
-
-
-@Component({
-	templateUrl: 'export-result-dialog.html',
-})
-export class ExportResultDialog {
-
-	str!: string;
-	type = "JSON";
-	editorOptions = {
-		readOnly: true,
-		language: ''
-	};
-	isLoading = true;
-
-	constructor(
-		@Inject(MAT_DIALOG_DATA) public data: any[],
-	) {
-		this.show();
-	}
-
-	show() {
-		this.isLoading = true;
-		setTimeout(() => {
-			switch (this.type) {
-				case "CSV":
-					this.str = Object.keys(this.data[0]).join(',') + '\n';
-					this.editorOptions.language = 'csv';
-					for (let res of this.data) {
-						this.str += Object.values(res).join(',') + '\n';
-					}
-					break;
-				case "JSON":
-					this.str = JSON.stringify(this.data, null, "\t");
-					this.editorOptions.language = 'json';
-					break;
-			}
-			this.isLoading = false;
-		});
-	}
-
-	download() {
-		const blob = new Blob([this.str], {type: "text/plain;charset=utf-8"});
-		saveAs(blob, Table.getSelected().name + '.' + this.type);
 	}
 }
 

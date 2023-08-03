@@ -7,11 +7,10 @@ import { Server } from "../../classes/server";
 import { Database } from "../../classes/database";
 
 @Component({
-	selector: 'app-update-data-dialog',
-	templateUrl: './update-data-dialog.component.html',
-	styleUrls: ['./update-data-dialog.component.scss']
+	templateUrl: './update-data-dialog.html',
+	styleUrls: ['./update-data-dialog.scss']
 })
-export class UpdateDataDialogComponent {
+export class UpdateDataDialog {
 
 	selectedServer?: Server;
 	selectedDatabase?: Database;
@@ -24,7 +23,7 @@ export class UpdateDataDialogComponent {
 	};
 
 	constructor(
-		public dialogRef: MatDialogRef<UpdateDataDialogComponent>,
+		public dialogRef: MatDialogRef<UpdateDataDialog>,
 		public snackBar: MatSnackBar,
 		private request: RequestService,
 		@Inject(MAT_DIALOG_DATA) public data: {

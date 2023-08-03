@@ -5,7 +5,7 @@ import { BooleanPipe } from "./boolean.pipe";
 import { CellComponent } from './cell/cell.component';
 import { NgxJsonViewerModule } from "ngx-json-viewer";
 import { RouterLinkWithHref } from "@angular/router";
-import { UpdateDataDialogComponent } from './update-data-dialog/update-data-dialog.component';
+import { UpdateDataDialog } from './update-data-dialog/update-data-dialog';
 import { FlexModule } from "@angular/flex-layout";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatButtonModule } from "@angular/material/button";
@@ -18,18 +18,24 @@ import { MonacoEditorModule } from "ngx-monaco-editor-v2";
 import { ClipboardModule } from "@angular/cdk/clipboard";
 import { FormsModule } from "@angular/forms";
 import { DragDropModule } from "@angular/cdk/drag-drop";
+import { ExportResultDialog } from './export-result-dialog/export-result-dialog';
+import { MatButtonToggleModule } from "@angular/material/button-toggle";
+import { MatSelectModule } from "@angular/material/select";
 
 @NgModule({
 	declarations: [
 		RoundPipe,
 		BooleanPipe,
 		CellComponent,
-		UpdateDataDialogComponent
+		UpdateDataDialog,
+		ExportResultDialog
 	],
 	exports: [
 		RoundPipe,
 		BooleanPipe,
 		CellComponent,
+		UpdateDataDialog,
+		ExportResultDialog
 	],
 	imports: [
 		CommonModule,
@@ -46,7 +52,9 @@ import { DragDropModule } from "@angular/cdk/drag-drop";
 		MonacoEditorModule,
 		ClipboardModule,
 		FormsModule,
-		DragDropModule
+		DragDropModule,
+		MatButtonToggleModule,
+		MatSelectModule
 	]
 })
 export class SharedModule {

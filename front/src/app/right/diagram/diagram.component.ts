@@ -145,7 +145,7 @@ export class DiagramComponent implements OnDestroy {
 				positions.push({table: table.data.name, x: table.translateX, y: table.translateY});
 			})
 			localStorage.setItem('diagram-' + this.selectedDatabase.name, JSON.stringify(positions));
-		}, 1000);
+		}, 2000);
 
 		this.diagramController.render({
 			table_list: entities,

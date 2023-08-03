@@ -1,11 +1,3 @@
-right click: copy, paste, set null, delete rows, export to csv/json
-
-
-
-
-
-
-
 sql alter table : name, fct as default, null as default
 wrap defaultValue -> attention NULL / function()
 postgre : addtable
@@ -40,7 +32,6 @@ mongo : export + relations + harmonizer + insert
 - graphql
 - Export Query : tester tout + btn to export via IA (Stripe Metadata additionnal feature)
 - revoir MySQL load avec tunnel (essayer en bash)
-
 
 
 
@@ -115,10 +106,6 @@ mongo : export + relations + harmonizer + insert
 
 
 
-
-
-
-- reload stats periodically
 - datahog / sentry
 - Cloud DB : digital + atlas? + azure
 - ElasticSearch : https://elasticvue.com/

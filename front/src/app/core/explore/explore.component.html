@@ -117,7 +117,7 @@
 						[disabled]="selection.isEmpty()"
 						mat-icon-button>
 						<span class="material-symbols-outlined notranslate">
-							more_vert
+							construction
 						</span>
 					</button>
 					<mat-checkbox
@@ -168,14 +168,13 @@
 </div>
 
 <mat-menu #actions="matMenu">
-	<span mat-menu-item>
-		Duplicate
+	<span mat-menu-item
+		  (click)="batchUpdate()">
+		Batch Update
 	</span>
-	<span mat-menu-item>
-		Export to CSV
-	</span>
-	<span mat-menu-item>
-		Export to JSON
+	<span mat-menu-item
+		  (click)="exportRows()">
+		Export Rows
 	</span>
 	<span
 		mat-menu-item
