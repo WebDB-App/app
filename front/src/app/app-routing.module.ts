@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ContainerComponent } from "./container/container.component";
 import { environment } from "../environments/environment";
-import { TablesComponent } from "./core/tables/tables.component";
 import { ConnectionComponent } from "./connection/connection.component";
+import { TablesComponent } from "./tables/tables.component";
 
 const appRoutes: Routes = [
 	{

@@ -16,7 +16,7 @@ import { MatInputModule } from "@angular/material/input";
 import { MatOptionModule } from "@angular/material/core";
 import { MonacoEditorModule } from "ngx-monaco-editor-v2";
 import { ClipboardModule } from "@angular/cdk/clipboard";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { DragDropModule } from "@angular/cdk/drag-drop";
 import { ExportResultDialog } from './export-result-dialog/export-result-dialog';
 import { MatButtonToggleModule } from "@angular/material/button-toggle";
@@ -24,6 +24,10 @@ import { MatSelectModule } from "@angular/material/select";
 import { BatchUpdateDialog } from "./batch-update-dialog/batch-update-dialog";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
+import { ColumnComponent } from "./column/column.component";
+import { MatCardModule } from "@angular/material/card";
+import { MatSlideToggleModule } from "@angular/material/slide-toggle";
+import { MatTooltipModule } from "@angular/material/tooltip";
 
 @NgModule({
 	declarations: [
@@ -32,7 +36,8 @@ import { MatProgressBarModule } from "@angular/material/progress-bar";
 		CellComponent,
 		UpdateDataDialog,
 		ExportResultDialog,
-		BatchUpdateDialog
+		BatchUpdateDialog,
+		ColumnComponent
 	],
 	exports: [
 		RoundPipe,
@@ -40,7 +45,8 @@ import { MatProgressBarModule } from "@angular/material/progress-bar";
 		CellComponent,
 		UpdateDataDialog,
 		ExportResultDialog,
-		BatchUpdateDialog
+		BatchUpdateDialog,
+		ColumnComponent
 	],
 	imports: [
 		CommonModule,
@@ -62,6 +68,10 @@ import { MatProgressBarModule } from "@angular/material/progress-bar";
 		MatSelectModule,
 		MatProgressSpinnerModule,
 		MatProgressBarModule,
+		ReactiveFormsModule,
+		MatCardModule,
+		MatSlideToggleModule,
+		MatTooltipModule,
 	]
 })
 export class SharedModule {

@@ -14,8 +14,6 @@ import { MatMenuModule } from "@angular/material/menu";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { AddConnectionDialog, ConnectionComponent, CreateDatabaseDialog } from "./connection/connection.component";
-import { ConfigDialog } from "./container/config/config-dialog.component";
-import { SubscriptionDialog } from "./container/subscription/subscription-dialog.component";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
@@ -36,6 +34,10 @@ import { HIGHLIGHT_OPTIONS, HighlightModule, HighlightOptions, } from 'ngx-highl
 import { Server } from "../classes/server";
 import { MatTabsModule } from "@angular/material/tabs";
 import { DragDropModule } from "@angular/cdk/drag-drop";
+import { CreateTableDialog, CreateViewDialog, TablesComponent } from "./tables/tables.component";
+import { ConfigDialog } from "./config/config-dialog.component";
+import { SubscriptionDialog } from "./subscription/subscription-dialog.component";
+import { SharedModule } from "../shared/shared.module";
 
 declare var monaco: any;
 
@@ -88,6 +90,9 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 		LogsDialog,
 		CreateDatabaseDialog,
 		AddConnectionDialog,
+		TablesComponent,
+		CreateViewDialog,
+		CreateTableDialog,
 	],
 	imports: [
 		AppRoutingModule,
@@ -122,7 +127,8 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 		MatStepperModule,
 		ClipboardModule,
 		MatTabsModule,
-		DragDropModule
+		DragDropModule,
+		SharedModule
 	],
 	providers: [
 		{

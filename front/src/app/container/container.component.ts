@@ -6,8 +6,6 @@ import { DrawerService } from "../../shared/drawer.service";
 import { MatIconRegistry } from "@angular/material/icon";
 import { DomSanitizer } from "@angular/platform-browser";
 import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
-import { SubscriptionDialog } from "./subscription/subscription-dialog.component";
-import { ConfigDialog } from "./config/config-dialog.component";
 import { Server } from "../../classes/server";
 import { Database } from "../../classes/database";
 import { environment } from "../../environments/environment";
@@ -15,6 +13,8 @@ import { RequestService } from "../../shared/request.service";
 import { Subscription } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import Convert from 'ansi-to-html';
+import { ConfigDialog } from "../config/config-dialog.component";
+import { SubscriptionDialog } from "../subscription/subscription-dialog.component";
 
 class Panel {
 	link!: string
