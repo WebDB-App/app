@@ -18,6 +18,14 @@
 </div>
 
 <div mat-dialog-content style="overflow: hidden;">
+	<mat-form-field appearance="fill" style="margin-bottom: -1.25em">
+		<mat-label>Hide Column</mat-label>
+		<mat-select multiple #columnList [ngModel]="columns" (selectionChange)="show($event.value)">
+			<mat-option *ngFor="let column of columns" [value]="column">
+				{{column}}
+			</mat-option>
+		</mat-select>
+	</mat-form-field>
 	<ngx-monaco-editor
 		*ngIf="!isLoading"
 		[(ngModel)]="str"
@@ -25,7 +33,7 @@
 	</ngx-monaco-editor>
 </div>
 <mat-dialog-actions>
-	<mat-button-toggle-group [(ngModel)]="type" (change)="show()">
+	<mat-button-toggle-group [(ngModel)]="type" (change)="show(columnList.value)">
 		<mat-button-toggle value="CSV">CSV</mat-button-toggle>
 		<mat-button-toggle value="JSON">JSON</mat-button-toggle>
 	</mat-button-toggle-group>

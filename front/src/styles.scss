@@ -49,7 +49,6 @@ body {
 	width: 100%;
 	white-space: nowrap;
 	border-spacing: 0px;
-	border-collapse: collapse;
 	background-color: transparent;
 
 	.mat-header-cell {
@@ -117,8 +116,8 @@ body {
 			background-color: #1e1e1e;
 		}
 
-		.mat-cell.selected app-cell {
-			border: 1px solid mat.get-color-from-palette($angular-primary, default);
+		.mat-cell.selected {
+			background-color: rgba(33, 150, 243, 0.3);
 		}
 	}
 }
@@ -311,10 +310,6 @@ ngx-monaco-editor {
 	.table {
 		.mat-header-cell {
 			color: mat.get-color-from-palette($angular-accent, default);
-		}
-		.mat-row:hover .mat-cell {
-			border-top: 1px solid mat.get-color-from-palette($angular-accent, default);
-			border-bottom: 1px solid mat.get-color-from-palette($angular-accent, default);
 		}
 	}
 

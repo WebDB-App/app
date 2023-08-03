@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
 import { Database } from "../../../classes/database";
 import { Server } from "../../../classes/server";
@@ -11,11 +11,13 @@ import { Router } from "@angular/router";
 	templateUrl: './advanced.component.html',
 	styleUrls: ['./advanced.component.scss']
 })
-export class AdvancedComponent implements OnInit {
+export class AdvancedComponent implements OnInit, OnDestroy {
 
 	selectedServer?: Server;
 	selectedDatabase?: Database;
+
 	collations: string[] = [];
+	interval?: NodeJS.Timer;
 	stats?: {
 		index_length: number,
 		data_length: number
@@ -32,11 +34,17 @@ export class AdvancedComponent implements OnInit {
 		this.selectedServer = Server.getSelected();
 
 		this.collations = await this.request.post('database/availableCollations', undefined);
-		this.stats = await this.request.post('database/stats', undefined);
+		this.interval = setInterval(async () => {
+			this.stats = await this.request.post('database/stats', undefined);
+		}, 2000);
 
 		if (!this.collations.includes(this.selectedDatabase!.collation)) {
 			this.collations.push(this.selectedDatabase!.collation)
 		}
+	}
+
+	ngOnDestroy() {
+		clearInterval(this.interval);
 	}
 
 	drop() {
