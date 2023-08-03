@@ -1,12 +1,12 @@
-<div mat-dialog-title
-	 cdkDrag
-	 cdkDragRootElement=".cdk-overlay-pane">
+<div cdkDrag
+	 cdkDragRootElement=".cdk-overlay-pane"
+	 mat-dialog-title>
 	<div style="display: flex">
 		<button
-			style="cursor: grab"
+			cdkDragHandle
 			mat-icon-button
-			cdkDragHandle>
-			<span  class="material-symbols-outlined">
+			style="cursor: grab">
+			<span class="material-symbols-outlined">
 				drag_indicator
 			</span>
 		</button>
@@ -20,7 +20,7 @@
 <div mat-dialog-content style="overflow: hidden;">
 	<mat-form-field appearance="fill" style="margin-bottom: -1.25em">
 		<mat-label>Hide Column</mat-label>
-		<mat-select multiple #columnList [ngModel]="columns" (selectionChange)="show($event.value)">
+		<mat-select #columnList (selectionChange)="show($event.value)" [ngModel]="columns" multiple>
 			<mat-option *ngFor="let column of columns" [value]="column">
 				{{column}}
 			</mat-option>
@@ -33,7 +33,7 @@
 	</ngx-monaco-editor>
 </div>
 <mat-dialog-actions>
-	<mat-button-toggle-group [(ngModel)]="type" (change)="show(columnList.value)">
+	<mat-button-toggle-group (change)="show(columnList.value)" [(ngModel)]="type">
 		<mat-button-toggle value="CSV">CSV</mat-button-toggle>
 		<mat-button-toggle value="JSON">JSON</mat-button-toggle>
 	</mat-button-toggle-group>

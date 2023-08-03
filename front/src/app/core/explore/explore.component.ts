@@ -15,7 +15,6 @@ import { Group } from "../../../classes/driver";
 import { Column } from "../../../classes/column";
 import { ExportResultDialog } from "../../../shared/export-result-dialog/export-result-dialog";
 import { BatchUpdateDialog } from "../../../shared/batch-update-dialog/batch-update-dialog";
-import { DropColumnDialog } from "../structure/structure.component";
 
 @Component({
 	selector: 'app-explore',

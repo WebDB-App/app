@@ -42,7 +42,10 @@ export class UpdateDataDialog {
 		const n = JSON.parse(this.str);
 
 		if (this.data.updateInPlace) {
-			const nb = await this.request.post('data/update', {old_data: this.data.row, new_data: n}, this.selectedTable, this.selectedDatabase, this.selectedServer);
+			const nb = await this.request.post('data/update', {
+				old_data: this.data.row,
+				new_data: n
+			}, this.selectedTable, this.selectedDatabase, this.selectedServer);
 			this.snackBar.open(`${nb} row(s) updated`, "╳", {duration: 3000});
 		}
 		this.dialogRef.close(n);

@@ -1,5 +1,5 @@
 <mat-drawer-container>
-	<mat-drawer #drawer mode="over" position="end" id="right">
+	<mat-drawer #drawer id="right" mode="over" position="end">
 		<router-outlet *ngIf="loading >= 100" name="right"></router-outlet>
 	</mat-drawer>
 
@@ -23,16 +23,16 @@
 
 			<div class="flex-spacer"></div>
 
-			<nav [tabPanel]="tabPanel"
-				 (click)="drawer.toggle();"
-				 mat-tab-nav-bar
+			<nav (click)="drawer.toggle();"
+				 [tabPanel]="tabPanel"
 				 class="panel"
-				 color="accent">
+				 color="accent"
+				 mat-tab-nav-bar>
 				<a #rla="routerLinkActive"
 				   *ngFor="let panel of panels"
+				   [active]="rla.isActive"
 				   [routerLinkActive]="'mat-button-toggle-checked'"
 				   [routerLink]="[{outlets: {right: [panel.link]}}]"
-				   [active]="rla.isActive"
 				   mat-tab-link>
 					<span class="material-symbols-outlined notranslate">
 						{{panel.icon}}
@@ -43,18 +43,18 @@
 
 			<div class="flex-spacer"></div>
 
-			<button mat-button
+			<button (click)="request.reloadServer()"
 					color="accent"
-					matTooltip="Reload Connection"
-					(click)="request.reloadServer()">
+					mat-button
+					matTooltip="Reload Connection">
 				<span class="material-symbols-outlined notranslate">
 					refresh
 				</span>
 			</button>
 			<button
+				(click)="showLogs('out.log')"
 				mat-button
-				matTooltip="Query Logs"
-				(click)="showLogs('out.log')">
+				matTooltip="Query Logs">
 				<span class="material-symbols-outlined notranslate">
 					receipt_long
 				</span>
@@ -64,7 +64,7 @@
 					help
 				</span>
 			</button>
-			<button [matMenuTriggerFor]="user" mat-button hidden>
+			<button [matMenuTriggerFor]="user" hidden mat-button>
 				<span class="material-symbols-outlined notranslate">
 					person
 				</span>
@@ -124,8 +124,8 @@
 	</a>
 	<mat-divider></mat-divider>
 	<button
-		mat-menu-item
-		(click)="showLogs('err.log')">
+		(click)="showLogs('err.log')"
+		mat-menu-item>
 		<span class="material-symbols-outlined notranslate">
 			error
 		</span>
@@ -147,8 +147,8 @@
 		Subscription
 	</a>
 	<a [href]="environment.stripeUserLink"
-	   target="_blank"
-	   mat-menu-item>
+	   mat-menu-item
+	   target="_blank">
 		<span class="material-symbols-outlined notranslate">
 			credit_card
 		</span>

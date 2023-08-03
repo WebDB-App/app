@@ -23,14 +23,12 @@ declare var monaco: any;
 })
 export class QueryComponent implements OnInit {
 
-	protected readonly Math = Math;
 	prebuilds!: string[];
 	configuration: Configuration = new Configuration();
 	selectedServer?: Server;
 	selectedDatabase?: Database;
 	selectedTable?: Table;
 	relations?: Relation[];
-
 	editors: any[] = [];
 	editorOptions = {
 		language: ''
@@ -43,7 +41,6 @@ export class QueryComponent implements OnInit {
 		code: '',
 		language: 'json'
 	};
-
 	query = '';
 	query2 = '';
 	diff = false;
@@ -53,6 +50,7 @@ export class QueryComponent implements OnInit {
 	isLoading = false;
 	displayedColumns?: string[];
 	dataSource?: MatTableDataSource<any>;
+	protected readonly Math = Math;
 
 	constructor(
 		private request: RequestService,

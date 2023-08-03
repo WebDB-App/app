@@ -144,7 +144,8 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 		this.displayedColumns?.map(col => {
 			if (col !== this.actionColum) {
 				obj[col] = null
-			};
+			}
+
 		});
 
 		const newRows = Array.from({length}, (_, k) => obj);

@@ -22,10 +22,11 @@
 				No table
 			</mat-list-item>
 
-			<mat-selection-list [multiple]="false" (selectionChange)="changeTable(tables.selectedOptions.selected[0].value)" #tables>
+			<mat-selection-list #tables
+								(selectionChange)="changeTable(tables.selectedOptions.selected[0].value)" [multiple]="false">
 				<div *ngFor="let table of selectedDatabase?.tables"
-					 [style.border-right]="selectedTable?.name === table.name ? '2px solid #2196f3' : undefined"
 					 [hidden]="table.hide"
+					 [style.border-right]="selectedTable?.name === table.name ? '2px solid #2196f3' : undefined"
 					 class="entity">
 					<div style="display: flex">
 						<div [style.background-color]="tooltips[table.name] ? '#1e1e1e' : 'inherit'"
@@ -39,8 +40,8 @@
 							</button>
 						</div>
 						<mat-list-option
-							[value]="table.name"
-							[class.mat-list-single-selected-option]="selectedTable?.name === table.name">
+							[class.mat-list-single-selected-option]="selectedTable?.name === table.name"
+							[value]="table.name">
 							{{table.name}}
 						</mat-list-option>
 					</div>
@@ -68,8 +69,8 @@
 				<div class="flex-spacer"></div>
 
 				<button (click)="addView()"
-						hidden
 						color="primary"
+						hidden
 						mat-stroked-button>
 					<span class="material-symbols-outlined notranslate">
 						shadow_add

@@ -13,7 +13,7 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatMenuModule } from "@angular/material/menu";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatSidenavModule } from "@angular/material/sidenav";
-import { AddConnectionDialog, CreateDatabaseDialog, ConnectionComponent } from "./connection/connection.component";
+import { AddConnectionDialog, ConnectionComponent, CreateDatabaseDialog } from "./connection/connection.component";
 import { ConfigDialog } from "./container/config/config-dialog.component";
 import { SubscriptionDialog } from "./container/subscription/subscription-dialog.component";
 import { MatFormFieldModule } from "@angular/material/form-field";
