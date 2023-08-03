@@ -51,8 +51,14 @@
 		align-self: center;
 	}
 
+	.mat-horizontal-content-container {
+		min-height: 40vh;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
+
 	.mat-horizontal-stepper-content {
-		padding: 12px 0px;
 		justify-content: space-evenly;
 		display: flex;
 		flex-direction: column;

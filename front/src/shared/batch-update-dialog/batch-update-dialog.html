@@ -10,7 +10,7 @@
 				drag_indicator
 			</span>
 		</button>
-		<h2>Batch Update</h2>
+		<h3>Batch Update</h3>
 	</div>
 	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
 		<mat-icon>close</mat-icon>
@@ -24,14 +24,16 @@
 		mode="determinate"
 		style="margin-bottom: 14px"
 	></mat-progress-bar>
-	<mat-form-field appearance="fill" style="width: 100%">
-		<mat-label>Column to Update</mat-label>
-		<mat-select (selectionChange)="show($event.value)" multiple>
-			<mat-option *ngFor="let column of columns" [value]="column">
-				{{column}}
-			</mat-option>
-		</mat-select>
-	</mat-form-field>
+	<div style="padding: 12px 12px 0px 12px;">
+		<mat-form-field appearance="fill" style="width: 100%">
+			<mat-label>Column to Update</mat-label>
+			<mat-select (selectionChange)="show($event.value)" multiple>
+				<mat-option *ngFor="let column of columns" [value]="column">
+					{{column}}
+				</mat-option>
+			</mat-select>
+		</mat-form-field>
+	</div>
 	<ngx-monaco-editor
 		[(ngModel)]="str"
 		[options]="editorOptions">

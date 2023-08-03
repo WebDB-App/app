@@ -1,11 +1,11 @@
 <div mat-dialog-title>
-	<h2>Configuration</h2>
+	<h3>Configuration</h3>
 	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
 		<mat-icon>close</mat-icon>
 	</button>
 </div>
 <div mat-dialog-content>
-	<table>
+	<table style="padding: 20px">
 		<tr *ngFor="let config of configuration.configs">
 			<td>{{config.description}}</td>
 			<td>

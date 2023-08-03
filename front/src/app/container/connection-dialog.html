@@ -1,5 +1,17 @@
-<div mat-dialog-title>
-	<h2>Connection Details of {{server.name}}</h2>
+<div cdkDrag
+	 cdkDragRootElement=".cdk-overlay-pane"
+	 mat-dialog-title>
+	<div style="display: flex">
+		<button
+			cdkDragHandle
+			mat-icon-button
+			style="cursor: grab">
+			<span class="material-symbols-outlined">
+				drag_indicator
+			</span>
+		</button>
+		<h3>Connection Details of {{server.name}}</h3>
+	</div>
 	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
 		<mat-icon>close</mat-icon>
 	</button>
