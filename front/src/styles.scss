@@ -278,7 +278,8 @@ code, .hljs {
 }
 
 ngx-monaco-editor {
-	height: 40vh !important;
+	min-height: 250px;
+	min-width: 350px;
 	width: 40vw;
 	resize: both;
 	overflow: auto;

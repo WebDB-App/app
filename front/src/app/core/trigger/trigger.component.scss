@@ -22,20 +22,6 @@
 			}
 		}
 
-		.mat-card-content {
-			resize: both;
-			overflow: auto;
-			height: 300px;
-			width: 500px;
-			min-height: 300px;
-			min-width: 500px;
-
-			ngx-monaco-editor {
-				height: 100%;
-				width: 100%;
-			}
-		}
-
 		.mat-card-footer {
 			margin: 0px;
 		}

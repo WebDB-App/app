@@ -1,0 +1,48 @@
+<div mat-dialog-title
+	 cdkDrag
+	 cdkDragRootElement=".cdk-overlay-pane">
+	<div style="display: flex">
+		<button
+			style="cursor: grab"
+			mat-icon-button
+			cdkDragHandle>
+			<span  class="material-symbols-outlined">
+				drag_indicator
+			</span>
+		</button>
+		<h2>Batch Update</h2>
+	</div>
+	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
+		<mat-icon>close</mat-icon>
+	</button>
+</div>
+
+<div mat-dialog-content style="overflow: hidden;">
+	<mat-progress-bar
+		style="margin-bottom: 14px"
+		[value]="loading"
+		*ngIf="loading >= 1 && loading < 100"
+		mode="determinate"
+	></mat-progress-bar>
+	<mat-form-field appearance="fill" style="width: 100%">
+		<mat-label>Column to Update</mat-label>
+		<mat-select multiple (selectionChange)="show($event.value)">
+			<mat-option *ngFor="let column of columns" [value]="column">
+				{{column}}
+			</mat-option>
+		</mat-select>
+	</mat-form-field>
+	<ngx-monaco-editor
+		[(ngModel)]="str"
+		[options]="editorOptions">
+	</ngx-monaco-editor>
+</div>
+<mat-dialog-actions>
+	<button
+		*ngIf="loading >= 100"
+		(click)="update()"
+		color="primary"
+		mat-stroked-button>
+		Update {{data.length}} Rows
+	</button>
+</mat-dialog-actions>

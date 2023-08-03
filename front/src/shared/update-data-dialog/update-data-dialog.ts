@@ -23,7 +23,7 @@ export class UpdateDataDialog {
 	};
 
 	constructor(
-		public dialogRef: MatDialogRef<UpdateDataDialog>,
+		private dialogRef: MatDialogRef<UpdateDataDialog>,
 		public snackBar: MatSnackBar,
 		private request: RequestService,
 		@Inject(MAT_DIALOG_DATA) public data: {

@@ -141,7 +141,7 @@ export class CreateTableDialog {
 	form!: FormGroup;
 
 	constructor(
-		public dialogRef: MatDialogRef<CreateTableDialog>,
+		private dialogRef: MatDialogRef<CreateTableDialog>,
 		private fb: FormBuilder,
 		private request: RequestService,
 		private snackBar: MatSnackBar,
@@ -185,7 +185,7 @@ export class CreateViewDialog {
 	form!: FormGroup;
 
 	constructor(
-		public dialogRef: MatDialogRef<CreateViewDialog>,
+		private dialogRef: MatDialogRef<CreateViewDialog>,
 		private fb: FormBuilder,
 		private request: RequestService,
 		private snackBar: MatSnackBar,

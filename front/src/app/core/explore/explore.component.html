@@ -117,7 +117,7 @@
 						[disabled]="selection.isEmpty()"
 						mat-icon-button>
 						<span class="material-symbols-outlined notranslate">
-							construction
+							settings_applications
 						</span>
 					</button>
 					<mat-checkbox
@@ -126,6 +126,11 @@
 						[indeterminate]="selection.hasValue() && !isAllSelected()"
 						color="primary">
 					</mat-checkbox>
+					<span *ngIf="selection.selected.length > 0"
+						style="font-size: 12px">
+						<br>
+						{{selection.selected.length}} Selected
+					</span>
 				</ng-container>
 
 			</th>
@@ -174,7 +179,7 @@
 	</span>
 	<span mat-menu-item
 		  (click)="exportRows()">
-		Export Rows
+		Export
 	</span>
 	<span
 		mat-menu-item

@@ -105,7 +105,7 @@ export class TableAdvancedComponent implements OnDestroy {
 export class DropTableDialog {
 	constructor(
 		@Inject(MAT_DIALOG_DATA) public table: Table,
-		public dialogRef: MatDialogRef<DropTableDialog>,
+		private dialogRef: MatDialogRef<DropTableDialog>,
 		private request: RequestService) {
 	}
 
@@ -126,7 +126,7 @@ export class DropTableDialog {
 })
 export class TruncateTableDialog {
 	constructor(
-		public dialogRef: MatDialogRef<TruncateTableDialog>,
+		private dialogRef: MatDialogRef<TruncateTableDialog>,
 		private request: RequestService) {
 	}
 
