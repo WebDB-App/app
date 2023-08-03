@@ -90,7 +90,9 @@
 
 	<div #container
 		 id="containerDiagram">
-		<mat-progress-bar *ngIf="diagramController?.isAutoMoving" mode="indeterminate"></mat-progress-bar>
+		<mat-progress-bar *ngIf="diagramController?.isAutoMoving"
+						  color="accent"
+						  mode="indeterminate"></mat-progress-bar>
 		<div #scrollable
 			 [ngClass]="{'hideDetails' : !showDetails}"
 			 id="scrollableDiagram"

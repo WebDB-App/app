@@ -1,32 +1,34 @@
 <div mat-dialog-title>
-	<span>Subscription</span>
+	<h3>Subscription</h3>
 
 	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
 		<mat-icon>close</mat-icon>
 	</button>
 </div>
 <div class="list" mat-dialog-content style="text-align: center;">
-	<mat-card>
-		<mat-card-header>
-			<mat-card-subtitle fxLayout="row" fxLayoutAlign="space-between center">
-				<h2>{{licence?.plan}}</h2>
-				<span>Limited to {{licence?.dbLimit}} DBs</span>
-				<div>
-					<mat-icon *ngIf="licence?.valid" color="primary">check_circle</mat-icon>
-					<mat-icon *ngIf="!licence?.valid" color="warn">cancel</mat-icon>
-				</div>
-			</mat-card-subtitle>
-		</mat-card-header>
-		<mat-card-content fxLayout="row" fxLayoutAlign="space-evenly center">
-			<span *ngIf="licence?.email">{{licence?.email}}</span>
-			<span *ngIf="licence?.expire! > 0">Expire : {{licence?.expire! * 1000 | date: 'mediumDate'}}</span>
-		</mat-card-content>
-	</mat-card>
+	<div style="padding: 12px 28px">
+		<mat-card>
+			<mat-card-header>
+				<mat-card-subtitle fxLayout="row" fxLayoutAlign="space-between center">
+					<h3>{{licence?.plan}}</h3>
+					<span>Limited to {{licence?.dbLimit}} DBs</span>
+					<div>
+						<mat-icon *ngIf="licence?.valid" color="primary">check_circle</mat-icon>
+						<mat-icon *ngIf="!licence?.valid" color="warn">cancel</mat-icon>
+					</div>
+				</mat-card-subtitle>
+			</mat-card-header>
+			<mat-card-content fxLayout="row" fxLayoutAlign="space-evenly center">
+				<span *ngIf="licence?.email">{{licence?.email}}</span>
+				<span *ngIf="licence?.expire! > 0">Expire : {{licence?.expire! * 1000 | date: 'mediumDate'}}</span>
+			</mat-card-content>
+		</mat-card>
 
-	<mat-form-field appearance="outline" style="width: 100%;">
-		<mat-label>Register a subscription with your mail</mat-label>
-		<input #mail [formControl]="email" autocomplete="off" matInput type="text">
-	</mat-form-field>
+		<mat-form-field appearance="outline" style="width: 100%;">
+			<mat-label>Register a subscription with your mail</mat-label>
+			<input #mail [formControl]="email" autocomplete="off" matInput type="text">
+		</mat-form-field>
+	</div>
 </div>
 <mat-dialog-actions>
 	<a href="https://webdb.app/price" mat-stroked-button target="_blank">

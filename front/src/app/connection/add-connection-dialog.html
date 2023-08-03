@@ -1,5 +1,4 @@
-<div class="connection">
-
+<mat-dialog-content class="connection">
 	<mat-stepper [selectedIndex]="newConnection && !server.ssh.host ? 0 : 1" labelPosition="bottom">
 		<mat-step *ngIf="newConnection">
 			<ng-template matStepLabel>Driver</ng-template>
@@ -7,9 +6,9 @@
 			<div fxLayout="direction row" fxLayoutGap style="justify-content: space-evenly">
 				<div (click)="changeWrapper(wrapper)"
 					 *ngFor="let wrapper of driverNames"
-					 [class.mat-elevation-z12]="wrapper === server.wrapper"
 					 class="driver">
-					<div [style.opacity]="wrapper === server.wrapper ? '1' : null"
+					<div [class.mat-elevation-z12]="wrapper === server.wrapper"
+						 [style.opacity]="wrapper === server.wrapper ? '1' : null"
 						 class="logo">
 						<img src="/assets/drivers/{{wrapper | lowercase}}.svg">
 					</div>
@@ -211,42 +210,41 @@
 			</div>
 		</mat-step>
 	</mat-stepper>
+</mat-dialog-content>
 
-	<div fxLayout="row" fxLayoutAlign="space-between center" style="margin-top: 15px">
-
-		<button
-			(click)="forget()"
-			*ngIf="!newConnection"
-			color="warn"
-			mat-stroked-button>
+<mat-dialog-actions>
+	<button
+		(click)="forget()"
+		*ngIf="!newConnection"
+		color="warn"
+		mat-stroked-button>
 			<span class="material-symbols-outlined notranslate">
 				wifi_off
 			</span>
-			Forget
-		</button>
+		Forget
+	</button>
 
-		<button (click)="testServer()"
-				[color]="connected ? 'accent' : 'primary'"
-				[disabled]="!server.host || !server.port"
-				mat-stroked-button>
+	<button (click)="testServer()"
+			[color]="connected ? 'accent' : 'primary'"
+			[disabled]="!server.host || !server.port"
+			mat-stroked-button>
 			<span class="material-symbols-outlined notranslate">
 				network_wifi_2_bar
 			</span>
-			Test Connection
-		</button>
+		Test Connection
+	</button>
 
-		<button (click)="saveConnection()"
-				[disabled]="!connected"
-				color="primary"
-				mat-flat-button>
+	<button (click)="saveConnection()"
+			[disabled]="!connected"
+			color="primary"
+			mat-flat-button>
 			<span class="material-symbols-outlined notranslate">
 				wifi_add
 			</span>
-			Save Connection
-		</button>
+		Save Connection
+	</button>
 
-		<button aria-label="close dialog" mat-dialog-close mat-icon-button>
-			<mat-icon>close</mat-icon>
-		</button>
-	</div>
-</div>
+	<button aria-label="close dialog" mat-dialog-close mat-button>
+		Close
+	</button>
+</mat-dialog-actions>

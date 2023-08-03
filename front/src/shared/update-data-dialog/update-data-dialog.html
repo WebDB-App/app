@@ -10,14 +10,14 @@
 				drag_indicator
 			</span>
 		</button>
-		<h2>Update Data</h2>
+		<h3>Update Data</h3>
 	</div>
 	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
 		<mat-icon>close</mat-icon>
 	</button>
 </div>
 <div mat-dialog-content>
-	<div style="display: flex; justify-content: space-between;">
+	<div style="display: flex; justify-content: space-between; padding: 12px 12px 0px 12px;">
 		<div *ngFor="let column of updateSuggestions | keyvalue">
 			<mat-form-field appearance="fill">
 				<mat-label>{{column.key}}</mat-label>

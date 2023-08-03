@@ -24,6 +24,7 @@
 		<div fxFlexFill fxLayout="row" fxLayoutAlign="space-between center">
 			<span style="font-size: 16px; margin: 10px; width: 100%;">{{file.name}}</span>
 			<mat-progress-bar
+				color="accent"
 				[color]="file.progress < 0 ? 'warn' : 'primary'"
 				[value]="file.progress"
 				mode="determinate"></mat-progress-bar>

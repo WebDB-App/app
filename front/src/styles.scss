@@ -150,7 +150,7 @@ a {
 }
 
 .mat-dialog-container {
-	padding: 8px 8px 18px 8px !important;
+	padding: 0px !important;
 	overflow: inherit !important;
 	border: 1px solid #1e1e1e;
 	box-shadow: none;
@@ -166,25 +166,26 @@ a {
 		color: #1e1e1e;
 		display: flex !important;
 		justify-content: space-between;
-		margin: -8px -8px 8px -8px;
-		padding: 2px 2px 2px 12px;
+		margin: 0px;
 
-		h2 {
-			margin: 0px 30px 0px 0px !important;
+		h3 {
+			margin: 0px 30px 0px 10px !important;
 			align-self: center;
 		}
 	}
 
 	.mat-dialog-content {
-		padding-top: 10px !important;
-		padding-bottom: 10px !important;
+		padding: 0px !important;
 		margin: 0px !important;
+		max-height: 80vh;
 	}
 
 	.mat-dialog-actions {
 		display: flex;
 		justify-content: space-around;
 		gap: 12px;
+		padding: 10px;
+		margin: 0px;
 	}
 }
 
@@ -240,6 +241,10 @@ a {
 	}
 }
 
+pre {
+	margin: 0px;
+}
+
 .mat-card {
 	margin: 24px 18px;
 	padding: 0px;
@@ -264,7 +269,6 @@ a {
 }
 
 code, .hljs {
-	margin: 8px 0px;
 	white-space: pre-wrap;
 	tab-size: 34px;
 	border-radius: 4px;
@@ -275,8 +279,12 @@ code, .hljs {
 	box-shadow: none;
 	transition: box-shadow 0.1s linear;
 
-	app-root &:hover {
-		box-shadow: 0px 0px 0px 2px mat.get-color-from-palette($angular-primary, default);
+	app-root & {
+		margin: 8px 0px;
+
+		&:hover {
+			box-shadow: 0px 0px 0px 2px mat.get-color-from-palette($angular-primary, default);
+		}
 	}
 }
 
