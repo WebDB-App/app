@@ -21,6 +21,9 @@ import { DragDropModule } from "@angular/cdk/drag-drop";
 import { ExportResultDialog } from './export-result-dialog/export-result-dialog';
 import { MatButtonToggleModule } from "@angular/material/button-toggle";
 import { MatSelectModule } from "@angular/material/select";
+import { BatchUpdateDialog } from "./batch-update-dialog/batch-update-dialog";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { MatProgressBarModule } from "@angular/material/progress-bar";
 
 @NgModule({
 	declarations: [
@@ -28,14 +31,16 @@ import { MatSelectModule } from "@angular/material/select";
 		BooleanPipe,
 		CellComponent,
 		UpdateDataDialog,
-		ExportResultDialog
+		ExportResultDialog,
+		BatchUpdateDialog
 	],
 	exports: [
 		RoundPipe,
 		BooleanPipe,
 		CellComponent,
 		UpdateDataDialog,
-		ExportResultDialog
+		ExportResultDialog,
+		BatchUpdateDialog
 	],
 	imports: [
 		CommonModule,
@@ -54,7 +59,9 @@ import { MatSelectModule } from "@angular/material/select";
 		FormsModule,
 		DragDropModule,
 		MatButtonToggleModule,
-		MatSelectModule
+		MatSelectModule,
+		MatProgressSpinnerModule,
+		MatProgressBarModule,
 	]
 })
 export class SharedModule {

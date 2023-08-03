@@ -14,11 +14,6 @@ ngx-monaco-diff-editor {
 ngx-monaco-editor {
 	width: 50%;
 	height: 100% !important;
-
-	&:first-child {
-		resize: horizontal;
-		overflow: auto;
-	}
 }
 
 #actions {

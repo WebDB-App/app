@@ -3,13 +3,11 @@
 }
 
 #examples {
-	height: 40vh;
 	display: flex;
 	flex-wrap: wrap;
-	max-width: 40vw;
+	gap: 12px;
 	margin: 0px 30px;
 	justify-content: space-between;
-	align-items: center;
 
 	button {
 		white-space: break-spaces;
@@ -18,23 +16,23 @@
 }
 
 #container {
-	overflow: auto;
-	overflow-wrap: break-word;
-	height: 100%;
+overflow: auto;
+overflow-wrap: break-word;
+height: 100%;
 
-	.responseCode {
-		position: relative;
-	}
+.responseCode {
+	position: relative;
+}
 }
 
 .sendMessage {
-	width: 100%;
+width: 100%;
 
-	::ng-deep .mat-form-field-wrapper {
-		padding-bottom: 0px !important;
+::ng-deep .mat-form-field-wrapper {
+	padding-bottom: 0px !important;
 
-		.mat-form-field-underline {
-			bottom: 0px !important;
-		}
+	.mat-form-field-underline {
+		bottom: 0px !important;
 	}
+}
 }

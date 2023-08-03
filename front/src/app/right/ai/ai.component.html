@@ -35,6 +35,7 @@
 
 			<div style="width: 100%;">
 				<mat-form-field
+					color="accent"
 					[hidden]="!key || changing"
 					appearance="fill"
 					style="margin-bottom: -1.25em; width: 100%;">
@@ -176,6 +177,7 @@
 
 	<div [hidden]="!key" style="padding: 6px">
 		<mat-form-field (keydown.enter)="sendMessage(message.value); message.value = ''"
+						color="accent"
 						appearance="fill"
 						class="sendMessage">
 			<mat-label>Ask anything about `{{selectedDatabase?.name}}`</mat-label>

@@ -20,18 +20,18 @@ mongo : export + relations + harmonizer + insert
 
 
 - postgre : plusieurs schemas
-- finir own_object + autocomplete + right-column
 - cloud (google, aurora, rds)
 - BLOB CRUD (download, upload)
 - finir present
 - Finir EDR
 - trigger : postgre + mongo
 - create views
+- revoir MySQL load avec tunnel (essayer en bash)
+- finir own_object : autocomplete + column
 - Server gît avec autobackup en var d'env
 - SQLServer
 - graphql
 - Export Query : tester tout + btn to export via IA (Stripe Metadata additionnal feature)
-- revoir MySQL load avec tunnel (essayer en bash)
 
 
 
@@ -105,7 +105,7 @@ mongo : export + relations + harmonizer + insert
 
 
 
-
+- row export + delete sur query
 - datahog / sentry
 - Cloud DB : digital + atlas? + azure
 - ElasticSearch : https://elasticvue.com/

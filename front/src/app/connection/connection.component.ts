@@ -302,7 +302,7 @@ export class AddConnectionDialog {
 export class CreateDatabaseDialog {
 
 	constructor(
-		public dialogRef: MatDialogRef<CreateDatabaseDialog>,
+		private dialogRef: MatDialogRef<CreateDatabaseDialog>,
 		private request: RequestService,
 		@Inject(MAT_DIALOG_DATA) public server: Server,
 	) {

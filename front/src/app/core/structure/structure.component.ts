@@ -181,7 +181,7 @@ export class AddIndexDialog {
 	protected readonly isSQL = isSQL;
 
 	constructor(
-		public dialogRef: MatDialogRef<AddIndexDialog>,
+		private dialogRef: MatDialogRef<AddIndexDialog>,
 		private request: RequestService,
 		private snackBar: MatSnackBar,
 		@Inject(MAT_DIALOG_DATA) public table: Table,
@@ -204,7 +204,7 @@ export class AddIndexDialog {
 export class DropColumnDialog {
 
 	constructor(
-		public dialogRef: MatDialogRef<DropColumnDialog>,
+		private dialogRef: MatDialogRef<DropColumnDialog>,
 		private request: RequestService,
 		private snackBar: MatSnackBar,
 		@Inject(MAT_DIALOG_DATA) public column: Column,
@@ -229,7 +229,7 @@ export class AddColumnDialog {
 	form!: FormGroup;
 
 	constructor(
-		public dialogRef: MatDialogRef<AddColumnDialog>,
+		private dialogRef: MatDialogRef<AddColumnDialog>,
 		private fb: FormBuilder,
 		private request: RequestService,
 		private snackBar: MatSnackBar,
@@ -265,7 +265,7 @@ export class UpdateColumnDialog {
 	protected readonly JSON = JSON;
 
 	constructor(
-		public dialogRef: MatDialogRef<AddColumnDialog>,
+		private dialogRef: MatDialogRef<AddColumnDialog>,
 		private request: RequestService,
 		private fb: FormBuilder,
 		private snackBar: MatSnackBar,
