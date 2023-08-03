@@ -10,6 +10,8 @@ import { RequestService } from "../../shared/request.service";
 import * as drivers from '../../classes/drivers';
 import { DomSanitizer, Title } from "@angular/platform-browser";
 import { MatIconRegistry } from "@angular/material/icon";
+import { SubscriptionDialog } from "../subscription/subscription-dialog.component";
+import { ConfigDialog } from "../config/config-dialog.component";
 
 @Component({
 	selector: 'app-connection',
@@ -206,6 +208,20 @@ export class ConnectionComponent implements OnInit {
 	getServerByDriver(driver: string): Server[] {
 		return this.servers.filter(server => server.wrapper === driver);
 	}
+
+	showSubscription() {
+		const dialogRef = this.dialog.open(SubscriptionDialog);
+
+		dialogRef.afterClosed().subscribe(async () => {
+			this.ngOnInit();
+		});
+	}
+
+	showSettings() {
+		this.dialog.open(ConfigDialog);
+	}
+
+	protected readonly environment = environment;
 }
 
 @Component({

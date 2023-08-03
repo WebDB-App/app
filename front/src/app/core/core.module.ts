@@ -40,14 +40,12 @@ import { MatMenuModule } from "@angular/material/menu";
 import { DragDropModule } from "@angular/cdk/drag-drop";
 import { TriggerComponent } from "./trigger/trigger.component";
 import { SharedModule } from "../../shared/shared.module";
-import { CreateTableDialog, CreateViewDialog, TablesComponent } from "./tables/tables.component";
 import { NgxJsonViewerModule } from "ngx-json-viewer";
 import { MatExpansionModule } from "@angular/material/expansion";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { HighlightModule } from "ngx-highlightjs";
 import { OverlayModule } from "@angular/cdk/overlay";
 import { MonacoEditorModule } from "ngx-monaco-editor-v2";
-import { ColumnComponent } from "./column/column.component";
 
 
 @NgModule({
@@ -64,11 +62,7 @@ import { ColumnComponent } from "./column/column.component";
 		TruncateTableDialog,
 		StructureComponent,
 		TriggerComponent,
-		TablesComponent,
-		ColumnComponent,
 		AddColumnDialog,
-		CreateViewDialog,
-		CreateTableDialog,
 		UpdateColumnDialog,
 	],
 	imports: [

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
-import { Server } from "../../../classes/server";
-import { Database } from "../../../classes/database";
-import { Table } from "../../../classes/table";
-import { RequestService } from "../../../shared/request.service";
-import { Column } from "../../../classes/column";
+import { Server } from "../../classes/server";
+import { Database } from "../../classes/database";
+import { Table } from "../../classes/table";
+import { RequestService } from "../../shared/request.service";
+import { Column } from "../../classes/column";
 import { Title } from "@angular/platform-browser";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";

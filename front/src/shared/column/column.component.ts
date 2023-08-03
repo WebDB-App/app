@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Column } from "../../../classes/column";
-import { Server } from "../../../classes/server";
+import { Column } from "../../classes/column";
+import { Server } from "../../classes/server";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { FormArray, FormGroup } from "@angular/forms";
 

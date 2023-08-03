@@ -29,6 +29,20 @@
 		</span>
 		Add Connection
 	</button>
+
+	<div>
+		<button [matMenuTriggerFor]="user" mat-button>
+			<span class="material-symbols-outlined notranslate">
+				person
+			</span>
+		</button>
+
+		<button (click)="showSettings()" mat-button>
+			<span class="material-symbols-outlined notranslate">
+				settings
+			</span>
+		</button>
+	</div>
 </mat-toolbar>
 
 <div *ngIf="loading < 100"
@@ -189,3 +203,22 @@
 		</ng-container>
 	</ng-container>
 </div>
+
+
+<mat-menu #user="matMenu" class="external">
+	<a (click)="showSubscription()"
+	   mat-menu-item>
+		<span class="material-symbols-outlined notranslate">
+			shopping_bag
+		</span>
+		Subscription
+	</a>
+	<a [href]="environment.stripeUserLink"
+	   mat-menu-item
+	   target="_blank">
+		<span class="material-symbols-outlined notranslate">
+			credit_card
+		</span>
+		Billing
+	</a>
+</mat-menu>
