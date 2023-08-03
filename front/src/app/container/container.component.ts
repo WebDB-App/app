@@ -160,8 +160,18 @@ export class LogsDialog implements OnDestroy {
 		@Inject(MAT_DIALOG_DATA) public file: 'out.log' | 'err.log',
 	) {
 		this.load();
+		this.toggleAutoRefresh();
+	}
+
+	toggleAutoRefresh() {
+		if (this.interval) {
+			clearInterval(this.interval);
+			delete this.interval;
+			return;
+		}
+
 		this.interval = setInterval(() => {
-			this.load()
+			this.load();
 		}, 2000);
 	}
 
@@ -176,6 +186,8 @@ export class LogsDialog implements OnDestroy {
 			this.str = <string>this.sanitizer.bypassSecurityTrustHtml(convert.toHtml(txt).split('\n').reverse().join('\n'));
 		});
 	};
+
+	protected readonly clearInterval = clearInterval;
 }
 
 
