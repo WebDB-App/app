@@ -161,9 +161,11 @@ a {
 	}
 
 	.mat-dialog-title {
+		background-color: #2196f3;
+		border-radius: 3px 3px 0px 0px;
+		color: #1e1e1e;
 		display: flex !important;
 		justify-content: space-between;
-		border-bottom: 1px solid #1e1e1e;
 		margin: -8px -8px 8px -8px;
 		padding: 2px 2px 2px 12px;
 
