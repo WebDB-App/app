@@ -266,6 +266,7 @@ export class UpdateColumnDialog {
 
 	form!: FormGroup;
 	selectedServer?: Server;
+	oldValues = false;
 	protected readonly JSON = JSON;
 
 	constructor(

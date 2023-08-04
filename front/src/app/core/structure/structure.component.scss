@@ -12,3 +12,20 @@ table {
 		letter-spacing: inherit;
 	}
 }
+
+
+
+::ng-deep {
+	.oldValues {
+		display: none !important;
+	}
+
+	.showOlds {
+		.oldValues {
+			display: block !important;
+		}
+		.newValues {
+			display: none;
+		}
+	}
+}
