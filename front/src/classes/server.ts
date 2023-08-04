@@ -5,7 +5,7 @@ import { Driver } from "./driver";
 import { Type } from "./types";
 
 const localStorageName = "servers";
-let selected: Server;
+let selected: Server | undefined;
 
 export class SSH {
 	host!: string;
@@ -66,12 +66,12 @@ export class Server {
 		localStorage.setItem(localStorageName, JSON.stringify(servers));
 	}
 
-	static setSelected(server: Server) {
+	static setSelected(server: Server | undefined) {
 		selected = server;
 	}
 
 	static getSelected(): Server {
-		return selected;
+		return selected!;
 	}
 
 	static setName(scan: Server) {
