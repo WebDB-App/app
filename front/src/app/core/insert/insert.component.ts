@@ -227,8 +227,8 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 		} else {
 			data = this.csvToJSON(data);
 		}
-		if (!data || data.length < 1) {
-			this.snackBar.open("File not compatible", "╳", {panelClass: 'snack-error'});
+		if (!data || data.length < 1 || !Array.isArray(data)) {
+			this.snackBar.open("File not compatible.\nIf you try to import JSON file, it has to be a array of object corresponding to table structure", "╳", {panelClass: 'snack-error'});
 			return;
 		}
 
