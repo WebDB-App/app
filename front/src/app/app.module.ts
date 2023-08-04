@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from "./app-routing.module";
-import { ConnectionInfoDialog, ContainerComponent, LogsDialog } from './container/container.component';
+import { ContainerComponent } from './container/container.component';
 import { MatCardModule } from "@angular/material/card";
 import { FlexModule } from "@angular/flex-layout";
 import { MatToolbarModule } from "@angular/material/toolbar";
@@ -35,9 +35,10 @@ import { Server } from "../classes/server";
 import { MatTabsModule } from "@angular/material/tabs";
 import { DragDropModule } from "@angular/cdk/drag-drop";
 import { CreateTableDialog, CreateViewDialog, TablesComponent } from "./tables/tables.component";
-import { ConfigDialog } from "./config/config-dialog.component";
-import { SubscriptionDialog } from "./subscription/subscription-dialog.component";
+import { ConfigDialog } from "./top-right/config/config-dialog.component";
+import { SubscriptionDialog } from "./top-right/subscription/subscription-dialog.component";
 import { SharedModule } from "../shared/shared.module";
+import { ConnectionInfoDialog, LogsDialog, TopRightComponent } from './top-right/top-right.component';
 
 declare var monaco: any;
 
@@ -93,6 +94,7 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 		TablesComponent,
 		CreateViewDialog,
 		CreateTableDialog,
+  TopRightComponent,
 	],
 	imports: [
 		AppRoutingModule,

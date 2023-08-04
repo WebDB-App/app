@@ -149,6 +149,10 @@ a {
 	}
 }
 
+.cdk-drag-handle {
+	cursor: grab;
+}
+
 .mat-dialog-container {
 	padding: 0px !important;
 	overflow: inherit !important;

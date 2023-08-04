@@ -1,15 +1,7 @@
-<div cdkDrag
+<div cdkDrag cdkDragHandle
 	 cdkDragRootElement=".cdk-overlay-pane"
 	 mat-dialog-title>
 	<div>
-		<button
-			cdkDragHandle
-			mat-icon-button
-			style="cursor: grab">
-			<span class="material-symbols-outlined">
-				drag_indicator
-			</span>
-		</button>
 		<h3>Alter Column {{form.get('old')?.get('name')!.value}}</h3>
 	</div>
 	<button aria-label="close dialog" mat-dialog-close mat-icon-button>

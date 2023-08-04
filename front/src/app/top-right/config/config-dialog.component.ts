@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Configuration } from "../../classes/configuration";
-import { RequestService } from "../../shared/request.service";
+import { Configuration } from "../../../classes/configuration";
+import { RequestService } from "../../../shared/request.service";
 
 @Component({
 	templateUrl: './config-dialog.component.html',
