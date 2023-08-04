@@ -77,7 +77,7 @@ export class ConnectionInfoDialog {
 	templateUrl: 'logs-dialog.html',
 })
 export class LogsDialog implements OnDestroy {
-	str = "";
+	str: any = "";
 	interval?: NodeJS.Timer;
 
 	constructor(

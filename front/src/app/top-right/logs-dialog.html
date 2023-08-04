@@ -21,5 +21,15 @@
 <div mat-dialog-content>
 	<pre><code
 		[innerHTML]="str"
-		style="overflow: auto; white-space: inherit; height: calc(65vh - 50px); width: calc(80vw - 85px); resize: both"></code></pre>
+		style="overflow: auto; white-space: inherit; height: 30vh; width: 60vw; resize: both"></code></pre>
+</div>
+<div mat-dialog-actions *ngIf="file === 'err.log'">
+	<a [href]="'https://gitlab.com/web-db/landing/-/issues/new?issue[title]=Problem%20while%20... &issue[description]=Here%20is%20the%20error%20log:%0A' + str['changingThisBreaksApplicationSecurity']"
+	   mat-stroked-button
+	   target="_blank">
+		<span class="material-symbols-outlined notranslate">
+			bug_report
+		</span>
+		Send Report
+	</a>
 </div>
