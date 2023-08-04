@@ -2,7 +2,20 @@ sql alter table : name, fct as default, null as default
 wrap defaultValue -> attention NULL / function()
 postgre : addtable
 
-mongo : export + relations + harmonizer + insert
+mongo : relations + harmonizer + insert
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -62,10 +75,6 @@ mongo : export + relations + harmonizer + insert
 
 
 
-
-
-
-
 - sql function doc (https://www.w3resource.com/PostgreSQL/postgresql_array_remove-function.php)
 - afficher resulat Unit Test en front avec plusieurs version de bdd
 - Cockroachdb
@@ -87,6 +96,7 @@ mongo : export + relations + harmonizer + insert
 - changelog en json avec opencommit et check last version
 
 # Chat
+- faraday.dev
 - https://llama-node.vercel.app/
 - premium : export n'importe quelle language (ia)
 - Openai : conversation
@@ -97,6 +107,19 @@ mongo : export + relations + harmonizer + insert
 - https://media.licdn.com/dms/image/D4D22AQF__oKSdRBu8A/feedshare-shrink_800/0/1680459400162?e=1687996800&v=beta&t=zDJ4A0NkYJg47W-HmF6MId60SOYPUaprPZFhkGptawo
 - https://media.licdn.com/dms/image/D4E22AQGx27end7jE5Q/feedshare-shrink_800/0/1684474332765?e=1688601600&v=beta&t=g1NR0-Uuifv4muNn1Hps1p8H5BjYDOU9w1Sej-NkkqY
 - https://external-preview.redd.it/chatgpt-for-data-science-cheat-sheet-v0-Odpv_XqB8SiefptXNzZP-t9AjrVOxg0IF81UuKFx2sw.jpg?auto=webp&s=2b8b8a80fa2c3a4b6f85545cffa26726021a60a4
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

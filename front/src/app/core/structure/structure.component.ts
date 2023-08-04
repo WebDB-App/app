@@ -117,6 +117,7 @@ export class StructureComponent implements OnInit, AfterViewChecked {
 	async updateColumn(row: Column) {
 		const dialogRef = this.dialog.open(UpdateColumnDialog, {
 			data: row,
+			id: JSON.stringify(row),
 			hasBackdrop: false
 		});
 

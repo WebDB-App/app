@@ -283,6 +283,7 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 				row,
 				updateInPlace: false
 			},
+			id: JSON.stringify(row),
 			hasBackdrop: false
 		});
 

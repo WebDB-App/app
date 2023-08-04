@@ -194,6 +194,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 				row,
 				updateInPlace: true
 			},
+			id: JSON.stringify(row),
 			hasBackdrop: false
 		});
 
