@@ -1,0 +1,86 @@
+<button
+	(click)="showLogs('out.log')"
+	mat-button
+	matTooltip="Query Logs">
+	<span class="material-symbols-outlined notranslate">
+		receipt_long
+	</span>
+</button>
+<button [matMenuTriggerFor]="help" mat-button>
+	<span class="material-symbols-outlined notranslate">
+		help
+	</span>
+</button>
+<button [matMenuTriggerFor]="user" mat-button>
+	<span class="material-symbols-outlined notranslate">
+		person
+	</span>
+</button>
+
+<mat-menu #help="matMenu" class="external">
+	<ng-container *ngIf="Server.getSelected()">
+		<a (click)="showConnection()"
+		   mat-menu-item>
+			<span class="material-symbols-outlined notranslate">
+				signal_wifi_statusbar_not_connected
+			</span>
+			Connection Details
+		</a>
+		<mat-divider></mat-divider>
+	</ng-container>
+	<a href="https://gitlab.com/web-db/landing/-/issues"
+	   mat-menu-item
+	   target="_blank">
+		<span class="material-symbols-outlined notranslate">
+			bug_report
+		</span>
+		Issues
+	</a>
+	<a href="https://gitlab.com/web-db/landing/-/wikis/home"
+	   mat-menu-item
+	   target="_blank">
+		<span class="material-symbols-outlined notranslate">
+			menu_book
+		</span>
+		Documentation
+	</a>
+	<mat-divider></mat-divider>
+	<button
+		(click)="showLogs('err.log')"
+		mat-menu-item>
+		<span class="material-symbols-outlined notranslate">
+			error
+		</span>
+		Error Logs
+	</button>
+	<a mat-menu-item>
+		<mat-icon svgIcon="webdb"></mat-icon>
+		Beta
+		v{{packageJson.version}}
+	</a>
+</mat-menu>
+
+<mat-menu #user="matMenu" class="external">
+	<a (click)="showSubscription()"
+	   mat-menu-item>
+		<span class="material-symbols-outlined notranslate">
+			shopping_bag
+		</span>
+		Subscription
+	</a>
+	<a [href]="environment.stripeUserLink"
+	   mat-menu-item
+	   target="_blank">
+		<span class="material-symbols-outlined notranslate">
+			credit_card
+		</span>
+		Billing
+	</a>
+	<a (click)="showSettings()"
+	   mat-menu-item>
+		<span class="material-symbols-outlined notranslate">
+			settings
+		</span>
+		Settings
+	</a>
+</mat-menu>

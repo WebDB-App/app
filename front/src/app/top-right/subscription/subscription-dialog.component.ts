@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { RequestService } from "../../shared/request.service";
+import { RequestService } from "../../../shared/request.service";
 import { FormControl, Validators } from "@angular/forms";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { environment } from "../../environments/environment";
-import { Licence } from "../../classes/licence";
+import { environment } from "../../../environments/environment";
+import { Licence } from "../../../classes/licence";
 
 @Component({
 	templateUrl: './subscription-dialog.component.html',

@@ -10,8 +10,6 @@ import { RequestService } from "../../shared/request.service";
 import * as drivers from '../../classes/drivers';
 import { DomSanitizer, Title } from "@angular/platform-browser";
 import { MatIconRegistry } from "@angular/material/icon";
-import { SubscriptionDialog } from "../subscription/subscription-dialog.component";
-import { ConfigDialog } from "../config/config-dialog.component";
 
 @Component({
 	selector: 'app-connection',
@@ -209,18 +207,6 @@ export class ConnectionComponent implements OnInit {
 		return this.servers.filter(server => server.wrapper === driver);
 	}
 
-	showSubscription() {
-		const dialogRef = this.dialog.open(SubscriptionDialog);
-
-		dialogRef.afterClosed().subscribe(async () => {
-			this.ngOnInit();
-		});
-	}
-
-	showSettings() {
-		this.dialog.open(ConfigDialog);
-	}
-
 	protected readonly environment = environment;
 }
 
@@ -283,6 +269,7 @@ export class AddConnectionDialog {
 			this.snackBar.open(data.error, "╳", {duration: 3000});
 			return;
 		}
+		this.snackBar.open("Connection Valid", "╳", {duration: 3000});
 		this.connected = true;
 	}
 
@@ -296,6 +283,7 @@ export class AddConnectionDialog {
 			this.snackBar.open(data.error, "╳", {panelClass: 'snack-error'});
 			return;
 		}
+		this.snackBar.open("SSH Connection Valid", "╳", {duration: 3000});
 		this.sshStatus = 'connected';
 	}
 
