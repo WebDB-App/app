@@ -1,6 +1,6 @@
 <div [formGroup]="form" class="container">
 	<div *ngIf="form.get('old')" style="display: flex; align-items: center;">
-		<mat-card formGroupName="old">
+		<mat-card formGroupName="old" class="oldValues">
 			<mat-card-header>
 				<mat-form-field appearance="outline">
 					<mat-label>Column Name</mat-label>
@@ -44,10 +44,9 @@
 				</div>
 			</mat-card-content>
 		</mat-card>
-		<h3>⇨</h3>
 	</div>
 
-	<div formArrayName="columns">
+	<div formArrayName="columns" class="newValues">
 		<mat-card *ngFor="let column of formColumn.controls; let i = index"
 				  [formGroupName]="i">
 

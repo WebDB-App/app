@@ -10,19 +10,20 @@
 	</button>
 </div>
 
-<mat-dialog-content>
+<mat-dialog-content [class.showOlds]="oldValues">
 	<app-column [form]="form"></app-column>
 </mat-dialog-content>
 
 <mat-dialog-actions>
-
 	<button
-	   mat-button
-	   target="_blank">
+		(click)="oldValues = !oldValues"
+		[class.mat-raised-button]="oldValues"
+		color="primary"
+		mat-button>
 		<span class="material-symbols-outlined notranslate">
 			preview
 		</span>
-		Show old values
+		Old Values
 	</button>
 
 	<a *ngIf="selectedServer"
@@ -32,7 +33,7 @@
 		<span class="material-symbols-outlined notranslate">
 			help
 		</span>
-		{{selectedServer.wrapper}} Data Types
+		{{selectedServer.wrapper}} Types
 	</a>
 
 	<button (click)="update()"
