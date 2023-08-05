@@ -135,9 +135,10 @@ a {
 }
 
 .mat-simple-snack-bar-content {
-	overflow-x: auto !important;
+	overflow: auto !important;
 	text-overflow: initial !important;
 	white-space: pre;
+	max-height: 30vh;
 }
 
 .mat-paginator {

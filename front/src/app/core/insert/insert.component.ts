@@ -216,13 +216,8 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 
 		if (file.type === "application/json") {
 			data = JSON.parse(data);
-			if (!Array.isArray(data)) {
-				for (const arr of Object.values(data)) {
-					if (Array.isArray(arr)) {
-						data = arr;
-						break;
-					}
-				}
+			if (data.tables && data.tables[this.selectedTable!.name]) {
+				data = data.tables[this.selectedTable!.name];
 			}
 		} else {
 			data = this.csvToJSON(data);
@@ -283,7 +278,7 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 				row,
 				updateInPlace: false
 			},
-			id: JSON.stringify(row),
+			id: (this.paginator.pageIndex * this.paginator.pageSize + i).toString(),
 			hasBackdrop: false
 		});
 

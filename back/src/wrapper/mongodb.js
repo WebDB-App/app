@@ -2,6 +2,7 @@ import {BSON, MongoClient, ObjectId} from "mongodb";
 import Driver from "../shared/driver.js";
 import bash from "../shared/bash.js";
 import {URL} from "url";
+import {writeFileSync} from "fs";
 
 const dirname = new URL(".", import.meta.url).pathname;
 
@@ -16,23 +17,32 @@ export default class MongoDB extends Driver {
 	}
 
 	async dump(database, exportType, tables) {
-		//compatibility with import
-
-		const path = `${dirname}../front/dump/${database}`;
+		let path = `${dirname}../front/dump/${database}`;
 		if (exportType === "json") {
-			tables.map(table => {
-				bash.runBash(`mongoexport --uri="${this.makeUri(true)}" --db=${database} --out=${path + table}`);
-			});
-			//.${exportType}
-			return;
+			path = `${path}.json`;
+			const results = {};
+			for (const table of tables) {
+				results[table] = await this.connection.db(database).collection(table).find().toArray();
+			}
+
+			writeFileSync(path, JSON.stringify({
+				database: database,
+				tables: results
+			}));
 		}
 		if (exportType === "bson") {
-			return bash.runBash(`mongodump --uri="${this.makeUri(true)}" --db=${database}`);
+			path = `${path}.gz`;
+			bash.runBash(`mongodump --uri="${this.makeUri(true)}" --db=${database} --gzip --archive=${path}`);
 		}
+		return {path};
 	}
 
-	async load(filePath, database, table) {
-		return bash.runBash(`mongoimport --db="${database}" --collection "${table}" --uri="${this.makeUri(true)}" --file "${filePath}"`);
+	async load(filePath, database) {
+		if (filePath.endsWith(".csv") || filePath.endsWith(".json") || filePath.endsWith(".tsv")) {
+			return bash.runBash(`mongoimport --db="${database}" --uri="${this.makeUri(true)}" --file "${filePath}"`);
+		}
+
+		return bash.runBash(`mongorestore --nsFrom="*" --nsTo="${database}.*" --gzip --uri="${this.makeUri(true)}" --archive="${filePath}"`);
 	}
 
 	async replaceTrigger(database, table, trigger) {

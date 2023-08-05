@@ -41,7 +41,7 @@ mongo : relations + harmonizer + insert
 - create views
 - revoir MySQL load avec tunnel (essayer en bash)
 - finir own_object : autocomplete + column
-- Server gît avec autobackup en var d'env
+- Server gît avec autobackup en var d'env (git large file / gzip)
 - SQLServer
 - graphql
 - Export Query : tester tout + btn to export via IA (Stripe Metadata additionnal feature)
@@ -133,6 +133,6 @@ mongo : relations + harmonizer + insert
 - Cloud DB : digital + atlas? + azure
 - ElasticSearch : https://elasticvue.com/
 - Postgre : more comparator (symbol) with detail
-- renameDatabase
+- renameDatabase (mongorestore --nsFrom='PetHotel.pets' --nsTo='PetHouse.pets' --nsInclude="PetHouse.*" dump/)
 - save resize in localstorage
 - docker scout cves "$IMAGE_PATH" --exit-code
