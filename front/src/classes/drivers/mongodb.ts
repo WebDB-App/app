@@ -19,7 +19,7 @@ export class MongoDB implements Driver {
 			serverSelectionTimeoutMS: 2000,
 			authSource: 'admin'
 		},
-		acceptedExt: ['.csv', '.tsv', '.json'],
+		acceptedExt: ['.csv', '.tsv', '.json', '.gz'],
 		nameDel: this.configuration.getByName("useNameDel")?.value ? '"' : '',
 		fileTypes: [
 			{extension: "json", name: "JSON"},

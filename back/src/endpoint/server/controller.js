@@ -77,18 +77,6 @@ class Controller {
 		res.send(final);
 	}
 
-	async getRelations(req, res) {
-		const driver = await wrapperModel.getDriver(req.body);
-
-		res.send(await driver.getRelations());
-	}
-
-	async getIndexes(req, res) {
-		const driver = await wrapperModel.getDriver(req.body);
-
-		res.send();
-	}
-
 	async load(req, res) {
 		const [driver] = await http.getLoggedDriver(req);
 		const result = await driver.load(req.file.path, req.get("Database"), req.file.originalname.split(".")[0]);

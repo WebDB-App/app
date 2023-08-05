@@ -14,8 +14,16 @@
 		</ng-container>
 	</mat-button-toggle-group>
 
+	<mat-progress-spinner
+		*ngIf="isLoading"
+		[diameter]="30"
+		color="accent"
+		mode="indeterminate">
+	</mat-progress-spinner>
+
 	<button (click)="dump(group.value)"
 			[disabled]="checklistSelection.isEmpty()"
+			*ngIf="!isLoading"
 			color="accent"
 			mat-raised-button>
 			<span class="material-symbols-outlined notranslate">

@@ -67,7 +67,7 @@ export class LoadComponent {
 		await this.setImport(Array.from(event.dataTransfer.files));
 	}
 
-	async importFiles() {
+	async importFiles(database: string) {
 		this.isLoading = true;
 
 		for (const file of this.files) {
@@ -81,9 +81,7 @@ export class LoadComponent {
 			file.progress = 30;
 
 			try {
-				await this.request.post('server/load', formData,
-					undefined, undefined, undefined,
-				);
+				await this.request.post('server/load', formData,undefined, <Database>{name: database});
 			} catch (err: unknown) {
 				file.progress = -1;
 				this.isLoading = false;

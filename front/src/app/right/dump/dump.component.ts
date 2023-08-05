@@ -24,6 +24,7 @@ export class DumpComponent implements OnInit {
 	selectedServer?: Server;
 	selectedDatabase?: Database;
 
+	isLoading = false;
 	includeData = true;
 	checklistSelection = new SelectionModel<ItemTree>(true);
 	treeControl = new NestedTreeControl<ItemTree>(node => node.children);
@@ -73,6 +74,7 @@ export class DumpComponent implements OnInit {
 	}
 
 	async dump(type: string) {
+		this.isLoading = true;
 		const result = await this.request.post('server/dump', {
 			exportType: type,
 			tables: this.checklistSelection.selected.filter(select => !select.children).map(select => select.name),
@@ -80,5 +82,6 @@ export class DumpComponent implements OnInit {
 		});
 
 		saveAs(environment.rootUrl + result.path, result.path.split('/')[1]);
+		this.isLoading = false;
 	}
 }
