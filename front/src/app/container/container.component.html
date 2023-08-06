@@ -70,16 +70,19 @@
 
 				<div *ngIf="loading < 0">
 					<mat-error>
-						Can't connect to {{activatedRoute.snapshot.paramMap.get('server')}} / {{activatedRoute.snapshot.paramMap.get('database')}}
-						<br>
-						Please check error logs and/or server availability
+						<h3>
+							Can't connect to {{activatedRoute.snapshot.paramMap.get('server')}} / {{activatedRoute.snapshot.paramMap.get('database')}}
+							<br>
+							Please check error logs and/or server availability
+						</h3>
 					</mat-error>
 
 					<mat-divider style="margin: 20px 0px;"></mat-divider>
 
-					<div style="display: flex; justify-content: space-around">
+					<div style="display: flex; justify-content: space-around; gap: 20px">
 						<button
 							routerLink="/"
+							color="primary"
 							mat-stroked-button>
 							<span class="material-symbols-outlined notranslate">
 								wifi_find
@@ -88,7 +91,17 @@
 						</button>
 
 						<button
+							(click)="showError()"
+							mat-stroked-button>
+							<span class="material-symbols-outlined notranslate">
+								report
+							</span>
+							Error Logs
+						</button>
+
+						<button
 							mat-stroked-button
+							color="accent"
 							(click)="ngOnInit()">
 							<span class="material-symbols-outlined notranslate">
 								refresh
