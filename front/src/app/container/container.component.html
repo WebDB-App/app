@@ -23,52 +23,81 @@
 
 			<div class="flex-spacer"></div>
 
-			<nav (click)="drawer.toggle();"
-				 [tabPanel]="tabPanel"
-				 class="panel"
-				 color="accent"
-				 mat-tab-nav-bar>
-				<a #rla="routerLinkActive"
-				   *ngFor="let panel of panels"
-				   [active]="rla.isActive"
-				   [routerLinkActive]="'mat-button-toggle-checked'"
-				   [routerLink]="[{outlets: {right: [panel.link]}}]"
-				   mat-tab-link>
+			<ng-container *ngIf="selectedServer">
+
+				<nav (click)="drawer.toggle();"
+					 [tabPanel]="tabPanel"
+					 class="panel"
+					 color="accent"
+					 mat-tab-nav-bar>
+					<a #rla="routerLinkActive"
+					   *ngFor="let panel of panels"
+					   [active]="rla.isActive"
+					   [routerLinkActive]="'mat-button-toggle-checked'"
+					   [routerLink]="[{outlets: {right: [panel.link]}}]"
+					   mat-tab-link>
 					<span class="material-symbols-outlined notranslate">
 						{{panel.icon}}
 					</span>
-				</a>
-			</nav>
-			<mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
+					</a>
+				</nav>
+				<mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
 
-			<div class="flex-spacer"></div>
+				<div class="flex-spacer"></div>
 
-			<button (click)="request.reloadServer()"
-					color="accent"
-					mat-button
-					matTooltip="Reload Connection">
-				<span class="material-symbols-outlined notranslate">
-					refresh
-				</span>
-			</button>
+				<button (click)="request.reloadServer()"
+						color="accent"
+						mat-button
+						matTooltip="Reload Connection">
+					<span class="material-symbols-outlined notranslate">
+						frame_reload
+					</span>
+				</button>
+			</ng-container>
 			<app-top-right></app-top-right>
 		</mat-toolbar>
 
 		<div *ngIf="loading < 100"
 			 style="height: calc(100vh - 56px); align-self: center; display: flex;">
-			<div *ngIf="loading >= 0"
-				 style="align-self: center;">
-				<mat-spinner
-					color="accent"
-					mode="indeterminate"
-					style="margin: 0px auto;"></mat-spinner>
-				<h2 style="color: #ff9800">Loading {{activatedRoute.snapshot.paramMap.get('database')}} ...</h2>
-			</div>
+			<div style="align-self: center;">
+				<ng-container *ngIf="loading >= 0">
+					<mat-spinner
+						color="accent"
+						mode="indeterminate"
+						style="margin: 0px auto;"></mat-spinner>
+					<h2 style="color: #ff9800">Loading {{activatedRoute.snapshot.paramMap.get('database')}} ...</h2>
+				</ng-container>
 
-			<mat-error *ngIf="loading === -1">
-				Can't connect to {{activatedRoute.snapshot.paramMap.get('server')}}
-				/{{activatedRoute.snapshot.paramMap.get('database')}}, please check server availability
-			</mat-error>
+				<div *ngIf="loading < 0">
+					<mat-error>
+						Can't connect to {{activatedRoute.snapshot.paramMap.get('server')}} / {{activatedRoute.snapshot.paramMap.get('database')}}
+						<br>
+						Please check error logs and/or server availability
+					</mat-error>
+
+					<mat-divider style="margin: 20px 0px;"></mat-divider>
+
+					<div style="display: flex; justify-content: space-around">
+						<button
+							routerLink="/"
+							mat-stroked-button>
+							<span class="material-symbols-outlined notranslate">
+								wifi_find
+							</span>
+							Connection List
+						</button>
+
+						<button
+							mat-stroked-button
+							(click)="ngOnInit()">
+							<span class="material-symbols-outlined notranslate">
+								refresh
+							</span>
+							Reload Page
+						</button>
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<router-outlet *ngIf="loading >= 100"></router-outlet>

@@ -77,10 +77,13 @@ export class RequestService {
 					if (!server.connected) {
 						return resolve(server);
 					}
-
-					const res = await firstValueFrom(this.http.post<Database[]>(environment.apiRootUrl + `server/structure?full=${+full}`, Server.getShallow(server)));
-					this.loadingSubject.next(loading += 100 / servers.length);
-					resolve({...server, ...res});
+					try {
+						const res = await firstValueFrom(this.http.post<Database[]>(environment.apiRootUrl + `server/structure?full=${+full}`, Server.getShallow(server)));
+						this.loadingSubject.next(loading += 100 / servers.length);
+						resolve({...server, ...res});
+					} catch (e) {
+						this.loadingSubject.next(-1);
+					}
 				})
 			);
 		}

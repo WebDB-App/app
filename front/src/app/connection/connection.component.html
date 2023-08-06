@@ -35,19 +35,25 @@
 
 <div *ngIf="loading < 100"
 	 style="height: calc(100vh - 56px); justify-content: center; display: flex;">
-	<div *ngIf="loading >= 0"
-		 style="align-self: center;">
-		<mat-spinner
-			[value]="loading"
-			mode="determinate"
-			style="margin: 0px auto;"></mat-spinner>
-		<h2 style="color: #2196f3">Scanning Connections ...</h2>
+	<div style="align-self: center;">
+
+		<ng-container *ngIf="loading >= 0">
+			<mat-spinner
+				[value]="loading"
+				mode="determinate"
+				style="margin: 0px auto;"></mat-spinner>
+			<h2 style="color: #2196f3">Scanning Connections ...</h2>
+		</ng-container>
+
+		<mat-error *ngIf="loading < 0">
+			Backend unreachable, please check logs directly from it
+		</mat-error>
 	</div>
 </div>
 
-<div id="container">
+<div id="container" *ngIf="loading >= 100">
 
-	<div *ngIf="loading >= 100 && servers.length < 1">
+	<div *ngIf="servers.length < 1">
 		No Server Found
 	</div>
 

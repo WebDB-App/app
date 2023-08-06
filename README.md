@@ -1,5 +1,4 @@
-postgre : alter table : name, fct as default, null as default + addtable
-mongo : relation + structure + harmonizer + insert
+mongo : harmonizer + insert + addTable
 
 
 
@@ -20,21 +19,12 @@ mongo : relation + structure + harmonizer + insert
 
 
 
-
-
-
-
-
-
-
-
-
-- postgre : plusieurs schemas
+- postgre : alter table : name, fct as default, null as default + addtable + plusieurs schemas
 - trigger/collation : postgre + mongo
 
-- finir own_object : autocomplete + column
+
 - cloud (google, aurora, rds)
-- BLOB CRUD (download, upload)
+- finir own_object : autocomplete + column
 - finir present
 - Finir EDR
 - create views
@@ -65,21 +55,10 @@ mongo : relation + structure + harmonizer + insert
 
 
 
+# Cockroachdb
 
-
-
-
-
-
-
-
-- sql function doc (https://www.w3resource.com/PostgreSQL/postgresql_array_remove-function.php)
-- afficher resulat Unit Test en front avec plusieurs version de bdd
-- Cockroachdb
-- Oracle : https://github.com/oracle/docker-images/blob/main/OracleDatabase/SingleInstance/README.md
-- Postgre : more comparator (symbol) with detail
-- Cloud DB : digital + atlas? + azure
-- docker scout cves "$IMAGE_PATH" --exit-code
+# Oracle
+- https://github.com/oracle/docker-images/blob/main/OracleDatabase/SingleInstance/README.md
 
 # SQLite
 - https://hub.docker.com/r/nouchka/sqlite3/
@@ -127,7 +106,11 @@ mongo : relation + structure + harmonizer + insert
 
 
 
-
+- sql function doc (https://www.w3resource.com/PostgreSQL/postgresql_array_remove-function.php)
+- afficher resulat Unit Test en front avec plusieurs version de bdd
+- Postgre : more comparator (symbol) with detail
+- Cloud DB : digital + atlas? + azure
+- docker scout cves "$IMAGE_PATH" --exit-code
 - renameDatabase (mongorestore --nsFrom='PetHotel.pets' --nsTo='PetHouse.pets' --nsInclude="PetHouse.*" dump/)
 - row export sur query
 - duplicate row ?

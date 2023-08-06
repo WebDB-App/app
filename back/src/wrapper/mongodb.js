@@ -10,7 +10,7 @@ export default class MongoDB extends Driver {
 	commonUser = ["mongo"];
 	commonPass = ["mongo"];
 	systemDbs = ["admin", "config", "local"];
-	sampleSize = process.env.NOSQL_SAMPLE || 1000;
+	sampleSize = process.env.NOSQL_SAMPLE || 500;
 
 	async scan() {
 		return super.scan(this.host, 27010, 27020);
@@ -380,35 +380,26 @@ export default class MongoDB extends Driver {
 
 		samples.map(sample => {
 			for (const [key, val] of Object.entries(sample)) {
-				if (val === null) {
-					continue;
-				}
-
-				//merge obj prop + nested null
-				//keep only first elem of array
-
 				const type = JSON.stringify(this.getPropertyType(val));
+
 				if (columns[key]) {
-					if (columns[key].type.indexOf(type) < 0) {
-						columns[key].type.push(type);
-					} else {
-						columns[key].nullable++;
-					}
+					columns[key][type]++;
 				} else {
-					columns[key] = {
-						name: key,
-						type: [type],
-						nullable: 1
-					};
+					columns[key] = {};
+					columns[key][type] = 1;
 				}
 			}
 		});
 
-		for (const [key] of Object.entries(columns)) {
-			columns[key].type = columns[key].type.map(ty => JSON.parse(ty));
-			columns[key].nullable = columns[key].nullable < this.sampleSize;
+		const final = [];
+		for (const [name, type] of Object.entries(columns)) {
+			final.push({
+				name,
+				type: JSON.parse(type),
+				nullable: columns[name][type] < this.sampleSize
+			});
 		}
 
-		return columns;
+		return final;
 	}
 }
