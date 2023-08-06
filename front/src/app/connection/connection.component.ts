@@ -51,14 +51,20 @@ export class ConnectionComponent implements OnInit {
 		Server.setSelected(undefined);
 		this.titleService.setTitle("WebDB – App");
 		this.loading = 0;
+		let scans: Server[] = [];
+
+		try {
+			scans = (await firstValueFrom(this.http.get<Server[]>(environment.apiRootUrl + 'server/scan'))).map(scan => {
+				scan.name = Server.setName(scan);
+				scan.scanned = true
+				return scan;
+			});
+		} catch (err) {
+			this.loading = -1;
+			return;
+		}
+
 		let servers = [];
-
-		const scans = (await firstValueFrom(this.http.get<Server[]>(environment.apiRootUrl + 'server/scan'))).map(scan => {
-			scan.name = Server.setName(scan);
-			scan.scanned = true
-			return scan;
-		});
-
 		this.loading = 10;
 
 		const locals = Server.getAll().map(local => {

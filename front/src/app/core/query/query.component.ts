@@ -159,7 +159,7 @@ export class QueryComponent implements OnInit {
 			const data = await this.request.post('database/query', {
 				query,
 				pageSize: this.pageSize,
-				page: 0
+				page: this.page
 			}, undefined, undefined, undefined, undefined, false)
 			if (data.length) {
 				this.history.addLocal(new Query(query, data.length));
@@ -168,6 +168,7 @@ export class QueryComponent implements OnInit {
 			return JSON.stringify(data, null, "\t");
 		}
 
+		this.querySize = 10000;
 		[this.originalResult.code, this.modifiedResult.code] = await Promise.all([run(this.query), run(this.query2)]);
 	}
 
