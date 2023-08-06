@@ -1,8 +1,5 @@
-sql alter table : name, fct as default, null as default
-wrap defaultValue -> attention NULL / function()
-postgre : addtable
-
-mongo : relations + harmonizer + insert
+postgre : alter table : name, fct as default, null as default + addtable
+mongo : relation + structure + harmonizer + insert
 
 
 
@@ -33,14 +30,15 @@ mongo : relations + harmonizer + insert
 
 
 - postgre : plusieurs schemas
+- trigger/collation : postgre + mongo
+
+- finir own_object : autocomplete + column
 - cloud (google, aurora, rds)
 - BLOB CRUD (download, upload)
 - finir present
 - Finir EDR
-- trigger : postgre + mongo
 - create views
 - revoir MySQL load avec tunnel (essayer en bash)
-- finir own_object : autocomplete + column
 - Server gît avec autobackup en var d'env (git large file / gzip)
 - SQLServer
 - graphql
@@ -79,6 +77,9 @@ mongo : relations + harmonizer + insert
 - afficher resulat Unit Test en front avec plusieurs version de bdd
 - Cockroachdb
 - Oracle : https://github.com/oracle/docker-images/blob/main/OracleDatabase/SingleInstance/README.md
+- Postgre : more comparator (symbol) with detail
+- Cloud DB : digital + atlas? + azure
+- docker scout cves "$IMAGE_PATH" --exit-code
 
 # SQLite
 - https://hub.docker.com/r/nouchka/sqlite3/
@@ -127,12 +128,8 @@ mongo : relations + harmonizer + insert
 
 
 
-
-- row export + delete sur query
-- datahog / sentry
-- Cloud DB : digital + atlas? + azure
-- ElasticSearch : https://elasticvue.com/
-- Postgre : more comparator (symbol) with detail
 - renameDatabase (mongorestore --nsFrom='PetHotel.pets' --nsTo='PetHouse.pets' --nsInclude="PetHouse.*" dump/)
+- row export sur query
+- duplicate row ?
+- datahog / sentry
 - save resize in localstorage
-- docker scout cves "$IMAGE_PATH" --exit-code
