@@ -9,6 +9,8 @@ import { Database } from "../../classes/database";
 import { environment } from "../../environments/environment";
 import { RequestService } from "../../shared/request.service";
 import { Subscription } from "rxjs";
+import { LogsDialog } from "../top-right/top-right.component";
+import { MatDialog } from "@angular/material/dialog";
 class Panel {
 	link!: string
 	icon!: string
@@ -39,9 +41,10 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 	protected readonly environment = environment;
 
 	constructor(
-		private drawerService: DrawerService,
 		public request: RequestService,
 		public activatedRoute: ActivatedRoute,
+		private drawerService: DrawerService,
+		private dialog: MatDialog
 	) {
 		this.sub = this.request.loadingServer.subscribe((progress) => {
 			this.loading = progress;
@@ -64,7 +67,7 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 		}
 
 		if (!server || !database) {
-			this.loading = -1;
+			setTimeout(() => {this.loading = -1;}, 200);
 			return;
 		}
 
@@ -80,6 +83,13 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	ngAfterViewInit(): void {
 		this.drawerService.setDrawer(this.drawer);
+	}
+
+	showError() {
+		this.dialog.open(LogsDialog, {
+			data: 'err.log',
+			hasBackdrop: false
+		});
 	}
 }
 
