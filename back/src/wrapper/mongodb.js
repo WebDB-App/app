@@ -255,6 +255,23 @@ export default class MongoDB extends Driver {
 		}
 	}
 
+	async sampleDatabase(name, limit) {
+		const promises = [];
+		for (const coll of await this.connection.db(name).collections()) {
+			promises.push(new Promise(async resolve => {
+				let samples = [];
+				try {
+					samples = await coll.aggregate([{$sample: {size: limit}}]).toArray();
+				} catch (e) { /* empty */ }
+				resolve({
+					structure: coll.collectionName,
+					data: samples
+				});
+			}));
+		}
+		return await Promise.all(promises);
+	}
+
 	async querySize(query, database) {
 		if (query.indexOf(".find(") > 0) {
 			query = query.replace(".find(", ".countDocuments(");

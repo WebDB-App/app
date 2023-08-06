@@ -10,37 +10,39 @@
 	</button>
 </div>
 
-<mat-dialog-content fxLayout="column" fxLayoutAlign="space-between stretch"
-					style="margin: 0px; padding: 0px !important; gap: 26px">
-	<div style="margin: 0px auto;">
-		<mat-button-toggle-group
-			#type="matButtonToggleGroup">
-			<mat-button-toggle
-				*ngFor="let symbol of symbols | keyvalue; let i = index"
-				[checked]="i === 0"
-				[hidden]="!isSQL() && symbol.key === 'PRIMARY'"
-				[value]="symbol.key">
-				{{symbol.key}} {{symbol.value}}
-			</mat-button-toggle>
-		</mat-button-toggle-group>
+<mat-dialog-content>
+	<div fxLayout="column" fxLayoutAlign="space-between stretch"
+		 style="margin: 26px; width: 350px; gap: 26px">
+		<div style="margin: 0px auto;">
+			<mat-button-toggle-group
+				#type="matButtonToggleGroup">
+				<mat-button-toggle
+					*ngFor="let symbol of symbols | keyvalue; let i = index"
+					[checked]="i === 0"
+					[hidden]="!isSQL() && symbol.key === 'PRIMARY'"
+					[value]="symbol.key">
+					{{symbol.key}} {{symbol.value}}
+				</mat-button-toggle>
+			</mat-button-toggle-group>
+		</div>
+		<mat-form-field appearance="fill" style="margin-bottom: -1.25em">
+			<mat-label>Column</mat-label>
+			<mat-select #columns multiple>
+				<mat-option *ngFor="let column of table.columns" [value]="column.name">
+					{{column.name}}
+				</mat-option>
+			</mat-select>
+		</mat-form-field>
+		<mat-form-field
+			appearance="outline">
+			<mat-label>Name</mat-label>
+			<input #name
+				   [value]="type.value === 'PRIMARY' ? 'PRIMARY' : type.value?.toLowerCase() + '_' + table.name + '_' + columns.value?.join('_')"
+				   autocomplete="off"
+				   matInput
+				   required>
+		</mat-form-field>
 	</div>
-	<mat-form-field appearance="fill" style="margin-bottom: -1.25em">
-		<mat-label>Column</mat-label>
-		<mat-select #columns multiple>
-			<mat-option *ngFor="let column of table.columns" [value]="column.name">
-				{{column.name}}
-			</mat-option>
-		</mat-select>
-	</mat-form-field>
-	<mat-form-field
-		appearance="outline">
-		<mat-label>Name</mat-label>
-		<input #name
-			   [value]="type.value === 'PRIMARY' ? 'PRIMARY' : type.value?.toLowerCase() + '_' + table.name + '_' + columns.value?.join('_')"
-			   autocomplete="off"
-			   matInput
-			   required>
-	</mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions>
 	<button (click)="createIndex(name.value, type.value, columns.value)"
