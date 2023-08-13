@@ -2,8 +2,14 @@ import { Server } from "../classes/server";
 import { SQL } from "../classes/sql";
 import { HttpClient } from "@angular/common/http";
 import { firstValueFrom } from "rxjs";
+import { MatPaginatorIntl } from "@angular/material/paginator";
 
 declare var monaco: any;
+
+export class REMOVED_LABELS extends MatPaginatorIntl {
+	override nextPageLabel: string = '';
+	override previousPageLabel: string = '';
+}
 
 export function singleLine(code: string) {
 	return code.replaceAll(/(\r|\n|\t)/gm, " ").replaceAll(/  +/gm, " ").trim();

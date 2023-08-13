@@ -11,6 +11,7 @@ import { RequestService } from "../../shared/request.service";
 import { Subscription } from "rxjs";
 import { LogsDialog } from "../top-right/top-right.component";
 import { MatDialog } from "@angular/material/dialog";
+
 class Panel {
 	link!: string
 	icon!: string
@@ -67,7 +68,7 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 		}
 
 		if (!server || !database) {
-			setTimeout(() => {this.loading = -1;}, 200);
+			this.loading = -1;
 			return;
 		}
 

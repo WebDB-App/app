@@ -1,6 +1,8 @@
 mat-drawer {
 	min-width: 33vw;
 	max-width: 83vw;
+	resize: horizontal;
+	overflow: auto;
 }
 
 #title {

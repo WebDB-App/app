@@ -1,5 +1,5 @@
 <mat-drawer-container>
-	<mat-drawer #drawer id="right" mode="over" position="end">
+	<mat-drawer #drawer id="right" mode="side" position="end">
 		<router-outlet *ngIf="loading >= 100" name="right"></router-outlet>
 	</mat-drawer>
 
@@ -8,7 +8,8 @@
 					 style="background-color: #444444; z-index: 1000">
 			<div fxLayout="row" fxLayoutGap="12px" style="align-items: center">
 				<button id="home"
-						mat-raised-button
+						mat-button
+						style="background: radial-gradient(ellipse at bottom,#1b2735 0%,#090a0f 100%);"
 						routerLink="/">
 					<mat-icon style="height: 32px; width: 32px;" svgIcon="webdb"></mat-icon>
 				</button>
