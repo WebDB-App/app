@@ -16,17 +16,21 @@ table {
 		}
 	}
 
+	.element-row {
+		cursor: pointer;
+	}
+
 	.expended {
 		display: table-row;
 	}
 
 	.expanded-row td {
-		background: #121212 !important;
+		background: #1e1e1e !important;
 		border-top: 1px solid #ff9800;
 	}
 
 	.expended td {
-		background: #121212 !important;
+		background: #1e1e1e !important;
 		border-bottom: 1px solid #ff9800;
 	}
 }

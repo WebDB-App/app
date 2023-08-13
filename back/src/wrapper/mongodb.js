@@ -363,7 +363,7 @@ export default class MongoDB extends Driver {
 
 		const type = property.constructor.name;
 		if (type === "Array") {
-			return property.map(pro => this.getPropertyType(pro)).filter((value, index, array) => value && array.indexOf(value) === index).map(ty => JSON.stringify(ty) + "[]").sort().join(" | ");
+			return property.map(pro => JSON.stringify(this.getPropertyType(pro))).filter((value, index, array) => value && array.indexOf(value) === index).map(ty => ty + "[]").sort().join(" | ");
 		}
 		if (type === "Object") {
 			const types = {};
@@ -397,7 +397,7 @@ export default class MongoDB extends Driver {
 		for (const [name, type] of Object.entries(columns)) {
 			const types = Object.keys(type).map(ty => JSON.parse(ty)).filter(ty => ty);
 
-			if (name === "image") {
+			if (name === "comments") {
 				console.log("");
 			}
 
