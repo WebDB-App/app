@@ -54,6 +54,7 @@ body {
 	.mat-header-cell {
 		color: mat.get-color-from-palette($angular-primary, default);
 		font-size: 15px;
+		border: none;
 
 		input {
 			width: 100%;
@@ -242,6 +243,7 @@ a {
 
 .mat-toolbar {
 	box-shadow: $bottom-shadow;
+	background-color: #1e1e1e;
 
 	.mat-form-field, .mat-select, .mat-slide-toggle, .mat-button-toggle-group {
 		font-size: 14px !important;
