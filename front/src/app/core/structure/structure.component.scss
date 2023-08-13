@@ -1,8 +1,4 @@
 table {
-	th:last-child {
-		width: 0px;
-	}
-
 	::ng-deep .hoverClass {
 		background-color: rgba(33, 150, 243, 0.3) !important;
 	}

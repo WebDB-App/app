@@ -11,7 +11,7 @@ import { isSQL } from "../../../shared/helper";
 @Component({
 	selector: 'app-relations',
 	templateUrl: './relations.component.html',
-	styleUrls: ['./relations.component.scss']
+	styleUrls: ['./relations.component.scss'],
 })
 export class RelationsComponent implements OnInit {
 
@@ -21,8 +21,9 @@ export class RelationsComponent implements OnInit {
 
 	constraints?: string[];
 	actionColum = "##ACTION##";
-	displayedColumns = ['name', 'table_source', 'column_source', 'table_dest', 'column_dest', 'update_rule', 'delete_rule'];
+	displayedColumns = ['column_source', 'table_source', 'table_dest', 'column_dest'];
 	dataSource!: MatTableDataSource<Relation>;
+	expanded: string[] = [];
 	protected readonly isSQL = isSQL;
 
 	constructor(private request: RequestService,

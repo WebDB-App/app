@@ -34,7 +34,7 @@ body {
 .mat-tooltip {
 	backdrop-filter: blur(2px);
 	white-space: pre-line !important;
-	background-color: rgba(0, 0, 0, .8) !important;
+	background-color: #1e1e1e;
 }
 
 [hidden] {
@@ -59,6 +59,11 @@ body {
 			width: 100%;
 			margin: 0px;
 		}
+	}
+
+	.mat-column---ACTION-- {
+		width: 0px !important;
+		min-width: 0px !important;
 	}
 
 	.mat-cell, .mat-header-cell {
@@ -237,7 +242,6 @@ a {
 
 .mat-toolbar {
 	box-shadow: $bottom-shadow;
-	background-color: rgba(0, 0, 0, .2) !important;
 
 	.mat-form-field, .mat-select, .mat-slide-toggle, .mat-button-toggle-group {
 		font-size: 14px !important;
