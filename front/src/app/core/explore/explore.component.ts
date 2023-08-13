@@ -15,11 +15,14 @@ import { Group } from "../../../classes/driver";
 import { Column } from "../../../classes/column";
 import { ExportResultDialog } from "../../../shared/export-result-dialog/export-result-dialog";
 import { BatchUpdateDialog } from "../../../shared/batch-update-dialog/batch-update-dialog";
+import { MatPaginatorIntl } from "@angular/material/paginator";
+import { REMOVED_LABELS } from "../../../shared/helper";
 
 @Component({
 	selector: 'app-explore',
 	styleUrls: ['explore.component.scss'],
 	templateUrl: 'explore.component.html',
+	providers: [{provide: MatPaginatorIntl, useValue: new REMOVED_LABELS()} ]
 })
 export class ExploreComponent implements OnInit, OnDestroy {
 

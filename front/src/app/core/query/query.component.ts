@@ -11,15 +11,17 @@ import { RequestService } from "../../../shared/request.service";
 import { Relation } from "../../../classes/relation";
 import { Configuration } from "../../../classes/configuration";
 import { HistoryService, Query } from "../../../shared/history.service";
-import { initBaseEditor } from "../../../shared/helper";
+import { initBaseEditor, REMOVED_LABELS } from "../../../shared/helper";
 import { ExportResultDialog } from "../../../shared/export-result-dialog/export-result-dialog";
+import { MatPaginatorIntl } from "@angular/material/paginator";
 
 declare var monaco: any;
 
 @Component({
 	selector: 'app-query',
 	templateUrl: './query.component.html',
-	styleUrls: ['./query.component.scss']
+	styleUrls: ['./query.component.scss'],
+	providers: [{provide: MatPaginatorIntl, useValue: new REMOVED_LABELS()} ]
 })
 export class QueryComponent implements OnInit {
 

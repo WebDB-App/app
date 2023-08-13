@@ -1,38 +1,35 @@
 mongo : harmonizer + insert + addTable
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 - postgre : alter table : name, fct as default, null as default + addtable + plusieurs schemas
 - trigger/collation : postgre + mongo
+- com
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 - cloud (google, aurora, rds)
+- revoir MySQL load avec tunnel (essayer en bash)
 - finir own_object : autocomplete + column
 - finir present
-- Finir EDR
 - create views
-- revoir MySQL load avec tunnel (essayer en bash)
+- Finir EDR
 - Server gît avec autobackup en var d'env (git large file / gzip)
 - SQLServer
 - graphql
-- Export Query : tester tout + btn to export via IA (Stripe Metadata additionnal feature)
+- Export Query : tester tout
 
 
 
@@ -75,7 +72,8 @@ mongo : harmonizer + insert + addTable
 - ci + gitlab wiki
 - changelog en json avec opencommit et check last version
 
-# Chat
+# IA
+- Export Query : btn to export via IA (Stripe Metadata additionnal feature)
 - faraday.dev
 - https://llama-node.vercel.app/
 - premium : export n'importe quelle language (ia)

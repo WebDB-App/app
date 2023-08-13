@@ -358,12 +358,12 @@ export default class MongoDB extends Driver {
 
 	getPropertyType(property) {
 		if (property === null) {
-			return "null";
+			return null;
 		}
 
 		const type = property.constructor.name;
 		if (type === "Array") {
-			return property.sort().map(pro => this.getPropertyType(pro));
+			return property.map(pro => this.getPropertyType(pro)).filter((value, index, array) => value && array.indexOf(value) === index).map(ty => JSON.stringify(ty) + "[]").sort().join(" | ");
 		}
 		if (type === "Object") {
 			const types = {};
@@ -382,10 +382,12 @@ export default class MongoDB extends Driver {
 			for (const [key, val] of Object.entries(sample)) {
 				const type = JSON.stringify(this.getPropertyType(val));
 
-				if (columns[key]) {
+				if (columns[key] && columns[key][type]) {
 					columns[key][type]++;
 				} else {
-					columns[key] = {};
+					if (!columns[key]) {
+						columns[key] = {};
+					}
 					columns[key][type] = 1;
 				}
 			}
@@ -393,10 +395,16 @@ export default class MongoDB extends Driver {
 
 		const final = [];
 		for (const [name, type] of Object.entries(columns)) {
+			const types = Object.keys(type).map(ty => JSON.parse(ty)).filter(ty => ty);
+
+			if (name === "image") {
+				console.log("");
+			}
+
 			final.push({
 				name,
-				type: JSON.parse(type),
-				nullable: columns[name][type] < this.sampleSize
+				type: types.join(" | "),
+				nullable: types.length !== Object.keys(type).length
 			});
 		}
 

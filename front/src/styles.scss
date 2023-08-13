@@ -34,7 +34,7 @@ body {
 .mat-tooltip {
 	backdrop-filter: blur(2px);
 	white-space: pre-line !important;
-	background-color: #1e1e1e;
+	background-color: rgba(0, 0, 0, .8) !important;
 }
 
 [hidden] {
@@ -67,6 +67,7 @@ body {
 	}
 
 	.mat-cell {
+		font-size: 13px;
 		border: 1px solid transparent;
 
 		.material-symbols-outlined {
@@ -236,7 +237,7 @@ a {
 
 .mat-toolbar {
 	box-shadow: $bottom-shadow;
-	background-color: #121212;
+	background-color: rgba(0, 0, 0, .2) !important;
 
 	.mat-form-field, .mat-select, .mat-slide-toggle, .mat-button-toggle-group {
 		font-size: 14px !important;
