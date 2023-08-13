@@ -18,6 +18,11 @@
 				display: flex;
 				flex-direction: column;
 
+				.mat-list-item {
+					height: 42px;
+					font-size: 15px;
+				}
+
 				::ng-deep .table td:nth-child(2) {
 					width: 0px;
 				}

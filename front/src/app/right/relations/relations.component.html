@@ -8,23 +8,20 @@
 </mat-toolbar>
 
 <div class="scrollDiv mat-elevation-z8">
-	<table [dataSource]="dataSource" class="table" mat-table>
+	<table [dataSource]="dataSource" class="table" mat-table multiTemplateDataRows>
 		<ng-container
 			*ngFor="let column of displayedColumns"
 			[stickyEnd]="column === actionColum"
 			matColumnDef="{{column}}"
 		>
 			<th *matHeaderCellDef mat-header-cell>
-				{{column === actionColum ? '' : column}}
+				{{column === actionColum ? '' : column.replaceAll('_', ' ') | titlecase}}
 			</th>
 			<td *matCellDef="let row; let i = index" mat-cell>
 				<ng-container *ngIf="column === actionColum">
-					<button (click)="delete(row)"
-							mat-icon-button>
-						<span class="material-symbols-outlined notranslate">
-							delete_forever
-						</span>
-					</button>
+					<span class="material-symbols-outlined notranslate">
+						{{expanded.indexOf(row.name) >= 0 ? 'expand_less' : 'expand_more'}}
+					</span>
 				</ng-container>
 
 				<ng-container *ngIf="column !== actionColum">
@@ -33,8 +30,36 @@
 			</td>
 		</ng-container>
 
+		<ng-container matColumnDef="details">
+			<td mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length">
+				<div style="display: flex; justify-content: space-between">
+					<h3 style="margin: 0px; align-self: center;">{{row.name}}</h3>
+
+					<button
+						(click)="delete(row)"
+						color="warn"
+						mat-button>
+						<span class="material-symbols-outlined notranslate">
+							delete_forever
+						</span>
+						Remove
+					</button>
+				</div>
+
+				<div style="display: flex; justify-content: space-evenly">
+					<span>on Update : {{row.update_rule}}</span>
+					<span>on Delete : {{row.delete_rule}}</span>
+				</div>
+			</td>
+		</ng-container>
+
 		<tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
-		<tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+		<tr mat-row *matRowDef="let row; columns: displayedColumns;"
+			class="element-row"
+			[class.expanded-row]="expanded.indexOf(row.name) >= 0"
+			(click)="expanded.indexOf(row.name) >= 0 ? expanded.splice(expanded.indexOf(row.name)) : expanded.push(row.name)">
+		</tr>
+		<tr mat-row *matRowDef="let row; columns: ['details']" [class.expended]="expanded.indexOf(row.name) >= 0" class="details"></tr>
 
 		<tr *matNoDataRow class="mat-row">
 			<td class="mat-cell" colspan="100%">No Relations</td>
