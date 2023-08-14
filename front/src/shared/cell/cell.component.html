@@ -6,11 +6,23 @@
 </ng-container>
 
 <ng-container *ngIf="!fkLink">
-	<ngx-json-viewer
-		*ngIf="nested"
-		[expanded]="expand"
-		[json]="row[column]">
-	</ngx-json-viewer>
+	<ng-container *ngIf="nested">
+		<ng-container *ngIf="expand">
+			<ngx-json-viewer
+				[expanded]="false"
+				[json]="row[column]">
+			</ngx-json-viewer>
+		</ng-container>
+		<ng-container *ngIf="!expand">
+			<button
+				(click)="expand = true"
+				mat-icon-button>
+				<span class="material-symbols-outlined">
+					folder_open
+				</span>
+			</button>
+		</ng-container>
+	</ng-container>
 	<ng-container
 		*ngIf="!nested">
 		{{row[column] | boolean}}

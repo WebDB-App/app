@@ -85,4 +85,6 @@ export class UpdateDataDialog {
 		row[column] = value;
 		this.str = JSON.stringify(row, null, "\t");
 	}
+
+	protected readonly Object = Object;
 }

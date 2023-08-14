@@ -184,30 +184,17 @@ export class ConnectionComponent implements OnInit {
 		});
 	}
 
-	getTooltip(server: Server) {
+	getDetails(server: Server) {
 		if (server.connected) {
-			return 'Connected';
+			return {icon: 'signal_wifi_4_bar', txt: 'Connected'};
 		}
 		if (server.scanned) {
 			if (server.stored) {
-				return 'Bad credentials';
+				return {icon: 'signal_wifi_bad', txt: 'Bad credentials'};
 			}
-			return 'Discovered';
+			return {icon: 'network_wifi', txt: 'Discovered'};
 		}
-		return 'Unreachable';
-	}
-
-	getIcon(server: Server) {
-		if (server.connected) {
-			return 'signal_wifi_4_bar';
-		}
-		if (server.scanned) {
-			if (server.stored) {
-				return 'signal_wifi_statusbar_not_connected';
-			}
-			return 'signal_wifi_4_bar';
-		}
-		return 'signal_wifi_bad';
+		return {icon: 'signal_wifi_off', txt: 'Unreachable'};
 	}
 
 	getServerByDriver(driver: string): Server[] {
