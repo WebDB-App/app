@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import { Table } from "../../classes/table";
 import { Relation } from "../../classes/relation";
 import { isNested } from "../helper";
@@ -21,7 +21,9 @@ export class CellComponent implements OnInit {
 	expand = true;
 	fkLink?: string[];
 
-	constructor() {
+	constructor(
+		private ref: ElementRef
+	) {
 	}
 
 	ngOnInit(): void {
@@ -31,8 +33,9 @@ export class CellComponent implements OnInit {
 
 		this.nested = isNested(this.row[this.column]);
 		if (this.nested) {
-			if (Object.keys(this.row[this.column]).length > 2) {
+			if (JSON.stringify(this.row[this.column]).length > 70) {
 				this.expand = false;
+				this.ref.nativeElement.style.resize = "both";
 			}
 		}
 	}
