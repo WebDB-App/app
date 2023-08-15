@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Database } from "../../../classes/database";
 import { Server } from "../../../classes/server";
 import { Licence } from "../../../classes/licence";
@@ -6,12 +6,12 @@ import { RequestService } from "../../../shared/request.service";
 import { Configuration, OpenAIApi } from "openai";
 import { Configuration as WebConfig } from "../../../classes/configuration";
 import { marked } from 'marked';
-import { MatSelect } from "@angular/material/select";
 import { DrawerService } from "../../../shared/drawer.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute } from "@angular/router";
 
 const localKeyOpenAI = 'openai-key';
+const localKeyConfig = 'ia-config';
 
 enum Role {
 	System = 'system',
@@ -52,7 +52,7 @@ class Msg {
 })
 export class AiComponent implements OnInit {
 
-	@ViewChild('select') select!: MatSelect;
+	@ViewChild('scrollContainer') private scrollContainer!: ElementRef;
 
 	selectedServer?: Server;
 	selectedDatabase?: Database;
@@ -70,7 +70,7 @@ export class AiComponent implements OnInit {
 		'Create a trigger checking password strength before inserting',
 		'Here is, with PDO, the query to insert ... can you help me fixing it',
 		'Give me, with Mongoose the listing of all user',
-		'With FakerJS, give me the code for each column to generate random data for my table `user`'
+		'Optimize the performance of my server, you can asked me query or command to run for this'
 	]
 	changing = false;
 	localKeyChatHistory!: string;
@@ -92,6 +92,10 @@ export class AiComponent implements OnInit {
 		private route: ActivatedRoute,
 		public snackBar: MatSnackBar
 	) {
+		const local = localStorage.getItem(localKeyConfig);
+		if (local) {
+			this.preSent = JSON.parse(local);
+		}
 	}
 
 	async ngOnInit() {
@@ -102,6 +106,7 @@ export class AiComponent implements OnInit {
 			if (state && !this.initialized) {
 				this.initialized = true;
 				await this.loadSample();
+				this.scrollToBottom();
 			}
 
 			const question = this.route.snapshot.paramMap.get('question');
@@ -117,6 +122,7 @@ export class AiComponent implements OnInit {
 	}
 
 	async loadSample() {
+		localStorage.setItem(localKeyConfig, JSON.stringify(this.preSent));
 		this.sample = (await this.request.post('database/sample', {
 			preSent: this.preSent,
 			language: navigator.language
@@ -176,6 +182,11 @@ export class AiComponent implements OnInit {
 		this.chat.push(message);
 		this.saveChat();
 		this.isLoading = false;
+		this.scrollToBottom();
+	}
+
+	scrollToBottom() {
+		this.scrollContainer.nativeElement.scrollTop = this.scrollContainer.nativeElement.scrollHeight;
 	}
 
 	async runQuery(query: string) {

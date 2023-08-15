@@ -5,7 +5,7 @@ import { Table } from "../../../classes/table";
 import jsbeautifier from "js-beautify";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { RequestService } from "../../../shared/request.service";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Server } from "../../../classes/server";
 import { Database } from "../../../classes/database";
 import { initBaseEditor, loadLibAsset } from "../../../shared/helper";
@@ -17,6 +17,7 @@ import { HttpClient } from "@angular/common/http";
 import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
 import { UpdateDataDialog } from "../../../shared/update-data-dialog/update-data-dialog";
 import { DomSanitizer } from "@angular/platform-browser";
+import { DrawerService } from "../../../shared/drawer.service";
 
 const localStorageName = "insert-codes";
 
@@ -61,7 +62,9 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 		private snackBar: MatSnackBar,
 		private http: HttpClient,
 		private dialog: MatDialog,
-		private sanitizer: DomSanitizer
+		private sanitizer: DomSanitizer,
+		private drawer: DrawerService,
+		private router: Router
 	) {
 	}
 
@@ -99,10 +102,12 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 		clearInterval(this.interval);
 	}
 
-	async sampleData(random: Random) {
+	async sampleData(random: Random, userDemand = false) {
 		const values = this.selectedServer!.driver.extractEnum(random.column);
+		let found = false;
 		if (values) {
 			random.model = `(() => {const enums = [${values.map(value => `'${value}'`).join(",")}];return enums[Math.floor(Math.random() * (enums.length))]})()`;
+			found = true;
 		} else {
 			const relation = Table.getRelations().find(relation => relation.column_source === random.column.name);
 			if (relation) {
@@ -113,8 +118,13 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 				});
 				if (datas) {
 					random.model = `(() => { const fk = [${datas.map((data: any) => `'${data.example}'`).join(",")}]; return fk[Math.floor(Math.random() * (fk.length))]; })()`;
+					found = true;
 				}
 			}
+		}
+
+		if (userDemand && !found) {
+			this.snackBar.open("No sample data found, check the relation and type", "╳", {duration: 3000})
 		}
 
 		random.model = this.beautify(random.model || `return faker.random.numeric();`);
@@ -295,6 +305,15 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 			data: this.sanitizer.bypassSecurityTrustResourceUrl(src),
 			hasBackdrop: false
 		});
+	}
+
+	async iaCode(random: Random, framework: string) {
+		this.drawer.toggle();
+
+		const question = `With ${framework}, give me the code to generate random data for my column "${random.column.name}" in the table "${this.selectedTable?.name}"`;
+		await this.router.navigate(
+			[{outlets: {right: ['assistant', {question}]}}],
+			{relativeTo: this.activatedRoute.parent?.parent})
 	}
 }
 

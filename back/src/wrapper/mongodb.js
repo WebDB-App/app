@@ -390,7 +390,7 @@ export default class MongoDB extends Driver {
 			for (const [key, val] of Object.entries(property).sort()) {
 				types[key] = this.getPropertyType(val);
 			}
-			return types;
+			return JSON.stringify(types);
 		}
 		return type;
 	}
