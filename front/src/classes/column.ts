@@ -36,12 +36,18 @@ export class Column {
 		return str;
 	}
 
-	static isOfGroup(driver: Driver, column: Column, group: Group) {
+	static isOfGroups(driver: Driver, column: Column, groups: string[]) {
 		const parenthese = column.type.indexOf('(');
-		const stringTypes = driver.language.typeGroups.find(type => type.name === group)!.list!;
 		const columnType = parenthese >= 0 ? column.type.substring(0, parenthese) : column.type;
 
-		return stringTypes.map(type => type.id.replace(/\([^)]*\)/g, "")).indexOf(columnType) >= 0;
+		for (const group of groups) {
+			const typeDatas = driver.language.typeGroups.find(type => type.name === group)!.list!;
+			if (typeDatas.map(type => type.id.replace(/\([^)]*\)/g, "")).indexOf(columnType) >= 0) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	static getFormGroup(from?: Column) {
