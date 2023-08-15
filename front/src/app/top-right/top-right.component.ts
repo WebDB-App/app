@@ -78,6 +78,8 @@ export class ConnectionInfoDialog {
 })
 export class LogsDialog implements OnDestroy {
 	str: any = "";
+	strFiltered: any = "";
+	filter = "";
 	interval?: NodeJS.Timer;
 
 	constructor(
@@ -109,7 +111,15 @@ export class LogsDialog implements OnDestroy {
 		const convert = new Convert({colors: {4: '#2196f3'}});
 
 		this.http.get(`${environment.rootUrl}logs/${this.file}`, {responseType: 'text'}).subscribe(txt => {
-			this.str = <string>this.sanitizer.bypassSecurityTrustHtml(convert.toHtml(txt).split('\n').reverse().join('\n'));
+			this.str = convert.toHtml(txt);
+			this.filterChanged();
 		});
 	};
+
+	filterChanged() {
+		let str = this.str.split('\n').reverse();
+		str = this.filter ? str.filter((s: string) => s.indexOf(this.filter) >= 0) : str;
+
+		this.strFiltered = <string>this.sanitizer.bypassSecurityTrustHtml(str.join('\n'));
+	}
 }
