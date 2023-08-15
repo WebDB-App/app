@@ -59,8 +59,9 @@
 				</ngx-monaco-editor>
 
 				<div class="infos">
-					<h3 style="margin: 0px; color: #2196f3">
+					<h3 style="margin: 0px; color: #2196f3; width: 12vw; text-align: center;">
 						{{random.column.type}}
+						<mat-divider></mat-divider>
 					</h3>
 
 					<button
@@ -73,13 +74,32 @@
 					</button>
 
 					<button
-						(click)="sampleData(random)"
-						mat-stroked-button>
+						(click)="sampleData(random, true)"
+						mat-flat-button>
 						<span class="material-symbols-outlined notranslate">
 							frame_inspect
 						</span>
 						Sample Data
 					</button>
+
+					<button
+						[matMenuTriggerFor]="iaFrame"
+						mat-flat-button>
+						<span class="material-symbols-outlined notranslate">
+							support_agent
+						</span>
+						IA Suggestion
+					</button>
+					<mat-menu #iaFrame="matMenu" xPosition="before">
+						<button (click)="iaCode(random, 'FakerJS')"
+								mat-menu-item>
+							FakerJS
+						</button>
+						<button (click)="iaCode(random, 'FakerJS')"
+								mat-menu-item>
+							Falso
+						</button>
+					</mat-menu>
 
 					<button [matMenuTriggerFor]="example" mat-button>
 						<span class="material-symbols-outlined notranslate">

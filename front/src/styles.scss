@@ -165,10 +165,14 @@ a {
 	padding: 0px !important;
 	overflow: inherit !important;
 	box-shadow: $bottom-shadow;
-	filter: brightness(0.5);
+	filter: brightness(0.7);
 	transition: filter 0.1s linear;
 
-	&:focus, &:hover, &:active, &:focus-within {
+	&:hover {
+		filter: brightness(0.9);
+	}
+
+	&:focus, &:active, &:focus-within {
 		filter: brightness(1);
 	}
 

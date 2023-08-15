@@ -11,9 +11,10 @@
 	.infos {
 		display: flex;
 		flex-direction: column;
-		margin: 20px;
-		justify-content: space-evenly;
+		justify-content: space-around;
 		align-items: center;
+		gap: 4px;
+		margin: 12px 0px;
 	}
 }
 
