@@ -161,7 +161,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 			this.params.chips += `${value};`;
 		} else {
 			const del = this.selectedServer?.driver.connection.nameDel || "'";
-			if (Column.isOfGroup(this.selectedServer?.driver!, this.selectedTable?.columns.find(col => col.name === column)!, Group.String)
+			if (Column.isOfGroups(this.selectedServer?.driver!, this.selectedTable?.columns.find(col => col.name === column)!, [Group.String, Group.Date])
 				&& !value.startsWith(del)) {
 				value = `${del + value + del}`;
 			}
