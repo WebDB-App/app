@@ -22,7 +22,7 @@ class Controller {
 
 	async sample(req, res) {
 		const [wrapper, database] = await http.getLoggedDriver(req);
-		const sample = await wrapper.sampleDatabase(database, Math.max(req.body.preSent.filter((pre => Number.isInteger(pre)))));
+		const sample = await wrapper.sampleDatabase(database, req.body.preSent);
 
 		let txt = `There is a database called ${database} on a ${wrapper.constructor.name} server. `;
 		for (const table of sample) {

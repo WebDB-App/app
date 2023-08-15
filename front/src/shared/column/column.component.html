@@ -1,4 +1,8 @@
-<div [formGroup]="form" class="container">
+<div *ngIf="!isSQL()">
+	Column Management is not yet supported on NoSQL databases
+</div>
+
+<div *ngIf="isSQL()" [formGroup]="form" class="container">
 	<div *ngIf="form.get('old')" style="display: flex; align-items: center;">
 		<mat-card formGroupName="old" class="oldValues">
 			<mat-card-header>

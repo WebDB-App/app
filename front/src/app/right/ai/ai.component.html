@@ -33,16 +33,18 @@
 			 fxLayoutAlign="space-between center"
 			 style="width: 100%">
 
-			<div style="width: 100%;">
+			<div style="width: 100%; display: flex; gap: 12px;" [hidden]="!key || changing">
 				<mat-form-field
-					[hidden]="!key || changing"
 					appearance="fill"
 					color="accent"
-					style="margin-bottom: -1.25em; width: 100%;">
-					<mat-label>Pre-sent data</mat-label>
-					<mat-select #select [(ngModel)]="preSent" multiple>
-						<mat-option [value]="'structure'">
-							Structure
+					style="margin-bottom: -1.25em; flex: 1">
+					<mat-label>Structure</mat-label>
+					<mat-select
+						(selectionChange)="loadSample()"
+						[(ngModel)]="preSent.structure"
+						multiple>
+						<mat-option [value]="'Tables + Columns + Relations + Indexes'">
+							Tables + Columns + Relations + Indexes
 						</mat-option>
 						<mat-option [value]="'views'">
 							All views
@@ -50,16 +52,35 @@
 						<mat-option [value]="'triggers'">
 							All triggers
 						</mat-option>
-						<mat-option [value]="5">
-							5 rows of each table
-						</mat-option>
-						<mat-option [value]="15">
-							15 rows of each table
-						</mat-option>
-						<mat-option [value]="50">
-							50 rows of each table
-						</mat-option>
 					</mat-select>
+				</mat-form-field>
+
+				<mat-form-field
+					appearance="fill"
+					color="accent"
+					style="width: 90px; margin-bottom: -1.25em;">
+					<mat-label>Rows count</mat-label>
+					<input
+						(change)="loadSample()"
+						[(ngModel)]="preSent.count"
+						matInput
+						type="number"
+						min="1"
+						max="100">
+				</mat-form-field>
+
+				<mat-form-field
+					appearance="fill"
+					color="accent"
+					style="margin-bottom: -1.25em; width: 90px;">
+					<mat-label>Deep level</mat-label>
+					<input
+						(change)="loadSample()"
+						[(ngModel)]="preSent.deep"
+						matInput
+						type="number"
+						min="0"
+						max="15">
 				</mat-form-field>
 			</div>
 

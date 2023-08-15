@@ -9,6 +9,7 @@ import { marked } from 'marked';
 import { MatSelect } from "@angular/material/select";
 import { DrawerService } from "../../../shared/drawer.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { ActivatedRoute } from "@angular/router";
 
 const localKeyOpenAI = 'openai-key';
 
@@ -77,12 +78,18 @@ export class AiComponent implements OnInit {
 	key?: string;
 	openai?: OpenAIApi;
 	isLoading = false;
+
 	sample = "";
-	preSent: any[] = ['structure', 5];
+	preSent = {
+		structure: ['Tables + Columns + Relations + Indexes'],
+		deep: 2,
+		count: 5
+	};
 
 	constructor(
 		private request: RequestService,
 		private drawer: DrawerService,
+		private route: ActivatedRoute,
 		public snackBar: MatSnackBar
 	) {
 	}
@@ -94,12 +101,12 @@ export class AiComponent implements OnInit {
 		this.drawer.drawer.openedChange.subscribe(async (state) => {
 			if (state && !this.initialized) {
 				this.initialized = true;
-
-				this.select.selectionChange.subscribe(async (_params) => {
-					await this.loadSample();
-				});
-
 				await this.loadSample();
+			}
+
+			const question = this.route.snapshot.paramMap.get('question');
+			if (question) {
+				await this.sendMessage(question);
 			}
 		})
 

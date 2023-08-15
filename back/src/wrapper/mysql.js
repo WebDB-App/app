@@ -17,12 +17,12 @@ export default class MySQL extends SQL {
 		return super.scan(this.host, 3300, 3310);
 	}
 
-	async sampleDatabase(name, limit) {
+	async sampleDatabase(name, {structure, count, deep}) {
 		const getSample = async (table) => {
 			const create = await this.runCommand(`SHOW CREATE TABLE \`${table}\``, name);
 			return {
 				structure: create[0]["Create Table"],
-				data: await this.runCommand(`SELECT * FROM \`${table}\` LIMIT ${limit}`, name)
+				data: await this.runCommand(`SELECT * FROM \`${table}\` LIMIT ${count}`, name)
 			};
 		};
 

@@ -3,6 +3,7 @@ import { Column } from "../../classes/column";
 import { Server } from "../../classes/server";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { FormArray, FormGroup } from "@angular/forms";
+import { isSQL } from "../helper";
 
 @Component({
 	selector: 'app-column',
@@ -30,4 +31,6 @@ export class ColumnComponent implements OnInit {
 	addColumn(column?: any) {
 		this.formColumn.push(column || Column.getFormGroup());
 	}
+
+	protected readonly isSQL = isSQL;
 }
