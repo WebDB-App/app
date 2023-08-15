@@ -23,7 +23,10 @@
 		<mat-button-toggle value="PDO">PDO</mat-button-toggle>
 		<mat-button-toggle value="JDBC">JDBC</mat-button-toggle>
 	</mat-button-toggle-group>
-	<button [cdkCopyToClipboard]="str" color="primary" mat-raised-button>
+	<button [cdkCopyToClipboard]="str"
+			color="primary"
+			cdkFocusInitial
+			mat-raised-button>
 		Copy
 	</button>
 </mat-dialog-actions>

@@ -4,7 +4,7 @@
 		<mat-icon>close</mat-icon>
 	</button>
 </div>
-<div mat-dialog-content>
+<div mat-dialog-content cdkFocusInitial>
 	<table style="padding: 20px">
 		<tr *ngFor="let config of configuration.configs">
 			<td>{{config.description}}</td>

@@ -164,12 +164,12 @@ a {
 .mat-dialog-container {
 	padding: 0px !important;
 	overflow: inherit !important;
-	border: 1px solid #1e1e1e;
-	box-shadow: none;
-	transition: box-shadow 0.1s linear;
+	box-shadow: $bottom-shadow;
+	filter: brightness(0.5);
+	transition: filter 0.1s linear;
 
-	&:focus, &:hover {
-		box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
+	&:focus, &:hover, &:active, &:focus-within {
+		filter: brightness(1);
 	}
 
 	.mat-dialog-title {

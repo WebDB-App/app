@@ -48,6 +48,7 @@
 	<button (click)="createIndex(name.value, type.value, columns.value)"
 			[disabled]="!name.value || !type.value || !columns.value"
 			color="primary"
+			cdkFocusInitial
 			mat-stroked-button>
 		Add Index
 	</button>
