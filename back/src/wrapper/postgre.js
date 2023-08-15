@@ -17,12 +17,12 @@ export default class PostgreSQL extends SQL {
 		return super.scan(this.host, 5430, 5440);
 	}
 
-	async sampleDatabase(name, limit) {
+	async sampleDatabase(name, {structure, count, deep}) {
 		const [database, schema] = name.split(this.dbToSchemaDelimiter);
 		const getSample = async (table) => {
 			return {
 				structure: (bash.runBash(`pg_dump ${this.makeUri(database)} -t '${schema}.${table}' --schema-only`)).result,
-				data: await this.runCommand(`SELECT * FROM ${table} LIMIT ${limit}`, name)
+				data: await this.runCommand(`SELECT * FROM ${table} LIMIT ${count}`, name)
 			};
 		};
 

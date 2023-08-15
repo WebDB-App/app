@@ -255,13 +255,33 @@ export default class MongoDB extends Driver {
 		}
 	}
 
-	async sampleDatabase(name, limit) {
+	async sampleDatabase(name, {structure, count, deep}) {
 		const promises = [];
+		const limit = (obj, count, deep) => {
+			if (deep-- < 1) {
+				return null;
+			}
+			for (const [index, prop] of Object.entries(obj)) {
+				if (prop?.constructor.name === "Array") {
+					obj[index] = obj[index].slice(0, count);
+				}
+				if (prop?.constructor.name === "Object") {
+					const limited = limit(prop, count, deep);
+					if (limited === null) {
+						delete obj[index];
+					} else {
+						obj[index] = limited;
+					}
+				}
+			}
+			return obj;
+		};
 		for (const coll of await this.connection.db(name).collections()) {
 			promises.push(new Promise(async resolve => {
 				let samples = [];
 				try {
-					samples = await coll.aggregate([{$sample: {size: limit}}]).toArray();
+					samples = await coll.aggregate([{$sample: {size: count}}]).toArray();
+					samples = samples.map(sample => limit(sample, count, deep));
 				} catch (e) { /* empty */ }
 				resolve({
 					structure: coll.collectionName,
@@ -397,7 +417,7 @@ export default class MongoDB extends Driver {
 		for (const [name, type] of Object.entries(columns)) {
 			const types = Object.keys(type).map(ty => JSON.parse(ty)).filter(ty => ty);
 
-			if (name === "comments") {
+			if (name === "geo") {
 				console.log("");
 			}
 

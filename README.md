@@ -1,25 +1,24 @@
-mongo : harmonizer + insert + addTable
+mongo : relation + insert + quicksearch
+postgre : alter table : name, fct as default, null as default + addtable + plusieurs schemas
 
 
-- postgre : alter table : name, fct as default, null as default + addtable + plusieurs schemas
+com
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- mongo : harmonizer + addTable
 - trigger/collation : postgre + mongo
-- com
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 - cloud (google, aurora, rds)
 - revoir MySQL load avec tunnel (essayer en bash)
 - finir own_object : autocomplete + column
@@ -68,7 +67,7 @@ mongo : harmonizer + insert + addTable
 
 # Bin
 - Brew + chocolate + apt + yum
-- Node Single Executable Apps | https://tauri.app/ | https://webpack.electron.build/ | https://github.com/electron/electron/issues/21457#issuecomment-1269637018
+- Node Single Executable Apps https://github.com/electron/electron/pull/37535 | https://tauri.app/ | https://webpack.electron.build/ | https://github.com/electron/electron/issues/21457#issuecomment-1269637018
 - ci + gitlab wiki
 - changelog en json avec opencommit et check last version
 

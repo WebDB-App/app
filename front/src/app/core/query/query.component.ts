@@ -14,6 +14,7 @@ import { HistoryService, Query } from "../../../shared/history.service";
 import { initBaseEditor, REMOVED_LABELS } from "../../../shared/helper";
 import { ExportResultDialog } from "../../../shared/export-result-dialog/export-result-dialog";
 import { MatPaginatorIntl } from "@angular/material/paginator";
+import { DrawerService } from "../../../shared/drawer.service";
 
 declare var monaco: any;
 
@@ -61,6 +62,7 @@ export class QueryComponent implements OnInit {
 		private history: HistoryService,
 		private activatedRoute: ActivatedRoute,
 		private router: Router,
+		private drawer: DrawerService
 	) {
 	}
 
@@ -130,7 +132,7 @@ export class QueryComponent implements OnInit {
 
 		if (result.error) {
 			const pos = +result.position || 0;
-			const startLineNumber = this.query.substring(0, pos).split(/\r\n|\r|\n/).length
+			const startLineNumber = this.query.substring(0, pos).split(/\r\n|\r|\n/).length;
 
 			monaco.editor.setModelMarkers(this.editors[0].getModel(), "owner", [{
 				startLineNumber: startLineNumber,
@@ -214,6 +216,18 @@ export class QueryComponent implements OnInit {
 			data,
 			hasBackdrop: false
 		});
+	}
+
+	async assistant(row: any) {
+		this.drawer.toggle();
+
+		const question = 'When running this query "' +
+			this.query.replace(/\/\*[\s\S]*?\*\/|(?<=[^:])\/\/.*|^\/\/.*/g,'') +
+			'" , I got this : ' + JSON.stringify(row) + ', can you fix it for me';
+
+		await this.router.navigate(
+			[{outlets: {right: ['assistant', {question}]}}],
+			{relativeTo: this.activatedRoute.parent?.parent})
 	}
 }
 
