@@ -31,10 +31,10 @@
 		<mat-button-toggle value="CSV">CSV</mat-button-toggle>
 		<mat-button-toggle value="JSON">JSON</mat-button-toggle>
 	</mat-button-toggle-group>
-	<button [cdkCopyToClipboard]="str" color="primary" mat-stroked-button>
+	<button [cdkCopyToClipboard]="str" cdkFocusInitial color="primary" mat-stroked-button>
 		Copy
 	</button>
-	<button (click)="download()" cdkFocusInitial color="primary" mat-flat-button>
+	<button (click)="download()" color="primary" mat-flat-button>
 		Download
 	</button>
 </mat-dialog-actions>

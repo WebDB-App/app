@@ -47,6 +47,7 @@
 
 	<button (click)="save(mail.value)"
 			[disabled]="!email.valid"
+			cdkFocusInitial
 			color="primary"
 			mat-flat-button>
 		<span class="material-symbols-outlined notranslate">
