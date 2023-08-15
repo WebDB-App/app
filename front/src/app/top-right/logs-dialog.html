@@ -6,13 +6,31 @@
 			{{file}}
 		</h3>
 
-		<mat-slide-toggle
+		<button
 			(click)="toggleAutoRefresh()"
-			style="font-size: 12px"
-			checked>
-			Auto refresh
-		</mat-slide-toggle>
+			[color]="interval ? 'accent' : undefined"
+			mat-icon-button
+			matTooltipPosition="right"
+			matTooltip="Reload data periodically">
+			<span class="material-symbols-outlined notranslate">
+				{{interval ? 'repeat_one_on' : 'repeat_one'}}
+			</span>
+		</button>
 	</div>
+
+	<mat-form-field style="font-size: 13px; flex: 1; margin: 0px 30px -1.25em 30px" color="accent">
+		<input [(ngModel)]="filter"
+			   (keyup)="filterChanged()"
+			   autocomplete="off"
+			   matInput
+			   placeholder="Filter text">
+		<button (click)="filter = ''; filterChanged()"
+				*ngIf="filter"
+				aria-label="Clear" mat-button mat-icon-button
+				matSuffix>
+			<mat-icon>close</mat-icon>
+		</button>
+	</mat-form-field>
 
 	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
 		<mat-icon>close</mat-icon>
@@ -20,7 +38,7 @@
 </div>
 <div mat-dialog-content>
 	<pre><code
-		[innerHTML]="str"
+		[innerHTML]="strFiltered"
 		style="overflow: auto; white-space: inherit; height: 30vh; width: 60vw; resize: both"></code></pre>
 </div>
 <div mat-dialog-actions *ngIf="file === 'err.log'">
