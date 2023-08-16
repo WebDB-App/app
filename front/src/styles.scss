@@ -328,10 +328,11 @@ ngx-monaco-editor {
 	width: 40vw;
 	resize: both;
 	overflow: auto;
-}
 
-.monaco-editor .overflowingContentWidgets > * {
-	z-index: 100000 !important;
+	.monaco-editor, .overflowingContentWidgets > * {
+		z-index: 1000000000 !important;
+		position: absolute;
+	}
 }
 
 :root {

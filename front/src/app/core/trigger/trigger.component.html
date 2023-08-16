@@ -72,6 +72,7 @@
 			</mat-card-content>
 			<mat-card-footer fxLayout="row" fxLayoutAlign="space-around center">
 				<button (click)="replace(trigger)"
+						[disabled]="trigger.name.length < 1 || trigger.code.length < 1"
 						color="primary"
 						mat-stroked-button>
 					<span class="material-symbols-outlined notranslate">
