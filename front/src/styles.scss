@@ -318,16 +318,14 @@ code, .hljs {
 	padding-left: 20px !important;
 }
 
-.editor-container {
-	height: 100% !important;
-}
-
 ngx-monaco-editor {
 	min-height: 250px;
 	min-width: 350px;
 	width: 40vw;
-	resize: both;
-	overflow: auto;
+
+	.editor-container {
+		height: 100% !important;
+	}
 
 	.monaco-editor, .overflowingContentWidgets > * {
 		z-index: 1000000000 !important;

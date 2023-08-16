@@ -27,7 +27,8 @@ com
 - Server gît avec autobackup en var d'env (git large file / gzip)
 - SQLServer
 - graphql
-- Export Query : tester toutf
+- Export Query : tester tout
+- resize monaco
 
 
 

@@ -58,12 +58,12 @@ dependencies:
     version: 2.0.1
   '@types/js-beautify':
     specifier: latest
-    version: 1.13.3
+    version: 1.14.0
   '@types/marked':
     specifier: ^5.0.0
     version: 5.0.0
   '@types/node':
-    specifier: latest
+    specifier: 20.4.5
     version: 20.4.5
   ansi-to-html:
     specifier: ^0.7.2
@@ -2244,8 +2244,8 @@ packages:
       '@types/node': 20.4.5
     dev: false
 
-  /@types/js-beautify@1.13.3:
-    resolution: {integrity: sha512-ucIPw5gmNyvRKi6mpeojlqp+T+6ZBJeU+kqMDnIEDlijEU4QhLTon90sZ3cz9HZr+QTwXILjNsMZImzA7+zuJA==}
+  /@types/js-beautify@1.14.0:
+    resolution: {integrity: sha512-OrJo4dEKd/8YKwGWuRP7qC/NoxNQCVsjAT7aHhgoIrNJaaDudLwX8husFrklktmXKIFbXevxzrLyEhB1842zjg==}
     dev: false
 
   /@types/json-schema@7.0.12:
