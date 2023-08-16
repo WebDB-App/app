@@ -33,6 +33,21 @@ export class MongoDB implements Driver {
 		language: "https://www.mongodb.com/docs/drivers/node/current/quick-reference/"
 	}
 
+	trigger = {
+		base: `$jsonSchema: {
+            "bsonType": "object",
+            "description": "Document describing a mountain peak",
+            "required": ["name"],
+            "properties": {
+                "name": {
+                    "bsonType": "string",
+                    "description": "Name must be a string and is required"
+                }
+            },
+        }`,
+		language: "json"
+	}
+
 	language = {
 		comparators: [
 			{symbol: '$gt', example: "", definition: "More than"},

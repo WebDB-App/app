@@ -36,18 +36,23 @@ export class SQL implements Driver {
 		language: "https://www.w3schools.com/sql/sql_quickref.asp"
 	}
 
+	trigger = {
+		base: "",
+		language: "sql"
+	}
+
 	language: {
-		comparators: Comparator[]
-		id: string
-		keywords: string[];
-		functions: { [key: string]: string | null };
-		constraints: string[];
+		comparators: Comparator[],
+		id: string,
+		keywords: string[],
+		functions: { [key: string]: string | null },
+		constraints: string[],
 		typeGroups: TypeGroup[],
-		extraAttributes: string[]
-		defaultFilter: string;
-		ownType: boolean;
-		arrayType: boolean;
-		fctAsDefault: boolean;
+		extraAttributes: string[],
+		defaultFilter: string,
+		ownType: boolean,
+		arrayType: boolean,
+		fctAsDefault: boolean
 	} = {
 		comparators: [
 			{symbol: '>', example: "", definition: "More than"},
