@@ -48,7 +48,7 @@ export default class MongoDB extends Driver {
 	async replaceTrigger(database, table, trigger) {
 		return this.connection.db(database).command({
 			collMod: table,
-			validator: trigger.code,
+			validator: JSON.parse(trigger.code),
 			validationLevel: trigger.level,
 			validationAction: trigger.action
 		});
@@ -63,7 +63,7 @@ export default class MongoDB extends Driver {
 	}
 
 	async listTrigger(database, table) {
-		const triggers = this.connection.db(database).collection(table).options.validator || [];
+		const triggers = await this.connection.db(database).collection(table).options.validator || [];
 		return triggers.map(trigger => {
 			return {
 				code: trigger.Statement,

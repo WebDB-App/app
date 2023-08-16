@@ -34,17 +34,19 @@ export class MongoDB implements Driver {
 	}
 
 	trigger = {
-		base: `$jsonSchema: {
-            "bsonType": "object",
-            "description": "Document describing a mountain peak",
-            "required": ["name"],
-            "properties": {
-                "name": {
-                    "bsonType": "string",
-                    "description": "Name must be a string and is required"
-                }
-            },
-        }`,
+		base: `{
+	"$jsonSchema": {
+		"bsonType": "object",
+		"description": "Document describing a mountain peak",
+		"required": ["name"],
+		"properties": {
+			"name": {
+				"bsonType": "string",
+				"description": "Name must be a string and is required"
+			}
+		}
+	}
+}`,
 		language: "json"
 	}
 

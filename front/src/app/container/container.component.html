@@ -74,7 +74,12 @@
 						<h3>
 							Can't connect to {{activatedRoute.snapshot.paramMap.get('server')}} / {{activatedRoute.snapshot.paramMap.get('database')}}
 							<br>
-							Please check error logs and/or server availability
+							Common problems are :
+							<ul>
+								<li>Bad connection credentials</li>
+								<li>Database server doesn't respond correctly</li>
+								<li>Backend doesn't respond</li>
+							</ul>
 						</h3>
 					</mat-error>
 
