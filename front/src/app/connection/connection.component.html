@@ -1,8 +1,8 @@
 <mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
-	<mat-form-field style="width: 180px">
-		<mat-label>Search Server | Database</mat-label>
+	<mat-form-field style="width: 200px" appearance="standard">
 		<input #filter
 			   (keyup)="filterChanged(filter.value)"
+			   placeholder="Search Server | Database"
 			   autocomplete="off"
 			   matInput>
 		<button (click)="filter.value=''; filterChanged(filter.value)" *ngIf="filter.value" aria-label="Clear"

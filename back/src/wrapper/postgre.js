@@ -81,7 +81,7 @@ export default class PostgreSQL extends SQL {
 	}
 
 	async replaceTrigger(database, table, trigger) {
-		return [];
+		return await this.runCommand(`CREATE OR REPLACE TRIGGER ${trigger.name} ${trigger.timing} ${trigger.event} ON ${table} ${trigger.code}`, database);
 	}
 
 	async dropTrigger(database, name) {
@@ -89,7 +89,15 @@ export default class PostgreSQL extends SQL {
 	}
 
 	async listTrigger(database, table) {
-		return [];
+		const triggers = await this.runCommand(`SELECT trigger_schema, trigger_name, event_manipulation, action_statement, action_timing FROM information_schema.triggers WHERE event_object_table = '${table}'`, database);
+		return triggers.map(trigger => {
+			return {
+				code: trigger.action_statement,
+				timing: trigger.action_timing,
+				event: trigger.event_manipulation,
+				name: trigger.trigger_name
+			};
+		});
 	}
 
 	async duplicateTable(database, old_table, new_name) {

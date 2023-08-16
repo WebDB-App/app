@@ -168,7 +168,7 @@ a {
 	filter: brightness(0.7);
 	transition: filter 0.1s linear;
 
-	&:hover {
+	&:hover, &:has(iframe) {
 		filter: brightness(0.9);
 	}
 

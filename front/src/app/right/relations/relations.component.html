@@ -1,7 +1,7 @@
 <mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
-	<mat-form-field>
-		<mat-label>Search Relation</mat-label>
+	<mat-form-field appearance="standard" style="width: 220px">
 		<input (keyup)="applyFilter($event)"
+			   placeholder="Search Relation"
 			   autocomplete="off"
 			   matInput>
 	</mat-form-field>
