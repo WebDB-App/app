@@ -14,9 +14,9 @@ import { MatPaginator } from "@angular/material/paginator";
 import { faker } from '@faker-js/faker';
 import * as falso from '@ngneat/falso';
 import { HttpClient } from "@angular/common/http";
-import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
+import { MatDialog } from "@angular/material/dialog";
 import { UpdateDataDialog } from "../../../shared/update-data-dialog/update-data-dialog";
-import { DomSanitizer } from "@angular/platform-browser";
+import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 import { DrawerService } from "../../../shared/drawer.service";
 
 const localStorageName = "insert-codes";
@@ -54,6 +54,7 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 	limit = 300;
 	randomSource: Random[] = [];
 	interval?: NodeJS.Timer;
+	iframe?: SafeResourceUrl;
 	codes: any = JSON.parse(localStorage.getItem(localStorageName) || "{}");
 
 	constructor(
@@ -62,9 +63,9 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 		private snackBar: MatSnackBar,
 		private http: HttpClient,
 		private dialog: MatDialog,
-		private sanitizer: DomSanitizer,
 		private drawer: DrawerService,
-		private router: Router
+		private router: Router,
+		public sanitizer: DomSanitizer
 	) {
 	}
 
@@ -300,13 +301,6 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 		});
 	}
 
-	showIframe(src: string) {
-		this.dialog.open(IframeDialog, {
-			data: this.sanitizer.bypassSecurityTrustResourceUrl(src),
-			hasBackdrop: false
-		});
-	}
-
 	async iaCode(random: Random, framework: string) {
 		this.drawer.toggle();
 
@@ -314,16 +308,5 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 		await this.router.navigate(
 			[{outlets: {right: ['assistant', {question}]}}],
 			{relativeTo: this.activatedRoute.parent?.parent})
-	}
-}
-
-
-@Component({
-	templateUrl: 'iframe-dialog.html',
-})
-export class IframeDialog {
-	constructor(
-		@Inject(MAT_DIALOG_DATA) public src: string,
-	) {
 	}
 }

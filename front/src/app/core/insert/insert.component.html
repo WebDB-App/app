@@ -15,32 +15,32 @@
 		</div>
 
 		<div>
-			<button
-				(click)="showIframe('https://ngneat.github.io/falso/docs/getting-started')"
-				mat-button>
-				<span class="material-symbols-outlined notranslate">
-					menu_book
-				</span>
-				Falso
-			</button>
-			<button
-				(click)="showIframe('https://v7.fakerjs.dev/api/')"
-				mat-button>
-				<span class="material-symbols-outlined notranslate">
-					menu_book
-				</span>
-				FakerJS
-			</button>
-			<a href="https://gitlab.com/web-db/landing/-/wikis/Generator"
-			   mat-button
-			   target="_blank">
-				<span class="material-symbols-outlined notranslate">
-					menu_book
-				</span>
-				Generator
-			</a>
+			<mat-button-toggle-group
+				(change)="iframe = sanitizer.bypassSecurityTrustResourceUrl($event.value)">
+				<mat-button-toggle
+					value='https://v7.fakerjs.dev/api/'>
+					FakerJS
+				</mat-button-toggle>
+				<mat-button-toggle
+					value='https://ngneat.github.io/falso/docs/getting-started'>
+					Falso
+				</mat-button-toggle>
+			</mat-button-toggle-group>
 		</div>
+
+		<a href="https://gitlab.com/web-db/landing/-/wikis/Generator"
+		   mat-button
+		   target="_blank">
+				<span class="material-symbols-outlined notranslate">
+					menu_book
+				</span>
+			Generator
+		</a>
 	</mat-toolbar>
+
+	<div *ngIf="iframe" style="resize: vertical; overflow: auto; min-height: 400px; display: flex;">
+		<iframe [src]="iframe" style="border-top: 1px solid #2196f3; border-bottom: 1px solid #2196f3; border-left: none; border-right: none; min-height: 100%; width: 100%"></iframe>
+	</div>
 
 	<mat-tab-group mat-align-tabs="center">
 		<mat-tab

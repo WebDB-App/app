@@ -19,7 +19,7 @@ import { ExportQueryDialog, QueryComponent } from './query/query.component';
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatTabsModule } from "@angular/material/tabs";
 import { DropTableDialog, TableAdvancedComponent, TruncateTableDialog } from "./advanced/advanced.component";
-import { IframeDialog, InsertComponent } from "./insert/insert.component";
+import { InsertComponent } from "./insert/insert.component";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
 import {
@@ -57,7 +57,6 @@ import { MonacoEditorModule } from "ngx-monaco-editor-v2";
 		ExportQueryDialog,
 		AddIndexDialog,
 		DropColumnDialog,
-		IframeDialog,
 		DropTableDialog,
 		TruncateTableDialog,
 		StructureComponent,
