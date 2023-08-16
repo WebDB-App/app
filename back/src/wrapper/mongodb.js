@@ -46,21 +46,32 @@ export default class MongoDB extends Driver {
 	}
 
 	async replaceTrigger(database, table, trigger) {
-		return [];
+		return this.connection.db(database).command({
+			collMod: table,
+			validator: trigger.code,
+			validationLevel: trigger.level,
+			validationAction: trigger.action
+		});
 	}
 
 	async dropTrigger(database, name) {
-		return [];
+		return this.connection.db(database).runCommand({
+			collMod: name,
+			validator: {},
+			validationLevel: "off"
+		});
 	}
 
 	async listTrigger(database, table) {
-		return [];
-		/*const l = await this.connection.db(database).command({
-			listCollections: 1,
-			filter: {name: table}
+		const triggers = this.connection.db(database).collection(table).options.validator || [];
+		return triggers.map(trigger => {
+			return {
+				code: trigger.Statement,
+				timing: trigger.Timing,
+				level: trigger.Event,
+				action: trigger.Trigger
+			};
 		});
-		return l;
-		return await this.connection.db(database).collectionInfos(table).options.validator;*/
 	}
 
 	async insert(db, table, datas) {

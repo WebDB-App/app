@@ -56,18 +56,23 @@ export interface Driver {
 		language: string
 	}
 
+	trigger: {
+		base: string,
+		language: string
+	}
+
 	language: {
-		comparators: Comparator[]
-		id: string
-		keywords: string[];
-		functions: { [key: string]: string | null };
-		constraints: string[];
+		comparators: Comparator[],
+		id: string,
+		keywords: string[],
+		functions: { [key: string]: string | null },
+		constraints: string[],
 		typeGroups: TypeGroup[],
-		extraAttributes: string[]
-		defaultFilter: string;
-		ownType: boolean;
-		arrayType: boolean;
-		fctAsDefault: boolean;
+		extraAttributes: string[],
+		defaultFilter: string,
+		ownType: boolean,
+		arrayType: boolean,
+		fctAsDefault: boolean
 	}
 
 	nodeLib: (queryParams: QueryParams) => string;

@@ -1,5 +1,6 @@
 <mat-toolbar>
 	<button (click)="add()"
+			[disabled]="!isSQL() && triggers && triggers.length > 0"
 			color="primary"
 			mat-flat-button>
 		<span class="material-symbols-outlined notranslate">
@@ -24,22 +25,42 @@
 					</mat-form-field>
 					<div class="flex-spacer"></div>
 					<div class="timing-event">
-						<mat-form-field>
-							<mat-label>Timing</mat-label>
-							<mat-select #timing [(ngModel)]="trigger.timing" required>
-								<mat-option *ngFor="let timing of timings" [value]="timing">
-									{{timing}}
-								</mat-option>
-							</mat-select>
-						</mat-form-field>
-						<mat-form-field>
-							<mat-label>Event</mat-label>
-							<mat-select #event [(ngModel)]="trigger.event" required>
-								<mat-option *ngFor="let event of events" [value]="event">
-									{{event}}
-								</mat-option>
-							</mat-select>
-						</mat-form-field>
+						<ng-container *ngIf="isSQL()">
+							<mat-form-field>
+								<mat-label>Timing</mat-label>
+								<mat-select [(ngModel)]="trigger.timing" required>
+									<mat-option *ngFor="let timing of timings" [value]="timing">
+										{{timing}}
+									</mat-option>
+								</mat-select>
+							</mat-form-field>
+							<mat-form-field>
+								<mat-label>Event</mat-label>
+								<mat-select [(ngModel)]="trigger.event" required>
+									<mat-option *ngFor="let event of events" [value]="event">
+										{{event}}
+									</mat-option>
+								</mat-select>
+							</mat-form-field>
+						</ng-container>
+						<ng-container *ngIf="!isSQL()">
+							<mat-form-field>
+								<mat-label>Level</mat-label>
+								<mat-select [(ngModel)]="trigger.level">
+									<mat-option *ngFor="let level of levels" [value]="level">
+										{{level}}
+									</mat-option>
+								</mat-select>
+							</mat-form-field>
+							<mat-form-field>
+								<mat-label>Action</mat-label>
+								<mat-select [(ngModel)]="trigger.action">
+									<mat-option *ngFor="let action of actions" [value]="action">
+										{{action}}
+									</mat-option>
+								</mat-select>
+							</mat-form-field>
+						</ng-container>
 					</div>
 				</mat-card-subtitle>
 			</mat-card-header>

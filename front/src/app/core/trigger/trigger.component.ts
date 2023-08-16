@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Table } from "../../../classes/table";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { Subscription } from "rxjs";
 import { ActivatedRoute } from "@angular/router";
 import { RequestService } from "../../../shared/request.service";
 import { Trigger } from "../../../classes/trigger";
 import { Server } from "../../../classes/server";
+import { isSQL } from "../../../shared/helper";
 
 @Component({
 	selector: 'app-trigger',
@@ -15,27 +15,35 @@ import { Server } from "../../../classes/server";
 export class TriggerComponent implements OnInit {
 
 	selectedTable?: Table;
-	obs!: Subscription;
 	triggers?: Trigger[];
 	editorOptions = {
 		language: ''
 	};
+	levels = [
+		'strict',
+		'moderate',
+		'off'
+	];
+	actions = [
+		'error',
+		'warn'
+	];
 	timings = [
 		'BEFORE',
 		'AFTER'
-	]
+	];
 	events = [
 		'INSERT',
 		'UPDATE',
 		'DELETE'
-	]
+	];
 
 	constructor(
 		private snackBar: MatSnackBar,
 		private request: RequestService,
 		private activatedRoute: ActivatedRoute
 	) {
-		this.editorOptions.language = Server.getSelected()?.driver.language.id!;
+		this.editorOptions.language = Server.getSelected()?.driver.trigger.language!;
 	}
 
 	async ngOnInit() {
@@ -50,7 +58,7 @@ export class TriggerComponent implements OnInit {
 	}
 
 	add() {
-		this.triggers?.push(<Trigger>{});
+		this.triggers?.push(new Trigger("", Server.getSelected()?.driver.trigger.base));
 	}
 
 	async delete(trigger: Trigger) {
@@ -66,4 +74,6 @@ export class TriggerComponent implements OnInit {
 		await this.loadData();
 		this.snackBar.open(`Trigger saved`, "╳", {duration: 3000});
 	}
+
+	protected readonly isSQL = isSQL;
 }
