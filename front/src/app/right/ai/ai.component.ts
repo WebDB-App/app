@@ -141,9 +141,6 @@ export class AiComponent implements OnInit {
 	}
 
 	setKey(key: string) {
-		if (!key) {
-			return;
-		}
 		localStorage.setItem(localKeyOpenAI, key);
 		this.initChat();
 	}

@@ -18,7 +18,6 @@ com
 
 
 - mongo : harmonizer + addTable
-- trigger/collation : postgre + mongo
 - cloud (google, aurora, rds)
 - revoir MySQL load avec tunnel (essayer en bash)
 - finir own_object : autocomplete + column
@@ -28,7 +27,7 @@ com
 - Server gît avec autobackup en var d'env (git large file / gzip)
 - SQLServer
 - graphql
-- Export Query : tester tout
+- Export Query : tester toutf
 
 
 
@@ -49,7 +48,7 @@ com
 
 
 
-
+collation : postgre + mongo
 
 # Cockroachdb
 

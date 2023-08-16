@@ -1,8 +1,8 @@
 <mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
 	<div>
-		<mat-form-field>
-			<mat-label>Search Column</mat-label>
+		<mat-form-field appearance="standard">
 			<input (keyup)="applyFilter($event)"
+				   placeholder="Search Column"
 				   autocomplete="off"
 				   matInput>
 		</mat-form-field>
