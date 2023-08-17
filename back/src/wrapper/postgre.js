@@ -291,7 +291,7 @@ export default class PostgreSQL extends SQL {
 			promises.push(new Promise(async resolve => {
 				const [schemas, columns, tables] = await Promise.all([
 					this.runCommand("SELECT * FROM information_schema.schemata", db.datname),
-					this.runCommand("SELECT c.table_schema, c.table_name, c.column_name, c.ordinal_position, c.column_default, c.is_nullable, c.data_type, e.data_type AS subtype, COL_DESCRIPTION( (c.table_schema || '.' || c.table_name)::regclass, c.ordinal_position ) AS column_comment FROM information_schema.columns AS c LEFT JOIN information_schema.element_types e ON ( ( c.table_catalog, c.table_schema, c.table_name, 'TABLE', c.dtd_identifier ) = ( e.object_catalog, e.object_schema, e.object_name, e.object_type, e.collection_type_identifier ) ) ORDER BY c.table_name, c.ordinal_position;", db.datname),
+					this.runCommand("SELECT c.table_schema, c.table_name, c.column_name, c.ordinal_position, c.column_default, c.is_nullable, c.data_type, e.data_type AS subtype, COL_DESCRIPTION( (c.table_schema || '.' || c.table_name)::regclass, c.ordinal_position ) AS column_comment FROM information_schema.columns AS c LEFT JOIN information_schema.element_types e ON ( ( c.table_catalog, c.table_schema, c.table_name, 'TABLE', c.dtd_identifier ) = ( e.object_catalog, e.object_schema, e.object_name, e.object_type, e.collection_type_identifier ) ) ORDER BY c.ordinal_position;", db.datname),
 					this.runCommand("SELECT t.table_schema, t.table_name, t.table_type, pgd.description as comment FROM information_schema.tables t LEFT OUTER JOIN pg_catalog.pg_description pgd ON pgd.objoid = (quote_ident(t.table_schema) || '.' || quote_ident(t.table_name))::regclass AND pgd.objsubid = 0", db.datname)
 				]);
 

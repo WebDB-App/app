@@ -1,14 +1,14 @@
 export class Trigger {
-	name: string;
 	code: string;
+	name?: string;
 	timing?: string;
 	event?: string;
 	action?: string;
 	level?: string;
 
-	constructor(name: string, code: string, timing?: string, event?: string, action?: string, level?: string) {
-		this.name = name;
+	constructor(code: string, name?: string, timing?: string, event?: string, action?: string, level?: string) {
 		this.code = code;
+		this.name = name;
 		this.timing = timing;
 		this.event = event;
 		this.action = action;

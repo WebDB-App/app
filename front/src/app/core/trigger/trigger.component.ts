@@ -5,7 +5,7 @@ import { ActivatedRoute } from "@angular/router";
 import { RequestService } from "../../../shared/request.service";
 import { Trigger } from "../../../classes/trigger";
 import { Server } from "../../../classes/server";
-import { isSQL } from "../../../shared/helper";
+import { initBaseEditor, isSQL } from "../../../shared/helper";
 
 @Component({
 	selector: 'app-trigger',
@@ -76,4 +76,5 @@ export class TriggerComponent implements OnInit {
 	}
 
 	protected readonly isSQL = isSQL;
+	protected readonly initBaseEditor = initBaseEditor;
 }
