@@ -58,10 +58,10 @@ export default class MongoDB extends Driver {
 		}
 	}
 
-	async dropTrigger(database, name) {
+	async dropTrigger(database, name, table) {
 		try {
-			return await this.connection.db(database).runCommand({
-				collMod: name,
+			return await this.connection.db(database).command({
+				collMod: table,
 				validator: {},
 				validationLevel: "off"
 			});
@@ -77,7 +77,7 @@ export default class MongoDB extends Driver {
 		});
 
 		const options = collection.cursor.firstBatch[0].options;
-		if (Object.keys(options).length < 1) {
+		if (Object.keys(options).length < 1 || !options.validator) {
 			return [];
 		}
 		return [{

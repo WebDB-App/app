@@ -1,5 +1,5 @@
 mongo : relation + insert + quicksearch
-postgre : alter table : name, fct as default, null as default + addtable + plusieurs schemas
+postgre : alter table : name, fct as default, null as default + addtable
 
 
 com
@@ -16,7 +16,7 @@ com
 
 
 
-
+- postgre : plusieurs schemas
 - cloud (google, aurora, rds)
 - revoir MySQL load avec tunnel (essayer en bash)
 - finir present

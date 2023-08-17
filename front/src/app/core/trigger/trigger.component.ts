@@ -62,9 +62,7 @@ export class TriggerComponent implements OnInit {
 	}
 
 	async delete(trigger: Trigger) {
-		if (trigger.name) {
-			await this.request.post('trigger/drop', trigger);
-		}
+		await this.request.post('trigger/drop', trigger);
 		await this.loadData();
 		this.snackBar.open(`Trigger deleted`, "╳", {duration: 3000});
 	}
