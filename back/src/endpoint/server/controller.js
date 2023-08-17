@@ -48,7 +48,7 @@ class Controller {
 							structure[str.name].tables[table.name].columns = Object.values(table.columns);
 						}
 
-						structure[str.name].tables = Object.values(str.tables);
+						structure[str.name].tables = Object.values(str.tables).sort((a, b) => a.name.localeCompare(b.name));
 					}
 				}
 				final.dbs = Object.values(structure).sort((a, b) => a.name.localeCompare(b.name));

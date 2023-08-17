@@ -24,7 +24,7 @@ export function isSQL(server = Server.getSelected()): boolean {
 }
 
 export function initBaseEditor(editor: any) {
-	setTimeout(() => editor.trigger("editor", "editor.action.formatDocument"));
+	setTimeout(() => editor.trigger("editor", "editor.action.formatDocument"), 100);
 }
 
 export async function loadLibAsset(http: HttpClient, paths: string[]) {

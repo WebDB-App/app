@@ -19,7 +19,7 @@
 		<mat-card>
 			<mat-card-header>
 				<mat-card-subtitle style="display: flex">
-					<mat-form-field appearance="fill">
+					<mat-form-field appearance="fill" *ngIf="isSQL()">
 						<mat-label>Trigger Name</mat-label>
 						<input [(ngModel)]="trigger.name" matInput required>
 					</mat-form-field>
@@ -66,13 +66,14 @@
 			</mat-card-header>
 			<mat-card-content>
 				<ngx-monaco-editor
+					(onInit)="initBaseEditor($event)"
 					[(ngModel)]="trigger.code"
 					[options]="editorOptions">
 				</ngx-monaco-editor>
 			</mat-card-content>
 			<mat-card-footer fxLayout="row" fxLayoutAlign="space-around center">
 				<button (click)="replace(trigger)"
-						[disabled]="trigger.name.length < 1 || trigger.code.length < 1"
+						[disabled]="trigger.code.length < 1"
 						color="primary"
 						mat-stroked-button>
 					<span class="material-symbols-outlined notranslate">

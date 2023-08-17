@@ -17,10 +17,8 @@ com
 
 
 
-- mongo : harmonizer + addTable
 - cloud (google, aurora, rds)
 - revoir MySQL load avec tunnel (essayer en bash)
-- finir own_object : autocomplete + column
 - finir present
 - create views
 - Finir EDR
@@ -28,7 +26,7 @@ com
 - SQLServer
 - graphql
 - Export Query : tester tout
-- resize monaco
+- mongo : harmonizer + addTable
 
 
 
@@ -48,8 +46,6 @@ com
 
 
 
-
-collation : postgre + mongo
 
 # Cockroachdb
 
@@ -86,8 +82,9 @@ collation : postgre + mongo
 - https://external-preview.redd.it/chatgpt-for-data-science-cheat-sheet-v0-Odpv_XqB8SiefptXNzZP-t9AjrVOxg0IF81UuKFx2sw.jpg?auto=webp&s=2b8b8a80fa2c3a4b6f85545cffa26726021a60a4
 
 
-
-
+# Other
+- resize monaco
+- collation : postgre + mongo
 
 
 
