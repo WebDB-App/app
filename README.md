@@ -1,7 +1,6 @@
 mongo : relation + insert + quicksearch
 postgre : alter table(fct as default, null as default) + addtable
-unique column and table name
-com
+
 
 
 ----------------------------------------------------------

@@ -71,9 +71,9 @@
 			<mat-icon>more_vert</mat-icon>
 		</button>
 		<mat-menu #advanced="matMenu" xPosition="before">
-			<button (click)="addView()" [disabled]="querySize < 1" mat-menu-item>Create View from Query</button>
-			<button (click)="exportQuery()" [disabled]="querySize < 1" mat-menu-item>Export Query</button>
-			<button (click)="exportResult()" [disabled]="querySize < 1" mat-menu-item>Export All Results</button>
+			<button (click)="addView()" [disabled]="querySize < 1" mat-menu-item>Create view from query</button>
+			<button (click)="exportQuery()" [disabled]="querySize < 1" mat-menu-item>Export query</button>
+			<button (click)="exportResult()" [disabled]="querySize < 1" mat-menu-item>Export all results</button>
 			<a [href]="selectedServer!.driver.docs.language" mat-menu-item target="_blank">
 				{{selectedServer!.driver.language.id === "sql" ? "SQL" : (selectedServer!.driver.language.id | titlecase)}}
 				Doc
@@ -83,9 +83,9 @@
 		</mat-menu>
 		<mat-menu #shortcuts="matMenu">
 			<button mat-menu-item>Alt + Space → <span style="color: #2196f3">Autocomplete</span></button>
-			<button mat-menu-item>Ctrl + s / Enter → <span style="color: #2196f3">Run Query</span></button>
-			<button mat-menu-item>Ctrl / ⌘ + f → <span style="color: #2196f3">Find and / or Replace</span></button>
-			<button mat-menu-item>Alt + Maj + f → <span style="color: #2196f3">Format Query</span></button>
+			<button mat-menu-item>Ctrl + s / Enter → <span style="color: #2196f3">Run query</span></button>
+			<button mat-menu-item>Ctrl / ⌘ + f → <span style="color: #2196f3">Find and / or replace</span></button>
+			<button mat-menu-item>Alt + Maj + f → <span style="color: #2196f3">Format query</span></button>
 		</mat-menu>
 		<mat-menu #disclaimer="matMenu">
 			<pre
