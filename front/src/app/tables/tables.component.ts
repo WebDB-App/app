@@ -67,7 +67,7 @@ export class TablesComponent implements OnInit {
 					this.selectedServer.name,
 					this.selectedDatabase.name,
 					this.selectedTable.name
-				]);
+				], {skipLocationChange: true});
 			}
 		});
 	}
