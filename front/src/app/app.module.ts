@@ -94,7 +94,7 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 		TablesComponent,
 		CreateViewDialog,
 		CreateTableDialog,
-  TopRightComponent,
+		TopRightComponent,
 	],
 	imports: [
 		AppRoutingModule,

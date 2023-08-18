@@ -1,5 +1,5 @@
 mongo : relation + insert + quicksearch
-postgre : alter table( name, fct as default, null as default) + addtable
+postgre : alter table(fct as default, null as default) + addtable
 
 
 com
@@ -71,8 +71,6 @@ com
 - Export Query : btn to export via IA (Stripe Metadata additionnal feature)
 - faraday.dev
 - https://llama-node.vercel.app/
-- premium : export n'importe quelle language (ia)
-- Openai : conversation
 - regarger plugins gpt
 - 2 videos micode
 - https://pbs.twimg.com/media/FtkoX8_WIAA_5ds.jpg:large

@@ -44,8 +44,13 @@ export default class SQL extends Driver {
 		if (JSON.stringify(old) === JSON.stringify(column)) {
 			return {ok: true};
 		}
-
-		return await this.runCommand(`ALTER TABLE ${table} ALTER COLUMN ${column.name} TYPE ${column.type}`, database);
+		if (old.type !== column.type) {
+			await this.runCommand(`ALTER TABLE ${table} ALTER COLUMN ${column.name} TYPE ${column.type}`, database);
+		}
+		if (old.nullable !== column.nullable) {
+			await this.runCommand(`ALTER TABLE ${table} ALTER COLUMN ${column.nullable ? "DROP NOT NULL" : "SET NOT NULL"}`, database);
+		}
+		return {};
 	}
 
 	async createDatabase(name) {

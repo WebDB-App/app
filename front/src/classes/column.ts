@@ -1,6 +1,6 @@
 import { Index } from "./index";
 import { Relation } from "./relation";
-import { Driver, Group } from "./driver";
+import { Driver } from "./driver";
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from "@angular/forms";
 import { validName } from "../shared/helper";
 
