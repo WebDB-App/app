@@ -3,7 +3,7 @@
 		 cdkDragRootElement=".cdk-overlay-pane"
 		 mat-dialog-title>
 		<div>
-			<h3>New Table</h3>
+			<h3>New View</h3>
 		</div>
 
 		<button aria-label="close dialog" mat-dialog-close mat-icon-button>
@@ -13,7 +13,7 @@
 
 	<mat-dialog-content style="display: flex; flex-direction: column">
 		<mat-form-field appearance="fill" style="padding: 20px 20px 0px 20px; flex: 1;">
-			<mat-label>Table Name</mat-label>
+			<mat-label>View Name</mat-label>
 			<input
 				autocomplete="off"
 				formControlName="name"
@@ -27,36 +27,13 @@
 	</mat-dialog-content>
 
 	<mat-dialog-actions>
-		<button (click)="addColumn()"
-				*ngIf="!form.get('old')"
+		<button [disabled]="!form.valid"
 				color="primary"
-				mat-stroked-button>
+				mat-flat-button>
 			<span class="material-symbols-outlined notranslate">
 				add
 			</span>
-			Column
-		</button>
-
-		<a *ngIf="selectedServer"
-		   [href]="selectedServer!.driver.docs.types"
-		   mat-button
-		   target="_blank">
-			<span class="material-symbols-outlined notranslate">
-				help
-			</span>
-			{{selectedServer.wrapper}} Types
-		</a>
-
-		<button
-			(click)="create()"
-			[disabled]="!form.valid"
-			color="primary"
-			cdkFocusInitial
-			mat-flat-button>
-			<span class="material-symbols-outlined notranslate">
-				table
-			</span>
-			Create Table
+			Create View
 		</button>
 	</mat-dialog-actions>
 </ng-container>

@@ -15,7 +15,7 @@ import { MatPaginatorModule } from "@angular/material/paginator";
 import { MatTableModule } from "@angular/material/table";
 import { MatSortModule } from "@angular/material/sort";
 import { MatCheckboxModule } from "@angular/material/checkbox";
-import { ExportQueryDialog, QueryComponent } from './query/query.component';
+import { CreateViewDialog, ExportQueryDialog, QueryComponent } from './query/query.component';
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatTabsModule } from "@angular/material/tabs";
 import { DropTableDialog, TableAdvancedComponent, TruncateTableDialog } from "./advanced/advanced.component";
@@ -62,6 +62,7 @@ import { MonacoEditorModule } from "ngx-monaco-editor-v2";
 		StructureComponent,
 		TriggerComponent,
 		AddColumnDialog,
+		CreateViewDialog,
 		UpdateColumnDialog,
 	],
 	imports: [

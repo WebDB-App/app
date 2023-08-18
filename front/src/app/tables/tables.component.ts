@@ -113,12 +113,6 @@ export class TablesComponent implements OnInit {
 		});
 	}
 
-	addView() {
-		this.dialog.open(CreateViewDialog, {
-			hasBackdrop: false
-		});
-	}
-
 	async changeTable(name: string) {
 		let url = this.router.url.replace(`${this.selectedTable!.name}/`, `${name}/`);
 
@@ -173,25 +167,5 @@ export class CreateTableDialog {
 
 		this.snackBar.open(`Table ${this.form.get('name')?.value} Created`, "╳", {duration: 3000});
 		this.dialogRef.close(true);
-	}
-}
-
-
-@Component({
-	templateUrl: 'create-view-dialog.html',
-})
-export class CreateViewDialog {
-
-	form!: FormGroup;
-
-	constructor(
-		private dialogRef: MatDialogRef<CreateViewDialog>,
-		private fb: FormBuilder,
-		private request: RequestService,
-		private snackBar: MatSnackBar,
-	) {
-		this.form = fb.group({
-			name: [null, [Validators.required, Validators.pattern(validName)]]
-		});
 	}
 }
