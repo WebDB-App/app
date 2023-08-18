@@ -48,25 +48,33 @@
 
 		<mat-divider></mat-divider>
 
-		<!--<div fxLayout="row" fxLayoutAlign="space-between center">
+		<div fxLayout="row" fxLayoutAlign="space-between center">
 			<mat-form-field>
+				<mat-label>Copy Name</mat-label>
 				<input
-					#databaseName
-					[value]="selectedDatabase!.name"
+					#dbCopy
+					[value]="selectedDatabase!.name.split(',')[0]"
 					autocomplete="off"
-					matInput
-					placeholder="Name">
+					matInput>
 			</mat-form-field>
-			<button (click)="rename(databaseName.value)"
-					[disabled]="databaseName.value.length < 1 || databaseName.value === selectedDatabase?.name"
-					color="accent"
-					mat-stroked-button>
-			<span class="material-symbols-outlined notranslate">
-				edit_square
-			</span>
-				Rename Database
+
+			<mat-spinner
+				*ngIf="duplicateLoading"
+				[diameter]="30"
+				color="primary"
+			></mat-spinner>
+
+			<button
+				*ngIf="!duplicateLoading"
+				(click)="duplicate(dbCopy.value)"
+				[disabled]="!validName(dbCopy.value)"
+				mat-stroked-button>
+				<span class="material-symbols-outlined notranslate">
+				  file_copy
+				</span>
+				Duplicate Database
 			</button>
-		</div>-->
+		</div>
 
 	</div>
 

@@ -14,7 +14,7 @@
 	</mat-form-field>
 </div>
 <mat-dialog-actions>
-	<button (click)="createDb(name.value)" [disabled]="!name.value || alreadyExist(name.value)" color="primary"
+	<button (click)="createDb(name.value)" [disabled]="!name.value || !validName(name.value)" color="primary"
 			mat-raised-button>Create
 	</button>
 </mat-dialog-actions>

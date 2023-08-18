@@ -1,4 +1,7 @@
 import http from "../../shared/http.js";
+import {unlinkSync} from "fs";
+import {URL} from "url";
+const dirname = new URL(".", import.meta.url).pathname;
 
 class Controller {
 
@@ -72,10 +75,18 @@ class Controller {
 		res.send(collations.map(collation => collation["Collation"]).sort());
 	}
 
-	async rename(req, res) {
+	async duplicate(req, res) {
 		const [driver, database] = await http.getLoggedDriver(req);
 
-		res.send(await driver.renameDatabase(database, req.body.name));
+		await driver.createDatabase(req.body.name);
+
+		const path = await driver.dump(database, undefined, false);
+		const p = dirname + "../../front/" + path.path;
+
+		await driver.load(p, req.body.name);
+		unlinkSync(p);
+
+		res.send({});
 	}
 }
 

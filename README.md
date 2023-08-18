@@ -1,5 +1,5 @@
 mongo : relation + insert + quicksearch
-postgre : alter table : name, fct as default, null as default + addtable
+postgre : alter table( name, fct as default, null as default) + addtable
 
 
 com
@@ -105,7 +105,6 @@ com
 - Postgre : more comparator (symbol) with detail
 - Cloud DB : digital + atlas? + azure
 - docker scout cves "$IMAGE_PATH" --exit-code
-- renameDatabase (mongorestore --nsFrom='PetHotel.pets' --nsTo='PetHouse.pets' --nsInclude="PetHouse.*" dump/)
 - row export sur query
 - duplicate row ?
 - datahog / sentry

@@ -16,7 +16,7 @@ export default class MongoDB extends Driver {
 		return super.scan(this.host, 27010, 27020);
 	}
 
-	async dump(database, exportType, tables) {
+	async dump(database, exportType = "bson", tables) {
 		let path = `${dirname}../front/dump/${database}`;
 		if (exportType === "json") {
 			path = `${path}.json`;

@@ -2,6 +2,7 @@ import { Index } from "./index";
 import { Relation } from "./relation";
 import { Driver, Group } from "./driver";
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from "@angular/forms";
+import { validName } from "../shared/helper";
 
 export class Column {
 	name!: string;
@@ -71,7 +72,7 @@ export class Column {
 		}
 
 		return new FormGroup({
-			name: new FormControl(from?.name || null, [Validators.required, Validators.pattern(/^[a-zA-Z0-9-_]{2,50}$/)]),
+			name: new FormControl(from?.name || null, [Validators.required, Validators.pattern(validName)]),
 			type: new FormControl(from?.type || null, [Validators.required, checkParams()]),
 			nullable: new FormControl(from?.nullable || false),
 			defaut: new FormControl(from?.defaut || null),

@@ -35,7 +35,7 @@ export default class PostgreSQL extends SQL {
 		return await Promise.all(promises);
 	}
 
-	async dump(dbSchema, exportType, tables, includeData) {
+	async dump(dbSchema, exportType = "sql", tables, includeData = true) {
 		const [database, schema] = dbSchema.split(this.dbToSchemaDelimiter);
 
 		const path = `${dirname}../front/dump/${database}.${exportType}`;
@@ -44,7 +44,7 @@ export default class PostgreSQL extends SQL {
 		if (exportType === "sql") {
 			const cmd = `pg_dump ${this.makeUri(database)}`;
 			const data = includeData ? "" : "-s -b";
-			const dbOpts = tables.length === total[0].total ? "" : `${tables.map(table => `-t ${table}`).join(" ")}`;
+			const dbOpts = (tables === false || tables.length === total[0].total) ? "" : `${tables.map(table => `-t ${table}`).join(" ")}`;
 
 			const result = bash.runBash(`${cmd} ${dbOpts} ${data} > ${path}`);
 			if (result.error) {
@@ -67,7 +67,7 @@ export default class PostgreSQL extends SQL {
 	}
 
 	makeUri(database = false) {
-		return `postgresql://${this.user}:${this.password}@${this.host}:${this.port + database ? "/" + database : ""}`;
+		return `postgresql://${this.user}:${this.password}@${this.host}:${this.port}` + (database ? ("/" + database) : "");
 	}
 
 	async load(filePath, dbSchema) {
@@ -102,14 +102,6 @@ export default class PostgreSQL extends SQL {
 
 	async duplicateTable(database, old_table, new_name) {
 		return await this.runCommand(`CREATE TABLE ${new_name} AS ${old_table};`, database);
-	}
-
-	async renameDatabase(old_name, new_name) {
-		if (this.isSystemDbs(old_name)) {
-			return {error: `You should not rename ${old_name}`};
-		}
-
-		//return await this.connection.db(old_name).re
 	}
 
 	async statsDatabase(name) {
@@ -266,7 +258,7 @@ export default class PostgreSQL extends SQL {
 		bash.runBash(`psql ${this.makeUri()} -c 'DROP DATABASE ${this.nameDel + name + this.nameDel} WITH (FORCE)'`);
 		await new Promise(resolve => setTimeout(resolve, 1000));
 
-		return {result: "Ok"};
+		return {};
 	}
 
 	getDbs() {

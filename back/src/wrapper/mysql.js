@@ -35,14 +35,14 @@ export default class MySQL extends SQL {
 		return await Promise.all(promises);
 	}
 
-	async dump(database, exportType, tables, includeData) {
+	async dump(database, exportType = "sql", tables, includeData = true) {
 		const path = `${dirname}../front/dump/${database}.${exportType}`;
 		const total = await this.runCommand(`SELECT COUNT(DISTINCT TABLE_NAME) as total FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '${database}'`);
 
 		if (exportType === "sql") {
-			const cmd = `mysqldump --user='${this.user}' --port=${this.port} --password='${this.password}' --host='${this.host}'`;
+			const cmd = `mysqldump --user='${this.user}' --port=${this.port} --password='${this.password}' --host='${this.host}' ${database} `;
 			const data = includeData ? "" : "--no-data";
-			const dbOpts = tables.length === total[0].total ? `-B ${database}` : `${database} ${tables.join(" ")}`;
+			const dbOpts = (tables === false || tables.length < total[0].total) ? "" : `${database} ${tables.join(" ")}`;
 			const cliOpts = "--column-statistics=0";
 
 			const result = bash.runBash(`${cmd} ${cliOpts} ${dbOpts} ${data} > ${path}`);
@@ -65,8 +65,8 @@ export default class MySQL extends SQL {
 		return {path: `dump/${database}.${exportType}`};
 	}
 
-	async load(filePath) {
-		return bash.runBash(`mysql --user='${this.user}' --port=${this.port} --password='${this.password}' --host='${this.host}' < ${filePath}`);
+	async load(filePath, database) {
+		return bash.runBash(`mysql --user='${this.user}' --port=${this.port} --password='${this.password}' --host='${this.host}' ${database} < ${filePath}`);
 	}
 
 	async insert(db, table, datas) {
