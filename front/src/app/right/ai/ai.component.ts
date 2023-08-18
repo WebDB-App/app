@@ -3,7 +3,7 @@ import { Database } from "../../../classes/database";
 import { Server } from "../../../classes/server";
 import { Licence } from "../../../classes/licence";
 import { RequestService } from "../../../shared/request.service";
-import { OpenAI } from "openai";
+import { Configuration, OpenAIApi } from "openai";
 import { Configuration as WebConfig } from "../../../classes/configuration";
 import { marked } from 'marked';
 import { DrawerService } from "../../../shared/drawer.service";
@@ -76,7 +76,7 @@ export class AiComponent implements OnInit {
 	localKeyChatHistory!: string;
 	chat: Msg[] = [];
 	key?: string;
-	openai?: OpenAI;
+	openai?: OpenAIApi;
 	isLoading = false;
 
 	sample = "";
@@ -135,7 +135,9 @@ export class AiComponent implements OnInit {
 
 		this.key = localStorage.getItem(localKeyOpenAI) || '';
 		this.changing = !this.key;
-		this.openai = new OpenAI({apiKey: this.key, dangerouslyAllowBrowser: true});
+		this.openai = new OpenAIApi(new Configuration({
+			apiKey: this.key,
+		}));
 	}
 
 	setKey(key: string) {
@@ -163,21 +165,17 @@ export class AiComponent implements OnInit {
 		let message: Msg;
 
 		try {
-			const stream = await this.openai!.chat.completions.create({
+			const completion = await this.openai!.createChatCompletion({
 				model: this.configuration.getByName('openAIModel')?.value,
 				messages: [
 					{role: Role.System, content: this.sample},
 					{role: Role.User, content: txt}
 				],
-				stream: true,
 			});
-			for await (const part of stream) {
-				message = new Msg(part.choices[0]?.delta?.content || '', Role.Assistant);
-			}
+			message = new Msg(completion.data.choices[0].message!.content!, Role.Assistant);
 		} catch (error: any) {
 			message = new Msg(error.response?.data.error.message || 'An error occurred during OpenAI request: ' + error, Role.Assistant, true);
 		}
-		//stream + chat
 
 		this.chat.push(message);
 		this.scrollToBottom();
