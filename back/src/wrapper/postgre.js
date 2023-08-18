@@ -108,7 +108,7 @@ export default class PostgreSQL extends SQL {
 		const database = name.split(this.dbToSchemaDelimiter)[0];
 		return {
 			data_length: (await this.runCommand(`SELECT pg_database_size('${database}') AS "data_length"`, database))[0].data_length,
-			index_length: (await this.runCommand(`SELECT SUM(pg_indexes_size(relid)) as "index_length" FROM pg_catalog.pg_statio_user_tables`, database))[0].index_length
+			index_length: (await this.runCommand("SELECT SUM(pg_indexes_size(relid)) as \"index_length\" FROM pg_catalog.pg_statio_user_tables", database))[0].index_length
 		};
 	}
 
