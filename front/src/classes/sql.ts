@@ -22,7 +22,7 @@ export class SQL implements Driver {
 	connection = {
 		defaultParams: {},
 		disclaimerSsh: "",
-		acceptedExt: [".sql", ".js"],
+		acceptedExt: [".sql", ".json"],
 		nameDel: this.configuration.getByName("useNameDel")?.value ? '"' : '',
 		fileTypes: [
 			{extension: "json", name: "JSON"},

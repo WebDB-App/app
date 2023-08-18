@@ -34,7 +34,7 @@ import { HIGHLIGHT_OPTIONS, HighlightModule, HighlightOptions, } from 'ngx-highl
 import { Server } from "../classes/server";
 import { MatTabsModule } from "@angular/material/tabs";
 import { DragDropModule } from "@angular/cdk/drag-drop";
-import { CreateTableDialog, CreateViewDialog, TablesComponent } from "./tables/tables.component";
+import { CreateTableDialog, TablesComponent } from "./tables/tables.component";
 import { ConfigDialog } from "./top-right/config/config-dialog.component";
 import { SubscriptionDialog } from "./top-right/subscription/subscription-dialog.component";
 import { SharedModule } from "../shared/shared.module";
@@ -50,6 +50,7 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 		automaticLayout: true,
 		fontSize: '13px',
 		fontFamily: "'Fira Code', monospace",
+		fixedOverflowWidgets: true,
 		tabSize: 4
 	}, onMonacoLoad: () => {
 		monaco.languages.registerDocumentFormattingEditProvider('sql', {
@@ -92,7 +93,6 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 		CreateDatabaseDialog,
 		AddConnectionDialog,
 		TablesComponent,
-		CreateViewDialog,
 		CreateTableDialog,
   		TopRightComponent,
 	],

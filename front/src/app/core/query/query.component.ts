@@ -3,7 +3,7 @@ import { Table } from "../../../classes/table";
 import { ActivatedRoute, Router } from "@angular/router";
 import { DiffEditorModel } from "ngx-monaco-editor-v2";
 import { MatTableDataSource } from "@angular/material/table";
-import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { HttpClient } from "@angular/common/http";
 import { Server } from "../../../classes/server";
 import { Database } from "../../../classes/database";
@@ -11,10 +11,12 @@ import { RequestService } from "../../../shared/request.service";
 import { Relation } from "../../../classes/relation";
 import { Configuration } from "../../../classes/configuration";
 import { HistoryService, Query } from "../../../shared/history.service";
-import { initBaseEditor, REMOVED_LABELS } from "../../../shared/helper";
+import { initBaseEditor, REMOVED_LABELS, validName } from "../../../shared/helper";
 import { ExportResultDialog } from "../../../shared/export-result-dialog/export-result-dialog";
 import { MatPaginatorIntl } from "@angular/material/paginator";
 import { DrawerService } from "../../../shared/drawer.service";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 declare var monaco: any;
 
@@ -229,6 +231,12 @@ export class QueryComponent implements OnInit {
 			[{outlets: {right: ['assistant', {question}]}}],
 			{relativeTo: this.activatedRoute.parent?.parent})
 	}
+
+	addView() {
+		this.dialog.open(CreateViewDialog, {
+			hasBackdrop: false
+		});
+	}
 }
 
 @Component({
@@ -301,3 +309,23 @@ class MysqlCon {
 		});
 	}
 }
+
+@Component({
+	templateUrl: 'create-view-dialog.html',
+})
+export class CreateViewDialog {
+
+	form!: FormGroup;
+
+	constructor(
+		private dialogRef: MatDialogRef<CreateViewDialog>,
+		private fb: FormBuilder,
+		private request: RequestService,
+		private snackBar: MatSnackBar,
+	) {
+		this.form = fb.group({
+			name: [null, [Validators.required, Validators.pattern(validName)]]
+		});
+	}
+}
+

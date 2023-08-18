@@ -323,14 +323,11 @@ ngx-monaco-editor {
 	min-height: 330px;
 	min-width: 350px;
 	width: 40vw;
+	resize: both;
+	overflow: auto;
 
 	.editor-container {
 		height: 100% !important;
-	}
-
-	.monaco-editor, .overflowingContentWidgets > * {
-		z-index: 1000000000 !important;
-		position: absolute;
 	}
 }
 

@@ -71,6 +71,7 @@
 			<mat-icon>more_vert</mat-icon>
 		</button>
 		<mat-menu #advanced="matMenu" xPosition="before">
+			<button (click)="addView()" [disabled]="querySize < 1" mat-menu-item>Create View from Query</button>
 			<button (click)="exportQuery()" [disabled]="querySize < 1" mat-menu-item>Export Query</button>
 			<button (click)="exportResult()" [disabled]="querySize < 1" mat-menu-item>Export All Results</button>
 			<a [href]="selectedServer!.driver.docs.language" mat-menu-item target="_blank">
