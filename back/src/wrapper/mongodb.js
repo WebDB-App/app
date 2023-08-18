@@ -33,8 +33,9 @@ export default class MongoDB extends Driver {
 		if (exportType === "bson") {
 			path = `${path}.gz`;
 			bash.runBash(`mongodump --uri="${this.makeUri(true)}" --db=${database} --gzip --archive=${path}`);
+			return {path: `dump/${database}.gz`};
 		}
-		return {path};
+		return {path: `dump/${database}.${exportType}`};
 	}
 
 	async load(filePath, database) {

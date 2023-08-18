@@ -20,7 +20,11 @@ class Controller {
 	async stats(req, res) {
 		const [driver, database] = await http.getLoggedDriver(req);
 
-		res.send(await driver.statsDatabase(database));
+		try {
+			res.send(await driver.statsDatabase(database));
+		} catch (e) {
+			res.send({});
+		}
 	}
 
 	async sample(req, res) {
@@ -83,6 +87,7 @@ class Controller {
 		const path = await driver.dump(database, undefined, false);
 		const p = dirname + "../../front/" + path.path;
 
+		await new Promise(resolve => setTimeout(resolve, 1000));
 		await driver.load(p, req.body.name);
 		unlinkSync(p);
 

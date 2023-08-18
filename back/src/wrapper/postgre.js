@@ -255,7 +255,7 @@ export default class PostgreSQL extends SQL {
 		delete this.connection;
 		this.dbPool = {};
 
-		bash.runBash(`psql ${this.makeUri()} -c 'DROP DATABASE ${this.nameDel + name + this.nameDel} WITH (FORCE)'`);
+		bash.runBash(`trap \`psql ${this.makeUri()} -c 'DROP DATABASE ${this.nameDel + name + this.nameDel} WITH (FORCE)'\` ERR`);
 		await new Promise(resolve => setTimeout(resolve, 1000));
 
 		return {};
@@ -339,7 +339,11 @@ export default class PostgreSQL extends SQL {
 
 		if (database) {
 			[database, schema] = database.split(this.dbToSchemaDelimiter);
-			connection = await (await this.getConnectionOfDatabase(database)).connect();
+			const co = await this.getConnectionOfDatabase(database);
+			if (co.error) {
+				return co;
+			}
+			connection = await co.connect();
 		} else {
 			connection = await this.connection.connect();
 		}
