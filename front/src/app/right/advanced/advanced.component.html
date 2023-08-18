@@ -58,6 +58,7 @@
 					matInput>
 			</mat-form-field>
 
+
 			<mat-spinner
 				*ngIf="duplicateLoading"
 				[diameter]="30"
@@ -73,6 +74,7 @@
 				  file_copy
 				</span>
 				Duplicate Database
+				<mat-error *ngIf="dbCopy.value !== selectedDatabase!.name.split(',')[0] && !validName(dbCopy.value)">Name already taken or containing special characters</mat-error>
 			</button>
 		</div>
 

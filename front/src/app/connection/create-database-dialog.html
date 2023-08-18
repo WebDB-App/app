@@ -4,7 +4,7 @@
 		<mat-icon>close</mat-icon>
 	</button>
 </div>
-<div mat-dialog-content style="display: flex">
+<div mat-dialog-content style="display: flex; flex-direction: column; text-align: center;">
 	<mat-form-field appearance="fill" style="padding: 20px; flex: 1">
 		<mat-label>Database Name</mat-label>
 		<input #name
@@ -12,6 +12,7 @@
 			   matInput
 			   required>
 	</mat-form-field>
+	<mat-error *ngIf="name.value && !validName(name.value)">Name already taken or containing special characters</mat-error>
 </div>
 <mat-dialog-actions>
 	<button (click)="createDb(name.value)" [disabled]="!name.value || !validName(name.value)" color="primary"
