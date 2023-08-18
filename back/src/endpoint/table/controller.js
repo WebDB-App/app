@@ -11,7 +11,11 @@ class Controller {
 	async stats(req, res) {
 		const [driver, database, table] = await http.getLoggedDriver(req);
 
-		res.send(await driver.statsTable(database, table));
+		try {
+			res.send(await driver.statsTable(database, table));
+		} catch (e) {
+			res.send({});
+		}
 	}
 
 	async drop(req, res) {
