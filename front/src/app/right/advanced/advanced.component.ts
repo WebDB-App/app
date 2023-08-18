@@ -5,6 +5,7 @@ import { Server } from "../../../classes/server";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { RequestService } from "../../../shared/request.service";
 import { Router } from "@angular/router";
+import { validName } from "../../../shared/helper";
 
 @Component({
 	selector: 'app-advanced',
@@ -16,6 +17,7 @@ export class AdvancedComponent implements OnInit, OnDestroy {
 	selectedServer?: Server;
 	selectedDatabase?: Database;
 
+	duplicateLoading = false;
 	collations: string[] = [];
 	interval?: NodeJS.Timer;
 	stats?: {
@@ -67,21 +69,27 @@ export class AdvancedComponent implements OnInit, OnDestroy {
 		});
 	}
 
-	async rename(databaseName: string) {
-		await this.request.post('table/alter', databaseName);
-		this.snackBar.open(`${this.selectedDatabase!.name} Renamed to ${databaseName}`, "╳", {duration: 3000});
-
-		await this.request.reloadServer();
-		await this.router.navigate([
-			Server.getSelected().name,
-			databaseName]);
-	}
-
 	async changeCollation(collation: string) {
 		await this.request.post('database/setCollations', {collation});
 
 		await this.request.reloadServer();
-		this.snackBar.open(`Switched`, "╳", {duration: 3000});
+		this.snackBar.open(`Switched Collation to ${collation}`, "╳", {duration: 3000});
+	}
+
+	async duplicate(copyName: string) {
+		this.duplicateLoading = true;
+		await this.request.post('database/duplicate', {name: copyName});
+		await this.request.reloadServer();
+		this.duplicateLoading = false;
+
+		this.snackBar.open(`${this.selectedDatabase?.name} duplicated to ${copyName}`, "╳", {duration: 3000});
+	}
+
+	validName(name: string) {
+		if (!name.match(validName)) {
+			return false;
+		}
+		return name.length > 1 && !this.selectedServer?.dbs?.find(db => db.name.split(',')[0] === name);
 	}
 }
 

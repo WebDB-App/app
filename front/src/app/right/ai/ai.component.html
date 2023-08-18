@@ -196,7 +196,7 @@
 
 	<mat-progress-bar *ngIf="isLoading" mode="indeterminate" color="accent"></mat-progress-bar>
 
-	<div [hidden]="!key" style="padding: 6px">
+	<div [hidden]="!key" style="box-shadow: 0px -10px 16px 1px #363636; position: relative;">
 		<mat-form-field (keydown.enter)="sendMessage(message.value); message.value = ''"
 						appearance="fill"
 						class="sendMessage"

@@ -161,6 +161,7 @@ export class AiComponent implements OnInit {
 
 		this.isLoading = true;
 		this.chat.push(new Msg(txt, Role.User));
+		this.scrollToBottom();
 		let message: Msg;
 
 		try {
@@ -177,13 +178,13 @@ export class AiComponent implements OnInit {
 		}
 
 		this.chat.push(message);
+		this.scrollToBottom();
 		this.saveChat();
 		this.isLoading = false;
-		this.scrollToBottom();
 	}
 
 	scrollToBottom() {
-		this.scrollContainer.nativeElement.scrollTop = this.scrollContainer.nativeElement.scrollHeight;
+		setTimeout(() => {this.scrollContainer.nativeElement.scrollTop = this.scrollContainer.nativeElement.scrollHeight}, 10);
 	}
 
 	async runQuery(query: string) {

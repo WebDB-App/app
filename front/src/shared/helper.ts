@@ -6,6 +6,8 @@ import { MatPaginatorIntl } from "@angular/material/paginator";
 
 declare var monaco: any;
 
+export const validName = /^[a-zA-Z0-9-_]{2,50}$/;
+
 export class REMOVED_LABELS extends MatPaginatorIntl {
 	override nextPageLabel: string = '';
 	override previousPageLabel: string = '';
