@@ -233,7 +233,7 @@ export class SQL implements Driver {
 
 	extractEnum(col: Column) {
 		if (col.type.startsWith("enum(")) {
-			return (col.type.match(/\(([^)]+)\)/)![1]).split(',').map(str => str.replace(/['"]+/g, ''));
+			return col.type.slice(5, -1).split(',').map(str => str.replace(/['"]+/g, ''));
 		}
 
 		return false
