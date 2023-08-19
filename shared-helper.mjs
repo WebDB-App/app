@@ -2,12 +2,18 @@ export default class Helper {
 
 	static validName = /^[a-zA-Z0-9-_]{2,50}$/;
 
-	static sql_isSelect(query) {
-		//TODO with, rm parenthese
-		query = query.trim().toLowerCase();
-		//if (["update", "delete"] query.indexOf(" "))
+	static parentheses = /\(([^()]|(?R))*\)/g;
 
-		return true;
+	static sql_isSelect(query) {
+		query = query.trim().toLowerCase();
+		query = query.replaceAll(/with.*\(([^()]|(?R))*\)/, '').trim();
+
+		if (query.startsWith('(')) {
+			query = Helper.parentheses.exec(query)[0].trim();
+		}
+		//extractEnum
+
+		return query.startsWith('select ');
 	}
 
 	static singleLine(code) {
