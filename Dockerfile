@@ -8,11 +8,11 @@ RUN corepack enable && corepack prepare pnpm@latest --activate
 WORKDIR /usr/src/app
 
 COPY front/package.json front/pnpm-lock.yaml ./
-COPY shared-helper.mjs front/src/shared/shared-helper.mjs
 
 RUN pnpm install --prod --frozen-lockfile
 
 COPY front .
+COPY shared-helper.mjs front/src/shared/shared-helper.mjs
 
 RUN pnpm run build
 
@@ -25,13 +25,13 @@ RUN corepack enable && corepack prepare pnpm@latest --activate
 WORKDIR /usr/src/app
 
 COPY back/package.json back/pnpm-lock.yaml ./
-COPY shared-helper.mjs back/src/shared/shared-helper.mjs
 
 ENV NODE_ENV=production
 
 RUN pnpm install --prod --frozen-lockfile
 
 COPY back .
+COPY shared-helper.mjs back/src/shared/shared-helper.mjs
 
 RUN npm run obfuscate
 RUN cp .env.production .env
