@@ -10,7 +10,7 @@ import { RequestService } from "../../shared/request.service";
 import * as drivers from '../../classes/drivers';
 import { DomSanitizer, Title } from "@angular/platform-browser";
 import { MatIconRegistry } from "@angular/material/icon";
-import { validName } from "../../shared/helper";
+import helper from "../../shared/shared-helper.mjs";
 
 @Component({
 	selector: 'app-connection',
@@ -312,8 +312,8 @@ export class CreateDatabaseDialog {
 		this.dialogRef.close(name);
 	}
 
-	validName(value: string) {
-		if (!value.match(validName)) {
+	nameValid(value: string) {
+		if (!value.match(helper.validName)) {
 			return false;
 		}
 		return !this.server.dbs.find(db => db.name === value);

@@ -26,6 +26,7 @@
 
 	<mat-dialog-actions>
 		<button [disabled]="!form.valid"
+				(click)="create()"
 				color="primary"
 				mat-flat-button>
 			<span class="material-symbols-outlined notranslate">

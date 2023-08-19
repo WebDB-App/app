@@ -9,7 +9,7 @@ import { Title } from "@angular/platform-browser";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { validName } from "../../shared/helper";
+import helper from "../../shared/shared-helper.mjs";
 
 @Component({
 	selector: 'app-tables',
@@ -143,7 +143,7 @@ export class CreateTableDialog {
 	) {
 		this.selectedServer = Server.getSelected();
 		this.form = fb.group({
-			name: [null, [Validators.required, Validators.pattern(validName)]],
+			name: [null, [Validators.required, Validators.pattern(helper.validName)]],
 			columns: fb.array([
 				Column.getFormGroup(),
 			])

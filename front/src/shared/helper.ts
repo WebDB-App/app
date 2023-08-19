@@ -6,19 +6,9 @@ import { MatPaginatorIntl } from "@angular/material/paginator";
 
 declare var monaco: any;
 
-export const validName = /^[a-zA-Z0-9-_]{2,50}$/;
-
 export class REMOVED_LABELS extends MatPaginatorIntl {
 	override nextPageLabel: string = '';
 	override previousPageLabel: string = '';
-}
-
-export function singleLine(code: string) {
-	return code.replaceAll(/(\r|\n|\t)/gm, " ").replaceAll(/  +/gm, " ").trim();
-}
-
-export function isNested(data: any) {
-	return ['Object', 'Array'].indexOf(data?.constructor.name) >= 0;
 }
 
 export function isSQL(server = Server.getSelected()): boolean {

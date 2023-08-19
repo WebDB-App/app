@@ -81,7 +81,7 @@ export class AiComponent implements OnInit {
 
 	sample = "";
 	preSent = {
-		structure: ['Tables + Columns + Relations + Indexes'],
+		datas: ['structure'],
 		deep: 2,
 		count: 5
 	};

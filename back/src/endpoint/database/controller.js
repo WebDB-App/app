@@ -23,6 +23,7 @@ class Controller {
 		try {
 			res.send(await driver.statsDatabase(database));
 		} catch (e) {
+			console.error(e);
 			res.send({});
 		}
 	}

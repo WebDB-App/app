@@ -1,4 +1,5 @@
 import Driver from "./driver.js";
+import helper from "./shared-helper.mjs";
 
 export default class SQL extends Driver {
 
@@ -87,6 +88,10 @@ export default class SQL extends Driver {
 	async createTable(database, table) {
 		const cols = table.columns.map(column => this.columnToSQL(column)).filter(col => col).join(", ");
 		return await this.runCommand(`CREATE TABLE ${this.nameDel + table.name + this.nameDel} (${cols})`, database);
+	}
+
+	async createView(database, view, code) {
+		return await this.runCommand(`CREATE VIEW ${this.nameDel + view + this.nameDel} AS ${code}`, database);
 	}
 
 	async dropTable(database, table) {
@@ -186,12 +191,12 @@ export default class SQL extends Driver {
 	}
 
 	cleanQuery(query) {
-		query = query.replaceAll(/(\r|\n|\t)/gm, " ");
+		query = helper.singleLine(query);
 		return query.trim().endsWith(";") ? query.trim().slice(0, -1) : query;
 	}
 
 	async querySize(query, database) {
-		if (!query.trim().toLowerCase().startsWith("select ")) {
+		if (!helper.sql_isSelect(query)) {
 			return "1";
 		}
 
@@ -202,7 +207,7 @@ export default class SQL extends Driver {
 	async runPagedQuery(query, page, pageSize, database) {
 		query = this.cleanQuery(query);
 
-		if (query.trim().toLowerCase().startsWith("select ")
+		if (helper.sql_isSelect(query)
 			&& query.toLowerCase().indexOf(" offset ") < 0
 			&& query.toLowerCase().indexOf(" limit ") < 0) {
 			query = `${query} LIMIT ${pageSize} OFFSET ${page * pageSize}`;

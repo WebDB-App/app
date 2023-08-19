@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Database } from "../classes/database";
-import { singleLine } from "./helper";
+import helper from "./shared-helper.mjs";
 
 const maxHistory = 100;
 
@@ -40,8 +40,8 @@ export class HistoryService {
 
 	addLocal(query: Query) {
 		let queryHistory = this.getLocal();
-		const single = singleLine(query.query);
-		const index = queryHistory.findIndex(query => singleLine(query.query) === single);
+		const single = helper.singleLine(query.query);
+		const index = queryHistory.findIndex(query => helper.singleLine(query.query) === single);
 
 		if (index < 0) {
 			queryHistory = [query].concat(queryHistory);

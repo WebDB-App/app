@@ -8,6 +8,12 @@ class Controller {
 		res.send(await driver.createTable(database, req.body));
 	}
 
+	async createView(req, res) {
+		const [driver, database, table] = await http.getLoggedDriver(req);
+
+		res.send(await driver.createView(database, req.body.name, req.body.code, table));
+	}
+
 	async stats(req, res) {
 		const [driver, database, table] = await http.getLoggedDriver(req);
 

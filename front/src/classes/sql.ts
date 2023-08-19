@@ -8,7 +8,7 @@ import { HistoryService } from "../shared/history.service";
 import { Relation } from "./relation";
 import { Configuration } from "./configuration";
 import { HttpClient } from "@angular/common/http";
-import { singleLine } from "../shared/helper";
+import helper from "../shared/shared-helper.mjs";
 
 //import * as monaco from 'monaco-editor'
 declare var monaco: any;
@@ -214,6 +214,13 @@ export class SQL implements Driver {
 	async loadExtraLib(http: HttpClient) {
 	}
 
+	extractSelect(query: string) {
+		if (!helper.sql_isSelect(query)) {
+			return false;
+		}
+		return query;
+	}
+
 	format(code: string) {
 		code = format(code, {
 			language: 'sql',
@@ -234,7 +241,7 @@ export class SQL implements Driver {
 
 	extractConditionParams(query: string): QueryParams {
 		const result = <QueryParams>{
-			query: singleLine(query.toLowerCase()),
+			query: helper.singleLine(query.toLowerCase()),
 			params: []
 		};
 		if (result.query.indexOf("where") < 0) {

@@ -41,9 +41,9 @@
 					<mat-label>Structure</mat-label>
 					<mat-select
 						(selectionChange)="loadSample()"
-						[(ngModel)]="preSent.structure"
+						[(ngModel)]="preSent.datas"
 						multiple>
-						<mat-option [value]="'Tables + Columns + Relations + Indexes'">
+						<mat-option [value]="'structure'">
 							Tables + Columns + Relations + Indexes
 						</mat-option>
 						<mat-option [value]="'views'">
@@ -51,6 +51,9 @@
 						</mat-option>
 						<mat-option [value]="'triggers'">
 							All triggers
+						</mat-option>
+						<mat-option [value]="'server_vars'">
+							Server variables
 						</mat-option>
 					</mat-select>
 				</mat-form-field>

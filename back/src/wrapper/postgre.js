@@ -17,7 +17,7 @@ export default class PostgreSQL extends SQL {
 		return super.scan(this.host, 5430, 5440);
 	}
 
-	async sampleDatabase(name, {structure, count, deep}) {
+	async sampleDatabase(name, {datas, count, deep}) {
 		const [database, schema] = name.split(this.dbToSchemaDelimiter);
 		const getSample = async (table) => {
 			return {
@@ -84,8 +84,8 @@ export default class PostgreSQL extends SQL {
 		return await this.runCommand(`CREATE OR REPLACE TRIGGER ${trigger.name} ${trigger.timing} ${trigger.event} ON ${table} ${trigger.code}`, database);
 	}
 
-	async dropTrigger(database, name) {
-		return await this.runCommand(`DROP TRIGGER ${name}'`, database);
+	async dropTrigger(database, name, table) {
+		return await this.runCommand(`DROP TRIGGER ${name} ON ${table}`, database);
 	}
 
 	async listTrigger(database, table) {

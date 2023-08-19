@@ -12,10 +12,10 @@
 			   matInput
 			   required>
 	</mat-form-field>
-	<mat-error *ngIf="name.value && !validName(name.value)">Name already taken or containing special characters</mat-error>
+	<mat-error *ngIf="name.value && !nameValid(name.value)">Name already taken or containing special characters</mat-error>
 </div>
 <mat-dialog-actions>
-	<button (click)="createDb(name.value)" [disabled]="!name.value || !validName(name.value)" color="primary"
+	<button (click)="createDb(name.value)" [disabled]="!name.value || !nameValid(name.value)" color="primary"
 			mat-raised-button>Create
 	</button>
 </mat-dialog-actions>

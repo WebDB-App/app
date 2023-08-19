@@ -1,9 +1,9 @@
 import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import { Table } from "../../classes/table";
 import { Relation } from "../../classes/relation";
-import { isNested } from "../helper";
 import { Server } from "../../classes/server";
 import { Database } from "../../classes/database";
+import helper from "../shared-helper.mjs";
 
 @Component({
 	selector: 'app-cell',
@@ -31,7 +31,7 @@ export class CellComponent implements OnInit {
 		const fk = this.relations?.find(relation => relation.column_source === this.column);
 		this.fkLink = !fk ? undefined : ['/', Server.getSelected().name, Database.getSelected().name, fk.table_dest, 'explore'];
 
-		this.nested = isNested(this.row[this.column]);
+		this.nested = helper.isNested(this.row[this.column]);
 		if (this.nested) {
 			if (JSON.stringify(this.row[this.column]).length > 70) {
 				this.expand = false;
