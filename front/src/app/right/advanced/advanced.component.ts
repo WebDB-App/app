@@ -5,7 +5,7 @@ import { Server } from "../../../classes/server";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { RequestService } from "../../../shared/request.service";
 import { Router } from "@angular/router";
-import { validName } from "../../../shared/helper";
+import helper from "../../../shared/shared-helper.mjs";
 
 @Component({
 	selector: 'app-advanced',
@@ -85,8 +85,8 @@ export class AdvancedComponent implements OnInit, OnDestroy {
 		this.snackBar.open(`${this.selectedDatabase?.name} duplicated to ${copyName}`, "╳", {duration: 3000});
 	}
 
-	validName(name: string) {
-		if (!name.match(validName)) {
+	nameValid(name: string) {
+		if (!name.match(helper.validName)) {
 			return false;
 		}
 		return name.length > 1 && !this.selectedServer?.dbs?.find(db => db.name.split(',')[0] === name);

@@ -3,6 +3,7 @@ import Driver from "../shared/driver.js";
 import bash from "../shared/bash.js";
 import {URL} from "url";
 import {writeFileSync} from "fs";
+import helper from "../shared/shared-helper.mjs";
 
 const dirname = new URL(".", import.meta.url).pathname;
 
@@ -44,6 +45,17 @@ export default class MongoDB extends Driver {
 		}
 
 		return bash.runBash(`mongorestore --nsFrom="*" --nsTo="${database}.*" --gzip --uri="${this.makeUri(true)}" --archive="${filePath}"`);
+	}
+
+	async createView(database, view, code, table) {
+		try {
+			return await this.connection.db(database).createCollection(view, {
+				viewOn: table,
+				pipeline: code
+			});
+		} catch (e) {
+			return {error: e.message};
+		}
 	}
 
 	async replaceTrigger(database, table, trigger) {
@@ -260,8 +272,7 @@ export default class MongoDB extends Driver {
 		let db = this.connection;
 		const start = Date.now();
 
-		command = command.replace(/\/\*[\s\S]*?\*\/|(?<=[^:])\/\/.*|^\/\/.*/g, "");
-		command = command.trim();
+		command = helper.removeComment(command);
 		if (!command.trim().startsWith("return")) {
 			command = `return ${command}`;
 		}
@@ -280,7 +291,7 @@ export default class MongoDB extends Driver {
 		}
 	}
 
-	async sampleDatabase(name, {structure, count, deep}) {
+	async sampleDatabase(name, {datas, count, deep}) {
 		const promises = [];
 		const limit = (obj, count, deep) => {
 			if (deep-- < 1) {

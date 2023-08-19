@@ -54,17 +54,21 @@ export class TriggerComponent implements OnInit {
 
 	async loadData() {
 		this.selectedTable = Table.getSelected();
-		this.triggers = await this.request.post('trigger/list', undefined);
+		this.triggers = (await this.request.post('trigger/list', undefined)).map((trg: Trigger) => {trg.saved = true; return trg})
 	}
 
 	add() {
-		this.triggers?.push(new Trigger("", Server.getSelected()?.driver.trigger.base));
+		this.triggers?.push(new Trigger(Server.getSelected()?.driver.trigger.base));
 	}
 
 	async delete(trigger: Trigger) {
-		await this.request.post('trigger/drop', trigger);
-		await this.loadData();
-		this.snackBar.open(`Trigger deleted`, "╳", {duration: 3000});
+		if (trigger.saved) {
+			await this.request.post('trigger/drop', trigger);
+			await this.loadData();
+			this.snackBar.open(`Trigger deleted`, "╳", {duration: 3000});
+		} else {
+			this.triggers?.splice(this.triggers.findIndex(trg => JSON.stringify(trg) === JSON.stringify(trigger)))
+		}
 	}
 
 	async replace(trigger: Trigger) {

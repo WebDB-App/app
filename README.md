@@ -1,4 +1,5 @@
-mongo : relation + insert + quicksearch
+unique : column, table, view, trigger, relation
+mongo : ? + relation + insert + quicksearch (objectid + date)
 postgre : alter table(fct as default, null as default) + addtable
 
 
@@ -6,13 +7,14 @@ postgre : alter table(fct as default, null as default) + addtable
 ----------------------------------------------------------
 
 
+
 - postgre : plusieurs schemas
 - cloud (google, aurora, rds)
 - revoir MySQL load avec tunnel (essayer en bash)
 - finir present
-- create views
 - Finir EDR
 - Server gît avec autobackup en var d'env (git large file / gzip)
+- relation wizard (1,1 -> 0,n + 0,n -> 1,1 + 1,1 + -> [] -> {} + {} -> + [] -> + show migration queries)
 - SQLServer
 - graphql
 - Export Query : tester tout
@@ -37,13 +39,18 @@ postgre : alter table(fct as default, null as default) + addtable
 # MongoDB
 - traduction (collection vs table, etc)
 - autocomplete table and column and types
-- quick search ObjectID, Date
 
 # Bin
 - Brew + chocolate + apt + yum
 - Node Single Executable Apps https://github.com/electron/electron/pull/37535 | https://tauri.app/ | https://webpack.electron.build/ | https://github.com/electron/electron/issues/21457#issuecomment-1269637018
 - ci + gitlab wiki
 - changelog en json avec opencommit et check last version
+
+
+
+----------------------------------------------------------
+
+
 
 # IA
 - Export Query : btn to export via IA (Stripe Metadata additionnal feature)
@@ -58,9 +65,7 @@ postgre : alter table(fct as default, null as default) + addtable
 - https://external-preview.redd.it/chatgpt-for-data-science-cheat-sheet-v0-Odpv_XqB8SiefptXNzZP-t9AjrVOxg0IF81UuKFx2sw.jpg?auto=webp&s=2b8b8a80fa2c3a4b6f85545cffa26726021a60a4
 
 
-----------------------------------------------------------
-
-
+# Other
 - chat history
 - sql function doc (https://www.w3resource.com/PostgreSQL/postgresql_array_remove-function.php)
 - afficher resulat Unit Test en front avec plusieurs version de bdd
@@ -70,4 +75,4 @@ postgre : alter table(fct as default, null as default) + addtable
 - row export sur query
 - duplicate row ?
 - datahog / sentry
-- save resize in localstorage
+- save resize for each db localstorage

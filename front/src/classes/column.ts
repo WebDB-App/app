@@ -2,7 +2,7 @@ import { Index } from "./index";
 import { Relation } from "./relation";
 import { Driver } from "./driver";
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from "@angular/forms";
-import { validName } from "../shared/helper";
+import helper from "../shared/shared-helper.mjs";
 
 export class Column {
 	name!: string;
@@ -72,7 +72,7 @@ export class Column {
 		}
 
 		return new FormGroup({
-			name: new FormControl(from?.name || null, [Validators.required, Validators.pattern(validName)]),
+			name: new FormControl(from?.name || null, [Validators.required, Validators.pattern(helper.validName)]),
 			type: new FormControl(from?.type || null, [Validators.required, checkParams()]),
 			nullable: new FormControl(from?.nullable || false),
 			defaut: new FormControl(from?.defaut || null),

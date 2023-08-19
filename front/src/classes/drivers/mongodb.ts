@@ -117,6 +117,14 @@ async function main() {
 		);
 	}
 
+	extractSelect(query: string) {
+		if (query.indexOf(".find(") < 0) {
+			return false;
+		}
+		const r = /\.find\(([^)]+)\)/.exec(query);
+		return r ? r[0] : false;
+	}
+
 	extractEnum(col: Column): string[] | false {
 		return false;
 	}

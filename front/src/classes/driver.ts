@@ -78,6 +78,7 @@ export interface Driver {
 	nodeLib: (queryParams: QueryParams) => string;
 	loadExtraLib: (http: HttpClient) => Promise<void>;
 
+	extractSelect: (query: string) => string | false;
 	extractEnum: (col: Column) => string[] | false;
 	extractConditionParams: (query: string) => QueryParams;
 	format?: (code: string) => string;

@@ -71,9 +71,9 @@
 			<mat-icon>more_vert</mat-icon>
 		</button>
 		<mat-menu #advanced="matMenu" xPosition="before">
-			<button (click)="addView()" [disabled]="querySize < 1" mat-menu-item>Create view from query</button>
-			<button (click)="exportQuery()" [disabled]="querySize < 1" mat-menu-item>Export query</button>
-			<button (click)="exportResult()" [disabled]="querySize < 1" mat-menu-item>Export all results</button>
+			<button (click)="addView()" [disabled]="!isQuerySelect()" mat-menu-item>Create view from query</button>
+			<button (click)="exportQuery()" [disabled]="query.length < 1" mat-menu-item>Export query</button>
+			<button (click)="exportResult()" [disabled]="query.length < 1" mat-menu-item>Export all results</button>
 			<a [href]="selectedServer!.driver.docs.language" mat-menu-item target="_blank">
 				{{selectedServer!.driver.language.id === "sql" ? "SQL" : (selectedServer!.driver.language.id | titlecase)}}
 				Doc

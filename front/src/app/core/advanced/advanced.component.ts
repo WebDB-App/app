@@ -62,7 +62,7 @@ export class TableAdvancedComponent implements OnDestroy {
 			if (!result) {
 				return;
 			}
-			this.snackBar.open(`Dropped Table ${this.selectedTable?.name}`, "╳", {duration: 3000});
+			this.snackBar.open(`Dropped ${this.selectedTable?.name}`, "╳", {duration: 3000});
 			await this.goToNew('');
 		});
 	}

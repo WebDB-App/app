@@ -11,12 +11,13 @@ import { RequestService } from "../../../shared/request.service";
 import { Relation } from "../../../classes/relation";
 import { Configuration } from "../../../classes/configuration";
 import { HistoryService, Query } from "../../../shared/history.service";
-import { initBaseEditor, REMOVED_LABELS, validName } from "../../../shared/helper";
+import { initBaseEditor, REMOVED_LABELS } from "../../../shared/helper";
 import { ExportResultDialog } from "../../../shared/export-result-dialog/export-result-dialog";
 import { MatPaginatorIntl } from "@angular/material/paginator";
 import { DrawerService } from "../../../shared/drawer.service";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import helper from "../../../shared/shared-helper.mjs";
 
 declare var monaco: any;
 
@@ -201,7 +202,7 @@ export class QueryComponent implements OnInit {
 
 	exportQuery() {
 		this.dialog.open(ExportQueryDialog, {
-			data: this.query,
+			data: helper.removeComment(this.query),
 			hasBackdrop: false
 		});
 	}
@@ -223,9 +224,7 @@ export class QueryComponent implements OnInit {
 	async assistant(row: any) {
 		this.drawer.toggle();
 
-		const question = 'When running this query "' +
-			this.query.replace(/\/\*[\s\S]*?\*\/|(?<=[^:])\/\/.*|^\/\/.*/g,'') +
-			'" , I got this : ' + JSON.stringify(row) + ', can you fix it for me';
+		const question = 'When running this query "' + helper.removeComment(this.query) + '" , I got this : ' + JSON.stringify(row) + ', can you fix it for me';
 
 		await this.router.navigate(
 			[{outlets: {right: ['assistant', {question}]}}],
@@ -234,8 +233,13 @@ export class QueryComponent implements OnInit {
 
 	addView() {
 		this.dialog.open(CreateViewDialog, {
-			hasBackdrop: false
+			hasBackdrop: false,
+			data: this.selectedServer?.driver.extractSelect(helper.removeComment(this.query))
 		});
+	}
+
+	isQuerySelect() {
+		return this.selectedServer?.driver.extractSelect(helper.removeComment(this.query));
 	}
 }
 
@@ -321,10 +325,28 @@ export class CreateViewDialog {
 		private dialogRef: MatDialogRef<CreateViewDialog>,
 		private fb: FormBuilder,
 		private request: RequestService,
+		private router: Router,
 		private snackBar: MatSnackBar,
+		@Inject(MAT_DIALOG_DATA) public code: string
 	) {
 		this.form = fb.group({
-			name: [null, [Validators.required, Validators.pattern(validName)]]
+			name: [null, [Validators.required, Validators.pattern(helper.validName)]],
+			code: [code]
 		});
 	}
+
+	async create() {
+		await this.request.post('table/createView', this.form.value);
+		await this.request.reloadServer();
+
+		await this.router.navigate([
+			Server.getSelected().name,
+			Database.getSelected().name,
+			this.form.get('name')?.value,
+			'structure']);
+
+		this.snackBar.open(`View ${this.form.get('name')?.value} Created`, "╳", {duration: 3000});
+		this.dialogRef.close(true);
+	}
 }
+
