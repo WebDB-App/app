@@ -76,7 +76,7 @@
 			<button (click)="exportResult()" [disabled]="query.length < 1" mat-menu-item>Export all results</button>
 			<a [href]="selectedServer!.driver.docs.language" mat-menu-item target="_blank">
 				{{selectedServer!.driver.language.id === "sql" ? "SQL" : (selectedServer!.driver.language.id | titlecase)}}
-				Doc
+				Full References
 			</a>
 			<button [matMenuTriggerFor]="shortcuts" mat-menu-item>Shortcuts</button>
 			<button [matMenuTriggerFor]="disclaimer" mat-menu-item>Disclaimer</button>

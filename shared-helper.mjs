@@ -2,18 +2,12 @@ export default class Helper {
 
 	static validName = /^[a-zA-Z0-9-_]{2,50}$/;
 
-	static parentheses = /[^\(]*(\(.*\))[^\)]*/g;
+	static parentheses = /\((?:[^)(]|\((?:[^)(]|\((?:[^)(]|\([^)(]*\))*\))*\))*\)/g;
 
 	static sql_isSelect(query) {
 		query = query.trim().toLowerCase();
-		query = query.replaceAll(/with.*[^\(]*(\(.*\))[^\)]*/, '').trim();
-
-		if (query.startsWith('(')) {
-			query = Helper.parentheses.exec(query)[0].trim();
-		}
-		//extractEnum
-
-		return query.startsWith('select ');
+		query = query.replaceAll(Helper.parentheses, '').trim();
+		return query.indexOf('select ') >= 0;
 	}
 
 	static singleLine(code) {
