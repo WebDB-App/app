@@ -122,7 +122,7 @@ async function main() {
 			return false;
 		}
 		const r = /\.aggregate\(([^)]+)\)/.exec(query);
-		return r ? r[0] : false;
+		return r ? r[0] : "[]";
 	}
 
 	extractEnum(col: Column): string[] | false {
