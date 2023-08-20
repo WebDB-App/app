@@ -46,7 +46,7 @@
 </mat-dialog-content>
 <mat-dialog-actions>
 	<button (click)="createIndex(name.value, type.value, columns.value)"
-			[disabled]="!name.value || !type.value || !columns.value"
+			[disabled]="!name.value || !type.value || !columns.value || indexNames.indexOf(name.value) >= 0"
 			color="primary"
 			cdkFocusInitial
 			mat-stroked-button>

@@ -75,7 +75,7 @@ export class Column {
 
 		const nameValidators = [Validators.required, Validators.pattern(helper.validName)];
 		if (table) {
-			nameValidators.push(uniqueValidator('name', table.columns.map(col => col.name)));
+			nameValidators.push(uniqueValidator('name', table.columns.filter(col => col.name !== from?.name).map(col => col.name)));
 		}
 
 		return new FormGroup({

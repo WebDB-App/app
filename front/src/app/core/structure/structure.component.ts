@@ -178,6 +178,7 @@ export class AddIndexDialog {
 
 	selectedServer?: Server;
 	selectedDatabase?: Database;
+	indexNames: string[] = [];
 	symbols = IndexSymbol;
 	protected readonly isSQL = isSQL;
 
@@ -189,6 +190,7 @@ export class AddIndexDialog {
 	) {
 		this.selectedServer = Server.getSelected();
 		this.selectedDatabase = Database.getSelected();
+		this.indexNames = Table.getIndexes().map(index => index.name);
 	}
 
 	async createIndex(name: string, type: string, columns: string[]) {
@@ -281,7 +283,7 @@ export class UpdateColumnDialog {
 		this.selectedTable = Table.getSelected();
 		this.selectedServer = Server.getSelected();
 
-		const old = Column.getFormGroup(this.selectedTable, column);
+		const old = Column.getFormGroup(undefined, column);
 		old.disable();
 
 		this.form = fb.group({
