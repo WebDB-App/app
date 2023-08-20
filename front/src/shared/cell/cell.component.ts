@@ -21,9 +21,7 @@ export class CellComponent implements OnInit {
 	expand = true;
 	fkLink?: string[];
 
-	constructor(
-		private ref: ElementRef
-	) {
+	constructor() {
 	}
 
 	ngOnInit(): void {
@@ -35,7 +33,6 @@ export class CellComponent implements OnInit {
 		if (this.nested) {
 			if (JSON.stringify(this.row[this.column]).length > 70) {
 				this.expand = false;
-				this.ref.nativeElement.style.resize = "both";
 			}
 		}
 	}

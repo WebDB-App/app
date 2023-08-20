@@ -214,7 +214,7 @@ export class SQL implements Driver {
 	async loadExtraLib(http: HttpClient) {
 	}
 
-	extractSelect(query: string) {
+	extractForView(query: string) {
 		if (!helper.sql_isSelect(query)) {
 			return false;
 		}

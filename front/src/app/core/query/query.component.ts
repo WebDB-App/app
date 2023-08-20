@@ -168,7 +168,7 @@ export class QueryComponent implements OnInit {
 				pageSize: this.pageSize,
 				page: this.page
 			}, undefined, undefined, undefined, undefined, false)
-			if (data.length) {
+			if (data?.length) {
 				this.history.addLocal(new Query(query, data.length));
 			}
 
@@ -234,12 +234,12 @@ export class QueryComponent implements OnInit {
 	addView() {
 		this.dialog.open(CreateViewDialog, {
 			hasBackdrop: false,
-			data: this.selectedServer?.driver.extractSelect(helper.removeComment(this.query))
+			data: this.selectedServer?.driver.extractForView(helper.removeComment(this.query))
 		});
 	}
 
 	isQuerySelect() {
-		return this.selectedServer?.driver.extractSelect(helper.removeComment(this.query));
+		return this.selectedServer?.driver.extractForView(helper.removeComment(this.query));
 	}
 }
 
