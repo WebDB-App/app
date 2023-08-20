@@ -41,7 +41,7 @@ export class RequestService {
 		const result = await firstValueFrom(this.http.post<any>(
 			environment.apiRootUrl + url, data, {headers}
 		));
-		if (snackError && result.error) {
+		if (snackError && result?.error) {
 			this.snackBar.open(result.error, "╳", {panelClass: 'snack-error'});
 			throw new HttpErrorResponse({statusText: result.error});
 		}

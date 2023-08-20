@@ -328,25 +328,56 @@ export default class MongoDB extends Driver {
 		return await Promise.all(promises);
 	}
 
+	injectAggregate(query, toInject) {
+		let agg = query.match(/\.aggregate\((?:[^)(]|\((?:[^)(]|\((?:[^)(]|\([^)(]*\))*\))*\))*\)/g);
+		agg = agg[0];
+		agg = agg.slice(".aggregate(".length, -1);
+		agg = eval(agg);
+		agg.push(toInject);
+		agg = `.aggregate(${JSON.stringify(agg)})`;
+		return query.replace(/\.aggregate\((?:[^)(]|\((?:[^)(]|\((?:[^)(]|\([^)(]*\))*\))*\))*\)/g, agg);
+	}
+
 	async querySize(query, database) {
+		if (query.indexOf(".toArray(") < 1) {
+			const result = await this.runCommand(query, database);
+			return result.error ? "0" : "1";
+		}
+
+		if (query.indexOf(".aggregate(") >= 0) {
+			query = this.injectAggregate(query, { "$group": { "_id": null, "count": { "$sum": 1 } } });
+			const result = await this.runCommand(query, database);
+			return result.error ? "0" : JSON.parse(result)[0].count.toString();
+		}
+
 		if (query.indexOf(".find(") > 0) {
 			query = query.replace(".find(", ".countDocuments(");
 			query = query.replace(".toArray()", "");
-
 			const result = await this.runCommand(query, database);
 			return result.error ? "0" : result.toString();
 		}
 
-		const result = await this.runCommand(query, database);
-		return result.error ? "0" : "1";
+		return "1";
 	}
 
 	async runPagedQuery(query, page, pageSize, database) {
-		if (query.indexOf(".skip(") < 0 && query.indexOf(".limit(") < 0) {
-			query = query.replaceAll(".toArray()", `.skip(${page * pageSize}).limit(${pageSize}).toArray()`);
+
+		if (query.indexOf("skip") < 0 &&
+			query.indexOf("limit") < 0) {
+
+			if (query.indexOf(".aggregate(") >= 0) {
+				query = this.injectAggregate(query, { "$limit": pageSize });
+				query = this.injectAggregate(query, { "$skip": page });
+			} else if (query.indexOf(".toArray(") >= 0) {
+				query = query.replace(".toArray()", `.skip(${page * pageSize}).limit(${pageSize}).toArray()`);
+			}
 		}
 
-		return await this.runCommand(query, database);
+		let results = await this.runCommand(query, database);
+		if (results === null) {
+			results = [["null"]];
+		}
+		return results;
 	}
 
 	async getDatabases() {

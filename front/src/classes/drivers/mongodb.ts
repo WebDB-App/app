@@ -117,11 +117,11 @@ async function main() {
 		);
 	}
 
-	extractSelect(query: string) {
-		if (query.indexOf(".find(") < 0) {
+	extractForView(query: string) {
+		if (query.indexOf(".aggregate(") < 0) {
 			return false;
 		}
-		const r = /\.find\(([^)]+)\)/.exec(query);
+		const r = /\.aggregate\(([^)]+)\)/.exec(query);
 		return r ? r[0] : false;
 	}
 
