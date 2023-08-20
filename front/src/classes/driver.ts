@@ -84,7 +84,7 @@ export interface Driver {
 	format?: (code: string) => string;
 	generateSuggestions?: (textUntilPosition: string) => any[];
 
-	getBaseSort: (field: string, direction: 'asc' | 'desc') => string;
+	getBaseSort: (query: string, field: string, direction: 'asc' | 'desc') => string;
 	getBaseDelete: (table: Table) => string;
 	getBaseUpdate: (table: Table) => string;
 	getBaseSelect: (table: Table) => string;

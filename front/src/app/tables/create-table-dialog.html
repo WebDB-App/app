@@ -19,7 +19,10 @@
 				formControlName="name"
 				matInput>
 			<mat-error *ngIf="form.get('name')?.errors && form.get('name')!.errors!['pattern']">
-				Prefer alpha, numeric and "_", "-"
+				Prefer alpha, numeric and "_", "-" with 2 min chars
+			</mat-error>
+			<mat-error *ngIf="form.get('name')?.errors && form.get('name')!.errors!['unique']">
+				Name already used
 			</mat-error>
 		</mat-form-field>
 

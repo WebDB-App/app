@@ -243,7 +243,7 @@ export class AddColumnDialog {
 		this.selectedTable = Table.getSelected();
 		this.form = fb.group({
 			columns: fb.array([
-				Column.getFormGroup(),
+				Column.getFormGroup(this.selectedTable),
 			])
 		});
 	}
@@ -256,7 +256,7 @@ export class AddColumnDialog {
 
 	addColumn(column?: any) {
 		const cols = this.form.get("columns") as FormArray;
-		cols.push(column || Column.getFormGroup());
+		cols.push(column || Column.getFormGroup(this.selectedTable));
 	}
 }
 
@@ -267,6 +267,7 @@ export class UpdateColumnDialog {
 
 	form!: FormGroup;
 	selectedServer?: Server;
+	selectedTable?: Table;
 	oldValues = false;
 	protected readonly JSON = JSON;
 
@@ -277,14 +278,16 @@ export class UpdateColumnDialog {
 		private snackBar: MatSnackBar,
 		@Inject(MAT_DIALOG_DATA) public column: Column,
 	) {
+		this.selectedTable = Table.getSelected();
 		this.selectedServer = Server.getSelected();
-		const old = Column.getFormGroup(column);
+
+		const old = Column.getFormGroup(this.selectedTable, column);
 		old.disable();
 
 		this.form = fb.group({
 			old,
 			columns: fb.array([
-				Column.getFormGroup(column)
+				Column.getFormGroup(this.selectedTable, column)
 			])
 		});
 	}
