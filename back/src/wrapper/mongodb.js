@@ -332,7 +332,7 @@ export default class MongoDB extends Driver {
 		let agg = query.match(/\.aggregate\((?:[^)(]|\((?:[^)(]|\((?:[^)(]|\([^)(]*\))*\))*\))*\)/g);
 		agg = agg[0];
 		agg = agg.slice(".aggregate(".length, -1);
-		agg = eval(agg);
+		agg = agg ? eval(agg) : [];
 		agg.push(toInject);
 		agg = `.aggregate(${JSON.stringify(agg)})`;
 		return query.replace(/\.aggregate\((?:[^)(]|\((?:[^)(]|\((?:[^)(]|\([^)(]*\))*\))*\))*\)/g, agg);

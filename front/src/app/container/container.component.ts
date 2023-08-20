@@ -2,8 +2,6 @@ import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular
 import { ActivatedRoute } from "@angular/router";
 import { MatDrawer } from "@angular/material/sidenav";
 import { DrawerService } from "../../shared/drawer.service";
-import { MatIconRegistry } from "@angular/material/icon";
-import { DomSanitizer } from "@angular/platform-browser";
 import { Server } from "../../classes/server";
 import { Database } from "../../classes/database";
 import { environment } from "../../environments/environment";

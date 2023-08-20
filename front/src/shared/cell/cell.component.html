@@ -15,7 +15,7 @@
 		</ng-container>
 		<ng-container *ngIf="!expand">
 			<button
-				(click)="expand = true"
+				(click)="expand = true; ref.nativeElement.style.resize = 'both'"
 				mat-icon-button>
 				<span class="material-symbols-outlined">
 					folder_open

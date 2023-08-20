@@ -1,16 +1,17 @@
 :host {
-	max-width: 35vw;
+	max-width: 25vw;
 	max-height: 70vh;
 	overflow: auto;
 	display: block;
 	font-weight: 300;
 	letter-spacing: 1px;
-
-	&:has(ngx-json-viewer){
-		resize: both;
-	}
 }
 
 ::ng-deep .ngx-json-viewer {
 	overflow: visible !important;
+
+	.segment {
+		padding: 0px !important;
+	}
 }
+
