@@ -58,6 +58,10 @@ export default class MongoDB extends Driver {
 		}
 	}
 
+	async dropView(database, table) {
+		return await this.connection.db(database).dropCollection(table);
+	}
+
 	async replaceTrigger(database, table, trigger) {
 		try {
 			return await this.connection.db(database).command({

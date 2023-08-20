@@ -245,6 +245,15 @@ a {
 	background: #666;
 }
 
+::-webkit-resizer {
+	background: linear-gradient(-45deg, #2196f3 0%, #2196f3 15%, transparent 55%);
+	border-radius: 15px 0px 0px 0px;
+}
+
+::-webkit-scrollbar-corner {
+	background-color: transparent;
+}
+
 .mat-toolbar {
 	box-shadow: $bottom-shadow;
 	background-color: #1e1e1e;
