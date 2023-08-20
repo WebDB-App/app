@@ -7,6 +7,7 @@ import { Database } from "../database";
 import { loadLibAsset } from "../../shared/helper";
 import { Server } from "../server";
 import { Configuration } from "../configuration";
+import helper from "../../shared/shared-helper.mjs";
 
 declare var monaco: any;
 
@@ -184,7 +185,18 @@ db.collection("${table.name}").find({
 		return `db.collection("${table.name}").find(${filter}).toArray()`;
 	}
 
-	getBaseSort(field: string, direction: 'asc' | 'desc') {
-		return `.sort({${field}: ${direction === "asc" ? 1 : -1}}).toArray()`;
+	getBaseSort(query: string, field: string, direction: 'asc' | 'desc') {
+		if (query.indexOf(".aggregate(") >= 0) {
+			const s: any = {$sort : {}};
+			s.$sort[field] = direction === "asc" ? 1 : -1;
+			query = helper.mongo_injectAggregate(query, s);
+		}
+
+		if (query.indexOf(".find(") > 0) {
+			query = query.replace(".toArray()", "");
+			query = `${query}.sort({${field}: ${direction === "asc" ? 1 : -1}}).toArray()`;
+		}
+
+		return query;
 	}
 }

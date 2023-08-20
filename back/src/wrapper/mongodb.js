@@ -336,16 +336,6 @@ export default class MongoDB extends Driver {
 		return await Promise.all(promises);
 	}
 
-	injectAggregate(query, toInject) {
-		let agg = query.match(/\.aggregate\((?:[^)(]|\((?:[^)(]|\((?:[^)(]|\([^)(]*\))*\))*\))*\)/g);
-		agg = agg[0];
-		agg = agg.slice(".aggregate(".length, -1);
-		agg = agg ? eval(agg) : [];
-		agg.push(toInject);
-		agg = `.aggregate(${JSON.stringify(agg)})`;
-		return query.replace(/\.aggregate\((?:[^)(]|\((?:[^)(]|\((?:[^)(]|\([^)(]*\))*\))*\))*\)/g, agg);
-	}
-
 	async querySize(query, database) {
 		if (query.indexOf(".toArray(") < 1) {
 			const result = await this.runCommand(query, database);
@@ -353,7 +343,7 @@ export default class MongoDB extends Driver {
 		}
 
 		if (query.indexOf(".aggregate(") >= 0) {
-			query = this.injectAggregate(query, { "$group": { "_id": null, "count": { "$sum": 1 } } });
+			query = helper.mongo_injectAggregate(query, { "$group": { "_id": null, "count": { "$sum": 1 } } });
 			const result = await this.runCommand(query, database);
 			return result.error ? "0" : JSON.parse(result)[0].count.toString();
 		}
@@ -374,8 +364,8 @@ export default class MongoDB extends Driver {
 			query.indexOf("limit") < 0) {
 
 			if (query.indexOf(".aggregate(") >= 0) {
-				query = this.injectAggregate(query, { "$limit": pageSize });
-				query = this.injectAggregate(query, { "$skip": page });
+				query = helper.mongo_injectAggregate(query, { "$limit": pageSize });
+				query = helper.mongo_injectAggregate(query, { "$skip": page });
 			} else if (query.indexOf(".toArray(") >= 0) {
 				query = query.replace(".toArray()", `.skip(${page * pageSize}).limit(${pageSize}).toArray()`);
 			}

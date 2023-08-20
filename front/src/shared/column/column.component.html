@@ -29,8 +29,7 @@
 				<div>
 					<mat-form-field *ngIf="extraAttributes.length" appearance="fill">
 						<mat-label>Extras</mat-label>
-						<mat-select formControlName="extra" multiple>
-						</mat-select>
+						<mat-select formControlName="extra" multiple></mat-select>
 					</mat-form-field>
 
 					<mat-slide-toggle
@@ -60,8 +59,11 @@
 					<input autocomplete="off"
 						   formControlName="name"
 						   matInput>
-					<mat-error *ngIf="column.get('name')?.errors">
-						Prefer alpha, numeric and "_", "-"
+					<mat-error *ngIf="column.get('name')?.errors && column.get('name')!.errors!['pattern']">
+						Prefer alpha, numeric and "_", "-" with 2 min chars
+					</mat-error>
+					<mat-error *ngIf="column.get('name')?.errors && column.get('name')!.errors!['unique']">
+						Name already used
 					</mat-error>
 				</mat-form-field>
 			</mat-card-header>

@@ -124,7 +124,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 		let query = this.query;
 
 		if (this.params.sortDirection && this.params.sortField) {
-			query += this.selectedServer?.driver.getBaseSort(this.params.sortField, <"asc" | "desc">this.params.sortDirection);
+			query = this.selectedServer?.driver.getBaseSort(query, this.params.sortField, <"asc" | "desc">this.params.sortDirection)!;
 		}
 
 		const result = await this.request.post('database/query', {

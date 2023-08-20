@@ -1,4 +1,3 @@
-unique : column, table, view
 mongo : ? + relation + insert + quicksearch (objectid + date)
 postgre : alter table(fct as default, null as default) + addtable
 

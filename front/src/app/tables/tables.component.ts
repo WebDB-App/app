@@ -10,6 +10,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import helper from "../../shared/shared-helper.mjs";
+import { uniqueValidator } from "../../shared/unique.validator";
 
 const localStorageTableWidthKey = "tableWidth";
 
@@ -157,7 +158,7 @@ export class CreateTableDialog {
 	) {
 		this.selectedServer = Server.getSelected();
 		this.form = fb.group({
-			name: [null, [Validators.required, Validators.pattern(helper.validName)]],
+			name: [null, [Validators.required, Validators.pattern(helper.validName), uniqueValidator('name', Database.getSelected().tables!.map(table => table.name))]],
 			columns: fb.array([
 				Column.getFormGroup(),
 			])

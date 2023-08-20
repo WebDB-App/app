@@ -4,6 +4,16 @@ export default class Helper {
 
 	static parentheses = /\((?:[^)(]|\((?:[^)(]|\((?:[^)(]|\([^)(]*\))*\))*\))*\)/g;
 
+	static mongo_injectAggregate(query, toInject) {
+		let agg = query.match(/\.aggregate\((?:[^)(]|\((?:[^)(]|\((?:[^)(]|\([^)(]*\))*\))*\))*\)/g);
+		agg = agg[0];
+		agg = agg.slice(".aggregate(".length, -1);
+		agg = agg ? eval(agg) : [];
+		agg.push(toInject);
+		agg = `.aggregate(${JSON.stringify(agg)})`;
+		return query.replace(/\.aggregate\((?:[^)(]|\((?:[^)(]|\((?:[^)(]|\([^)(]*\))*\))*\))*\)/g, agg);
+	}
+
 	static sql_isSelect(query) {
 		query = query.trim().toLowerCase();
 		query = query.replaceAll(Helper.parentheses, '').trim();

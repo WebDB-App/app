@@ -4,6 +4,7 @@ import { Server } from "../../classes/server";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { FormArray, FormGroup } from "@angular/forms";
 import { isSQL } from "../helper";
+import { Table } from "../../classes/table";
 
 @Component({
 	selector: 'app-column',
@@ -17,6 +18,7 @@ export class ColumnComponent implements OnInit {
 	formColumn!: FormArray;
 	extraAttributes = Server.getSelected().driver.language.extraAttributes;
 	selectedServer?: Server;
+	selectedTable?: Table;
 
 	constructor(
 		public snackBar: MatSnackBar
@@ -25,11 +27,12 @@ export class ColumnComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.selectedServer = Server.getSelected();
+		this.selectedTable = Table.getSelected();
 		this.formColumn = <FormArray>this.form.get('columns');
 	}
 
 	addColumn(column?: any) {
-		this.formColumn.push(column || Column.getFormGroup());
+		this.formColumn.push(column || Column.getFormGroup(this.selectedTable!));
 	}
 
 	protected readonly isSQL = isSQL;

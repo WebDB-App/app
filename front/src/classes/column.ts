@@ -3,6 +3,8 @@ import { Relation } from "./relation";
 import { Driver } from "./driver";
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from "@angular/forms";
 import helper from "../shared/shared-helper.mjs";
+import { uniqueValidator } from "../shared/unique.validator";
+import { Table } from "./table";
 
 export class Column {
 	name!: string;
@@ -51,7 +53,7 @@ export class Column {
 		return false;
 	}
 
-	static getFormGroup(from?: Column) {
+	static getFormGroup(table?: Table, from?: Column) {
 		const checkParams = () => {
 			return (control: AbstractControl): ValidationErrors | null => {
 				if (!control.value) {
@@ -71,8 +73,13 @@ export class Column {
 			}
 		}
 
+		const nameValidators = [Validators.required, Validators.pattern(helper.validName)];
+		if (table) {
+			nameValidators.push(uniqueValidator('name', table.columns.map(col => col.name)));
+		}
+
 		return new FormGroup({
-			name: new FormControl(from?.name || null, [Validators.required, Validators.pattern(helper.validName)]),
+			name: new FormControl(from?.name || null, nameValidators),
 			type: new FormControl(from?.type || null, [Validators.required, checkParams()]),
 			nullable: new FormControl(from?.nullable || false),
 			defaut: new FormControl(from?.defaut || null),
