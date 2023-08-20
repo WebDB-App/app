@@ -51,7 +51,7 @@ export default class MongoDB extends Driver {
 		try {
 			return await this.connection.db(database).createCollection(view, {
 				viewOn: table,
-				pipeline: code
+				pipeline: BSON.EJSON.parse(code)
 			});
 		} catch (e) {
 			return {error: e.message};
@@ -248,6 +248,10 @@ export default class MongoDB extends Driver {
 			const db = this.connection.db(database.name);
 
 			for (const coll of await db.collections()) {
+				const opts = await coll.options();
+				if (opts.viewOn) {
+					continue;
+				}
 				for (const index of await coll.indexes()) {
 					indexes.push({
 						database: database.name,
@@ -407,7 +411,9 @@ export default class MongoDB extends Driver {
 
 					try {
 						samples = await coll.aggregate([{$sample: {size: this.sampleSize}}]).toArray();
-					} catch (e) { /* empty */ }
+					} catch (e) {
+						//console.error(e);
+					}
 					struct[database.name].tables[coll.collectionName].columns = this.inferColumn(samples);
 					resolve();
 				}));
@@ -486,7 +492,7 @@ export default class MongoDB extends Driver {
 			const types = Object.keys(type).map(ty => JSON.parse(ty)).filter(ty => ty);
 
 			if (name === "geo") {
-				console.log("");
+				//console.log("");
 			}
 
 			final.push({
