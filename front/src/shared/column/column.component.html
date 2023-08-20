@@ -172,7 +172,7 @@
 				</div>
 
 				<div *ngIf="!form.get('old')" class="actions">
-					<button (click)="addColumn(column)"
+					<button (click)="copyColumn(column.value)"
 							color="primary"
 							mat-icon-button
 							matTooltip="Duplicate Column">

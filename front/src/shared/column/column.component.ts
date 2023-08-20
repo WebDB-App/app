@@ -31,8 +31,8 @@ export class ColumnComponent implements OnInit {
 		this.formColumn = <FormArray>this.form.get('columns');
 	}
 
-	addColumn(column?: any) {
-		this.formColumn.push(column || Column.getFormGroup(this.selectedTable!));
+	copyColumn(column: Column) {
+		this.formColumn.push(Column.getFormGroup(this.selectedTable!, column));
 	}
 
 	protected readonly isSQL = isSQL;
