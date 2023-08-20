@@ -11,6 +11,8 @@ import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import helper from "../../shared/shared-helper.mjs";
 
+const localStorageTableWidthKey = "tableWidth";
+
 @Component({
 	selector: 'app-tables',
 	templateUrl: './tables.component.html',
@@ -22,6 +24,7 @@ export class TablesComponent implements OnInit {
 	selectedServer?: Server;
 	selectedTable?: Table;
 
+	width?: number;
 	tooltips: { [key: string]: string } = {};
 	tabs!: string[];
 
@@ -68,6 +71,11 @@ export class TablesComponent implements OnInit {
 					this.selectedDatabase.name,
 					this.selectedTable.name
 				], {skipLocationChange: true});
+			}
+
+			const widths = JSON.parse(localStorage.getItem(localStorageTableWidthKey) || "{}");
+			if (widths[this.selectedDatabase!.name]) {
+				this.width = widths[this.selectedDatabase!.name];
 			}
 		});
 	}
@@ -122,6 +130,12 @@ export class TablesComponent implements OnInit {
 		}
 
 		await this.router.navigateByUrl(url);
+	}
+
+	saveWidth(width: number) {
+		const widths = JSON.parse(localStorage.getItem(localStorageTableWidthKey) || "{}");
+		widths[this.selectedDatabase!.name] = width;
+		localStorage.setItem(localStorageTableWidthKey, JSON.stringify(widths));
 	}
 }
 

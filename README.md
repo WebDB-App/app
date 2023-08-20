@@ -20,6 +20,7 @@ postgre : alter table(fct as default, null as default) + addtable
 - Export Query : tester tout
 - mongo : harmonizer + addTable
 - collation : postgre + mongo
+- TODO public
 
 
 
@@ -75,4 +76,3 @@ postgre : alter table(fct as default, null as default) + addtable
 - row export sur query
 - duplicate row ?
 - datahog / sentry
-- save resize for each db localstorage

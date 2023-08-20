@@ -21,7 +21,9 @@ export class CellComponent implements OnInit {
 	expand = true;
 	fkLink?: string[];
 
-	constructor() {
+	constructor(
+		public ref: ElementRef
+	) {
 	}
 
 	ngOnInit(): void {
