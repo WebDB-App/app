@@ -7,18 +7,19 @@ mongo : ? + relation + insert + quicksearch (objectid + date) + getBaseSelectWit
 
 
 - postgre : plusieurs schemas
-- cloud (google, aurora, rds)
+- mongo : harmonizer + addTable
+
 - revoir MySQL load avec tunnel (essayer en bash)
-- finir present
 - Finir EDR
+- Export Query : tester tout
+- collation : postgre + mongo
+
 - Server gît avec autobackup en var d'env (git large file / gzip)
 - relation wizard (1,1 -> 0,n + 0,n -> 1,1 + 1,1 + -> [] -> {} + {} -> + [] -> + show migration queries)
+
+- cloud (google, aurora, rds)
 - SQLServer
 - graphql
-- Export Query : tester tout
-- mongo : harmonizer + addTable
-- collation : postgre + mongo
-- TODO public
 
 
 
@@ -65,6 +66,7 @@ mongo : ? + relation + insert + quicksearch (objectid + date) + getBaseSelectWit
 
 
 # Other
+- TODO public
 - chat history
 - sql function doc (https://www.w3resource.com/PostgreSQL/postgresql_array_remove-function.php)
 - afficher resulat Unit Test en front avec plusieurs version de bdd

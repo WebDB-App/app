@@ -17,7 +17,11 @@ export default class MySQL extends SQL {
 		return super.scan(this.host, 3300, 3310);
 	}
 
-	async sampleDatabase(name, {datas, count, deep}) {
+	async serverVars() {
+		return await this.runCommand("SHOW VARIABLES");
+	}
+
+	async sampleDatabase(name, {count, deep}) {
 		const getSample = async (table) => {
 			const create = await this.runCommand(`SHOW CREATE TABLE \`${table}\``, name);
 			return {
@@ -27,7 +31,7 @@ export default class MySQL extends SQL {
 		};
 
 		const promises = [];
-		const tables = await this.runCommand("SHOW TABLES", name);
+		const tables = await this.runCommand("SHOW FULL TABLES;", name);
 		for (const table of tables) {
 			promises.push(getSample(table[Object.keys(table)[0]]));
 		}

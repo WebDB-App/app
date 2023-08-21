@@ -30,11 +30,23 @@ class Controller {
 
 	async sample(req, res) {
 		const [wrapper, database] = await http.getLoggedDriver(req);
-		const sample = await wrapper.sampleDatabase(database, req.body.preSent);
 
+		const sample = await wrapper.sampleDatabase(database, req.body.preSent);
 		let txt = `There is a database called ${database} on a ${wrapper.constructor.name} server. `;
-		for (const table of sample) {
-			txt += `\n \`\`\`${table.structure}\`\`\` contain a sample of the following data : \`\`\`${JSON.stringify(table.data)}\`\`\``;
+
+		if (req.body.preSent.datas?.indexOf("structure") >= 0) {
+			for (const table of sample) {
+				txt += `\n \`\`\`${table.structure}\`\`\` is a table and here is a data sample : \`\`\`${JSON.stringify(table.data)}\`\`\``;
+			}
+		}
+		if (req.body.preSent.datas?.indexOf("triggers") >= 0) {
+			for (const table of sample) {
+				const view = await wrapper.listTrigger(database, table);
+				txt += `\n \`\`\`${view.name}\`\`\` is a view with the code : \`\`\`${JSON.stringify(view.code)}\`\`\``;
+			}
+		}
+		if (req.body.preSent.datas?.indexOf("server_vars") >= 0) {
+			txt += `\n Here is the server variables :\`\`\`${JSON.stringify(await wrapper.serverVars())}\`\`\``;
 		}
 
 		txt += `Respond me in ${req.body.language} language. `;
