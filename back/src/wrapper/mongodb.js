@@ -17,6 +17,10 @@ export default class MongoDB extends Driver {
 		return super.scan(this.host, 27010, 27020);
 	}
 
+	async serverVars() {
+		return await this.connection.db().admin().command({ getParameter : "*" });
+	}
+
 	async dump(database, exportType = "bson", tables) {
 		let path = `${dirname}../front/dump/${database}`;
 		if (exportType === "json") {
@@ -295,7 +299,7 @@ export default class MongoDB extends Driver {
 		}
 	}
 
-	async sampleDatabase(name, {datas, count, deep}) {
+	async sampleDatabase(name, {count, deep}) {
 		const promises = [];
 		const limit = (obj, count, deep) => {
 			if (deep-- < 1) {

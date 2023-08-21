@@ -184,7 +184,12 @@ export class AiComponent implements OnInit {
 	}
 
 	scrollToBottom() {
-		setTimeout(() => {this.scrollContainer.nativeElement.scrollTop = this.scrollContainer.nativeElement.scrollHeight}, 10);
+		setTimeout(() => {
+			if (!this.scrollContainer) {
+				return;
+			}
+			this.scrollContainer.nativeElement.scrollTop = this.scrollContainer.nativeElement.scrollHeight
+		}, 10);
 	}
 
 	async runQuery(query: string) {
