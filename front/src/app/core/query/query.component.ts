@@ -1,4 +1,4 @@
-import { Component, HostListener, Inject, OnInit } from '@angular/core';
+import { Component, HostListener, Inject, OnDestroy, OnInit } from '@angular/core';
 import { Table } from "../../../classes/table";
 import { ActivatedRoute, Router } from "@angular/router";
 import { DiffEditorModel } from "ngx-monaco-editor-v2";
@@ -27,7 +27,7 @@ declare var monaco: any;
 	styleUrls: ['./query.component.scss'],
 	providers: [{provide: MatPaginatorIntl, useValue: new REMOVED_LABELS()} ]
 })
-export class QueryComponent implements OnInit {
+export class QueryComponent implements OnInit, OnDestroy {
 
 	prebuilds!: string[];
 	configuration: Configuration = new Configuration();
@@ -53,6 +53,7 @@ export class QueryComponent implements OnInit {
 	pageSize = 50;
 	page = 0;
 	querySize!: number;
+	interval?: NodeJS.Timer;
 	isLoading = false;
 	displayedColumns?: string[];
 	dataSource?: MatTableDataSource<any>;
@@ -104,6 +105,14 @@ export class QueryComponent implements OnInit {
 				this.query = paramMap.get('code')!;
 			}
 		});
+
+		this.interval = setInterval(() => {
+			this.router.navigate([Server.getSelected().name, Database.getSelected().name, Table.getSelected().name, 'query', this.query]);
+		}, 1000);
+	}
+
+	ngOnDestroy() {
+		clearInterval(this.interval);
 	}
 
 	async initEditor(editor: any, index: number) {
@@ -119,7 +128,6 @@ export class QueryComponent implements OnInit {
 		} else {
 			await this._runSingle();
 		}
-		this.router.navigate([Server.getSelected().name, Database.getSelected().name, Table.getSelected().name, 'query', this.query]);
 		this.isLoading = false;
 		setTimeout(() => this.editors.map(editor => editor.trigger("editor", "editor.action.formatDocument")), 1);
 	}
@@ -230,9 +238,7 @@ export class QueryComponent implements OnInit {
 
 	async assistant(row: any) {
 		this.drawer.toggle();
-
 		const question = 'When running this query "' + helper.removeComment(this.query) + '" , I got this : ' + JSON.stringify(row) + ', can you fix it for me';
-
 		await this.router.navigate(
 			[{outlets: {right: ['assistant', {question}]}}],
 			{relativeTo: this.activatedRoute.parent?.parent})
