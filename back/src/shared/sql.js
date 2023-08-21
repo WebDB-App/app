@@ -19,12 +19,12 @@ export default class SQL extends Driver {
 			cmd += `${column.extra.join(" ")} `;
 		}
 
-		if (column.defaut) {
-			if (column.defaut !== "NULL" && !column.defaut.endsWith(")")
+		if (Object.keys(column).indexOf("defaut") >= 0) {
+			if (column.defaut !== "" && !column.defaut.endsWith(")")
 				&& !["'", "\"", "`"].find(quote => column.defaut.startsWith(quote))) {
 				column.defaut = `"${column.defaut}"`;
 			}
-			cmd += `DEFAULT ${column.defaut} `;
+			cmd += `DEFAULT ${column.defaut || "NULL"} `;
 		}
 		return cmd;
 	}
@@ -36,22 +36,6 @@ export default class SQL extends Driver {
 		}
 
 		return sql;
-	}
-
-	async modifyColumn(database, table, old, column) {
-		if (old.name !== column.name) {
-			await this.runCommand(`ALTER TABLE ${table} RENAME COLUMN ${old.name} TO ${column.name}`, database);
-		}
-		if (JSON.stringify(old) === JSON.stringify(column)) {
-			return {ok: true};
-		}
-		if (old.type !== column.type) {
-			await this.runCommand(`ALTER TABLE ${table} ALTER COLUMN ${column.name} TYPE ${column.type}`, database);
-		}
-		if (old.nullable !== column.nullable) {
-			await this.runCommand(`ALTER TABLE ${table} ALTER COLUMN ${column.nullable ? "DROP NOT NULL" : "SET NOT NULL"}`, database);
-		}
-		return {};
 	}
 
 	async createDatabase(name) {

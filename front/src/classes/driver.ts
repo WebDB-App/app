@@ -72,7 +72,7 @@ export interface Driver {
 		defaultFilter: string,
 		ownType: boolean,
 		arrayType: boolean,
-		fctAsDefault: boolean
+		fctAsDefault: string[]
 	}
 
 	nodeLib: (queryParams: QueryParams) => string;

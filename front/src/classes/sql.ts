@@ -52,7 +52,7 @@ export class SQL implements Driver {
 		defaultFilter: string,
 		ownType: boolean,
 		arrayType: boolean,
-		fctAsDefault: boolean
+		fctAsDefault: string[]
 	} = {
 		comparators: [
 			{symbol: '>', example: "", definition: "More than"},
@@ -206,7 +206,7 @@ export class SQL implements Driver {
 		defaultFilter: "=",
 		ownType: false,
 		arrayType: true,
-		fctAsDefault: true
+		fctAsDefault: []
 	}
 
 	nodeLib = (query: QueryParams) => "";
