@@ -83,7 +83,10 @@ class Controller {
 	async duplicate(req, res) {
 		const [driver, database] = await http.getLoggedDriver(req);
 
-		await driver.createDatabase(req.body.name);
+		const r = await driver.createDatabase(req.body.name);
+		if (r.error) {
+			return r;
+		}
 
 		const path = await driver.dump(database, undefined, false);
 		const p = dirname + "../../front/" + path.path;

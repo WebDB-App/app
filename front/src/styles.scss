@@ -31,10 +31,10 @@ body {
 	font-family: 'Noto Sans', sans-serif;
 }
 
-.mat-tooltip {
+.mat-tooltip, .mat-select-panel {
 	backdrop-filter: blur(2px);
 	white-space: pre-line !important;
-	background-color: #1e1e1e;
+	background-color: rgba(30, 30, 30, 0.9);
 }
 
 [hidden] {
@@ -247,7 +247,7 @@ a {
 
 ::-webkit-resizer {
 	background: radial-gradient(circle at 0px 0px, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 14px, #2196f3 18px);
-	border-radius: 15px 0px 0px 0px;
+	border-radius: 100% 3px 6px 3px;
 }
 
 ::-webkit-scrollbar-corner {

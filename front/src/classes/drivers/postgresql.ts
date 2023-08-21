@@ -17,6 +17,7 @@ export class PostgreSQL extends SQL {
 
 		this.language = {
 			...this.language,
+			fctAsDefault: ['now()', 'nextval()'],
 			ownType: true,
 			keywords: this.language.keywords.concat([
 				'CREATE SCHEMA',

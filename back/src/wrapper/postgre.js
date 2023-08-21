@@ -35,6 +35,43 @@ export default class PostgreSQL extends SQL {
 		return await Promise.all(promises);
 	}
 
+	async modifyColumn(database, table, old, column) {
+		if (old.name !== column.name) {
+			const r = await this.runCommand(`ALTER TABLE ${table} RENAME COLUMN ${old.name} TO ${column.name}`, database);
+			if (r.error) {
+				return r;
+			}
+		}
+		if (JSON.stringify(old) === JSON.stringify(column)) {
+			return {ok: true};
+		}
+		if (old.type !== column.type) {
+			let r = await this.runCommand(`ALTER TABLE ${table} ALTER COLUMN ${column.name} TYPE ${column.type}`, database);
+			if (r.error) {
+				const using = /"(USING .*)"/.exec(r.error);
+				if (using?.length > 0) {
+					r = await this.runCommand(`ALTER TABLE ${table} ALTER COLUMN ${column.name} TYPE ${column.type} ${using[1]}`, database);
+				}
+				if (r.error) {
+					return r;
+				}
+			}
+		}
+		if (old.nullable !== column.nullable) {
+			const r = await this.runCommand(`ALTER TABLE ${table} ALTER COLUMN ${column.name} ${column.nullable ? "DROP NOT NULL" : "SET NOT NULL"}`, database);
+			if (r.error) {
+				return r;
+			}
+		}
+		if (old.defaut !== column.defaut) {
+			const r = await this.runCommand(`ALTER TABLE ${table} ALTER COLUMN ${column.name} SET DEFAULT ${column.defaut || "NULL"}`, database);
+			if (r.error) {
+				return r;
+			}
+		}
+		return {};
+	}
+
 	async dump(dbSchema, exportType = "sql", tables, includeData = true) {
 		const [database, schema] = dbSchema.split(this.dbToSchemaDelimiter);
 

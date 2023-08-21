@@ -1,5 +1,4 @@
 mongo : ? + relation + insert + quicksearch (objectid + date) + getBaseSelectWithRelations
-postgre : alter table(fct as default, null as default) + addtable
 
 
 

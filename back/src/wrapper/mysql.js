@@ -123,7 +123,10 @@ export default class MySQL extends SQL {
 		const colls = await this.getAvailableCollations();
 		const character = colls.find(coll => coll.Collation === collate).Charset;
 
-		await this.runCommand(`ALTER DATABASE \`${database}\` CHARACTER SET ${character} COLLATE ${collate};`);
+		const r = await this.runCommand(`ALTER DATABASE \`${database}\` CHARACTER SET ${character} COLLATE ${collate};`);
+		if (r.error) {
+			return r;
+		}
 
 		const tables = await this.runCommand(`SELECT CONCAT("ALTER TABLE ", TABLE_SCHEMA, '.', TABLE_NAME, ' CONVERT TO CHARACTER SET ${character} COLLATE ${collate};') AS 'table'
 				FROM INFORMATION_SCHEMA.TABLES
