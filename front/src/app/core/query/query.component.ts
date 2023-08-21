@@ -11,7 +11,7 @@ import { RequestService } from "../../../shared/request.service";
 import { Relation } from "../../../classes/relation";
 import { Configuration } from "../../../classes/configuration";
 import { HistoryService, Query } from "../../../shared/history.service";
-import { initBaseEditor, REMOVED_LABELS } from "../../../shared/helper";
+import { initBaseEditor, isSQL, REMOVED_LABELS } from "../../../shared/helper";
 import { ExportResultDialog } from "../../../shared/export-result-dialog/export-result-dialog";
 import { MatPaginatorIntl } from "@angular/material/paginator";
 import { DrawerService } from "../../../shared/drawer.service";
@@ -88,11 +88,15 @@ export class QueryComponent implements OnInit {
 
 		this.activatedRoute.parent?.params.subscribe(async (_params) => {
 			this.selectedTable = Table.getSelected();
-			this.prebuilds = this.selectedTable.view ? ['select', 'select_join'] : ['select', 'select_join', 'update', 'insert', 'delete'];
 			this.relations = Table.getRelations();
 			this.querySize = -1;
 			this.dataSource = new MatTableDataSource<any>();
+
+			this.prebuilds = this.selectedTable.view ? ['select', 'select_join'] : ['select', 'select_join', 'update', 'insert', 'delete'];
 			this.loadPreBuild("select");
+			if (!isSQL()) {
+				this.prebuilds.push('aggregate');
+			}
 		});
 
 		this.activatedRoute?.paramMap.subscribe(async (paramMap) => {
@@ -195,6 +199,9 @@ export class QueryComponent implements OnInit {
 				break;
 			case "select_join":
 				this.query = this.selectedServer!.driver.getBaseSelectWithRelations(this.selectedTable!, this.relations!);
+				break;
+			case "aggregate":
+				this.query = this.selectedServer!.driver.getBaseAggregate!(this.selectedTable!);
 				break;
 		}
 		setTimeout(() => this.editors.map(editor => editor.trigger("editor", "editor.action.formatDocument")), 1);
