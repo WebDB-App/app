@@ -164,6 +164,17 @@ db.collection("${table.name}").find({
 		return "";
 	}
 
+	getBaseAggregate(table: Table) {
+		return `db.collection("${table.name}").aggregate([
+	{
+		$match: { ${table.columns[0].name}: "${table.columns[0].type}" }
+	},
+	{
+		$group: { _id: "$${table.columns[0].name}" }
+	}
+]).toArray()`;
+	}
+
 	getBaseFilter(table: Table, conditions: string[], operand: 'AND' | 'OR') {
 		const cond = conditions.map(condition => {
 			const obj: { [key: string]: any } = {};

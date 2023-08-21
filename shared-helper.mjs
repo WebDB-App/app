@@ -8,7 +8,11 @@ export default class Helper {
 		let agg = query.match(/\.aggregate\((?:[^)(]|\((?:[^)(]|\((?:[^)(]|\([^)(]*\))*\))*\))*\)/g);
 		agg = agg[0];
 		agg = agg.slice(".aggregate(".length, -1);
-		agg = agg ? eval(agg) : [];
+		try {
+			agg = eval(agg)
+		} catch (e) {
+			return query;
+		}
 		agg.push(toInject);
 		agg = `.aggregate(${JSON.stringify(agg)})`;
 		return query.replace(/\.aggregate\((?:[^)(]|\((?:[^)(]|\((?:[^)(]|\([^)(]*\))*\))*\))*\)/g, agg);

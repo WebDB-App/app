@@ -90,5 +90,6 @@ export interface Driver {
 	getBaseSelect: (table: Table) => string;
 	getBaseInsert: (table: Table) => string;
 	getBaseFilter: (table: Table, condition: string[], operand: 'AND' | 'OR') => string;
+	getBaseAggregate?: (table: Table) => string;
 	getBaseSelectWithRelations: (table: Table, relations: Relation[]) => string;
 }

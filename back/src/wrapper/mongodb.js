@@ -273,10 +273,6 @@ export default class MongoDB extends Driver {
 	}
 
 	async runCommand(command, database = false) {
-		if (process.env.DISABLE_EVAL === "true") {
-			return {error: "Code evaluation is disable by backend configuration"};
-		}
-
 		let db = this.connection;
 		const start = Date.now();
 
@@ -337,6 +333,10 @@ export default class MongoDB extends Driver {
 	}
 
 	async querySize(query, database) {
+		if (process.env.DISABLE_EVAL === "true") {
+			return {error: "Code evaluation is disable by backend configuration"};
+		}
+
 		if (query.indexOf(".toArray(") < 1) {
 			const result = await this.runCommand(query, database);
 			return result.error ? "0" : "1";
@@ -344,8 +344,12 @@ export default class MongoDB extends Driver {
 
 		if (query.indexOf(".aggregate(") >= 0) {
 			query = helper.mongo_injectAggregate(query, { "$group": { "_id": null, "count": { "$sum": 1 } } });
-			const result = await this.runCommand(query, database);
-			return result.error ? "0" : JSON.parse(result)[0].count.toString();
+			let result = await this.runCommand(query, database);
+			if (result.error) {
+				return "0";
+			}
+			result = JSON.parse(result);
+			return result.length < 1 ? "0" : result[0].count.toString();
 		}
 
 		if (query.indexOf(".find(") > 0) {
@@ -359,6 +363,9 @@ export default class MongoDB extends Driver {
 	}
 
 	async runPagedQuery(query, page, pageSize, database) {
+		if (process.env.DISABLE_EVAL === "true") {
+			return {error: "Code evaluation is disable by backend configuration"};
+		}
 
 		if (query.indexOf("skip") < 0 &&
 			query.indexOf("limit") < 0) {
