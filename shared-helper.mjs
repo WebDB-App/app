@@ -5,17 +5,19 @@ export default class Helper {
 	static parentheses = /\((?:[^)(]|\((?:[^)(]|\((?:[^)(]|\([^)(]*\))*\))*\))*\)/g;
 
 	static mongo_injectAggregate(query, toInject) {
-		let agg = query.match(/\.aggregate\((?:[^)(]|\((?:[^)(]|\((?:[^)(]|\([^)(]*\))*\))*\))*\)/g);
+		const reg = /\.aggregate\((?:[^)(]|\((?:[^)(]|\((?:[^)(]|\([^)(]*\))*\))*\))*\)/g;
+		let agg = query.match(reg);
 		agg = agg[0];
-		agg = agg.slice(".aggregate(".length, -1);
-		try {
-			agg = eval(agg)
-		} catch (e) {
+		agg = agg.slice(".aggregate(".length, -1).trim();
+		if (agg.length < 1) {
+			agg = `[${JSON.stringify(toInject)}]`;
+		} else if (agg.endsWith(']')) {
+			agg = agg.slice(0, -1) + ', ' + JSON.stringify(toInject) + ']';
+		} else {
 			return query;
 		}
-		agg.push(toInject);
-		agg = `.aggregate(${JSON.stringify(agg)})`;
-		return query.replace(/\.aggregate\((?:[^)(]|\((?:[^)(]|\((?:[^)(]|\([^)(]*\))*\))*\))*\)/g, agg);
+		agg = `.aggregate(${agg})`;
+		return query.replace(reg, agg);
 	}
 
 	static sql_isSelect(query) {

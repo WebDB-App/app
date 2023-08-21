@@ -165,7 +165,11 @@ db.collection("${table.name}").find({
 	}
 
 	getBaseAggregate(table: Table) {
-		return `db.collection("${table.name}").aggregate([
+		return `/*
+const db = (await new MongoClient()).db("${Database.getSelected().name}");
+const bson = require("bson");
+*/
+db.collection("${table.name}").aggregate([
 	{
 		$match: { ${table.columns[0].name}: "${table.columns[0].type}" }
 	},
