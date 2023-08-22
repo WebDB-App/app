@@ -65,16 +65,4 @@
 - https://external-preview.redd.it/chatgpt-for-data-science-cheat-sheet-v0-Odpv_XqB8SiefptXNzZP-t9AjrVOxg0IF81UuKFx2sw.jpg?auto=webp&s=2b8b8a80fa2c3a4b6f85545cffa26726021a60a4
 
 
-# Other
-- TODO public
-- chat history
-- sql function doc (https://www.w3resource.com/PostgreSQL/postgresql_array_remove-function.php)
-- afficher resulat Unit Test en front avec plusieurs version de bdd
-- Postgre : more comparator (symbol) with detail
-- Cloud DB : digital + atlas? + azure
-- docker scout cves "$IMAGE_PATH" --exit-code
-- row export sur query
-- duplicate row ?
-- mongo : traduction (collection vs table) + autocomplete table / column / types
-- collation: mongo + postgre
-- datahog / sentry
+# Unit Test en front avec plusieurs version de bdd

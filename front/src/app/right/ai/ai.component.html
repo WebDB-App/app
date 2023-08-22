@@ -100,7 +100,7 @@
 				<button
 					(click)="changing = !changing"
 					*ngIf="!changing"
-					mat-button
+					mat-icon-button
 					matTooltip="Change Key">
 					<span class="material-symbols-outlined notranslate">
 						key
@@ -110,7 +110,7 @@
 				<button
 					(click)="chat = []; saveChat()"
 					*ngIf="chat.length"
-					mat-button
+					mat-icon-button
 					matTooltip="Clear Conversation">
 					<span class="material-symbols-outlined notranslate">
 						clear_all

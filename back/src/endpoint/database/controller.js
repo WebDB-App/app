@@ -46,8 +46,8 @@ class Controller {
 			}
 		}
 
-		txt += `Respond me in ${req.body.language} language. `;
-		txt += "I can return you the result of queries if it can help you be more precise. ";
+		txt += `Respond me in ${req.body.language} for sentences and markdown for codes`;
+		txt += "You can ask me queries to run if it can help you be more precise. ";
 		res.send({txt});
 	}
 
