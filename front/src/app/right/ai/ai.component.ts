@@ -32,7 +32,7 @@ class Msg {
 		this.marked = [];
 
 		const parser = new DOMParser();
-		const mark = marked(txt);
+		const mark = marked(txt, {mangle: false, headerIds: false});
 		const htmlDoc = parser.parseFromString(mark, 'text/html');
 
 		for (const child of htmlDoc.body.children) {
@@ -102,7 +102,7 @@ export class AiComponent implements OnInit {
 		this.selectedDatabase = Database.getSelected();
 		this.selectedServer = Server.getSelected();
 
-		this.drawer.drawer.openedChange.subscribe(async (state) => {
+		this.drawer.drawer.openedChange.subscribe(async (state: boolean) => {
 			if (state && !this.initialized) {
 				this.initialized = true;
 				await this.loadSample();
@@ -171,7 +171,7 @@ export class AiComponent implements OnInit {
 					{role: Role.System, content: this.sample},
 					{role: Role.User, content: txt}
 				],
-			});
+		});
 			message = new Msg(completion.data.choices[0].message!.content!, Role.Assistant);
 		} catch (error: any) {
 			message = new Msg(error.response?.data.error.message || 'An error occurred during OpenAI request: ' + error, Role.Assistant, true);
