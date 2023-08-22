@@ -1,31 +1,25 @@
-mongo : ? + relation + insert + quicksearch (objectid + date) + getBaseSelectWithRelations
-
-
-
-----------------------------------------------------------
-
 
 
 - postgre : plusieurs schemas
-- mongo : harmonizer + addTable
-
-- revoir MySQL load avec tunnel (essayer en bash)
-- Finir EDR
-- Export Query : tester tout
-- collation : postgre + mongo
+- ownType
 
 - Server gît avec autobackup en var d'env (git large file / gzip)
 - relation wizard (1,1 -> 0,n + 0,n -> 1,1 + 1,1 + -> [] -> {} + {} -> + [] -> + show migration queries)
 
 - cloud (google, aurora, rds)
 - SQLServer
-- graphql
 
+- mongo : quicksearch (objectid + date) + harmonizer + addTable
 
 
 ----------------------------------------------------------
 
 
+- revoir MySQL load avec tunnel (essayer en bash)
+- Finir EDR
+- Export Query : tester tout
+
+# GraphQL
 
 # Cockroachdb
 
@@ -35,10 +29,6 @@ mongo : ? + relation + insert + quicksearch (objectid + date) + getBaseSelectWit
 # SQLite
 - https://hub.docker.com/r/nouchka/sqlite3/
 - https://www.npmjs.com/package/better-sqlite3
-
-# MongoDB
-- traduction (collection vs table, etc)
-- autocomplete table and column and types
 
 # Bin
 - Brew + chocolate + apt + yum
@@ -75,4 +65,6 @@ mongo : ? + relation + insert + quicksearch (objectid + date) + getBaseSelectWit
 - docker scout cves "$IMAGE_PATH" --exit-code
 - row export sur query
 - duplicate row ?
+- mongo : traduction (collection vs table) + autocomplete table / column / types
+- collation: mongo + postgre
 - datahog / sentry

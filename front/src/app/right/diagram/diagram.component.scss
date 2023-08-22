@@ -59,8 +59,8 @@ mat-toolbar {
 			table {
 				line-height: 1.5em;
 				border-collapse: collapse;
-				background-color: #1e1e1e;
-				backdrop-filter: blur(2px);
+				background-color: rgba(30, 30, 30, 0.8);
+				backdrop-filter: blur(3px);
 				border-radius: 4px;
 				z-index: 1;
 				box-sizing: border-box;
@@ -95,7 +95,7 @@ mat-toolbar {
 	}
 
 	::ng-deep .hoverClass {
-		background-color: #ff9800 !important;
-		stroke: #ff9800 !important;
+		background-color: rgba(255, 152, 0, 0.8) !important;
+		stroke: rgba(255, 152, 0, 0.8) !important;
 	}
 }
