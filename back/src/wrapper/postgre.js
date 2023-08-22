@@ -17,7 +17,7 @@ export default class PostgreSQL extends SQL {
 		return super.scan(this.host, 5430, 5440);
 	}
 
-	async sampleDatabase(name, {count}) {
+	async sampleDatabase(name, {count, tables}) {
 		const [database, schema] = name.split(this.dbToSchemaDelimiter);
 		const getSample = async (table) => {
 			return {
@@ -27,9 +27,8 @@ export default class PostgreSQL extends SQL {
 		};
 
 		const promises = [];
-		const tables = await this.runCommand(`SELECT table_name FROM information_schema.tables WHERE table_schema = '${schema}'`, database);
 		for (const table of tables) {
-			promises.push(getSample(table.table_name));
+			promises.push(getSample(table));
 		}
 
 		return await Promise.all(promises);

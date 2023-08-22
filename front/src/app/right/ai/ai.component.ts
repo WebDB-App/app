@@ -9,7 +9,7 @@ import { marked } from 'marked';
 import { DrawerService } from "../../../shared/drawer.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute } from "@angular/router";
-import { Trigger } from "../../../classes/trigger";
+import { isSQL } from "../../../shared/helper";
 
 const localKeyConfig = 'ia-config';
 
@@ -73,21 +73,23 @@ export class AiComponent implements OnInit {
 		'Optimize the performance of my server, you can asked me query or command to run for this'
 	]
 	localKeyChatHistory!: string;
+	localKeyPreSent!: string;
 	chat: Msg[] = [];
 	openai?: OpenAIApi;
 	isLoading = false;
 
-	triggers?: Trigger[];
 	sample = "";
 	config = {
 		model: "gpt-3.5-turbo-16k",
 		openAI: '',
-		temperature: 1,
+		temperature: 1
+	};
+	preSent = {
 		tables: [""],
-		triggers: [],
+		triggers: false,
 		deep: 2,
 		count: 5
-	};
+	}
 
 	constructor(
 		private request: RequestService,
@@ -109,6 +111,7 @@ export class AiComponent implements OnInit {
 			if (state && !this.initialized) {
 				this.initialized = true;
 				await this.configChange();
+				await this.preSentChange();
 				this.scrollToBottom();
 			}
 
@@ -119,26 +122,30 @@ export class AiComponent implements OnInit {
 		})
 
 		this.localKeyChatHistory = 'chat-' + this.selectedDatabase.name;
+		this.localKeyPreSent = 'preSent-' + this.selectedDatabase.name;
 
 		this.licence = await Licence.get(this.request);
 		await this.configChange();
+		await this.preSentChange();
 		this.initChat();
 	}
 
 	async configChange() {
-		if (this.config.tables[0] === "") {
-			this.config.tables = this.selectedDatabase?.tables?.map(table => table.name)!;
-		}
-
 		localStorage.setItem(localKeyConfig, JSON.stringify(this.config));
-		this.triggers = (await this.request.post('trigger/list', undefined));
-		this.sample = (await this.request.post('database/sample', {
-			preSent: this.config,
-			language: navigator.language
-		}, undefined)).txt;
 		this.openai = new OpenAIApi(new Configuration({
 			apiKey: this.config.openAI,
 		}));
+	}
+
+	async preSentChange() {
+		localStorage.setItem(this.localKeyPreSent, JSON.stringify(this.preSent));
+		if (this.preSent.tables[0] === "") {
+			this.preSent.tables = this.selectedDatabase?.tables?.map(table => table.name)!;
+		}
+		this.sample = (await this.request.post('database/sample', {
+			preSent: this.preSent,
+			language: navigator.language
+		}, undefined)).txt;
 	}
 
 	initChat() {
@@ -210,4 +217,6 @@ export class AiComponent implements OnInit {
 			this.isLoading = false;
 		}
 	}
+
+	protected readonly isSQL = isSQL;
 }
