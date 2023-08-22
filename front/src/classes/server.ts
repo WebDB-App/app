@@ -83,6 +83,7 @@ export class Server {
 		shallow.dbs = [];
 		shallow.relations = [];
 		shallow.indexes = [];
+		shallow.types = [];
 		shallow.driver = <Driver>{};
 		shallow.isLoading = false;
 

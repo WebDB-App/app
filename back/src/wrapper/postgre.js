@@ -17,10 +17,6 @@ export default class PostgreSQL extends SQL {
 		return super.scan(this.host, 5430, 5440);
 	}
 
-	async serverVars() {
-		return await this.runCommand("SELECT name, setting FROM pg_settings");
-	}
-
 	async sampleDatabase(name, {count, deep}) {
 		const [database, schema] = name.split(this.dbToSchemaDelimiter);
 		const getSample = async (table) => {

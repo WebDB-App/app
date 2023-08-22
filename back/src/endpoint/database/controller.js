@@ -45,9 +45,6 @@ class Controller {
 				txt += `\n \`\`\`${view.name}\`\`\` is a view with the code : \`\`\`${JSON.stringify(view.code)}\`\`\``;
 			}
 		}
-		if (req.body.preSent.datas?.indexOf("server_vars") >= 0) {
-			txt += `\n Here is the server variables :\`\`\`${JSON.stringify(await wrapper.serverVars())}\`\`\``;
-		}
 
 		txt += `Respond me in ${req.body.language} language. `;
 		txt += "I can return you the result of queries if it can help you be more precise. ";

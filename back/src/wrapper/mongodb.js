@@ -17,7 +17,7 @@ export default class MongoDB extends Driver {
 		return super.scan(this.host, 27010, 27020);
 	}
 
-	async serverVars() {
+	async server_stats() {
 		return await this.connection.db().admin().command({ getParameter : "*" });
 	}
 
@@ -468,13 +468,13 @@ export default class MongoDB extends Driver {
 			for (const [key, val] of Object.entries(property).sort()) {
 				types[key] = this.getPropertyType(val);
 			}
-			//? opt prop
 			return JSON.stringify(types);
 		}
 		return type;
 	}
 
 	inferColumn(samples) {
+		//? + relation + insert + getBaseSelectWithRelations
 		const columns = {};
 
 		samples.map(sample => {
