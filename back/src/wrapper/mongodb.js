@@ -17,10 +17,6 @@ export default class MongoDB extends Driver {
 		return super.scan(this.host, 27010, 27020);
 	}
 
-	async server_stats() {
-		return await this.connection.db().admin().command({ getParameter : "*" });
-	}
-
 	async dump(database, exportType = "bson", tables) {
 		let path = `${dirname}../front/dump/${database}`;
 		if (exportType === "json") {
