@@ -46,22 +46,24 @@
 			</mat-menu>
 		</div>
 
-		<div fxLayoutGap="8px">
+		<div fxLayoutGap="8px" *ngIf="diagramController">
 			<button (click)="openFullscreen()" mat-stroked-button matTooltip="Toggle Fullscreen">
 				<span class="material-symbols-outlined notranslate">
 					{{full ? 'fullscreen_exit' : 'fullscreen'}}
 				</span>
 			</button>
-			<button (click)="diagramController!.fontInc()" mat-stroked-button>
-				<span class="material-symbols-outlined notranslate">
-					text_increase
-				</span>
-			</button>
-			<button (click)="diagramController!.fontDec()" mat-stroked-button>
-				<span class="material-symbols-outlined notranslate">
-					text_decrease
-				</span>
-			</button>
+
+			<mat-slider
+				(input)="diagramController.fontSize = $event.value!; diagramController.applyFontSize()"
+				[value]="diagramController.fontSize"
+				matTooltip="Font size"
+				color="accent"
+				max="1.5"
+				min="0.1"
+				step="0.05"
+				thumbLabel>
+			</mat-slider>
+
 			<mat-slide-toggle
 				(click)="toggleDetail()"
 				checked

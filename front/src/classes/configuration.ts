@@ -17,10 +17,6 @@ export class Configuration {
 			description: 'Which operand to use between filter (chips)',
 			values: ['AND', 'OR']
 		}, {
-			name: 'openAIModel',
-			description: 'Which OpenAI model to use',
-			values: ['gpt-3.5-turbo-16k', 'gpt-3.5-turbo', 'gpt-4', 'gpt-4-32k']
-		}, {
 			name: 'reloadData',
 			description: 'Time in second to reload data when activated',
 			values: ['3', '5', '10', '20']

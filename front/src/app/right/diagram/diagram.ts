@@ -267,20 +267,6 @@ export class DiagramController {
 			table.renderLine(diagramRect)
 		})
 	}
-
-	calcFontStep() {
-		return Math.min(this.fontSize * 0.1, 0.25)
-	}
-
-	fontInc() {
-		this.fontSize += this.calcFontStep()
-		this.applyFontSize()
-	}
-
-	fontDec() {
-		this.fontSize -= this.calcFontStep()
-		this.applyFontSize()
-	}
 }
 
 export class TablesContainer {

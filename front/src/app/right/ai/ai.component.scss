@@ -15,10 +15,24 @@
 	}
 }
 
+#settings {
+	padding: 10px 30px;
+	font-size: 14px;
+
+	> div {
+		gap: 20px;
+		display: flex;
+		justify-content: space-between;
+		padding: 12px 0px;
+		align-items: center;
+	}
+}
+
 #container {
 	overflow: auto;
 	overflow-wrap: break-word;
 	height: 100%;
+	position: relative;
 
 	.responseCode {
 		position: relative;
