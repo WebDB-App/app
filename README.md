@@ -1,15 +1,25 @@
-
-
 - postgre : plusieurs schemas + load specific schema
 - ownType
 
-- Server gît avec autobackup en var d'env (git large file / gzip)
-- relation wizard (1,1 -> 0,n + 0,n -> 1,1 + 1,1 + -> [] -> {} + {} -> + [] -> + show migration queries)
+# Mongo : 
+- quicksearch (objectid + date)
+- harmonizer
+- addTable
+- sample (relation, indexes)
 
+
+# Relation wizard
+- 1,1 -> 0,n
+- 0,n -> 1,1
+- 1,1 -> []
+- 1,1 -> {}
+- {} -> []
+- {} -> 1,1
+- show migration queries
+
+- Server gît avec autobackup en var d'env (git large file / gzip)
 - cloud (google, aurora, rds)
 - SQLServer
-
-- mongo : quicksearch (objectid + date) + harmonizer + addTable
 
 
 ----------------------------------------------------------
