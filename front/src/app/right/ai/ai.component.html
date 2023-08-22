@@ -14,135 +14,168 @@
 	 fxLayout="column"
 	 fxLayoutAlign="space-between none">
 
-	<mat-toolbar
-		fxLayout="row"
-		fxLayoutAlign="space-between center"
-		style="padding: 20px; gap: 20px; z-index: 100;">
-
-		<div>
-			<a href="https://platform.openai.com/account"
-			   mat-button
-			   matTooltip="OpenAI account page"
-			   target="_blank">
-				<mat-icon svgIcon="chatgpt"></mat-icon>
-				ChatGPT
-			</a>
-		</div>
+	<mat-toolbar style="display: inline-table; padding: 10px 16px; z-index: 100">
 
 		<div fxLayout="row"
-			 fxLayoutAlign="space-between center"
-			 style="width: 100%">
+			 fxLayoutAlign="space-between center">
+			<div>
+				<a href="https://platform.openai.com/account"
+				   mat-button
+				   matTooltip="OpenAI account page"
+				   target="_blank">
+					<mat-icon svgIcon="chatgpt"></mat-icon>
+					ChatGPT
+				</a>
+			</div>
 
-			<div style="width: 100%; display: flex; gap: 12px;" [hidden]="!key || changing">
+			<div class="flex-spacer"></div>
+
+			<button
+				(click)="settings.toggleAttribute('hidden')"
+				mat-button>
+				<span class="material-symbols-outlined notranslate">
+					page_info
+				</span>
+				Configuration
+			</button>
+		</div>
+
+		<div id="settings" #settings hidden>
+
+			<div>
 				<mat-form-field
-					appearance="standard"
+					appearance="fill"
 					color="accent"
-					style="margin-bottom: -1.25em; flex: 1">
-					<mat-label>Structure</mat-label>
+					style="margin-bottom: -1.25em; width: 100%">
+					<mat-label>Tables</mat-label>
 					<mat-select
-						(selectionChange)="loadSample()"
-						[(ngModel)]="preSent.datas"
+						(selectionChange)="configChange()"
+						[(ngModel)]="config.tables"
 						multiple>
-						<mat-option [value]="'structure'">
-							Tables / Views / Relations / Indexes
-						</mat-option>
-						<mat-option [value]="'triggers'">
-							Triggers
+						<mat-option
+							*ngFor="let table of selectedDatabase?.tables"
+							[value]="table.name">
+							{{table.name}}
 						</mat-option>
 					</mat-select>
 				</mat-form-field>
 
-				<mat-form-field
-					appearance="standard"
-					color="accent"
-					style="width: 90px; margin-bottom: -1.25em;">
-					<mat-label>Rows count</mat-label>
-					<input
-						(change)="loadSample()"
-						[(ngModel)]="preSent.count"
-						matInput
-						type="number"
+				<div>
+					Rows count
+					<mat-slider
+						(change)="configChange()"
+						color="accent"
+						max="200"
 						min="1"
-						max="100">
-				</mat-form-field>
-
-				<mat-form-field
-					appearance="standard"
-					color="accent"
-					style="margin-bottom: -1.25em; width: 90px;">
-					<mat-label>Deep level</mat-label>
-					<input
-						(change)="loadSample()"
-						[(ngModel)]="preSent.deep"
-						matInput
-						type="number"
-						min="0"
-						max="15">
-				</mat-form-field>
-			</div>
-
-			<div fxLayout="row">
-				<div *ngIf="changing">
-					<mat-form-field style="width: 30vw; margin-bottom: -1.25em">
-						<mat-label>Key</mat-label>
-						<input #keyInput
-							   [ngModel]="key"
-							   matInput>
-					</mat-form-field>
-
-					<button
-						(click)="setKey(keyInput.value)"
-						mat-raised-button>
-						Save
-					</button>
+						step="1"
+						thumbLabel
+						[(ngModel)]="config.count">
+					</mat-slider>
 				</div>
 
-				<button
-					(click)="changing = !changing"
-					*ngIf="!changing"
-					mat-icon-button
-					matTooltip="Change Key">
-					<span class="material-symbols-outlined notranslate">
-						key
-					</span>
-				</button>
+				<div>
+					Deep level
+					<mat-slider
+						(change)="configChange()"
+						color="accent"
+						max="15"
+						min="0"
+						step="1"
+						thumbLabel
+						[(ngModel)]="config.deep">
+					</mat-slider>
+				</div>
+			</div>
+
+			<mat-divider></mat-divider>
+
+			<div>
+				<mat-button-toggle-group (change)="configChange()" [(ngModel)]="config.model">
+					<mat-button-toggle value='gpt-3.5-turbo-16k'>gpt-3.5-turbo-16k</mat-button-toggle>
+					<mat-button-toggle value='gpt-3.5-turbo'>gpt-3.5-turbo</mat-button-toggle>
+					<mat-button-toggle value="gpt-4">gpt-4</mat-button-toggle>
+					<mat-button-toggle value="gpt-4-32k">gpt-4-32k</mat-button-toggle>
+				</mat-button-toggle-group>
+
+				<div matTooltip="Higher values will make the output more random
+					Lower values will make it more focused and deterministic">
+					Temperature
+					<mat-slider
+						(change)="configChange()"
+						color="accent"
+						max="2"
+						min="0"
+						step="0.1"
+						thumbLabel
+						[(ngModel)]="config.temperature">
+					</mat-slider>
+				</div>
+			</div>
+
+			<mat-divider></mat-divider>
+
+			<div>
+				<mat-form-field style="flex: 1; margin-bottom: -1.25em" appearance="outline">
+					<mat-label>OpenAI Key</mat-label>
+					<input
+						(change)="configChange()"
+						[(ngModel)]="config.openAI"
+						matInput>
+				</mat-form-field>
+
+				<mat-form-field
+					*ngIf="triggers?.length"
+					appearance="fill"
+					color="accent"
+					style="margin-bottom: -1.25em;">
+					<mat-label>Triggers</mat-label>
+					<mat-select
+						(selectionChange)="configChange()"
+						[(ngModel)]="config.triggers"
+						multiple>
+						<mat-option
+							*ngFor="let trigger of triggers"
+							[value]="trigger.name">
+							{{trigger.name}}
+						</mat-option>
+					</mat-select>
+				</mat-form-field>
 
 				<button
 					(click)="chat = []; saveChat()"
-					*ngIf="chat.length"
-					mat-icon-button
-					matTooltip="Clear Conversation">
-					<span class="material-symbols-outlined notranslate">
-						clear_all
-					</span>
+					mat-button>
+				<span class="material-symbols-outlined notranslate">
+					clear_all
+				</span>
+					Clear Messages
 				</button>
 			</div>
 		</div>
 	</mat-toolbar>
 
 	<h4
-		*ngIf="!key"
+		*ngIf="!config.openAI"
 		fxLayout="row"
 		fxLayoutAlign="center center"
 		style="margin: 40px"
 	>
-		First, generate a key from&nbsp;<a href="https://platform.openai.com/account/api-keys"
-										   target="_blank">OpenAI</a>, then save it there ⇧
+		First, generate a key from&nbsp;<a href="https://platform.openai.com/account/api-keys" target="_blank">OpenAI</a>
+		&nbsp;and save it into Configuration ⇗
 	</h4>
 
-	<div *ngIf="!chat.length || !key">
+	<div *ngIf="!chat.length || !config.openAI">
 		<h3 style="text-align: center; border-bottom: 1px dashed grey">Some examples</h3>
 		<div id="examples">
 			<button (click)="sendMessage(example);"
 					*ngFor="let example of examples"
-					[disabled]="!key"
+					[disabled]="!config.openAI"
 					mat-stroked-button>
 				{{example}}
 			</button>
 		</div>
 	</div>
 
-	<div *ngIf="key && chat.length" id="container" #scrollContainer>
+	<div *ngIf="config.openAI && chat.length" id="container" #scrollContainer>
 		<mat-card *ngFor="let ch of chat"
 				  [style.background-color]="ch.error ? '#f44336' : ch.user === Role.Assistant ? '#1e1e1e' : undefined">
 			<mat-card-content>
@@ -193,7 +226,7 @@
 
 	<mat-progress-bar *ngIf="isLoading" mode="indeterminate" color="accent" style="z-index: 100;"></mat-progress-bar>
 
-	<div [hidden]="!key" style="box-shadow: 0px -10px 16px 1px #363636; position: relative;">
+	<div [hidden]="!config.openAI" style="box-shadow: 0px -10px 16px 1px #363636; position: relative;">
 		<mat-form-field (keydown.enter)="sendMessage(message.value); message.value = ''"
 						appearance="fill"
 						class="sendMessage"

@@ -9,8 +9,8 @@ import { marked } from 'marked';
 import { DrawerService } from "../../../shared/drawer.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute } from "@angular/router";
+import { Trigger } from "../../../classes/trigger";
 
-const localKeyOpenAI = 'openai-key';
 const localKeyConfig = 'ia-config';
 
 enum Role {
@@ -72,16 +72,19 @@ export class AiComponent implements OnInit {
 		'Give me, with Mongoose the listing of all user',
 		'Optimize the performance of my server, you can asked me query or command to run for this'
 	]
-	changing = false;
 	localKeyChatHistory!: string;
 	chat: Msg[] = [];
-	key?: string;
 	openai?: OpenAIApi;
 	isLoading = false;
 
+	triggers?: Trigger[];
 	sample = "";
-	preSent = {
-		datas: ['structure'],
+	config = {
+		model: "gpt-3.5-turbo-16k",
+		openAI: '',
+		temperature: 1,
+		tables: [""],
+		triggers: [],
 		deep: 2,
 		count: 5
 	};
@@ -94,7 +97,7 @@ export class AiComponent implements OnInit {
 	) {
 		const local = localStorage.getItem(localKeyConfig);
 		if (local) {
-			this.preSent = JSON.parse(local);
+			this.config = JSON.parse(local);
 		}
 	}
 
@@ -105,7 +108,7 @@ export class AiComponent implements OnInit {
 		this.drawer.drawer.openedChange.subscribe(async (state: boolean) => {
 			if (state && !this.initialized) {
 				this.initialized = true;
-				await this.loadSample();
+				await this.configChange();
 				this.scrollToBottom();
 			}
 
@@ -118,31 +121,29 @@ export class AiComponent implements OnInit {
 		this.localKeyChatHistory = 'chat-' + this.selectedDatabase.name;
 
 		this.licence = await Licence.get(this.request);
+		await this.configChange();
 		this.initChat();
 	}
 
-	async loadSample() {
-		localStorage.setItem(localKeyConfig, JSON.stringify(this.preSent));
+	async configChange() {
+		if (this.config.tables[0] === "") {
+			this.config.tables = this.selectedDatabase?.tables?.map(table => table.name)!;
+		}
+
+		localStorage.setItem(localKeyConfig, JSON.stringify(this.config));
+		this.triggers = (await this.request.post('trigger/list', undefined));
 		this.sample = (await this.request.post('database/sample', {
-			preSent: this.preSent,
+			preSent: this.config,
 			language: navigator.language
 		}, undefined)).txt;
+		this.openai = new OpenAIApi(new Configuration({
+			apiKey: this.config.openAI,
+		}));
 	}
 
 	initChat() {
 		const msgs = JSON.parse(localStorage.getItem(this.localKeyChatHistory) || '[]');
 		this.chat = msgs.map((msg: Msg) => new Msg(msg.txt, msg.user, msg.error));
-
-		this.key = localStorage.getItem(localKeyOpenAI) || '';
-		this.changing = !this.key;
-		this.openai = new OpenAIApi(new Configuration({
-			apiKey: this.key,
-		}));
-	}
-
-	setKey(key: string) {
-		localStorage.setItem(localKeyOpenAI, key);
-		this.initChat();
 	}
 
 	saveChat() {
@@ -171,6 +172,7 @@ export class AiComponent implements OnInit {
 					{role: Role.System, content: this.sample},
 					{role: Role.User, content: txt}
 				],
+				temperature: this.config.temperature
 		});
 			message = new Msg(completion.data.choices[0].message!.content!, Role.Assistant);
 		} catch (error: any) {
