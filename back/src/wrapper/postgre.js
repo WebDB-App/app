@@ -17,7 +17,7 @@ export default class PostgreSQL extends SQL {
 		return super.scan(this.host, 5430, 5440);
 	}
 
-	async sampleDatabase(name, {count, deep}) {
+	async sampleDatabase(name, {count}) {
 		const [database, schema] = name.split(this.dbToSchemaDelimiter);
 		const getSample = async (table) => {
 			return {

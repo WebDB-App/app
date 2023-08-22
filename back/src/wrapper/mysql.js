@@ -17,7 +17,7 @@ export default class MySQL extends SQL {
 		return super.scan(this.host, 3300, 3310);
 	}
 
-	async sampleDatabase(name, {count, deep}) {
+	async sampleDatabase(name, {count}) {
 		const getSample = async (table) => {
 			const create = await this.runCommand(`SHOW CREATE TABLE \`${table}\``, name);
 			return {
