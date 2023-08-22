@@ -1,6 +1,6 @@
 
 
-- postgre : plusieurs schemas
+- postgre : plusieurs schemas + load specific schema
 - ownType
 
 - Server gît avec autobackup en var d'env (git large file / gzip)
