@@ -31,18 +31,17 @@ class Controller {
 	async sample(req, res) {
 		const [wrapper, database] = await http.getLoggedDriver(req);
 
-		const sample = await wrapper.sampleDatabase(database, req.body.preSent);
 		let txt = `There is a database called ${database} on a ${wrapper.constructor.name} server. `;
 
-		if (req.body.preSent.datas?.indexOf("structure") >= 0) {
-			for (const table of sample) {
-				txt += `\n \`\`\`${table.structure}\`\`\` is a table and here is a data sample : \`\`\`${JSON.stringify(table.data)}\`\`\``;
-			}
+		const tables = await wrapper.sampleDatabase(database, req.body.preSent);
+		for (const table of tables) {
+			txt += `\n \`\`\`${table.structure}\`\`\` is a table. Here is a data sample : \`\`\`${JSON.stringify(table.data)}\`\`\`.`;
 		}
-		if (req.body.preSent.datas?.indexOf("triggers") >= 0) {
-			for (const table of sample) {
-				const view = await wrapper.listTrigger(database, table);
-				txt += `\n \`\`\`${view.name}\`\`\` is a view with the code : \`\`\`${JSON.stringify(view.code)}\`\`\``;
+		if (req.body.preSent.triggers) {
+			for (const table of req.body.preSent.tables) {
+				for (const trigger of await wrapper.listTrigger(database, table)) {
+					txt += `There is a trigger called \`\`\`${JSON.stringify(trigger.name)}\`\`\` with the code : \`\`\`${JSON.stringify(trigger.code)}\`\`\``;
+				}
 			}
 		}
 

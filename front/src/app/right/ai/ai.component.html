@@ -19,9 +19,9 @@
 		<div fxLayout="row"
 			 fxLayoutAlign="space-between center">
 			<div>
-				<a href="https://platform.openai.com/account"
+				<a href="https://platform.openai.com/account/api-keys"
 				   mat-button
-				   matTooltip="OpenAI account page"
+				   matTooltip="Open API keys page"
 				   target="_blank">
 					<mat-icon svgIcon="chatgpt"></mat-icon>
 					ChatGPT
@@ -49,8 +49,8 @@
 					style="margin-bottom: -1.25em; width: 100%">
 					<mat-label>Tables</mat-label>
 					<mat-select
-						(selectionChange)="configChange()"
-						[(ngModel)]="config.tables"
+						(selectionChange)="preSentChange()"
+						[(ngModel)]="preSent.tables"
 						multiple>
 						<mat-option
 							*ngFor="let table of selectedDatabase?.tables"
@@ -60,29 +60,38 @@
 					</mat-select>
 				</mat-form-field>
 
+				<mat-slide-toggle
+					(change)="preSentChange()"
+					[(ngModel)]="preSent.triggers"
+					color="accent">
+					Triggers
+				</mat-slide-toggle>
+
 				<div>
 					Rows count
+					<br>
 					<mat-slider
-						(change)="configChange()"
+						(change)="preSentChange()"
 						color="accent"
 						max="200"
 						min="1"
 						step="1"
 						thumbLabel
-						[(ngModel)]="config.count">
+						[(ngModel)]="preSent.count">
 					</mat-slider>
 				</div>
 
 				<div>
 					Deep level
+					<br>
 					<mat-slider
-						(change)="configChange()"
+						(change)="preSentChange()"
 						color="accent"
 						max="15"
 						min="0"
 						step="1"
 						thumbLabel
-						[(ngModel)]="config.deep">
+						[(ngModel)]="preSent.deep">
 					</mat-slider>
 				</div>
 			</div>
@@ -97,7 +106,9 @@
 					<mat-button-toggle value="gpt-4-32k">gpt-4-32k</mat-button-toggle>
 				</mat-button-toggle-group>
 
-				<div matTooltip="Higher values will make the output more random
+				<div
+					matTooltipPosition="left"
+					matTooltip="Higher values will make the output more random
 					Lower values will make it more focused and deterministic">
 					Temperature
 					<mat-slider
@@ -123,31 +134,13 @@
 						matInput>
 				</mat-form-field>
 
-				<mat-form-field
-					*ngIf="triggers?.length"
-					appearance="fill"
-					color="accent"
-					style="margin-bottom: -1.25em;">
-					<mat-label>Triggers</mat-label>
-					<mat-select
-						(selectionChange)="configChange()"
-						[(ngModel)]="config.triggers"
-						multiple>
-						<mat-option
-							*ngFor="let trigger of triggers"
-							[value]="trigger.name">
-							{{trigger.name}}
-						</mat-option>
-					</mat-select>
-				</mat-form-field>
-
 				<button
 					(click)="chat = []; saveChat()"
 					mat-button>
-				<span class="material-symbols-outlined notranslate">
-					clear_all
-				</span>
-					Clear Messages
+					<span class="material-symbols-outlined notranslate">
+						clear_all
+					</span>
+					Clear messages
 				</button>
 			</div>
 		</div>

@@ -295,7 +295,7 @@ export default class MongoDB extends Driver {
 		}
 	}
 
-	async sampleDatabase(name, {count, deep}) {
+	async sampleDatabase(name, {count, deep, tables}) {
 		const promises = [];
 		const limit = (obj, count, deep) => {
 			if (deep-- < 1) {
@@ -316,15 +316,15 @@ export default class MongoDB extends Driver {
 			}
 			return obj;
 		};
-		for (const coll of await this.connection.db(name).collections()) {
+		for (const table of tables) {
 			promises.push(new Promise(async resolve => {
 				let samples = [];
 				try {
-					samples = await coll.aggregate([{$sample: {size: count}}]).toArray();
+					samples = await this.connection.db(name).collection(table).aggregate([{$sample: {size: count}}]).toArray();
 					samples = samples.map(sample => limit(sample, count, deep));
 				} catch (e) { /* empty */ }
 				resolve({
-					structure: coll.collectionName,
+					structure: table,
 					data: samples
 				});
 			}));

@@ -17,7 +17,7 @@ export default class MySQL extends SQL {
 		return super.scan(this.host, 3300, 3310);
 	}
 
-	async sampleDatabase(name, {count}) {
+	async sampleDatabase(name, {count, tables}) {
 		const getSample = async (table) => {
 			const create = await this.runCommand(`SHOW CREATE TABLE \`${table}\``, name);
 			return {
@@ -27,9 +27,8 @@ export default class MySQL extends SQL {
 		};
 
 		const promises = [];
-		const tables = await this.runCommand("SHOW FULL TABLES;", name);
 		for (const table of tables) {
-			promises.push(getSample(table[Object.keys(table)[0]]));
+			promises.push(getSample(table));
 		}
 
 		return await Promise.all(promises);

@@ -32,9 +32,8 @@ body {
 }
 
 .mat-tooltip, .mat-select-panel, .mat-menu-panel {
-	backdrop-filter: blur(3px);
 	white-space: pre-line !important;
-	background-color: rgba(30, 30, 30, 0.9);
+	background-color: rgba(30, 30, 30, 0.98);
 }
 
 [hidden] {
