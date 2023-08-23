@@ -1,11 +1,3 @@
-<button
-	(click)="showLogs('out.log')"
-	mat-button
-	matTooltip="Query Logs">
-	<span class="material-symbols-outlined notranslate">
-		receipt_long
-	</span>
-</button>
 <button [matMenuTriggerFor]="help" mat-button>
 	<span class="material-symbols-outlined notranslate">
 		help
@@ -19,6 +11,13 @@
 
 <mat-menu #help="matMenu" class="external">
 	<ng-container *ngIf="Server.getSelected()">
+		<a mat-menu-item
+		   (click)="showLogs('out.log')">
+			<span class="material-symbols-outlined notranslate">
+				receipt_long
+			</span>
+			Query Logs
+		</a>
 		<a (click)="showConnection()"
 		   mat-menu-item>
 			<span class="material-symbols-outlined notranslate">

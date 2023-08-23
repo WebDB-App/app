@@ -76,7 +76,7 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 		this.selectedDatabase = database;
 
 		if (this.selectedServer.driver.language.ownType) {
-			//this.panels.unshift({link: "types", icon: "title"});
+			this.panels.unshift({link: "types", icon: "custom_typography"});
 		}
 	}
 
