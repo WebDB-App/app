@@ -2,7 +2,6 @@
 - ownType
 
 # Mongo :
-- quicksearch (objectid + date)
 - harmonizer
 - addTable
 - sample (relation, indexes)

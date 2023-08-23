@@ -69,7 +69,6 @@ export interface Driver {
 		constraints: string[],
 		typeGroups: TypeGroup[],
 		extraAttributes: string[],
-		defaultFilter: string,
 		ownType: boolean,
 		arrayType: boolean,
 		fctAsDefault: string[]
@@ -82,6 +81,7 @@ export interface Driver {
 	extractEnum: (col: Column) => string[] | false;
 	extractConditionParams: (query: string) => QueryParams;
 	format?: (code: string) => string;
+	quickSearch: (driver: Driver, column: Column, value: string) => string;
 	generateSuggestions?: (textUntilPosition: string) => any[];
 
 	getBaseSort: (query: string, field: string, direction: 'asc' | 'desc') => string;

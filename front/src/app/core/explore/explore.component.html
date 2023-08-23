@@ -31,7 +31,7 @@
 		</div>
 	</div>
 
-	<mat-chip-list #chipList>
+	<mat-chip-list #chipList style="font-size: 12px;">
 		<ng-container
 			*ngFor="let chips of params.chips.split(';'); let i = index">
 			<ng-container *ngIf="chips">
@@ -44,7 +44,7 @@
 						<mat-icon>cancel</mat-icon>
 					</button>
 				</mat-chip>
-				<ng-container *ngIf="i < params.chips.split(';').length - 2">
+				<ng-container *ngIf="i < (params.chips.split(';').length - 2)">
 					{{configuration.getByName("operand")?.value}}
 				</ng-container>
 			</ng-container>
