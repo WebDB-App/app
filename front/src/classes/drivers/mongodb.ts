@@ -81,8 +81,7 @@ export class MongoDB implements Driver {
 				full: ["String"],
 			}*/
 		],
-		extraAttributes: [],
-		defaultFilter: "$eq"
+		extraAttributes: []
 	}
 
 	nodeLib(query: QueryParams) {
@@ -116,6 +115,43 @@ async function main() {
 			}`,
 			`file:///main.tsx`
 		);
+	}
+
+	quickSearch(driver: Driver, column: Column, value: string) {
+		const wrapValue = (value: string) => {
+			switch (column.type) {
+				case 'ObjectId':
+					return `new bson.ObjectId("${value}")`;
+				case "Date":
+					return `new Date("${value}")`;
+				case "String":
+					return `"${value}"`;
+				default:
+					return value;
+			}
+		}
+
+		let chip = `{${column.name}: { `;
+		const comp = driver.language.comparators.find((comparator) => {
+			return value.toLowerCase().startsWith(comparator.symbol + ' ')
+		});
+		if (comp) {
+			chip += `${comp.symbol}: ${value.replace(comp.symbol, '')}`;
+		} else {
+			chip += `$eq: ${wrapValue(value)}`;
+		}
+
+		return chip + '}}';
+	}
+
+	getBaseFilter(table: Table, conditions: string[], operand: 'AND' | 'OR') {
+		let filter = '';
+
+		if (conditions.length > 0) {
+			filter = `{$${operand.toLowerCase()}: [${conditions.map(cond => cond)}]}`;
+		}
+
+		return `db.collection("${table.name}").find(${filter}).toArray()`;
 	}
 
 	extractForView(query: string) {
@@ -177,27 +213,6 @@ db.collection("${table.name}").aggregate([
 		$group: { _id: "$${table.columns[0].name}" }
 	}
 ]).toArray()`;
-	}
-
-	getBaseFilter(table: Table, conditions: string[], operand: 'AND' | 'OR') {
-		const cond = conditions.map(condition => {
-			const obj: { [key: string]: any } = {};
-			const key = condition.substring(0, condition.indexOf("$") - 1).trim();
-			condition = condition.substring(condition.indexOf("$"));
-			const operator = condition.substring(0, condition.indexOf(" ")).trim();
-			condition = condition.substring(condition.indexOf(" "));
-
-			obj[key] = {};
-			obj[key][operator] = condition.substring(condition.indexOf(":") + 1).trim();
-			try {
-				obj[key][operator] = JSON.parse(obj[key][operator]);
-			} catch (err) {
-			}
-			return obj;
-		});
-
-		const filter = conditions.length > 0 ? JSON.stringify({[`$${operand.toLowerCase()}`]: cond}) : '';
-		return `db.collection("${table.name}").find(${filter}).toArray()`;
 	}
 
 	getBaseSort(query: string, field: string, direction: 'asc' | 'desc') {

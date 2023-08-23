@@ -1,8 +1,7 @@
 - postgre : plusieurs schemas + load specific schema
 - ownType
 
-# Mongo : 
-- quicksearch (objectid + date)
+# Mongo :
 - harmonizer
 - addTable
 - sample (relation, indexes)

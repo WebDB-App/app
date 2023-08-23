@@ -1,4 +1,4 @@
-import { Comparator, Driver, QueryParams, TypeGroup } from "./driver";
+import { Comparator, Driver, Group, QueryParams, TypeGroup } from "./driver";
 import { Column } from "./column";
 import { Database } from "./database";
 import { Table } from "./table";
@@ -49,7 +49,6 @@ export class SQL implements Driver {
 		constraints: string[],
 		typeGroups: TypeGroup[],
 		extraAttributes: string[],
-		defaultFilter: string,
 		ownType: boolean,
 		arrayType: boolean,
 		fctAsDefault: string[]
@@ -203,7 +202,6 @@ export class SQL implements Driver {
 		],
 		extraAttributes: [],
 		typeGroups: [],
-		defaultFilter: "=",
 		ownType: false,
 		arrayType: true,
 		fctAsDefault: []
@@ -219,6 +217,36 @@ export class SQL implements Driver {
 			return false;
 		}
 		return query;
+	}
+
+	quickSearch(driver: Driver, column: Column, value: string) {
+		const isOfGroups = (groups: Group[]) => {
+			const parenthese = column.type.indexOf('(');
+			const columnType = parenthese >= 0 ? column.type.substring(0, parenthese) : column.type;
+
+			for (const group of groups) {
+				const typeDatas = driver.language.typeGroups.find(type => type.name === group)!.list!;
+				if (typeDatas.map(type => type.id.replace(/\([^)]*\)/g, "")).indexOf(columnType) >= 0) {
+					return true;
+				}
+			}
+			return false;
+		}
+
+		let chip = `${column.name} `;
+		if (driver.language.comparators.find((comparator) => {
+			return value.toLowerCase().startsWith(comparator.symbol.toLowerCase() + ' ')
+		})) {
+			chip += `${value}`;
+		} else {
+			const del = driver.connection.nameDel || "'";
+			if (isOfGroups([Group.String, Group.Date]) && !value.startsWith(del)) {
+				value = `${del + value + del}`;
+			}
+			chip += `= ${value}`;
+		}
+
+		return chip;
 	}
 
 	format(code: string) {

@@ -92,6 +92,9 @@ export class QueryComponent implements OnInit, OnDestroy {
 			this.relations = Table.getRelations();
 			this.querySize = -1;
 			this.dataSource = new MatTableDataSource<any>();
+			if (this.editors.length && monaco) {
+				monaco.editor.setModelMarkers(this.editors[0].getModel(), "owner", []);
+			}
 
 			this.prebuilds = this.selectedTable.view ? ['select', 'select_join'] : ['select', 'select_join', 'update', 'insert', 'delete'];
 			this.loadPreBuild("select");

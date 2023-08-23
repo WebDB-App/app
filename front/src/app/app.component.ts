@@ -1,5 +1,4 @@
 import { Component, HostListener } from '@angular/core';
-import { environment } from "../environments/environment";
 import { DomSanitizer } from "@angular/platform-browser";
 import { MatIconRegistry } from "@angular/material/icon";
 
@@ -23,10 +22,6 @@ export class AppComponent {
 
 	@HostListener('window:beforeunload', ['$event'])
 	beforeunloadHandler(e: MouseEvent) {
-		if (!environment.production) {
-			return
-		}
-
 		e.preventDefault();
 		if (e) {
 			e.returnValue = false;
