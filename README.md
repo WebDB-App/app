@@ -1,16 +1,12 @@
-- postgre : plusieurs schemas + load specific schema
-
-
+- postgre : plusieurs schemas + load/dump specific schema
 - Server gît avec autobackup en var d'env (git large file / gzip)
 - cloud (google, aurora, rds)
 - SQLServer
-
 
 # Mongo :
 - harmonizer
 - addTable
 - sample (relation, indexes)
-
 
 # Relation wizard
 - 1,1 -> 0,n
@@ -20,6 +16,7 @@
 - {} -> []
 - {} -> 1,1
 - show migration queries
+
 
 ----------------------------------------------------------
 

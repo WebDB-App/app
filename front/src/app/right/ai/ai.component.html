@@ -21,7 +21,8 @@
 			<div>
 				<a href="https://platform.openai.com/account/api-keys"
 				   mat-button
-				   matTooltip="Open API keys page"
+				   matTooltip="API keys page"
+				   matTooltipPosition="right"
 				   target="_blank">
 					<mat-icon svgIcon="chatgpt"></mat-icon>
 					ChatGPT
@@ -40,7 +41,7 @@
 			</button>
 		</div>
 
-		<div id="settings" #settings hidden>
+		<div id="settings" #settings>
 
 			<mat-divider></mat-divider>
 
@@ -133,6 +134,7 @@
 					<input
 						(change)="configChange()"
 						[(ngModel)]="config.openAI"
+						required
 						matInput>
 				</mat-form-field>
 
@@ -147,16 +149,6 @@
 			</div>
 		</div>
 	</mat-toolbar>
-
-	<h4
-		*ngIf="!config.openAI"
-		fxLayout="row"
-		fxLayoutAlign="center center"
-		style="margin: 40px"
-	>
-		First, generate a key from&nbsp;<a href="https://platform.openai.com/account/api-keys" target="_blank">OpenAI</a>
-		&nbsp;and save it into Configuration ⇗
-	</h4>
 
 	<div *ngIf="!chat.length || !config.openAI">
 		<h3 style="text-align: center; border-bottom: 1px dashed grey">Some examples</h3>

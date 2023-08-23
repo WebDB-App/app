@@ -372,6 +372,7 @@ export default class PostgreSQL extends SQL {
 	async runCommand(command, database = false) {
 		const start = Date.now();
 		let schema, connection;
+		let lgth = -1;
 
 		if (database) {
 			[database, schema] = database.split(this.dbToSchemaDelimiter);
@@ -388,12 +389,14 @@ export default class PostgreSQL extends SQL {
 			if (schema) {
 				await connection.query(`SET search_path TO ${schema};`);
 			}
-			const res = await connection.query(command);
-			return res.command === "SELECT" ? res.rows : res;
+			let res = await connection.query(command);
+			res = res.command === "SELECT" ? res.rows : res;
+			lgth = res.length;
+			return res;
 		} catch (e) {
 			return {error: e.message + ". " + (e.hint || ""), position: e.position};
 		} finally {
-			bash.logCommand(command, (database || "") + (schema ? `,${schema}` : ""), Date.now() - start, this.port);
+			bash.logCommand(command, (database || "") + (schema ? `,${schema}` : ""), Date.now() - start, this.port, lgth);
 			connection.release();
 		}
 	}

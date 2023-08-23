@@ -30,12 +30,11 @@ class Controller {
 			dbs: [],
 			indexes: [],
 			relations: [],
-			types: []
+			types: await driver.getTypes()
 		};
-		const promises = [];
-		promises.push(
+		const promises = [
 			new Promise(async resolve => {
-				const structure = await driver.getDatabases();
+				const structure = await driver.getDatabases(final.types);
 				let dbLimit = subscriptionCtrl.getLimit();
 
 				for (const str of Object.values(structure)) {
@@ -55,17 +54,12 @@ class Controller {
 				final.dbs = Object.values(structure).sort((a, b) => a.name.localeCompare(b.name));
 				resolve();
 			})
-		);
+		];
+
 		if (+req.query.full) {
 			promises.push(
 				new Promise(async resolve => {
 					final.indexes = await driver.getIndexes();
-					resolve();
-				})
-			);
-			promises.push(
-				new Promise(async resolve => {
-					final.types = await driver.getTypes();
 					resolve();
 				})
 			);

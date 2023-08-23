@@ -68,7 +68,7 @@ export class MongoDB implements Driver {
 			{symbol: '$nin', example: '["a", "b"]', definition: "Is not in array of"},
 		],
 		id: "javascript",
-		ownType: false,
+		ownType: true,
 		arrayType: true,
 		fctAsDefault: [],
 		keywords: [],

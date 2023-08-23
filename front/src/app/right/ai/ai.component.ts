@@ -53,6 +53,7 @@ class Msg {
 export class AiComponent implements OnInit {
 
 	@ViewChild('scrollContainer') private scrollContainer!: ElementRef;
+	@ViewChild('settings') private settings!: ElementRef;
 
 	selectedServer?: Server;
 	selectedDatabase?: Database;
@@ -128,6 +129,10 @@ export class AiComponent implements OnInit {
 			this.preSentChange(),
 			this.initChat()
 		]);
+
+		if (this.config.openAI) {
+			this.settings.nativeElement.setAttribute('hidden', true);
+		}
 	}
 
 	async configChange() {

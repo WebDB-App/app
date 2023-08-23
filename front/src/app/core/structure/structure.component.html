@@ -1,10 +1,17 @@
 <mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
 	<div>
 		<mat-form-field appearance="standard">
-			<input (keyup)="applyFilter($event)"
-				   placeholder="Search Column"
-				   autocomplete="off"
-				   matInput>
+			<input
+				#filter
+				(keyup)="applyFilter(filter.value)"
+				placeholder="Search Column"
+				autocomplete="off"
+				matInput>
+			<button (click)="filter.value=''; applyFilter(filter.value)" *ngIf="filter.value" aria-label="Clear"
+					mat-icon-button
+					matSuffix>
+				<mat-icon>close</mat-icon>
+			</button>
 		</mat-form-field>
 	</div>
 	<button (click)="addColumn()"

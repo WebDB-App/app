@@ -7,6 +7,11 @@
 				   placeholder="Search Types"
 				   autocomplete="off"
 				   matInput>
+			<button (click)="filter.value=''" *ngIf="filter.value" aria-label="Clear"
+					mat-icon-button
+					matSuffix>
+				<mat-icon>close</mat-icon>
+			</button>
 		</mat-form-field>
 
 		<button (click)="add.toggleAttribute('hidden')"
@@ -45,7 +50,7 @@
 		<mat-card-header>
 			No custom type yet
 			<br>
-			You can add one with ⇗
+			You can add one over there ↗
 		</mat-card-header>
 	</mat-card>
 
