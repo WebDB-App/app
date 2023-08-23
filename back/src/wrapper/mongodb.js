@@ -274,6 +274,7 @@ export default class MongoDB extends Driver {
 
 	async runCommand(command, database = false) {
 		let db = this.connection;
+		let lgth = -1;
 		const start = Date.now();
 
 		command = helper.removeComment(command);
@@ -287,11 +288,12 @@ export default class MongoDB extends Driver {
 			}
 			const fct = new Function("db", "bson", "mongo", command);
 			const res = await fct(db, BSON, MongoClient);
+			lgth = res.length;
 			return BSON.EJSON.stringify(res);
 		} catch (e) {
 			return {error: e.message};
 		} finally {
-			bash.logCommand(command, database, Date.now() - start, this.port);
+			bash.logCommand(command, database, Date.now() - start, this.port, lgth);
 		}
 	}
 
@@ -385,7 +387,7 @@ export default class MongoDB extends Driver {
 		return results;
 	}
 
-	async getDatabases() {
+	async getDatabases(types) {
 		const struct = {};
 		const promises = [];
 
@@ -471,6 +473,7 @@ export default class MongoDB extends Driver {
 
 	inferColumn(samples) {
 		//? + relation + insert + getBaseSelectWithRelations
+		//link to ownType + link to tableS using this type
 		const columns = {};
 
 		samples.map(sample => {

@@ -237,12 +237,14 @@ export default class MySQL extends SQL {
 	async runCommand(command, database = false) {
 		const connection = await this.connection.promise().getConnection();
 		const start = Date.now();
+		let lgth = -1;
 
 		try {
 			if (database) {
 				await connection.query(`USE \`${database}\``);
 			}
 			const [res] = await connection.query(command);
+			lgth = res.length;
 			return res;
 		} catch (e) {
 			const err = {error: e.sqlMessage};
@@ -253,7 +255,7 @@ export default class MySQL extends SQL {
 			}
 			return err;
 		} finally {
-			bash.logCommand(command, database, Date.now() - start, this.port);
+			bash.logCommand(command, database, Date.now() - start, this.port, lgth);
 			connection.release();
 		}
 	}

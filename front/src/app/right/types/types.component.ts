@@ -4,6 +4,7 @@ import { Database } from "../../../classes/database";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { RequestService } from "../../../shared/request.service";
 import { Type } from "../../../classes/types";
+import { DomSanitizer } from "@angular/platform-browser";
 
 @Component({
 	selector: 'app-types',

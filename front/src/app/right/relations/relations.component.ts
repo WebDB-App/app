@@ -7,6 +7,7 @@ import { Relation } from "../../../classes/relation";
 import { RequestService } from "../../../shared/request.service";
 import { Table } from "../../../classes/table";
 import { isSQL } from "../../../shared/helper";
+import { DomSanitizer } from "@angular/platform-browser";
 
 @Component({
 	selector: 'app-relations',
@@ -26,8 +27,9 @@ export class RelationsComponent implements OnInit {
 	expanded: string[] = [];
 	protected readonly isSQL = isSQL;
 
-	constructor(private request: RequestService,
-				private snackBar: MatSnackBar) {
+	constructor(
+		private request: RequestService,
+		private snackBar: MatSnackBar) {
 	}
 
 	async ngOnInit() {
@@ -47,9 +49,8 @@ export class RelationsComponent implements OnInit {
 		return t1.name === t2?.name;
 	}
 
-	applyFilter(event: Event) {
-		const filterValue = (event.target as HTMLInputElement).value;
-		this.dataSource.filter = filterValue.trim().toLowerCase();
+	applyFilter(value: string) {
+		this.dataSource.filter = value.trim().toLowerCase();
 	}
 
 	async delete(relation: Relation) {
