@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Server } from "../../../classes/server";
 import { Database } from "../../../classes/database";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { Relation } from "../../../classes/relation";
 import { RequestService } from "../../../shared/request.service";
 import { Type } from "../../../classes/types";
 
@@ -41,16 +40,13 @@ export class TypesComponent implements OnInit {
 		this.selectedTypes = this.selectedServer?.types.filter(type => type.database === this.selectedDatabase?.name);
 	}
 
-	async delete(relation: Relation) {
-		await this.request.post('type/drop', {relation});
-
-		this.snackBar.open(`Dropped ${relation.name}`, "╳", {duration: 3000});
-
+	async delete(type: Type) {
+		await this.request.post('type/drop', {type});
+		this.snackBar.open(`Dropped ${type.name}`, "╳", {duration: 3000});
 		await this.refreshData();
 	}
 
 	addType() {
-
 		/*
 		const relation = <Relation>{
 			name: "fk_" + sourceTable.name + '_' + sourceColumn,
@@ -68,6 +64,5 @@ export class TypesComponent implements OnInit {
 		this.snackBar.open(`Added Relation ${relation.name}`, "╳", {duration: 3000});
 		await this.refreshData();
 		 */
-
 	}
 }

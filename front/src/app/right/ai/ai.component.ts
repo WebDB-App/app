@@ -110,8 +110,6 @@ export class AiComponent implements OnInit {
 		this.drawer.drawer.openedChange.subscribe(async (state: boolean) => {
 			if (state && !this.initialized) {
 				this.initialized = true;
-				await this.configChange();
-				await this.preSentChange();
 				this.scrollToBottom();
 			}
 
@@ -124,10 +122,12 @@ export class AiComponent implements OnInit {
 		this.localKeyChatHistory = 'chat-' + this.selectedDatabase.name;
 		this.localKeyPreSent = 'preSent-' + this.selectedDatabase.name;
 
-		this.licence = await Licence.get(this.request);
-		await this.configChange();
-		await this.preSentChange();
-		this.initChat();
+		await Promise.all([
+			(this.licence = await Licence.get(this.request)),
+			this.configChange(),
+			this.preSentChange(),
+			this.initChat()
+		]);
 	}
 
 	async configChange() {
@@ -138,6 +138,7 @@ export class AiComponent implements OnInit {
 	}
 
 	async preSentChange() {
+		this.isLoading = true;
 		localStorage.setItem(this.localKeyPreSent, JSON.stringify(this.preSent));
 		if (this.preSent.tables[0] === "") {
 			this.preSent.tables = this.selectedDatabase?.tables?.map(table => table.name)!;
@@ -146,6 +147,7 @@ export class AiComponent implements OnInit {
 			preSent: this.preSent,
 			language: navigator.language
 		}, undefined)).txt;
+		this.isLoading = false;
 	}
 
 	initChat() {

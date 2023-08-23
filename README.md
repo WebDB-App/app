@@ -1,5 +1,10 @@
 - postgre : plusieurs schemas + load specific schema
-- ownType
+
+
+- Server gît avec autobackup en var d'env (git large file / gzip)
+- cloud (google, aurora, rds)
+- SQLServer
+
 
 # Mongo :
 - harmonizer
@@ -15,11 +20,6 @@
 - {} -> []
 - {} -> 1,1
 - show migration queries
-
-- Server gît avec autobackup en var d'env (git large file / gzip)
-- cloud (google, aurora, rds)
-- SQLServer
-
 
 ----------------------------------------------------------
 
