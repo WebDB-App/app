@@ -36,7 +36,6 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { ClipboardModule } from "@angular/cdk/clipboard";
 import { HighlightModule } from 'ngx-highlightjs';
 import { HistoryComponent, SortPipe } from "./history/history.component";
-import { TypesComponent } from "./types/types.component";
 
 
 @NgModule({
@@ -48,7 +47,6 @@ import { TypesComponent } from "./types/types.component";
 		DumpComponent,
 		DropDatabaseDialog,
 		HistoryComponent,
-		TypesComponent,
 		SortPipe,
 		AiComponent
 	],

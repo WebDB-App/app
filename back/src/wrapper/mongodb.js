@@ -387,7 +387,7 @@ export default class MongoDB extends Driver {
 		return results;
 	}
 
-	async getDatabases(types) {
+	async getDatabases() {
 		const struct = {};
 		const promises = [];
 
@@ -473,7 +473,7 @@ export default class MongoDB extends Driver {
 
 	inferColumn(samples) {
 		//? + relation + insert + getBaseSelectWithRelations
-		//link to ownType + link to tableS using this type
+		//show deep in monaco
 		const columns = {};
 
 		samples.map(sample => {

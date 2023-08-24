@@ -31,7 +31,7 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 	panels: Panel[] = [
 		{link: "relations", icon: "attach_file"},
 		{link: "diagram", icon: "polyline"},
-		{link: "history", icon: "playlist_play"},
+		{link: "history", icon: "schedule_send"},
 		{link: "assistant", icon: "support_agent"},
 		{link: "load", icon: "exit_to_app"},
 		{link: "dump", icon: "ios_share"},
@@ -74,10 +74,6 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 		Database.setSelected(database);
 		this.selectedServer = server;
 		this.selectedDatabase = database;
-
-		if (this.selectedServer.driver.language.ownType) {
-			this.panels.unshift({link: "types", icon: "custom_typography"});
-		}
 	}
 
 	ngAfterViewInit(): void {

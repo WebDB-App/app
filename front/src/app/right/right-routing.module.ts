@@ -7,13 +7,9 @@ import { DumpComponent } from "./dump/dump.component";
 import { DiagramComponent } from "./diagram/diagram.component";
 import { AiComponent } from "./ai/ai.component";
 import { HistoryComponent } from "./history/history.component";
-import { TypesComponent } from "./types/types.component";
 
 const routes: Routes = [
 	{
-		path: 'types',
-		component: TypesComponent
-	}, {
 		path: 'relations',
 		component: RelationsComponent
 	}, {

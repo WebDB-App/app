@@ -26,8 +26,12 @@ export default class Helper {
 		return query.indexOf('select ') >= 0;
 	}
 
-	static singleLine(code) {
-		return code.replaceAll(/(\r|\n|\t)/gm, " ").replaceAll(/  +/gm, " ");
+	static singleLine(code, keepLength = false) {
+		code = code.replaceAll(/(\r|\n|\t)/gm, " ");
+		if (!keepLength) {
+			code = code.replaceAll(/  +/gm, " ");
+		}
+		return code;
 	}
 
 	static isNested(data) {
