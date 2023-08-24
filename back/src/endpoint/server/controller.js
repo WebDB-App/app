@@ -56,12 +56,7 @@ class Controller {
 		];
 
 		if (+req.query.full) {
-			promises.push(
-				new Promise(async resolve => {
-					final.indexes = await driver.getIndexes();
-					resolve();
-				})
-			);
+			promises.push((final.indexes = await driver.getIndexes()));
 			await Promise.all(promises);
 			final.relations = await driver.getRelations(final.dbs, final.indexes);
 		} else {

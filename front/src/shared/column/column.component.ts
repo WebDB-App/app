@@ -28,6 +28,7 @@ export class ColumnComponent implements OnInit {
 	ngOnInit(): void {
 		this.selectedServer = Server.getSelected();
 		this.selectedTable = Table.getSelected();
+
 		this.formColumn = <FormArray>this.form.get('columns');
 	}
 

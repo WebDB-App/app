@@ -12,7 +12,6 @@ export class Column {
 	collation!: string;
 	nullable!: boolean;
 	defaut!: string;
-	check?: string;
 	comment!: string;
 	extra?: string[];
 

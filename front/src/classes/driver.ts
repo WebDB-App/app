@@ -69,7 +69,6 @@ export interface Driver {
 		constraints: string[],
 		typeGroups: TypeGroup[],
 		extraAttributes: string[],
-		columnCheck: boolean,
 		arrayType: boolean,
 		fctAsDefault: string[]
 	}

@@ -1,4 +1,4 @@
-- postgre : plusieurs schemas + load/dump specific schema
+- postgre : plusieurs schemas(connection.html:182) + load/dump specific schema
 - Server gît avec autobackup en var d'env (git large file / gzip)
 - cloud (google, aurora, rds)
 - SQLServer
