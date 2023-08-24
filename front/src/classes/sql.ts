@@ -1,4 +1,4 @@
-import { Comparator, Driver, Group, QueryParams, TypeGroup } from "./driver";
+import { Comparator, Driver, QueryParams, TypeGroup } from "./driver";
 import { Column } from "./column";
 import { Database } from "./database";
 import { Table } from "./table";
@@ -49,7 +49,6 @@ export class SQL implements Driver {
 		constraints: string[],
 		typeGroups: TypeGroup[],
 		extraAttributes: string[],
-		columnCheck: boolean,
 		arrayType: boolean,
 		fctAsDefault: string[]
 	} = {
@@ -134,6 +133,7 @@ export class SQL implements Driver {
 			'CEILING': '(number)',
 			'COS': '(number)',
 			'COT': '(number)',
+			'CHECK': null,
 			'DEGREES': '(number)',
 			'DIV': '(number) DIV (number)',
 			'EXP': null,
@@ -202,7 +202,6 @@ export class SQL implements Driver {
 		],
 		extraAttributes: [],
 		typeGroups: [],
-		columnCheck: true,
 		arrayType: true,
 		fctAsDefault: []
 	}
