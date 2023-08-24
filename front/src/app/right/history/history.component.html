@@ -51,15 +51,15 @@
 			  [style.background-color]="his.star ? 'black' : undefined">
 		<mat-card-content>
 			<div class="actions">
-				<button (click)="changeStar(his)"
-						mat-icon-button>
-					<span class="material-symbols-outlined notranslate">star</span>
-				</button>
-
 				<button
 					(click)="goToQuery(his.query)"
 					mat-icon-button>
 					<span class="material-symbols-outlined notranslate">play_arrow</span>
+				</button>
+
+				<button (click)="changeStar(his)"
+						mat-icon-button>
+					<span class="material-symbols-outlined notranslate">star</span>
 				</button>
 
 				<button

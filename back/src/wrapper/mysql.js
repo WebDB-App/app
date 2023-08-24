@@ -219,6 +219,7 @@ export default class MySQL extends SQL {
 			struct[row.TABLE_SCHEMA].tables[row.TABLE_NAME].columns.push({
 				name: row.COLUMN_NAME,
 				type: row.COLUMN_TYPE,
+				size: row.CHARACTER_MAXIMUM_LENGTH,
 				nullable: row.IS_NULLABLE !== "NO",
 				defaut: row.COLUMN_DEFAULT,
 				extra: row.EXTRA,
