@@ -8,7 +8,7 @@
 			   autocomplete="off"
 			   matInput>
 		<button (click)="filter=''" *ngIf="filter" aria-label="Clear"
-				mat-icon-button
+				mat-button mat-icon-button
 				matSuffix>
 			<mat-icon>close</mat-icon>
 		</button>
@@ -75,7 +75,7 @@
 					(click)="remove(his)"
 					mat-icon-button>
 					<span class="material-symbols-outlined notranslate">
-						playlist_remove
+						remove
 					</span>
 				</button>
 			</div>

@@ -3,7 +3,7 @@ import helper from "./shared-helper.mjs";
 
 class Bash {
 
-	logCommand(command, database, ping, port, length) {
+	logCommand(command, database, ping, port, length = "") {
 		database = database ? `\x1B[36m${database.padStart(20, " ")}\x1b[0m` : " ".padStart(20, " ");
 		command = helper.singleLine(command).trim();
 		port = `\x1b[34m${port.toString().padStart(5, " ")}\x1b[0m`;

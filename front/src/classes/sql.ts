@@ -49,7 +49,7 @@ export class SQL implements Driver {
 		constraints: string[],
 		typeGroups: TypeGroup[],
 		extraAttributes: string[],
-		ownType: boolean,
+		columnCheck: boolean,
 		arrayType: boolean,
 		fctAsDefault: string[]
 	} = {
@@ -202,7 +202,7 @@ export class SQL implements Driver {
 		],
 		extraAttributes: [],
 		typeGroups: [],
-		ownType: false,
+		columnCheck: true,
 		arrayType: true,
 		fctAsDefault: []
 	}

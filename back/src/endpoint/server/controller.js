@@ -30,11 +30,10 @@ class Controller {
 			dbs: [],
 			indexes: [],
 			relations: [],
-			types: await driver.getTypes()
 		};
 		const promises = [
 			new Promise(async resolve => {
-				const structure = await driver.getDatabases(final.types);
+				const structure = await driver.getDatabases();
 				let dbLimit = subscriptionCtrl.getLimit();
 
 				for (const str of Object.values(structure)) {

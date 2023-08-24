@@ -174,8 +174,8 @@ export default class SQL extends Driver {
 		return res.error ? res : res.toString();
 	}
 
-	cleanQuery(query) {
-		query = helper.singleLine(query);
+	cleanQuery(query, keepLength = false) {
+		query = helper.singleLine(query, keepLength);
 		return query.trim().endsWith(";") ? query.trim().slice(0, -1) : query;
 	}
 
@@ -189,7 +189,7 @@ export default class SQL extends Driver {
 	}
 
 	async runPagedQuery(query, page, pageSize, database) {
-		query = this.cleanQuery(query);
+		query = this.cleanQuery(query, true);
 
 		if (helper.sql_isSelect(query)
 			&& query.toLowerCase().indexOf(" offset ") < 0
