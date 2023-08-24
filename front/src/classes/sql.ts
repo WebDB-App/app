@@ -220,27 +220,14 @@ export class SQL implements Driver {
 	}
 
 	quickSearch(driver: Driver, column: Column, value: string) {
-		const isOfGroups = (groups: Group[]) => {
-			const parenthese = column.type.indexOf('(');
-			const columnType = parenthese >= 0 ? column.type.substring(0, parenthese) : column.type;
-
-			for (const group of groups) {
-				const typeDatas = driver.language.typeGroups.find(type => type.name === group)!.list!;
-				if (typeDatas.map(type => type.id.replace(/\([^)]*\)/g, "")).indexOf(columnType) >= 0) {
-					return true;
-				}
-			}
-			return false;
-		}
-
 		let chip = `${column.name} `;
 		if (driver.language.comparators.find((comparator) => {
 			return value.toLowerCase().startsWith(comparator.symbol.toLowerCase() + ' ')
 		})) {
 			chip += `${value}`;
 		} else {
-			const del = driver.connection.nameDel || "'";
-			if (isOfGroups([Group.String, Group.Date]) && !value.startsWith(del)) {
+			const del = "'";
+			if (!value.startsWith(del)) {
 				value = `${del + value + del}`;
 			}
 			chip += `= ${value}`;

@@ -308,10 +308,11 @@ export default class PostgreSQL extends SQL {
 
 		for (const db of dbs) {
 			promises.push(new Promise(async resolve => {
-				const [schemas, columns, tables] = await Promise.all([
+				const [schemas, columns, tables, checks] = await Promise.all([
 					this.runCommand("SELECT * FROM information_schema.schemata", db.datname),
-					this.runCommand("SELECT c.table_schema, c.table_name, c.column_name, c.ordinal_position, c.column_default, c.is_nullable, c.data_type, e.data_type AS subtype, COL_DESCRIPTION( (c.table_schema || '.' || c.table_name)::regclass, c.ordinal_position ) AS column_comment FROM information_schema.columns AS c LEFT JOIN information_schema.element_types e ON ( ( c.table_catalog, c.table_schema, c.table_name, 'TABLE', c.dtd_identifier ) = ( e.object_catalog, e.object_schema, e.object_name, e.object_type, e.collection_type_identifier ) ) ORDER BY c.ordinal_position;", db.datname),
-					this.runCommand("SELECT t.table_schema, t.table_name, t.table_type, pgd.description as comment FROM information_schema.tables t LEFT OUTER JOIN pg_catalog.pg_description pgd ON pgd.objoid = (quote_ident(t.table_schema) || '.' || quote_ident(t.table_name))::regclass AND pgd.objsubid = 0", db.datname)
+					this.runCommand("SELECT c.table_schema, c.table_name, c.column_name, c.character_maximum_length, c.ordinal_position, c.column_default, c.is_nullable, c.data_type, e.data_type AS subtype, COL_DESCRIPTION( (c.table_schema || '.' || c.table_name)::regclass, c.ordinal_position ) AS column_comment FROM information_schema.columns AS c LEFT JOIN information_schema.element_types e ON ( ( c.table_catalog, c.table_schema, c.table_name, 'TABLE', c.dtd_identifier ) = ( e.object_catalog, e.object_schema, e.object_name, e.object_type, e.collection_type_identifier ) ) ORDER BY c.ordinal_position;", db.datname),
+					this.runCommand("SELECT t.table_schema, t.table_name, t.table_type, pgd.description as comment FROM information_schema.tables t LEFT OUTER JOIN pg_catalog.pg_description pgd ON pgd.objoid = (quote_ident(t.table_schema) || '.' || quote_ident(t.table_name))::regclass AND pgd.objsubid = 0", db.datname),
+					this.runCommand("SELECT pgc.conname AS constraint_name, ccu.table_schema AS table_schema, ccu.table_name, ccu.column_name, contype, PG_GET_CONSTRAINTDEF(pgc.oid) FROM pg_constraint pgc JOIN pg_namespace nsp ON nsp.oid = pgc.connamespace JOIN pg_class cls ON pgc.conrelid = cls.oid LEFT JOIN information_schema.constraint_column_usage ccu ON pgc.conname = ccu.constraint_name AND nsp.nspname = ccu.constraint_schema WHERE contype = 'c' ORDER BY pgc.conname;", db.datname)
 				]);
 
 				for (const schema of schemas) {
@@ -338,9 +339,14 @@ export default class PostgreSQL extends SQL {
 							};
 						}
 
+						if (Number.isInteger(row.character_maximum_length)) {
+							row.data_type += `(${row.character_maximum_length})`;
+						}
+
 						struct[dbPath].tables[row.table_name].columns.push({
 							name: row.column_name,
 							type: row.subtype ? `${row.subtype}[]` : row.data_type,
+							check: checks.find(ch => ch.table_name === row.table_name && ch.table_schema === row.table_schema && ch.column_name === row.column_name)?.pg_get_constraintdef,
 							nullable: row.is_nullable !== "NO",
 							defaut: row.column_default,
 							comment: row.column_comment

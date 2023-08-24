@@ -8,8 +8,7 @@ import { Column } from "../../../classes/column";
 import { RequestService } from "../../../shared/request.service";
 import { Index, IndexSymbol } from "../../../classes";
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
-import { ActivatedRoute, Router } from "@angular/router";
-import { DrawerService } from "../../../shared/drawer.service";
+import { ActivatedRoute } from "@angular/router";
 import { HoverService } from "../../../shared/hover.service";
 import { isSQL } from "../../../shared/helper";
 import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
@@ -33,14 +32,13 @@ export class StructureComponent implements OnInit, AfterViewChecked {
 	indexColumns: string[] = [];
 	indexSource!: MatTableDataSource<Index>;
 
-	constructor(private request: RequestService,
-				private activatedRoute: ActivatedRoute,
-				private router: Router,
-				private drawer: DrawerService,
-				private dialog: MatDialog,
-				private container: ElementRef,
-				private hoverService: HoverService,
-				private snackBar: MatSnackBar
+	constructor(
+		private request: RequestService,
+		private activatedRoute: ActivatedRoute,
+		private dialog: MatDialog,
+		private container: ElementRef,
+		private hoverService: HoverService,
+		private snackBar: MatSnackBar
 	) {
 	}
 
@@ -60,7 +58,7 @@ export class StructureComponent implements OnInit, AfterViewChecked {
 			this.structureColumns.push('extra');
 		}
 		if (this.selectedServer.driver.language.columnCheck) {
-			this.structureColumns.push('Check');
+			this.structureColumns.push('check');
 		}
 		if (isSQL()) {
 			this.structureColumns.push('comment');

@@ -21,6 +21,7 @@
 ----------------------------------------------------------
 
 
+- quicksearch : don't put "'" on nested type
 - revoir MySQL load avec tunnel (essayer en bash)
 - Finir EDR
 - Export Query : tester tout
