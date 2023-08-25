@@ -1,4 +1,24 @@
-<mat-toolbar>
+<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
+	<mat-form-field appearance="standard">
+		<input #filter
+			   (keyup)="filterChanged(filter.value)"
+			   autocomplete="off"
+			   matInput
+			   placeholder="Search Trigger | Code">
+		<button (click)="filter.value=''; filterChanged(filter.value)" *ngIf="filter.value"
+				aria-label="Clear" mat-icon-button
+				matSuffix>
+			<mat-icon>close</mat-icon>
+		</button>
+	</mat-form-field>
+
+	<a [href]="selectedServer!.driver.docs.trigger" mat-button target="_blank">
+		<span class="material-symbols-outlined notranslate">
+			developer_guide
+		</span>
+		Trigger References
+	</a>
+
 	<button (click)="add()"
 			[disabled]="!isSQL() && triggers && triggers.length > 0"
 			color="primary"
@@ -16,7 +36,7 @@
 		No trigger for this table
 	</div>
 	<div *ngFor="let trigger of triggers">
-		<mat-card>
+		<mat-card [hidden]="trigger.hide">
 			<mat-card-header>
 				<mat-card-subtitle style="display: flex">
 					<mat-form-field appearance="fill" *ngIf="isSQL()">
@@ -81,12 +101,25 @@
 					</span>
 					Save
 				</button>
+
+				<button [matMenuTriggerFor]="templatesMenu" mat-button>
+					<span class="material-symbols-outlined notranslate">grid_guides</span>
+					Template
+				</button>
+				<mat-menu #templatesMenu="matMenu" xPosition="before">
+					<button (click)="loadTemplate(template)"
+							*ngFor="let template of templates"
+							mat-menu-item>
+						{{template | titlecase}}
+					</button>
+				</mat-menu>
+
 				<button (click)="delete(trigger)"
 						color="warn"
 						mat-button>
-				<span class="material-symbols-outlined notranslate">
-					delete
-				</span>
+					<span class="material-symbols-outlined notranslate">
+						delete
+					</span>
 					Drop
 				</button>
 			</mat-card-footer>

@@ -88,7 +88,7 @@ export default class MySQL extends SQL {
 		const triggers = await this.runCommand(`SHOW TRIGGERS WHERE \`Table\` = '${table}'`, database);
 		return triggers.map(trigger => {
 			return {
-				code: "FOR EACH ROW " + trigger.Statement,
+				code: trigger.Statement,
 				timing: trigger.Timing,
 				event: trigger.Event,
 				name: trigger.Trigger

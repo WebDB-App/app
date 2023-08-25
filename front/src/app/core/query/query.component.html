@@ -22,15 +22,15 @@
 	</button>
 
 	<div *ngIf="selectedTable">
-		<button [matMenuTriggerFor]="preBuilt" mat-button>
-			<span class="material-symbols-outlined notranslate">factory</span>
-			Pre Built
+		<button [matMenuTriggerFor]="templatesMenu" mat-button>
+			<span class="material-symbols-outlined notranslate">grid_guides</span>
+			Template
 		</button>
-		<mat-menu #preBuilt="matMenu" xPosition="before">
-			<button (click)="loadPreBuild(prebuild)"
-					*ngFor="let prebuild of prebuilds"
+		<mat-menu #templatesMenu="matMenu" xPosition="before">
+			<button (click)="loadTemplate(template)"
+					*ngFor="let template of templates"
 					mat-menu-item>
-				{{prebuild | titlecase}}
+				{{template | titlecase}}
 			</button>
 		</mat-menu>
 	</div>

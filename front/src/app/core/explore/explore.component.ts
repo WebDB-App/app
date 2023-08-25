@@ -11,8 +11,6 @@ import { RequestService } from "../../../shared/request.service";
 import { SelectionModel } from "@angular/cdk/collections";
 import { MatDialog } from "@angular/material/dialog";
 import { UpdateDataDialog } from "../../../shared/update-data-dialog/update-data-dialog";
-import { Group } from "../../../classes/driver";
-import { Column } from "../../../classes/column";
 import { ExportResultDialog } from "../../../shared/export-result-dialog/export-result-dialog";
 import { BatchUpdateDialog } from "../../../shared/batch-update-dialog/batch-update-dialog";
 import { MatPaginatorIntl } from "@angular/material/paginator";
