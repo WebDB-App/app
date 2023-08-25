@@ -36,10 +36,11 @@ export class MongoDB implements Driver {
 	}
 
 	trigger = {
-		base: `{
+		templates: {
+			name_is_string: `{
 	"$jsonSchema": {
 		"bsonType": "object",
-		"description": "Document describing a mountain peak",
+		"description": "Description example",
 		"required": ["name"],
 		"properties": {
 			"name": {
@@ -48,7 +49,8 @@ export class MongoDB implements Driver {
 			}
 		}
 	}
-}`,
+}`
+		},
 		language: "json"
 	}
 

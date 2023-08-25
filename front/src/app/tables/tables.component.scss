@@ -43,3 +43,14 @@
 	}
 }
 
+::ng-deep .columns {
+	background-color: #1e1e1e;
+
+	.mat-row {
+		height: 32px;
+
+		.mat-cell {
+			min-width: inherit;
+		}
+	}
+}

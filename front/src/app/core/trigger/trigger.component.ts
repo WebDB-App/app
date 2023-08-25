@@ -16,7 +16,6 @@ export class TriggerComponent implements OnInit {
 
 	selectedServer?: Server;
 	selectedTable?: Table;
-	templates!: string[];
 	triggers?: Trigger[];
 	editorOptions = {
 		language: ''
@@ -62,13 +61,12 @@ export class TriggerComponent implements OnInit {
 		this.selectedServer = Server.getSelected();
 
 		//enum for postgre
-		//revoir base ?
-		//this.templates =
+		//tester
 		this.triggers = (await this.request.post('trigger/list', undefined)).map((trg: Trigger) => {trg.saved = true; return trg})
 	}
 
 	add() {
-		this.triggers?.push(new Trigger(Server.getSelected()?.driver.trigger.base));
+		this.triggers?.push(new Trigger(""));
 	}
 
 	async delete(trigger: Trigger) {
@@ -97,29 +95,5 @@ export class TriggerComponent implements OnInit {
 			}
 			return trg;
 		});
-	}
-
-	loadTemplate(name: string, trigger: Trigger) {
-		switch (value) {
-			case "delete":
-				trigger.code = this.selectedServer!.driver.getTrigge(this.selectedTable!);
-				break;
-			case "insert":
-				this.query = this.selectedServer!.driver.getBaseInsert(this.selectedTable!);
-				break;
-			case "update":
-				this.query = this.selectedServer!.driver.getBaseUpdate(this.selectedTable!);
-				break;
-			case "select":
-				this.query = this.selectedServer!.driver.getBaseSelect(this.selectedTable!);
-				break;
-			case "select_join":
-				this.query = this.selectedServer!.driver.getBaseSelectWithRelations(this.selectedTable!, this.relations!);
-				break;
-			case "aggregate":
-				this.query = this.selectedServer!.driver.getBaseAggregate!(this.selectedTable!);
-				break;
-		}
-		setTimeout(() => this.editors.map(editor => editor.trigger("editor", "editor.action.formatDocument")), 1);
 	}
 }
