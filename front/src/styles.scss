@@ -245,8 +245,10 @@ a {
 }
 
 ::-webkit-resizer {
-	border-right: 3px dashed #2196f3;
-	border-bottom: 3px dashed #2196f3;
+	border-width: 3px;
+	border-style: outset;
+	border-color: rgb(255 255 255 / 0%) rgb(255 255 255 / 50%) rgb(255 255 255 / 50%) rgb(255 255 255 / 0%);
+	border-radius: 0px;
 }
 
 ::-webkit-scrollbar-corner {

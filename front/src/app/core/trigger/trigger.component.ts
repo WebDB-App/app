@@ -14,7 +14,9 @@ import { initBaseEditor, isSQL } from "../../../shared/helper";
 })
 export class TriggerComponent implements OnInit {
 
+	selectedServer?: Server;
 	selectedTable?: Table;
+	templates!: string[];
 	triggers?: Trigger[];
 	editorOptions = {
 		language: ''
@@ -38,6 +40,9 @@ export class TriggerComponent implements OnInit {
 		'DELETE'
 	];
 
+	protected readonly isSQL = isSQL;
+	protected readonly initBaseEditor = initBaseEditor;
+
 	constructor(
 		private snackBar: MatSnackBar,
 		private request: RequestService,
@@ -48,12 +53,17 @@ export class TriggerComponent implements OnInit {
 
 	async ngOnInit() {
 		this.activatedRoute.parent?.params.subscribe(async (_params) => {
-			await this.loadData()
+			await this.loadData();
 		});
 	}
 
 	async loadData() {
 		this.selectedTable = Table.getSelected();
+		this.selectedServer = Server.getSelected();
+
+		//enum for postgre
+		//revoir base ?
+		//this.templates =
 		this.triggers = (await this.request.post('trigger/list', undefined)).map((trg: Trigger) => {trg.saved = true; return trg})
 	}
 
@@ -77,6 +87,39 @@ export class TriggerComponent implements OnInit {
 		this.snackBar.open(`Trigger saved`, "╳", {duration: 3000});
 	}
 
-	protected readonly isSQL = isSQL;
-	protected readonly initBaseEditor = initBaseEditor;
+	filterChanged(_value: string) {
+		const value = _value.toLowerCase();
+		this.triggers = this.triggers?.map(trg => {
+			if (trg.name) {
+				trg.hide = trg.name.toLowerCase().indexOf(value) < 0 && trg.code.toLowerCase().indexOf(value) < 0;
+			} else {
+				trg.hide = trg.code.toLowerCase().indexOf(value) < 0;
+			}
+			return trg;
+		});
+	}
+
+	loadTemplate(name: string, trigger: Trigger) {
+		switch (value) {
+			case "delete":
+				trigger.code = this.selectedServer!.driver.getTrigge(this.selectedTable!);
+				break;
+			case "insert":
+				this.query = this.selectedServer!.driver.getBaseInsert(this.selectedTable!);
+				break;
+			case "update":
+				this.query = this.selectedServer!.driver.getBaseUpdate(this.selectedTable!);
+				break;
+			case "select":
+				this.query = this.selectedServer!.driver.getBaseSelect(this.selectedTable!);
+				break;
+			case "select_join":
+				this.query = this.selectedServer!.driver.getBaseSelectWithRelations(this.selectedTable!, this.relations!);
+				break;
+			case "aggregate":
+				this.query = this.selectedServer!.driver.getBaseAggregate!(this.selectedTable!);
+				break;
+		}
+		setTimeout(() => this.editors.map(editor => editor.trigger("editor", "editor.action.formatDocument")), 1);
+	}
 }

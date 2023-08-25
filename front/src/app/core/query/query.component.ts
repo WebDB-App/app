@@ -29,7 +29,7 @@ declare var monaco: any;
 })
 export class QueryComponent implements OnInit, OnDestroy {
 
-	prebuilds!: string[];
+	templates!: string[];
 	configuration: Configuration = new Configuration();
 	selectedServer?: Server;
 	selectedDatabase?: Database;
@@ -96,10 +96,10 @@ export class QueryComponent implements OnInit, OnDestroy {
 				monaco.editor.setModelMarkers(this.editors[0].getModel(), "owner", []);
 			}
 
-			this.prebuilds = this.selectedTable.view ? ['select', 'select_join'] : ['select', 'select_join', 'update', 'insert', 'delete'];
-			this.loadPreBuild("select");
+			this.templates = this.selectedTable.view ? ['select', 'select_join'] : ['select', 'select_join', 'update', 'insert', 'delete'];
+			this.loadTemplate("select");
 			if (!isSQL()) {
-				this.prebuilds.push('aggregate');
+				this.templates.push('aggregate');
 			}
 		});
 
@@ -194,7 +194,7 @@ export class QueryComponent implements OnInit, OnDestroy {
 		[this.originalResult.code, this.modifiedResult.code] = await Promise.all([run(this.query), run(this.query2)]);
 	}
 
-	loadPreBuild(value: string) {
+	loadTemplate(value: string) {
 		switch (value) {
 			case "delete":
 				this.query = this.selectedServer!.driver.getBaseDelete(this.selectedTable!);

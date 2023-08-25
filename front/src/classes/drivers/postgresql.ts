@@ -10,6 +10,7 @@ export class PostgreSQL extends SQL {
 		super();
 
 		this.docs = {
+			trigger: "https://www.postgresql.org/docs/current/sql-createtrigger.html",
 			driver: "https://github.com/brianc/node-postgres/blob/master/packages/pg/lib/defaults.js",
 			types: "https://www.postgresql.org/docs/current/datatype.html",
 			language: "https://www.postgresql.org/docs/current/sql-commands.html"

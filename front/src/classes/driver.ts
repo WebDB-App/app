@@ -51,6 +51,7 @@ export interface Driver {
 	}
 
 	docs: {
+		trigger: string,
 		driver: string,
 		types: string,
 		language: string

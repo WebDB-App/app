@@ -29,6 +29,7 @@ export class MongoDB implements Driver {
 	}
 
 	docs = {
+		trigger: "https://www.mongodb.com/docs/manual/core/schema-validation/",
 		driver: "https://www.mongodb.com/docs/drivers/node/current/fundamentals/connection/connection-options/",
 		types: "https://www.mongodb.com/docs/manual/reference/bson-types/",
 		language: "https://www.mongodb.com/docs/drivers/node/current/quick-reference/"

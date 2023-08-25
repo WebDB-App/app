@@ -32,12 +32,13 @@ export class SQL implements Driver {
 
 	docs = {
 		driver: "",
+		trigger: "",
 		types: "https://www.w3resource.com/sql/data-type.php",
 		language: "https://www.w3schools.com/sql/sql_quickref.asp"
 	}
 
 	trigger = {
-		base: "",
+		base: "FOR EACH ROW ",
 		language: "sql"
 	}
 
