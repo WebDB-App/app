@@ -58,7 +58,7 @@ export interface Driver {
 	}
 
 	trigger: {
-		base: string,
+		templates: { [key: string]: string },
 		language: string
 	}
 

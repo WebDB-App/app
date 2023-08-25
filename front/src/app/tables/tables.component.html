@@ -10,7 +10,7 @@
 		(click)="saveWidth(sidenav._getWidth())">
 
 		<mat-list fxLayout="column">
-			<mat-list-item>
+			<mat-list-item style="box-shadow: 0px 0px 0px, 0px 4px 6px -4px rgba(0, 0, 0, 0.6);">
 				<mat-form-field style="width: 100%" appearance="standard">
 					<input #filter
 						   (keyup)="filterChanged(filter.value)"
@@ -54,7 +54,7 @@
 						</mat-list-option>
 					</div>
 					<div *ngIf="tooltips[table.name]"
-						 style="background-color: #1e1e1e"
+						 class="columns"
 					>
 						<div [innerHtml]="tooltips[table.name]"></div>
 						<mat-divider></mat-divider>
@@ -64,7 +64,7 @@
 
 			<span fxFlex></span>
 
-			<mat-list-item>
+			<mat-list-item style="box-shadow: 0px -4px 6px -4px rgba(0, 0, 0, 0.6);">
 				<button (click)="addTable()"
 						style="flex: 1"
 						color="primary"

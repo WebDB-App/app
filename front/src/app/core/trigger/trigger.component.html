@@ -16,13 +16,13 @@
 		<span class="material-symbols-outlined notranslate">
 			developer_guide
 		</span>
-		Trigger References
+		References
 	</a>
 
 	<button (click)="add()"
 			[disabled]="!isSQL() && triggers && triggers.length > 0"
 			color="primary"
-			mat-flat-button>
+			mat-stroked-button>
 		<span class="material-symbols-outlined notranslate">
 			add_box
 		</span>
@@ -35,6 +35,7 @@
 		 style="margin: 100px; width: 100%; display: flex; place-content: center;">
 		No trigger for this table
 	</div>
+
 	<div *ngFor="let trigger of triggers">
 		<mat-card [hidden]="trigger.hide">
 			<mat-card-header>
@@ -86,6 +87,7 @@
 			</mat-card-header>
 			<mat-card-content>
 				<ngx-monaco-editor
+					(ngModelChange)="trigger.changed = true"
 					(onInit)="initBaseEditor($event)"
 					[(ngModel)]="trigger.code"
 					[options]="editorOptions">
@@ -93,9 +95,9 @@
 			</mat-card-content>
 			<mat-card-footer fxLayout="row" fxLayoutAlign="space-around center">
 				<button (click)="replace(trigger)"
-						[disabled]="trigger.code.length < 1"
+						[disabled]="!trigger.changed"
 						color="primary"
-						mat-stroked-button>
+						mat-flat-button>
 					<span class="material-symbols-outlined notranslate">
 						device_hub
 					</span>
@@ -107,10 +109,10 @@
 					Template
 				</button>
 				<mat-menu #templatesMenu="matMenu" xPosition="before">
-					<button (click)="loadTemplate(template)"
-							*ngFor="let template of templates"
+					<button (click)="trigger.code = this.selectedServer!.driver.trigger.templates[template.key];"
+							*ngFor="let template of this.selectedServer!.driver.trigger.templates | keyvalue"
 							mat-menu-item>
-						{{template | titlecase}}
+						{{template.key.replaceAll('_', ' ') | titlecase}}
 					</button>
 				</mat-menu>
 

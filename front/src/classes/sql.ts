@@ -38,7 +38,7 @@ export class SQL implements Driver {
 	}
 
 	trigger = {
-		base: "FOR EACH ROW ",
+		templates: {},
 		language: "sql"
 	}
 
