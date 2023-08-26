@@ -3,13 +3,14 @@ import { Database } from "../../../classes/database";
 import { Server } from "../../../classes/server";
 import { Licence } from "../../../classes/licence";
 import { RequestService } from "../../../shared/request.service";
-import { Configuration, OpenAIApi } from "openai";
+import { OpenAI } from "openai";
 import { Configuration as WebConfig } from "../../../classes/configuration";
 import { marked } from 'marked';
 import { DrawerService } from "../../../shared/drawer.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute } from "@angular/router";
 import { isSQL } from "../../../shared/helper";
+import { resolve } from "@angular/compiler-cli";
 
 const localKeyConfig = 'ia-config';
 
@@ -76,7 +77,7 @@ export class AiComponent implements OnInit {
 	localKeyChatHistory!: string;
 	localKeyPreSent!: string;
 	chat: Msg[] = [];
-	openai?: OpenAIApi;
+	openai?: OpenAI;
 	isLoading = false;
 
 	sample = "";
@@ -137,9 +138,8 @@ export class AiComponent implements OnInit {
 
 	async configChange() {
 		localStorage.setItem(localKeyConfig, JSON.stringify(this.config));
-		this.openai = new OpenAIApi(new Configuration({
-			apiKey: this.config.openAI,
-		}));
+		this.openai = new OpenAI({apiKey: this.config.openAI, dangerouslyAllowBrowser: true});
+
 	}
 
 	async preSentChange() {
@@ -177,23 +177,24 @@ export class AiComponent implements OnInit {
 		this.isLoading = true;
 		this.chat.push(new Msg(txt, Role.User));
 		this.scrollToBottom();
-		let message: Msg;
 
-		try {
-			const completion = await this.openai!.createChatCompletion({
-				model: this.configuration.getByName('openAIModel')?.value,
-				messages: [
-					{role: Role.System, content: this.sample},
-					{role: Role.User, content: txt}
-				],
-				temperature: this.config.temperature
+		const pro = this.openai!.chat.completions.create({
+			model: this.config.model,
+			messages: [
+				{role: Role.System, content: this.sample},
+				{role: Role.User, content: txt}
+			],
+			temperature: this.config.temperature
 		});
-			message = new Msg(completion.data.choices[0].message!.content!, Role.Assistant);
-		} catch (error: any) {
-			message = new Msg(error.response?.data.error.message || 'An error occurred during OpenAI request: ' + error, Role.Assistant, true);
-		}
 
-		this.chat.push(message);
+		this.chat.push(await new Promise<Msg>(resolve => {
+			pro.then(completion => {
+				resolve(new Msg(completion.choices[0].message!.content!, Role.Assistant));
+			}).catch(error => {
+				resolve(new Msg(error.message || 'An error occurred during OpenAI request: ' + error, Role.Assistant, true))
+			});
+		}));
+
 		this.scrollToBottom();
 		this.saveChat();
 		this.isLoading = false;

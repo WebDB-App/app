@@ -40,7 +40,7 @@
 		"ngx-highlightjs": "^7.0.1",
 		"ngx-json-viewer": "latest",
 		"ngx-monaco-editor-v2": "^14.0.4",
-		"openai": "3.3.0",
+		"openai": "latest",
 		"rxjs": "~7.8.1",
 		"sql-formatter": "latest",
 		"tslib": "^2.5.0",

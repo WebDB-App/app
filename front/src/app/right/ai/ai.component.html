@@ -213,12 +213,16 @@
 	<mat-progress-bar *ngIf="isLoading" mode="indeterminate" color="accent" style="z-index: 100;"></mat-progress-bar>
 
 	<div [hidden]="!config.openAI" style="box-shadow: 0px -10px 16px 1px #363636; position: relative;">
-		<mat-form-field (keydown.enter)="sendMessage(message.value); message.value = ''"
-						appearance="fill"
+		<mat-form-field appearance="fill"
 						class="sendMessage"
 						color="accent">
 			<mat-label>Ask anything about `{{selectedDatabase?.name}}`</mat-label>
-			<textarea #message cdkTextareaAutosize matInput style="max-height: 60vh;"></textarea>
+			<textarea
+				#message
+				(keydown.enter)="sendMessage(message.value); message.value = ''"
+				cdkTextareaAutosize
+				matInput
+				style="max-height: 60vh;"></textarea>
 			<button (click)="sendMessage(message.value); message.value = ''"
 					[disabled]="!message.value"
 					mat-icon-button
