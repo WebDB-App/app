@@ -35,6 +35,7 @@ body {
 	white-space: pre-line !important;
 	background-color: rgba(30, 30, 30, 0.9);
 	border: 1px solid rgba(255, 255, 255, 0.12);
+	backdrop-filter: blur(3px);
 }
 
 [hidden] {

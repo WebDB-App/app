@@ -400,7 +400,6 @@ export class SQL implements Driver {
 		const suggestions = this.basicSuggestions();
 
 		const indexes = Table.getIndexes().filter(index => index.table === Table.getSelected()?.name);
-
 		Table.getSelected()?.columns.map(column => {
 			suggestions.push({
 				label: `${column.name}`,
@@ -417,7 +416,7 @@ export class SQL implements Driver {
 			suggestions.push({
 				label: `${table.name}`,
 				kind: monaco.languages.CompletionItemKind.Struct,
-				insertText: `${table.name} `
+				insertText: `${table.name}`
 			});
 
 			table.columns.map(column => {
@@ -431,7 +430,7 @@ export class SQL implements Driver {
 
 			relations.map(relation => {
 				suggestions.push({
-					label: `JOIN ${relation.table_source} → ${relation.table_dest}`,
+					label: `JOIN ${relation.table_source} ON ${relation.table_source}.${relation.column_source} = ${relation.table_dest}.${relation.column_dest}`,
 					kind: monaco.languages.CompletionItemKind.Reference,
 					insertText: `JOIN ${relation.table_source} ON ${relation.table_source}.${relation.column_source} = ${relation.table_dest}.${relation.column_dest}`,
 				});
@@ -442,7 +441,7 @@ export class SQL implements Driver {
 			suggestions.push({
 				label: db.name,
 				kind: monaco.languages.CompletionItemKind.Function,
-				insertText: `${db.name} `
+				insertText: `${db.name}`
 			});
 		});
 

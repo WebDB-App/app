@@ -32,7 +32,7 @@
 
 <div id="container">
 	<div *ngIf="!triggers || triggers.length < 1"
-		 style="margin: 100px; width: 100%; display: flex; place-content: center;">
+		 style="margin: 100px 0px; display: flex; place-content: center;">
 		No trigger for this table
 	</div>
 
@@ -106,6 +106,7 @@
 			</mat-card-header>
 			<mat-card-content>
 				<ngx-monaco-editor
+					style="resize: vertical; width: 100%"
 					(ngModelChange)="trigger.changed = true"
 					[(ngModel)]="trigger.code"
 					[options]="editorOptions">
