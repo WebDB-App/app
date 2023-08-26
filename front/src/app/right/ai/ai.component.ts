@@ -10,7 +10,6 @@ import { DrawerService } from "../../../shared/drawer.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute } from "@angular/router";
 import { isSQL } from "../../../shared/helper";
-import { resolve } from "@angular/compiler-cli";
 
 const localKeyConfig = 'ia-config';
 
