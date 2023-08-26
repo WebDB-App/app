@@ -2,6 +2,7 @@ import { SQL } from "../sql";
 import { Group, QueryParams } from "../driver";
 import { Server } from "../server";
 import { Database } from "../database";
+import { format } from "sql-formatter";
 
 export class MySQL extends SQL {
 
@@ -26,6 +27,10 @@ export class MySQL extends SQL {
 			}
 		}
 
+		this.trigger.base = `FOR EACH ROW
+BEGIN
+
+END`;
 		this.trigger.templates = {
 			adult_and_good_email: `IF age < 18 THEN
 	SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Age must be gte 18';
@@ -38,7 +43,17 @@ END IF;`,
 	VALUES(new.id,CONCAT('Hi ', NEW.name, ', please update your date of birth.'));
 END IF;`,
 			calculated_field: `UPDATE average_age SET average = (SELECT AVG(age) FROM person);`,
-			archive_user: `INSERT INTO person_archive (name, age) VALUES (OLD.name, OLD.age);`
+			archive_user: `INSERT INTO person_archive (name, age) VALUES (OLD.name, OLD.age);`,
+			check_geo: `FOR EACH ROW
+BEGIN
+    IF NEW.gps_lat < -90 OR NEW.gps_lat > 90 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'La latitude doit être entre -90 et 90'
+    END IF;
+
+    IF NEW.gps_lng < -180 OR NEW.gps_lng > 180 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'La longitude doit être entre -180 et 180'
+    END IF;
+END`
 		};
 
 		this.language = {
@@ -312,5 +327,15 @@ async function main() {
 	const [rows, fields] = await connection.execute(\`${query.query}\`, [${query.params.join(', ')}]);
 }`;
 		};
+
+		this.format = (code: string) => {
+			code = format(code, {
+				language: 'mysql',
+				useTabs: true,
+				keywordCase: "upper"
+			});
+
+			return code.replace(/\n/g, " \n");
+		}
 	}
 }

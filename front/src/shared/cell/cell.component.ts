@@ -3,7 +3,7 @@ import { Table } from "../../classes/table";
 import { Relation } from "../../classes/relation";
 import { Server } from "../../classes/server";
 import { Database } from "../../classes/database";
-import helper from "../shared-helper.mjs";
+import helper from "../common-helper.mjs";
 
 @Component({
 	selector: 'app-cell',

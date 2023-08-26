@@ -3,6 +3,7 @@ import {URL} from "url";
 import express from "express";
 import cors from "cors";
 import {promises as fsp} from "fs";
+import bash from "./shared/bash.js";
 
 const dirname = new URL(".", import.meta.url).pathname;
 dotenv.config({path: dirname + "/../.env"});
@@ -28,6 +29,6 @@ app.use(express.static(dirname + "front"));
 	});
 
 	app.listen(port, () => {
-		console.log(`WebDB App running on http://localhost:${port}`);
+		bash.logCommand("WebDB App running", "database", "ping_", port, "r_size");
 	});
 })();

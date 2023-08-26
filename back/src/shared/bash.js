@@ -1,5 +1,5 @@
 import {execSync} from "child_process";
-import helper from "./shared-helper.mjs";
+import helper from "./common-helper.mjs";
 
 class Bash {
 
@@ -7,7 +7,7 @@ class Bash {
 		database = database ? `\x1B[36m${database.padStart(20, " ")}\x1b[0m` : " ".padStart(20, " ");
 		command = helper.singleLine(command).trim();
 		port = `\x1b[34m${port.toString().padStart(5, " ")}\x1b[0m`;
-		ping = `\x1b[35m${ping.toString().padStart(4, " ")}ms\x1b[0m`;
+		ping = `\x1b[35m${ping.toString().padStart(5, " ")}ms\x1b[0m`;
 		length = `\x1b[33m${length.toString().padStart(6, " ")}\x1b[0m`;
 
 		console.info(`${port} ${ping} ${database} ${length} ${command}`);

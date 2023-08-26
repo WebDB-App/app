@@ -1,22 +1,9 @@
 <div cdkDrag cdkDragHandle
 	 cdkDragRootElement=".cdk-overlay-pane"
 	 mat-dialog-title>
-	<div>
-		<h3>
-			{{file}}
-		</h3>
-
-		<button
-			(click)="toggleAutoRefresh()"
-			[color]="interval ? 'accent' : undefined"
-			mat-icon-button
-			matTooltipPosition="right"
-			matTooltip="Reload data periodically">
-			<span class="material-symbols-outlined notranslate">
-				{{interval ? 'repeat_one_on' : 'repeat_one'}}
-			</span>
-		</button>
-	</div>
+	<h3>
+		{{file}}
+	</h3>
 
 	<mat-form-field
 		style="font-size: 13px; flex: 1; margin: 0px 30px -1.25em 30px"
@@ -33,6 +20,17 @@
 			<mat-icon>close</mat-icon>
 		</button>
 	</mat-form-field>
+
+	<button
+		(click)="toggleAutoRefresh()"
+		[color]="interval ? 'accent' : undefined"
+		mat-icon-button
+		matTooltipPosition="right"
+		matTooltip="Reload data periodically">
+		<span class="material-symbols-outlined notranslate">
+			{{interval ? 'repeat_one_on' : 'repeat_one'}}
+		</span>
+	</button>
 
 	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
 		<mat-icon>close</mat-icon>

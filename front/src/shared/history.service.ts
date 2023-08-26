@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Database } from "../classes/database";
-import helper from "./shared-helper.mjs";
+import helper from "./common-helper.mjs";
 
 const maxHistory = 100;
 

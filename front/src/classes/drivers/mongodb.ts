@@ -7,7 +7,7 @@ import { Database } from "../database";
 import { loadLibAsset } from "../../shared/helper";
 import { Server } from "../server";
 import { Configuration } from "../configuration";
-import helper from "../../shared/shared-helper.mjs";
+import helper from "../../shared/common-helper.mjs";
 
 declare var monaco: any;
 
@@ -36,6 +36,14 @@ export class MongoDB implements Driver {
 	}
 
 	trigger = {
+		base: `{
+	"$jsonSchema": {
+		"bsonType": "object",
+		"description": "Description example",
+		"properties": {
+		}
+	}
+}`,
 		templates: {
 			name_is_string: `{
 	"$jsonSchema": {

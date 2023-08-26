@@ -8,7 +8,7 @@ import { HistoryService } from "../shared/history.service";
 import { Relation } from "./relation";
 import { Configuration } from "./configuration";
 import { HttpClient } from "@angular/common/http";
-import helper from "../shared/shared-helper.mjs";
+import helper from "../shared/common-helper.mjs";
 
 //import * as monaco from 'monaco-editor'
 declare var monaco: any;
@@ -39,6 +39,7 @@ export class SQL implements Driver {
 
 	trigger = {
 		templates: {},
+		base: "",
 		language: "sql"
 	}
 
@@ -115,7 +116,7 @@ export class SQL implements Driver {
 			'SET',
 			'IF',
 			'ELSEIF',
-			'END IF',
+			'END IF;',
 			'DESCRIBE',
 			'PRIMARY KEY',
 			'FOREIGN KEY',
@@ -376,10 +377,6 @@ export class SQL implements Driver {
 
 		Database.getSelected()?.tables?.map(table => {
 			const indexes = Table.getIndexes(table).filter(index => index.table === table.name);
-			if (previousToken !== table.name.toLowerCase()) {
-				return;
-			}
-
 			table.columns.map(column => {
 				suggestions.push({
 					label: `${column.name}`,
@@ -402,48 +399,20 @@ export class SQL implements Driver {
 
 		const suggestions = this.basicSuggestions();
 
-		if (Table.getSelected()) {
-			const indexes = Table.getIndexes().filter(index => index.table === Table.getSelected()?.name);
+		const indexes = Table.getIndexes().filter(index => index.table === Table.getSelected()?.name);
 
-			Table.getSelected()?.columns.map(column => {
-				suggestions.push({
-					label: `${column.name}`,
-					kind: monaco.languages.CompletionItemKind.Class,
-					insertText: `${column.name}`,
-					detail: Column.displayTags(column, indexes)
-				});
+		Table.getSelected()?.columns.map(column => {
+			suggestions.push({
+				label: `${column.name}`,
+				kind: monaco.languages.CompletionItemKind.Class,
+				insertText: `${column.name}`,
+				detail: Column.displayTags(column, indexes)
 			});
-		} else {
-			Server.getSelected()?.dbs.map(db => {
-				suggestions.push({
-					label: db.name,
-					kind: monaco.languages.CompletionItemKind.Function,
-					insertText: `${db.name} `
-				});
-
-				db.tables?.map(table => {
-					const indexes = Table.getIndexes(table, db).filter(index => index.table === table.name);
-
-					suggestions.push({
-						label: `${db.name}.${table.name}`,
-						kind: monaco.languages.CompletionItemKind.Struct,
-						insertText: `${db.name}.${table.name} `
-					});
-
-					table.columns.map(column => {
-						suggestions.push({
-							label: `${db.name}.${table.name}.${column.name}`,
-							kind: monaco.languages.CompletionItemKind.Class,
-							insertText: `${db.name}.${table.name}.${column.name}`,
-							detail: Column.displayTags(column, indexes)
-						});
-					})
-				});
-			});
-		}
+		});
 
 		Database.getSelected()?.tables?.map(table => {
-			const indexes = Table.getIndexes(table).filter(index => index.table === table.name);
+			const indexes = Table.getIndexes(table);
+			const relations = Table.getRelations(table);
 
 			suggestions.push({
 				label: `${table.name}`,
@@ -458,6 +427,22 @@ export class SQL implements Driver {
 					insertText: `${table.name}.${column.name}`,
 					detail: Column.displayTags(column, indexes)
 				});
+			});
+
+			relations.map(relation => {
+				suggestions.push({
+					label: `JOIN ${relation.table_source} → ${relation.table_dest}`,
+					kind: monaco.languages.CompletionItemKind.Reference,
+					insertText: `JOIN ${relation.table_source} ON ${relation.table_source}.${relation.column_source} = ${relation.table_dest}.${relation.column_dest}`,
+				});
+			});
+		});
+
+		Server.getSelected()?.dbs.map(db => {
+			suggestions.push({
+				label: db.name,
+				kind: monaco.languages.CompletionItemKind.Function,
+				insertText: `${db.name} `
 			});
 		});
 
@@ -562,7 +547,7 @@ export class SQL implements Driver {
 
 		const joins: string[] = [];
 		for (const relation of relations) {
-			joins.push(`INNER JOIN ${relation.table_dest} ON ${relation.table_dest}.${relation.column_dest} = ${relation.table_source}.${relation.column_source}`)
+			joins.push(`JOIN ${relation.table_dest} ON ${relation.table_dest}.${relation.column_dest} = ${relation.table_source}.${relation.column_source}`)
 		}
 
 		return `SELECT ${columns} FROM ${table.name} ${joins.join("\n")} GROUP BY ${columns} HAVING 1 = 1`;
