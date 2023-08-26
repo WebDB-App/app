@@ -17,7 +17,7 @@ import { MatPaginatorIntl } from "@angular/material/paginator";
 import { DrawerService } from "../../../shared/drawer.service";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import helper from "../../../shared/shared-helper.mjs";
+import helper from "../../../shared/common-helper.mjs";
 
 declare var monaco: any;
 
@@ -57,6 +57,7 @@ export class QueryComponent implements OnInit, OnDestroy {
 	isLoading = false;
 	displayedColumns?: string[];
 	dataSource?: MatTableDataSource<any>;
+	autoFormat = true;
 	protected readonly Math = Math;
 
 	constructor(
@@ -132,7 +133,10 @@ export class QueryComponent implements OnInit, OnDestroy {
 			await this._runSingle();
 		}
 		this.isLoading = false;
-		setTimeout(() => this.editors.map(editor => editor.trigger("editor", "editor.action.formatDocument")), 1);
+
+		if (this.autoFormat) {
+			setTimeout(() => this.editors.map(editor => editor.trigger("editor", "editor.action.formatDocument")), 1);
+		}
 	}
 
 	async _runSingle() {
@@ -163,7 +167,7 @@ export class QueryComponent implements OnInit, OnDestroy {
 		} else {
 			if (this.querySize === 0) {
 				result.push({" ": "No Data"});
-			} else if (this.selectedTable) {
+			} else {
 				this.history.addLocal(new Query(this.query, this.querySize));
 			}
 		}
@@ -215,7 +219,9 @@ export class QueryComponent implements OnInit, OnDestroy {
 				this.query = this.selectedServer!.driver.getBaseAggregate!(this.selectedTable!);
 				break;
 		}
-		setTimeout(() => this.editors.map(editor => editor.trigger("editor", "editor.action.formatDocument")), 1);
+		if (this.autoFormat) {
+			setTimeout(() => this.editors.map(editor => editor.trigger("editor", "editor.action.formatDocument")), 1);
+		}
 	}
 
 	exportQuery() {

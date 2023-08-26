@@ -77,7 +77,8 @@ export default class MySQL extends SQL {
 	}
 
 	async replaceTrigger(database, table, trigger) {
-		return await this.runCommand(`CREATE OR REPLACE TRIGGER ${trigger.name} ${trigger.timing} ${trigger.event} ON ${table} ${trigger.code}`, database);
+		await this.dropTrigger(database, trigger.name);
+		return await this.runCommand(`CREATE TRIGGER ${trigger.name} ${trigger.timing} ${trigger.event} ON ${table} ${trigger.code}`, database);
 	}
 
 	async dropTrigger(database, name) {
@@ -88,7 +89,7 @@ export default class MySQL extends SQL {
 		const triggers = await this.runCommand(`SHOW TRIGGERS WHERE \`Table\` = '${table}'`, database);
 		return triggers.map(trigger => {
 			return {
-				code: trigger.Statement,
+				code: "FOR EACH ROW " + trigger.Statement,
 				timing: trigger.Timing,
 				event: trigger.Event,
 				name: trigger.Trigger
@@ -99,7 +100,7 @@ export default class MySQL extends SQL {
 	async duplicateTable(database, old_table, new_name) {
 		return await this.runCommand(`CREATE TABLE \`${new_name}\` LIKE \`${old_table}\`;
 			INSERT INTO \`${new_name}\` SELECT * FROM \`${old_table}\`;`,
-			database);
+		database);
 	}
 
 	async createDatabase(name) {

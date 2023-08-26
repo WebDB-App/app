@@ -12,7 +12,7 @@ COPY front/package.json front/pnpm-lock.yaml ./
 RUN pnpm install --prod --frozen-lockfile
 
 COPY front .
-COPY shared-helper.mjs ./src/shared/shared-helper.mjs
+COPY common-helper.mjs ./src/shared/common-helper.mjs
 
 RUN pnpm run build
 
@@ -31,7 +31,7 @@ ENV NODE_ENV=production
 RUN pnpm install --prod --frozen-lockfile
 
 COPY back .
-COPY shared-helper.mjs ./src/shared/shared-helper.mjs
+COPY common-helper.mjs ./src/shared/common-helper.mjs
 
 RUN npm run obfuscate
 RUN cp .env.production .env

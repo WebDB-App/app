@@ -6,6 +6,7 @@ import { RequestService } from "../../../shared/request.service";
 import { Trigger } from "../../../classes/trigger";
 import { Server } from "../../../classes/server";
 import { initBaseEditor, isSQL } from "../../../shared/helper";
+import helper from "../../../shared/common-helper.mjs";
 
 @Component({
 	selector: 'app-trigger',
@@ -61,12 +62,19 @@ export class TriggerComponent implements OnInit {
 		this.selectedServer = Server.getSelected();
 
 		//enum for postgre
-		//tester
 		this.triggers = (await this.request.post('trigger/list', undefined)).map((trg: Trigger) => {trg.saved = true; return trg})
 	}
 
 	add() {
-		this.triggers?.push(new Trigger(""));
+		this.triggers?.push(new Trigger(
+			Server.getSelected()?.driver.trigger.base,
+			undefined,
+			"trigger_" + this.selectedTable?.name,
+			this.timings[0],
+			this.events[0],
+			this.actions[0],
+			this.levels[0]
+			));
 	}
 
 	async delete(trigger: Trigger) {
@@ -95,5 +103,16 @@ export class TriggerComponent implements OnInit {
 			}
 			return trg;
 		});
+	}
+
+	nameValid(name: string) {
+		if (!name.match(helper.validName)) {
+			return false;
+		}
+		return this.triggers!.filter(trg => trg.name === name).length < 2;
+	}
+
+	duplicate(trigger: Trigger) {
+		this.triggers?.push({...trigger});
 	}
 }

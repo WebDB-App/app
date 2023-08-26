@@ -3,7 +3,7 @@ import Driver from "../shared/driver.js";
 import bash from "../shared/bash.js";
 import {URL} from "url";
 import {writeFileSync} from "fs";
-import helper from "../shared/shared-helper.mjs";
+import helper from "../shared/common-helper.mjs";
 
 const dirname = new URL(".", import.meta.url).pathname;
 

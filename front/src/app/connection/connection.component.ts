@@ -10,7 +10,7 @@ import { RequestService } from "../../shared/request.service";
 import * as drivers from '../../classes/drivers';
 import { DomSanitizer, Title } from "@angular/platform-browser";
 import { MatIconRegistry } from "@angular/material/icon";
-import helper from "../../shared/shared-helper.mjs";
+import helper from "../../shared/common-helper.mjs";
 
 @Component({
 	selector: 'app-connection',
