@@ -24,7 +24,7 @@
 	<div>
 		<button
 			matTooltip="Format query on run"
-			[(ngModel)]="autoFormat"
+			(click)="autoFormat = !autoFormat"
 			[class.mat-raised-button]="autoFormat"
 			mat-button>
 			<span class="material-symbols-outlined notranslate">format_indent_increase</span>
@@ -142,8 +142,7 @@
 	</div>
 </div>
 
-<div *ngIf="diff && !isLoading">
-	<mat-divider></mat-divider>
+<div *ngIf="diff && !isLoading" style="border-top: 2px solid #444444; position: relative;">
 	<ngx-monaco-diff-editor
 		[modifiedModel]="modifiedResult"
 		[options]="editorOptions"

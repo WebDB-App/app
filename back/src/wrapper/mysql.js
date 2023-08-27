@@ -253,7 +253,19 @@ export default class MySQL extends SQL {
 			if (e.sqlMessage.indexOf("'") >= 0) {
 				e.sqlMessage = e.sqlMessage.substring(e.sqlMessage.indexOf("'") + 1);
 				e.sqlMessage = e.sqlMessage.substring(0, e.sqlMessage.indexOf("'"));
-				err["position"] = command.indexOf(e.sqlMessage);
+
+				const separators = ["\n", "\t", " ", ""];
+				for (const start of separators) {
+					for (const end of separators) {
+						err["position"] = command.indexOf(start + e.sqlMessage + end);
+						if (err["position"] >= 0) {
+							break;
+						}
+					}
+					if (err["position"] >= 0) {
+						break;
+					}
+				}
 			}
 			return err;
 		} finally {
