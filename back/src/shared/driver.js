@@ -41,6 +41,10 @@ export default class Driver {
 		return this.systemDbs.find(db => dbName.indexOf(db) >= 0);
 	}
 
+	makeUri() {
+		return null;
+	}
+
 	async getConnectionOfDatabase(database) {
 		if (this.dbPool[database]) {
 			return this.dbPool[database];

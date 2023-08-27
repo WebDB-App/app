@@ -33,7 +33,7 @@ export default class MongoDB extends Driver {
 		}
 		if (exportType === "bson") {
 			path = `${path}.gz`;
-			bash.runBash(`mongodump --uri="${this.makeUri(true)}" --db=${database} --gzip --archive=${path}`);
+			bash.runBash(`mongodump --uri="${this.makeUri()}" --db=${database} --gzip --archive=${path}`);
 			return {path: `dump/${database}.gz`};
 		}
 		return {path: `dump/${database}.${exportType}`};
@@ -41,10 +41,10 @@ export default class MongoDB extends Driver {
 
 	async load(filePath, database) {
 		if (filePath.endsWith(".csv") || filePath.endsWith(".json") || filePath.endsWith(".tsv")) {
-			return bash.runBash(`mongoimport --db="${database}" --uri="${this.makeUri(true)}" --file "${filePath}"`);
+			return bash.runBash(`mongoimport --db="${database}" --uri="${this.makeUri()}" --file "${filePath}"`);
 		}
 
-		return bash.runBash(`mongorestore --nsFrom="*" --nsTo="${database}.*" --gzip --uri="${this.makeUri(true)}" --archive="${filePath}"`);
+		return bash.runBash(`mongorestore --nsFrom="*" --nsTo="${database}.*" --gzip --uri="${this.makeUri()}" --archive="${filePath}"`);
 	}
 
 	async createView(database, view, code, table) {
@@ -427,7 +427,7 @@ export default class MongoDB extends Driver {
 		return struct;
 	}
 
-	makeUri(withParams = false) {
+	makeUri(withParams = true) {
 		let url = (this.user && this.password) ?
 			`mongodb://${this.user}:${this.password}@${this.host}:${this.port}/` :
 			`mongodb://${this.host}:${this.port}/`;
@@ -441,7 +441,7 @@ export default class MongoDB extends Driver {
 
 	async establish() {
 		try {
-			const connection = await MongoClient.connect(this.makeUri(), this.params);
+			const connection = await MongoClient.connect(this.makeUri(false), this.params);
 
 			const admin = await connection.db().admin();
 			await admin.listDatabases();

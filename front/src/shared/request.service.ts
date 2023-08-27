@@ -60,6 +60,7 @@ export class RequestService {
 			const connect = await firstValueFrom(this.http.post<any>(environment.apiRootUrl + 'server/connect', Server.getShallow(server)));
 
 			server.connected = !connect.error;
+			server.uri = connect.uri;
 			toLoad.push(server);
 		}
 
