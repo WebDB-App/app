@@ -36,11 +36,11 @@
 		No trigger for this table
 	</div>
 
-	<div *ngFor="let trigger of triggers">
+	<div *ngFor="let trigger of triggers; let i = index">
 		<mat-card [hidden]="trigger.hide">
 			<mat-card-header>
 				<mat-card-subtitle style="display: flex">
-					<mat-form-field appearance="fill" *ngIf="isSQL()">
+					<mat-form-field appearance="fill" style="width: 250px" *ngIf="isSQL()">
 						<mat-label>Trigger Name</mat-label>
 						<input
 							(ngModelChange)="trigger.changed = true"
@@ -142,12 +142,13 @@
 					</button>
 				</mat-menu>
 
-				<button (click)="delete(trigger)"
+				<button (click)="delete(trigger, i)"
 						color="warn"
 						mat-button>
 					<span class="material-symbols-outlined notranslate">
 						delete
 					</span>
+					Drop
 				</button>
 			</mat-card-footer>
 		</mat-card>

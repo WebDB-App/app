@@ -77,19 +77,15 @@ export class TriggerComponent implements OnInit {
 			));
 	}
 
-	async delete(trigger: Trigger) {
+	async delete(trigger: Trigger, i: number) {
 		if (trigger.saved) {
 			await this.request.post('trigger/drop', trigger);
-			await this.loadData();
-			this.snackBar.open(`Trigger deleted`, "╳", {duration: 3000});
-		} else {
-			this.triggers?.splice(this.triggers.findIndex(trg => JSON.stringify(trg) === JSON.stringify(trigger)))
 		}
+		this.triggers?.splice(i);
 	}
 
 	async replace(trigger: Trigger) {
 		await this.request.post('trigger/replace', trigger);
-		await this.loadData();
 		this.snackBar.open(`Trigger saved`, "╳", {duration: 3000});
 	}
 

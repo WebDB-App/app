@@ -1,23 +1,33 @@
 <div class="bottom-sheet">
 	<div class="error">
-		{{error}}
+		{{data.error.error}}
 	</div>
 
 	<div>
+		<a	target="_blank"
+			href="https://google.com/search?q={{data.error.error}}"
+			matTooltip="Search on web"
+			mat-icon-button>
+			<span class="material-symbols-outlined notranslate">
+				travel_explore
+			</span>
+		</a>
+
 		<button
-			style="float: right; margin-top: -28px; right: 5px; position: absolute;"
 			(click)="assistant()"
-			mat-icon-button
-			matTooltip="Ask AI for help">
+			matTooltip="Ask IA for help"
+			mat-icon-button>
 			<span class="material-symbols-outlined notranslate">
 				support_agent
 			</span>
 		</button>
 
 		<button
-			mat-button
+			mat-icon-button
 			(click)="bottomSheetRef.dismiss()">
-			╳
+			<span class="material-symbols-outlined notranslate">
+				close
+			</span>
 		</button>
 	</div>
 </div>

@@ -181,7 +181,7 @@ a {
 
 		h3 {
 			align-self: center;
-			margin: 0px 30px 0px 10px !important;
+			margin: 0px 0px 0px 10px !important;
 		}
 	}
 
@@ -203,6 +203,11 @@ a {
 .mat-menu-content .material-symbols-outlined {
 	margin-right: 16px;
 	vertical-align: middle;
+}
+
+.mat-list-item, .mat-menu-item, .mat-option {
+	height: 42px !important;
+	line-height: 42px !important;
 }
 
 .mat-autocomplete-panel, .mat-select-panel {
@@ -326,10 +331,10 @@ ngx-monaco-editor {
 	width: 40vw;
 	resize: both;
 	overflow: auto;
+}
 
-	.editor-container {
-		height: 100% !important;
-	}
+.editor-container {
+	height: 100% !important;
 }
 
 :root {

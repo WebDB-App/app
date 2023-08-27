@@ -45,10 +45,10 @@ export class RequestService {
 		));
 		if (snackError && result?.error) {
 			this.bottomSheet.open(ErrorComponent, {
-				data: result.errors,
+				data: {error: result, context: data},
 				hasBackdrop: false
 			});
-			throw new HttpErrorResponse({statusText: result.error});
+			throw new HttpErrorResponse({error: result});
 		}
 
 		return result;

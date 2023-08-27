@@ -143,6 +143,20 @@ export class QueryComponent implements OnInit, OnDestroy {
 		}
 	}
 
+	addMonacoError(editor: any, error: any) {
+		const pos = +error.position || 0;
+		const startLineNumber = this.query.substring(0, pos).split(/\r\n|\r|\n/).length;
+
+		monaco.editor.setModelMarkers(editor.getModel(), "owner", [{
+			startLineNumber: startLineNumber,
+			startColumn: 0,
+			endLineNumber: +error.position ? startLineNumber : Infinity,
+			endColumn: Infinity,
+			message: error.error,
+			severity: monaco.MarkerSeverity.Error
+		}]);
+	}
+
 	async _runSingle() {
 		let result = [];
 
@@ -156,18 +170,9 @@ export class QueryComponent implements OnInit, OnDestroy {
 				this.querySize = await this.request.post('database/querySize', {query: this.query})
 			]);
 		} catch (result: any) {
-			const pos = +result.position || 0;
-			const startLineNumber = this.query.substring(0, pos).split(/\r\n|\r|\n/).length;
-
-			monaco.editor.setModelMarkers(this.editors[0].getModel(), "owner", [{
-				startLineNumber: startLineNumber,
-				startColumn: 0,
-				endLineNumber: +result.position ? startLineNumber : Infinity,
-				endColumn: Infinity,
-				message: result.error,
-				severity: monaco.MarkerSeverity.Error
-			}]);
+			this.addMonacoError(this.editors[0], result.error);
 			this.dataSource = new MatTableDataSource();
+			return;
 		}
 
 		if (this.querySize === 0) {
@@ -184,18 +189,24 @@ export class QueryComponent implements OnInit, OnDestroy {
 	}
 
 	async _runCompare() {
-		const run = async (query: string) => {
-			const data = await this.request.post('database/query', {
-				query,
-				pageSize: this.pageSize,
-				page: this.page
-			})
-			this.history.addLocal(new Query(query, data.length));
+		const run = async (query: string, editor: any) => {
+			let data;
+			try {
+				data = await this.request.post('database/query', {
+					query,
+					pageSize: this.pageSize,
+					page: this.page
+				});
+				this.history.addLocal(new Query(query, data.length));
+			} catch (result: any) {
+				this.addMonacoError(editor, result.error);
+			}
+
 			return JSON.stringify(data, null, "\t");
 		}
 
 		this.querySize = 10000;
-		[this.originalResult.code, this.modifiedResult.code] = await Promise.all([run(this.query), run(this.query2)]);
+		[this.originalResult.code, this.modifiedResult.code] = await Promise.all([run(this.query, this.editors[0]), run(this.query2, this.editors[1])]);
 	}
 
 	loadTemplate(value: string) {

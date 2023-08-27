@@ -31,7 +31,7 @@ export class SubscriptionDialog implements OnInit {
 			this.snackBar.open(`You successfully register this account. Thanks you =)`, "╳", {duration: 3000});
 			await this.ngOnInit();
 		} catch (err: any) {
-			this.snackBar.open("Error : " + err.statusText + ". You can contact us at: main.webdb@gmail.com", "╳", {panelClass: 'snack-error'});
+			this.snackBar.open("Error : " + err.error + ". You can contact us at: main.webdb@gmail.com", "╳", {panelClass: 'snack-error'});
 		}
 	}
 }
