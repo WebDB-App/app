@@ -23,8 +23,8 @@ export class ErrorComponent {
 
 	async assistant() {
 		this.bottomSheetRef.dismiss();
-		await this.drawer.drawer.open();
-		const question = "When"//'When running a request with the context: ```' + JSON.stringify(this.data.context) + '``` , I got this error: ```' + JSON.stringify(this.data.error.error || this.data.error) + '```, can you fix it for me';
-		await this.router.navigate([{outlets: {right: ['assistant', {question}]}}]);
+		await this.router.navigate(
+			[{outlets: {right: ['assistant']}}])
+		await this.drawer.open('When running a request with the context: ```' + JSON.stringify(this.data.context) + '``` , I got this error: ```' + JSON.stringify(this.data.error.error || this.data.error) + '```, can you fix it for me');
 	}
 }

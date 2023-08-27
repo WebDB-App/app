@@ -116,7 +116,7 @@ export class AiComponent implements OnInit {
 				this.scrollToBottom();
 			}
 
-			const question = this.route.snapshot.paramMap.get('question');
+			const question = this.drawer.lastData;
 			if (question) {
 				await this.sendMessage(question);
 			}

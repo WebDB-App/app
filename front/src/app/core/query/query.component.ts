@@ -14,7 +14,6 @@ import { HistoryService, Query } from "../../../shared/history.service";
 import { initBaseEditor, isSQL, REMOVED_LABELS } from "../../../shared/helper";
 import { ExportResultDialog } from "../../../shared/export-result-dialog/export-result-dialog";
 import { MatPaginatorIntl } from "@angular/material/paginator";
-import { DrawerService } from "../../../shared/drawer.service";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import helper from "../../../shared/common-helper.mjs";
@@ -67,7 +66,6 @@ export class QueryComponent implements OnInit, OnDestroy {
 		private history: HistoryService,
 		private activatedRoute: ActivatedRoute,
 		private router: Router,
-		private drawer: DrawerService
 	) {
 	}
 

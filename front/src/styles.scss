@@ -131,11 +131,16 @@ body {
 }
 
 a {
-	color: mat.get-color-from-palette($angular-primary, default)
+	color: mat.get-color-from-palette($angular-primary, default);
 }
 
-.snack-error, .mat-bottom-sheet-container {
-	background-color: mat.get-color-from-palette($angular-warn, default)
+.mat-bottom-sheet-container {
+	background-color: rgba(244, 67, 54, 0.7);
+	backdrop-filter: blur(3px);
+}
+
+.snack-error {
+	background-color: mat.get-color-from-palette($angular-warn, default);
 }
 
 .mat-paginator {
