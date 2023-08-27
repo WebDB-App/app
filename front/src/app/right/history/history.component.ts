@@ -43,7 +43,7 @@ export class HistoryComponent implements OnInit {
 
 	goToQuery(query: string) {
 		this.router.navigate([Server.getSelected().name, Database.getSelected().name, Table.getSelected().name, 'query', query]);
-		this.drawer.toggle();
+		this.drawer.close();
 	}
 
 	remove(his: Query) {

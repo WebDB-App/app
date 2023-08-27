@@ -36,7 +36,10 @@ if (environment.production) {
 }
 
 @NgModule({
-	imports: [RouterModule.forRoot(appRoutes, {useHash: true})],
+	imports: [RouterModule.forRoot(appRoutes, {
+		useHash: true,
+		enableTracing: true
+	})],
 	exports: [RouterModule]
 })
 export class AppRoutingModule {

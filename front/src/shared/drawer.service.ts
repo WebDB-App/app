@@ -6,12 +6,24 @@ import { MatDrawer } from '@angular/material/sidenav';
 })
 export class DrawerService {
 	drawer!: MatDrawer;
+	private _lastData?: any;
 
-	public setDrawer(sidenav: MatDrawer) {
+	get lastData(): any {
+		const l = this._lastData;
+		this._lastData = undefined;
+		return l;
+	}
+
+	setDrawer(sidenav: MatDrawer) {
 		this.drawer = sidenav;
 	}
 
-	public toggle(): void {
-		this.drawer.toggle();
+	async close() {
+		await this.drawer.close();
+	}
+
+	async open(data: any) {
+		this._lastData = data;
+		await this.drawer.open();
 	}
 }

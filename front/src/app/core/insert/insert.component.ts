@@ -302,11 +302,9 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 	}
 
 	async iaCode(random: Random, framework: string) {
-		this.drawer.toggle();
-
-		const question = `With ${framework}, give me the code to generate random data for my column "${random.column.name}" in the table "${this.selectedTable?.name}"`;
 		await this.router.navigate(
-			[{outlets: {right: ['assistant', {question}]}}],
+			[{outlets: {right: ['assistant']}}],
 			{relativeTo: this.activatedRoute.parent?.parent})
+		await this.drawer.open(`With ${framework}, give me the code to generate random data for my column "${random.column.name}" in the table "${this.selectedTable?.name}"`);
 	}
 }
