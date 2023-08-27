@@ -1,0 +1,23 @@
+<div class="bottom-sheet">
+	<div class="error">
+		{{error}}
+	</div>
+
+	<div>
+		<button
+			style="float: right; margin-top: -28px; right: 5px; position: absolute;"
+			(click)="assistant()"
+			mat-icon-button
+			matTooltip="Ask AI for help">
+			<span class="material-symbols-outlined notranslate">
+				support_agent
+			</span>
+		</button>
+
+		<button
+			mat-button
+			(click)="bottomSheetRef.dismiss()">
+			╳
+		</button>
+	</div>
+</div>

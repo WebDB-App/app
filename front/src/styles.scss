@@ -134,7 +134,7 @@ a {
 	color: mat.get-color-from-palette($angular-primary, default)
 }
 
-.snack-error {
+.snack-error, .mat-bottom-sheet-container {
 	background-color: mat.get-color-from-palette($angular-warn, default)
 }
 
