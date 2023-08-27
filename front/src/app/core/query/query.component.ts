@@ -127,32 +127,35 @@ export class QueryComponent implements OnInit, OnDestroy {
 
 	async runQuery() {
 		this.isLoading = true;
-		if (this.diff) {
-			await this._runCompare();
-		} else {
-			await this._runSingle();
-		}
-		this.isLoading = false;
 
-		if (this.autoFormat) {
-			setTimeout(() => this.editors.map(editor => editor.trigger("editor", "editor.action.formatDocument")), 1);
+		try {
+			if (this.diff) {
+				await this._runCompare();
+			} else {
+				await this._runSingle();
+			}
+			if (this.autoFormat) {
+				setTimeout(() => this.editors.map(editor => editor.trigger("editor", "editor.action.formatDocument")), 1);
+			}
+		} catch (e) {}
+		finally {
+			this.isLoading = false;
 		}
 	}
 
 	async _runSingle() {
 		let result = [];
-		await Promise.all([
-			result = await this.request.post('database/query', {
-				query: this.query,
-				pageSize: this.pageSize,
-				page: this.page
-			}),
-			this.querySize = await this.request.post('database/querySize', {query: this.query})
-		]);
 
-		monaco.editor.setModelMarkers(this.editors[0].getModel(), "owner", []);
-
-		if (result.error) {
+		try {
+			await Promise.all([
+				result = await this.request.post('database/query', {
+					query: this.query,
+					pageSize: this.pageSize,
+					page: this.page
+				}),
+				this.querySize = await this.request.post('database/querySize', {query: this.query})
+			]);
+		} catch (result: any) {
 			const pos = +result.position || 0;
 			const startLineNumber = this.query.substring(0, pos).split(/\r\n|\r|\n/).length;
 
@@ -164,14 +167,14 @@ export class QueryComponent implements OnInit, OnDestroy {
 				message: result.error,
 				severity: monaco.MarkerSeverity.Error
 			}]);
-		} else {
-			if (this.querySize === 0) {
-				result.push({" ": "No Data"});
-			} else {
-				this.history.addLocal(new Query(this.query, this.querySize));
-			}
+			this.dataSource = new MatTableDataSource();
 		}
 
+		if (this.querySize === 0) {
+			result.push({" ": "No Data"});
+		} else {
+			this.history.addLocal(new Query(this.query, this.querySize));
+		}
 		if (!Array.isArray(result)) {
 			result = [result];
 		}
@@ -240,14 +243,6 @@ export class QueryComponent implements OnInit, OnDestroy {
 			data,
 			hasBackdrop: false
 		});
-	}
-
-	async assistant(row: any) {
-		this.drawer.toggle();
-		const question = 'When running this query "' + helper.removeComment(this.query) + '" , I got this : ' + JSON.stringify(row) + ', can you fix it for me';
-		await this.router.navigate(
-			[{outlets: {right: ['assistant', {question}]}}],
-			{relativeTo: this.activatedRoute.parent?.parent})
 	}
 
 	addView() {

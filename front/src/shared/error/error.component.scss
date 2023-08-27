@@ -1,0 +1,12 @@
+.bottom-sheet {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	.error {
+		overflow: auto !important;
+		text-overflow: initial !important;
+		white-space: pre;
+		max-height: 20vh;
+	}
+}

@@ -5,8 +5,9 @@ import { environment } from "../environments/environment";
 import { Database } from "../classes/database";
 import { Server } from "../classes/server";
 import { Table } from "../classes/table";
-import { MatSnackBar } from "@angular/material/snack-bar";
 import * as drivers from "../classes/drivers";
+import { MatBottomSheet } from "@angular/material/bottom-sheet";
+import { ErrorComponent } from "./error/error.component";
 
 @Injectable({
 	providedIn: 'root'
@@ -17,8 +18,8 @@ export class RequestService {
 	loadingServer = this.loadingSubject.asObservable();
 
 	constructor(
+		private bottomSheet: MatBottomSheet,
 		private http: HttpClient,
-		private snackBar: MatSnackBar,
 	) {
 	}
 
@@ -28,6 +29,7 @@ export class RequestService {
 			   server = Server.getSelected(),
 			   headers = new HttpHeaders(),
 			   snackError = true) {
+
 		const shallow = Server.getShallow(server);
 
 		headers = headers.set('Server', JSON.stringify(shallow));
@@ -42,7 +44,10 @@ export class RequestService {
 			environment.apiRootUrl + url, data, {headers}
 		));
 		if (snackError && result?.error) {
-			this.snackBar.open(result.error, "╳", {panelClass: 'snack-error'});
+			this.bottomSheet.open(ErrorComponent, {
+				data: result.errors,
+				hasBackdrop: false
+			});
 			throw new HttpErrorResponse({statusText: result.error});
 		}
 

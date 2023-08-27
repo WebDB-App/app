@@ -28,6 +28,8 @@ import { ColumnComponent } from "./column/column.component";
 import { MatCardModule } from "@angular/material/card";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { MatTooltipModule } from "@angular/material/tooltip";
+import { ErrorComponent } from './error/error.component';
+import { MatBottomSheetModule } from "@angular/material/bottom-sheet";
 
 @NgModule({
 	declarations: [
@@ -37,7 +39,8 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 		UpdateDataDialog,
 		ExportResultDialog,
 		BatchUpdateDialog,
-		ColumnComponent
+		ColumnComponent,
+		ErrorComponent
 	],
 	exports: [
 		RoundPipe,
@@ -64,6 +67,7 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 		ClipboardModule,
 		FormsModule,
 		DragDropModule,
+		MatBottomSheetModule,
 		MatButtonToggleModule,
 		MatSelectModule,
 		MatProgressSpinnerModule,
