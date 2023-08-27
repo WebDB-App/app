@@ -146,7 +146,7 @@ export class QueryComponent implements OnInit, OnDestroy {
 				query: this.query,
 				pageSize: this.pageSize,
 				page: this.page
-			}, undefined, undefined, undefined, undefined, false),
+			}),
 			this.querySize = await this.request.post('database/querySize', {query: this.query})
 		]);
 
@@ -186,11 +186,8 @@ export class QueryComponent implements OnInit, OnDestroy {
 				query,
 				pageSize: this.pageSize,
 				page: this.page
-			}, undefined, undefined, undefined, undefined, false)
-			if (data?.length) {
-				this.history.addLocal(new Query(query, data.length));
-			}
-
+			})
+			this.history.addLocal(new Query(query, data.length));
 			return JSON.stringify(data, null, "\t");
 		}
 
@@ -237,7 +234,7 @@ export class QueryComponent implements OnInit, OnDestroy {
 			query: this.query,
 			pageSize: this.querySize,
 			page: 0
-		}, undefined, undefined, undefined, undefined, false);
+		});
 		this.isLoading = false;
 		this.dialog.open(ExportResultDialog, {
 			data,

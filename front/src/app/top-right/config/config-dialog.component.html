@@ -1,5 +1,5 @@
 <div mat-dialog-title>
-	<h3>Configuration</h3>
+	<h3>App Settings</h3>
 	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
 		<mat-icon>close</mat-icon>
 	</button>
@@ -17,6 +17,29 @@
 						</mat-option>
 					</mat-select>
 				</mat-form-field>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="100%">
+				<div style="display: flex; align-items: center;">
+					<mat-form-field style="flex: 1;" appearance="outline">
+						<mat-label>OpenAI Key</mat-label>
+						<input
+							#key
+							(change)="goodKey(key.value) ? update('openAiKey', key.value) : undefined"
+							[value]="configuration.getByName('openAiKey')?.value"
+							matInput>
+					</mat-form-field>
+					<mat-error *ngIf="!goodKey(key.value)">
+						Bad key format
+					</mat-error>
+					<a href="https://platform.openai.com/account/api-keys"
+					   mat-button
+					   matTooltip="OpenAI keys page"
+					   target="_blank">
+						<mat-icon svgIcon="chatgpt"></mat-icon>
+					</a>
+				</div>
 			</td>
 		</tr>
 	</table>

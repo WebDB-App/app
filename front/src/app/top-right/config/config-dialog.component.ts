@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Configuration } from "../../../classes/configuration";
 import { RequestService } from "../../../shared/request.service";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
 	templateUrl: './config-dialog.component.html',
@@ -11,6 +12,7 @@ export class ConfigDialog {
 	configuration: Configuration = new Configuration();
 
 	constructor(
+		private snackBar: MatSnackBar,
 		private request: RequestService
 	) {
 	}
@@ -18,5 +20,13 @@ export class ConfigDialog {
 	async update(name: string, value: string) {
 		this.configuration.update(name, value);
 		await this.request.reloadServer();
+		this.snackBar.open("Settings saved", "╳", {duration: 3000});
+	}
+
+	goodKey(key: string) {
+		if (!key) {
+			return true;
+		}
+		return !!key.match(/^sk-[a-zA-Z0-9]{32,}$/);
 	}
 }

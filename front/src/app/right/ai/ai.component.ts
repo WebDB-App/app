@@ -4,7 +4,7 @@ import { Server } from "../../../classes/server";
 import { Licence } from "../../../classes/licence";
 import { RequestService } from "../../../shared/request.service";
 import { OpenAI } from "openai";
-import { Configuration as WebConfig } from "../../../classes/configuration";
+import { Configuration } from "../../../classes/configuration";
 import { marked } from 'marked';
 import { DrawerService } from "../../../shared/drawer.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
@@ -53,12 +53,11 @@ class Msg {
 export class AiComponent implements OnInit {
 
 	@ViewChild('scrollContainer') private scrollContainer!: ElementRef;
-	@ViewChild('settings') private settings!: ElementRef;
 
 	selectedServer?: Server;
 	selectedDatabase?: Database;
 	licence?: Licence;
-	configuration: WebConfig = new WebConfig();
+	configuration: Configuration = new Configuration();
 	initialized = false
 
 	Role = Role;
@@ -79,10 +78,10 @@ export class AiComponent implements OnInit {
 	openai?: OpenAI;
 	isLoading = false;
 
+	key?: string;
 	sample = "";
 	config = {
 		model: "gpt-3.5-turbo-16k",
-		openAI: '',
 		temperature: 1
 	};
 	preSent = {
@@ -109,6 +108,12 @@ export class AiComponent implements OnInit {
 		this.selectedServer = Server.getSelected();
 
 		this.drawer.drawer.openedChange.subscribe(async (state: boolean) => {
+			this.key = this.configuration.getByName('openAiKey')?.value;
+			if (!this.key) {
+				return;
+			}
+
+			this.openai = new OpenAI({apiKey: this.key, dangerouslyAllowBrowser: true});
 			if (state && !this.initialized) {
 				this.initialized = true;
 				this.scrollToBottom();
@@ -125,20 +130,13 @@ export class AiComponent implements OnInit {
 
 		await Promise.all([
 			(this.licence = await Licence.get(this.request)),
-			this.configChange(),
 			this.preSentChange(),
 			this.initChat()
 		]);
-
-		if (this.config.openAI) {
-			this.settings.nativeElement.setAttribute('hidden', true);
-		}
 	}
 
 	async configChange() {
 		localStorage.setItem(localKeyConfig, JSON.stringify(this.config));
-		this.openai = new OpenAI({apiKey: this.config.openAI, dangerouslyAllowBrowser: true});
-
 	}
 
 	async preSentChange() {
