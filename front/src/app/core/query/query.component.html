@@ -21,11 +21,34 @@
 		Compare
 	</button>
 
-	<mat-slide-toggle
-		[(ngModel)]="autoFormat"
-		color="primary">
-		Auto Format
-	</mat-slide-toggle>
+	<div>
+		<button
+			matTooltip="Format query on run"
+			[(ngModel)]="autoFormat"
+			[class.mat-raised-button]="autoFormat"
+			mat-button>
+			<span class="material-symbols-outlined notranslate">format_indent_increase</span>
+		</button>
+
+		<button [matMenuTriggerFor]="templatesMenu" mat-button matTooltip="Template">
+			<span class="material-symbols-outlined notranslate">grid_guides</span>
+		</button>
+		<mat-menu #templatesMenu="matMenu" xPosition="before">
+			<button (click)="loadTemplate(template)"
+					*ngFor="let template of templates"
+					mat-menu-item>
+				{{template | titlecase}}
+			</button>
+		</mat-menu>
+
+		<button
+			matTooltip="Compare Mode"
+			(click)="diff = !diff; query2 = query;"
+			[class.mat-raised-button]="diff"
+			mat-button>
+			<span class="material-symbols-outlined notranslate">splitscreen_left</span>
+		</button>
+	</div>
 
 	<div style="display: flex; align-items: center">
 		<mat-form-field *ngIf="querySize >= 1" appearance="outline" class="goToPage">
@@ -49,25 +72,6 @@
 	</div>
 
 	<div>
-		<button [matMenuTriggerFor]="templatesMenu" mat-button matTooltip="Template">
-			<span class="material-symbols-outlined notranslate">grid_guides</span>
-		</button>
-		<mat-menu #templatesMenu="matMenu" xPosition="before">
-			<button (click)="loadTemplate(template)"
-					*ngFor="let template of templates"
-					mat-menu-item>
-				{{template | titlecase}}
-			</button>
-		</mat-menu>
-
-		<button
-			matTooltip="Compare Mode"
-			(click)="diff = !diff; query2 = query;"
-			[class.mat-raised-button]="diff"
-			mat-button>
-			<span class="material-symbols-outlined notranslate">splitscreen_left</span>
-		</button>
-
 		<button [matMenuTriggerFor]="advanced" mat-icon-button>
 			<mat-icon>more_vert</mat-icon>
 		</button>

@@ -29,6 +29,6 @@ app.use(express.static(dirname + "front"));
 	});
 
 	app.listen(port, () => {
-		bash.logCommand("WebDB App running", "database", "ping_", port, "r_size");
+		bash.logCommand("WebDB App running", "database", "ping_", port, "rows");
 	});
 })();

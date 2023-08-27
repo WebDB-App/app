@@ -14,7 +14,7 @@
 	 fxLayout="column"
 	 fxLayoutAlign="space-between none">
 
-	<mat-toolbar style="display: inline-table; padding: 10px 16px; z-index: 100">
+	<mat-toolbar style="display: inline-table; padding: 2px 12px; z-index: 100">
 
 		<div fxLayout="row"
 			 fxLayoutAlign="space-between center">
@@ -29,7 +29,22 @@
 				</a>
 			</div>
 
-			<div class="flex-spacer"></div>
+			<mat-form-field
+				appearance="fill"
+				color="accent"
+				style="margin-bottom: -1.25em; width: 60%">
+				<mat-label>Tables</mat-label>
+				<mat-select
+					(selectionChange)="preSentChange()"
+					[(ngModel)]="preSent.tables"
+					multiple>
+					<mat-option
+						*ngFor="let table of selectedDatabase?.tables"
+						[value]="table.name">
+						{{table.name}}
+					</mat-option>
+				</mat-select>
+			</mat-form-field>
 
 			<button
 				(click)="settings.toggleAttribute('hidden')"
@@ -41,38 +56,20 @@
 			</button>
 		</div>
 
-		<div id="settings" #settings>
+		<div id="settings" #settings hidden>
 
 			<mat-divider></mat-divider>
 
 			<div>
-				<mat-form-field
-					appearance="fill"
-					color="accent"
-					style="margin-bottom: -1.25em; width: 100%">
-					<mat-label>Tables</mat-label>
-					<mat-select
-						(selectionChange)="preSentChange()"
-						[(ngModel)]="preSent.tables"
-						multiple>
-						<mat-option
-							*ngFor="let table of selectedDatabase?.tables"
-							[value]="table.name">
-							{{table.name}}
-						</mat-option>
-					</mat-select>
-				</mat-form-field>
-
 				<mat-slide-toggle
 					(change)="preSentChange()"
 					[(ngModel)]="preSent.triggers"
 					color="accent">
-					Triggers
+					Include Triggers
 				</mat-slide-toggle>
 
 				<div>
 					Rows count
-					<br>
 					<mat-slider
 						(change)="preSentChange()"
 						color="accent"
@@ -86,7 +83,6 @@
 
 				<div>
 					Deep level
-					<br>
 					<mat-slider
 						(change)="preSentChange()"
 						color="accent"
@@ -97,6 +93,15 @@
 						[(ngModel)]="preSent.deep">
 					</mat-slider>
 				</div>
+
+				<button
+					(click)="chat = []; saveChat()"
+					matTooltip="Clear conversation"
+					mat-button>
+					<span class="material-symbols-outlined notranslate">
+						delete_sweep
+					</span>
+				</button>
 			</div>
 
 			<mat-divider></mat-divider>
@@ -125,43 +130,33 @@
 					</mat-slider>
 				</div>
 			</div>
-
-			<mat-divider></mat-divider>
-
-			<div>
-				<mat-form-field style="flex: 1; margin-bottom: -1.25em" appearance="outline">
-					<mat-label>OpenAI Key</mat-label>
-					<input
-						(change)="configChange()"
-						[(ngModel)]="config.openAI"
-						required
-						matInput>
-				</mat-form-field>
-
-				<button
-					(click)="chat = []; saveChat()"
-					mat-button>
-					<span class="material-symbols-outlined notranslate">
-						delete_sweep
-					</span>
-				</button>
-			</div>
 		</div>
 	</mat-toolbar>
 
-	<div *ngIf="!chat.length || !config.openAI">
+	<h4
+		*ngIf="!key"
+		fxLayout="row"
+		fxLayoutAlign="center center"
+		style="margin: 40px"
+	>
+		Before accessing this feature,
+		<br>
+		Open "Settings" modal and fill your OpenAI key
+	</h4>
+
+	<div *ngIf="!chat.length || !key">
 		<h3 style="text-align: center; border-bottom: 1px dashed grey">Some examples</h3>
 		<div id="examples">
 			<button (click)="sendMessage(example);"
 					*ngFor="let example of examples"
-					[disabled]="!config.openAI"
+					[disabled]="!key"
 					mat-stroked-button>
 				{{example}}
 			</button>
 		</div>
 	</div>
 
-	<div *ngIf="config.openAI && chat.length" id="container" #scrollContainer>
+	<div *ngIf="key && chat.length" id="container" #scrollContainer>
 		<mat-card *ngFor="let ch of chat"
 				  [style.background-color]="ch.error ? '#f44336' : ch.user === Role.Assistant ? '#1e1e1e' : undefined">
 			<mat-card-content>
@@ -212,7 +207,7 @@
 
 	<mat-progress-bar *ngIf="isLoading" mode="indeterminate" color="accent" style="z-index: 100;"></mat-progress-bar>
 
-	<div [hidden]="!config.openAI" style="box-shadow: 0px -10px 16px 1px #363636; position: relative;">
+	<div [hidden]="!key" style="box-shadow: 0px -10px 16px 1px #363636; position: relative;">
 		<mat-form-field appearance="fill"
 						class="sendMessage"
 						color="accent">

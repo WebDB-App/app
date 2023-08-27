@@ -330,7 +330,7 @@ async function main() {
 
 		this.format = (code: string) => {
 			code = format(code, {
-				language: 'mysql',
+				language: 'mariadb',
 				useTabs: true,
 				keywordCase: "upper"
 			});
