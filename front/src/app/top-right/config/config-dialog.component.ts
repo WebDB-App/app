@@ -22,11 +22,4 @@ export class ConfigDialog {
 		await this.request.reloadServer();
 		this.snackBar.open("Settings saved", "╳", {duration: 3000});
 	}
-
-	goodKey(key: string) {
-		if (!key) {
-			return true;
-		}
-		return !!key.match(/^sk-[a-zA-Z0-9]{32,}$/);
-	}
 }

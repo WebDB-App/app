@@ -24,12 +24,14 @@ class Msg {
 	error = false;
 	marked?: { code?: string, html?: string }[];
 	txt!: string;
+	hide?: boolean;
 
-	constructor(txt: string, user: Role, error = false) {
+	constructor(txt: string, user: Role, error = false, hide = false) {
 		this.txt = txt;
 		this.user = user;
 		this.error = error;
 		this.marked = [];
+		this.hide = hide;
 
 		const parser = new DOMParser();
 		const mark = marked(txt, {mangle: false, headerIds: false});
@@ -53,6 +55,7 @@ class Msg {
 export class AiComponent implements OnInit {
 
 	@ViewChild('scrollContainer') private scrollContainer!: ElementRef;
+	@ViewChild('settings') private settings!: ElementRef;
 
 	selectedServer?: Server;
 	selectedDatabase?: Database;
@@ -78,10 +81,10 @@ export class AiComponent implements OnInit {
 	openai?: OpenAI;
 	isLoading = false;
 
-	key?: string;
 	sample = "";
 	config = {
 		model: "gpt-3.5-turbo-16k",
+		openAI: '',
 		temperature: 1
 	};
 	preSent = {
@@ -108,12 +111,6 @@ export class AiComponent implements OnInit {
 		this.selectedServer = Server.getSelected();
 
 		this.drawer.drawer.openedChange.subscribe(async (state: boolean) => {
-			this.key = this.configuration.getByName('openAiKey')?.value;
-			if (!this.key) {
-				return;
-			}
-
-			this.openai = new OpenAI({apiKey: this.key, dangerouslyAllowBrowser: true});
 			if (state && !this.initialized) {
 				this.initialized = true;
 				this.scrollToBottom();
@@ -130,13 +127,26 @@ export class AiComponent implements OnInit {
 
 		await Promise.all([
 			(this.licence = await Licence.get(this.request)),
+			this.configChange(false),
 			this.preSentChange(),
 			this.initChat()
 		]);
+
+		if (this.config.openAI) {
+			this.settings.nativeElement.setAttribute('hidden', true);
+		}
 	}
 
-	async configChange() {
+	async configChange(snack = true) {
 		localStorage.setItem(localKeyConfig, JSON.stringify(this.config));
+		this.openai = new OpenAI({
+			apiKey: this.config.openAI,
+			dangerouslyAllowBrowser: true
+		});
+
+		if (snack) {
+			this.snackBar.open("Settings saved", "╳", {duration: 3000});
+		}
 	}
 
 	async preSentChange() {
@@ -220,6 +230,27 @@ export class AiComponent implements OnInit {
 			await this.sendMessage("There is an error : " + err.error);
 		} finally {
 			this.isLoading = false;
+		}
+	}
+
+	goodKey() {
+		if (!this.config.openAI) {
+			return true;
+		}
+		return !!this.config.openAI.match(/^sk-[a-zA-Z0-9]{32,}$/);
+	}
+
+	filterChanged(_value = '') {
+		const value = _value.toLowerCase();
+		for (const [index, msg] of this.chat.entries()) {
+			let founded = msg.txt.toLowerCase().indexOf(value) >= 0;
+			if (!founded && msg.marked) {
+				founded = msg.marked?.findIndex(mark => {
+					return mark.code ? mark.code.toLowerCase().indexOf(value) >= 0 : false;
+				}) >= 0;
+			}
+
+			this.chat[index].hide = !founded;
 		}
 	}
 

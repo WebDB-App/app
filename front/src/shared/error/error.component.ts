@@ -18,6 +18,8 @@ export class ErrorComponent implements OnInit {
 	}
 
 	async assistant() {
+		// search on internet (new tab with error) + check logs
+
 		/*this.drawer.toggle();
 		const question = 'When running this query "' + helper.removeComment(this.query) + '" , I got this : ' + JSON.stringify(row) + ', can you fix it for me';
 		await this.router.navigate(
