@@ -138,7 +138,7 @@ class Controller {
 		const driver = new driverClass(req.body.port, req.body.host, req.body.user, req.body.password, req.body.params);
 		const connection = await driver.establish();
 
-		res.send(connection?.error ? connection : req.body);
+		res.send(connection?.error ? connection : {...req.body, uri: driver.makeUri()});
 	}
 }
 
