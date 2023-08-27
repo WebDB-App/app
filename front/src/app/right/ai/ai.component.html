@@ -18,16 +18,18 @@
 
 		<div fxLayout="row"
 			 fxLayoutAlign="space-between center">
-			<div>
-				<a href="https://platform.openai.com/account/api-keys"
-				   mat-button
-				   matTooltip="API keys page"
-				   matTooltipPosition="right"
-				   target="_blank">
-					<mat-icon svgIcon="chatgpt"></mat-icon>
-					ChatGPT
-				</a>
-			</div>
+			<mat-form-field style="width: 200px; margin-bottom: -1.25em" appearance="legacy">
+				<input #filter
+					   (keyup)="filterChanged(filter.value)"
+					   placeholder="Search Message"
+					   autocomplete="off"
+					   matInput>
+				<button (click)="filter.value=''; filterChanged(filter.value)" *ngIf="filter.value" aria-label="Clear"
+						mat-icon-button
+						matSuffix>
+					<mat-icon>close</mat-icon>
+				</button>
+			</mat-form-field>
 
 			<mat-form-field
 				appearance="fill"
@@ -52,11 +54,10 @@
 				<span class="material-symbols-outlined notranslate">
 					page_info
 				</span>
-				Configuration
 			</button>
 		</div>
 
-		<div id="settings" #settings hidden>
+		<div id="settings" #settings>
 
 			<mat-divider></mat-divider>
 
@@ -130,34 +131,50 @@
 					</mat-slider>
 				</div>
 			</div>
+
+			<mat-divider></mat-divider>
+
+			<div>
+				<a href="https://platform.openai.com/account/api-keys"
+				   mat-button
+				   matTooltip="API keys page"
+				   matTooltipPosition="right"
+				   target="_blank">
+					<mat-icon svgIcon="chatgpt"></mat-icon>
+					ChatGPT
+				</a>
+
+				<div style="flex: 1; display: flex; flex-direction: column">
+					<mat-form-field style="flex: 1; margin-bottom: -1.25em" appearance="outline">
+						<mat-label>OpenAI Key</mat-label>
+						<input
+							(change)="goodKey() ? configChange() : undefined"
+							[(ngModel)]="config.openAI"
+							matInput>
+					</mat-form-field>
+					<mat-error *ngIf="!goodKey()">
+						Bad key format
+					</mat-error>
+				</div>
+			</div>
 		</div>
 	</mat-toolbar>
 
-	<h4
-		*ngIf="!key"
-		fxLayout="row"
-		fxLayoutAlign="center center"
-		style="margin: 40px"
-	>
-		Before accessing this feature,
-		<br>
-		Open "Settings" modal and fill your OpenAI key
-	</h4>
-
-	<div *ngIf="!chat.length || !key">
+	<div *ngIf="!chat.length || !config.openAI">
 		<h3 style="text-align: center; border-bottom: 1px dashed grey">Some examples</h3>
 		<div id="examples">
 			<button (click)="sendMessage(example);"
 					*ngFor="let example of examples"
-					[disabled]="!key"
+					[disabled]="!config.openAI"
 					mat-stroked-button>
 				{{example}}
 			</button>
 		</div>
 	</div>
 
-	<div *ngIf="key && chat.length" id="container" #scrollContainer>
+	<div *ngIf="config.openAI && chat.length" id="container" #scrollContainer>
 		<mat-card *ngFor="let ch of chat"
+				  [hidden]="ch.hide"
 				  [style.background-color]="ch.error ? '#f44336' : ch.user === Role.Assistant ? '#1e1e1e' : undefined">
 			<mat-card-content>
 
@@ -207,7 +224,7 @@
 
 	<mat-progress-bar *ngIf="isLoading" mode="indeterminate" color="accent" style="z-index: 100;"></mat-progress-bar>
 
-	<div [hidden]="!key" style="box-shadow: 0px -10px 16px 1px #363636; position: relative;">
+	<div [hidden]="!config.openAI" style="box-shadow: 0px -10px 16px 1px #363636; position: relative;">
 		<mat-form-field appearance="fill"
 						class="sendMessage"
 						color="accent">
