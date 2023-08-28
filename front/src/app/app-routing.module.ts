@@ -38,7 +38,7 @@ if (environment.production) {
 @NgModule({
 	imports: [RouterModule.forRoot(appRoutes, {
 		useHash: true,
-		enableTracing: true
+		//enableTracing: true
 	})],
 	exports: [RouterModule]
 })

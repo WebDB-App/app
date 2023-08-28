@@ -238,13 +238,7 @@ export class SQL implements Driver {
 	}
 
 	format(code: string) {
-		code = format(code, {
-			language: 'sql',
-			useTabs: true,
-			keywordCase: "upper"
-		});
-
-		return code.replace(/\n/g, " \n");
+		return code;
 	}
 
 	extractEnum(col: Column) {

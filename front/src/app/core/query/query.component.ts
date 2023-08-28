@@ -11,7 +11,7 @@ import { RequestService } from "../../../shared/request.service";
 import { Relation } from "../../../classes/relation";
 import { Configuration } from "../../../classes/configuration";
 import { HistoryService, Query } from "../../../shared/history.service";
-import { initBaseEditor, isSQL, REMOVED_LABELS } from "../../../shared/helper";
+import { initBaseEditor, isSQL, REMOVED_LABELS, addMonacoError } from "../../../shared/helper";
 import { ExportResultDialog } from "../../../shared/export-result-dialog/export-result-dialog";
 import { MatPaginatorIntl } from "@angular/material/paginator";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
@@ -57,6 +57,7 @@ export class QueryComponent implements OnInit, OnDestroy {
 	displayedColumns?: string[];
 	dataSource?: MatTableDataSource<any>;
 	autoFormat = true;
+
 	protected readonly Math = Math;
 
 	constructor(
@@ -141,20 +142,6 @@ export class QueryComponent implements OnInit, OnDestroy {
 		}
 	}
 
-	addMonacoError(editor: any, error: any) {
-		const pos = +error.position || 0;
-		const startLineNumber = this.query.substring(0, pos).split(/\r\n|\r|\n/).length;
-
-		monaco.editor.setModelMarkers(editor.getModel(), "owner", [{
-			startLineNumber: startLineNumber,
-			startColumn: 0,
-			endLineNumber: +error.position ? startLineNumber : Infinity,
-			endColumn: Infinity,
-			message: error.error,
-			severity: monaco.MarkerSeverity.Error
-		}]);
-	}
-
 	async _runSingle() {
 		let result = [];
 
@@ -168,7 +155,7 @@ export class QueryComponent implements OnInit, OnDestroy {
 				this.querySize = await this.request.post('database/querySize', {query: this.query})
 			]);
 		} catch (result: any) {
-			this.addMonacoError(this.editors[0], result.error);
+			addMonacoError(this.query, this.editors[0], result.error);
 			this.dataSource = new MatTableDataSource();
 			return;
 		}
@@ -197,7 +184,7 @@ export class QueryComponent implements OnInit, OnDestroy {
 				});
 				this.history.addLocal(new Query(query, data.length));
 			} catch (result: any) {
-				this.addMonacoError(editor, result.error);
+				addMonacoError(query, editor, result.error);
 			}
 
 			return JSON.stringify(data, null, "\t");

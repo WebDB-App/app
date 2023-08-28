@@ -97,11 +97,11 @@
 
 				<button
 					(click)="chat = []; saveChat()"
-					matTooltip="Clear conversation"
 					mat-button>
 					<span class="material-symbols-outlined notranslate">
 						delete_sweep
 					</span>
+					Clear
 				</button>
 			</div>
 
@@ -137,11 +137,9 @@
 			<div>
 				<a href="https://platform.openai.com/account/api-keys"
 				   mat-button
-				   matTooltip="API keys page"
-				   matTooltipPosition="right"
 				   target="_blank">
 					<mat-icon svgIcon="chatgpt"></mat-icon>
-					ChatGPT
+					API keys
 				</a>
 
 				<div style="flex: 1; display: flex; flex-direction: column">

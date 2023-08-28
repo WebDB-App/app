@@ -4,6 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import { firstValueFrom } from "rxjs";
 import { MatPaginatorIntl } from "@angular/material/paginator";
 
+
 declare var monaco: any;
 
 export class REMOVED_LABELS extends MatPaginatorIntl {
@@ -13,6 +14,20 @@ export class REMOVED_LABELS extends MatPaginatorIntl {
 
 export function isSQL(server = Server.getSelected()): boolean {
 	return server.driver instanceof SQL;
+}
+
+export function addMonacoError(query: string, editor: any, error: any) {
+	const pos = +error.position || 0;
+	const startLineNumber = query.substring(0, pos).split(/\r\n|\r|\n/).length;
+
+	monaco.editor.setModelMarkers(editor.getModel(), "owner", [{
+		startLineNumber: startLineNumber,
+		startColumn: 0,
+		endLineNumber: +error.position ? startLineNumber : Infinity,
+		endColumn: Infinity,
+		message: error.error,
+		severity: monaco.MarkerSeverity.Error
+	}]);
 }
 
 export function initBaseEditor(editor: any) {
