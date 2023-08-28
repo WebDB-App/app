@@ -1,4 +1,4 @@
-import { SQL } from "../sql";
+import { SQL } from "./sql";
 
 export class Oracle extends SQL {
 }

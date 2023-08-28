@@ -1,13 +1,13 @@
-import { Driver, QueryParams } from "../driver";
-import { Column } from "../column";
-import { Table } from "../table";
-import { Relation } from "../relation";
+import { Driver, QueryParams } from "../classes/driver";
+import { Column } from "../classes/column";
+import { Table } from "../classes/table";
+import { Relation } from "../classes/relation";
 import { HttpClient } from "@angular/common/http";
-import { Database } from "../database";
-import { loadLibAsset } from "../../shared/helper";
-import { Server } from "../server";
-import { Configuration } from "../configuration";
-import helper from "../../shared/common-helper.mjs";
+import { Database } from "../classes/database";
+import { loadLibAsset } from "../shared/helper";
+import { Server } from "../classes/server";
+import { Configuration } from "../classes/configuration";
+import helper from "../shared/common-helper.mjs";
 
 declare var monaco: any;
 

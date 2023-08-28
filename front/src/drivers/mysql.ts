@@ -1,7 +1,7 @@
-import { SQL } from "../sql";
-import { Group, QueryParams } from "../driver";
-import { Server } from "../server";
-import { Database } from "../database";
+import { SQL } from "./sql";
+import { Group, QueryParams } from "../classes/driver";
+import { Server } from "../classes/server";
+import { Database } from "../classes/database";
 import { format } from "sql-formatter";
 
 export class MySQL extends SQL {

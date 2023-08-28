@@ -1,12 +1,11 @@
-import { Comparator, Driver, QueryParams, TypeGroup } from "./driver";
-import { Column } from "./column";
-import { Database } from "./database";
-import { Table } from "./table";
-import { Server } from "./server";
-import { format } from "sql-formatter";
+import { Comparator, Driver, QueryParams, TypeGroup } from "../classes/driver";
+import { Column } from "../classes/column";
+import { Database } from "../classes/database";
+import { Table } from "../classes/table";
+import { Server } from "../classes/server";
 import { HistoryService } from "../shared/history.service";
-import { Relation } from "./relation";
-import { Configuration } from "./configuration";
+import { Relation } from "../classes/relation";
+import { Configuration } from "../classes/configuration";
 import { HttpClient } from "@angular/common/http";
 import helper from "../shared/common-helper.mjs";
 
