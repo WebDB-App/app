@@ -71,6 +71,15 @@ export class ConnectionInfoDialog {
 		const {driver, ...rest} = {...this.server};
 		this.str = JSON.stringify(rest, null, 4);
 	}
+
+	initEditor(editor: any) {
+		setTimeout(() => {
+			editor.trigger('fold', 'editor.foldAll');
+			editor.trigger('unfold', 'editor.unfold', {
+				levels: 2,
+			});
+		}, 1);
+	}
 }
 
 @Component({
