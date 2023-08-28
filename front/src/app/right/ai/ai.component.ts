@@ -93,6 +93,7 @@ export class AiComponent implements OnInit {
 		deep: 2,
 		count: 5
 	}
+	stream?: string;
 
 	constructor(
 		private request: RequestService,
@@ -181,22 +182,28 @@ export class AiComponent implements OnInit {
 			return;
 		}
 
-		this.isLoading = true;
 		this.chat.push(new Msg(txt, Role.User));
 		this.scrollToBottom();
 
-		const pro = this.openai!.chat.completions.create({
+		const stream = this.openai!.chat.completions.create({
 			model: this.config.model,
 			messages: [
 				{role: Role.System, content: this.sample},
 				{role: Role.User, content: txt}
 			],
+			stream: true,
 			temperature: this.config.temperature
 		});
 
 		this.chat.push(await new Promise<Msg>(resolve => {
-			pro.then(completion => {
-				resolve(new Msg(completion.choices[0].message!.content!, Role.Assistant));
+			stream.then(async str => {
+				this.stream = "";
+				for await (const part of str) {
+					this.stream += part.choices[0]?.delta?.content || '';
+					this.scrollToBottom();
+				}
+				resolve(new Msg(this.stream, Role.Assistant));
+				this.stream = undefined;
 			}).catch(error => {
 				resolve(new Msg(error.message || 'An error occurred during OpenAI request: ' + error, Role.Assistant, true))
 			});
@@ -204,7 +211,6 @@ export class AiComponent implements OnInit {
 
 		this.scrollToBottom();
 		this.saveChat();
-		this.isLoading = false;
 	}
 
 	scrollToBottom() {

@@ -61,7 +61,6 @@ export class TriggerComponent implements OnInit {
 		this.selectedTable = Table.getSelected();
 		this.selectedServer = Server.getSelected();
 
-		//enum for postgre
 		this.triggers = (await this.request.post('trigger/list', undefined)).map((trg: Trigger) => {trg.saved = true; return trg})
 	}
 

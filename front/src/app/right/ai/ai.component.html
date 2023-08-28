@@ -218,6 +218,12 @@
 
 			</mat-card-content>
 		</mat-card>
+		<mat-card *ngIf="stream !== undefined"
+				  style="background-color: #1e1e1e">
+			<mat-card-content>
+				<div [innerHTML]="stream"></div>
+			</mat-card-content>
+		</mat-card>
 	</div>
 
 	<mat-progress-bar *ngIf="isLoading" mode="indeterminate" color="accent" style="z-index: 100;"></mat-progress-bar>
