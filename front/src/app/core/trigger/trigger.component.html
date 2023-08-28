@@ -40,19 +40,21 @@
 		<mat-card [hidden]="trigger.hide">
 			<mat-card-header>
 				<mat-card-subtitle style="display: flex">
-					<mat-form-field appearance="fill" style="width: 250px" *ngIf="isSQL()">
-						<mat-label>Trigger Name</mat-label>
-						<input
-							(ngModelChange)="trigger.changed = true"
-							[(ngModel)]="trigger.name"
-							matInput
-							required>
-					</mat-form-field>
-					<mat-error *ngIf="trigger.name && !nameValid(trigger.name)">
-						Name already used
-						<br>
-						Or not respecting format : alpha, numeric and "_", "-" with 2 min chars
-					</mat-error>
+					<ng-container *ngIf="isSQL()">
+						<mat-form-field appearance="fill" style="width: 250px">
+							<mat-label>Trigger Name</mat-label>
+							<input
+								(ngModelChange)="trigger.changed = true"
+								[(ngModel)]="trigger.name"
+								matInput
+								required>
+						</mat-form-field>
+						<mat-error *ngIf="trigger.name && !nameValid(trigger.name)">
+							Name already used
+							<br>
+							Or not respecting format : alpha, numeric and "_", "-" with 2 min chars
+						</mat-error>
+					</ng-container>
 					<div class="flex-spacer"></div>
 					<div class="timing-event">
 						<ng-container *ngIf="isSQL()">
