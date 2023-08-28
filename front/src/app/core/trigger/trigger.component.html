@@ -109,6 +109,7 @@
 			<mat-card-content>
 				<ngx-monaco-editor
 					style="resize: vertical; width: 100%"
+					(onInit)="initBaseEditor($event)"
 					(ngModelChange)="trigger.changed = true"
 					[(ngModel)]="trigger.code"
 					[options]="editorOptions">

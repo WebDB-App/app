@@ -5,7 +5,7 @@ import { environment } from "../environments/environment";
 import { Database } from "../classes/database";
 import { Server } from "../classes/server";
 import { Table } from "../classes/table";
-import * as drivers from "../classes/drivers";
+import * as drivers from "../drivers/index";
 import { MatBottomSheet } from "@angular/material/bottom-sheet";
 import { ErrorComponent } from "./error/error.component";
 

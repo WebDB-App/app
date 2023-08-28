@@ -1,5 +1,5 @@
 import { Server } from "../classes/server";
-import { SQL } from "../classes/sql";
+import { SQL } from "../drivers/sql";
 import { HttpClient } from "@angular/common/http";
 import { firstValueFrom } from "rxjs";
 import { MatPaginatorIntl } from "@angular/material/paginator";
