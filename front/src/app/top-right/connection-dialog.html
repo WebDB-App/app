@@ -11,6 +11,7 @@
 <div mat-dialog-content>
 	<ngx-monaco-editor
 		cdkFocusInitial
+		(onInit)="initEditor($event)"
 		[(ngModel)]="str"
 		[options]="editorOptions"
 	></ngx-monaco-editor>
