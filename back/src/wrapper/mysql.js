@@ -249,29 +249,35 @@ export default class MySQL extends SQL {
 			lgth = res.length;
 			return res;
 		} catch (e) {
-			const err = {error: e.sqlMessage};
-			if (e.sqlMessage.indexOf("'") >= 0) {
-				e.sqlMessage = e.sqlMessage.substring(e.sqlMessage.indexOf("'") + 1);
-				e.sqlMessage = e.sqlMessage.substring(0, e.sqlMessage.indexOf("'"));
-
-				const separators = ["\n", "\t", " ", ""];
-				for (const start of separators) {
-					for (const end of separators) {
-						err["position"] = command.indexOf(start + e.sqlMessage + end);
-						if (err["position"] >= 0) {
-							break;
-						}
-					}
-					if (err["position"] >= 0) {
-						break;
-					}
-				}
-			}
-			return err;
+			return this.foundErrorPos({error: e.sqlMessage}, command);
 		} finally {
 			bash.logCommand(command, database, Date.now() - start, this.port, lgth);
 			connection.release();
 		}
+	}
+
+	foundErrorPos(error, command) {
+		let message = error.error;
+		error["position"] = -1;
+
+		if (message.indexOf("'") >= 0) {
+			message = message.substring(message.indexOf("'") + 1);
+			message = message.substring(0, message.lastIndexOf("'"));
+
+			const separators = ["\n", "\t", " ", ""];
+			for (const start of separators) {
+				for (const end of separators) {
+					error.position = command.indexOf(start + message + end);
+					if (error.position >= 0) {
+						break;
+					}
+				}
+				if (error.position >= 0) {
+					break;
+				}
+			}
+		}
+		return error;
 	}
 
 	async establish() {

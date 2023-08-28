@@ -24,7 +24,8 @@ export class ErrorComponent {
 	async assistant() {
 		this.bottomSheetRef.dismiss();
 		await this.router.navigate(
-			[{outlets: {right: ['assistant']}}])
+			[{outlets: {right: ['assistant']}}],
+			{relativeTo: this.activatedRoute.children[0]})
 		await this.drawer.open('When running a request with the context: ```' + JSON.stringify(this.data.context) + '``` , I got this error: ```' + JSON.stringify(this.data.error.error || this.data.error) + '```, can you fix it for me');
 	}
 }

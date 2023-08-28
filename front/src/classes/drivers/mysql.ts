@@ -329,13 +329,16 @@ async function main() {
 		};
 
 		this.format = (code: string) => {
-			code = format(code, {
-				language: 'mariadb',
-				useTabs: true,
-				keywordCase: "upper"
-			});
-
-			return code.replace(/\n/g, " \n");
+			try {
+				code = format(code, {
+					language: 'mariadb',
+					useTabs: true,
+					keywordCase: "upper"
+				});
+				return code.replace(/\n/g, " \n");
+			} catch (e) {
+				return code;
+			}
 		}
 	}
 }

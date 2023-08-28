@@ -302,13 +302,17 @@ async function main() {
 		};
 
 		this.format = (code: string) => {
-			code = format(code, {
-				language: 'postgresql',
-				useTabs: true,
-				keywordCase: "upper"
-			});
+			try {
+				code = format(code, {
+					language: 'postgresql',
+					useTabs: true,
+					keywordCase: "upper"
+				});
 
-			return code.replace(/\n/g, " \n");
+				return code.replace(/\n/g, " \n");
+			} catch (e) {
+				return code;
+			}
 		}
 	}
 }
