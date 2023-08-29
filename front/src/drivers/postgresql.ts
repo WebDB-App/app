@@ -10,6 +10,7 @@ export class PostgreSQL extends SQL {
 		super();
 
 		this.docs = {
+			fcts: "https://www.postgresql.org/docs/current/sql-createfunction.html",
 			trigger: "https://www.postgresql.org/docs/current/sql-createtrigger.html",
 			driver: "https://github.com/brianc/node-postgres/blob/master/packages/pg/lib/defaults.js",
 			types: "https://www.postgresql.org/docs/current/datatype.html",
@@ -23,7 +24,7 @@ IF age < 18 THEN
 END IF;
 IF NOT (SELECT email REGEXP '$[A-Z0-9._%-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}$') THEN
 	SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Wrong email';
-\END IF;`
+END IF;`
 		};
 
 		this.language = {

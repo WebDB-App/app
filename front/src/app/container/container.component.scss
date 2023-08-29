@@ -26,18 +26,26 @@ mat-drawer {
 
 .panel {
 	border-bottom: none;
+	flex: 1;
+
+	::ng-deep .mat-tab-links {
+		justify-content: center;
+	}
 
 	.mat-tab-link {
 		min-width: inherit;
 		height: 56px;
+		color: #ff9800;
 	}
 
 	::ng-deep .mat-ink-bar {
 		top: 0;
 		bottom: inherit;
 	}
+}
 
-	::ng-deep .mat-tab-link {
-		color: #ff9800;
+@media (max-width: 1000px) {
+	#server {
+		display: none;
 	}
 }
