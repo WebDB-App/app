@@ -17,7 +17,7 @@
 				<div *ngIf="selectedServer && selectedDatabase" id="server">
 					<div>
 						<span>{{selectedServer.host}}</span>:<span>{{selectedServer.port}}</span>
-						<span style="color: #ff9800;">{{selectedDatabase.name}}</span>
+						<span style="color: #1de9b6;">{{selectedDatabase.name}}</span>
 					</div>
 				</div>
 			</div>
@@ -61,7 +61,7 @@
 						color="accent"
 						mode="indeterminate"
 						style="margin: 0px auto;"></mat-spinner>
-					<h2 style="color: #ff9800">Loading {{activatedRoute.snapshot.paramMap.get('database')}} ...</h2>
+					<h2 style="color: #1de9b6">Loading {{activatedRoute.snapshot.paramMap.get('database')}} ...</h2>
 				</ng-container>
 
 				<div *ngIf="loading < 0">
