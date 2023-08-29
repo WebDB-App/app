@@ -53,11 +53,13 @@
 			<div class="actions">
 				<button
 					(click)="goToQuery(his.query)"
+					color="accent"
 					mat-icon-button>
 					<span class="material-symbols-outlined notranslate">play_arrow</span>
 				</button>
 
 				<button (click)="changeStar(his)"
+						color="accent"
 						mat-icon-button>
 					<span class="material-symbols-outlined notranslate">star</span>
 				</button>
@@ -65,6 +67,7 @@
 				<button
 					(click)="snackBar.open('Copied to clipboard', '╳', {duration: 3000})"
 					[cdkCopyToClipboard]="his.query"
+					color="accent"
 					mat-icon-button>
 					<span class="material-symbols-outlined notranslate">
 						content_paste
@@ -73,6 +76,7 @@
 
 				<button
 					(click)="remove(his)"
+					color="accent"
 					mat-icon-button>
 					<span class="material-symbols-outlined notranslate">
 						remove

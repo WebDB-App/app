@@ -93,7 +93,7 @@ export class QueryComponent implements OnInit, OnDestroy {
 			this.querySize = -1;
 			this.dataSource = new MatTableDataSource<any>();
 			if (this.editors.length && monaco) {
-				monaco.editor.setModelMarkers(this.editors[0].getModel(), "owner", []);
+				this.editors.map(editor => monaco.editor.setModelMarkers(editor.getModel(), "owner", []));
 			}
 
 			this.templates = this.selectedTable.view ? ['select', 'select_join'] : ['select', 'select_join', 'update', 'insert', 'delete'];
@@ -126,6 +126,7 @@ export class QueryComponent implements OnInit, OnDestroy {
 
 	async runQuery() {
 		this.isLoading = true;
+		this.editors.map(editor => monaco.editor.setModelMarkers(editor.getModel(), "owner", []));
 
 		try {
 			if (this.diff) {
@@ -144,6 +145,7 @@ export class QueryComponent implements OnInit, OnDestroy {
 
 	async _runSingle() {
 		let result = [];
+		monaco.editor.setModelMarkers(this.editors[0].getModel(), "owner", []);
 
 		try {
 			await Promise.all([
