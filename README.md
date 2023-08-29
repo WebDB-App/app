@@ -1,6 +1,5 @@
 - postgre : plusieurs schemas(connection.html:182) + load/dump specific schema
 - Server gît avec autobackup en var d'env (git large file / gzip)
-- cloud (aurora, rds)
 - SQLServer
 
 # Mongo :
@@ -62,5 +61,6 @@
 - https://external-preview.redd.it/chatgpt-for-data-science-cheat-sheet-v0-Odpv_XqB8SiefptXNzZP-t9AjrVOxg0IF81UuKFx2sw.jpg?auto=webp&s=2b8b8a80fa2c3a4b6f85545cffa26726021a60a4
 
 
-# Unit Test en front avec plusieurs version de bdd
-# function+type dans column/autocomplete
+- Unit Test en front avec plusieurs version de bdd
+- function+type dans column/autocomplete
+- cloud (google, aurora, rds)
