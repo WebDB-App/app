@@ -8,9 +8,10 @@
 					 *ngFor="let wrapper of driverNames"
 					 class="driver">
 					<div [class.mat-elevation-z12]="wrapper === server.wrapper"
-						 [style.opacity]="wrapper === server.wrapper ? '1' : null"
 						 class="logo">
-						<img src="/assets/drivers/{{wrapper | lowercase}}.svg">
+						<img
+							[style.outline]="wrapper === server.wrapper ? '1px solid #2196f3' : undefined"
+							src="/assets/drivers/{{wrapper | lowercase}}.svg">
 					</div>
 				</div>
 			</div>

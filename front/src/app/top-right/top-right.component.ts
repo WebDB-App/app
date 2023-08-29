@@ -23,7 +23,7 @@ export class TopRightComponent {
 
 	constructor(
 		private dialog: MatDialog,
-		private request: RequestService
+		public request: RequestService
 	) { }
 
 	showSubscription() {
