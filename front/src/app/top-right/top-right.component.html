@@ -1,3 +1,11 @@
+<button [matMenuTriggerFor]="database"
+		mat-button
+		color="accent"
+		*ngIf="Server.getSelected()">
+	<span class="material-symbols-outlined notranslate">
+		database
+	</span>
+</button>
 <button [matMenuTriggerFor]="help" mat-button>
 	<span class="material-symbols-outlined notranslate">
 		help
@@ -9,24 +17,30 @@
 	</span>
 </button>
 
-<mat-menu #help="matMenu" class="external">
-	<ng-container *ngIf="Server.getSelected()">
-		<a mat-menu-item
-		   (click)="showLogs('out.log')">
-			<span class="material-symbols-outlined notranslate">
-				browse_activity
-			</span>
-			Query Logs
-		</a>
-		<a (click)="showConnection()"
-		   mat-menu-item>
-			<span class="material-symbols-outlined notranslate">
-				signal_wifi_statusbar_not_connected
-			</span>
-			Connection Details
-		</a>
-		<mat-divider></mat-divider>
-	</ng-container>
+<mat-menu #database="matMenu">
+	<a mat-menu-item
+	   (click)="request.reloadServer()">
+		<span class="material-symbols-outlined notranslate">
+			frame_reload
+		</span>
+		Reload
+	</a>
+	<a mat-menu-item
+	   (click)="showLogs('out.log')">
+		<span class="material-symbols-outlined notranslate">
+			browse_activity
+		</span>
+		Query Logs
+	</a>
+	<a (click)="showConnection()"
+	   mat-menu-item>
+		<span class="material-symbols-outlined notranslate">
+			signal_wifi_statusbar_not_connected
+		</span>
+		Details
+	</a>
+</mat-menu>
+<mat-menu #help="matMenu">
 	<a href="https://gitlab.com/web-db/landing/-/issues"
 	   mat-menu-item
 	   target="_blank">
@@ -59,7 +73,7 @@
 	</a>
 </mat-menu>
 
-<mat-menu #user="matMenu" class="external">
+<mat-menu #user="matMenu">
 	<a (click)="showSubscription()"
 	   mat-menu-item>
 		<span class="material-symbols-outlined notranslate">
