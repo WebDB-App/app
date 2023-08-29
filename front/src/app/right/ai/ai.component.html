@@ -182,6 +182,7 @@
 						<div class="actions">
 							<button
 								(click)="runQuery(mrk.code);"
+								color="accent"
 								mat-icon-button
 								matTooltip="Run and send result to IA"
 								matTooltipPosition="left">
@@ -192,6 +193,7 @@
 							<button
 								(click)="snackBar.open('Copied to clipboard', '╳', {duration: 3000})"
 								[cdkCopyToClipboard]="mrk.code"
+								color="accent"
 								mat-icon-button>
 								<span class="material-symbols-outlined notranslate">
 									content_paste
@@ -205,6 +207,7 @@
 						<button
 							(click)="message.value = ch.txt"
 							*ngIf="ch.user === Role.User"
+							color="accent"
 							mat-icon-button
 							matTooltip="Edit request"
 							matTooltipPosition="left">
