@@ -159,7 +159,6 @@ a {
 .mat-dialog-container {
 	padding: 0px !important;
 	overflow: inherit !important;
-	box-shadow: $bottom-shadow;
 	filter: brightness(0.7);
 	transition: filter 0.1s linear;
 
@@ -172,9 +171,7 @@ a {
 	}
 
 	.mat-dialog-title {
-		background-color: #2196f3;
 		border-radius: 3px 3px 0px 0px;
-		color: #1e1e1e;
 		display: flex !important;
 		justify-content: space-between;
 		margin: 0px;
