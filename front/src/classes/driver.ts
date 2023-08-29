@@ -51,7 +51,6 @@ export interface Driver {
 	}
 
 	docs: {
-		fcts?: string,
 		trigger: string,
 		driver: string,
 		types: string,
