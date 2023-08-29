@@ -1,4 +1,3 @@
-- function dans column
 - postgre : plusieurs schemas(connection.html:182) + load/dump specific schema
 - Server gît avec autobackup en var d'env (git large file / gzip)
 - cloud (google, aurora, rds)
@@ -64,3 +63,4 @@
 
 
 # Unit Test en front avec plusieurs version de bdd
+- function+type dans column/autocomplete

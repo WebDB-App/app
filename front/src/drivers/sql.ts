@@ -30,7 +30,6 @@ export class SQL implements Driver {
 	}
 
 	docs = {
-		fcts: "",
 		driver: "",
 		trigger: "",
 		types: "https://www.w3resource.com/sql/data-type.php",

@@ -165,7 +165,7 @@
 					</mat-select>
 
 					<button (click)="fctSuggestion.open()"
-							*ngIf="selectedServer!.driver.language.fctAsDefault"
+							*ngIf="selectedServer!.driver.language.fctAsDefault.length"
 							color="primary"
 							mat-icon-button
 							matTooltip="Choose from function list">
