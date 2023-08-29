@@ -22,10 +22,7 @@
 				</div>
 			</div>
 
-			<div class="flex-spacer"></div>
-
 			<ng-container *ngIf="selectedServer">
-
 				<nav (click)="drawer.toggle();"
 					 [tabPanel]="tabPanel"
 					 class="panel"
@@ -37,14 +34,12 @@
 					   [routerLinkActive]="'mat-button-toggle-checked'"
 					   [routerLink]="[{outlets: {right: [panel.link]}}]"
 					   mat-tab-link>
-					<span class="material-symbols-outlined notranslate">
-						{{panel.icon}}
-					</span>
+						<span class="material-symbols-outlined notranslate">
+							{{panel.icon}}
+						</span>
 					</a>
 				</nav>
 				<mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
-
-				<div class="flex-spacer"></div>
 
 				<button (click)="request.reloadServer()"
 						color="accent"

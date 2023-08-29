@@ -25,10 +25,11 @@ export class AdvancedComponent implements OnInit, OnDestroy {
 		data_length: number
 	};
 
-	constructor(private dialog: MatDialog,
-				private snackBar: MatSnackBar,
-				private request: RequestService,
-				private router: Router) {
+	constructor(
+		private dialog: MatDialog,
+		private snackBar: MatSnackBar,
+		private request: RequestService,
+		private router: Router) {
 	}
 
 	async ngOnInit() {

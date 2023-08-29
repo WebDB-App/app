@@ -10,6 +10,7 @@ export class MySQL extends SQL {
 		super();
 
 		this.docs = {
+			fcts: "https://dev.mysql.com/doc/refman/8.0/en/create-procedure.html",
 			trigger: "https://dev.mysql.com/doc/refman/8.0/en/triggers.html",
 			driver: "https://github.com/sidorares/node-mysql2/blob/master/typings/mysql/lib/Connection.d.ts",
 			types: "https://dev.mysql.com/doc/refman/8.0/en/data-types.html",
