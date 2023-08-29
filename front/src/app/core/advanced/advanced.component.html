@@ -59,7 +59,7 @@
 							mat-stroked-button
 							matTooltip="Do not duplicate References/Indexes on new table">
 						<span class="material-symbols-outlined notranslate">
-						  file_copy
+							{{selectedTable?.view ? "table_view" : "table"}}
 						</span>
 						Duplicate
 					</button>
@@ -80,7 +80,7 @@
 							[disabled]="!validName(tableRename.value)"
 							mat-stroked-button>
 						<span class="material-symbols-outlined notranslate">
-						  edit
+							{{selectedTable?.view ? "table_view" : "table"}}
 						</span>
 						Rename
 					</button>
