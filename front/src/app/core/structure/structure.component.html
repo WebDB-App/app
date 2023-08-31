@@ -15,16 +15,6 @@
 		</mat-form-field>
 	</div>
 
-	<a 	*ngIf="!isSQL()"
-		mat-button
-		href="https://gitlab.com/web-db/landing/-/wikis/NoSQL-Disclaimer"
-		target="_blank">
-		<span class="material-symbols-outlined notranslate" style="margin-right: 8px">
-			warning
-		</span>
-		NoSQL
-	</a>
-
 	<button (click)="addColumn()"
 			*ngIf="!selectedTable?.view"
 			color="primary"

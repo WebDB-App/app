@@ -8,11 +8,14 @@ import { Table } from "../classes/table";
 import * as drivers from "../drivers/index";
 import { MatBottomSheet } from "@angular/material/bottom-sheet";
 import { ErrorComponent } from "./error/error.component";
+import { Configuration } from "../classes/configuration";
 
 @Injectable({
 	providedIn: 'root'
 })
 export class RequestService {
+
+	configuration: Configuration = new Configuration();
 
 	private loadingSubject = new BehaviorSubject(0);
 	loadingServer = this.loadingSubject.asObservable();
@@ -84,7 +87,8 @@ export class RequestService {
 						return resolve(server);
 					}
 					try {
-						const res = await firstValueFrom(this.http.post<Database[]>(environment.apiRootUrl + `server/structure?full=${+full}`, Server.getShallow(server)));
+						const size = this.configuration.getByName("noSqlSample")?.value;
+						const res = await firstValueFrom(this.http.post<Database[]>(environment.apiRootUrl + `server/structure?full=${+full}&size=${size}`, Server.getShallow(server)));
 						this.loadingSubject.next(loading += 100 / servers.length);
 						resolve({...server, ...res});
 					} catch (e) {

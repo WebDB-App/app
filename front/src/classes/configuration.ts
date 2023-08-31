@@ -24,6 +24,10 @@ export class Configuration {
 			name: 'useNameDel',
 			description: 'Use special char to enclose table and column name',
 			values: [false, true]
+		}, {
+			name: 'noSqlSample',
+			description: 'Sample size to infer NoSQL structure from',
+			values: ['50', '100', '250', '500']
 		}
 	];
 
