@@ -9,6 +9,7 @@ import { SubscriptionDialog } from "./subscription/subscription-dialog.component
 import { ConfigDialog } from "./config/config-dialog.component";
 import { RequestService } from "../../shared/request.service";
 import packageJson from '../../../package.json';
+import { isSQL } from "../../shared/helper";
 
 @Component({
 	selector: 'app-top-right',
@@ -53,6 +54,8 @@ export class TopRightComponent {
 			hasBackdrop: false
 		});
 	}
+
+	protected readonly isSQL = isSQL;
 }
 
 @Component({

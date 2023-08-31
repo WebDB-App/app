@@ -176,18 +176,32 @@ async function main() {
 		return false;
 	}
 
+	getColumns(table: Table) {
+		const cols = [];
+		for (const column of table.columns) {
+			let col = `${this.connection.nameDel + column.name + this.connection.nameDel}: `;
+			if (Array.isArray(column.type)) {
+				col += JSON.stringify(column.type);
+			} else {
+				col += `"${column.type}"`;
+			}
+			cols.push(col);
+		}
+		console.log(cols);
+		return cols;
+	}
+
 	getBaseDelete(table: Table) {
-		const cols = table.columns?.map(column => `${column.name}: "${column.type}"`);
-		return `db.collection("${table.name}").deleteOne({${cols.join(",\n")}})`;
+		return `db.collection("${table.name}").deleteOne({${this.getColumns(table).join(",\n")}})`;
 	}
 
 	getBaseInsert(table: Table) {
 		const cols = table.columns?.map(column => `${column.name}: "${column.type}"`);
-		return `db.collection("${table.name}").insertOne({${cols.join(",\n")}})`;
+		return `db.collection("${table.name}").insertOne({${this.getColumns(table).join(",\n")}})`;
 	}
 
 	getBaseUpdate(table: Table) {
-		const cols = table.columns.map(column => `${column.name}: "${column.type}"`);
+		const cols = this.getColumns(table);
 		return `db.collection("${table.name}").updateOne(
 	{${cols.join(", ")}},
 	{${cols.join(", ")}}
@@ -195,14 +209,13 @@ async function main() {
 	}
 
 	getBaseSelect(table: Table) {
-		const cols = table.columns?.map(column => `${this.connection.nameDel + column.name + this.connection.nameDel}: "${column.type}"`);
 		return `/*
 const db = (await new MongoClient()).db("${Database.getSelected().name}");
 const bson = require("bson");
 */
 
 db.collection("${table.name}").find({
-	${cols.join(",\n\t")}
+	${this.getColumns(table).join(",\n\t")}
 }).toArray();`;
 	}
 

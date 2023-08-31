@@ -39,6 +39,15 @@
 		</span>
 		Connection Details
 	</a>
+	<a *ngIf="!isSQL()"
+	   mat-menu-item
+	   href="https://gitlab.com/web-db/landing/-/wikis/NoSQL-Disclaimer"
+	   target="_blank">
+		<span class="material-symbols-outlined notranslate">
+			warning
+		</span>
+		Disclaimer
+	</a>
 </mat-menu>
 <mat-menu #help="matMenu">
 	<a href="https://gitlab.com/web-db/landing/-/issues"

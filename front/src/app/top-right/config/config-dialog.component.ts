@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Configuration } from "../../../classes/configuration";
 import { RequestService } from "../../../shared/request.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { Server } from "../../../classes/server";
 
 @Component({
 	templateUrl: './config-dialog.component.html',
@@ -19,7 +20,8 @@ export class ConfigDialog {
 
 	async update(name: string, value: string) {
 		this.configuration.update(name, value);
-		await this.request.reloadServer();
-		this.snackBar.open("Settings saved", "╳", {duration: 3000});
+		if (Server.getSelected()) {
+			await this.request.reloadServer();
+		}
 	}
 }

@@ -11,7 +11,6 @@ export default class MongoDB extends Driver {
 	commonUser = ["mongo"];
 	commonPass = ["mongo"];
 	systemDbs = ["admin", "config", "local"];
-	sampleSize = process.env.NOSQL_SAMPLE || 500;
 
 	async scan() {
 		return super.scan(this.host, 27010, 27020);
@@ -236,7 +235,7 @@ export default class MongoDB extends Driver {
 			});
 		});
 
-		await Promise.all(relations)
+		await Promise.all(relations);
 		return promises;
 	}
 
@@ -410,9 +409,10 @@ export default class MongoDB extends Driver {
 		return results;
 	}
 
-	async getDatabases() {
+	async getDatabases(sampleSize) {
 		const struct = {};
 		const promises = [];
+		sampleSize = sampleSize > 500 ? 500 : sampleSize;
 
 		const databases = (await this.connection.db().admin().listDatabases()).databases;
 		for (const database of databases) {
@@ -436,7 +436,7 @@ export default class MongoDB extends Driver {
 					};
 
 					try {
-						samples = await coll.aggregate([{$sample: {size: this.sampleSize}}]).toArray();
+						samples = await coll.aggregate([{$sample: {size: sampleSize}}]).toArray();
 					} catch (e) {
 						//console.error(e);
 					}
