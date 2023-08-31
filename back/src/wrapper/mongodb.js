@@ -98,7 +98,7 @@ export default class MongoDB extends Driver {
 			return [];
 		}
 		return [{
-			code: JSON.stringify(options.validator),
+			code: JSON.stringify(options.validator, null, "\t"),
 			level: options.validationLevel,
 			action: options.validationAction
 		}];
@@ -209,12 +209,35 @@ export default class MongoDB extends Driver {
 		return [];
 	}
 
-	async getRelations(databases, indexes) {
-		//match de type(null?array?) puis match de value min 2 max 100
+	async getRelations(databases) {
+		//objectid pas dans _id puis match min 2 avec 100 rows
+		//nested
+		//insert + getBaseSelectWithRelations
+		const relations = [];
+		const promises = [];
+		const size = 100;
 
-		//match entre tous les indexes
-		//si non match : flat si [] puis query
-		return [];
+		databases.map(database => {
+			database.tables.map(table => {
+				table.columns.map(column => {
+					if (column.type === "ObjectId" && column.name !== "_id") {
+						promises.push(new Promise(async resolve => {
+							const fks = await this.connection.db(database.name).collection(table.name).aggregate([{$sample: {size}}]).toArray();
+
+							relations.push({
+								database: database.name,
+								table_source: table.name,
+								column_source: column.name
+							});
+							resolve();
+						}));
+					}
+				});
+			});
+		});
+
+		await Promise.all(relations)
+		return promises;
 	}
 
 	async addIndex(database, table, name, type, columns) {
@@ -457,23 +480,24 @@ export default class MongoDB extends Driver {
 			return null;
 		}
 
-		const type = property.constructor.name;
+		let type = property.constructor.name;
 		if (type === "Array") {
-			return property.map(pro => JSON.stringify(this.getPropertyType(pro))).filter((value, index, array) => value && array.indexOf(value) === index).map(ty => ty + "[]").sort().join(" | ");
+			return property
+				.map(pro => JSON.stringify(this.getPropertyType(pro)))
+				.filter((value, index, array) => array.indexOf(value) === index)
+				.map(pro => JSON.parse(pro));
 		}
 		if (type === "Object") {
 			const types = {};
 			for (const [key, val] of Object.entries(property).sort()) {
 				types[key] = this.getPropertyType(val);
 			}
-			return JSON.stringify(types);
+			return types;
 		}
 		return type;
 	}
 
 	inferColumn(samples) {
-		//? + relation + insert + getBaseSelectWithRelations
-		//show deep in monaco
 		const columns = {};
 
 		samples.map(sample => {
@@ -493,15 +517,17 @@ export default class MongoDB extends Driver {
 
 		const final = [];
 		for (const [name, type] of Object.entries(columns)) {
-			const types = Object.keys(type).map(ty => JSON.parse(ty)).filter(ty => ty);
+			let types = Object.keys(type)
+				.map(ty => JSON.parse(ty))
+				.filter(ty => Array.isArray(ty) ? ty.length > 0 : ty);
 
-			if (name === "geo") {
-				//console.log("");
+			if (types.length === 1 && typeof types[0] === "string") {
+				types = types[0];
 			}
 
 			final.push({
 				name,
-				type: types.join(" | "),
+				type: types,
 				nullable: types.length !== Object.keys(type).length
 			});
 		}

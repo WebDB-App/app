@@ -166,6 +166,8 @@ export class StructureComponent implements OnInit, AfterViewChecked {
 	applyFilter(filterValue: string) {
 		this.structureSource.filter = filterValue.trim().toLowerCase();
 	}
+
+	protected readonly isSQL = isSQL;
 }
 
 @Component({

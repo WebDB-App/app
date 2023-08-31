@@ -109,14 +109,14 @@
 			<mat-card-content>
 				<ngx-monaco-editor
 					style="resize: vertical; width: 100%"
-					(onInit)="initBaseEditor($event)"
+					(onInit)="initEditor($event, i)"
 					(ngModelChange)="trigger.changed = true"
 					[(ngModel)]="trigger.code"
 					[options]="editorOptions">
 				</ngx-monaco-editor>
 			</mat-card-content>
 			<mat-card-footer fxLayout="row" fxLayoutAlign="space-around center">
-				<button (click)="replace(trigger)"
+				<button (click)="replace(trigger, i)"
 						[disabled]="!trigger.changed"
 						color="primary"
 						mat-flat-button>
