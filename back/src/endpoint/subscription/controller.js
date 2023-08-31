@@ -88,7 +88,7 @@ class Controller {
 		try {
 			await this.getRemote(licence.email);
 		} catch (e) {
-			console.log(e.message);
+			console.error(e.message);
 		}
 	}
 }

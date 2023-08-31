@@ -3,9 +3,8 @@
 - SQLServer
 
 # Mongo :
-- harmonizer
+- harmonizer (columns with obj/array > 2)
 - addTable
-- sample (relation, indexes)
 
 # Relation wizard
 - 1,1 -> 0,n
@@ -61,6 +60,7 @@
 - https://external-preview.redd.it/chatgpt-for-data-science-cheat-sheet-v0-Odpv_XqB8SiefptXNzZP-t9AjrVOxg0IF81UuKFx2sw.jpg?auto=webp&s=2b8b8a80fa2c3a4b6f85545cffa26726021a60a4
 
 
+- enum postgre
 - Unit Test en front avec plusieurs version de bdd
 - function+type dans column/autocomplete
 - cloud (google, aurora, rds)

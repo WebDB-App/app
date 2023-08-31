@@ -5,7 +5,7 @@ import { ActivatedRoute } from "@angular/router";
 import { RequestService } from "../../../shared/request.service";
 import { Trigger } from "../../../classes/trigger";
 import { Server } from "../../../classes/server";
-import { initBaseEditor, isSQL } from "../../../shared/helper";
+import { addMonacoError, initBaseEditor, isSQL } from "../../../shared/helper";
 import helper from "../../../shared/common-helper.mjs";
 
 @Component({
@@ -17,6 +17,7 @@ export class TriggerComponent implements OnInit {
 
 	selectedServer?: Server;
 	selectedTable?: Table;
+	editors: any[] = [];
 	triggers?: Trigger[];
 	editorOptions = {
 		language: ''
@@ -41,7 +42,6 @@ export class TriggerComponent implements OnInit {
 	];
 
 	protected readonly isSQL = isSQL;
-	protected readonly initBaseEditor = initBaseEditor;
 
 	constructor(
 		private snackBar: MatSnackBar,
@@ -64,6 +64,10 @@ export class TriggerComponent implements OnInit {
 		this.triggers = (await this.request.post('trigger/list', undefined)).map((trg: Trigger) => {trg.saved = true; return trg})
 	}
 
+	initEditor(editor: any, index: number) {
+		this.editors[index] = editor;
+	}
+
 	add() {
 		this.triggers?.push(new Trigger(
 			Server.getSelected()?.driver.trigger.base,
@@ -83,9 +87,13 @@ export class TriggerComponent implements OnInit {
 		this.triggers?.splice(i);
 	}
 
-	async replace(trigger: Trigger) {
-		await this.request.post('trigger/replace', trigger);
-		this.snackBar.open(`Trigger saved`, "╳", {duration: 3000});
+	async replace(trigger: Trigger, i: number) {
+		try {
+			await this.request.post('trigger/replace', trigger);
+			this.snackBar.open(`Trigger saved`, "╳", {duration: 3000});
+		} catch (result: any) {
+			addMonacoError(trigger.code, this.editors[i], result.error);
+		}
 	}
 
 	filterChanged(_value: string) {
