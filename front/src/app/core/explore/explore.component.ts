@@ -44,6 +44,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 	displayedColumns: string[] = [];
 	dataSource!: MatTableDataSource<any>;
 	selection = new SelectionModel<any>(true, []);
+	stringify = this.configuration.getByName('stringifyData')?.value;
 
 	protected readonly Math = Math;
 

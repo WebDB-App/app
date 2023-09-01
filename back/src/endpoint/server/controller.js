@@ -68,7 +68,7 @@ class Controller {
 
 	async load(req, res) {
 		const [driver] = await http.getLoggedDriver(req);
-		const result = await driver.load(req.file.path, req.get("Database"), req.file.originalname.split(".")[0]);
+		const result = await driver.load(req.file.path, req.get("Database"), req.file.originalname);
 
 		fs.unlinkSync(req.file.path);
 		res.send(result);

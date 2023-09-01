@@ -28,6 +28,10 @@ export class Configuration {
 			name: 'noSqlSample',
 			description: 'Sample size to infer NoSQL structure from',
 			values: ['50', '100', '250', '500']
+		}, {
+			name: 'stringifyData',
+			description: 'Show data types, null, empty string and empty key',
+			values: [false, true]
 		}
 	];
 

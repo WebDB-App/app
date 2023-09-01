@@ -13,6 +13,9 @@ export class REMOVED_LABELS extends MatPaginatorIntl {
 }
 
 export function isSQL(server = Server.getSelected()): boolean {
+	if (!server) {
+		return false;
+	}
 	return server.driver instanceof SQL;
 }
 

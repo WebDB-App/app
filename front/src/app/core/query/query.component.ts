@@ -33,6 +33,7 @@ export class QueryComponent implements OnInit, OnDestroy {
 	selectedServer?: Server;
 	selectedDatabase?: Database;
 	selectedTable?: Table;
+	stringify = this.configuration.getByName('stringifyData')?.value;
 	relations?: Relation[];
 	editors: any[] = [];
 	editorOptions = {

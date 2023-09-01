@@ -7,9 +7,9 @@
 				<div (click)="changeWrapper(wrapper)"
 					 *ngFor="let wrapper of driverNames"
 					 class="driver">
-					<div [class.mat-elevation-z12]="wrapper === server.wrapper"
-						 class="logo">
+					<div class="logo">
 						<img
+							[class.mat-elevation-z12]="wrapper === server.wrapper"
 							[style.outline]="wrapper === server.wrapper ? '1px solid #2196f3' : undefined"
 							src="/assets/drivers/{{wrapper | lowercase}}.svg">
 					</div>
