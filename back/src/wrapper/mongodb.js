@@ -42,7 +42,7 @@ export default class MongoDB extends Driver {
 		if (originalName.endsWith(".csv") ||
 			originalName.endsWith(".json") ||
 			originalName.endsWith(".tsv")) {
-			return bash.runBash(`mongoimport --db="${database}" --uri="${this.makeUri()}" --file "${filePath}"`);
+			return bash.runBash(`mongoimport --db="${database}" --uri="${this.makeUri()}" --file "${filePath}" --collection ${originalName.split(".")[0]}`);
 		}
 
 		return bash.runBash(`mongorestore --nsFrom="*" --nsTo="${database}.*" --gzip --uri="${this.makeUri()}" --archive="${filePath}"`);
