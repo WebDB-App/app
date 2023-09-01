@@ -1,6 +1,9 @@
 - postgre : plusieurs schemas(connection.html:182) + load/dump specific schema
-- Server gît avec autobackup en var d'env (git large file / gzip)
-- SQLServer
+
+# Bin
+- deps: Brew + chocolate + apt + yum
+- https://github.com/electron/electron/pull/37535
+- ci + gitlab wiki (home)
 
 # Mongo :
 - harmonizer (columns with obj/array > 2)
@@ -15,14 +18,22 @@
 - {} -> 1,1
 - show migration queries
 
+# SQLServer
+
+# Server gît avec autobackup en var d'env (git large file / gzip)
+
+
 
 ----------------------------------------------------------
+
 
 
 - quicksearch : don't put "'" on nested type
 - revoir MySQL load avec tunnel (essayer en bash)
 - Finir EDR
 - Export Query : tester tout
+- Unit Test en front avec plusieurs version de bdd
+- function+type dans column/autocomplete
 
 # GraphQL
 
@@ -35,15 +46,12 @@
 - https://hub.docker.com/r/nouchka/sqlite3/
 - https://www.npmjs.com/package/better-sqlite3
 
-# Bin
-- Brew + chocolate + apt + yum
-- Node Single Executable Apps https://github.com/electron/electron/pull/37535 | https://tauri.app/ | https://webpack.electron.build/ | https://github.com/electron/electron/issues/21457#issuecomment-1269637018
-- ci + gitlab wiki
-- changelog en json avec opencommit et check last version
+
 
 
 
 ----------------------------------------------------------
+
 
 
 
@@ -60,7 +68,4 @@
 - https://external-preview.redd.it/chatgpt-for-data-science-cheat-sheet-v0-Odpv_XqB8SiefptXNzZP-t9AjrVOxg0IF81UuKFx2sw.jpg?auto=webp&s=2b8b8a80fa2c3a4b6f85545cffa26726021a60a4
 
 
-- enum postgre
-- Unit Test en front avec plusieurs version de bdd
-- function+type dans column/autocomplete
-- cloud (google, aurora, rds)
+# checks col/table dans trigger
