@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RoundPipe } from "./round.pipe";
-import { BooleanPipe } from "./boolean.pipe";
 import { CellComponent } from './cell/cell.component';
 import { NgxJsonViewerModule } from "ngx-json-viewer";
 import { RouterLinkWithHref } from "@angular/router";
@@ -34,7 +33,6 @@ import { MatBottomSheetModule } from "@angular/material/bottom-sheet";
 @NgModule({
 	declarations: [
 		RoundPipe,
-		BooleanPipe,
 		CellComponent,
 		UpdateDataDialog,
 		ExportResultDialog,
@@ -44,7 +42,6 @@ import { MatBottomSheetModule } from "@angular/material/bottom-sheet";
 	],
 	exports: [
 		RoundPipe,
-		BooleanPipe,
 		CellComponent,
 		UpdateDataDialog,
 		ExportResultDialog,

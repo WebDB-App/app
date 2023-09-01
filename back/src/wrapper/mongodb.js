@@ -38,8 +38,10 @@ export default class MongoDB extends Driver {
 		return {path: `dump/${database}.${exportType}`};
 	}
 
-	async load(filePath, database) {
-		if (filePath.endsWith(".csv") || filePath.endsWith(".json") || filePath.endsWith(".tsv")) {
+	async load(filePath, database, originalName) {
+		if (originalName.endsWith(".csv") ||
+			originalName.endsWith(".json") ||
+			originalName.endsWith(".tsv")) {
 			return bash.runBash(`mongoimport --db="${database}" --uri="${this.makeUri()}" --file "${filePath}"`);
 		}
 

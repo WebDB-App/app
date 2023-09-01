@@ -14,6 +14,7 @@ export class CellComponent implements OnInit {
 
 	@Input() row!: any;
 	@Input() column!: string;
+	@Input() stringify = false;
 
 	selectedTable?: Table;
 	relations?: Relation[];
@@ -36,6 +37,8 @@ export class CellComponent implements OnInit {
 			if (JSON.stringify(this.row[this.column]).length > 70) {
 				this.expand = false;
 			}
+		} else if (this.stringify) {
+			this.row[this.column] = JSON.stringify(this.row[this.column]);
 		}
 	}
 
