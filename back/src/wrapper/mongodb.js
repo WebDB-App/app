@@ -211,34 +211,64 @@ export default class MongoDB extends Driver {
 	}
 
 	async getRelations(databases) {
-		//objectid pas dans _id puis match min 2 avec 100 rows
 		//nested
 		//insert + getBaseSelectWithRelations
 		const relations = [];
 		const promises = [];
-		const size = 100;
+		const sampleSize = 20;
+		const minCorr = sampleSize * 10 / 100;
 
 		databases.map(database => {
-			database.tables.map(table => {
-				table.columns.map(column => {
-					if (column.type === "ObjectId" && column.name !== "_id") {
-						promises.push(new Promise(async resolve => {
-							const fks = await this.connection.db(database.name).collection(table.name).aggregate([{$sample: {size}}]).toArray();
-
-							relations.push({
-								database: database.name,
-								table_source: table.name,
-								column_source: column.name
-							});
-							resolve();
-						}));
+			database.tables.map(table_source => {
+				table_source.columns.map(column_source => {
+					if (column_source.name === "_id") {
+						return;
 					}
+					if (column_source.type === "ObjectId") {
+						database.tables.map(table_dest => {
+							if (table_dest.name === table_source.name) {
+								return;
+							}
+							table_dest.columns.map(column_dest => {
+								if (column_dest.name !== "_id") {
+									return;
+								}
+								promises.push(new Promise(async resolve => {
+									let fks = 0;
+									const rows = await this.connection.db(database.name).collection(table_source.name).aggregate([
+										{ $lookup: {
+											from: table_dest.name,
+											localField: column_source.name,
+											foreignField: column_dest.name,
+											as: "fks" }
+										}, {"$limit": sampleSize} ]).toArray();
+
+									rows.map(row => fks += row.fks.length);
+									if (fks >= minCorr) {
+										relations.push({
+											database: database.name,
+											name: `${table_source.name}_${column_source.name}.${table_dest.name}`,
+											table_source: table_source.name,
+											column_source: column_source.name,
+											table_dest: table_dest.name,
+											column_dest: column_dest.name
+										});
+									}
+									resolve();
+								}));
+							});
+						});
+					}
+
+					/*if (Array.isArray(column_source.type) && column_source.type[0][0] === "ObjectId") {
+
+					}*/
 				});
 			});
 		});
 
-		await Promise.all(relations);
-		return promises;
+		await Promise.all(promises);
+		return relations;
 	}
 
 	async addIndex(database, table, name, type, columns) {
