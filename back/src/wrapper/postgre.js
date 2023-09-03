@@ -157,6 +157,7 @@ export default class PostgreSQL extends SQL {
 	}
 
 	async setCollation(database, collate) {
+		console.error("Feature not yet available", database, collate);
 		return true;
 	}
 

@@ -8,6 +8,7 @@ import { loadLibAsset } from "../shared/helper";
 import { Server } from "../classes/server";
 import { Configuration } from "../classes/configuration";
 import helper from "../shared/common-helper.mjs";
+import * as bson from "bson";
 
 declare var monaco: any;
 
@@ -127,17 +128,17 @@ async function main() {
 		);
 	}
 
-	quickSearch(driver: Driver, column: Column, value: string) {
-		const wrapValue = (value: string) => {
-			const bson = ['Code','DBRef','ObjectId','Binary','UUID','Long','Timestamp','Double','Int32','MinKey','MaxKey','BSONRegExp','Decimal128'];
-			if (bson.indexOf(column.type) >= 0) {
-				return `new bson.${column.type}("${value}")`;
-			}
-			if (column.type === 'Date') {
-				return `new Date("${value}")`;
-			}
-			return value;
+	wrapValue(type: string, value: string) {
+		if (Object.keys(bson).indexOf(type) >= 0) {
+			return `new bson.${type}("${value}")`;
 		}
+		if (type === 'Date') {
+			return `new Date("${value}")`;
+		}
+		return value;
+	}
+
+	quickSearch(driver: Driver, column: Column, value: string) {
 		let chip = `{${column.name}: { `;
 		const comp = driver.language.comparators.find((comparator) => {
 			return value.toLowerCase().startsWith(comparator.symbol + ' ')
@@ -145,7 +146,7 @@ async function main() {
 		if (comp) {
 			chip += `${comp.symbol}: ${value.replace(comp.symbol, '')}`;
 		} else {
-			chip += `$eq: ${wrapValue(value)}`;
+			chip += `$eq: ${this.wrapValue(column.type, value)}`;
 		}
 
 		return chip + '}}';

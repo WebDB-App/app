@@ -13,6 +13,7 @@ import { Column } from "../../../classes/column";
 import { MatPaginator } from "@angular/material/paginator";
 import { faker } from '@faker-js/faker';
 import * as falso from '@ngneat/falso';
+import * as bson from "bson";
 import { HttpClient } from "@angular/common/http";
 import { MatDialog } from "@angular/material/dialog";
 import { UpdateDataDialog } from "../../../shared/update-data-dialog/update-data-dialog";
@@ -118,7 +119,7 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 					limit: this.limit
 				});
 				if (datas) {
-					random.model = `(() => { const fk = [${datas.map((data: any) => `'${data.example}'`).join(",")}]; return fk[Math.floor(Math.random() * (fk.length))]; })()`;
+					random.model = `(() => { const fk = [${datas.map((data: string) => this.selectedServer?.driver.wrapValue(random.column.type, data)).join(",")}]; return fk[Math.floor(Math.random() * (fk.length))]; })()`;
 					found = true;
 				}
 			}
@@ -180,7 +181,7 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 			const obj: any = {};
 			for (const [index, rand] of Object.entries(this.randomSource)) {
 				try {
-					const r = new Function("faker", "falso", rand.model)(faker, falso);
+					const r = new Function("faker", "falso", "bson", rand.model)(faker, falso, bson);
 					obj[rand.column.name] = typeof r === 'function' ? r() : r;
 					this.randomSource[+index].error = "";
 				} catch (e) {

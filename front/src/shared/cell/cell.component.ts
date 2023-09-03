@@ -13,7 +13,7 @@ import { Params } from "@angular/router";
 })
 export class CellComponent implements OnInit {
 
-	@Input() row!: any;
+	@Input() value!: any;
 	@Input() column!: string;
 	@Input() stringify = false;
 
@@ -32,14 +32,17 @@ export class CellComponent implements OnInit {
 	ngOnInit(): void {
 		this.relations = Table.getRelations();
 		this.selectedServer = Server.getSelected();
+		if (this.value !== undefined) {
+			this.value = JSON.parse(JSON.stringify(this.value));
+		}
 
-		this.nested = helper.isNested(this.row[this.column]);
+		this.nested = helper.isNested(this.value);
 		if (this.nested) {
-			if (JSON.stringify(this.row[this.column]).length > 70) {
+			if (JSON.stringify(this.value).length > 70) {
 				this.expand = false;
 			}
 		} else if (this.stringify) {
-			this.row[this.column] = JSON.stringify(this.row[this.column]);
+			this.value = JSON.stringify(this.value);
 		}
 
 		const relation = this.relations?.find(relation => relation.column_source === this.column);
@@ -47,8 +50,8 @@ export class CellComponent implements OnInit {
 		if (relation) {
 			const col = Database.getSelected().tables!.find(tab => tab.name === relation.table_dest)!.columns.find(col => col.name === relation.column_dest)!;
 
-			this.row[this.column] = this.nested ? Object.values(this.row[this.column])[0] : this.row[this.column];
-			this.fkParams = {chips: this.selectedServer?.driver.quickSearch(this.selectedServer?.driver, col, this.row[this.column]) + ';'}
+			this.value = this.nested ? Object.values(this.value)[0] : this.value;
+			this.fkParams = {chips: this.selectedServer?.driver.quickSearch(this.selectedServer?.driver, col, this.value) + ';'}
 		}
 	}
 }

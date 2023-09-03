@@ -203,7 +203,8 @@ export default class MongoDB extends Driver {
 	}
 
 	async setCollation(database, collate) {
-
+		console.error("Feature not yet available", database, collate);
+		return true;
 	}
 
 	async modifyColumn(database, table, old, column) {
@@ -213,7 +214,7 @@ export default class MongoDB extends Driver {
 	async exampleData(database, table, column, limit) {
 		const cols = {};
 		cols[column] = 1;
-		const res = await this.connection.db(database).collection(table).find({}, cols).limit(limit).toArray()
+		const res = await this.connection.db(database).collection(table).find({}, cols).limit(limit).toArray();
 
 		return res.map(r => r[column]);
 	}

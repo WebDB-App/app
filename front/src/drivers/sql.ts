@@ -123,6 +123,10 @@ export class SQL implements Driver {
 			'REFERENCES',
 			'ON DELETE',
 			'ON UPDATE',
+			'ALTER FUNCTION',
+			'CREATE FUNCTION',
+			'CREATE OR REPLACE FUNCTION',
+			'DROP FUNCTION',
 		],
 		functions: {
 			'ABS': '(number)',
@@ -217,6 +221,10 @@ export class SQL implements Driver {
 			return false;
 		}
 		return query;
+	}
+
+	wrapValue(type: string, value: string) {
+		return `'${value}'`;
 	}
 
 	quickSearch(driver: Driver, column: Column, value: string) {

@@ -133,17 +133,19 @@
 					Duplicate
 				</button>
 
-				<button [matMenuTriggerFor]="templatesMenu" mat-button>
-					<span class="material-symbols-outlined notranslate">grid_guides</span>
-					Template
-				</button>
-				<mat-menu #templatesMenu="matMenu" xPosition="before">
-					<button (click)="trigger.code = this.selectedServer!.driver.trigger.templates[template.key];"
-							*ngFor="let template of this.selectedServer!.driver.trigger.templates | keyvalue"
-							mat-menu-item>
-						{{template.key.replaceAll('_', ' ') | titlecase}}
+				<ng-container *ngIf="Object.keys(this.selectedServer!.driver.trigger.templates).length">
+					<button [matMenuTriggerFor]="templatesMenu" mat-button>
+						<span class="material-symbols-outlined notranslate">grid_guides</span>
+						Template
 					</button>
-				</mat-menu>
+					<mat-menu #templatesMenu="matMenu" xPosition="before">
+						<button (click)="trigger.code = this.selectedServer!.driver.trigger.templates[template.key];"
+								*ngFor="let template of this.selectedServer!.driver.trigger.templates | keyvalue"
+								mat-menu-item>
+							{{template.key.replaceAll('_', ' ') | titlecase}}
+						</button>
+					</mat-menu>
+				</ng-container>
 
 				<button (click)="delete(trigger, i)"
 						color="warn"
