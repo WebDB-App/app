@@ -232,7 +232,7 @@
 						<app-cell
 							*ngIf="column !== actionColum"
 							[column]="column"
-							[row]="row"
+							[value]="row[column]"
 							[stringify]="true"
 						></app-cell>
 					</td>

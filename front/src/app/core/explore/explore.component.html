@@ -158,7 +158,7 @@
 				<app-cell
 					*ngIf="column !== actionColum"
 					[column]="column"
-					[row]="row"
+					[value]="row[column]"
 					[stringify]="stringify"
 				></app-cell>
 			</td>

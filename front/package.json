@@ -8,6 +8,7 @@
 	},
 	"dependencies": {
 		"@angular-devkit/build-angular": "^14.2.11",
+		"@angular-builders/custom-webpack": "^14.1.0",
 		"@angular/animations": "^14.3.0",
 		"@angular/cdk": "^14.2.7",
 		"@angular/cli": "^14.2.11",

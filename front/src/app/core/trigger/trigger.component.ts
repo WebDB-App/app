@@ -118,4 +118,6 @@ export class TriggerComponent implements OnInit {
 	duplicate(trigger: Trigger) {
 		this.triggers?.push({...trigger});
 	}
+
+    protected readonly Object = Object;
 }

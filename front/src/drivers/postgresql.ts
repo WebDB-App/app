@@ -15,17 +15,6 @@ export class PostgreSQL extends SQL {
 			types: "https://www.postgresql.org/docs/current/datatype.html",
 			language: "https://www.postgresql.org/docs/current/sql-commands.html"
 		}
-
-		this.trigger.templates = {
-			adult_and_good_email: `
-IF age < 18 THEN
-	SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Age must be gte 18';
-END IF;
-IF NOT (SELECT email REGEXP '$[A-Z0-9._%-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}$') THEN
-	SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Wrong email';
-END IF;`
-		};
-
 		this.language = {
 			...this.language,
 			fctAsDefault: ['now()', 'nextval()'],

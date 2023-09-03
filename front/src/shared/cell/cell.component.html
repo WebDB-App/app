@@ -1,7 +1,7 @@
 <ng-container *ngIf="fkLink">
 	<a [queryParams]="fkParams"
 	   [routerLink]="fkLink">
-		{{row[column]}}
+		{{value}}
 	</a>
 </ng-container>
 
@@ -10,7 +10,7 @@
 		<ng-container *ngIf="expand">
 			<ngx-json-viewer
 				[expanded]="false"
-				[json]="row[column]">
+				[json]="value">
 			</ngx-json-viewer>
 		</ng-container>
 		<ng-container *ngIf="!expand">
@@ -25,6 +25,6 @@
 	</ng-container>
 	<ng-container
 		*ngIf="!nested">
-		{{row[column]}}
+		{{value}}
 	</ng-container>
 </ng-container>
