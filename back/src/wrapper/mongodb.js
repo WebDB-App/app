@@ -210,13 +210,17 @@ export default class MongoDB extends Driver {
 		return [];
 	}
 
-	async getRelations(databases) {
-		//nested
-		//insert + getBaseSelectWithRelations
+	async exampleData(database, table, column, limit) {
+		const cols = {};
+		cols[column] = 1;
+		const res = await this.connection.db(database).collection(table).find({}, cols).limit(limit).toArray()
+
+		return res.map(r => r[column]);
+	}
+
+	async getRelations(databases, sampleSize) {
 		const relations = [];
 		const promises = [];
-		const sampleSize = 20;
-		const minCorr = sampleSize * 10 / 100;
 
 		databases.map(database => {
 			database.tables.map(table_source => {
@@ -244,7 +248,7 @@ export default class MongoDB extends Driver {
 										}, {"$limit": sampleSize} ]).toArray();
 
 									rows.map(row => fks += row.fks.length);
-									if (fks >= minCorr) {
+									if (fks >= 1) {
 										relations.push({
 											database: database.name,
 											name: `${table_source.name}_${column_source.name}.${table_dest.name}`,
