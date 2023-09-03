@@ -4,6 +4,7 @@ import { Relation } from "../../classes/relation";
 import { Server } from "../../classes/server";
 import { Database } from "../../classes/database";
 import helper from "../common-helper.mjs";
+import { Params } from "@angular/router";
 
 @Component({
 	selector: 'app-cell',
@@ -16,11 +17,12 @@ export class CellComponent implements OnInit {
 	@Input() column!: string;
 	@Input() stringify = false;
 
-	selectedTable?: Table;
+	selectedServer?: Server;
 	relations?: Relation[];
 	nested = false;
 	expand = true;
 	fkLink?: string[];
+	fkParams?: Params;
 
 	constructor(
 		public ref: ElementRef
@@ -29,8 +31,7 @@ export class CellComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.relations = Table.getRelations();
-		const fk = this.relations?.find(relation => relation.column_source === this.column);
-		this.fkLink = !fk ? undefined : ['/', Server.getSelected().name, Database.getSelected().name, fk.table_dest, 'explore'];
+		this.selectedServer = Server.getSelected();
 
 		this.nested = helper.isNested(this.row[this.column]);
 		if (this.nested) {
@@ -40,11 +41,14 @@ export class CellComponent implements OnInit {
 		} else if (this.stringify) {
 			this.row[this.column] = JSON.stringify(this.row[this.column]);
 		}
-	}
 
-	getFkParams() {
-		const fk = this.relations?.find(relation => relation.column_source === this.column);
+		const relation = this.relations?.find(relation => relation.column_source === this.column);
+		this.fkLink = !relation ? undefined : ['/', Server.getSelected().name, Database.getSelected().name, relation.table_dest, 'explore'];
+		if (relation) {
+			const col = Database.getSelected().tables!.find(tab => tab.name === relation.table_dest)!.columns.find(col => col.name === relation.column_dest)!;
 
-		return {chips: `${fk!.column_dest}='${this.row[this.column]}';`};
+			this.row[this.column] = this.nested ? Object.values(this.row[this.column])[0] : this.row[this.column];
+			this.fkParams = {chips: this.selectedServer?.driver.quickSearch(this.selectedServer?.driver, col, this.row[this.column]) + ';'}
+		}
 	}
 }

@@ -129,18 +129,15 @@ async function main() {
 
 	quickSearch(driver: Driver, column: Column, value: string) {
 		const wrapValue = (value: string) => {
-			switch (column.type) {
-				case 'ObjectId':
-					return `new bson.ObjectId("${value}")`;
-				case "Date":
-					return `new Date("${value}")`;
-				case "String":
-					return `"${value}"`;
-				default:
-					return value;
+			const bson = ['Code','DBRef','ObjectId','Binary','UUID','Long','Timestamp','Double','Int32','MinKey','MaxKey','BSONRegExp','Decimal128'];
+			if (bson.indexOf(column.type) >= 0) {
+				return `new bson.${column.type}("${value}")`;
 			}
+			if (column.type === 'Date') {
+				return `new Date("${value}")`;
+			}
+			return value;
 		}
-
 		let chip = `{${column.name}: { `;
 		const comp = driver.language.comparators.find((comparator) => {
 			return value.toLowerCase().startsWith(comparator.symbol + ' ')
@@ -187,7 +184,6 @@ async function main() {
 			}
 			cols.push(col);
 		}
-		console.log(cols);
 		return cols;
 	}
 
@@ -196,7 +192,6 @@ async function main() {
 	}
 
 	getBaseInsert(table: Table) {
-		const cols = table.columns?.map(column => `${column.name}: "${column.type}"`);
 		return `db.collection("${table.name}").insertOne({${this.getColumns(table).join(",\n")}})`;
 	}
 
@@ -220,7 +215,16 @@ db.collection("${table.name}").find({
 	}
 
 	getBaseSelectWithRelations(table: Table, relations: Relation[]) {
-		return "";
+		return `db.collection("${table.name}").aggregate([
+	{
+		${relations.map(rel => `$lookup: {
+			from: "${rel.table_dest}",
+			localField: "${rel.column_source}",
+			foreignField: "${rel.column_dest}",
+			as: "fks"
+		}`)}
+	}]).toArray();
+		`;
 	}
 
 	getBaseAggregate(table: Table) {

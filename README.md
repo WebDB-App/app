@@ -5,8 +5,9 @@
 - https://github.com/electron/electron/pull/37535
 - ci + gitlab wiki (home)
 
-# Mongo :
-- harmonizer (columns with obj/array > 2)
+# Mongo harmonizer
+- columns with obj/array > 2
+- nested relation https://www.mongodb.com/docs/manual/reference/operator/aggregation/lookup/#use--lookup-with-an-array
 - addTable
 
 # Relation wizard
