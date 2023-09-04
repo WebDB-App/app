@@ -53,7 +53,7 @@ export class CellComponent implements OnInit {
 			const col = Database.getSelected().tables!.find(tab => tab.name === relation.table_dest)!.columns.find(col => col.name === relation.column_dest)!;
 
 			this.value = this.nested ? Object.values(this.value)[0] : this.value;
-			this.fkParams = {chips: this.selectedServer?.driver.quickSearch(this.selectedServer?.driver, col, this.value) + ';'}
+			this.fkParams = {chips: this.selectedServer?.driver.quickSearch(this.selectedServer?.driver, col, this.value.toString()) + ';'}
 		}
 	}
 }
