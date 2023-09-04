@@ -1,5 +1,3 @@
-- postgre : plusieurs schemas(connection.html:182) + load/dump specific schema
-
 # Bin
 - deps: Brew + chocolate + apt + yum
 - https://github.com/electron/electron/pull/37535
@@ -28,7 +26,7 @@
 ----------------------------------------------------------
 
 
-
+- postgre : plusieurs schemas(connection.html:182) + load/dump specific schema
 - quicksearch : don't put "'" on nested type
 - revoir MySQL load avec tunnel (essayer en bash)
 - Finir EDR
