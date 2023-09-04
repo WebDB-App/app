@@ -60,12 +60,12 @@
 
 				<div class="infos">
 					<h2 style="color: #2196f3; width: 12vw; text-align: center;">
-						{{random.column.type}}
+						{{JSON.stringify(random.column.type).replaceAll('"', " ")}}
 						<mat-divider></mat-divider>
 					</h2>
 
 					<button
-						(click)="random.model = beautify('(() => {return undefined})()')"
+						(click)="random.model = beautify('return undefined')"
 						mat-stroked-button>
 						<span class="material-symbols-outlined notranslate">
 							check_box_outline_blank

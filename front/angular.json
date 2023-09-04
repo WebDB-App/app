@@ -87,8 +87,7 @@
 							"browserTarget": "webdb:build:production"
 						},
 						"development": {
-							"browserTarget": "webdb:build:development",
-							"hmr": true
+							"browserTarget": "webdb:build:development"
 						}
 					},
 					"defaultConfiguration": "development"

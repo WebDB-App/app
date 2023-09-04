@@ -108,7 +108,7 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 		const values = this.selectedServer!.driver.extractEnum(random.column);
 		let found = false;
 		if (values) {
-			random.model = `(() => {const enums = [${values.map(value => `'${value}'`).join(",")}];return enums[Math.floor(Math.random() * (enums.length))]})()`;
+			random.model = `return (() => {const enums = [${values.map(value => `'${value}'`).join(",")}];return enums[Math.floor(Math.random() * (enums.length))]})()`;
 			found = true;
 		} else {
 			const relation = Table.getRelations().find(relation => relation.column_source === random.column.name);
@@ -119,7 +119,7 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 					limit: this.limit
 				});
 				if (datas) {
-					random.model = `(() => { const fk = [${datas.map((data: string) => this.selectedServer?.driver.wrapValue(random.column.type, data)).join(",")}]; return fk[Math.floor(Math.random() * (fk.length))]; })()`;
+					random.model = `return (() => { const fk = [${datas.map((data: string) => `${this.selectedServer?.driver.wrapValue(random.column.type, data)}`).join(",")}]; return fk[Math.floor(Math.random() * (fk.length))]; })()`;
 					found = true;
 				}
 			}
@@ -308,4 +308,6 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 			{relativeTo: this.activatedRoute.parent?.parent})
 		await this.drawer.open(`With ${framework}, give me the code to generate random data for my column "${random.column.name}" in the table "${this.selectedTable?.name}"`);
 	}
+
+	protected readonly JSON = JSON;
 }
