@@ -30,12 +30,14 @@ export class CellComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		this.relations = Table.getRelations();
-		this.selectedServer = Server.getSelected();
-		if (this.value !== undefined) {
-			this.value = JSON.parse(JSON.stringify(this.value));
+		if (this.value === undefined) {
+			return;
 		}
 
+		this.relations = Table.getRelations();
+		this.selectedServer = Server.getSelected();
+
+		this.value = JSON.parse(JSON.stringify(this.value));
 		this.nested = helper.isNested(this.value);
 		if (this.nested) {
 			if (JSON.stringify(this.value).length > 70) {
