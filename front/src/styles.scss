@@ -70,12 +70,15 @@ body {
 
 	.mat-cell, .mat-header-cell {
 		min-width: 60px;
-		padding: 0px 14px !important;
+		padding: 0px 10px !important;
 	}
 
 	.mat-cell {
 		font-size: 13px;
-		border: 1px solid transparent;
+		border-left: 1px solid #1e1e1e;
+		border-top: none;
+		border-right: none;
+		border-bottom: none;
 
 		.material-symbols-outlined {
 			font-size: 20px;
@@ -93,10 +96,6 @@ body {
 	}
 
 	.mat-row:nth-child(even) {
-		background-color: rgba(0, 0, 0, 0.2);
-	}
-
-	.mat-cell:nth-child(even) {
 		background-color: rgba(0, 0, 0, 0.2);
 	}
 

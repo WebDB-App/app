@@ -113,6 +113,17 @@ export default class PostgreSQL extends SQL {
 	}
 
 	async insert(db, table, datas) {
+		datas = datas.map(row => {
+			for (const [index, obj] of Object.entries(row)) {
+				if (obj.startsWith("[") && obj.endsWith("]")) {
+					row[index] = `'{${obj.slice(1, -1)}}'`;
+				}
+				if (obj.startsWith("\"") && obj.endsWith("\"")) {
+					row[index] = `'{${obj.slice(1, -1)}}'`;
+				}
+			}
+			return row;
+		});
 		return await super.insert(db, table, datas);
 	}
 

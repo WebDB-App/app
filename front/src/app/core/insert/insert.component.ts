@@ -129,7 +129,7 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 			this.snackBar.open("No sample data found, check the relation and type", "╳", {duration: 3000})
 		}
 
-		random.model = this.beautify(random.model || `return faker.random.numeric();`);
+		random.model = this.beautify(random.model || `return faker.datatype.string();`);
 	}
 
 	beautify(str: string) {
@@ -183,6 +183,7 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 				try {
 					const r = new Function("faker", "falso", "bson", rand.model)(faker, falso, bson);
 					obj[rand.column.name] = typeof r === 'function' ? r() : r;
+					obj[rand.column.name] = JSON.stringify(obj[rand.column.name]);
 					this.randomSource[+index].error = "";
 				} catch (e) {
 					this.randomSource[+index].error = <string>e;
