@@ -26,14 +26,12 @@
 ----------------------------------------------------------
 
 
+
 - postgre : plusieurs schemas(connection.html:182) + load/dump specific schema
 - quicksearch : don't put "'" on nested type
-- revoir MySQL load avec tunnel (essayer en bash)
 - Finir EDR
 - Export Query : tester tout
-- Unit Test en front avec plusieurs version de bdd
-- function+type dans column/autocomplete
-- checks col/table dans trigger
+
 
 # GraphQL
 
@@ -57,3 +55,10 @@
 - https://media.licdn.com/dms/image/D4D22AQF__oKSdRBu8A/feedshare-shrink_800/0/1680459400162?e=1687996800&v=beta&t=zDJ4A0NkYJg47W-HmF6MId60SOYPUaprPZFhkGptawo
 - https://media.licdn.com/dms/image/D4E22AQGx27end7jE5Q/feedshare-shrink_800/0/1684474332765?e=1688601600&v=beta&t=g1NR0-Uuifv4muNn1Hps1p8H5BjYDOU9w1Sej-NkkqY
 - https://external-preview.redd.it/chatgpt-for-data-science-cheat-sheet-v0-Odpv_XqB8SiefptXNzZP-t9AjrVOxg0IF81UuKFx2sw.jpg?auto=webp&s=2b8b8a80fa2c3a4b6f85545cffa26726021a60a4
+
+
+# Other
+- revoir MySQL load avec tunnel (essayer en bash)
+- Unit Test en front avec plusieurs version de bdd
+- function+domain+custom type+sequences dans column/autocomplete
+- checks col/table dans trigger

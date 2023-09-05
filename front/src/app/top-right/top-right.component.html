@@ -16,7 +16,11 @@
 		person
 	</span>
 </button>
-
+<button (click)="showSettings()" mat-button>
+	<span class="material-symbols-outlined notranslate">
+		settings
+	</span>
+</button>
 <mat-menu #database="matMenu">
 	<a mat-menu-item
 	   (click)="request.reloadServer()">
@@ -105,12 +109,5 @@
 			credit_card
 		</span>
 		Billing
-	</a>
-	<a (click)="showSettings()"
-	   mat-menu-item>
-		<span class="material-symbols-outlined notranslate">
-			settings
-		</span>
-		Settings
 	</a>
 </mat-menu>

@@ -16,14 +16,15 @@
 
 		<div>
 			<mat-button-toggle-group
-				(change)="iframe = sanitizer.bypassSecurityTrustResourceUrl($event.value)">
-				<mat-button-toggle
-					value='https://v7.fakerjs.dev/api/'>
+				(change)="iframe = $event.value ? sanitizer.bypassSecurityTrustResourceUrl($event.value) : undefined">
+				<mat-button-toggle value='https://ngneat.github.io/falso/docs/getting-started'>
+					Falso
+				</mat-button-toggle>
+				<mat-button-toggle value='https://v7.fakerjs.dev/api/'>
 					FakerJS
 				</mat-button-toggle>
-				<mat-button-toggle
-					value='https://ngneat.github.io/falso/docs/getting-started'>
-					Falso
+				<mat-button-toggle value=''>
+					╳
 				</mat-button-toggle>
 			</mat-button-toggle-group>
 		</div>
@@ -38,8 +39,8 @@
 		</a>
 	</mat-toolbar>
 
-	<div *ngIf="iframe" style="height: 400px; display: flex;">
-		<iframe [src]="iframe" style="border-top: 1px solid #2196f3; border-bottom: 1px solid #2196f3; border-left: none; border-right: none; min-height: 100%; width: 100%; box-sizing: border-box;"></iframe>
+	<div *ngIf="iframe" style="height: 300px; display: flex; overflow: auto; resize: vertical; padding: 14px;">
+		<iframe [src]="iframe" style="border: none; min-height: 100%; width: 100%; border-radius: 14px; box-shadow: 0px 0px 6px white;"></iframe>
 	</div>
 
 	<mat-tab-group mat-align-tabs="center">
@@ -75,11 +76,12 @@
 
 					<button
 						(click)="sampleData(random, true)"
+						color="accent"
 						mat-flat-button>
 						<span class="material-symbols-outlined notranslate">
-							frame_inspect
+							attach_file
 						</span>
-						Sample Data
+						Foreign Key / Enum
 					</button>
 
 					<button
@@ -93,11 +95,11 @@
 					<mat-menu #iaFrame="matMenu" xPosition="before">
 						<button (click)="iaCode(random, 'FakerJS')"
 								mat-menu-item>
-							FakerJS
+							Falso
 						</button>
 						<button (click)="iaCode(random, 'FakerJS')"
 								mat-menu-item>
-							Falso
+							FakerJS
 						</button>
 					</mat-menu>
 
@@ -124,14 +126,19 @@
 								mat-menu-item>
 							Mail
 						</button>
+						<button (click)="random.model = 'return faker.address.streetAddress(true)'"
+								mat-menu-item>
+							Address
+						</button>
 						<button
 							(click)="random.model = 'return {\n\tfirst_name: faker.name.firstName(),\n\tlast_name: faker.name.lastName(),\n\tsex: faker.name.sex()\n}'"
 							mat-menu-item>
 							Object
 						</button>
-						<button (click)="random.model = 'return faker.address.streetAddress(true)'"
-								mat-menu-item>
-							Address
+						<button
+							(click)="random.model = 'return Array(6).fill(null).map(() => faker.datatype.number())'"
+							mat-menu-item>
+							Array
 						</button>
 					</mat-menu>
 				</div>
@@ -233,7 +240,6 @@
 							*ngIf="column !== actionColum"
 							[column]="column"
 							[value]="row[column]"
-							[stringify]="true"
 						></app-cell>
 					</td>
 				</ng-container>

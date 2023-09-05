@@ -68,10 +68,6 @@ export default class MySQL extends SQL {
 		return bash.runBash(`mysql --user='${this.user}' --port=${this.port} --password='${this.password}' --host='${this.host}' ${database} < ${filePath}`);
 	}
 
-	async insert(db, table, datas) {
-		return await super.insert(db, table, datas);
-	}
-
 	async modifyColumn(database, table, old, column) {
 		return await this.runCommand(`ALTER TABLE \`${table}\` CHANGE \`${old.name}\` ${this.columnToSQL(column)}`, database);
 	}
