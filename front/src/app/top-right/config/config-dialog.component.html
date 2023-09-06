@@ -9,14 +9,15 @@
 		<tr *ngFor="let config of configuration.configs">
 			<td>{{config.description}}</td>
 			<td>
-				<mat-form-field appearance="legacy" style="margin-left: 15px">
-					<mat-select #select (selectionChange)="update(config.name, select.value)"
-								[value]="configuration.getByName(config.name)?.value">
-						<mat-option *ngFor="let value of config.values" [value]="value">
-							{{value}}
-						</mat-option>
-					</mat-select>
-				</mat-form-field>
+				<mat-button-toggle-group
+					(change)="update(config.name, $event.value)"
+					[value]="configuration.getByName(config.name)?.value">
+					<mat-button-toggle
+						*ngFor="let value of config.values"
+						[value]="value">
+						{{value}}
+					</mat-button-toggle>
+				</mat-button-toggle-group>
 			</td>
 		</tr>
 	</table>

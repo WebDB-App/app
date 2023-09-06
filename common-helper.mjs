@@ -1,6 +1,13 @@
 const obj = {
 	validName: /^[a-zA-Z0-9-_]{2,50}$/,
 	parentheses: /\((?:[^)(]|\((?:[^)(]|\((?:[^)(]|\([^)(]*\))*\))*\))*\)/g,
+	complex: {
+		'FUNCTION': 'FUNCTION',
+		'PROCEDURE': 'PROCEDURE',
+		'DOMAIN': 'DOMAIN',
+		'CUSTOM_TYPE': 'CUSTOM_TYPE',
+		'SEQUENCE': 'SEQUENCE'
+	},
 	mongo_injectAggregate: (query, toInject) => {
 		const reg = /\.aggregate\((?:[^)(]|\((?:[^)(]|\((?:[^)(]|\([^)(]*\))*\))*\))*\)/g;
 		let agg = query.match(reg);

@@ -1,7 +1,12 @@
 table {
 	width: 100%;
 
-	td:nth-child(2) {
-		width: 0px;
+	.mat-button-toggle-group {
+		margin-left: 15px;
+		display: flex;
+
+		.mat-button-toggle {
+			flex: 1;
+		}
 	}
 }

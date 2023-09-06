@@ -52,14 +52,18 @@ body {
 	border-spacing: 0px;
 	background-color: transparent;
 
-	.mat-header-cell {
-		color: mat.get-color-from-palette($angular-primary, default);
-		font-size: 15px;
-		border: none;
+	.mat-header-row {
+		height: 45px;
 
-		input {
-			width: 100%;
-			margin: 0px;
+		.mat-header-cell {
+			color: mat.get-color-from-palette($angular-primary, default);
+			font-size: 15px;
+			border: none;
+
+			input {
+				width: 100%;
+				margin: 0px;
+			}
 		}
 	}
 
@@ -75,9 +79,9 @@ body {
 
 	.mat-cell {
 		font-size: 13px;
-		border-left: 1px solid #1e1e1e;
+		border-right: 1px solid #1e1e1e;
 		border-top: none;
-		border-right: none;
+		border-left: none;
 		border-bottom: none;
 
 		.material-symbols-outlined {

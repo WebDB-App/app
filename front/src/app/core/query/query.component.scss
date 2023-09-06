@@ -1,14 +1,15 @@
 #container {
 	display: flex;
-	height: calc(100vh - 162px);
+	border-top: 2px solid #444444;
+	height: calc(100vh - 163px);
 
 	&.diff {
-		height: calc(35vh - 81px) !important;
+		height: 330px !important;
 	}
 }
 
 ngx-monaco-diff-editor {
-	height: calc(65vh - 81px) !important;
+	height: calc(100vh - 495px) !important;
 }
 
 ngx-monaco-editor {
@@ -17,7 +18,7 @@ ngx-monaco-editor {
 }
 
 #results {
-	width: 100%;
+	flex: 1;
 	height: 100%;
 	overflow: auto;
 }

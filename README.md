@@ -1,12 +1,23 @@
+- fcts column/autocomplete
+- plusieurs schemas(connection.html:182) + load/dump specific schema
+
+
+- checks col/table dans trigger
+- sql function doc (generate from web scrap)
+
+
+# Mongo harmonizer
+- columns with obj/array > 2
+- nested relation https://www.mongodb.com/docs/manual/reference/operator/aggregation/lookup/#use--lookup-with-an-array
+- addTable
+
+
+
+
 # Bin
 - deps: Brew + chocolate + apt + yum
 - https://github.com/electron/electron/pull/37535
 - ci + gitlab wiki (home)
-
-# Mongo harmonizer 
-- columns with obj/array > 2
-- nested relation https://www.mongodb.com/docs/manual/reference/operator/aggregation/lookup/#use--lookup-with-an-array
-- addTable
 
 # Relation wizard
 - 1,1 -> 0,n
@@ -26,11 +37,6 @@
 ----------------------------------------------------------
 
 
-
-- postgre : plusieurs schemas(connection.html:182) + load/dump specific schema
-- quicksearch : don't put "'" on nested type
-- Finir EDR
-- Export Query : tester tout
 
 
 # GraphQL
@@ -57,8 +63,14 @@
 - https://external-preview.redd.it/chatgpt-for-data-science-cheat-sheet-v0-Odpv_XqB8SiefptXNzZP-t9AjrVOxg0IF81UuKFx2sw.jpg?auto=webp&s=2b8b8a80fa2c3a4b6f85545cffa26726021a60a4
 
 
-# Other
+
+
+----------------------------------------------------------
+
+
+
+
+- Finir EDR
+- Export Query : tester tout
 - revoir MySQL load avec tunnel (essayer en bash)
 - Unit Test en front avec plusieurs version de bdd
-- function+domain+custom type+sequences dans column/autocomplete
-- checks col/table dans trigger

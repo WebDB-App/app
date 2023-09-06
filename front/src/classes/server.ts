@@ -2,7 +2,6 @@ import { Database } from "./database";
 import { Relation } from "./relation";
 import { Index } from "./index";
 import { Driver } from "./driver";
-import { Type } from "./types";
 
 const localStorageName = "servers";
 let selected: Server | undefined;
@@ -28,8 +27,8 @@ export class Server {
 	isLoading!: boolean;
 	relations!: Relation[];
 	dbs!: Database[];
-	types!: Type[];
 	indexes!: Index[];
+	complexes?: {name: string; type: string, database: string}[];
 	driver!: Driver;
 	params?: {};
 	uri?: string;
@@ -84,6 +83,7 @@ export class Server {
 		shallow.dbs = [];
 		shallow.relations = [];
 		shallow.indexes = [];
+		shallow.complexes = [];
 		shallow.driver = <Driver>{};
 		shallow.isLoading = false;
 
