@@ -24,6 +24,11 @@ export class AdvancedComponent implements OnInit, OnDestroy {
 		index_length: number,
 		data_length: number
 	};
+	str = "";
+	editorOptions = {
+		language: 'json',
+		readOnly: true
+	};
 
 	constructor(
 		private dialog: MatDialog,
@@ -35,6 +40,8 @@ export class AdvancedComponent implements OnInit, OnDestroy {
 	async ngOnInit() {
 		this.selectedDatabase = Database.getSelected();
 		this.selectedServer = Server.getSelected();
+		const {driver, ...rest} = {...this.selectedServer};
+		this.str = JSON.stringify(rest, null, 4);
 
 		this.collations = await this.request.post('database/availableCollations', undefined);
 
@@ -50,6 +57,15 @@ export class AdvancedComponent implements OnInit, OnDestroy {
 
 	ngOnDestroy() {
 		clearInterval(this.interval);
+	}
+
+	initEditor(editor: any) {
+		setTimeout(() => {
+			editor.trigger('fold', 'editor.foldAll');
+			editor.trigger('unfold', 'editor.unfold', {
+				levels: 2,
+			});
+		}, 1);
 	}
 
 	drop() {

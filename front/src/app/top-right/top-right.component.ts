@@ -28,13 +28,6 @@ export class TopRightComponent {
 		this.dialog.open(ConfigDialog);
 	}
 
-	showConnection() {
-		this.dialog.open(ConnectionInfoDialog, {
-			data: Server.getSelected(),
-			hasBackdrop: false
-		});
-	}
-
 	showLogs(file: string) {
 		this.dialog.open(LogsDialog, {
 			data: file,
@@ -43,33 +36,6 @@ export class TopRightComponent {
 	}
 
 	protected readonly isSQL = isSQL;
-}
-
-@Component({
-	templateUrl: 'connection-dialog.html',
-})
-export class ConnectionInfoDialog {
-	str = "";
-	editorOptions = {
-		language: 'json',
-		readOnly: true
-	};
-
-	constructor(
-		@Inject(MAT_DIALOG_DATA) public server: Server,
-	) {
-		const {driver, ...rest} = {...this.server};
-		this.str = JSON.stringify(rest, null, 4);
-	}
-
-	initEditor(editor: any) {
-		setTimeout(() => {
-			editor.trigger('fold', 'editor.foldAll');
-			editor.trigger('unfold', 'editor.unfold', {
-				levels: 2,
-			});
-		}, 1);
-	}
 }
 
 @Component({

@@ -1,18 +1,10 @@
 <ng-container *ngIf="Server.getSelected()">
 	<button
-		mat-icon-button
+		mat-button
 		matTooltip="Query Logs"
 		(click)="showLogs('out.log')">
 		<span class="material-symbols-outlined notranslate">
 			browse_activity
-		</span>
-	</button>
-	<button
-		(click)="showConnection()"
-		matTooltip="Connection Details"
-		mat-icon-button>
-		<span class="material-symbols-outlined notranslate">
-			signal_wifi_statusbar_not_connected
 		</span>
 	</button>
 </ng-container>
