@@ -57,7 +57,7 @@ export class QueryComponent implements OnInit, OnDestroy {
 	isLoading = false;
 	displayedColumns?: string[];
 	dataSource?: MatTableDataSource<any>;
-	autoFormat = true;
+	autoFormat = this.configuration.getByName('autoFormat')?.value;
 
 	protected readonly Math = Math;
 
@@ -112,6 +112,7 @@ export class QueryComponent implements OnInit, OnDestroy {
 
 		this.interval = setInterval(() => {
 			this.router.navigate([Server.getSelected().name, Database.getSelected().name, Table.getSelected().name, 'query', this.query]);
+			this.configuration.update('autoFormat', this.autoFormat);
 		}, 1000);
 	}
 
