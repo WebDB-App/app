@@ -5,6 +5,8 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { FormArray, FormGroup } from "@angular/forms";
 import { isSQL } from "../helper";
 import { Table } from "../../classes/table";
+import { Group, TypeData, TypeGroup } from "../../classes/driver";
+import { Database } from "../../classes/database";
 
 @Component({
 	selector: 'app-column',
@@ -19,6 +21,7 @@ export class ColumnComponent implements OnInit {
 	extraAttributes = Server.getSelected().driver.language.extraAttributes;
 	selectedServer?: Server;
 	selectedTable?: Table;
+	typeGroups!: TypeGroup[];
 
 	constructor(
 		public snackBar: MatSnackBar
@@ -28,6 +31,25 @@ export class ColumnComponent implements OnInit {
 	ngOnInit(): void {
 		this.selectedServer = Server.getSelected();
 		this.selectedTable = Table.getSelected();
+		this.typeGroups = this.selectedServer!.driver.language.typeGroups;
+
+		const custom: TypeData[] = [];
+		this.selectedServer.complexes?.map(complex => {
+			if (complex.database.trim() === Database.getSelected().name.split(',')[1].trim() &&
+				['DOMAIN', 'CUSTOM_TYPE', 'SEQUENCE', 'ENUM'].indexOf(complex.type) >= 0) {
+				custom.push({
+					id: complex.name,
+					bold: true,
+					description: complex.type.charAt(0).toUpperCase() + complex.type.slice(1).toLowerCase()
+				});
+			}
+		})
+		if (custom.length) {
+			this.typeGroups.push({
+				name: Group.Custom,
+				list: custom
+			})
+		}
 
 		this.formColumn = <FormArray>this.form.get('columns');
 	}

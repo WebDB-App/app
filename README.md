@@ -1,4 +1,3 @@
-- fcts column/autocomplete
 - plusieurs schemas(connection.html:182) + load/dump specific schema
 
 

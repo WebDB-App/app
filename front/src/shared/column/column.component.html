@@ -99,7 +99,7 @@
 						<mat-select
 							#typeSuggestion
 							(selectionChange)="column.get('type')?.patchValue($event.value)">
-							<mat-optgroup *ngFor="let group of selectedServer!.driver.language.typeGroups"
+							<mat-optgroup *ngFor="let group of typeGroups"
 										  [label]="group.name">
 								<mat-option *ngFor="let type of group.list" [value]="type.id">
 									<span

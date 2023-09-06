@@ -8,6 +8,7 @@ import { Relation } from "../classes/relation";
 import { Configuration } from "../classes/configuration";
 import { HttpClient } from "@angular/common/http";
 import helper from "../shared/common-helper.mjs";
+import commonHelper from "../shared/common-helper.mjs";
 
 //import * as monaco from 'monaco-editor'
 declare var monaco: any;
@@ -347,6 +348,17 @@ export class SQL implements Driver {
 			label: `*`,
 			kind: monaco.languages.CompletionItemKind.Class,
 			insertText: `* `
+		});
+
+		Server.getSelected().complexes?.map(complex => {
+			if (complex.database.trim() !== Database.getSelected().name.split(',')[1].trim()) {
+				return;
+			}
+			suggestions.push({
+				label: complex.name,
+				// @ts-ignore
+				kind: monaco.languages.CompletionItemKind[commonHelper.complex[complex.type]],
+			});
 		});
 
 		return suggestions;
