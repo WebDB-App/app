@@ -20,6 +20,15 @@
 
 	<div style="padding: 20px">
 
+		<ngx-monaco-editor
+			cdkFocusInitial
+			(onInit)="initEditor($event)"
+			[(ngModel)]="str"
+			[options]="editorOptions"
+		></ngx-monaco-editor>
+
+		<mat-divider></mat-divider>
+
 		<div *ngIf="stats" fxLayout="row" fxLayoutAlign="space-between center">
 			<span>Total Index Size : {{+stats.index_length | round}} Mb</span>
 			<span>Total Data Size : {{+stats.data_length | round}} Mb</span>

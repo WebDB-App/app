@@ -116,7 +116,7 @@ export default class MySQL extends SQL {
 	}
 
 	async getComplexes() {
-		return await this.runCommand("SELECT routine_name as name, routine_type as type, routine_schema as database FROM information_schema.routines ORDER BY routine_name;");
+		return await this.runCommand("SELECT routine_name as name, routine_type as type, routine_schema as 'database' FROM information_schema.routines ORDER BY routine_name;");
 	}
 
 	async setCollation(database, collate) {
