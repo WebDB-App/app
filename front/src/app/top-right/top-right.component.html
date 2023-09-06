@@ -11,11 +11,6 @@
 		help
 	</span>
 </button>
-<button [matMenuTriggerFor]="user" mat-button>
-	<span class="material-symbols-outlined notranslate">
-		person
-	</span>
-</button>
 <button (click)="showSettings()" mat-button>
 	<span class="material-symbols-outlined notranslate">
 		settings
@@ -79,22 +74,6 @@
 		Symbols
 	</a>
 	<mat-divider></mat-divider>
-	<button
-		(click)="showLogs('err.log')"
-		mat-menu-item>
-		<span class="material-symbols-outlined notranslate">
-			report
-		</span>
-		Error Logs
-	</button>
-	<a mat-menu-item>
-		<mat-icon svgIcon="webdb"></mat-icon>
-		Beta
-		v{{packageJson.version}}
-	</a>
-</mat-menu>
-
-<mat-menu #user="matMenu">
 	<a (click)="showSubscription()"
 	   mat-menu-item>
 		<span class="material-symbols-outlined notranslate">
@@ -102,12 +81,17 @@
 		</span>
 		Subscription
 	</a>
-	<a [href]="environment.stripeUserLink"
-	   mat-menu-item
-	   target="_blank">
+	<a
+		(click)="showLogs('err.log')"
+		mat-menu-item>
 		<span class="material-symbols-outlined notranslate">
-			credit_card
+			report
 		</span>
-		Billing
+		Error Logs
+	</a>
+	<a mat-menu-item>
+		<mat-icon svgIcon="webdb"></mat-icon>
+		Beta
+		v{{packageJson.version}}
 	</a>
 </mat-menu>
