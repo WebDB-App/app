@@ -22,7 +22,7 @@
 				</div>
 			</div>
 
-			<ng-container *ngIf="selectedServer">
+			<div [hidden]="!selectedServer">
 				<nav [tabPanel]="tabPanel"
 					 class="panel"
 					 color="accent"
@@ -40,7 +40,7 @@
 					</a>
 				</nav>
 				<mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
-			</ng-container>
+			</div>
 			<app-top-right></app-top-right>
 		</mat-toolbar>
 
