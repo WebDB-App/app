@@ -3,6 +3,7 @@ import SQL from "../shared/sql.js";
 import {writeFileSync} from "fs";
 import {URL} from "url";
 import bash from "../shared/bash.js";
+import commonHelper from "../shared/common-helper.mjs";
 
 const {Pool} = pg;
 const dirname = new URL(".", import.meta.url).pathname;
@@ -113,12 +114,20 @@ export default class PostgreSQL extends SQL {
 	}
 
 	async getComplexes() {
-		return [
-			...(await this.runCommand("SELECT routine_name as name, routine_type as type, routine_schema as database FROM information_schema.routines ORDER BY routine_name;")),
-			...(await this.runCommand("SELECT typname AS name, 'DOMAIN' AS type FROM pg_catalog.pg_type JOIN pg_catalog.pg_namespace ON pg_namespace.oid = pg_type.typnamespace WHERE typtype = 'd'")),
-			...(await this.runCommand("SELECT sequence_name AS name, 'SEQUENCE' AS type FROM information_schema.sequences")),
-			...(await this.runCommand("SELECT t.typname as name, 'CUSTOM_TYPE' AS type FROM pg_type t LEFT JOIN pg_catalog.pg_namespace n ON n.oid = t.typnamespace WHERE (t.typrelid = 0 OR (SELECT c.relkind = 'c' FROM pg_catalog.pg_class c WHERE c.oid = t.typrelid)) AND NOT EXISTS(SELECT 1 FROM pg_catalog.pg_type el WHERE el.oid = t.typelem AND el.typarray = t.oid) AND n.nspname NOT IN ('pg_catalog', 'information_schema');"))
-		];
+		const complex = await this.runCommand("SELECT routine_name as name, routine_type as type, routine_schema as database FROM information_schema.routines WHERE routine_schema NOT IN ('pg_catalog', 'information_schema') ORDER BY routine_name;");
+		for (let comp of await this.runCommand("SELECT t.typname AS name, typtype as type, nspname as database FROM pg_type t LEFT JOIN pg_catalog.pg_namespace n ON n.oid = t.typnamespace WHERE ( t.typrelid = 0 OR ( SELECT c.relkind = 'c' FROM pg_catalog.pg_class c WHERE c.oid = t.typrelid ) ) AND NOT EXISTS ( SELECT 1 FROM pg_catalog.pg_type el WHERE el.oid = t.typelem AND el.typarray = t.oid ) AND n.nspname NOT IN ('pg_catalog', 'information_schema')")) {
+			if (comp.type === "c") {
+				comp.type = "CUSTOM_TYPE";
+			} else if (comp.type === "d") {
+				comp.type = "DOMAIN";
+			} else if (comp.type === "r") {
+				comp.type = "SEQUENCE";
+			} else {
+				comp.type = "ENUM";
+			}
+			complex.push(comp);
+		}
+		return complex;
 	}
 
 	async insert(db, table, datas) {

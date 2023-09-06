@@ -27,7 +27,8 @@ export enum Group {
 	'Blob' = 'Blob',
 	'Complex' = 'Complex',
 	'Network' = 'Network',
-	'Geo' = 'Geo'
+	'Geo' = 'Geo',
+	'Custom' = 'Custom'
 }
 
 export class QueryParams {
