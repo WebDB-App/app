@@ -115,6 +115,10 @@ export default class MySQL extends SQL {
 		return await this.runCommand("SHOW COLLATION WHERE `Default` = 'Yes'");
 	}
 
+	async getComplexes() {
+		return await this.runCommand("SELECT routine_name as name, routine_type as type, routine_schema as database FROM information_schema.routines ORDER BY routine_name;");
+	}
+
 	async setCollation(database, collate) {
 		const colls = await this.getAvailableCollations();
 		const character = colls.find(coll => coll.Collation === collate).Charset;

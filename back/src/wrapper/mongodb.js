@@ -219,6 +219,10 @@ export default class MongoDB extends Driver {
 		return res.map(r => r[column]);
 	}
 
+	async getComplexes() {
+		return [];
+	}
+
 	async getRelations(databases, sampleSize) {
 		const relations = [];
 		const promises = [];

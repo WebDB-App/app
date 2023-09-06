@@ -30,6 +30,7 @@ class Controller {
 			dbs: [],
 			indexes: [],
 			relations: [],
+			complexes: []
 		};
 		const promises = [
 			new Promise(async resolve => {
@@ -57,6 +58,7 @@ class Controller {
 
 		if (+req.query.full) {
 			promises.push(
+				(final.complexes = await driver.getComplexes()),
 				(final.indexes = await driver.getIndexes()),
 				(final.relations = await driver.getRelations(final.dbs, +req.query.size))
 			);

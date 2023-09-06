@@ -19,7 +19,7 @@ export class Configuration {
 		}, {
 			name: 'reloadData',
 			description: 'Time in second to reload data when activated',
-			values: ['3', '5', '10', '20']
+			values: ['3', '5', '15']
 		}, {
 			name: 'useNameDel',
 			description: 'Use special char to enclose table and column name',
@@ -27,7 +27,7 @@ export class Configuration {
 		}, {
 			name: 'noSqlSample',
 			description: 'Sample size to infer NoSQL structure from',
-			values: ['50', '100', '250', '500']
+			values: ['50', '200', '500']
 		}, {
 			name: 'stringifyData',
 			description: 'Show data types, null, empty string and empty key',
