@@ -36,7 +36,6 @@ import { MatTabsModule } from "@angular/material/tabs";
 import { DragDropModule } from "@angular/cdk/drag-drop";
 import { CreateTableDialog, TablesComponent } from "./tables/tables.component";
 import { ConfigDialog } from "./top-right/config/config-dialog.component";
-import { SubscriptionDialog } from "./top-right/subscription/subscription-dialog.component";
 import { SharedModule } from "../shared/shared.module";
 import { ConnectionInfoDialog, LogsDialog, TopRightComponent } from './top-right/top-right.component';
 
@@ -87,7 +86,6 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 		ContainerComponent,
 		ConnectionComponent,
 		ConfigDialog,
-		SubscriptionDialog,
 		ConnectionInfoDialog,
 		LogsDialog,
 		CreateDatabaseDialog,

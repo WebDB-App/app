@@ -5,9 +5,7 @@ import { HttpClient } from "@angular/common/http";
 import { DomSanitizer } from "@angular/platform-browser";
 import Convert from "ansi-to-html";
 import { environment } from "../../environments/environment";
-import { SubscriptionDialog } from "./subscription/subscription-dialog.component";
 import { ConfigDialog } from "./config/config-dialog.component";
-import { RequestService } from "../../shared/request.service";
 import packageJson from '../../../package.json';
 import { isSQL } from "../../shared/helper";
 
@@ -24,18 +22,7 @@ export class TopRightComponent {
 
 	constructor(
 		private dialog: MatDialog,
-		public request: RequestService
 	) { }
-
-	showSubscription() {
-		const dialogRef = this.dialog.open(SubscriptionDialog);
-
-		dialogRef.afterClosed().subscribe(async () => {
-			if (Server.getSelected()) {
-				await this.request.reloadServer();
-			}
-		});
-	}
 
 	showSettings() {
 		this.dialog.open(ConfigDialog);

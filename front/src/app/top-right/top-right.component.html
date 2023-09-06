@@ -1,11 +1,21 @@
-<button [matMenuTriggerFor]="database"
-		mat-button
-		color="accent"
-		*ngIf="Server.getSelected()">
-	<span class="material-symbols-outlined notranslate">
-		database
-	</span>
-</button>
+<ng-container *ngIf="Server.getSelected()">
+	<button
+		mat-icon-button
+		matTooltip="Query Logs"
+		(click)="showLogs('out.log')">
+		<span class="material-symbols-outlined notranslate">
+			browse_activity
+		</span>
+	</button>
+	<button
+		(click)="showConnection()"
+		matTooltip="Connection Details"
+		mat-icon-button>
+		<span class="material-symbols-outlined notranslate">
+			signal_wifi_statusbar_not_connected
+		</span>
+	</button>
+</ng-container>
 <button [matMenuTriggerFor]="help" mat-button>
 	<span class="material-symbols-outlined notranslate">
 		help
@@ -16,38 +26,6 @@
 		settings
 	</span>
 </button>
-<mat-menu #database="matMenu">
-	<a mat-menu-item
-	   (click)="request.reloadServer()">
-		<span class="material-symbols-outlined notranslate">
-			frame_reload
-		</span>
-		Reload
-	</a>
-	<a mat-menu-item
-	   (click)="showLogs('out.log')">
-		<span class="material-symbols-outlined notranslate">
-			browse_activity
-		</span>
-		Query Logs
-	</a>
-	<a (click)="showConnection()"
-	   mat-menu-item>
-		<span class="material-symbols-outlined notranslate">
-			signal_wifi_statusbar_not_connected
-		</span>
-		Connection Details
-	</a>
-	<a *ngIf="!isSQL()"
-	   mat-menu-item
-	   href="https://gitlab.com/web-db/landing/-/wikis/NoSQL-Disclaimer"
-	   target="_blank">
-		<span class="material-symbols-outlined notranslate">
-			warning
-		</span>
-		Disclaimer
-	</a>
-</mat-menu>
 <mat-menu #help="matMenu">
 	<a href="https://gitlab.com/web-db/landing/-/issues"
 	   mat-menu-item
@@ -73,14 +51,16 @@
 		</span>
 		Symbols
 	</a>
-	<mat-divider></mat-divider>
-	<a (click)="showSubscription()"
-	   mat-menu-item>
+	<a *ngIf="!isSQL()"
+	   mat-menu-item
+	   href="https://gitlab.com/web-db/landing/-/wikis/NoSQL-Disclaimer"
+	   target="_blank">
 		<span class="material-symbols-outlined notranslate">
-			shopping_bag
+			warning
 		</span>
-		Subscription
+		Disclaimer
 	</a>
+	<mat-divider></mat-divider>
 	<a
 		(click)="showLogs('err.log')"
 		mat-menu-item>
