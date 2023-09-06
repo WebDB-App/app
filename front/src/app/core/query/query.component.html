@@ -48,6 +48,21 @@
 			mat-button>
 			<span class="material-symbols-outlined notranslate">splitscreen_left</span>
 		</button>
+
+		<button
+			mat-button
+			matTooltip="Export all results"
+			(click)="exportResult()"
+			[disabled]="!dataSource || dataSource.data.length < 1">
+			<span class="material-symbols-outlined notranslate">share</span>
+		</button>
+
+		<a  mat-button
+			[matTooltip]='(selectedServer!.driver.language.id === "sql" ? "SQL" : (selectedServer!.driver.language.id | titlecase)) + " References"'
+			[href]="selectedServer!.driver.docs.language"
+			target="_blank">
+			<span class="material-symbols-outlined notranslate">developer_guide</span>
+		</a>
 	</div>
 
 	<div style="display: flex; align-items: center">
@@ -78,11 +93,6 @@
 		<mat-menu #advanced="matMenu" xPosition="before">
 			<button (click)="addView()" [disabled]="!isQuerySelect()" mat-menu-item>Create view from query</button>
 			<button (click)="exportQuery()" [disabled]="query.length < 1" mat-menu-item>Export query</button>
-			<button (click)="exportResult()" [disabled]="query.length < 1" mat-menu-item>Export all results</button>
-			<a [href]="selectedServer!.driver.docs.language" mat-menu-item target="_blank">
-				{{selectedServer!.driver.language.id === "sql" ? "SQL" : (selectedServer!.driver.language.id | titlecase)}}
-				References
-			</a>
 			<button [matMenuTriggerFor]="shortcuts" mat-menu-item>Shortcuts</button>
 			<button [matMenuTriggerFor]="disclaimer" mat-menu-item>Disclaimer</button>
 		</mat-menu>
