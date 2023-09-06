@@ -1,24 +1,76 @@
-<div mat-dialog-title>
-	<h3>App Settings</h3>
-	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
-		<mat-icon>close</mat-icon>
-	</button>
-</div>
 <div mat-dialog-content cdkFocusInitial>
-	<table style="padding: 20px">
-		<tr *ngFor="let config of configuration.configs">
-			<td>{{config.description}}</td>
-			<td>
-				<mat-button-toggle-group
-					(change)="update(config.name, $event.value)"
-					[value]="configuration.getByName(config.name)?.value">
-					<mat-button-toggle
-						*ngFor="let value of config.values"
-						[value]="value">
-						{{value}}
-					</mat-button-toggle>
-				</mat-button-toggle-group>
-			</td>
-		</tr>
-	</table>
+	<mat-tab-group #tabs (selectedTabChange)="$event.index === 2 ? dialogRef.close() : undefined">
+		<mat-tab label="App Settings">
+			<table style="padding: 20px">
+				<tr *ngFor="let config of configuration.configs">
+					<td>{{config.description}}</td>
+					<td>
+						<mat-button-toggle-group
+							(change)="update(config.name, $event.value)"
+							[value]="configuration.getByName(config.name)?.value">
+							<mat-button-toggle
+								*ngFor="let value of config.values"
+								[value]="value">
+								{{value}}
+							</mat-button-toggle>
+						</mat-button-toggle-group>
+					</td>
+				</tr>
+			</table>
+		</mat-tab>
+		<mat-tab label="Subscription">
+			<div class="list" style="text-align: center;">
+				<div style="padding: 12px 28px">
+					<mat-card>
+						<mat-card-header>
+							<mat-card-subtitle fxLayout="row" fxLayoutAlign="space-between center">
+								<h3>{{licence?.plan}}</h3>
+								<span>Limited to {{licence?.dbLimit}} DBs</span>
+								<div>
+									<mat-icon *ngIf="licence?.valid" color="primary">check_circle</mat-icon>
+									<mat-icon *ngIf="!licence?.valid" color="warn">cancel</mat-icon>
+								</div>
+							</mat-card-subtitle>
+						</mat-card-header>
+						<mat-card-content fxLayout="row" fxLayoutAlign="space-evenly center">
+							<span *ngIf="licence?.email">{{licence?.email}}</span>
+							<span *ngIf="licence?.expire! > 0">Expire : {{licence?.expire! * 1000 | date: 'mediumDate'}}</span>
+						</mat-card-content>
+					</mat-card>
+
+					<mat-form-field appearance="outline" style="width: 100%;">
+						<mat-label>Register a subscription with your mail</mat-label>
+						<input #mail [formControl]="email" autocomplete="off" matInput type="text">
+					</mat-form-field>
+				</div>
+			</div>
+			<div class="mat-dialog-actions">
+				<a href="https://webdb.app/price" mat-stroked-button target="_blank">
+					<span class="material-symbols-outlined notranslate">
+						shopping_cart
+					</span>
+					Pricing
+				</a>
+
+				<a [href]="env.stripeUserLink" mat-stroked-button target="_blank">
+					<span class="material-symbols-outlined notranslate">
+						credit_card
+					</span>
+					Account
+				</a>
+
+				<button (click)="save(mail.value)"
+						[disabled]="!email.valid"
+						cdkFocusInitial
+						color="primary"
+						mat-flat-button>
+					<span class="material-symbols-outlined notranslate">
+						verified
+					</span>
+					Register
+				</button>
+			</div>
+		</mat-tab>
+		<mat-tab label="╳"></mat-tab>
+	</mat-tab-group>
 </div>
