@@ -1,9 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Server } from "../../../classes/server";
-import { ActivatedRoute, Params, Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Table } from "../../../classes/table";
-import { combineLatest, distinctUntilChanged, Subscription } from "rxjs";
 import { MatChipInputEvent } from "@angular/material/chips";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Configuration } from "../../../classes/configuration";
@@ -27,7 +26,6 @@ export class ExploreComponent implements OnInit, OnDestroy {
 	configuration: Configuration = new Configuration();
 	selectedTable?: Table;
 	selectedServer?: Server;
-	obs?: Subscription;
 	querySize = 0;
 	pageSize = 50;
 	params = {
@@ -62,18 +60,22 @@ export class ExploreComponent implements OnInit, OnDestroy {
 			clearInterval(this.autoUp);
 			this.autoUp = false
 		}
-
-		this.obs?.unsubscribe();
 	}
 
 	ngOnInit() {
-		this.obs = combineLatest(this.activatedRoute.parent?.params!, this.activatedRoute?.queryParams).pipe(
-			distinctUntilChanged()
-		).subscribe(async (_params) => {
-			this.selectedServer = Server.getSelected();
-			this.selectedTable = Table.getSelected();
+		this.selectedServer = Server.getSelected();
 
-			const params = <Params>{..._params[0], ..._params[1]};
+		this.activatedRoute.parent?.params!.subscribe(async () => {
+			this.selectedTable = Table.getSelected();
+			this.changePage(0, false);
+			this.params.sortField = "";
+			this.params.sortDirection = "";
+			this.params.chips = "";
+			this.selection.clear();
+
+			await this.refreshData();
+		});
+		this.activatedRoute?.queryParams.subscribe(async (params) => {
 			this.changePage(params["page"] || 0, false);
 			this.params.sortField = params["sortField"] || "";
 			this.params.sortDirection = params["sortDirection"] || "";
