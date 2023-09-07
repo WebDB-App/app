@@ -72,27 +72,6 @@ export default class MySQL extends SQL {
 		return await this.runCommand(`ALTER TABLE \`${table}\` CHANGE \`${old.name}\` ${this.columnToSQL(column)}`, database);
 	}
 
-	async replaceTrigger(database, table, trigger) {
-		await this.dropTrigger(database, trigger.name);
-		return await this.runCommand(`CREATE TRIGGER ${trigger.name} ${trigger.timing} ${trigger.event} ON ${table} ${trigger.code}`, database);
-	}
-
-	async dropTrigger(database, name) {
-		return await this.runCommand(`DROP TRIGGER ${name}`, database);
-	}
-
-	async listTrigger(database, table) {
-		const triggers = await this.runCommand(`SHOW TRIGGERS WHERE \`Table\` = '${table}'`, database);
-		return triggers.map(trigger => {
-			return {
-				code: "FOR EACH ROW " + trigger.Statement,
-				timing: trigger.Timing,
-				event: trigger.Event,
-				name: trigger.Trigger
-			};
-		});
-	}
-
 	async duplicateTable(database, old_table, new_name) {
 		return await this.runCommand(`CREATE TABLE \`${new_name}\` LIKE \`${old_table}\`;
 			INSERT INTO \`${new_name}\` SELECT * FROM \`${old_table}\`;`,
@@ -116,7 +95,11 @@ export default class MySQL extends SQL {
 	}
 
 	async getComplexes() {
-		return await this.runCommand("SELECT routine_name as name, routine_type as type, routine_schema as 'database' FROM information_schema.routines ORDER BY routine_name;");
+		return [
+			...(await this.runCommand("SELECT routine_name as name, routine_type as type, routine_schema as 'database' FROM information_schema.routines WHERE routine_schema != 'sys' ORDER BY routine_name;")),
+			...(await this.runCommand("SELECT trigger_name as name, 'TRIGGER' as type, trigger_schema as 'database' FROM information_schema.triggers WHERE trigger_schema != 'sys'")),
+			...(await this.runCommand("SELECT CONSTRAINT_SCHEMA as 'database', CONSTRAINT_NAME as name, 'CHECK' as type FROM INFORMATION_SCHEMA.CHECK_CONSTRAINTS WHERE CONSTRAINT_SCHEMA != 'sys'"))
+		];
 	}
 
 	async setCollation(database, collate) {

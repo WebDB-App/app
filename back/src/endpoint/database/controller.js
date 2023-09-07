@@ -37,13 +37,6 @@ class Controller {
 		for (const table of tables) {
 			txt += `\n \`\`\`${table.structure}\`\`\` is a table. Here is a data sample : \`\`\`${JSON.stringify(table.data)}\`\`\`.`;
 		}
-		if (req.body.preSent.triggers) {
-			for (const table of req.body.preSent.tables) {
-				for (const trigger of await wrapper.listTrigger(database, table)) {
-					txt += `There is a trigger called \`\`\`${JSON.stringify(trigger.name)}\`\`\` with the code : \`\`\`${JSON.stringify(trigger.code)}\`\`\``;
-				}
-			}
-		}
 
 		txt += `Respond me in ${req.body.language} for sentences and markdown for codes`;
 		txt += "You can ask me queries to run if it can help you be more precise. ";

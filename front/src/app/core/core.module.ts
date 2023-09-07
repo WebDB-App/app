@@ -38,7 +38,6 @@ import { MatChipsModule } from "@angular/material/chips";
 import { ClipboardModule } from "@angular/cdk/clipboard";
 import { MatMenuModule } from "@angular/material/menu";
 import { DragDropModule } from "@angular/cdk/drag-drop";
-import { TriggerComponent } from "./trigger/trigger.component";
 import { SharedModule } from "../../shared/shared.module";
 import { NgxJsonViewerModule } from "ngx-json-viewer";
 import { MatExpansionModule } from "@angular/material/expansion";
@@ -60,7 +59,6 @@ import { MonacoEditorModule } from "ngx-monaco-editor-v2";
 		DropTableDialog,
 		TruncateTableDialog,
 		StructureComponent,
-		TriggerComponent,
 		AddColumnDialog,
 		CreateViewDialog,
 		UpdateColumnDialog,

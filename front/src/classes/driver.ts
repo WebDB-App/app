@@ -52,16 +52,9 @@ export interface Driver {
 	}
 
 	docs: {
-		trigger: string,
 		driver: string,
 		types: string,
 		language: string
-	}
-
-	trigger: {
-		templates: { [key: string]: string },
-		language: string,
-		base: string
 	}
 
 	language: {

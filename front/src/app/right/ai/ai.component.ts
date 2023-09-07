@@ -89,7 +89,6 @@ export class AiComponent implements OnInit {
 	};
 	preSent = {
 		tables: [""],
-		triggers: false,
 		deep: 2,
 		count: 5
 	}

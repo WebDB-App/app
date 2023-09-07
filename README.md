@@ -1,17 +1,13 @@
-- plusieurs schemas(connection.html:182) + load/dump specific schema
-
-
-- checks col/table dans trigger
-- sql function doc (generate from web scrap)
-
-
 # Mongo harmonizer
 - columns with obj/array > 2
 - nested relation https://www.mongodb.com/docs/manual/reference/operator/aggregation/lookup/#use--lookup-with-an-array
 - addTable
 
-
-
+# plusieurs schemas:
+- connection.html:182
+- load/dump specific schema
+- l38 column.component.ts
+- l354 sql.ts
 
 # Bin
 - deps: Brew + chocolate + apt + yum
@@ -30,6 +26,7 @@
 # SQLServer
 
 # Server gît avec autobackup en var d'env (git large file / gzip)
+
 
 
 
@@ -68,8 +65,8 @@
 
 
 
-- node 20 + rm dotenv
+- sql function doc (generate from web scrap)
 - Finir EDR
 - Export Query : tester tout
 - revoir MySQL load avec tunnel (essayer en bash)
-- Unit Test en front avec plusieurs version de bdd
+- Unit Test open source (generate par IA ?) en front avec plusieurs version de bdd

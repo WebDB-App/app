@@ -35,8 +35,11 @@ export class ColumnComponent implements OnInit {
 
 		const custom: TypeData[] = [];
 		this.selectedServer.complexes?.map(complex => {
-			if (complex.database.trim() === Database.getSelected().name.split(',')[1].trim() &&
-				['DOMAIN', 'CUSTOM_TYPE', 'SEQUENCE', 'ENUM'].indexOf(complex.type) >= 0) {
+			const split = Database.getSelected().name.split(',').map(n => n.trim());
+			if (split.indexOf(complex.database.trim()) < 0) {
+				return;
+			}
+			if (['DOMAIN', 'CUSTOM_TYPE', 'SEQUENCE', 'ENUM'].indexOf(complex.type) >= 0) {
 				custom.push({
 					id: complex.name,
 					bold: true,
