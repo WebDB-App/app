@@ -5,9 +5,21 @@
 		fxLayoutAlign="space-between center"
 		style="padding: 20px">
 
-		<span>
-			{{selectedDatabase!.name}}
-		</span>
+		<div>
+			<span style="vertical-align: middle;">
+				{{selectedDatabase!.name}}
+			</span>
+
+			<button
+				mat-button
+				color="accent"
+				(click)="request.reloadServer()">
+				<span class="material-symbols-outlined notranslate">
+					frame_reload
+				</span>
+				Reload
+			</button>
+		</div>
 
 		<button (click)="drop()" color="warn" mat-button>
 			<span class="material-symbols-outlined notranslate">
@@ -34,26 +46,28 @@
 			<span>Total Data Size : {{+stats.data_length | round}} Mb</span>
 		</div>
 
-		<mat-divider></mat-divider>
+		<ng-container *ngIf="selectedServer?.wrapper === 'MySQL'">
+			<mat-divider></mat-divider>
 
-		<div fxLayout="row" fxLayoutAlign="space-between center">
-			<mat-form-field color="accent">
-				<mat-label>Collation</mat-label>
-				<mat-select #collation [value]="selectedDatabase!.collation" disableOptionCentering>
-					<mat-option *ngFor="let collation of collations" [value]="collation">{{collation}}</mat-option>
-				</mat-select>
-			</mat-form-field>
+			<div fxLayout="row" fxLayoutAlign="space-between center">
+				<mat-form-field color="accent">
+					<mat-label>Collation</mat-label>
+					<mat-select #collation [value]="selectedDatabase!.collation" disableOptionCentering>
+						<mat-option *ngFor="let collation of collations" [value]="collation">{{collation}}</mat-option>
+					</mat-select>
+				</mat-form-field>
 
-			<button (click)="changeCollation(collation.value)"
-					[disabled]="!collation.value"
-					color="accent"
-					mat-stroked-button>
+				<button (click)="changeCollation(collation.value)"
+						[disabled]="!collation.value"
+						color="accent"
+						mat-stroked-button>
 				<span class="material-symbols-outlined notranslate">
 					database
 				</span>
-				Convert Entire Database
-			</button>
-		</div>
+					Convert Entire Database
+				</button>
+			</div>
+		</ng-container>
 
 		<mat-divider></mat-divider>
 
