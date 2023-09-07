@@ -52,6 +52,7 @@
 # IA
 - Export Query : btn to export via IA (Stripe Metadata additionnal feature)
 - faraday.dev
+- Claude 2 et stackoverflow ai
 - https://llama-node.vercel.app/
 - regarger plugins gpt
 - 2 videos micode
@@ -61,6 +62,8 @@
 - https://media.licdn.com/dms/image/D4E22AQGx27end7jE5Q/feedshare-shrink_800/0/1684474332765?e=1688601600&v=beta&t=g1NR0-Uuifv4muNn1Hps1p8H5BjYDOU9w1Sej-NkkqY
 - https://external-preview.redd.it/chatgpt-for-data-science-cheat-sheet-v0-Odpv_XqB8SiefptXNzZP-t9AjrVOxg0IF81UuKFx2sw.jpg?auto=webp&s=2b8b8a80fa2c3a4b6f85545cffa26726021a60a4
 
+
+Node 20 + rm dotenv
 
 
 
