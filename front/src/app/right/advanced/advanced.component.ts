@@ -31,9 +31,9 @@ export class AdvancedComponent implements OnInit, OnDestroy {
 	};
 
 	constructor(
+		public request: RequestService,
 		private dialog: MatDialog,
 		private snackBar: MatSnackBar,
-		private request: RequestService,
 		private router: Router) {
 	}
 

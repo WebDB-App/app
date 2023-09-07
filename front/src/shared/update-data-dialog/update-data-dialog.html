@@ -21,7 +21,7 @@
 					<ng-container *ngFor="let suggestion of column.value">
 						<mat-option
 							(click)="setValue(column.key, suggestion)"
-							*ngIf="suggestion && suggestion.toString().indexOf(filter.value) >= 0"
+							*ngIf="suggestion.toString().indexOf(filter.value) >= 0"
 							[value]="suggestion">
 							{{suggestion}}
 						</mat-option>

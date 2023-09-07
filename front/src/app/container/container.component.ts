@@ -40,8 +40,8 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 	protected readonly environment = environment;
 
 	constructor(
-		public request: RequestService,
 		public activatedRoute: ActivatedRoute,
+		private request: RequestService,
 		private drawerService: DrawerService,
 		private dialog: MatDialog
 	) {

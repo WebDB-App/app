@@ -68,7 +68,7 @@
 
 
 
-
+- node 20 + rm dotenv
 - Finir EDR
 - Export Query : tester tout
 - revoir MySQL load avec tunnel (essayer en bash)

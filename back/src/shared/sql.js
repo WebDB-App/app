@@ -59,7 +59,7 @@ export default class SQL extends Driver {
 
 	async exampleData(database, table, column, limit) {
 		const examples =  await this.runCommand(`SELECT DISTINCT ${this.nameDel + column + this.nameDel} as example FROM ${this.nameDel + table + this.nameDel} ORDER BY example ASC LIMIT ${limit}`, database);
-		return examples.map(example => `'${example.example}'`);
+		return examples.map(example => example.example);
 	}
 
 	async dropDatabase(name) {
