@@ -10,7 +10,6 @@ export class PostgreSQL extends SQL {
 		super();
 
 		this.docs = {
-			trigger: "https://www.postgresql.org/docs/current/sql-createtrigger.html",
 			driver: "https://github.com/brianc/node-postgres/blob/master/packages/pg/lib/defaults.js",
 			types: "https://www.postgresql.org/docs/current/datatype.html",
 			language: "https://www.postgresql.org/docs/current/sql-commands.html"
@@ -25,7 +24,15 @@ export class PostgreSQL extends SQL {
 				'CURRENT_USER',
 				'RENAME TO',
 				'OWNER TO',
-				'CREATE DOMAIN'
+				'ALTER DOMAIN',
+				'CREATE DOMAIN',
+				'DROP DOMAIN',
+				'ALTER SEQUENCE',
+				'CREATE SEQUENCE',
+				'DROP SEQUENCE',
+				'ALTER TYPE',
+				'CREATE TYPE',
+				'DROP TYPE',
 			]),
 			functions: {
 				...this.language.functions, ...{

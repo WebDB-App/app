@@ -64,7 +64,7 @@ export class TablesComponent implements OnInit {
 			this.titleService.setTitle(table.name + " – " + this.selectedDatabase.name + " – " + this.selectedServer.port);
 			this.selectedTable = table;
 			Table.setSelected(this.selectedTable!);
-			this.tabs = table.view ? ["explore", "query", "structure", "trigger", "advanced"] : ["explore", "query", "structure", "insert", "trigger", "advanced"];
+			this.tabs = table.view ? ["explore", "query", "structure", "advanced"] : ["explore", "query", "structure", "insert", "advanced"];
 
 			if (!this.activatedRoute.snapshot.paramMap.get('table')) {
 				await this.router.navigate([

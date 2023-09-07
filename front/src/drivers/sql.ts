@@ -32,15 +32,8 @@ export class SQL implements Driver {
 
 	docs = {
 		driver: "",
-		trigger: "",
 		types: "https://www.w3resource.com/sql/data-type.php",
 		language: "https://www.w3schools.com/sql/sql_quickref.asp"
-	}
-
-	trigger = {
-		templates: {},
-		base: "",
-		language: "sql"
 	}
 
 	language: {
@@ -112,7 +105,7 @@ export class SQL implements Driver {
 			'NATURAL JOIN',
 			'BEGIN',
 			'DECLARE',
-			'END',
+			'END;',
 			'SET',
 			'IF',
 			'ELSEIF',
@@ -125,9 +118,14 @@ export class SQL implements Driver {
 			'ON DELETE',
 			'ON UPDATE',
 			'ALTER FUNCTION',
-			'CREATE FUNCTION',
 			'CREATE OR REPLACE FUNCTION',
 			'DROP FUNCTION',
+			'CREATE OR REPLACE TRIGGER',
+			'ALTER TRIGGER',
+			'DROP TRIGGER',
+			'BEFORE',
+			'AFTER',
+			'FOR EACH ROW'
 		],
 		functions: {
 			'ABS': '(number)',
@@ -351,13 +349,16 @@ export class SQL implements Driver {
 		});
 
 		Server.getSelected().complexes?.map(complex => {
-			if (complex.database.trim() !== Database.getSelected().name.split(',')[1].trim()) {
+			const split = Database.getSelected().name.split(',').map(n => n.trim());
+			if (split.indexOf(complex.database.trim()) < 0) {
 				return;
 			}
+
 			suggestions.push({
 				label: complex.name,
 				// @ts-ignore
 				kind: monaco.languages.CompletionItemKind[commonHelper.complex[complex.type]],
+				insertText: complex.name
 			});
 		});
 

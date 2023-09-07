@@ -3,7 +3,6 @@ import SQL from "../shared/sql.js";
 import {writeFileSync} from "fs";
 import {URL} from "url";
 import bash from "../shared/bash.js";
-import commonHelper from "../shared/common-helper.mjs";
 
 const {Pool} = pg;
 const dirname = new URL(".", import.meta.url).pathname;
@@ -114,7 +113,11 @@ export default class PostgreSQL extends SQL {
 	}
 
 	async getComplexes() {
-		const complex = await this.runCommand("SELECT routine_name as name, routine_type as type, routine_schema as database FROM information_schema.routines WHERE routine_schema NOT IN ('pg_catalog', 'information_schema') ORDER BY routine_name;");
+		const complex = [
+			...(await this.runCommand("SELECT routine_name as name, routine_type as type, routine_schema as database FROM information_schema.routines WHERE routine_schema NOT IN ('pg_catalog', 'information_schema') ORDER BY routine_name;")),
+			...(await this.runCommand("SELECT trigger_name as name, 'TRIGGER' as type, trigger_schema as database FROM information_schema.triggers")),
+			...(await this.runCommand("SELECT pgc.conname AS name, 'CHECK' as type, ccu.table_schema AS database FROM pg_constraint pgc JOIN pg_namespace nsp ON nsp.oid = pgc.connamespace JOIN pg_class cls ON pgc.conrelid = cls.oid LEFT JOIN information_schema.constraint_column_usage ccu ON pgc.conname = ccu.constraint_name AND nsp.nspname = ccu.constraint_schema WHERE contype = 'c' ORDER BY pgc.conname"))
+		];
 		for (let comp of await this.runCommand("SELECT t.typname AS name, typtype as type, nspname as database FROM pg_type t LEFT JOIN pg_catalog.pg_namespace n ON n.oid = t.typnamespace WHERE ( t.typrelid = 0 OR ( SELECT c.relkind = 'c' FROM pg_catalog.pg_class c WHERE c.oid = t.typrelid ) ) AND NOT EXISTS ( SELECT 1 FROM pg_catalog.pg_type el WHERE el.oid = t.typelem AND el.typarray = t.oid ) AND n.nspname NOT IN ('pg_catalog', 'information_schema')")) {
 			if (comp.type === "c") {
 				comp.type = "CUSTOM_TYPE";
@@ -143,26 +146,6 @@ export default class PostgreSQL extends SQL {
 			return row;
 		});
 		return await super.insert(db, table, datas);
-	}
-
-	async replaceTrigger(database, table, trigger) {
-		return await this.runCommand(`CREATE OR REPLACE TRIGGER ${trigger.name} ${trigger.timing} ${trigger.event} ON ${table} ${trigger.code}`, database);
-	}
-
-	async dropTrigger(database, name, table) {
-		return await this.runCommand(`DROP TRIGGER ${name} ON ${table}`, database);
-	}
-
-	async listTrigger(database, table) {
-		const triggers = await this.runCommand(`SELECT trigger_schema, trigger_name, event_manipulation, action_statement, action_timing FROM information_schema.triggers WHERE event_object_table = '${table}'`, database);
-		return triggers.map(trigger => {
-			return {
-				code: trigger.action_statement,
-				timing: trigger.action_timing,
-				event: trigger.event_manipulation,
-				name: trigger.trigger_name
-			};
-		});
 	}
 
 	async duplicateTable(database, old_table, new_name) {

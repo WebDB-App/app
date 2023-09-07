@@ -7,7 +7,9 @@ const obj = {
 		'DOMAIN': 'Module',
 		'CUSTOM_TYPE': 'Property',
 		'SEQUENCE': 'Constant',
-		'ENUM': 'Enum'
+		'ENUM': 'Enum',
+		'TRIGGER': 'Event',
+		'CHECK': 'Interface'
 	},
 	mongo_injectAggregate: (query, toInject) => {
 		const reg = /\.aggregate\((?:[^)(]|\((?:[^)(]|\((?:[^)(]|\([^)(]*\))*\))*\))*\)/g;

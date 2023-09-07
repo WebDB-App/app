@@ -10,7 +10,6 @@ export class MySQL extends SQL {
 		super();
 
 		this.docs = {
-			trigger: "https://dev.mysql.com/doc/refman/8.0/en/triggers.html",
 			driver: "https://github.com/sidorares/node-mysql2/blob/master/typings/mysql/lib/Connection.d.ts",
 			types: "https://dev.mysql.com/doc/refman/8.0/en/data-types.html",
 			language: "https://dev.mysql.com/doc/refman/8.0/en/sql-statements.html"
@@ -27,47 +26,6 @@ export class MySQL extends SQL {
 			}
 		}
 
-		this.trigger.base = `FOR EACH ROW
-BEGIN
-
-END`;
-		this.trigger.templates = {
-			adult_and_good_email: `FOR EACH ROW
-BEGIN
-	IF age < 18 THEN
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Age must be gte 18';
-	END IF;
-	IF NOT (SELECT email REGEXP '$[A-Z0-9._%-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}$') THEN
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Wrong email';
-	END IF;
-END`,
-			add_to_reminders: `FOR EACH ROW
-BEGIN
-	IF NEW.birthDate IS NULL THEN
-		INSERT INTO reminders(memberId, message)
-		VALUES(new.id,CONCAT('Hi ', NEW.name, ', please update your date of birth.'));
-	END IF;
-END`,
-			calculated_field: `FOR EACH ROW
-BEGIN
-	UPDATE average_age SET average = (SELECT AVG(age) FROM person);
-END`,
-			archive_user: `FOR EACH ROW
-BEGIN
-	INSERT INTO person_archive (name, age) VALUES (OLD.name, OLD.age);
-END`,
-			check_geo: `FOR EACH ROW
-BEGIN
-    IF NEW.gps_lat < -90 OR NEW.gps_lat > 90 THEN
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'La latitude doit être entre -90 et 90'
-    END IF;
-
-    IF NEW.gps_lng < -180 OR NEW.gps_lng > 180 THEN
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'La longitude doit être entre -180 et 180'
-    END IF;
-END`
-		};
-
 		this.language = {
 			...this.language,
 			arrayType: false,
@@ -75,7 +33,6 @@ END`
 			extraAttributes: ['auto_increment', 'on update CURRENT_TIMESTAMP'],
 			keywords: this.language.keywords.concat([
 				'AUTO_INCREMENT',
-				'FOR EACH ROW'
 			]),
 			functions: {
 				...this.language.functions, ...{

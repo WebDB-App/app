@@ -5,7 +5,6 @@ import { QueryComponent } from "./query/query.component";
 import { InsertComponent } from "./insert/insert.component";
 import { TableAdvancedComponent } from "./advanced/advanced.component";
 import { StructureComponent } from "./structure/structure.component";
-import { TriggerComponent } from "./trigger/trigger.component";
 
 const routes: Routes = [
 	{
@@ -28,9 +27,6 @@ const routes: Routes = [
 	}, {
 		path: 'insert',
 		component: InsertComponent
-	}, {
-		path: 'trigger',
-		component: TriggerComponent
 	}, {
 		path: 'advanced',
 		component: TableAdvancedComponent
