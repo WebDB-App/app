@@ -349,7 +349,7 @@ export class SQL implements Driver {
 		});
 
 		Server.getSelected().complexes?.map(complex => {
-			const split = Database.getSelected().name.split(',').map(n => n.trim());
+			const split = Database.getSelected().name.split(', ');
 			if (split.indexOf(complex.database.trim()) < 0) {
 				return;
 			}

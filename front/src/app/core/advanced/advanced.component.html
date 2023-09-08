@@ -29,6 +29,8 @@
 
 		<div fxLayout="column" fxLayoutAlign="center none" style="width: 400px;">
 
+			{{complexes | json}}
+
 			<div *ngIf="isSQL()">
 				<span>
 					Comment : {{selectedTable?.comment}}

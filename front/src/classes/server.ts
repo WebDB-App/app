@@ -2,6 +2,7 @@ import { Database } from "./database";
 import { Relation } from "./relation";
 import { Index } from "./index";
 import { Driver } from "./driver";
+import { Complex } from "./complex";
 
 const localStorageName = "servers";
 let selected: Server | undefined;
@@ -28,7 +29,7 @@ export class Server {
 	relations!: Relation[];
 	dbs!: Database[];
 	indexes!: Index[];
-	complexes?: {name: string; type: string, database: string}[];
+	complexes!: Complex[];
 	driver!: Driver;
 	params?: {};
 	uri?: string;

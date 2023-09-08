@@ -11,7 +11,7 @@
 
 # Bin
 - deps: Brew + chocolate + apt + yum
-- https://github.com/electron/electron/pull/37535
+- https://twitter.com/electronjs
 - ci + gitlab wiki (home)
 
 # Relation wizard
@@ -49,6 +49,7 @@
 # IA
 - Export Query : btn to export via IA (Stripe Metadata additionnal feature)
 - faraday.dev
+- own model : crud les complexes
 - https://llama-node.vercel.app/
 - regarger plugins gpt
 - 2 videos micode

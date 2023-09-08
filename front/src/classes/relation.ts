@@ -1,5 +1,4 @@
 export class Relation {
-
 	name!: string
 	database!: string
 	table_source!: string;

@@ -31,6 +31,7 @@ export class TopRightComponent {
 	showLogs(file: string) {
 		this.dialog.open(LogsDialog, {
 			data: file,
+			id: file,
 			hasBackdrop: false
 		});
 	}
@@ -76,6 +77,10 @@ export class LogsDialog implements OnDestroy {
 		const convert = new Convert({colors: {4: '#2196f3'}});
 
 		this.http.get(`${environment.rootUrl}logs/${this.file}`, {responseType: 'text'}).subscribe(txt => {
+			if (txt.length > 10_000_000 && this.interval) {
+				this.toggleAutoRefresh();
+			}
+
 			this.str = convert.toHtml(txt);
 			this.filterChanged();
 		});

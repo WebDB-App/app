@@ -9,7 +9,8 @@ const obj = {
 		'SEQUENCE': 'Constant',
 		'ENUM': 'Enum',
 		'TRIGGER': 'Event',
-		'CHECK': 'Interface'
+		'CHECK': 'Interface',
+		'VALIDATOR': 'VALIDATOR'
 	},
 	mongo_injectAggregate: (query, toInject) => {
 		const reg = /\.aggregate\((?:[^)(]|\((?:[^)(]|\((?:[^)(]|\([^)(]*\))*\))*\))*\)/g;

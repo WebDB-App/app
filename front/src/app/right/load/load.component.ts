@@ -4,11 +4,24 @@ import { Server } from "../../../classes/server";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { RequestService } from "../../../shared/request.service";
 
-interface Loads {
+class Loads {
 	name: string;
 	text: string;
 	file: File;
-	progress: number;
+	editorOptions: {};
+	progress!: number;
+
+	constructor(name: string, text: string, file: File) {
+		this.name = name;
+		this.text = text;
+		this.file = file;
+		this.progress = 0;
+		this.editorOptions = {
+			language: this.name.toLowerCase().split('.')[1],
+			readOnly: true,
+			minimap: {enabled: true}
+		}
+	}
 }
 
 @Component({
@@ -23,11 +36,6 @@ export class LoadComponent {
 	selectedServer!: Server;
 	files: Loads[] = [];
 	acceptedExt!: string[];
-	editorOptions = {
-		language: '',
-		readOnly: true,
-		minimap: {enabled: true}
-	};
 	@HostBinding('class.blur') blur = false;
 
 	constructor(
@@ -36,7 +44,6 @@ export class LoadComponent {
 	) {
 		this.selectedDatabase = Database.getSelected();
 		this.selectedServer = Server.getSelected();
-		this.editorOptions.language = this.selectedServer?.driver.language.id!;
 		this.acceptedExt = this.selectedServer?.driver.connection.acceptedExt!;
 	}
 
@@ -99,7 +106,7 @@ export class LoadComponent {
 	async setImport(files: any[]) {
 		this.files = this.files.concat(await Promise.all(files.filter(file => {
 			const end = this.acceptedExt.some(name => {
-				return file.name.endsWith(name);
+				return file.name.toLowerCase().endsWith(name);
 			});
 			if (!end) {
 				this.snackBar.open("File format not supported", "╳", {panelClass: 'snack-error'})
@@ -107,12 +114,7 @@ export class LoadComponent {
 			}
 			return file;
 		}).map(async file => {
-			return <Loads>{
-				name: file.name,
-				text: await file.text(),
-				file: file,
-				progress: 0,
-			}
+			return new Loads(file.name, await file.text(), file);
 		})));
 	}
 

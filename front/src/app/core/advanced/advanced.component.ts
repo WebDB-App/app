@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { isSQL } from "../../../shared/helper";
 import { Server } from "../../../classes/server";
 import { Database } from "../../../classes/database";
+import { Complex } from "../../../classes/complex";
 
 @Component({
 	selector: 'app-table-advanced',
@@ -19,6 +20,7 @@ export class TableAdvancedComponent implements OnDestroy {
 	selectedDatabase?: Database;
 	selectedTable?: Table;
 
+	complexes!: Complex[];
 	interval?: NodeJS.Timer;
 	stats?: {
 		index_length: number,
@@ -37,6 +39,10 @@ export class TableAdvancedComponent implements OnDestroy {
 			this.selectedServer = Server.getSelected();
 			this.selectedDatabase = Database.getSelected();
 			this.selectedTable = Table.getSelected();
+			this.complexes = this.selectedServer.complexes.filter(complex => {
+				const split = this.selectedDatabase!.name.split(', ');
+				return split.indexOf(complex.database.trim()) >= 0 && complex.table === this.selectedTable?.name;
+			});
 		});
 
 		this.loadStats();

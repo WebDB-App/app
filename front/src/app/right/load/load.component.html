@@ -35,21 +35,39 @@
 		</button>
 	</div>
 
-	<div *ngFor="let file of files; let i = index" fxFlexFill>
+	<mat-card *ngFor="let file of files; let i = index">
+		<mat-card-header>
+			<mat-form-field
+				appearance="outline"
+				style="flex: 1; margin-bottom: -1.25em">
+				<input [(ngModel)]="file.name"
+					   autocomplete="off"
+					   matInput
+					   required>
+			</mat-form-field>
 
-		<div fxFlexFill fxLayout="row" fxLayoutAlign="space-between center">
-			<span style="font-size: 16px; margin: 10px; width: 100%;">{{file.name}}</span>
+			<button
+				(click)="files.splice(i, 1)"
+				mat-icon-button>
+					<span class="material-symbols-outlined notranslate">
+						remove
+					</span>
+			</button>
+		</mat-card-header>
+
+		<mat-card-content>
+			<ngx-monaco-editor
+				*ngIf="files[i].text.length < 10000000"
+				[(ngModel)]="files[i].text"
+				[options]="files[i].editorOptions">
+			</ngx-monaco-editor>
 			<mat-progress-bar
 				[color]="file.progress < 0 ? 'warn' : 'accent'"
 				[value]="file.progress"
+				style="margin-top: 8px"
 				mode="determinate"></mat-progress-bar>
-		</div>
-		<ngx-monaco-editor
-			*ngIf="files[i].text.length < 10000000"
-			[(ngModel)]="files[i].text"
-			[options]="editorOptions">
-		</ngx-monaco-editor>
-	</div>
+		</mat-card-content>
+	</mat-card>
 
 	<mat-divider style="width: 100%; margin: 10px 0px"></mat-divider>
 

@@ -115,8 +115,8 @@ export default class PostgreSQL extends SQL {
 	async getComplexes() {
 		const complex = [
 			...(await this.runCommand("SELECT routine_name as name, routine_type as type, routine_schema as database FROM information_schema.routines WHERE routine_schema NOT IN ('pg_catalog', 'information_schema') ORDER BY routine_name;")),
-			...(await this.runCommand("SELECT trigger_name as name, 'TRIGGER' as type, trigger_schema as database FROM information_schema.triggers")),
-			...(await this.runCommand("SELECT pgc.conname AS name, 'CHECK' as type, ccu.table_schema AS database FROM pg_constraint pgc JOIN pg_namespace nsp ON nsp.oid = pgc.connamespace JOIN pg_class cls ON pgc.conrelid = cls.oid LEFT JOIN information_schema.constraint_column_usage ccu ON pgc.conname = ccu.constraint_name AND nsp.nspname = ccu.constraint_schema WHERE contype = 'c' ORDER BY pgc.conname"))
+			...(await this.runCommand("SELECT trigger_name as name, 'TRIGGER' as type, trigger_schema as database, event_object_table as table FROM information_schema.triggers")),
+			...(await this.runCommand("SELECT constraint_name AS name, 'CHECK' as type, ccu.table_schema AS database, table_name as table FROM pg_constraint pgc JOIN pg_namespace nsp ON nsp.oid = pgc.connamespace JOIN pg_class cls ON pgc.conrelid = cls.oid LEFT JOIN information_schema.constraint_column_usage ccu ON pgc.conname = ccu.constraint_name AND nsp.nspname = ccu.constraint_schema WHERE contype = 'c' ORDER BY pgc.conname"))
 		];
 		for (let comp of await this.runCommand("SELECT t.typname AS name, typtype as type, nspname as database FROM pg_type t LEFT JOIN pg_catalog.pg_namespace n ON n.oid = t.typnamespace WHERE ( t.typrelid = 0 OR ( SELECT c.relkind = 'c' FROM pg_catalog.pg_class c WHERE c.oid = t.typrelid ) ) AND NOT EXISTS ( SELECT 1 FROM pg_catalog.pg_type el WHERE el.oid = t.typelem AND el.typarray = t.oid ) AND n.nspname NOT IN ('pg_catalog', 'information_schema')")) {
 			if (comp.type === "c") {
@@ -326,6 +326,11 @@ export default class PostgreSQL extends SQL {
 					this.runCommand("SELECT c.table_schema, c.table_name, c.column_name, c.character_maximum_length, c.ordinal_position, c.column_default, c.is_nullable, c.data_type, e.data_type AS subtype, COL_DESCRIPTION( (c.table_schema || '.' || c.table_name)::regclass, c.ordinal_position ) AS column_comment FROM information_schema.columns AS c LEFT JOIN information_schema.element_types e ON ( ( c.table_catalog, c.table_schema, c.table_name, 'TABLE', c.dtd_identifier ) = ( e.object_catalog, e.object_schema, e.object_name, e.object_type, e.collection_type_identifier ) ) ORDER BY c.ordinal_position;", db.datname),
 					this.runCommand("SELECT t.table_schema, t.table_name, t.table_type, pgd.description as comment FROM information_schema.tables t LEFT OUTER JOIN pg_catalog.pg_description pgd ON pgd.objoid = (quote_ident(t.table_schema) || '.' || quote_ident(t.table_name))::regclass AND pgd.objsubid = 0", db.datname),
 				]);
+
+				if (schemas.error || tables.error || columns.error) {
+					console.error(schemas.error || tables.error || columns.error);
+					return resolve();
+				}
 
 				for (const schema of schemas) {
 					const dbPath = `${db.datname + this.dbToSchemaDelimiter + schema.schema_name}`;

@@ -35,7 +35,7 @@ export class ColumnComponent implements OnInit {
 
 		const custom: TypeData[] = [];
 		this.selectedServer.complexes?.map(complex => {
-			const split = Database.getSelected().name.split(',').map(n => n.trim());
+			const split = Database.getSelected().name.split(', ');
 			if (split.indexOf(complex.database.trim()) < 0) {
 				return;
 			}

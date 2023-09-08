@@ -7,3 +7,16 @@
 :host(.blur) {
 	box-shadow: inset 0px 25px 50px 20px #1e1e1e;
 }
+
+.mat-card {
+	margin-left: 0px;
+	margin-right: 0px;
+
+	ngx-monaco-editor {
+		margin: 0px -16px;
+	}
+
+	.mat-card-header {
+		align-items: center;
+	}
+}
