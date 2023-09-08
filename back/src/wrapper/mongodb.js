@@ -182,19 +182,21 @@ export default class MongoDB extends Driver {
 		const complexes = [];
 		const databases = (await this.connection.db().admin().listDatabases()).databases;
 		for (const database of databases) {
-			const collection = await this.connection.db(database).command({
+			const collections = await this.connection.db(database.name).command({
 				listCollections: 1.0,
 			});
 
-			const options = collection.cursor.firstBatch[0].options;
-			if (Object.keys(options).length < 1 || !options.validator) {
-				continue;
-			}
-			complexes.push({
-				name: JSON.stringify(options.validator, null, "\t"),
-				database: database.name,
-				table: "lol",
-				type: commonHelper.complex.VALIDATOR
+			collections.cursor.firstBatch.map(collection => {
+				const options = collection.options;
+				if (Object.keys(options).length < 1 || !options.validator) {
+					return;
+				}
+				complexes.push({
+					name: options.validator.$jsonSchema.description,
+					database: database.name,
+					table: collection.name,
+					type: commonHelper.complex.VALIDATOR
+				});
 			});
 		}
 		return complexes;

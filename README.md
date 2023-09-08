@@ -1,6 +1,6 @@
 pas col si fullsize = 0 + Attention sub
-Complexes element: table + mongo
 
+# Server gît avec autobackup en var d'env
 
 # Mongo harmonizer
 - columns with obj/array > 2
@@ -29,7 +29,7 @@ Complexes element: table + mongo
 
 # SQLServer
 
-# Server gît avec autobackup en var d'env (git large file / gzip)
+# GraphQL
 
 
 
@@ -39,7 +39,7 @@ Complexes element: table + mongo
 
 
 
-# GraphQL
+
 
 # Cockroachdb
 

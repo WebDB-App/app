@@ -323,7 +323,7 @@ export default class PostgreSQL extends SQL {
 			promises.push(new Promise(async resolve => {
 				let [schemas, columns, tables] = await Promise.all([
 					this.runCommand("SELECT * FROM information_schema.schemata", db.datname),
-					this.runCommand("SELECT table_schema, table_name, column_name, character_maximum_length, ordinal_position, column_default, is_nullable, udt_name::regtype as type FROM information_schema.columns ORDER BY ordinal_position", db.datname),
+					this.runCommand("SELECT table_schema, table_name, column_name, character_maximum_length, ordinal_position, column_default, is_nullable, udt_name::regtype as data_type FROM information_schema.columns ORDER BY ordinal_position", db.datname),
 					this.runCommand("SELECT table_schema, table_name, table_type FROM information_schema.tables", db.datname),
 				]);
 
@@ -356,7 +356,7 @@ export default class PostgreSQL extends SQL {
 
 						struct[dbPath].tables[row.table_name].columns.push({
 							name: row.column_name,
-							type: row.subtype ? `${row.subtype}[]` : row.data_type,
+							type: row.data_type,
 							nullable: row.is_nullable !== "NO",
 							defaut: row.column_default,
 						});
