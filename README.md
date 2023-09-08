@@ -1,3 +1,7 @@
+pas col si fullsize = 0 + Attention sub
+Complexes element: table + mongo
+
+
 # Mongo harmonizer
 - columns with obj/array > 2
 - nested relation https://www.mongodb.com/docs/manual/reference/operator/aggregation/lookup/#use--lookup-with-an-array

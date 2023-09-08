@@ -11,7 +11,6 @@ export class Table {
 	name!: string
 	view!: boolean
 	columns!: Column[]
-	comment?: string;
 
 	static setSelected(table: Table) {
 		selected = table;

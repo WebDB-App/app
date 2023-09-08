@@ -321,16 +321,11 @@ export default class PostgreSQL extends SQL {
 
 		for (const db of dbs) {
 			promises.push(new Promise(async resolve => {
-				const [schemas, columns, tables] = await Promise.all([
+				let [schemas, columns, tables] = await Promise.all([
 					this.runCommand("SELECT * FROM information_schema.schemata", db.datname),
-					this.runCommand("SELECT c.table_schema, c.table_name, c.column_name, c.character_maximum_length, c.ordinal_position, c.column_default, c.is_nullable, c.data_type, e.data_type AS subtype, COL_DESCRIPTION( (c.table_schema || '.' || c.table_name)::regclass, c.ordinal_position ) AS column_comment FROM information_schema.columns AS c LEFT JOIN information_schema.element_types e ON ( ( c.table_catalog, c.table_schema, c.table_name, 'TABLE', c.dtd_identifier ) = ( e.object_catalog, e.object_schema, e.object_name, e.object_type, e.collection_type_identifier ) ) ORDER BY c.ordinal_position;", db.datname),
-					this.runCommand("SELECT t.table_schema, t.table_name, t.table_type, pgd.description as comment FROM information_schema.tables t LEFT OUTER JOIN pg_catalog.pg_description pgd ON pgd.objoid = (quote_ident(t.table_schema) || '.' || quote_ident(t.table_name))::regclass AND pgd.objsubid = 0", db.datname),
+					this.runCommand("SELECT table_schema, table_name, column_name, character_maximum_length, ordinal_position, column_default, is_nullable, udt_name::regtype as type FROM information_schema.columns ORDER BY ordinal_position", db.datname),
+					this.runCommand("SELECT table_schema, table_name, table_type FROM information_schema.tables", db.datname),
 				]);
-
-				if (schemas.error || tables.error || columns.error) {
-					console.error(schemas.error || tables.error || columns.error);
-					return resolve();
-				}
 
 				for (const schema of schemas) {
 					const dbPath = `${db.datname + this.dbToSchemaDelimiter + schema.schema_name}`;
@@ -350,7 +345,6 @@ export default class PostgreSQL extends SQL {
 
 							struct[dbPath].tables[row.table_name] = {
 								name: row.table_name,
-								comment: row.comment,
 								view: table.table_type !== "BASE TABLE",
 								columns: []
 							};
@@ -365,7 +359,6 @@ export default class PostgreSQL extends SQL {
 							type: row.subtype ? `${row.subtype}[]` : row.data_type,
 							nullable: row.is_nullable !== "NO",
 							defaut: row.column_default,
-							comment: row.column_comment
 						});
 					}
 				}

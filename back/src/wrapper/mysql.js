@@ -173,8 +173,8 @@ export default class MySQL extends SQL {
 	async getDatabases() {
 		const [dbs, columns, tables] = await Promise.all([
 			this.runCommand("SELECT * FROM information_schema.schemata"),
-			this.runCommand("SELECT TABLE_SCHEMA, TABLE_NAME, COLUMN_NAME, COLUMN_TYPE, IS_NULLABLE, COLUMN_DEFAULT, EXTRA, ORDINAL_POSITION, COLUMN_COMMENT FROM information_schema.COLUMNS ORDER BY ORDINAL_POSITION"),
-			this.runCommand("SELECT TABLE_SCHEMA, TABLE_NAME, TABLE_TYPE, TABLE_COMMENT FROM information_schema.TABLES")
+			this.runCommand("SELECT TABLE_SCHEMA, TABLE_NAME, COLUMN_NAME, COLUMN_TYPE, IS_NULLABLE, COLUMN_DEFAULT, EXTRA, ORDINAL_POSITION FROM information_schema.COLUMNS ORDER BY ORDINAL_POSITION"),
+			this.runCommand("SELECT TABLE_SCHEMA, TABLE_NAME, TABLE_TYPE FROM information_schema.TABLES")
 		]);
 
 		const struct = {};
@@ -193,7 +193,6 @@ export default class MySQL extends SQL {
 				struct[row.TABLE_SCHEMA].tables[row.TABLE_NAME] = {
 					name: row.TABLE_NAME,
 					view: table.TABLE_TYPE !== "BASE TABLE",
-					comment: table.TABLE_COMMENT,
 					columns: []
 				};
 			}
@@ -206,8 +205,7 @@ export default class MySQL extends SQL {
 				size: row.CHARACTER_MAXIMUM_LENGTH,
 				nullable: row.IS_NULLABLE !== "NO",
 				defaut: row.COLUMN_DEFAULT,
-				extra: row.EXTRA,
-				comment: row.COLUMN_COMMENT
+				extra: row.EXTRA
 			});
 		}
 
