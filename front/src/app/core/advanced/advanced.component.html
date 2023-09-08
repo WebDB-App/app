@@ -29,7 +29,21 @@
 
 		<div fxLayout="column" fxLayoutAlign="center none" style="width: 400px;">
 
-			{{complexes | json}}
+			<ng-container *ngIf="complexes.length > 0">
+				<mat-card>
+					<mat-card-header>
+						<mat-card-subtitle>
+							Complex Elements
+						</mat-card-subtitle>
+					</mat-card-header>
+
+					<mat-card-content>
+						<div *ngFor="let complex of complexes">
+							<span>{{complex.type}}</span><span>{{complex.name}}</span>
+						</div>
+					</mat-card-content>
+				</mat-card>
+			</ng-container>
 
 			<ng-container *ngIf="!selectedTable?.view">
 

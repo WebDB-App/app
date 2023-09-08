@@ -1,3 +1,13 @@
 .mat-divider {
-	margin: 30px;
+	margin: 20px;
+}
+
+.mat-card {
+	margin-left: 0px;
+	margin-right: 0px;
+
+	.mat-card-content > div {
+		display: flex;
+		justify-content: space-around;
+	}
 }
