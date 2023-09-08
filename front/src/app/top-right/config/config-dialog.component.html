@@ -1,6 +1,6 @@
 <div mat-dialog-content cdkFocusInitial>
 	<mat-tab-group #tabs (selectedTabChange)="$event.index === 2 ? dialogRef.close() : undefined">
-		<mat-tab label="App Settings">
+		<mat-tab label="Parameters">
 			<table style="padding: 20px">
 				<tr *ngFor="let config of configuration.configs">
 					<td>{{config.description}}</td>
