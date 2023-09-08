@@ -227,7 +227,7 @@ export class SQL implements Driver {
 	}
 
 	quickSearch(driver: Driver, column: Column, value: string) {
-		let chip = `${column.name} `;
+		let chip = `${this.connection.nameDel + column.name + this.connection.nameDel} `;
 		if (driver.language.comparators.find((comparator) => {
 			return value.toLowerCase().startsWith(comparator.symbol.toLowerCase() + ' ')
 		})) {
