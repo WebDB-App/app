@@ -267,10 +267,10 @@ export class UpdateColumnDialog {
 	selectedServer?: Server;
 	selectedTable?: Table;
 	oldValues = false;
+	isLoading = false;
 	protected readonly JSON = JSON;
 
 	constructor(
-		private dialogRef: MatDialogRef<AddColumnDialog>,
 		private request: RequestService,
 		private fb: FormBuilder,
 		private snackBar: MatSnackBar,
@@ -282,7 +282,7 @@ export class UpdateColumnDialog {
 		const old = Column.getFormGroup(undefined, column);
 		old.disable();
 
-		this.form = fb.group({
+		this.form = this.fb.group({
 			old,
 			columns: fb.array([
 				Column.getFormGroup(this.selectedTable, column)
@@ -291,8 +291,13 @@ export class UpdateColumnDialog {
 	}
 
 	async update() {
-		await this.request.post('column/modify', this.form.getRawValue());
-		this.snackBar.open(`Columns Altered`, "╳", {duration: 3000});
-		this.dialogRef.close(true);
+		this.isLoading = true
+
+		try {
+			await this.request.post('column/modify', this.form.getRawValue());
+			this.snackBar.open(`Columns Altered`, "╳", {duration: 3000});
+		} catch (e) {}
+
+		this.isLoading = false;
 	}
 }

@@ -50,7 +50,7 @@ export class QueryComponent implements OnInit, OnDestroy {
 	query = '';
 	query2 = '';
 	diff = false;
-	pageSize = 50;
+	pageSize = this.configuration.getByName("pageSize")?.value;
 	page = 0;
 	querySize!: number;
 	interval?: NodeJS.Timer;

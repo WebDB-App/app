@@ -1,5 +1,3 @@
-# Server gît avec autobackup en var d'env
-
 # Mongo harmonizer
 - columns with obj/array > 2
 - nested relation https://www.mongodb.com/docs/manual/reference/operator/aggregation/lookup/#use--lookup-with-an-array
@@ -10,20 +8,6 @@
 - load/dump specific schema
 - l38 column.component.ts
 - l354 sql.ts
-
-# Bin
-- deps: Brew + chocolate + apt + yum
-- https://twitter.com/electronjs
-- ci + gitlab wiki (home)
-
-# Relation wizard
-- 1,1 -> 0,n
-- 0,n -> 1,1
-- 1,1 -> []
-- 1,1 -> {}
-- {} -> []
-- {} -> 1,1
-- show migration queries
 
 # SQLServer
 
@@ -37,7 +21,24 @@
 
 
 
+# Bin
+- deps: Brew + chocolate + apt + yum
+- https://twitter.com/electronjs
+- ci + gitlab wiki (home)
 
+# Server gît avec autobackup
+- can choose interval
+- show git remote
+- permet just de force revert avec nombre de ligne de diff
+
+# Relation wizard
+- 1,1 -> 0,n
+- 0,n -> 1,1
+- 1,1 -> []
+- 1,1 -> {}
+- {} -> []
+- {} -> 1,1
+- show migration queries
 
 # Cockroachdb
 
