@@ -170,11 +170,11 @@ export default class MySQL extends SQL {
 		});
 	}
 
-	async getDatabases() {
-		const [dbs, columns, tables] = await Promise.all([
+	async getDatabases(full) {
+		const [dbs, tables, columns] = await Promise.all([
 			this.runCommand("SELECT * FROM information_schema.schemata"),
-			this.runCommand("SELECT TABLE_SCHEMA, TABLE_NAME, COLUMN_NAME, COLUMN_TYPE, IS_NULLABLE, COLUMN_DEFAULT, EXTRA, ORDINAL_POSITION FROM information_schema.COLUMNS ORDER BY ORDINAL_POSITION"),
-			this.runCommand("SELECT TABLE_SCHEMA, TABLE_NAME, TABLE_TYPE FROM information_schema.TABLES")
+			this.runCommand("SELECT TABLE_SCHEMA, TABLE_NAME, TABLE_TYPE FROM information_schema.TABLES"),
+			(full ? this.runCommand("SELECT TABLE_SCHEMA, TABLE_NAME, COLUMN_NAME, COLUMN_TYPE, IS_NULLABLE, COLUMN_DEFAULT, EXTRA, ORDINAL_POSITION FROM information_schema.COLUMNS ORDER BY ORDINAL_POSITION") : undefined)
 		]);
 
 		const struct = {};
@@ -184,29 +184,37 @@ export default class MySQL extends SQL {
 				collation: db.DEFAULT_COLLATION_NAME,
 				tables: {}
 			};
-		}
 
-		for (const row of columns) {
-			if (!struct[row.TABLE_SCHEMA].tables[row.TABLE_NAME]) {
-				const table = tables.find(ta => ta.TABLE_NAME === row.TABLE_NAME && ta.TABLE_SCHEMA === row.TABLE_SCHEMA);
-
-				struct[row.TABLE_SCHEMA].tables[row.TABLE_NAME] = {
-					name: row.TABLE_NAME,
+			for (const table of tables) {
+				if (table.TABLE_SCHEMA !== db.SCHEMA_NAME) {
+					continue;
+				}
+				struct[db.SCHEMA_NAME].tables[table.TABLE_NAME] = {
+					name: table.TABLE_NAME,
 					view: table.TABLE_TYPE !== "BASE TABLE",
 					columns: []
 				};
+				if (!full) {
+					continue;
+				}
+
+				for (const column of columns) {
+					if (column.TABLE_SCHEMA !== db.SCHEMA_NAME ||
+						column.TABLE_NAME !== table.TABLE_NAME) {
+						continue;
+					}
+
+					column.EXTRA = column.EXTRA ? [column.EXTRA] : [];
+					struct[column.TABLE_SCHEMA].tables[column.TABLE_NAME].columns.push({
+						name: column.COLUMN_NAME,
+						type: column.COLUMN_TYPE,
+						size: column.CHARACTER_MAXIMUM_LENGTH,
+						nullable: column.IS_NULLABLE !== "NO",
+						defaut: column.COLUMN_DEFAULT,
+						extra: column.EXTRA
+					});
+				}
 			}
-
-			row.EXTRA = row.EXTRA ? [row.EXTRA] : [];
-
-			struct[row.TABLE_SCHEMA].tables[row.TABLE_NAME].columns.push({
-				name: row.COLUMN_NAME,
-				type: row.COLUMN_TYPE,
-				size: row.CHARACTER_MAXIMUM_LENGTH,
-				nullable: row.IS_NULLABLE !== "NO",
-				defaut: row.COLUMN_DEFAULT,
-				extra: row.EXTRA
-			});
 		}
 
 		return struct;

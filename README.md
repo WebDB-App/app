@@ -1,5 +1,3 @@
-pas col si fullsize = 0 + Attention sub
-
 # Server gît avec autobackup en var d'env
 
 # Mongo harmonizer

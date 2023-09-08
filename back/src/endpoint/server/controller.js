@@ -34,7 +34,7 @@ class Controller {
 		};
 		const promises = [
 			new Promise(async resolve => {
-				const structure = await driver.getDatabases(+req.query.size);
+				const structure = await driver.getDatabases(+req.query.full, +req.query.size);
 				let dbLimit = subscriptionCtrl.getLimit();
 
 				for (const str of Object.values(structure)) {

@@ -314,17 +314,17 @@ export default class PostgreSQL extends SQL {
 		return this.runCommand("SELECT * FROM pg_database WHERE datistemplate = false");
 	}
 
-	async getDatabases() {
+	async getDatabases(full) {
 		const dbs = await this.getDbs();
 		const struct = {};
 		const promises = [];
 
 		for (const db of dbs) {
 			promises.push(new Promise(async resolve => {
-				let [schemas, columns, tables] = await Promise.all([
+				let [schemas, tables, columns] = await Promise.all([
 					this.runCommand("SELECT * FROM information_schema.schemata", db.datname),
-					this.runCommand("SELECT table_schema, table_name, column_name, character_maximum_length, ordinal_position, column_default, is_nullable, udt_name::regtype as data_type FROM information_schema.columns ORDER BY ordinal_position", db.datname),
 					this.runCommand("SELECT table_schema, table_name, table_type FROM information_schema.tables", db.datname),
+					(full ? this.runCommand("SELECT table_schema, table_name, column_name, character_maximum_length, ordinal_position, column_default, is_nullable, udt_name::regtype as data_type FROM information_schema.columns ORDER BY ordinal_position", db.datname) : undefined)
 				]);
 
 				for (const schema of schemas) {
@@ -335,31 +335,36 @@ export default class PostgreSQL extends SQL {
 						tables: {}
 					};
 
-					for (const row of columns) {
-						if (row.table_schema !== schema.schema_name) {
+					for (const table of tables) {
+						if (table.table_schema !== schema.schema_name) {
+							continue;
+						}
+						struct[dbPath].tables[table.table_name] = {
+							name: table.table_name,
+							view: table.table_type !== "BASE TABLE",
+							columns: []
+						};
+						if (!full) {
 							continue;
 						}
 
-						if (!struct[dbPath].tables[row.table_name]) {
-							const table = tables.find(ta => ta.table_name === row.table_name && ta.table_schema === row.table_schema);
+						for (const column of columns) {
+							if (column.table_schema !== schema.schema_name ||
+								column.table_name !== table.table_name) {
+								continue;
+							}
 
-							struct[dbPath].tables[row.table_name] = {
-								name: row.table_name,
-								view: table.table_type !== "BASE TABLE",
-								columns: []
-							};
+							if (Number.isInteger(column.character_maximum_length)) {
+								column.data_type += `(${column.character_maximum_length})`;
+							}
+
+							struct[dbPath].tables[column.table_name].columns.push({
+								name: column.column_name,
+								type: column.data_type,
+								nullable: column.is_nullable !== "NO",
+								defaut: column.column_default,
+							});
 						}
-
-						if (Number.isInteger(row.character_maximum_length)) {
-							row.data_type += `(${row.character_maximum_length})`;
-						}
-
-						struct[dbPath].tables[row.table_name].columns.push({
-							name: row.column_name,
-							type: row.data_type,
-							nullable: row.is_nullable !== "NO",
-							defaut: row.column_default,
-						});
 					}
 				}
 				resolve();
