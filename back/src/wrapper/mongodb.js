@@ -429,7 +429,7 @@ export default class MongoDB extends Driver {
 		return results;
 	}
 
-	async getDatabases(sampleSize) {
+	async getDatabases(full, sampleSize) {
 		const struct = {};
 		const promises = [];
 		sampleSize = sampleSize > 500 ? 500 : sampleSize;
@@ -454,13 +454,14 @@ export default class MongoDB extends Driver {
 						view: infos.type === "view",
 						columns: {}
 					};
-
-					try {
-						samples = await coll.aggregate([{$sample: {size: sampleSize}}]).toArray();
-					} catch (e) {
-						//console.error(e);
+					if (full) {
+						try {
+							samples = await coll.aggregate([{$sample: {size: sampleSize}}]).toArray();
+						} catch (e) {
+							//console.error(e);
+						}
+						struct[database.name].tables[coll.collectionName].columns = this.inferColumn(samples);
 					}
-					struct[database.name].tables[coll.collectionName].columns = this.inferColumn(samples);
 					resolve();
 				}));
 			}
