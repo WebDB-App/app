@@ -5,7 +5,12 @@
 	</button>
 </div>
 <mat-dialog-content>
-	<span>You will loose datas</span>
+	<div style="display: flex; flex-direction: row; justify-content: center; align-items: center; margin: 10px;">
+		<span class="material-symbols-outlined notranslate">
+			warning
+		</span>
+		You will loose datas
+	</div>
 </mat-dialog-content>
 <mat-dialog-actions>
 	<button (click)="dropColumn()" color="warn" mat-button>Drop Column</button>
