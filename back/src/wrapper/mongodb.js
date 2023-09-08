@@ -4,6 +4,7 @@ import bash from "../shared/bash.js";
 import {URL} from "url";
 import {writeFileSync} from "fs";
 import helper from "../shared/common-helper.mjs";
+import commonHelper from "../shared/common-helper.mjs";
 
 const dirname = new URL(".", import.meta.url).pathname;
 
@@ -178,7 +179,25 @@ export default class MongoDB extends Driver {
 	}
 
 	async getComplexes() {
-		return [];
+		const complexes = [];
+		const databases = (await this.connection.db().admin().listDatabases()).databases;
+		for (const database of databases) {
+			const collection = await this.connection.db(database).command({
+				listCollections: 1.0,
+			});
+
+			const options = collection.cursor.firstBatch[0].options;
+			if (Object.keys(options).length < 1 || !options.validator) {
+				continue;
+			}
+			complexes.push({
+				name: JSON.stringify(options.validator, null, "\t"),
+				database: database.name,
+				table: "lol",
+				type: commonHelper.complex.VALIDATOR
+			});
+		}
+		return complexes;
 	}
 
 	async getRelations(databases, sampleSize) {

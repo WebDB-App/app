@@ -106,7 +106,7 @@ export class AdvancedComponent implements OnInit, OnDestroy {
 		if (!name.match(helper.validName)) {
 			return false;
 		}
-		return name.length > 1 && !this.selectedServer?.dbs?.find(db => db.name.split(',')[0] === name);
+		return name.length > 1 && !this.selectedServer?.dbs?.find(db => db.name.split(', ')[0] === name);
 	}
 }
 
