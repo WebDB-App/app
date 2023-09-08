@@ -166,6 +166,22 @@ export default class MongoDB extends Driver {
 		return true;
 	}
 
+	async addColumns(database, table, columns) {
+		for (const column of columns) {
+			const add = { $set: {} };
+			add["$set"][column.name] = 1;
+			await this.connection.db(database).collection(table).updateMany({}, add);
+		}
+
+		return true;
+	}
+
+	async dropColumn(database, table, column) {
+		const rem = { $unset: {} };
+		rem["$unset"][column] = 1;
+		return await this.connection.db(database).collection(table).updateMany({}, rem);
+	}
+
 	async modifyColumn(database, table, old, column) {
 		return [];
 	}
