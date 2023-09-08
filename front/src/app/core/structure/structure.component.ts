@@ -57,9 +57,6 @@ export class StructureComponent implements OnInit, AfterViewChecked {
 		if (this.selectedServer.driver.language.extraAttributes.length) {
 			this.structureColumns.push('extra');
 		}
-		if (isSQL()) {
-			this.structureColumns.push('comment');
-		}
 		if (!this.selectedTable.view) {
 			this.structureColumns.push(this.actionColum);
 		}

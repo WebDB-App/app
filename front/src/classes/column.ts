@@ -11,7 +11,6 @@ export class Column {
 	collation!: string;
 	nullable!: boolean;
 	defaut!: string;
-	comment!: string;
 	extra?: string[];
 
 	static getTags(column: Column, tableIndexes: Index[], relation?: Relation) {

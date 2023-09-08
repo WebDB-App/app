@@ -31,13 +31,6 @@
 
 			{{complexes | json}}
 
-			<div *ngIf="isSQL()">
-				<span>
-					Comment : {{selectedTable?.comment}}
-				</span>
-				<mat-divider></mat-divider>
-			</div>
-
 			<ng-container *ngIf="!selectedTable?.view">
 
 				<div *ngIf="stats" fxLayout="row" fxLayoutAlign="space-between center">
