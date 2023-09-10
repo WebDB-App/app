@@ -19,6 +19,17 @@
 						<span>{{selectedServer.host}}</span>:<span>{{selectedServer.port}}</span>
 						<span style="color: #1de9b6;">{{selectedDatabase.name}}</span>
 					</div>
+					<button
+						[disabled]="loading < 100"
+						mat-icon-button
+						color="accent"
+						matTooltip="Reload Database"
+						matTooltipPosition="right"
+						(click)="request.reloadServer()">
+						<span class="material-symbols-outlined notranslate">
+							frame_reload
+						</span>
+					</button>
 				</div>
 			</div>
 

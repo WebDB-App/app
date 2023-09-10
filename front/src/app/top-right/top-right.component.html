@@ -1,6 +1,6 @@
 <button
 	mat-button
-	(click)="showLogs('out.log')">
+	(click)="showLogs()">
 	<span class="material-symbols-outlined notranslate">
 		browse_activity
 	</span>
@@ -48,19 +48,5 @@
 			warning
 		</span>
 		Disclaimer
-	</a>
-	<mat-divider></mat-divider>
-	<a
-		(click)="showLogs('err.log')"
-		mat-menu-item>
-		<span class="material-symbols-outlined notranslate">
-			report
-		</span>
-		Error Logs
-	</a>
-	<a mat-menu-item>
-		<mat-icon svgIcon="webdb"></mat-icon>
-		Beta
-		v{{packageJson.version}}
 	</a>
 </mat-menu>

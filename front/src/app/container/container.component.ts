@@ -41,7 +41,7 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	constructor(
 		public activatedRoute: ActivatedRoute,
-		private request: RequestService,
+		public request: RequestService,
 		private drawerService: DrawerService,
 		private dialog: MatDialog
 	) {
