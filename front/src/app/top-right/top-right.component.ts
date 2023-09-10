@@ -1,12 +1,10 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
-import { Server } from "../../classes/server";
+import { Component, OnDestroy } from '@angular/core';
+import { MatDialog } from "@angular/material/dialog";
 import { HttpClient } from "@angular/common/http";
 import { DomSanitizer } from "@angular/platform-browser";
 import Convert from "ansi-to-html";
 import { environment } from "../../environments/environment";
 import { ConfigDialog } from "./config/config-dialog.component";
-import packageJson from '../../../package.json';
 import { isSQL } from "../../shared/helper";
 
 @Component({
@@ -16,10 +14,6 @@ import { isSQL } from "../../shared/helper";
 })
 export class TopRightComponent {
 
-	protected readonly Server = Server;
-	protected readonly packageJson = packageJson;
-	protected readonly environment = environment;
-
 	constructor(
 		private dialog: MatDialog,
 	) { }
@@ -28,10 +22,9 @@ export class TopRightComponent {
 		this.dialog.open(ConfigDialog);
 	}
 
-	showLogs(file: string) {
+	showLogs() {
 		this.dialog.open(LogsDialog, {
-			data: file,
-			id: file,
+			id: "logs",
 			hasBackdrop: false
 		});
 	}
@@ -48,11 +41,11 @@ export class LogsDialog implements OnDestroy {
 	filter = "";
 	interval?: NodeJS.Timer;
 	isLoading = false;
+	file: 'out.log' | 'err.log' = "out.log";
 
 	constructor(
 		private http: HttpClient,
 		private sanitizer: DomSanitizer,
-		@Inject(MAT_DIALOG_DATA) public file: 'out.log' | 'err.log',
 	) {
 		this.load();
 		this.toggleAutoRefresh();

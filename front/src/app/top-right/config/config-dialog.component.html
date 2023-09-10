@@ -1,5 +1,5 @@
 <div mat-dialog-content cdkFocusInitial>
-	<mat-tab-group #tabs (selectedTabChange)="$event.index === 2 ? dialogRef.close() : undefined">
+	<mat-tab-group #tabs (selectedTabChange)="$event.index === 3 ? dialogRef.close() : undefined">
 		<mat-tab label="Parameters">
 			<table style="padding: 20px">
 				<tr *ngFor="let config of configuration.configs">
@@ -69,6 +69,33 @@
 					</span>
 					Register
 				</button>
+			</div>
+		</mat-tab>
+		<mat-tab label="Version">
+			<div style="text-align: center">
+				<mat-icon style="height: 60px; margin: 30px; width: auto; display: inline-flex; align-items: center;" svgIcon="webdb">
+					<h1 style="font-weight: 300; margin: 0px 0px 0px 10px">WebDB</h1>
+				</mat-icon>
+
+				<h3>Beta v{{packageJson.version}}</h3>
+
+				<div class="mat-dialog-actions">
+					<a href="https://www.linkedin.com/company/web-db"
+					   mat-button
+					   target="_blank">
+						<mat-icon svgIcon="linkedin"></mat-icon>
+						LinkedIn
+					</a>
+
+					<a href="mailto:main.webdb@gmail.com"
+					   target="_blank"
+					   mat-button>
+					<span class="material-symbols-outlined notranslate">
+						mail
+					</span>
+						Contact
+					</a>
+				</div>
 			</div>
 		</mat-tab>
 		<mat-tab label="╳"></mat-tab>

@@ -1,9 +1,17 @@
 <div cdkDrag cdkDragHandle
 	 cdkDragRootElement=".cdk-overlay-pane"
 	 mat-dialog-title>
-	<h3>
-		{{file}}
-	</h3>
+	<h4>
+		<mat-button-toggle-group
+			(change)="file = $event.value; load()">
+			<mat-button-toggle value='out.log' checked>
+				Logs
+			</mat-button-toggle>
+			<mat-button-toggle value='err.log'>
+				Error
+			</mat-button-toggle>
+		</mat-button-toggle-group>
+	</h4>
 
 	<mat-form-field
 		appearance="legacy"
@@ -47,7 +55,7 @@
 	<pre><code
 		cdkFocusInitial
 		[innerHTML]="strFiltered"
-		style="overflow: auto; white-space: inherit; height: 30vh; width: 60vw; resize: both; font-size: 12px"></code></pre>
+		style="overflow: auto; white-space: inherit; height: 30vh; width: 50vw; resize: both; font-size: 12px"></code></pre>
 </div>
 <div mat-dialog-actions *ngIf="file === 'err.log'">
 	<a [href]="'https://gitlab.com/web-db/landing/-/issues/new?issue[title]=Problem%20while%20... &issue[description]=Here%20is%20the%20error%20log:%0A' + str.slice(0, 1000)"

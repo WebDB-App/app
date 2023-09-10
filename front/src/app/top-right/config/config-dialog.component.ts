@@ -7,6 +7,7 @@ import { FormControl, Validators } from "@angular/forms";
 import { Licence } from "../../../classes/licence";
 import { environment } from "../../../environments/environment";
 import { MatDialogRef } from "@angular/material/dialog";
+import packageJson from '../../../../package.json';
 
 @Component({
 	templateUrl: './config-dialog.component.html',
@@ -18,6 +19,8 @@ export class ConfigDialog implements OnInit {
 	email = new FormControl('', [Validators.required, Validators.email]);
 	licence?: Licence;
 	env = environment
+	protected readonly packageJson = packageJson;
+
 
 	constructor(
 		public dialogRef: MatDialogRef<ConfigDialog>,
