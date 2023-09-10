@@ -1,4 +1,4 @@
-import { Driver, QueryParams } from "../classes/driver";
+import { Driver, Group, QueryParams } from "../classes/driver";
 import { Column } from "../classes/column";
 import { Table } from "../classes/table";
 import { Relation } from "../classes/relation";
@@ -58,11 +58,90 @@ export class MongoDB implements Driver {
 		functions: {},
 		constraints: [],
 		typeGroups: [
-			/*{
+			{
 				name: Group.String,
-				proposition: ["String"],
-				full: ["String"],
-			}*/
+				list: [{
+					id: "String",
+					bold: true,
+					description: ""
+				},{
+					id: "UUID",
+					bold: false,
+					description: ""
+				},{
+					id: "ObjectID",
+					bold: true,
+					description: ""
+				}]
+			},
+			{
+				name: Group.Numeric,
+				list: [{
+					id: "Number",
+					bold: true,
+					description: ""
+				},{
+					id: "Double",
+					bold: true,
+					description: ""
+				},{
+					id: "Boolean",
+					bold: true,
+					description: ""
+				},{
+					id: "Int",
+					bold: false,
+					description: ""
+				},{
+					id: "Long",
+					bold: false,
+					description: ""
+				},{
+					id: "Decimal128",
+					bold: true,
+					description: ""
+				}]
+			},
+			{
+				name: Group.Blob,
+				list: [{
+					id: "Binary",
+					bold: false,
+					description: ""
+				}]
+			},
+			{
+				name: Group.Date,
+				list: [{
+					id: "Timestamp",
+					bold: true,
+					description: ""
+				}, {
+					id: "Date",
+					bold: true,
+					description: ""
+				}]
+			},
+			{
+				name: Group.Complex,
+				list: [{
+					id: "Code",
+					bold: false,
+					description: ""
+				}, {
+					id: "MinKey",
+					bold: false,
+					description: ""
+				}, {
+					id: "MaxKey",
+					bold: false,
+					description: ""
+				}, {
+					id: "RegExp",
+					bold: false,
+					description: ""
+				}]
+			}
 		],
 		extraAttributes: []
 	}
@@ -101,13 +180,7 @@ async function main() {
 	}
 
 	wrapValue(type: string, value: string) {
-		if (Object.keys(bson).indexOf(type) >= 0) {
-			return `new bson.${type}("${value}")`;
-		}
-		if (type === 'Date') {
-			return `new Date("${value}")`;
-		}
-		return value;
+		return helper.mongo_wrapValue(bson, type, value);
 	}
 
 	quickSearch(driver: Driver, column: Column, value: string) {

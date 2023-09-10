@@ -17,6 +17,10 @@ class Controller {
 	async modify(req, res) {
 		const [driver, database, table] = await http.getLoggedDriver(req);
 
+		if (JSON.stringify(req.body.old) === JSON.stringify(req.body.columns[0])) {
+			return res.send({ok: true});
+		}
+
 		res.send(await driver.modifyColumn(database, table, req.body.old, req.body.columns[0]));
 	}
 }

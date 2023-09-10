@@ -41,9 +41,6 @@ export default class PostgreSQL extends SQL {
 				return r;
 			}
 		}
-		if (JSON.stringify(old) === JSON.stringify(column)) {
-			return {ok: true};
-		}
 		if (old.type !== column.type) {
 			let r = await this.runCommand(`ALTER TABLE ${this.nameDel + table + this.nameDel} ALTER COLUMN ${this.nameDel + column.name + this.nameDel} TYPE ${this.nameDel + column.type + this.nameDel}`, database);
 			if (r.error) {
@@ -68,7 +65,7 @@ export default class PostgreSQL extends SQL {
 				return r;
 			}
 		}
-		return {};
+		return {ok: true};
 	}
 
 	async dump(dbSchema, exportType = "sql", tables, includeData = true) {

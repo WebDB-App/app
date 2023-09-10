@@ -1,10 +1,9 @@
-import {BSON, MongoClient, ObjectId} from "mongodb";
+import {BSON as bson, MongoClient, ObjectId} from "mongodb";
 import Driver from "../shared/driver.js";
 import bash from "../shared/bash.js";
 import {URL} from "url";
 import {writeFileSync} from "fs";
 import helper from "../shared/common-helper.mjs";
-import commonHelper from "../shared/common-helper.mjs";
 
 const dirname = new URL(".", import.meta.url).pathname;
 
@@ -53,7 +52,7 @@ export default class MongoDB extends Driver {
 		try {
 			return await this.connection.db(database).createCollection(view, {
 				viewOn: table,
-				pipeline: BSON.EJSON.parse(code)
+				pipeline: bson.EJSON.parse(code)
 			});
 		} catch (e) {
 			return {error: e.message};
@@ -65,14 +64,14 @@ export default class MongoDB extends Driver {
 	}
 
 	async insert(db, table, datas) {
-		const res = await this.connection.db(db).collection(table).insertMany(BSON.EJSON.deserialize(datas));
+		const res = await this.connection.db(db).collection(table).insertMany(bson.EJSON.deserialize(datas));
 		return res.insertedCount.toString();
 	}
 
 	async delete(db, table, rows) {
 		let nbT = 0;
 		for (const row of rows) {
-			const res = await this.connection.db(db).collection(table).deleteOne(BSON.EJSON.deserialize(row));
+			const res = await this.connection.db(db).collection(table).deleteOne(bson.EJSON.deserialize(row));
 			if (res.error) {
 				return res;
 			}
@@ -85,8 +84,8 @@ export default class MongoDB extends Driver {
 
 	async update(db, table, old_data, new_data) {
 		try {
-			old_data = BSON.EJSON.deserialize(old_data);
-			new_data = BSON.EJSON.deserialize(new_data);
+			old_data = bson.EJSON.deserialize(old_data);
+			new_data = bson.EJSON.deserialize(new_data);
 
 			const res = await this.connection.db(db).collection(table).updateOne(old_data, {$set: new_data});
 			return res.modifiedCount.toString();
@@ -167,9 +166,13 @@ export default class MongoDB extends Driver {
 	}
 
 	async addColumns(database, table, columns) {
+		if (process.env.DISABLE_EVAL === "true") {
+			return {error: "Code evaluation is disable by backend configuration"};
+		}
 		for (const column of columns) {
 			const add = { $set: {} };
-			add["$set"][column.name] = 1;
+			const wrapped = helper.mongo_wrapValue(bson, column.type, column.defaut || null);
+			add["$set"][column.name] = new Function("bson", wrapped)(bson);
 			await this.connection.db(database).collection(table).updateMany({}, add);
 		}
 
@@ -183,7 +186,29 @@ export default class MongoDB extends Driver {
 	}
 
 	async modifyColumn(database, table, old, column) {
-		return [];
+		if (process.env.DISABLE_EVAL === "true") {
+			return {error: "Code evaluation is disable by backend configuration"};
+		}
+		const updates = {};
+
+		if (old.name !== column.name) {
+			updates["$rename"] = {};
+			updates["$rename"][old.name] = column.name;
+		}
+		if (old.type !== column.type) {
+
+		}
+		if (old.defaut !== column.defaut) {
+			const r = await this.runCommand(`ALTER TABLE ${this.nameDel + table + this.nameDel} ALTER COLUMN ${this.nameDel + column.name + this.nameDel} SET DEFAULT ${column.defaut || "NULL"}`, database);
+			if (r.error) {
+				return r;
+			}
+		}
+		try {
+			return this.connection.db(database).collection(table).updateMany({}, updates);
+		} catch (e) {
+			return {error: e.message};
+		}
 	}
 
 	async exampleData(database, table, column, limit) {
@@ -211,7 +236,7 @@ export default class MongoDB extends Driver {
 					name: options.validator.$jsonSchema.description,
 					database: database.name,
 					table: collection.name,
-					type: commonHelper.complex.VALIDATOR
+					type: helper.complex.VALIDATOR
 				});
 			});
 		}
@@ -345,9 +370,9 @@ export default class MongoDB extends Driver {
 				db = await this.connection.db(database);
 			}
 			const fct = new Function("db", "bson", "mongo", command);
-			const res = await fct(db, BSON, MongoClient);
+			const res = await fct(db, bson, MongoClient);
 			lgth = res.length;
-			return BSON.EJSON.stringify(res);
+			return bson.EJSON.stringify(res);
 		} catch (e) {
 			return {error: e.message};
 		} finally {

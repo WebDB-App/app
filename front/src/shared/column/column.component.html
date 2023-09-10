@@ -1,8 +1,4 @@
-<div *ngIf="!isSQL()">
-	Column Management is not yet supported on NoSQL databases
-</div>
-
-<div *ngIf="isSQL()" [formGroup]="form" class="container">
+<div [formGroup]="form" class="container">
 	<div *ngIf="form.get('old')" style="display: flex; align-items: center;">
 		<mat-card formGroupName="old" class="oldValues">
 			<mat-card-header>
@@ -33,6 +29,7 @@
 					</mat-form-field>
 
 					<mat-slide-toggle
+						*ngIf="isSQL()"
 						color="primary"
 						formControlName="nullable">
 						Nullable
@@ -139,6 +136,7 @@
 					</mat-form-field>
 
 					<mat-slide-toggle
+						*ngIf="isSQL()"
 						color="primary"
 						formControlName="nullable">
 						Nullable
