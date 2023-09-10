@@ -81,7 +81,7 @@ export class LogsDialog implements OnDestroy {
 		this.http.get(`${environment.rootUrl}logs/${this.file}`, {responseType: 'text'}).subscribe(txt => {
 			if (txt.length > 500_000 && this.interval) {
 				this.toggleAutoRefresh();
-			}console.log(txt.length);
+			}
 
 			this.str = convert.toHtml(txt);
 			this.filterChanged();

@@ -7,6 +7,7 @@ import { isSQL } from "../helper";
 import { Table } from "../../classes/table";
 import { Group, TypeData, TypeGroup } from "../../classes/driver";
 import { Database } from "../../classes/database";
+import commonHelper from "../common-helper.mjs";
 
 @Component({
 	selector: 'app-column',
@@ -62,4 +63,5 @@ export class ColumnComponent implements OnInit {
 	}
 
 	protected readonly isSQL = isSQL;
+	protected readonly commonHelper = commonHelper;
 }

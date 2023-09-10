@@ -81,12 +81,16 @@
 						<mat-error *ngIf="column.get('type')?.errors && column.get('type')!.errors!['checkParams']">
 							Parentheses contains error
 						</mat-error>
+						<mat-error *ngIf="column.get('type')?.errors && column.get('type')!.errors!['typeUnknown']">
+							Type unknown
+						</mat-error>
 					</mat-form-field>
 
 					<div>
 						<button (click)="typeSuggestion.open()"
 								color="primary"
 								mat-icon-button
+								mat-stroked-button
 								matTooltip="Choose from type list">
 							<span class="material-symbols-outlined notranslate">
 								special_character
@@ -112,7 +116,7 @@
 						<button
 							(click)="column.get('type')!.patchValue(column.get('type')?.value && column.get('type')!.value.endsWith('[]') ? column.get('type')!.value.substring(0, column.get('type')!.value.indexOf('[]')) : column.get('type')!.value + '[]')"
 							*ngIf="selectedServer!.driver.language.arrayType"
-							[class.mat-raised-button]="column.get('type')?.value && column.get('type')!.value.endsWith('[]')"
+							[class.mat-raised-button]="column.get('type')?.value && !commonHelper.isNested(column.get('type')?.value) && column.get('type')!.value.endsWith('[]')"
 							color="primary"
 							mat-icon-button
 							matTooltip="Set type an array of">

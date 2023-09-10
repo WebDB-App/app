@@ -165,14 +165,24 @@ export default class MongoDB extends Driver {
 		return true;
 	}
 
-	async addColumns(database, table, columns) {
-		if (process.env.DISABLE_EVAL === "true") {
-			return {error: "Code evaluation is disable by backend configuration"};
+	wrapValue(type, value) {
+		if (Object.keys(bson).indexOf(type) >= 0) {
+			return new bson[type](value);
 		}
+		if (["Object", "Array"].indexOf(type) >= 0) {
+			//TODO
+		}
+		try {
+			return new global[type](value);
+		} catch (e) {
+			return value;
+		}
+	}
+
+	async addColumns(database, table, columns) {
 		for (const column of columns) {
 			const add = { $set: {} };
-			const wrapped = helper.mongo_wrapValue(bson, column.type, column.defaut || null);
-			add["$set"][column.name] = new Function("bson", wrapped)(bson);
+			add["$set"][column.name] =  this.wrapValue(column.type, column.defaut || null);
 			await this.connection.db(database).collection(table).updateMany({}, add);
 		}
 
@@ -186,9 +196,6 @@ export default class MongoDB extends Driver {
 	}
 
 	async modifyColumn(database, table, old, column) {
-		if (process.env.DISABLE_EVAL === "true") {
-			return {error: "Code evaluation is disable by backend configuration"};
-		}
 		const updates = {};
 
 		if (old.name !== column.name) {

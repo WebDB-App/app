@@ -4,6 +4,8 @@ import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators }
 import helper from "../shared/common-helper.mjs";
 import { uniqueValidator } from "../shared/unique.validator";
 import { Table } from "./table";
+import { Server } from "./server";
+import { isSQL } from "../shared/helper";
 
 export class Column {
 	name!: string;
@@ -38,6 +40,8 @@ export class Column {
 	}
 
 	static getFormGroup(table?: Table, from?: Column) {
+		const allTypes = Server.getSelected().driver.language.typeGroups.map(tg => tg.list.map(li => li.id)).flat(1);
+
 		const checkParams = () => {
 			return (control: AbstractControl): ValidationErrors | null => {
 				if (!control.value) {
@@ -57,6 +61,20 @@ export class Column {
 			}
 		}
 
+		const typeUnknown = () => {
+			return (control: AbstractControl): ValidationErrors | null => {
+				if (!control.value || helper.isNested(control.value)) {
+					return null;
+				}
+				for (const type of allTypes) {
+					if (control.value.startsWith(type)) {
+						return null;
+					}
+				}
+				return {typeUnknown: true};
+			}
+		}
+
 		const nameValidators = [Validators.required, Validators.pattern(helper.validName)];
 		if (table) {
 			nameValidators.push(uniqueValidator('name', table.columns.filter(col => col.name !== from?.name).map(col => col.name)));
@@ -64,8 +82,8 @@ export class Column {
 
 		return new FormGroup({
 			name: new FormControl(from?.name || null, nameValidators),
-			type: new FormControl(from?.type || null, [Validators.required, checkParams()]),
-			nullable: new FormControl(from?.nullable || false),
+			type: new FormControl(from?.type || null, [Validators.required, checkParams(), typeUnknown()]),
+			nullable: new FormControl(from?.nullable || !isSQL()),
 			defaut: new FormControl(from?.defaut || null),
 			extra: new FormControl(from?.extra || null),
 		});

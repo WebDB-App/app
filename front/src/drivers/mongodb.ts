@@ -69,7 +69,7 @@ export class MongoDB implements Driver {
 					bold: false,
 					description: ""
 				},{
-					id: "ObjectID",
+					id: "ObjectId",
 					bold: true,
 					description: ""
 				}]
@@ -180,7 +180,13 @@ async function main() {
 	}
 
 	wrapValue(type: string, value: string) {
-		return helper.mongo_wrapValue(bson, type, value);
+		if (Object.keys(bson).indexOf(type) >= 0) {
+			return `new bson.${type}("${value}")`;
+		}
+		if (type === 'Date') {
+			return `new Date("${value}")`;
+		}
+		return `"${value}"`;
 	}
 
 	quickSearch(driver: Driver, column: Column, value: string) {
