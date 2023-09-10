@@ -1,7 +1,10 @@
+- addTable
+- type description
+- array relation https://www.mongodb.com/docs/manual/reference/operator/aggregation/lookup/#use--lookup-with-an-array
+
+
 # Mongo harmonizer
 - columns with obj/array > 2
-- nested relation https://www.mongodb.com/docs/manual/reference/operator/aggregation/lookup/#use--lookup-with-an-array
-- addTable
 
 # plusieurs schemas:
 - connection.html:182

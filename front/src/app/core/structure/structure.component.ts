@@ -124,6 +124,21 @@ export class StructureComponent implements OnInit, AfterViewChecked {
 		});
 	}
 
+	async harmonizeColumn(row: Column) {
+		const dialogRef = this.dialog.open(UpdateColumnDialog, {
+			data: row,
+			id: JSON.stringify(row),
+			hasBackdrop: false
+		});
+
+		dialogRef.afterClosed().subscribe(async (result) => {
+			if (!result) {
+				return;
+			}
+			await this.refreshData();
+		});
+	}
+
 	async deleteIndex(row: any) {
 		await this.request.post('index/drop', {name: row.name});
 

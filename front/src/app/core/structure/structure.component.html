@@ -20,9 +20,9 @@
 			color="primary"
 			mat-stroked-button>
 		<span class="material-symbols-outlined notranslate">
-			view_column_2
+			add_box
 		</span>
-		Add Column
+		Column
 	</button>
 </mat-toolbar>
 
@@ -38,17 +38,29 @@
 		<td *matCellDef="let row;" [class]="'hover-' + row['name']" mat-cell>
 			<ng-container *ngIf="column === actionColum">
 
-				<button (click)="updateColumn(row)"
-						color="primary"
-						mat-icon-button>
+				<button
+					(click)="updateColumn(row)"
+					color="primary"
+					mat-icon-button>
 					<span class="material-symbols-outlined notranslate">
 						drive_file_rename_outline
 					</span>
 				</button>
 
-				<button (click)="deleteStructure(row)"
-						color="warn"
-						mat-icon-button>
+				<button
+					*ngIf="!isSQL()"
+					(click)="harmonizeColumn(row)"
+					color="primary"
+					mat-icon-button>
+					<span class="material-symbols-outlined notranslate">
+						equalizer
+					</span>
+				</button>
+
+				<button
+					(click)="deleteStructure(row)"
+					color="warn"
+					mat-icon-button>
 						<span class="material-symbols-outlined notranslate">
 							delete_forever
 						</span>

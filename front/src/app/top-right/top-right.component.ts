@@ -47,6 +47,7 @@ export class LogsDialog implements OnDestroy {
 	strFiltered: any = "";
 	filter = "";
 	interval?: NodeJS.Timer;
+	isLoading = false;
 
 	constructor(
 		private http: HttpClient,
@@ -75,6 +76,7 @@ export class LogsDialog implements OnDestroy {
 
 	load() {
 		const convert = new Convert({colors: {4: '#2196f3'}});
+		this.isLoading = true;
 
 		this.http.get(`${environment.rootUrl}logs/${this.file}`, {responseType: 'text'}).subscribe(txt => {
 			if (txt.length > 10_000_000 && this.interval) {
@@ -83,6 +85,7 @@ export class LogsDialog implements OnDestroy {
 
 			this.str = convert.toHtml(txt);
 			this.filterChanged();
+			this.isLoading = false;
 		});
 	};
 
