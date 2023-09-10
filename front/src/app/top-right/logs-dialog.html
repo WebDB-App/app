@@ -5,40 +5,42 @@
 		{{file}}
 	</h3>
 
+	<mat-form-field
+		appearance="legacy"
+		color="primary"
+		style="font-size: 13px; width: 70%; margin: 0px 30px -1.25em 30px">
+		<input [(ngModel)]="filter"
+			   (keyup)="filterChanged()"
+			   autocomplete="off"
+			   matInput
+			   placeholder="Search Text">
+		<button (click)="filter = ''; filterChanged()"
+				*ngIf="filter"
+				aria-label="Clear" mat-icon-button
+				matSuffix>
+			<mat-icon>close</mat-icon>
+		</button>
+	</mat-form-field>
+
+	<button
+		(click)="toggleAutoRefresh()"
+		mat-icon-button
+		matTooltipPosition="left"
+		matTooltip="Reload data periodically">
+		<span class="material-symbols-outlined notranslate">
+			{{interval ? 'repeat_one_on' : 'repeat_one'}}
+		</span>
+	</button>
+
 	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
 		<mat-icon>close</mat-icon>
 	</button>
 </div>
 <div mat-dialog-content>
-	<div style="display: flex; justify-content: space-around; align-items: center;">
-		<mat-form-field
-			style="width: 70%"
-			appearance="legacy"
-			color="primary">
-			<input [(ngModel)]="filter"
-				   autocomplete="off"
-				   matInput
-				   placeholder="Search Text">
-			<button (click)="filter = ''; filterChanged()"
-					*ngIf="filter"
-					aria-label="Clear" mat-icon-button
-					matSuffix>
-				<mat-icon>close</mat-icon>
-			</button>
-		</mat-form-field>
-
-		<button
-			(click)="toggleAutoRefresh()"
-			mat-icon-button
-			matTooltip="Reload data periodically">
-			<span class="material-symbols-outlined notranslate">
-				{{interval ? 'repeat_one_on' : 'repeat_one'}}
-			</span>
-		</button>
-	</div>
 
 	<mat-progress-bar
 		[hidden]="!isLoading"
+		style="position: absolute;"
 		mode="indeterminate"
 	></mat-progress-bar>
 
@@ -46,4 +48,14 @@
 		cdkFocusInitial
 		[innerHTML]="strFiltered"
 		style="overflow: auto; white-space: inherit; height: 30vh; width: 60vw; resize: both; font-size: 12px"></code></pre>
+</div>
+<div mat-dialog-actions *ngIf="file === 'err.log'">
+	<a [href]="'https://gitlab.com/web-db/landing/-/issues/new?issue[title]=Problem%20while%20... &issue[description]=Here%20is%20the%20error%20log:%0A' + str.slice(0, 1000)"
+	   mat-stroked-button
+	   target="_blank">
+		<span class="material-symbols-outlined notranslate">
+			bug_report
+		</span>
+		Send Report
+	</a>
 </div>

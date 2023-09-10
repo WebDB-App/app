@@ -1,12 +1,10 @@
-<ng-container *ngIf="Server.getSelected()">
-	<button
-		mat-button
-		(click)="showLogs('out.log')">
-		<span class="material-symbols-outlined notranslate">
-			browse_activity
-		</span>
-	</button>
-</ng-container>
+<button
+	mat-button
+	(click)="showLogs('out.log')">
+	<span class="material-symbols-outlined notranslate">
+		browse_activity
+	</span>
+</button>
 <button [matMenuTriggerFor]="help" mat-button>
 	<span class="material-symbols-outlined notranslate">
 		help
