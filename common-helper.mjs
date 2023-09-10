@@ -12,15 +12,6 @@ const obj = {
 		'CHECK': 'Interface',
 		'VALIDATOR': 'VALIDATOR'
 	},
-	mongo_wrapValue: (bson, type, value) => {
-		if (Object.keys(bson).indexOf(type) >= 0) {
-			return `new bson.${type}("${value}")`;
-		}
-		if (["Object", "Array"].indexOf(type) >= 0) {
-
-		}
-		return `new ${type}("${value}")`
-	},
 	mongo_injectAggregate: (query, toInject) => {
 		const reg = /\.aggregate\((?:[^)(]|\((?:[^)(]|\((?:[^)(]|\([^)(]*\))*\))*\))*\)/g;
 		let agg = query.match(reg);
