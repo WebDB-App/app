@@ -40,3 +40,7 @@
 		}
 	}
 }
+
+::ng-deep .bold:before {
+	content: "⭑ ";
+}

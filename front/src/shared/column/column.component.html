@@ -105,7 +105,7 @@
 								<mat-option *ngFor="let type of group.list" [value]="type.id">
 									<span
 										[matTooltip]="type.description ? type.description : ''"
-										[style.color]="type.bold ? '#1de9b6' : null"
+										[class.bold]="type.bold"
 										matTooltipPosition="left">
 										{{type.id}}
 									</span>
