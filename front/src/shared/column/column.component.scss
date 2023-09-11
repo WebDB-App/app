@@ -8,16 +8,6 @@
 	flex-direction: column;
 	min-width: 28vw;
 
-	.mat-card-header {
-		.mat-form-field {
-			width: 100%;
-		}
-
-		::ng-deep .mat-card-header-text {
-			margin: 0px;
-		}
-	}
-
 	.mat-card-content {
 		> div:not(.actions) {
 			display: flex;

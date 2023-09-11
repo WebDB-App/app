@@ -27,7 +27,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 	selectedTable?: Table;
 	selectedServer?: Server;
 	querySize = 0;
-	pageSize = this.configuration.getByName("pageSize")?.value;
+	pageSize = 50;
 	params = {
 		chips: "",
 		sortField: "",

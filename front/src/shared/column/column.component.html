@@ -1,16 +1,14 @@
 <div [formGroup]="form" class="container">
 	<div *ngIf="form.get('old')" style="display: flex; align-items: center;">
 		<mat-card formGroupName="old" class="oldValues">
-			<mat-card-header>
-				<mat-form-field appearance="outline">
+			<mat-card-content>
+				<mat-form-field appearance="outline" style="width: 100%;">
 					<mat-label>Column Name</mat-label>
 					<input autocomplete="off"
 						   formControlName="name"
 						   matInput>
 				</mat-form-field>
-			</mat-card-header>
 
-			<mat-card-content>
 				<div>
 					<mat-form-field appearance="fill">
 						<mat-label>Type</mat-label>
@@ -50,8 +48,8 @@
 		<mat-card *ngFor="let column of formColumn.controls; let i = index"
 				  [formGroupName]="i">
 
-			<mat-card-header>
-				<mat-form-field appearance="outline">
+			<mat-card-content>
+				<mat-form-field appearance="outline" style="width: 100%;">
 					<mat-label>Column Name</mat-label>
 					<input autocomplete="off"
 						   formControlName="name"
@@ -63,9 +61,7 @@
 						Name already used
 					</mat-error>
 				</mat-form-field>
-			</mat-card-header>
 
-			<mat-card-content>
 				<div>
 					<mat-form-field appearance="fill">
 						<mat-label>Type</mat-label>

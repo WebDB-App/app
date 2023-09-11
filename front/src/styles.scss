@@ -149,9 +149,28 @@ a {
 .mat-paginator {
 	background-color: inherit;
 
-	.mat-paginator-range-label {
-		font-size: 14px;
-		margin: 0 12px 0 24px;
+	.mat-paginator-container {
+		flex-direction: row-reverse;
+
+		.mat-paginator-page-size {
+			line-height: 0px;
+			flex-direction: column;
+
+			.mat-paginator-page-size-label {
+				margin: 0 4px -12px 0px;
+				font-size: 10px;
+			}
+
+			.mat-paginator-page-size-select {
+				margin-bottom: -1.25em;
+			}
+		}
+
+		.mat-paginator-range-label {
+			font-size: 14px;
+			text-align: end;
+			margin: 0 0 0 8px;
+		}
 	}
 }
 
@@ -184,7 +203,7 @@ a {
 			align-items: center;
 		}
 
-		h3, h4 {
+		h3, h4, h5 {
 			align-self: center;
 			margin: 0px 0px 0px 10px !important;
 		}

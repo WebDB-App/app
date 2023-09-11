@@ -106,27 +106,25 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 
 	async sampleData(random: Random, userDemand = false) {
 		const values = this.selectedServer!.driver.extractEnum(random.column);
-		let found = false;
+		let fks = [];
 		if (values) {
 			random.model = `return (() => {const enums = [${values.map(value => `'${value}'`).join(",")}];return enums[Math.floor(Math.random() * (enums.length))]})()`;
-			found = true;
 		} else {
 			const relation = Table.getRelations().find(relation => relation.column_source === random.column.name);
 			if (relation) {
-				const datas = await this.request.post('relation/exampleData', {
+				fks = await this.request.post('relation/exampleData', {
 					table: relation.table_dest,
 					column: relation.column_dest,
 					limit: this.limit
 				});
-				if (datas) {
-					random.model = `return (() => { const fk = [${datas.map((data: string) => `${this.selectedServer?.driver.wrapValue(random.column.type, data)}`).join(",")}]; return fk[Math.floor(Math.random() * (fk.length))]; })()`;
-					found = true;
+				if (fks) {
+					random.model = `return (() => { const fk = [${fks.map((data: string) => `${this.selectedServer?.driver.wrapValue(random.column.type, data)}`).join(",")}]; return fk[Math.floor(Math.random() * (fk.length))]; })()`;
 				}
 			}
 		}
 
-		if (userDemand && !found) {
-			this.snackBar.open("No sample data found, check the relation and type", "╳", {duration: 3000})
+		if (userDemand) {
+			this.snackBar.open(`Found ${values ? values.length : fks.length} possible data`, "╳", {duration: 3000})
 		}
 
 		random.model = this.beautify(random.model || `return faker.datatype.string();`);
