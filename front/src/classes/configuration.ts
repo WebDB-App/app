@@ -32,10 +32,6 @@ export class Configuration {
 			name: 'stringifyData',
 			description: 'Show data types, null, empty string and empty key',
 			values: [false, true]
-		}, {
-			name: 'pageSize',
-			description: 'Default page size',
-			values: ['50', '200', '500']
 		}
 	];
 

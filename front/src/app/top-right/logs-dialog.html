@@ -1,7 +1,7 @@
 <div cdkDrag cdkDragHandle
 	 cdkDragRootElement=".cdk-overlay-pane"
 	 mat-dialog-title>
-	<h4>
+	<h5>
 		<mat-button-toggle-group
 			(change)="file = $event.value; load()">
 			<mat-button-toggle value='out.log' checked>
@@ -11,7 +11,7 @@
 				Error
 			</mat-button-toggle>
 		</mat-button-toggle-group>
-	</h4>
+	</h5>
 
 	<mat-form-field
 		appearance="legacy"
@@ -45,14 +45,8 @@
 	</button>
 </div>
 <div mat-dialog-content>
-
-	<mat-progress-bar
-		[hidden]="!isLoading"
-		style="position: absolute;"
-		mode="indeterminate"
-	></mat-progress-bar>
-
 	<pre><code
+		#scrollContainer
 		cdkFocusInitial
 		[innerHTML]="strFiltered"
 		style="overflow: auto; white-space: inherit; height: 30vh; width: 50vw; resize: both; font-size: 12px"></code></pre>

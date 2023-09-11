@@ -14,20 +14,9 @@
 				(page)="changePage($event.pageIndex)"
 				[length]="querySize"
 				[pageIndex]="params.page"
-				hidePageSize
 				pageSize="{{pageSize}}"
+				[pageSizeOptions]="[50, 100, 500, 2000]"
 			></mat-paginator>
-			<button
-				(click)="setAutoUp()"
-				[color]="autoUp ? 'primary' : undefined"
-				[ngClass]="{'mat-raised-button' : autoUp}"
-				mat-button
-				matTooltipPosition="right"
-				matTooltip="Reload data periodically">
-				<span class="material-symbols-outlined notranslate">
-					{{autoUp ? 'repeat_one_on' : 'repeat_one'}}
-				</span>
-			</button>
 		</div>
 	</div>
 
@@ -76,6 +65,16 @@
 			<mat-button-toggle matTooltip="Desc" value="desc">↓</mat-button-toggle>
 			<mat-button-toggle matTooltip="No Sort" value="">×</mat-button-toggle>
 		</mat-button-toggle-group>
+
+		<button
+			(click)="setAutoUp()"
+			mat-icon-button
+			matTooltipPosition="left"
+			matTooltip="Reload data periodically">
+			<span class="material-symbols-outlined notranslate">
+				{{autoUp ? 'repeat_one_on' : 'repeat_one'}}
+			</span>
+		</button>
 	</div>
 </mat-toolbar>
 
