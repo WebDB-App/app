@@ -199,21 +199,26 @@ export default class MongoDB extends Driver {
 	}
 
 	async modifyColumn(database, table, old, column) {
+		const updates = {};
+
 		if (old.name !== column.name) {
-			const updates = {};
 			updates["$rename"] = {};
 			updates["$rename"][old.name] = column.name;
 			try {
-				this.connection.db(database).collection(table).updateMany({}, updates);
+				await this.connection.db(database).collection(table).updateMany({}, updates);
 			} catch (e) {
 				return {error: e.message};
 			}
 		}
 		if (old.type !== column.type) {
-			//const bulk = this.connection.db(database).collection(table).initializeUnorderedBulkOp();
-			//await bulk.find({}).update((row) => {$set: column.name: this.wrapValue(row, column.type));
-			//return bulk.execute();
+			const rows = await this.connection.db(database).collection(table).find({}).toArray();
+			await Promise.all(rows.map(row => {
+				updates["$set"] = {};
+				updates["$set"][column.name] = this.wrapValue(column.type, row[column.name]);
+				return this.connection.db(database).collection(table).updateOne(row, updates);
+			}));
 		}
+		return true;
 	}
 
 	async exampleData(database, table, column, limit) {
