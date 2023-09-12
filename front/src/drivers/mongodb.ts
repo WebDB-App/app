@@ -80,26 +80,10 @@ export class MongoDB implements Driver {
 					id: "Number",
 					bold: true,
 					description: "Represent floating-point numbers"
-				},{
-					id: "Double",
-					bold: true,
-					description: "8 bytes (64-bit IEEE 754 floating point)"
-				},{
+				}, {
 					id: "Boolean",
 					bold: true,
 					description: ""
-				},{
-					id: "Int32",
-					bold: false,
-					description: "4 bytes (32-bit signed integer, two's complement)"
-				},{
-					id: "Long",
-					bold: false,
-					description: "64-bit integer"
-				},{
-					id: "Decimal128",
-					bold: true,
-					description: "128-bit decimal-based floating-point numbers that emulate decimal rounding with exact precision"
 				}]
 			},
 			{

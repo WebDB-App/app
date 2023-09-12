@@ -64,21 +64,24 @@ export default class MongoDB extends Driver {
 	}
 
 	async insert(db, table, datas) {
-		const res = await this.connection.db(db).collection(table).insertMany(bson.EJSON.deserialize(datas));
-		return res.insertedCount.toString();
+		try {
+			const res = await this.connection.db(db).collection(table).insertMany(bson.EJSON.deserialize(datas));
+			return res.insertedCount.toString();
+		} catch (e) {
+			return {error: e.message};
+		}
 	}
 
 	async delete(db, table, rows) {
 		let nbT = 0;
 		for (const row of rows) {
-			const res = await this.connection.db(db).collection(table).deleteOne(bson.EJSON.deserialize(row));
-			if (res.error) {
-				return res;
+			try {
+				const res = await this.connection.db(db).collection(table).deleteOne(bson.EJSON.deserialize(row));
+				nbT += res.deletedCount;
+			} catch (e) {
+				return {error: e.message};
 			}
-
-			nbT += res.deletedCount;
 		}
-
 		return nbT.toString();
 	}
 
@@ -167,10 +170,13 @@ export default class MongoDB extends Driver {
 
 	wrapValue(type, value) {
 		const cast = (type) => {
-			if (Object.keys(bson).indexOf(type) >= 0) {
-				return new bson[type](value);
-			}
 			try {
+				if (Object.keys(bson).indexOf(type) >= 0) {
+					return new bson[type](value);
+				}
+				if (type === "Date") {
+					return new Date(value);
+				}
 				return global[type](value);
 			} catch (e) {
 				return value;
