@@ -311,6 +311,7 @@ export class UpdateColumnDialog {
 		try {
 			await this.request.post('column/modify', this.form.getRawValue());
 			this.snackBar.open(`Columns Altered`, "╳", {duration: 3000});
+			await this.request.reloadServer();
 		} catch (e) {}
 
 		this.isLoading = false;
