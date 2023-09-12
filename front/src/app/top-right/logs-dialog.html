@@ -1,9 +1,9 @@
 <div cdkDrag cdkDragHandle
 	 cdkDragRootElement=".cdk-overlay-pane"
 	 mat-dialog-title>
-	<h5>
+	<h4>
 		<mat-button-toggle-group
-			(change)="file = $event.value; load()">
+			(change)="file = $event.value; load(); scrollToBottom()">
 			<mat-button-toggle value='out.log' checked>
 				Logs
 			</mat-button-toggle>
@@ -11,7 +11,7 @@
 				Error
 			</mat-button-toggle>
 		</mat-button-toggle-group>
-	</h5>
+	</h4>
 
 	<mat-form-field
 		appearance="legacy"
@@ -30,15 +30,15 @@
 		</button>
 	</mat-form-field>
 
-	<button
-		(click)="toggleAutoRefresh()"
-		mat-icon-button
-		matTooltipPosition="left"
-		matTooltip="Reload data periodically">
+	<a *ngIf="file === 'err.log'"
+	   [href]="'https://gitlab.com/web-db/landing/-/issues/new?issue[title]=Problem%20while%20... &issue[description]=Here%20is%20the%20error%20log:%0A' + str.slice(0, 1000)"
+	   mat-button
+	   matTooltip="Send Report"
+	   target="_blank">
 		<span class="material-symbols-outlined notranslate">
-			{{interval ? 'repeat_one_on' : 'repeat_one'}}
+			bug_report
 		</span>
-	</button>
+	</a>
 
 	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
 		<mat-icon>close</mat-icon>
@@ -50,14 +50,4 @@
 		cdkFocusInitial
 		[innerHTML]="strFiltered"
 		style="overflow: auto; white-space: inherit; height: 30vh; width: 50vw; resize: both; font-size: 12px"></code></pre>
-</div>
-<div mat-dialog-actions *ngIf="file === 'err.log'">
-	<a [href]="'https://gitlab.com/web-db/landing/-/issues/new?issue[title]=Problem%20while%20... &issue[description]=Here%20is%20the%20error%20log:%0A' + str.slice(0, 1000)"
-	   mat-stroked-button
-	   target="_blank">
-		<span class="material-symbols-outlined notranslate">
-			bug_report
-		</span>
-		Send Report
-	</a>
 </div>

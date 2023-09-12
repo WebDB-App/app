@@ -1,20 +1,14 @@
 - addTable
-- type description
-- array relation https://www.mongodb.com/docs/manual/reference/operator/aggregation/lookup/#use--lookup-with-an-array
+- relation: array https://www.mongodb.com/docs/manual/reference/operator/aggregation/lookup/#use--lookup-with-an-array
+- Finir EDR
 
 
-# Mongo harmonizer
-- columns with obj/array > 2
 
 # plusieurs schemas:
 - connection.html:182
 - load/dump specific schema
 - l38 column.component.ts
 - l354 sql.ts
-
-# SQLServer
-
-# GraphQL
 
 
 
@@ -23,11 +17,22 @@
 
 
 
+# DB
+- SQLServer
+- GraphQL
+- Cockroachdb
+- Oracle
+- SQLite
 
 # Bin
 - deps: Brew + chocolate + apt + yum
 - https://twitter.com/electronjs
 - ci + gitlab wiki (home)
+
+# Unit Test open source (generate par IA ?) en front avec plusieurs version de bdd
+
+# Mongo harmonizer
+- columns with obj/array > 2
 
 # Server gît avec autobackup
 - can choose interval
@@ -43,15 +48,6 @@
 - {} -> 1,1
 - show migration queries
 
-# Cockroachdb
-
-# Oracle
-- https://github.com/oracle/docker-images/blob/main/OracleDatabase/SingleInstance/README.md
-
-# SQLite
-- https://hub.docker.com/r/nouchka/sqlite3/
-- https://www.npmjs.com/package/better-sqlite3
-
 # IA
 - Export Query : btn to export via IA (Stripe Metadata additionnal feature)
 - faraday.dev
@@ -65,15 +61,7 @@
 - https://media.licdn.com/dms/image/D4E22AQGx27end7jE5Q/feedshare-shrink_800/0/1684474332765?e=1688601600&v=beta&t=g1NR0-Uuifv4muNn1Hps1p8H5BjYDOU9w1Sej-NkkqY
 - https://external-preview.redd.it/chatgpt-for-data-science-cheat-sheet-v0-Odpv_XqB8SiefptXNzZP-t9AjrVOxg0IF81UuKFx2sw.jpg?auto=webp&s=2b8b8a80fa2c3a4b6f85545cffa26726021a60a4
 
-
-
-
-----------------------------------------------------------
-
-
-
+# Other
 - sql function doc (generate from web scrap)
-- Finir EDR
 - Export Query : tester tout
 - revoir MySQL load avec tunnel (essayer en bash)
-- Unit Test open source (generate par IA ?) en front avec plusieurs version de bdd

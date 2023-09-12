@@ -183,6 +183,7 @@ a {
 	overflow: inherit !important;
 	filter: brightness(0.7);
 	transition: filter 0.1s linear;
+	min-width: 250px;
 
 	&:hover, &:has(iframe) {
 		filter: brightness(0.9);
@@ -204,6 +205,11 @@ a {
 		}
 
 		h3, h4, h5 {
+
+			.mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
+				line-height: 34px;
+			}
+
 			align-self: center;
 			margin: 0px 0px 0px 10px !important;
 		}

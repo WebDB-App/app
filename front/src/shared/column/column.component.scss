@@ -31,6 +31,6 @@
 	}
 }
 
-::ng-deep .bold:before {
-	content: "⭑ ";
+::ng-deep .mat-tooltip-trigger:not(.bold) {
+	font-size: 10px;
 }

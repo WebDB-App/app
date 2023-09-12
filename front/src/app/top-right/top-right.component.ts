@@ -55,15 +55,6 @@ export class LogsDialog implements OnDestroy {
 	async ngOnInit() {
 		await this.load();
 		this.scrollToBottom();
-		this.toggleAutoRefresh();
-	}
-
-	toggleAutoRefresh() {
-		if (this.interval) {
-			clearInterval(this.interval);
-			delete this.interval;
-			return;
-		}
 
 		this.interval = setInterval(() => {
 			this.load();
@@ -84,16 +75,26 @@ export class LogsDialog implements OnDestroy {
 	}
 
 	async load() {
-		const convert = new Convert({colors: {4: '#2196f3'}});
-
-		const txt = await firstValueFrom(this.http.get(`${environment.rootUrl}logs/${this.file}`, {responseType: 'text'}));
-		this.str = convert.toHtml(txt);
+		const str = await firstValueFrom(this.http.get(`${environment.rootUrl}logs/${this.file}`, {responseType: 'text'}));
+		if (this.str.length === str.length) {
+			return;
+		}
+		this.str = str;
 		this.filterChanged();
 	};
 
 	filterChanged() {
-		let str = this.str.split('\n').slice(-1000);
-		str = this.filter ? str.filter((s: string) => s.indexOf(this.filter) >= 0) : str;
+		const convert = new Convert({colors: {4: '#2196f3'}});
+		let str= convert.toHtml(this.str).split('\n');
+
+		if (this.filter) {
+			str = str.filter((s: string) => s.toLowerCase().indexOf(this.filter.toLowerCase()) >= 0);
+		} else {
+			str = str.slice(-1000);
+			if (str.length === 1000) {
+				str.unshift("<h4>Only 1000 last lines are shown, full logs are still available from backend</h4>");
+			}
+		}
 
 		this.strFiltered = <string>this.sanitizer.bypassSecurityTrustHtml(str.join('\n'));
 	}
