@@ -63,15 +63,15 @@ export class MongoDB implements Driver {
 				list: [{
 					id: "String",
 					bold: true,
-					description: ""
+					description: "BSON strings are UTF-8"
 				},{
 					id: "UUID",
 					bold: false,
-					description: ""
+					description: "Specify a 36 character string to convert to a UUID BSON object"
 				},{
 					id: "ObjectId",
 					bold: true,
-					description: ""
+					description: "ObjectIds are small, likely unique, fast to generate, and ordered"
 				}]
 			},
 			{
@@ -79,27 +79,27 @@ export class MongoDB implements Driver {
 				list: [{
 					id: "Number",
 					bold: true,
-					description: ""
+					description: "Represent floating-point numbers"
 				},{
 					id: "Double",
 					bold: true,
-					description: ""
+					description: "8 bytes (64-bit IEEE 754 floating point)"
 				},{
 					id: "Boolean",
 					bold: true,
 					description: ""
 				},{
-					id: "Int",
+					id: "Int32",
 					bold: false,
-					description: ""
+					description: "4 bytes (32-bit signed integer, two's complement)"
 				},{
 					id: "Long",
 					bold: false,
-					description: ""
+					description: "64-bit integer"
 				},{
 					id: "Decimal128",
 					bold: true,
-					description: ""
+					description: "128-bit decimal-based floating-point numbers that emulate decimal rounding with exact precision"
 				}]
 			},
 			{
@@ -107,7 +107,7 @@ export class MongoDB implements Driver {
 				list: [{
 					id: "Binary",
 					bold: false,
-					description: ""
+					description: "A BSON binary binData value is a byte array"
 				}]
 			},
 			{
@@ -115,11 +115,11 @@ export class MongoDB implements Driver {
 				list: [{
 					id: "Timestamp",
 					bold: true,
-					description: ""
+					description: "BSON has a special timestamp type for internal MongoDB"
 				}, {
 					id: "Date",
 					bold: true,
-					description: ""
+					description: "64-bit integer that represents the number of milliseconds since the Unix epoch"
 				}]
 			},
 			{
@@ -127,19 +127,19 @@ export class MongoDB implements Driver {
 				list: [{
 					id: "Code",
 					bold: false,
-					description: ""
+					description: "JavaScript code"
 				}, {
 					id: "MinKey",
 					bold: false,
-					description: ""
+					description: "MinKey and MaxKey are used in comparison operations and exist primarily for internal use"
 				}, {
 					id: "MaxKey",
 					bold: false,
-					description: ""
+					description: "MinKey and MaxKey are used in comparison operations and exist primarily for internal use"
 				}, {
 					id: "RegExp",
 					bold: false,
-					description: ""
+					description: "Regular expression - The first cstring is the regex pattern, the second is the regex options string"
 				}]
 			}
 		],

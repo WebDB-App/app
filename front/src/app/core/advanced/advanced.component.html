@@ -29,7 +29,7 @@
 
 		<div fxLayout="column" fxLayoutAlign="center none" style="width: 400px;">
 
-			<ng-container *ngIf="complexes.length > 0">
+			<ng-container>
 				<mat-card>
 					<mat-card-header>
 						<mat-card-subtitle>
@@ -38,6 +38,11 @@
 					</mat-card-header>
 
 					<mat-card-content>
+
+						<h4 *ngIf="complexes.length < 1">
+							No complexes for this table
+						</h4>
+
 						<div *ngFor="let complex of complexes">
 							<span>{{complex.type}}</span><span>{{complex.name}}</span>
 						</div>

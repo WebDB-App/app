@@ -44,15 +44,13 @@ export class TableAdvancedComponent implements OnDestroy {
 				return split.indexOf(complex.database.trim()) >= 0 && complex.table === this.selectedTable?.name;
 			});
 		});
-
-		this.loadStats();
-		this.interval = setInterval(async () => {
-			this.loadStats();
-		}, 2000);
 	}
 
-	async loadStats() {
+	async ngOnInit() {
 		this.stats = await this.request.post('table/stats', undefined);
+		this.interval = setInterval(async () => {
+			this.stats = await this.request.post('table/stats', undefined);
+		}, 2000);
 	}
 
 	ngOnDestroy() {

@@ -166,17 +166,21 @@ export default class MongoDB extends Driver {
 	}
 
 	wrapValue(type, value) {
-		if (Object.keys(bson).indexOf(type) >= 0) {
-			return new bson[type](value);
+		const cast = (type) => {
+			if (Object.keys(bson).indexOf(type) >= 0) {
+				return new bson[type](value);
+			}
+			try {
+				return global[type](value);
+			} catch (e) {
+				return value;
+			}
+		};
+
+		if (type.endsWith("[]")) {
+			return [cast(type.slice(0, -2))];
 		}
-		if (["Object", "Array"].indexOf(type) >= 0) {
-			//TODO
-		}
-		try {
-			return new global[type](value);
-		} catch (e) {
-			return value;
-		}
+		return cast(type);
 	}
 
 	async addColumns(database, table, columns) {
@@ -185,7 +189,6 @@ export default class MongoDB extends Driver {
 			add["$set"][column.name] =  this.wrapValue(column.type, column.defaut || null);
 			await this.connection.db(database).collection(table).updateMany({}, add);
 		}
-
 		return true;
 	}
 
@@ -196,25 +199,20 @@ export default class MongoDB extends Driver {
 	}
 
 	async modifyColumn(database, table, old, column) {
-		const updates = {};
-
 		if (old.name !== column.name) {
+			const updates = {};
 			updates["$rename"] = {};
 			updates["$rename"][old.name] = column.name;
-		}
-		if (old.type !== column.type) {
-
-		}
-		if (old.defaut !== column.defaut) {
-			const r = await this.runCommand(`ALTER TABLE ${this.nameDel + table + this.nameDel} ALTER COLUMN ${this.nameDel + column.name + this.nameDel} SET DEFAULT ${column.defaut || "NULL"}`, database);
-			if (r.error) {
-				return r;
+			try {
+				this.connection.db(database).collection(table).updateMany({}, updates);
+			} catch (e) {
+				return {error: e.message};
 			}
 		}
-		try {
-			return this.connection.db(database).collection(table).updateMany({}, updates);
-		} catch (e) {
-			return {error: e.message};
+		if (old.type !== column.type) {
+			//const bulk = this.connection.db(database).collection(table).initializeUnorderedBulkOp();
+			//await bulk.find({}).update((row) => {$set: column.name: this.wrapValue(row, column.type));
+			//return bulk.execute();
 		}
 	}
 
