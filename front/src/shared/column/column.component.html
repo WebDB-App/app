@@ -21,30 +21,23 @@
 					</mat-form-field>
 				</div>
 				<div>
-					<mat-form-field *ngIf="extraAttributes.length" appearance="fill">
-						<mat-label>Extras</mat-label>
-						<mat-select formControlName="extra" multiple></mat-select>
-					</mat-form-field>
-
-					<mat-slide-toggle
-						*ngIf="isSQL()"
-						color="primary"
-						formControlName="nullable">
-						Nullable
-					</mat-slide-toggle>
-
 					<mat-form-field>
 						<mat-label>Default Value on Null</mat-label>
-						<input autocomplete="off"
-							   formControlName="defaut"
+						<input formControlName="defaut"
 							   matInput>
+					</mat-form-field>
+				</div>
+				<div *ngIf="extraAttributes.length">
+					<mat-form-field appearance="fill">
+						<mat-label>Extras</mat-label>
+						<mat-select formControlName="extra" multiple></mat-select>
 					</mat-form-field>
 				</div>
 			</mat-card-content>
 		</mat-card>
 	</div>
 
-	<div formArrayName="columns" class="newValues">
+	<div formArrayName="columns" class="newValues" style="display: flex">
 		<mat-card *ngFor="let column of formColumn.controls; let i = index"
 				  [formGroupName]="i">
 
@@ -94,6 +87,7 @@
 						</button>
 
 						<mat-select
+							class="hide"
 							#typeSuggestion
 							(selectionChange)="column.get('type')?.patchValue($event.value)">
 							<mat-optgroup *ngFor="let group of typeGroups"
@@ -123,54 +117,69 @@
 					</div>
 				</div>
 
-				<div>
-					<mat-form-field *ngIf="extraAttributes.length" appearance="fill">
-						<mat-label>Extras</mat-label>
-						<mat-select formControlName="extra" multiple>
-							<ng-container *ngFor="let ext of extraAttributes">
-								<mat-option [value]="ext">
-									{{ext}}
-								</mat-option>
-							</ng-container>
-						</mat-select>
-					</mat-form-field>
-
-					<mat-slide-toggle
-						*ngIf="isSQL()"
-						color="primary"
-						formControlName="nullable">
-						Nullable
-					</mat-slide-toggle>
-
-					<mat-form-field [style.opacity]="column.get('nullable')!.value ? 1 : 0.5">
-						<mat-label>Default Value</mat-label>
-						<textarea
-							cdkTextareaAutosize
-							formControlName="defaut"
-							placeholder='Empty for NULL / false'
-							matInput
-							type="text">
-						</textarea>
-					</mat-form-field>
-
-					<mat-select
-						#fctSuggestion
-						(selectionChange)="column.get('defaut')?.patchValue($event.value)">
-						<mat-option *ngFor="let fct of selectedServer!.driver.language.fctAsDefault"
-									[value]="fct">
-							{{fct}}
-						</mat-option>
-					</mat-select>
-
-					<button (click)="fctSuggestion.open()"
+				<div style="margin-bottom: 18px">
+					<mat-button-toggle-group>
+						<mat-button-toggle
+							*ngIf="isSQL()"
+							[checked]="!column.get('nullable')?.value"
+							(click)="column.get('nullable')!.patchValue(false)">
+							＊
+						</mat-button-toggle>
+						<mat-button-toggle
+							[checked]="column.get('defaut')?.value === ''"
+							(click)="column.get('nullable')!.patchValue(true); column.get('defaut')!.patchValue('')">
+							""
+						</mat-button-toggle>
+						<mat-button-toggle
+							[checked]="column.get('defaut')?.value === null"
+							(click)="column.get('nullable')!.patchValue(true); column.get('defaut')!.patchValue(null)">
+							null
+						</mat-button-toggle>
+						<mat-button-toggle
+							[checked]="!!column.get('defaut')?.value"
+							(click)="column.get('nullable')!.patchValue(true); column.get('defaut')!.patchValue('Example')">
+							<span class="material-symbols-outlined notranslate">
+								stylus_note
+							</span>
+						</mat-button-toggle>
+						<mat-button-toggle
 							*ngIf="selectedServer!.driver.language.fctAsDefault.length"
-							color="primary"
-							mat-icon-button
-							matTooltip="Choose from function list">
+							(click)="column.get('nullable')!.patchValue(true); fctSuggestion.open()">
+							<mat-select
+								class="hide"
+								#fctSuggestion>
+								<mat-option *ngFor="let fct of selectedServer!.driver.language.fctAsDefault"
+											(click)="column.get('defaut')?.patchValue(fct)">
+									{{fct}}
+								</mat-option>
+							</mat-select>
 							<span class="material-symbols-outlined notranslate">
 								function
 							</span>
-					</button>
+						</mat-button-toggle>
+					</mat-button-toggle-group>
+
+					<mat-form-field [hidden]="column.get('nullable')?.value === false" style="margin-bottom: -1.25em">
+						<textarea
+							cdkTextareaAutosize
+							formControlName="defaut"
+							matInput
+							type="text">
+							</textarea>
+					</mat-form-field>
+				</div>
+
+				<div *ngIf="extraAttributes.length">
+					<mat-form-field appearance="fill">
+						<mat-label>Extras</mat-label>
+						<mat-select formControlName="extra" multiple>
+							<mat-option
+								*ngFor="let ext of extraAttributes"
+								[value]="ext">
+								{{ext}}
+							</mat-option>
+						</mat-select>
+					</mat-form-field>
 				</div>
 
 				<div *ngIf="!form.get('old')" class="actions">

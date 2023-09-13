@@ -29,6 +29,7 @@ import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { ErrorComponent } from './error/error.component';
 import { MatBottomSheetModule } from "@angular/material/bottom-sheet";
+import { MatDividerModule } from "@angular/material/divider";
 
 @NgModule({
 	declarations: [
@@ -48,32 +49,33 @@ import { MatBottomSheetModule } from "@angular/material/bottom-sheet";
 		BatchUpdateDialog,
 		ColumnComponent
 	],
-	imports: [
-		CommonModule,
-		NgxJsonViewerModule,
-		RouterLinkWithHref,
-		FlexModule,
-		MatAutocompleteModule,
-		MatButtonModule,
-		MatDialogModule,
-		MatFormFieldModule,
-		MatIconModule,
-		MatInputModule,
-		MatOptionModule,
-		MonacoEditorModule,
-		ClipboardModule,
-		FormsModule,
-		DragDropModule,
-		MatBottomSheetModule,
-		MatButtonToggleModule,
-		MatSelectModule,
-		MatProgressSpinnerModule,
-		MatProgressBarModule,
-		ReactiveFormsModule,
-		MatCardModule,
-		MatSlideToggleModule,
-		MatTooltipModule,
-	]
+    imports: [
+        CommonModule,
+        NgxJsonViewerModule,
+        RouterLinkWithHref,
+        FlexModule,
+        MatAutocompleteModule,
+        MatButtonModule,
+        MatDialogModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatInputModule,
+        MatOptionModule,
+        MonacoEditorModule,
+        ClipboardModule,
+        FormsModule,
+        DragDropModule,
+        MatBottomSheetModule,
+        MatButtonToggleModule,
+        MatSelectModule,
+        MatProgressSpinnerModule,
+        MatProgressBarModule,
+        ReactiveFormsModule,
+        MatCardModule,
+        MatSlideToggleModule,
+        MatTooltipModule,
+        MatDividerModule,
+    ]
 })
 export class SharedModule {
 }
