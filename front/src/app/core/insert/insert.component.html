@@ -2,7 +2,7 @@
 	<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
 
 		<div>
-			<button (click)="generate(+addGenNb.value, result)" color="primary" mat-flat-button>
+			<button (click)="generate(+addGenNb.value)" color="primary" mat-flat-button>
 				<span class="material-symbols-outlined notranslate">
 					auto_mode
 				</span>
@@ -24,7 +24,7 @@
 					FakerJS
 				</mat-button-toggle>
 				<mat-button-toggle value=''>
-					╳
+					<mat-icon>close</mat-icon>
 				</mat-button-toggle>
 			</mat-button-toggle-group>
 		</div>
@@ -151,7 +151,7 @@
 	</mat-tab-group>
 </div>
 
-<div #result class="result">
+<div #scrollContainer class="result">
 	<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
 		<div>
 			<button (click)="addRows(+addRowNb.value)" mat-stroked-button>

@@ -1,4 +1,3 @@
-- relation: array https://www.mongodb.com/docs/manual/reference/operator/aggregation/lookup/#use--lookup-with-an-array
 - Finir EDR
 
 # plusieurs schemas:
@@ -7,6 +6,21 @@
 - l38 column.component.ts
 - l354 sql.ts
 
+
+
+----------------------------------------------------------
+
+
+
+# Bin
+- deps: Brew + chocolate + apt + yum
+- https://twitter.com/electronjs
+- ci + gitlab wiki (home)
+
+# Mongo harmonizer
+- columns with obj/array > 2
+
+# Unit Test open source (generate par IA ?) en front avec plusieurs version de bdd
 
 
 
@@ -20,16 +34,6 @@
 - Cockroachdb
 - Oracle
 - SQLite
-
-# Bin
-- deps: Brew + chocolate + apt + yum
-- https://twitter.com/electronjs
-- ci + gitlab wiki (home)
-
-# Unit Test open source (generate par IA ?) en front avec plusieurs version de bdd
-
-# Mongo harmonizer
-- columns with obj/array > 2
 
 # Server gît avec autobackup
 - can choose interval

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from "@angular/material/table";
 import { SelectionModel } from "@angular/cdk/collections";
 import { Table } from "../../../classes/table";
@@ -38,6 +38,8 @@ declare var monaco: any;
 export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 
 	@ViewChild(MatPaginator) paginator!: MatPaginator;
+	@ViewChild('scrollContainer') private scrollContainer!: ElementRef;
+
 
 	selectedServer?: Server;
 	selectedDatabase?: Database;
@@ -93,6 +95,13 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 			}
 
 			this.interval = setInterval(() => this.saveCode(), 2000);
+		});
+
+		this.activatedRoute?.paramMap.subscribe(async (paramMap) => {
+			if (paramMap.get('json')) {
+				this.dataSource.data = JSON.parse(paramMap.get('json')!);
+				this.scrollToBottom();
+			}
 		});
 	}
 
@@ -174,7 +183,7 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 		this.selection.clear();
 	}
 
-	generate(nb: number, scrollAnchor: HTMLElement) {
+	generate(nb: number) {
 		for (let i = 0; i < nb; i++) {
 			const obj: any = {};
 			for (const [index, rand] of Object.entries(this.randomSource)) {
@@ -191,8 +200,12 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 			this.dataSource.data.push(obj);
 		}
 		this.dataSource._updateChangeSubscription();
+		this.scrollToBottom();
+	}
+
+	scrollToBottom() {
 		setTimeout(() => {
-			scrollAnchor.scrollIntoView({behavior: 'smooth'})
+			this.scrollContainer.nativeElement.scrollIntoView({behavior: 'smooth'})
 		}, 300);
 	}
 
