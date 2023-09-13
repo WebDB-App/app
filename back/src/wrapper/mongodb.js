@@ -148,7 +148,14 @@ export default class MongoDB extends Driver {
 	}
 
 	async createTable(database, table) {
+		const db = await this.connection.db(database);
+		const coll = await db.createCollection(table.name);
 
+		const row = {_id: new ObjectId()};
+		table.columns.map(column => {
+			row[column.name] = this.wrapValue(column.type, row[column.name] === undefined ? column.defaut: row[column.name]);
+		});
+		return coll.insertOne(row);
 	}
 
 	async dropTable(database, table) {
@@ -220,7 +227,7 @@ export default class MongoDB extends Driver {
 			const rows = await this.connection.db(database).collection(table).find({}).toArray();
 			await Promise.all(rows.map(row => {
 				updates["$set"] = {};
-				updates["$set"][column.name] = this.wrapValue(column.type, row[column.name]);
+				updates["$set"][column.name] = this.wrapValue(column.type, row[column.name] === undefined ? column.defaut: row[column.name]);
 				return this.connection.db(database).collection(table).updateOne(row, updates);
 			}));
 		}

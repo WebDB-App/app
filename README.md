@@ -1,9 +1,5 @@
-- addTable
-- Dafault value on updtae col
 - relation: array https://www.mongodb.com/docs/manual/reference/operator/aggregation/lookup/#use--lookup-with-an-array
 - Finir EDR
-
-
 
 # plusieurs schemas:
 - connection.html:182

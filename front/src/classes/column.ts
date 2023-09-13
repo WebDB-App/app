@@ -83,9 +83,9 @@ export class Column {
 		return new FormGroup({
 			name: new FormControl(from?.name || null, nameValidators),
 			type: new FormControl(from?.type || null, [Validators.required, checkParams(), typeUnknown()]),
-			nullable: new FormControl(from?.nullable || !isSQL()),
-			defaut: new FormControl(from?.defaut || ""),
-			extra: new FormControl(from?.extra || null),
+			nullable: new FormControl(from?.nullable !== undefined ? from?.nullable : !isSQL()),
+			defaut: new FormControl(from?.defaut || null),
+			extra: new FormControl(from?.extra || []),
 		});
 
 	}

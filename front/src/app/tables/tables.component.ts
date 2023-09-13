@@ -147,6 +147,7 @@ export class TablesComponent implements OnInit {
 export class CreateTableDialog {
 
 	selectedServer: Server;
+	selectedDatabase: Database;
 	form!: FormGroup;
 
 	constructor(
@@ -157,6 +158,8 @@ export class CreateTableDialog {
 		private router: Router,
 	) {
 		this.selectedServer = Server.getSelected();
+		this.selectedDatabase = Database.getSelected();
+
 		this.form = fb.group({
 			name: [null, [Validators.required, Validators.pattern(helper.validName), uniqueValidator('name', Database.getSelected().tables!.map(table => table.name))]],
 			columns: fb.array([

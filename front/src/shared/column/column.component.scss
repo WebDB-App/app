@@ -6,7 +6,7 @@
 .mat-card {
 	display: flex;
 	flex-direction: column;
-	min-width: 28vw;
+	min-width: 450px;
 
 	.mat-card-content {
 		> div:not(.actions) {
@@ -23,7 +23,7 @@
 				resize: vertical;
 			}
 
-			.mat-select {
+			.mat-select.hide {
 				width: 0;
 				visibility: hidden;
 			}
