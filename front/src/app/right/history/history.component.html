@@ -40,9 +40,12 @@
 <div style="height: calc(100vh - 56px); overflow: auto; max-width: 50vw;">
 	<mat-card *ngIf="queryHistory.length < 1">
 		<mat-card-header>
-			No history yet
-			<br>
-			Runned queries with appears here
+			<mat-card-title>
+				No history yet
+			</mat-card-title>
+			<mat-card-subtitle>
+				Runned queries with appears here
+			</mat-card-subtitle>
 		</mat-card-header>
 	</mat-card>
 

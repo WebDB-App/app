@@ -22,7 +22,11 @@ export default class MongoDB extends Driver {
 			path = `${path}.json`;
 			const results = {};
 			for (const table of tables) {
-				results[table] = await this.connection.db(database).collection(table).find().toArray();
+				try {
+					results[table] = await this.connection.db(database).collection(table).find().toArray();
+				} catch(e) {
+					console.error(e);
+				}
 			}
 
 			writeFileSync(path, JSON.stringify({
