@@ -111,7 +111,7 @@ export class QueryComponent implements OnInit, OnDestroy {
 		});
 
 		this.interval = setInterval(() => {
-			this.router.navigate([Server.getSelected().name, Database.getSelected().name, Table.getSelected().name, 'query', this.query]);
+			this.router.navigate(['query', this.query], {relativeTo: this.activatedRoute.parent});
 			this.configuration.update('autoFormat', this.autoFormat);
 		}, 1000);
 	}

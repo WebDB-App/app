@@ -28,6 +28,9 @@ const routes: Routes = [
 		path: 'insert',
 		component: InsertComponent
 	}, {
+		path: 'insert/:json',
+		component: InsertComponent
+	}, {
 		path: 'advanced',
 		component: TableAdvancedComponent
 	}

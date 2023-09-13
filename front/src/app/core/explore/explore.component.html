@@ -117,7 +117,7 @@
 						[matMenuTriggerFor]="actions"
 						mat-icon-button>
 						<span class="material-symbols-outlined notranslate">
-							settings_applications
+							more_vert
 						</span>
 					</button>
 					<mat-checkbox
@@ -181,6 +181,10 @@
 	<span (click)="exportRows()"
 		  mat-menu-item>
 		Export
+	</span>
+	<span (click)="duplicateRows()"
+		  mat-menu-item>
+		Duplicate
 	</span>
 	<span
 		(click)="removeRows()"

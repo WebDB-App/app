@@ -14,6 +14,7 @@ import { ExportResultDialog } from "../../../shared/export-result-dialog/export-
 import { BatchUpdateDialog } from "../../../shared/batch-update-dialog/batch-update-dialog";
 import { MatPaginatorIntl } from "@angular/material/paginator";
 import { REMOVED_LABELS } from "../../../shared/helper";
+import { Database } from "../../../classes/database";
 
 @Component({
 	selector: 'app-explore',
@@ -253,6 +254,11 @@ export class ExploreComponent implements OnInit, OnDestroy {
 			this.selection.clear();
 			await this.refreshData();
 		});
+	}
+
+	async duplicateRows() {
+		await this.router.navigate(['..', 'insert', JSON.stringify(this.selection.selected)],
+			{relativeTo: this.activatedRoute});
 	}
 
 	exportRows() {
