@@ -1,11 +1,3 @@
-# plusieurs schemas:
-- connection.html:182
-- load/dump specific schema
-- l38 column.component.ts
-- l354 sql.ts
-
-
-
 - https://www.mongodb.com/docs/manual/reference/operator/aggregation/lookup/#use--lookup-with-an-array
 - Finir EDR
 
@@ -39,8 +31,8 @@
 - SQLite
 
 # Server gît avec autobackup
-- when changing structure ? (when opening structure modal)
-- can choose interval
+- Checksum par table
+- back : each ENV_VAR_SECONDS
 - show git remote
 - permet just de force revert avec nombre de ligne de diff
 

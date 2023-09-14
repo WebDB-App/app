@@ -27,6 +27,18 @@
 				width: 0;
 				visibility: hidden;
 			}
+
+			::ng-deep .special {
+				&:first-child {
+					.mat-button-toggle-label-content {
+						line-height: 20px;
+					}
+				}
+				.mat-button-toggle-label-content {
+					font-size: 12px;
+					font-family: monospace;
+				}
+			}
 		}
 	}
 }

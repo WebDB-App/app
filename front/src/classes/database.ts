@@ -8,7 +8,6 @@ export class Database {
 	system!: boolean;
 	collation!: string;
 	tables?: Table[];
-	schemas?: Database[];
 
 	static setSelected(database: Database) {
 		selected = database;
