@@ -1,7 +1,8 @@
-columns with array > 2 : harmonize to one of the type (attention deep)
 
-- https://www.mongodb.com/docs/manual/reference/operator/aggregation/lookup/#use--lookup-with-an-array
-- Finir EDR
+
+
+----------------------------------------------------------
+
 
 # Bin
 - deps: Brew + chocolate + apt + yum
@@ -10,22 +11,13 @@ columns with array > 2 : harmonize to one of the type (attention deep)
 
 # Unit Test open source (generate par IA ?) en front avec plusieurs version de bdd
 
-
-
-----------------------------------------------------------
-
-
-
 # DB
 - SQLServer
-- GraphQL
 - Cockroachdb
 - Oracle
 - SQLite
+- GraphQL ?
 
-# Mongo
-- obj column update
-- harmonizer obj > 2
 
 # Server gît avec autobackup
 - Checksum par table
@@ -41,6 +33,11 @@ columns with array > 2 : harmonize to one of the type (attention deep)
 - {} -> []
 - {} -> 1,1
 - show migration queries
+
+# Mongo
+- columns with array > 2 : harmonize to one of the type (attention deep)
+- obj column update
+- harmonizer obj > 2
 
 # IA
 - Export Query : btn to export via IA (Stripe Metadata additionnal feature)
