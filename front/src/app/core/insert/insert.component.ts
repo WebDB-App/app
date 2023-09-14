@@ -190,7 +190,6 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 				try {
 					const r = new Function("faker", "falso", "bson", rand.model)(faker, falso, bson);
 					obj[rand.column.name] = typeof r === 'function' ? r() : r;
-					obj[rand.column.name] = JSON.stringify(obj[rand.column.name]);
 					this.randomSource[+index].error = "";
 				} catch (e) {
 					this.randomSource[+index].error = <string>e;

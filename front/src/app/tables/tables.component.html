@@ -1,6 +1,5 @@
 <mat-sidenav-container autosize fxFlexFill id="container">
 	<mat-sidenav
-		class="mat-elevation-z8"
 		disableClose
 		id="tableList"
 		mode="side"
@@ -16,7 +15,7 @@
 						   (keyup)="filterChanged(filter.value)"
 						   autocomplete="off"
 						   matInput
-						   placeholder="Search Table | Column">
+						   placeholder="Search Table | Column | Type">
 					<button (click)="filter.value=''; filterChanged(filter.value)" *ngIf="filter.value"
 							aria-label="Clear" mat-icon-button
 							matSuffix>

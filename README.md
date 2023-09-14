@@ -1,19 +1,12 @@
+columns with array > 2 : harmonize to one of the type (attention deep)
+
 - https://www.mongodb.com/docs/manual/reference/operator/aggregation/lookup/#use--lookup-with-an-array
 - Finir EDR
-
-
-
-----------------------------------------------------------
-
-
 
 # Bin
 - deps: Brew + chocolate + apt + yum
 - https://twitter.com/electronjs
 - ci + gitlab wiki (home)
-
-# Mongo harmonizer
-- columns with obj/array > 2
 
 # Unit Test open source (generate par IA ?) en front avec plusieurs version de bdd
 
@@ -29,6 +22,10 @@
 - Cockroachdb
 - Oracle
 - SQLite
+
+# Mongo
+- obj column update
+- harmonizer obj > 2
 
 # Server gît avec autobackup
 - Checksum par table
