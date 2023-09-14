@@ -75,13 +75,14 @@ export class DumpComponent implements OnInit {
 
 	async dump(type: string) {
 		this.isLoading = true;
-		const result = await this.request.post('server/dump', {
-			exportType: type,
-			tables: this.checklistSelection.selected.filter(select => !select.children).map(select => select.name),
-			includeData: this.includeData
-		});
-
-		saveAs(environment.rootUrl + result.path, result.path.split('/')[1]);
+		try {
+			const result = await this.request.post('server/dump', {
+				exportType: type,
+				tables: this.checklistSelection.selected.filter(select => !select.children).map(select => select.name),
+				includeData: this.includeData
+			});
+			saveAs(environment.rootUrl + result.path, result.path.split('/')[1]);
+		} catch (e) {}
 		this.isLoading = false;
 	}
 }

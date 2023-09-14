@@ -176,17 +176,7 @@
 								</ng-container>
 							</ng-container>
 							<ng-container *ngIf="server.connected">
-
-								<ng-container *ngIf="server.dbs[0].schemas?.length">
-									<mat-accordion multi="true">
-										<mat-expansion-panel>
-											<mat-expansion-panel-header>
-											</mat-expansion-panel-header>
-										</mat-expansion-panel>
-									</mat-accordion>
-								</ng-container>
-
-								<mat-selection-list *ngIf="!server.dbs[0].schemas?.length" [multiple]="false">
+								<mat-selection-list [multiple]="false">
 									<mat-list-option
 										*ngFor="let database of server.dbs"
 										[disabled]="database.tables === undefined"

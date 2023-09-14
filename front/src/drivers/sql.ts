@@ -349,8 +349,7 @@ export class SQL implements Driver {
 		});
 
 		Server.getSelected().complexes?.map(complex => {
-			const split = Database.getSelected().name.split(', ');
-			if (split.indexOf(complex.database.trim()) < 0) {
+			if (Database.getSelected().name !== complex.database) {
 				return;
 			}
 

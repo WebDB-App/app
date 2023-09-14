@@ -120,10 +120,11 @@
 				<div style="margin-bottom: 18px">
 					<mat-button-toggle-group>
 						<mat-button-toggle
+							class="special"
 							*ngIf="isSQL()"
 							[checked]="!column.get('nullable')?.value"
 							(click)="column.get('nullable')!.patchValue(false)">
-							＊
+							NOT<br>NULL
 						</mat-button-toggle>
 						<mat-button-toggle
 							[checked]="column.get('defaut')?.value === ''"
@@ -131,9 +132,10 @@
 							""
 						</mat-button-toggle>
 						<mat-button-toggle
+							class="special"
 							[checked]="column.get('defaut')?.value === null"
 							(click)="column.get('nullable')!.patchValue(true); column.get('defaut')!.patchValue(null)">
-							null
+							NULL
 						</mat-button-toggle>
 						<mat-button-toggle
 							[checked]="!!column.get('defaut')?.value"

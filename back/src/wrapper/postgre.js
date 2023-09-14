@@ -72,14 +72,14 @@ export default class PostgreSQL extends SQL {
 		const [database, schema] = dbSchema.split(this.dbToSchemaDelimiter);
 
 		const path = `${dirname}../front/dump/${database}.${exportType}`;
-		const total = await this.runCommand(`SELECT COUNT(DISTINCT TABLE_NAME) as total FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '${database}'`);
+		const total = await this.runCommand(`SELECT COUNT(DISTINCT TABLE_NAME) as total FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '${schema}'`, database);
 
 		if (exportType === "sql") {
 			const cmd = `pg_dump ${this.makeUri(database)}`;
 			const data = includeData ? "" : "-s -b";
-			const dbOpts = (tables === false || tables.length === total[0].total) ? "" : `${tables.map(table => `-t ${table}`).join(" ")}`;
+			const dbOpts = (tables === false || tables.length.toString() === total[0].total) ? "" : `${tables.map(table => `-t '${table}'`).join(" ")}`;
 
-			const result = bash.runBash(`${cmd} ${dbOpts} ${data} > ${path}`);
+			const result = bash.runBash(`${cmd} ${dbOpts} -n ${schema} ${data} > ${path}`);
 			if (result.error) {
 				return result;
 			}
@@ -104,30 +104,40 @@ export default class PostgreSQL extends SQL {
 	}
 
 	async load(filePath, dbSchema) {
-		const [database, schema] = dbSchema.split(this.dbToSchemaDelimiter);
-
+		const [database] = dbSchema.split(this.dbToSchemaDelimiter);
 		return bash.runBash(`psql ${this.makeUri(database)} < ${filePath}`);
 	}
 
 	async getComplexes() {
-		const complex = [
-			...(await this.runCommand("SELECT routine_name as name, routine_type as type, routine_schema as database FROM information_schema.routines WHERE routine_schema NOT IN ('pg_catalog', 'information_schema') ORDER BY routine_name;")),
-			...(await this.runCommand("SELECT trigger_name as name, 'TRIGGER' as type, trigger_schema as database, event_object_table as table FROM information_schema.triggers")),
-			...(await this.runCommand("SELECT constraint_name AS name, 'CHECK' as type, ccu.table_schema AS database, table_name as table FROM pg_constraint pgc JOIN pg_namespace nsp ON nsp.oid = pgc.connamespace JOIN pg_class cls ON pgc.conrelid = cls.oid LEFT JOIN information_schema.constraint_column_usage ccu ON pgc.conname = ccu.constraint_name AND nsp.nspname = ccu.constraint_schema WHERE contype = 'c' ORDER BY pgc.conname"))
-		];
-		for (let comp of await this.runCommand("SELECT t.typname AS name, typtype as type, nspname as database FROM pg_type t LEFT JOIN pg_catalog.pg_namespace n ON n.oid = t.typnamespace WHERE ( t.typrelid = 0 OR ( SELECT c.relkind = 'c' FROM pg_catalog.pg_class c WHERE c.oid = t.typrelid ) ) AND NOT EXISTS ( SELECT 1 FROM pg_catalog.pg_type el WHERE el.oid = t.typelem AND el.typarray = t.oid ) AND n.nspname NOT IN ('pg_catalog', 'information_schema')")) {
-			if (comp.type === "c") {
-				comp.type = "CUSTOM_TYPE";
-			} else if (comp.type === "d") {
-				comp.type = "DOMAIN";
-			} else if (comp.type === "r") {
-				comp.type = "SEQUENCE";
-			} else {
-				comp.type = "ENUM";
-			}
-			complex.push(comp);
+		const promises = [];
+
+
+		for (const db of await this.getDbs()) {
+			promises.push(new Promise(async resolve => {
+				const complexes = [
+					...(await this.runCommand("SELECT routine_name as name, routine_type as type, routine_schema as database FROM information_schema.routines WHERE routine_schema NOT IN ('pg_catalog', 'information_schema') ORDER BY routine_name;", db.datname)),
+					...(await this.runCommand("SELECT trigger_name as name, 'TRIGGER' as type, trigger_schema as database, event_object_table as table FROM information_schema.triggers", db.datname)),
+					...(await this.runCommand("SELECT constraint_name AS name, 'CHECK' as type, ccu.table_schema AS database, table_name as table FROM pg_constraint pgc JOIN pg_namespace nsp ON nsp.oid = pgc.connamespace JOIN pg_class cls ON pgc.conrelid = cls.oid LEFT JOIN information_schema.constraint_column_usage ccu ON pgc.conname = ccu.constraint_name AND nsp.nspname = ccu.constraint_schema WHERE contype = 'c' ORDER BY pgc.conname", db.datname))
+				];
+				for (let comp of await this.runCommand("SELECT t.typname AS name, typtype as type, nspname as database FROM pg_type t LEFT JOIN pg_catalog.pg_namespace n ON n.oid = t.typnamespace WHERE ( t.typrelid = 0 OR ( SELECT c.relkind = 'c' FROM pg_catalog.pg_class c WHERE c.oid = t.typrelid ) ) AND NOT EXISTS ( SELECT 1 FROM pg_catalog.pg_type el WHERE el.oid = t.typelem AND el.typarray = t.oid ) AND n.nspname NOT IN ('pg_catalog', 'information_schema')", db.datname)) {
+					if (comp.type === "c") {
+						comp.type = "CUSTOM_TYPE";
+					} else if (comp.type === "d") {
+						comp.type = "DOMAIN";
+					} else if (comp.type === "r") {
+						comp.type = "SEQUENCE";
+					} else {
+						comp.type = "ENUM";
+					}
+					complexes.push(comp);
+				}
+				resolve(complexes.map(complex => {
+					complex.database = db.datname + this.dbToSchemaDelimiter + complex.database;
+					return complex;
+				}));
+			}));
 		}
-		return complex;
+		return (await Promise.all(promises)).flat(1);
 	}
 
 	async insert(db, table, datas) {
