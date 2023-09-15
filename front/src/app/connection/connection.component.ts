@@ -28,7 +28,6 @@ export class ConnectionComponent implements OnInit {
 	constructor(
 		private http: HttpClient,
 		private snackBar: MatSnackBar,
-		private router: Router,
 		private request: RequestService,
 		private domSanitizer: DomSanitizer,
 		private matIconRegistry: MatIconRegistry,

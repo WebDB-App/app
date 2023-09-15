@@ -76,26 +76,29 @@ export class RequestService {
 	}
 
 	async loadServers(servers: Server[], full: boolean) {
+		const load = (server: Server) => {
+			return new Promise(async resolve => {
+				if (!server.connected) {
+					return resolve(server);
+				}
+				try {
+					const size = this.configuration.getByName("noSqlSample")?.value;
+					const res = await firstValueFrom(this.http.post<Database[]>(environment.apiRootUrl + `server/structure?full=${+full}&size=${size}`, Server.getShallow(server)));
+					this.loadingSubject.next(loading += 100 / servers.length);
+
+					resolve({...server, ...res});
+				} catch (e) {
+					this.loadingSubject.next(-1);
+				}
+			})
+		};
+
 		let loading = 0;
 		this.loadingSubject.next(loading);
 
 		const promises = [];
 		for (const server of servers) {
-			promises.push(
-				new Promise(async resolve => {
-					if (!server.connected) {
-						return resolve(server);
-					}
-					try {
-						const size = this.configuration.getByName("noSqlSample")?.value;
-						const res = await firstValueFrom(this.http.post<Database[]>(environment.apiRootUrl + `server/structure?full=${+full}&size=${size}`, Server.getShallow(server)));
-						this.loadingSubject.next(loading += 100 / servers.length);
-						resolve({...server, ...res});
-					} catch (e) {
-						this.loadingSubject.next(-1);
-					}
-				})
-			);
+			promises.push(load(server));
 		}
 		servers = <Server[]>(await Promise.all(promises));
 
