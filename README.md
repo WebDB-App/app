@@ -1,15 +1,18 @@
-
+- Unit Test open source (generate par IA ?) en front avec plusieurs version de bdd
+- revoir front : Compatibility
+- test en parralele avec scenario et anaylyse de text
 
 
 ----------------------------------------------------------
 
 
+- https://www.mongodb.com/docs/manual/reference/operator/aggregation/lookup/#use--lookup-with-an-array
+- ERD
+
 # Bin
 - deps: Brew + chocolate + apt + yum
 - https://twitter.com/electronjs
 - ci + gitlab wiki (home)
-
-# Unit Test open source (generate par IA ?) en front avec plusieurs version de bdd
 
 # DB
 - SQLServer
@@ -17,7 +20,6 @@
 - Oracle
 - SQLite
 - GraphQL ?
-
 
 # Server gît avec autobackup
 - Checksum par table
