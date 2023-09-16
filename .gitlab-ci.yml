@@ -20,7 +20,7 @@ eslint:
     stage: release
     interruptible: true
     before_script:
-        - sed -i "s/PACKAGE_VERSION/$(date '+%y.%m.%d')/g" **/package.json
+        - sed -i "s/PACKAGE_VERSION/$CI_COMMIT_BRANCH-$(git rev-list --count HEAD)/g" **/package.json
 
 #exe:
 #    <<: *releases

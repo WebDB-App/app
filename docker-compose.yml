@@ -1,26 +1,6 @@
 version: '3.8'
 
 services:
-#    webdb:
-#        image: webdb/app
-#        ports:
-#            - 22071:22071
-#
-    phpmyadmin:
-        image: phpmyadmin
-        restart: always
-        ports:
-            - 4306:80
-        environment:
-            - PMA_ARBITRARY=1
-#
-#    mariadb:
-#        image: mariadb
-#        command: mysqld --default-authentication-plugin=mysql_native_password
-#        ports:
-#            - 3308:3306
-#        environment:
-#            MYSQL_ROOT_PASSWORD: notSecureChangeMe
 
     mysql:
         image: mysql
@@ -29,15 +9,6 @@ services:
             - 3307:3306
         environment:
             MYSQL_ROOT_PASSWORD: notSecureChangeMe
-
-    pgadmin:
-        image: dpage/pgadmin4
-        environment:
-            PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
-            PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
-            PGADMIN_CONFIG_SERVER_MODE: 'False'
-        ports:
-            - 5050:80
 
     postgre:
         image: postgres
@@ -63,8 +34,48 @@ services:
 #        ports:
 #            - "1433:1433"
 #
+
+#--------------------------------------------
+
+#    mariadb:
+#        image: mariadb
+#        command: mysqld --default-authentication-plugin=mysql_native_password
+#        ports:
+#            - 3308:3306
+#        environment:
+#            MYSQL_ROOT_PASSWORD: notSecureChangeMe
+#
 #    cockroach:
 #        image: cockroachdb/cockroach
 #        command: start-single-node --insecure
 #        ports:
 #            - 26257:26257
+#
+#    tidb:
+#
+#    vitess
+
+#--------------------------------------------
+
+#    webdb:
+#        image: webdb/app
+#        ports:
+#            - 22071:22071
+#
+
+    phpmyadmin:
+        image: phpmyadmin
+        restart: always
+        ports:
+            - 4306:80
+        environment:
+            - PMA_ARBITRARY=1
+
+    pgadmin:
+        image: dpage/pgadmin4
+        environment:
+            PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+            PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+            PGADMIN_CONFIG_SERVER_MODE: 'False'
+        ports:
+            - 5050:80
