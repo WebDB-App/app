@@ -1,3 +1,4 @@
+- postgre default db
 - Unit Test open source (generate par IA ?) en front avec plusieurs version de bdd
 - revoir front : Compatibility
 - test en parralele avec scenario et anaylyse de text
