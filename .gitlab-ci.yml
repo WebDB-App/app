@@ -21,8 +21,8 @@ eslint:
     interruptible: true
     before_script:
         - apk add git
-        - echo $(git rev-list --count HEAD)
-        - sed -i "s/PACKAGE_VERSION/$CI_COMMIT_BRANCH-$(git rev-list --count HEAD)/g" **/package.json
+        - echo $(git rev-list --count origin/$CI_COMMIT_BRANCH)
+        - sed -i "s/PACKAGE_VERSION/$CI_COMMIT_BRANCH-$(git rev-list --count origin/$CI_COMMIT_BRANCH)/g" **/package.json
 
 #exe:
 #    <<: *releases
