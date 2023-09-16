@@ -426,11 +426,9 @@ export default class PostgreSQL extends SQL {
 				port: this.port,
 				user: this.user,
 				password: this.password,
+				database: database || "postgres",
 				...this.params
 			};
-			if (database) {
-				creds["database"] = database;
-			}
 
 			const pool = new Pool(creds);
 			const connection = await pool.connect();
