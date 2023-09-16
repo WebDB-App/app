@@ -20,6 +20,7 @@ eslint:
     stage: release
     interruptible: true
     before_script:
+        - apk add git
         - sed -i "s/PACKAGE_VERSION/$CI_COMMIT_BRANCH-$(git rev-list --count HEAD)/g" **/package.json
 
 #exe:
