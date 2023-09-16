@@ -31,7 +31,7 @@
 	</mat-form-field>
 
 	<a *ngIf="file === 'err.log'"
-	   [href]="'https://gitlab.com/web-db/landing/-/issues/new?issue[title]=Problem%20while%20... &issue[description]=Here%20is%20the%20error%20log:%0A' + str.slice(0, 1000)"
+	   [href]="'https://gitlab.com/web-db/public/-/issues/new?issue[title]=Problem%20while%20... &issue[description]=Here%20is%20the%20error%20log:%0A' + str.slice(0, 1000)"
 	   mat-button
 	   matTooltip="Send Report"
 	   target="_blank">
