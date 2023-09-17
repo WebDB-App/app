@@ -45,13 +45,12 @@
 	}
 
 	.driver {
-		margin: 15px;
+		margin: 8px;
 		cursor: pointer;
 		align-self: center;
 	}
 
 	.mat-horizontal-content-container {
-		min-height: 40vh;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -61,8 +60,8 @@
 		justify-content: space-evenly;
 		display: flex;
 		flex-direction: column;
-		max-width: 700px;
 		gap: 20px;
+		margin-bottom: 4px;
 
 		> div {
 			place-content: space-between;
