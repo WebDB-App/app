@@ -126,7 +126,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 		let query = this.query;
 
 		if (this.params.sortDirection && this.params.sortField) {
-			query = this.selectedServer?.driver.getBaseSort(query, this.params.sortField, <"asc" | "desc">this.params.sortDirection)!;
+			query = this.selectedServer?.driver.basicSort(query, this.params.sortField, <"asc" | "desc">this.params.sortDirection)!;
 		}
 
 		const result = await this.request.post('database/query', {
@@ -147,7 +147,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 		const condition = this.params.chips.split(';').filter(e => e);
 		const operand = this.configuration.getByName('operand')?.value;
 
-		return this.selectedServer!.driver.getBaseFilter(this.selectedTable!, condition, operand);
+		return this.selectedServer!.driver.basicFilter(this.selectedTable!, condition, operand);
 	}
 
 	addChips(column: string, event: MatChipInputEvent): void {

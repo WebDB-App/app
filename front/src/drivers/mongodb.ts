@@ -187,7 +187,7 @@ async function main() {
 		return chip + '}}';
 	}
 
-	getBaseFilter(table: Table, conditions: string[], operand: 'AND' | 'OR') {
+	basicFilter(table: Table, conditions: string[], operand: 'AND' | 'OR') {
 		let filter = '';
 
 		if (conditions.length > 0) {
@@ -195,6 +195,21 @@ async function main() {
 		}
 
 		return `db.collection("${table.name}").find(${filter}).toArray()`;
+	}
+
+	basicSort(query: string, field: string, direction: 'asc' | 'desc') {
+		if (query.indexOf(".aggregate(") >= 0) {
+			const s: any = {$sort : {}};
+			s.$sort[field] = direction === "asc" ? 1 : -1;
+			query = helper.mongo_injectAggregate(query, s);
+		}
+
+		if (query.indexOf(".find(") > 0) {
+			query = query.replace(".toArray()", "");
+			query = `${query}.sort({${field}: ${direction === "asc" ? 1 : -1}}).toArray()`;
+		}
+
+		return query;
 	}
 
 	extractForView(query: string) {
@@ -223,24 +238,9 @@ async function main() {
 		return cols;
 	}
 
-	getBaseDelete(table: Table) {
-		return `db.collection("${table.name}").deleteOne({${this.getColumns(table).join(",\n")}})`;
-	}
-
-	getBaseInsert(table: Table) {
-		return `db.collection("${table.name}").insertOne({${this.getColumns(table).join(",\n")}})`;
-	}
-
-	getBaseUpdate(table: Table) {
-		const cols = this.getColumns(table);
-		return `db.collection("${table.name}").updateOne(
-	{${cols.join(", ")}},
-	{${cols.join(", ")}}
-)`;
-	}
-
-	getBaseSelect(table: Table) {
-		return `/*
+	queryTemplates = {
+		"find": (table: Table) => {
+			return `/*
 const db = (await new MongoClient()).db("${Database.getSelected().name}");
 const bson = require("bson");
 */
@@ -248,10 +248,22 @@ const bson = require("bson");
 db.collection("${table.name}").find({
 	${this.getColumns(table).join(",\n\t")}
 }).toArray();`;
-	}
-
-	getBaseSelectWithRelations(table: Table, relations: Relation[]) {
-		return `db.collection("${table.name}").aggregate([
+		},
+		"deleteOne": (table: Table) => {
+			return `db.collection("${table.name}").deleteOne({${this.getColumns(table).join(",\n")}})`;
+		},
+		"insertOne": (table: Table) => {
+			return `db.collection("${table.name}").insertOne({${this.getColumns(table).join(",\n")}})`;
+		},
+		"updateOne": (table: Table) => {
+			const cols = this.getColumns(table);
+			return `db.collection("${table.name}").updateOne(
+				{${cols.join(", ")}},
+				{${cols.join(", ")}}
+			)`;
+		},
+		"lookup": (table: Table, relations: Relation[]) => {
+			return `db.collection("${table.name}").aggregate([
 	{
 		${relations.map(rel => `$lookup: {
 			from: "${rel.table_dest}",
@@ -261,10 +273,9 @@ db.collection("${table.name}").find({
 		}`)}
 	}]).toArray();
 		`;
-	}
-
-	getBaseAggregate(table: Table) {
-		return `/*
+		},
+		"aggregate": (table: Table) => {
+			return `/*
 const db = (await new MongoClient()).db("${Database.getSelected().name}");
 const bson = require("bson");
 */
@@ -276,20 +287,11 @@ db.collection("${table.name}").aggregate([
 		$group: { _id: "$${table.columns[0].name}" }
 	}
 ]).toArray()`;
-	}
-
-	getBaseSort(query: string, field: string, direction: 'asc' | 'desc') {
-		if (query.indexOf(".aggregate(") >= 0) {
-			const s: any = {$sort : {}};
-			s.$sort[field] = direction === "asc" ? 1 : -1;
-			query = helper.mongo_injectAggregate(query, s);
-		}
-
-		if (query.indexOf(".find(") > 0) {
-			query = query.replace(".toArray()", "");
-			query = `${query}.sort({${field}: ${direction === "asc" ? 1 : -1}}).toArray()`;
-		}
-
-		return query;
-	}
+		},
+		"command": () => {
+			return `db.command({
+    dbStats: 1,
+});`;
+		},
+	};
 }

@@ -80,12 +80,7 @@ export interface Driver {
 	quickSearch: (driver: Driver, column: Column, value: string) => string;
 	generateSuggestions?: (textUntilPosition: string) => any[];
 
-	getBaseSort: (query: string, field: string, direction: 'asc' | 'desc') => string;
-	getBaseDelete: (table: Table) => string;
-	getBaseUpdate: (table: Table) => string;
-	getBaseSelect: (table: Table) => string;
-	getBaseInsert: (table: Table) => string;
-	getBaseFilter: (table: Table, condition: string[], operand: 'AND' | 'OR') => string;
-	getBaseAggregate?: (table: Table) => string;
-	getBaseSelectWithRelations: (table: Table, relations: Relation[]) => string;
+	basicSort: (query: string, field: string, direction: 'asc' | 'desc') => string;
+	basicFilter: (table: Table, condition: string[], operand: 'AND' | 'OR') => string;
+	queryTemplates: { [fct: string]: (table: Table, relations: Relation[]) => string };
 }

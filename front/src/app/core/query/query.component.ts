@@ -28,7 +28,6 @@ declare var monaco: any;
 })
 export class QueryComponent implements OnInit, OnDestroy {
 
-	templates!: string[];
 	configuration: Configuration = new Configuration();
 	selectedServer?: Server;
 	selectedDatabase?: Database;
@@ -96,12 +95,7 @@ export class QueryComponent implements OnInit, OnDestroy {
 			if (this.editors.length && monaco) {
 				this.editors.map(editor => monaco.editor.setModelMarkers(editor.getModel(), "owner", []));
 			}
-
-			this.templates = this.selectedTable.view ? ['select', 'select_join'] : ['select', 'select_join', 'update', 'insert', 'delete'];
-			this.loadTemplate("select");
-			if (!isSQL()) {
-				this.templates.push('aggregate');
-			}
+			this.loadTemplate(Object.keys(this.selectedServer!.driver.queryTemplates)[0]);
 		});
 
 		this.activatedRoute?.paramMap.subscribe(async (paramMap) => {
@@ -198,27 +192,8 @@ export class QueryComponent implements OnInit, OnDestroy {
 		[this.originalResult.code, this.modifiedResult.code] = await Promise.all([run(this.query, this.editors[0]), run(this.query2, this.editors[1])]);
 	}
 
-	loadTemplate(value: string) {
-		switch (value) {
-			case "delete":
-				this.query = this.selectedServer!.driver.getBaseDelete(this.selectedTable!);
-				break;
-			case "insert":
-				this.query = this.selectedServer!.driver.getBaseInsert(this.selectedTable!);
-				break;
-			case "update":
-				this.query = this.selectedServer!.driver.getBaseUpdate(this.selectedTable!);
-				break;
-			case "select":
-				this.query = this.selectedServer!.driver.getBaseSelect(this.selectedTable!);
-				break;
-			case "select_join":
-				this.query = this.selectedServer!.driver.getBaseSelectWithRelations(this.selectedTable!, this.relations!);
-				break;
-			case "aggregate":
-				this.query = this.selectedServer!.driver.getBaseAggregate!(this.selectedTable!);
-				break;
-		}
+	loadTemplate(fct: string) {
+		this.query = this.selectedServer!.driver.queryTemplates[fct](this.selectedTable!, this.relations!);
 		if (this.autoFormat) {
 			setTimeout(() => this.editors.map(editor => editor.trigger("editor", "editor.action.formatDocument")), 1);
 		}
@@ -255,6 +230,8 @@ export class QueryComponent implements OnInit, OnDestroy {
 	isQuerySelect() {
 		return this.selectedServer?.driver.extractForView(helper.removeComment(this.query));
 	}
+
+	protected readonly Object = Object;
 }
 
 @Component({
