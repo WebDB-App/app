@@ -223,8 +223,8 @@ export class AddConnectionDialog {
 
 	constructor(
 		public snackBar: MatSnackBar,
+		public dialogRef: MatDialogRef<AddConnectionDialog>,
 		private http: HttpClient,
-		private dialogRef: MatDialogRef<AddConnectionDialog>,
 		@Inject(MAT_DIALOG_DATA) public server: Server,
 	) {
 		this.http.get(environment.rootUrl + 'id_rsa.pub', {responseType: 'text'}).subscribe((res) => {

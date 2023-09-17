@@ -3,7 +3,7 @@
 		<mat-step *ngIf="newConnection">
 			<ng-template matStepLabel>Driver</ng-template>
 
-			<div fxLayout="direction row" fxLayoutGap style="justify-content: space-evenly">
+			<div style="display: flex; flex-direction: column;">
 				<div (click)="changeWrapper(wrapper)"
 					 *ngFor="let wrapper of driverNames"
 					 class="driver">
@@ -16,21 +16,25 @@
 				</div>
 			</div>
 
-			<mat-divider></mat-divider>
-
 			<div>
 				<a href="https://webdb.app/features"
-				   mat-raised-button
+				   mat-flat-button
+				   color="accent"
 				   target="_blank">
 					<span class="material-symbols-outlined notranslate">
 						database
 					</span>
 					Compatibility List
 				</a>
-				<button [disabled]="!server.wrapper"
-						color="primary"
-						mat-stroked-button
-						matStepperNext>Next
+				<button
+					[disabled]="!server.wrapper"
+					color="primary"
+					mat-icon-button
+					mat-flat-button
+					matStepperNext>
+					<span class="material-symbols-outlined notranslate">
+						arrow_forward_ios
+					</span>
 				</button>
 			</div>
 
@@ -94,25 +98,35 @@
 				</button>
 			</div>
 
-			<mat-divider></mat-divider>
-
 			<div>
-				<button mat-stroked-button
-						matStepperPrevious>
-					Previous
+				<button
+					mat-icon-button
+					mat-flat-button
+					matStepperPrevious>
+					<span class="material-symbols-outlined notranslate">
+						arrow_back_ios_new
+					</span>
 				</button>
-				<button *ngIf="server.ssh.host"
-						[disabled]="sshStatus !== 'connected'"
-						color="primary"
-						mat-stroked-button
-						matStepperNext>
-					Next
+				<button
+					*ngIf="server.ssh.host"
+					[disabled]="sshStatus !== 'connected'"
+					color="primary"
+					mat-icon-button
+					mat-flat-button
+					matStepperNext>
+					<span class="material-symbols-outlined notranslate">
+						arrow_forward_ios
+					</span>
 				</button>
-				<button *ngIf="sshStatus === 'notConnected'"
-						color="primary"
-						mat-stroked-button
-						matStepperNext>
-					Skip
+				<button
+					*ngIf="sshStatus === 'notConnected'"
+					color="primary"
+					mat-icon-button
+					mat-flat-button
+					matStepperNext>
+					<span class="material-symbols-outlined notranslate">
+						skip_next
+					</span>
 				</button>
 			</div>
 		</mat-step>
@@ -156,17 +170,24 @@
 				</p>
 			</ng-container>
 
-			<mat-divider></mat-divider>
-
 			<div>
-				<button mat-stroked-button
-						matStepperPrevious>
-					Previous
+				<button
+					mat-icon-button
+					mat-flat-button
+					matStepperPrevious>
+					<span class="material-symbols-outlined notranslate">
+						arrow_back_ios_new
+					</span>
 				</button>
-				<button [disabled]="!server.host || !server.port"
-						color="primary" mat-stroked-button
-						matStepperNext>
-					Next
+				<button
+					[disabled]="!server.host || !server.port"
+					color="primary"
+					mat-icon-button
+					mat-flat-button
+					matStepperNext>
+					<span class="material-symbols-outlined notranslate">
+						arrow_forward_ios
+					</span>
 				</button>
 			</div>
 		</mat-step>
@@ -176,7 +197,7 @@
 			<ngx-monaco-editor
 				[(ngModel)]="params"
 				[options]="editorOptions"
-				style="width: 100%;"
+				style="width: 100%; min-height: 180px; resize: vertical"
 			>
 			</ngx-monaco-editor>
 			<div>
@@ -200,17 +221,21 @@
 					{{server.wrapper}} Driver References
 				</a>
 			</div>
-
-			<mat-divider></mat-divider>
-
 			<div>
-				<button mat-stroked-button
-						matStepperPrevious>
-					Previous
+				<button
+					mat-icon-button
+					mat-flat-button
+					matStepperPrevious>
+					<span class="material-symbols-outlined notranslate">
+						arrow_back_ios_new
+					</span>
 				</button>
 			</div>
 		</mat-step>
 	</mat-stepper>
+
+	<mat-divider></mat-divider>
+
 </mat-dialog-content>
 
 <mat-dialog-actions>
@@ -232,7 +257,7 @@
 			<span class="material-symbols-outlined notranslate">
 				network_wifi_2_bar
 			</span>
-		Test Connection
+		Test
 	</button>
 
 	<button (click)="saveConnection()"
@@ -242,10 +267,11 @@
 			<span class="material-symbols-outlined notranslate">
 				wifi_add
 			</span>
-		Save Connection
+		Save
 	</button>
 
 	<button aria-label="close dialog" mat-dialog-close mat-button>
+		<mat-icon>close</mat-icon>
 		Close
 	</button>
 </mat-dialog-actions>
