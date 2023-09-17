@@ -20,7 +20,9 @@ export class TableAdvancedComponent implements OnDestroy {
 	selectedDatabase?: Database;
 	selectedTable?: Table;
 
-	complexes!: Complex[];
+	checks!: Complex[];
+	validators!: Complex[];
+	triggers!: Complex[];
 	interval?: NodeJS.Timer;
 	stats?: {
 		index_length: number,
@@ -39,10 +41,14 @@ export class TableAdvancedComponent implements OnDestroy {
 			this.selectedServer = Server.getSelected();
 			this.selectedDatabase = Database.getSelected();
 			this.selectedTable = Table.getSelected();
-			this.complexes = this.selectedServer.complexes.filter(complex => {
-				const split = this.selectedDatabase!.name.split(', ');
-				return split.indexOf(complex.database.trim()) >= 0 && complex.table === this.selectedTable?.name;
+
+			const complexes = this.selectedServer.complexes.filter(complex => {
+				return this.selectedDatabase!.name === complex.database && complex.table === this.selectedTable?.name;
 			});
+
+			this.triggers = complexes.filter(comp => comp.type === "TRIGGER");
+			this.checks = complexes.filter(comp => comp.type === "CHECK");
+			this.validators = complexes.filter(comp => comp.type === "VALIDATOR");
 		});
 	}
 

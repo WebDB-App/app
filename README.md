@@ -1,6 +1,3 @@
-- postgre default db
-
-
 - gitlab docker fullstack test
 - Unit Test open source (generate par IA ?) en front avec plusieurs version de bdd
 - revoir front : Compatibility
@@ -63,3 +60,4 @@
 - sql function doc (generate from web scrap)
 - Export Query : tester tout
 - revoir MySQL load avec tunnel (essayer en bash)
+- rgpd

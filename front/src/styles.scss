@@ -137,10 +137,6 @@ a {
 	color: mat.get-color-from-palette($angular-accent, default);
 }
 
-.mat-expansion-panel-body {
-	padding: 0px 12px 0px 0px !important;
-}
-
 .mat-bottom-sheet-container {
 	background-color: rgba(244, 67, 54, 0.7);
 	backdrop-filter: blur(3px);

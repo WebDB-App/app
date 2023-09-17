@@ -29,26 +29,32 @@
 
 		<div fxLayout="column" fxLayoutAlign="center none" style="width: 400px;">
 
-			<ng-container>
-				<mat-card>
-					<mat-card-header>
-						<mat-card-subtitle>
-							Complex Elements
-						</mat-card-subtitle>
-					</mat-card-header>
+			<mat-accordion>
+				<mat-expansion-panel [expanded]="(checks.length + triggers.length + validators.length) > 0">
+					<mat-expansion-panel-header>
+						<mat-panel-description>
+							{{checks.length + triggers.length + validators.length}} Complex Elements
+						</mat-panel-description>
+					</mat-expansion-panel-header>
 
-					<mat-card-content>
+					<h4>Checks</h4>
+					<ul *ngFor="let complex of checks">
+						<li>{{complex.name}}</li>
+					</ul>
 
-						<h4 *ngIf="complexes.length < 1">
-							No complexes for this table
-						</h4>
+					<h4>Triggers</h4>
+					<ul *ngFor="let complex of triggers">
+						<li>{{complex.name}}</li>
+					</ul>
 
-						<div *ngFor="let complex of complexes">
-							<span>{{complex.type}}</span><span>{{complex.name}}</span>
-						</div>
-					</mat-card-content>
-				</mat-card>
-			</ng-container>
+					<h4>Validators</h4>
+					<ul *ngFor="let complex of validators">
+						<li>{{complex.name}}</li>
+					</ul>
+				</mat-expansion-panel>
+			</mat-accordion>
+
+			<mat-divider></mat-divider>
 
 			<ng-container *ngIf="!selectedTable?.view">
 
@@ -115,30 +121,19 @@
 							Performance Tips
 						</mat-panel-description>
 					</mat-expansion-panel-header>
-					<ul>
-						<li>
-							Calculate to most used column and index it (RAM is ~100x speeder than disk)
-						</li>
-						<li>
-							Specify only needed columns (avoid wildcard)
-						</li>
-						<li>
-							Use views for pre-calculate queries
-						</li>
-						<li>
-							Cache almost static data into your backend, Redis or even frontend
-						</li>
-						<li>
-							Check slow queries and profile them to know why it take time
-						</li>
-						<li>
-							Use an optimized database for your need (eg. elasticsearch for fulltext search)
-						</li>
-						<li>
-							Use the AI assistant for more advanced optimizations for a query performance or table
-							structure
-						</li>
-					</ul>
+					• Calculate to most used column and index it (RAM is ~100x speeder than disk)
+					<br>
+					• Specify only needed columns (avoid wildcard)
+					<br>
+					• Use views for pre-calculate queries
+					<br>
+					• Cache almost static data into your backend, Redis or even frontend
+					<br>
+					• Check slow queries and profile them to know why it take time
+					<br>
+					• Use an optimized database for your need (eg. elasticsearch for fulltext search)
+					<br>
+					• Use the AI assistant for more advanced optimizations for a query performance or table structure
 				</mat-expansion-panel>
 			</mat-accordion>
 		</div>
