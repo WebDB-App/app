@@ -523,9 +523,18 @@ export class SQL implements Driver {
 		return suggestions;
 	}
 
-	getBaseDelete(table: Table) {
-		const cols = table.columns.map(column => `${this.connection.nameDel + column.name + this.connection.nameDel} = '${column.type}'`);
-		return `DELETE FROM ${this.connection.nameDel + table.name + this.connection.nameDel} WHERE ${cols.join(" AND ")}`;
+	basicFilter(table: Table, condition: string[], operand: 'AND' | 'OR') {
+		const cols = table.columns.map(column => `${this.connection.nameDel + column.name + this.connection.nameDel}`);
+		const select = `SELECT ${cols.join(', ')} FROM ${this.connection.nameDel + table.name + this.connection.nameDel}`;
+		if (condition.length < 1) {
+			return select;
+		}
+
+		return select + ' WHERE ' + condition.join(` ${operand} `);
+	}
+
+	basicSort(query: string, field: string, direction: 'asc' | 'desc') {
+		return `${query} ORDER BY ${field} ${direction}`;
 	}
 
 	getColForSelect(columns: Column[]) {
@@ -536,46 +545,35 @@ export class SQL implements Driver {
 		return columns.map(column => `${this.connection.nameDel + column.name + this.connection.nameDel} = '${column.type.replaceAll("'", '"')}'`);
 	}
 
-	getBaseInsert(table: Table) {
-		const cols = this.getColForSelect(table.columns).join(', ');
-		const values = this.getColForWhere(table.columns).join(', ');
-		return `INSERT INTO ${this.connection.nameDel + table.name + this.connection.nameDel} (${cols}) VALUES (${values})`;
-	}
+	queryTemplates = {
+		"select": (table: Table) => {
+			const cols = this.getColForSelect(table.columns).join(', ');
+			const where = this.getColForWhere(table.columns).join(" AND ");
+			return `SELECT ${cols} FROM ${this.connection.nameDel + table.name + this.connection.nameDel} WHERE ${where}`;
+		},
+		"delete": (table: Table) => {
+			const cols = table.columns.map(column => `${this.connection.nameDel + column.name + this.connection.nameDel} = '${column.type}'`);
+			return `DELETE FROM ${this.connection.nameDel + table.name + this.connection.nameDel} WHERE ${cols.join(" AND ")}`;
+		},
+		"insert": (table: Table) => {
+			const cols = this.getColForSelect(table.columns).join(', ');
+			const values = this.getColForWhere(table.columns).join(', ');
+			return `INSERT INTO ${this.connection.nameDel + table.name + this.connection.nameDel} (${cols}) VALUES (${values})`;
+		},
+		"update": (table: Table) => {
+			const cols = this.getColForSelect(table.columns).map(col => `${col} = ''`);
+			const where = this.getColForWhere(table.columns).join(" AND ");
+			return `UPDATE ${this.connection.nameDel + table.name + this.connection.nameDel} SET ${cols} WHERE ${where}`;
+		},
+		"select join group": (table: Table, relations: Relation[]) => {
+			const columns = table.columns.map(column => `${table.name}.${column.name}`).join(', ');
 
-	getBaseUpdate(table: Table) {
-		const cols = this.getColForSelect(table.columns).map(col => `${col} = ''`);
-		const where = this.getColForWhere(table.columns).join(" AND ");
-		return `UPDATE ${this.connection.nameDel + table.name + this.connection.nameDel} SET ${cols} WHERE ${where}`;
-	}
+			const joins: string[] = [];
+			for (const relation of relations) {
+				joins.push(`JOIN ${relation.table_dest} ON ${relation.table_dest}.${relation.column_dest} = ${relation.table_source}.${relation.column_source}`)
+			}
 
-	getBaseSelect(table: Table) {
-		const cols = this.getColForSelect(table.columns).join(', ');
-		const where = this.getColForWhere(table.columns).join(" AND ");
-		return `SELECT ${cols} FROM ${this.connection.nameDel + table.name + this.connection.nameDel} WHERE ${where}`;
-	}
-
-	getBaseSelectWithRelations(table: Table, relations: Relation[]) {
-		const columns = table.columns.map(column => `${table.name}.${column.name}`).join(', ');
-
-		const joins: string[] = [];
-		for (const relation of relations) {
-			joins.push(`JOIN ${relation.table_dest} ON ${relation.table_dest}.${relation.column_dest} = ${relation.table_source}.${relation.column_source}`)
-		}
-
-		return `SELECT ${columns} FROM ${table.name} ${joins.join("\n")} GROUP BY ${columns} HAVING 1 = 1`;
-	}
-
-	getBaseFilter(table: Table, condition: string[], operand: 'AND' | 'OR') {
-		const cols = table.columns.map(column => `${this.connection.nameDel + column.name + this.connection.nameDel}`);
-		const select = `SELECT ${cols.join(', ')} FROM ${this.connection.nameDel + table.name + this.connection.nameDel}`;
-		if (condition.length < 1) {
-			return select;
-		}
-
-		return select + ' WHERE ' + condition.join(` ${operand} `);
-	}
-
-	getBaseSort(query: string, field: string, direction: 'asc' | 'desc') {
-		return `${query} ORDER BY ${field} ${direction}`;
-	}
+			return `SELECT ${columns} FROM ${table.name} ${joins.join("\n")} GROUP BY ${columns} HAVING 1 = 1`;
+		},
+	};
 }
