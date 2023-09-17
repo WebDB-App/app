@@ -5,9 +5,10 @@
 	</button>
 </div>
 <div mat-dialog-content style="display: flex; flex-direction: column; text-align: center;">
-	<mat-form-field appearance="fill" style="padding: 20px; flex: 1">
+	<mat-form-field appearance="fill" style="padding: 20px 20px 0px 20px; flex: 1">
 		<mat-label>Database Name</mat-label>
 		<input #name
+			   cdkFocusInitial
 			   autocomplete="off"
 			   matInput
 			   required>
