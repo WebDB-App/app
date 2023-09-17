@@ -48,7 +48,7 @@ export class Server {
 
 		newData = Server.getShallow(newData);
 		delete newData.scanned;
-		newData.name = newData.name || Server.setName(newData);
+		newData.name = Server.setName(newData);
 
 		servers.push(newData);
 		localStorage.setItem(localStorageName, JSON.stringify(servers));
@@ -76,7 +76,7 @@ export class Server {
 	}
 
 	static setName(scan: Server) {
-		return `[${scan.wrapper}] ${scan.host}:${scan.port}`
+		return `${scan.user}@${scan.host}:${scan.port}`
 	}
 
 	static getShallow(server: Server) {

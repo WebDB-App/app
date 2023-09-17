@@ -192,7 +192,7 @@ export class ConnectionComponent implements OnInit {
 			if (server.stored) {
 				return {icon: 'signal_wifi_bad', txt: 'Bad credentials'};
 			}
-			return {icon: 'network_wifi', txt: 'Discovered'};
+			return {icon: 'network_wifi_1_bar_locked', txt: 'Discovered'};
 		}
 		return {icon: 'signal_wifi_off', txt: 'Unreachable'};
 	}
