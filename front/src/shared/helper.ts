@@ -12,9 +12,9 @@ export class REMOVED_LABELS extends MatPaginatorIntl {
 	override previousPageLabel: string = '';
 }
 
-export function isSQL(server = Server.getSelected()): boolean {
+export function isSQL(server = Server.getSelected()): boolean | undefined {
 	if (!server) {
-		return false;
+		return undefined;
 	}
 	return server.driver instanceof SQL;
 }

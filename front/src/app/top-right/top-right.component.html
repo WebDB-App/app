@@ -40,7 +40,7 @@
 		</span>
 		Symbols
 	</a>
-	<a *ngIf="!isSQL()"
+	<a *ngIf="isSQL() === false"
 	   mat-menu-item
 	   href="https://gitlab.com/web-db/public/-/wikis/NoSQL-Disclaimer"
 	   target="_blank">

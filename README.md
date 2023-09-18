@@ -1,33 +1,28 @@
-- gitlab docker fullstack test
-- Unit Test open source (generate par IA ?) en front avec plusieurs version de bdd
-- revoir front : Compatibility
-- test en parralele avec scenario et anaylyse de text
-
-
-
-----------------------------------------------------------
-
-
 - https://www.mongodb.com/docs/manual/reference/operator/aggregation/lookup/#use--lookup-with-an-array
 - ERD
-
-# Bin
-- deps: Brew + chocolate + apt + yum
-- https://twitter.com/electronjs
-- ci + gitlab wiki (home)
-
-# DB
-- SQLServer
-- Cockroachdb
-- Oracle
-- SQLite
-- GraphQL ?
 
 # Server gît avec autobackup
 - Checksum par table
 - back : each ENV_VAR_SECONDS
 - show git remote
 - permet just de force revert avec nombre de ligne de diff
+
+
+
+----------------------------------------------------------
+
+
+
+# Bin
+- deps: Brew + chocolate + apt + yum
+- https://twitter.com/electronjs
+- ci + gitlab wiki (home)
+
+# Tests
+- gitlab docker fullstack test
+- Unit Test open source (generate par IA ?) en front avec plusieurs version de bdd
+- revoir front : Compatibility
+- test en parralele avec scenario et anaylyse de text
 
 # Relation wizard
 - 1,1 -> 0,n
@@ -42,6 +37,13 @@
 - columns with array > 2 : harmonize to one of the type (attention deep)
 - obj column update
 - harmonizer obj > 2
+
+# DB
+- SQLServer
+- Cockroachdb
+- Oracle
+- SQLite
+- GraphQL ?
 
 # IA
 - Export Query : btn to export via IA (Stripe Metadata additionnal feature)
