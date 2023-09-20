@@ -20,7 +20,7 @@ eslint:
     stage: release
     interruptible: true
     before_script:
-        - (cd front && mkdir -p ./dist/webdb/ && bash ./changeLog.sh 3734ce5fb026590b59e20c34d51e6668943fd1a5 > ./dist/webdb/changelog.html)
+        - (cd front && mkdir -p ./dist/webdb/ && ./changeLog.sh 3734ce5fb026590b59e20c34d51e6668943fd1a5 > ./dist/webdb/changelog.html)
         - sed -i "s/PACKAGE_VERSION/$CI_COMMIT_SHORT_SHA/g" **/package.json
 
 #exe:
