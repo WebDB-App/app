@@ -33,7 +33,7 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 		{link: "diagram", icon: "polyline"},
 		{link: "history", icon: "schedule_send"},
 		{link: "assistant", icon: "support_agent"},
-		{link: "load", icon: "exit_to_app"},
+		{link: "load", icon: "input"},
 		{link: "dump", icon: "ios_share"},
 		{link: "advanced", icon: "instant_mix"},
 	];
