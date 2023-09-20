@@ -3,6 +3,7 @@
 	"version": "PACKAGE_VERSION",
 	"scripts": {
 		"dev:front": "ng serve",
+		"changelog": "mkdir -p ./dist/webdb/ && ./changeLog.sh 3734ce5f > ./dist/webdb/changelog.html",
 		"build": "ng build",
 		"watch": "ng build --watch --configuration development"
 	},

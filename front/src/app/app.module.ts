@@ -37,7 +37,7 @@ import { DragDropModule } from "@angular/cdk/drag-drop";
 import { CreateTableDialog, TablesComponent } from "./tables/tables.component";
 import { ConfigDialog } from "./top-right/config/config-dialog.component";
 import { SharedModule } from "../shared/shared.module";
-import { LogsDialog, TopRightComponent } from './top-right/top-right.component';
+import { ChangelogDialog, LogsDialog, TopRightComponent } from './top-right/top-right.component';
 
 declare var monaco: any;
 
@@ -87,6 +87,7 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 		ConnectionComponent,
 		ConfigDialog,
 		LogsDialog,
+		ChangelogDialog,
 		CreateDatabaseDialog,
 		AddConnectionDialog,
 		TablesComponent,
