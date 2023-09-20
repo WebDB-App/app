@@ -1,6 +1,6 @@
 ARG BRANCH_NAME
 
-FROM node:lts AS front
+FROM node:lts-alpine AS front
 
 ENV NODE_ENV=production
 RUN corepack enable && corepack prepare pnpm@latest --activate
