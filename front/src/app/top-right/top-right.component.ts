@@ -47,11 +47,16 @@ export class ChangelogDialog {
 
 	constructor(
 		private http: HttpClient,
+		private sanitizer: DomSanitizer
 	) {
 	}
 
 	async ngOnInit() {
-		this.str = await firstValueFrom(this.http.get(`${environment.rootUrl}changelog.html`, {responseType: 'text'}));
+		this.str = this.sanitizer.bypassSecurityTrustHtml(
+			await firstValueFrom(
+				this.http.get(`${environment.rootUrl}changelog.html`, {responseType: 'text'})
+			)
+		);
 	}
 }
 
