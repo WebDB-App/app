@@ -33,16 +33,10 @@ export declare class Binary extends BSONValue {
 	position: number;
 	/**
 	 * Create a new Binary instance.
-	 *
-	 * This constructor can accept a string as its first argument. In this case,
-	 * this string will be encoded using ISO-8859-1, **not** using UTF-8.
-	 * This is almost certainly not what you want. Use `new Binary(Buffer.from(string))`
-	 * instead to convert the string to a Buffer using UTF-8 first.
-	 *
 	 * @param buffer - a buffer object containing the binary data.
 	 * @param subType - the option binary type.
 	 */
-	constructor(buffer?: string | BinarySequence, subType?: number);
+	constructor(buffer?: BinarySequence, subType?: number);
 	/**
 	 * Updates this binary with byte_value.
 	 *
@@ -50,12 +44,12 @@ export declare class Binary extends BSONValue {
 	 */
 	put(byteValue: string | number | Uint8Array | number[]): void;
 	/**
-	 * Writes a buffer or string to the binary.
+	 * Writes a buffer to the binary.
 	 *
 	 * @param sequence - a string or buffer to be written to the Binary BSON object.
 	 * @param offset - specify the binary of where to write the content.
 	 */
-	write(sequence: string | BinarySequence, offset: number): void;
+	write(sequence: BinarySequence, offset: number): void;
 	/**
 	 * Reads **length** bytes starting at **position**.
 	 *
@@ -63,13 +57,8 @@ export declare class Binary extends BSONValue {
 	 * @param length - the number of bytes to read.
 	 */
 	read(position: number, length: number): BinarySequence;
-	/**
-	 * Returns the value of this binary as a string.
-	 * @param asRaw - Will skip converting to a string
-	 * @remarks
-	 * This is handy when calling this function conditionally for some key value pairs and not others
-	 */
-	value(asRaw?: boolean): string | BinarySequence;
+	/** returns a view of the binary value as a Uint8Array */
+	value(): Uint8Array;
 	/** the length of the binary sequence */
 	length(): number;
 	toJSON(): string;
@@ -315,6 +304,26 @@ export declare class Decimal128 extends BSONValue {
 	 * @param representation - a numeric string representation.
 	 */
 	static fromString(representation: string): Decimal128;
+	/**
+	 * Create a Decimal128 instance from a string representation, allowing for rounding to 34
+	 * significant digits
+	 *
+	 * @example Example of a number that will be rounded
+	 * ```ts
+	 * > let d = Decimal128.fromString('37.499999999999999196428571428571375')
+	 * Uncaught:
+	 * BSONError: "37.499999999999999196428571428571375" is not a valid Decimal128 string - inexact rounding
+	 * at invalidErr (/home/wajames/js-bson/lib/bson.cjs:1402:11)
+	 * at Decimal128.fromStringInternal (/home/wajames/js-bson/lib/bson.cjs:1633:25)
+	 * at Decimal128.fromString (/home/wajames/js-bson/lib/bson.cjs:1424:27)
+	 *
+	 * > d = Decimal128.fromStringWithRounding('37.499999999999999196428571428571375')
+	 * new Decimal128("37.49999999999999919642857142857138")
+	 * ```
+	 * @param representation - a numeric string representation.
+	 */
+	static fromStringWithRounding(representation: string): Decimal128;
+	private static _fromString;
 	/** Create a string representation of the raw Decimal128 value */
 	toString(): string;
 	toJSON(): Decimal128Extended;
@@ -877,7 +886,7 @@ export declare class ObjectId extends BSONValue {
 	 */
 	get id(): Uint8Array;
 	set id(value: Uint8Array);
-	/** Returns the ObjectId id as a 24 character hex string representation */
+	/** Returns the ObjectId id as a 24 lowercase character hex string representation */
 	toHexString(): string;
 	/* Excluded from this release type: getInc */
 	/**
@@ -893,12 +902,13 @@ export declare class ObjectId extends BSONValue {
 	toString(encoding?: "hex" | "base64"): string;
 	/** Converts to its JSON the 24 character hex string representation. */
 	toJSON(): string;
+	/* Excluded from this release type: is */
 	/**
 	 * Compares the equality of this ObjectId with `otherID`.
 	 *
 	 * @param otherId - ObjectId instance to compare against.
 	 */
-	equals(otherId: string | ObjectId | ObjectIdLike): boolean;
+	equals(otherId: string | ObjectId | ObjectIdLike | undefined | null): boolean;
 	/** Returns the generation date (accurate up to the second) that this ID was generated. */
 	getTimestamp(): Date;
 	/* Excluded from this release type: createPk */
@@ -917,9 +927,8 @@ export declare class ObjectId extends BSONValue {
 	/** Creates an ObjectId instance from a base64 string */
 	static createFromBase64(base64: string): ObjectId;
 	/**
-	 * Checks if a value is a valid bson ObjectId
-	 *
-	 * @param id - ObjectId instance to validate.
+	 * Checks if a value can be used to create a valid bson ObjectId
+	 * @param id - any JS value
 	 */
 	static isValid(id: string | number | ObjectId | ObjectIdLike | Uint8Array): boolean;
 	/* Excluded from this release type: toExtendedJSON */
@@ -1049,8 +1058,6 @@ export declare type TimestampOverrides = "_bsontype" | "toExtendedJSON" | "fromE
  * @public
  */
 export declare class UUID extends Binary {
-	/** @deprecated Hex string is no longer cached, this control will be removed in a future major release */
-	static cacheHexString: boolean;
 	/**
 	 * Create a UUID type
 	 *

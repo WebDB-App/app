@@ -1346,7 +1346,7 @@ export declare type CSSSpace = typeof CSS_SPACES[number];
 export declare type StringColorFormat = "css" | "binary";
 export declare type NumberColorFormat = "decimal";
 export declare type ColorFormat = StringColorFormat | NumberColorFormat;
-export declare type Casing = "lower" | "upper" | "mixed";
+
 /**
  * Module to generate colors.
  */
@@ -4271,6 +4271,7 @@ export declare class PhoneModule {
 export declare type LiteralUnion<T extends U, U = string> = T | (U & {
 	zz_IGNORE_ME?: never;
 });
+export declare type Casing = "upper" | "lower" | "mixed";
 export declare type LowerAlphaChar = "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" | "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r" | "s" | "t" | "u" | "v" | "w" | "x" | "y" | "z";
 export declare type UpperAlphaChar = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z";
 export declare type NumericChar = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
