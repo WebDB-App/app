@@ -16,6 +16,8 @@ COPY common-helper.mjs ./src/shared/common-helper.mjs
 
 RUN pnpm run build
 
+COPY ./changelog.html ./dist/webdb
+
 
 FROM node:lts-alpine
 ENV NODE_ENV=production
@@ -39,4 +41,4 @@ RUN cp .env.production .env
 COPY --from=front /usr/src/app/dist/webdb ./src/front
 
 EXPOSE 22071
-CMD NODE_ENV=production npm run start
+ENTRYPOINT NODE_ENV=production npm run start
