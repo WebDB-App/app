@@ -8,6 +8,8 @@ fi
 
 commit_hash="$1"
 
+git fetch origin $commit_hash
+
 # Print the opening div tag
 echo "<div class='changelog'>"
 

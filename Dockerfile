@@ -10,12 +10,12 @@ WORKDIR /usr/src/app
 COPY front/package.json front/pnpm-lock.yaml ./
 
 RUN pnpm install --prod --frozen-lockfile
+RUN pnpm run changelog
 
 COPY front .
 COPY common-helper.mjs ./src/shared/common-helper.mjs
 
 RUN pnpm run build
-RUN pnpm run changelog
 
 FROM node:lts-alpine
 
