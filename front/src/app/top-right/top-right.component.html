@@ -40,6 +40,14 @@
 		</span>
 		Symbols
 	</a>
+	<button
+		mat-menu-item
+	    (click)="changelog()">
+		<span class="material-symbols-outlined notranslate">
+			receipt_long
+		</span>
+		Changelog
+	</button>
 	<a *ngIf="isSQL() === false"
 	   mat-menu-item
 	   href="https://gitlab.com/web-db/public/-/wikis/NoSQL-Disclaimer"

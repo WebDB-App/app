@@ -31,6 +31,28 @@ export class TopRightComponent {
 	}
 
 	protected readonly isSQL = isSQL;
+
+	changelog() {
+		this.dialog.open(ChangelogDialog);
+	}
+}
+
+
+@Component({
+	templateUrl: 'changelog-dialog.html',
+})
+export class ChangelogDialog {
+
+	str: any = "";
+
+	constructor(
+		private http: HttpClient,
+	) {
+	}
+
+	async ngOnInit() {
+		this.str = await firstValueFrom(this.http.get(`${environment.rootUrl}changelog.html`, {responseType: 'text'}));
+	}
 }
 
 @Component({
