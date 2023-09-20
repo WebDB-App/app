@@ -4,7 +4,7 @@ FROM node:lts-alpine AS front
 ENV NODE_ENV=production
 
 RUN apk update
-RUN apk add git
+RUN apk add git bash
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
 WORKDIR /usr/src/app
