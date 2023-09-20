@@ -15,6 +15,7 @@ COPY front .
 COPY common-helper.mjs ./src/shared/common-helper.mjs
 
 RUN pnpm run build
+RUN pnpm run changelog
 
 FROM node:lts-alpine
 
