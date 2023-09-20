@@ -1,9 +1,3 @@
-- generate full changelog from app logs + changelog public + ai + link from version(#sha1)
-- thanks : opencommit
-
-
-
-
 - https://www.mongodb.com/docs/manual/reference/operator/aggregation/lookup/#use--lookup-with-an-array
 - ERD
 
