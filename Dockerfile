@@ -16,7 +16,7 @@ COPY common-helper.mjs ./src/shared/common-helper.mjs
 
 RUN pnpm run build
 
-COPY ./changelog.html ./dist/webdb
+COPY ./front/changelog.html ./dist/webdb
 
 
 FROM node:lts-alpine
