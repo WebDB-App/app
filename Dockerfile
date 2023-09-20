@@ -10,6 +10,9 @@ WORKDIR /usr/src/app
 COPY front/package.json front/pnpm-lock.yaml ./
 
 RUN pnpm install --prod --frozen-lockfile
+
+RUN apk update
+RUN apk add git
 RUN pnpm run changelog
 
 COPY front .
