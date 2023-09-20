@@ -3,9 +3,8 @@
 	"version": "PACKAGE_VERSION",
 	"scripts": {
 		"dev:front": "ng serve",
-		"changelog": "mkdir -p ./dist/webdb/ && bash ./changeLog.sh 3734ce5fb026590b59e20c34d51e6668943fd1a5 > ./dist/webdb/changelog.html",
 		"build": "ng build",
-		"updateLibs": "bash ./extraLibs.sh",
+		"updateLibs": "./extraLibs.sh",
 		"watch": "ng build --watch --configuration development"
 	},
 	"dependencies": {
