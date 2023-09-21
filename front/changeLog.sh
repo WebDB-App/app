@@ -7,6 +7,8 @@ fi
 
 commit_hash="$1"
 
+git fetch origin $commit_hash
+
 echo "<div class='changelog'>"
 
 commit_dates=$(git log --format="%ad" --date=format:'%Y-%m-%d' "$commit_hash..HEAD" | sort -u -r)
