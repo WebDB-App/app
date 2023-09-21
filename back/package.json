@@ -2,8 +2,9 @@
 	"name": "webdb",
 	"version": "PACKAGE_VERSION",
 	"productName": "WebDB",
-	"main": "electron/index.js",
+	"main": "electron/main.js",
 	"scripts": {
+		"electron": "electron .",
 		"start": "until node src/index.js 2>> src/front/logs/err.log 1> src/front/logs/out.log; do echo \"WebDB crashed with exit code $?. Respawning...\" >&2; sleep 1; done",
 		"dev:back": "nodemon src/index.js 2>> src/front/logs/err.log 1> src/front/logs/out.log",
 		"lint": "eslint . --fix",
@@ -18,6 +19,7 @@
 		"axios": "latest",
 		"cors": "latest",
 		"dotenv": "latest",
+		"electron-nightly": "28.0.0-nightly.20230920",
 		"express": "latest",
 		"i18n": "latest",
 		"javascript-obfuscator": "latest",

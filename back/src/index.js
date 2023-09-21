@@ -15,7 +15,7 @@ app.use(cors({origin: "*"}));
 app.use(express.json());
 app.use(express.static(dirname + "front"));
 
-(async () => {
+export default (async () => {
 	const endpointPath = dirname + "endpoint";
 	const entries = await fsp.readdir(endpointPath);
 
@@ -28,7 +28,7 @@ app.use(express.static(dirname + "front"));
 		res.status(404).send("Not Found");
 	});
 
-	app.listen(port, () => {
+	return app.listen(port, () => {
 		bash.logCommand("WebDB App running", "database", "ping_", port, "rows");
 	});
 })();
