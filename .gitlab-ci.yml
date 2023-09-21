@@ -33,7 +33,6 @@ eslint:
 docker:
     <<: *releases
     variables:
-        GIT_STRATEGY: clone
         IMAGE_PATH: webdb/app:$CI_COMMIT_REF_NAME
         REGISTRY_IMAGE: webdb/app
     image: docker:latest
