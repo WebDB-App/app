@@ -21,7 +21,7 @@ eslint:
     interruptible: true
     before_script:
         - apk add --no-cache --upgrade bash git
-        - (cd front && ./changeLog.sh 3734ce5fb026590b59e20c34d51e6668943fd1a5 > ./changelog.html)
+        - (cd front && ./changeLog.sh 2d3cf36c03dfda72765ada56cea1310c6a58f139 > ./changelog.html)
         - sed -i "s/PACKAGE_VERSION/$CI_COMMIT_SHORT_SHA/g" **/package.json
 
 #exe:

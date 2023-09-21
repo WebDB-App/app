@@ -71,14 +71,24 @@
 				</button>
 			</div>
 		</mat-tab>
-		<mat-tab label="Version">
+		<mat-tab label="About">
 			<div style="text-align: center">
 				<div style="font-weight: 300; font-size: 30px;">
 					<img alt="logo" id="logo" src="/assets/webdb.svg" style="height: 60px; margin: 30px 4px; width: auto; vertical-align: middle;"/>
 					WebDB
 				</div>
 
-				<h3>Version {{packageJson.version}}</h3>
+				<div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 20px">
+					<h3>Version {{packageJson.version}}</h3>
+					<div *ngIf="upToDate">
+						Up to date
+					</div>
+					<div *ngIf="!upToDate">
+						Update available
+					</div>
+				</div>
+
+				<mat-divider></mat-divider>
 
 				<div class="mat-dialog-actions">
 					<a href="https://www.linkedin.com/company/web-db"
