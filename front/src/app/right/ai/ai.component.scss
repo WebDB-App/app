@@ -25,6 +25,20 @@
 		justify-content: space-between;
 		padding: 12px 0px;
 		align-items: center;
+
+		.slider {
+			display: flex;
+			flex-direction: column;
+
+			> div {
+				display: flex;
+				justify-content: space-around;
+			}
+
+			.mat-slider {
+				margin: -16px 0px;
+			}
+		}
 	}
 }
 

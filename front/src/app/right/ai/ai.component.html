@@ -62,41 +62,56 @@
 			<mat-divider></mat-divider>
 
 			<div>
-
 				<div>
-					Rows count
+					<mat-form-field appearance="outline" style="margin-bottom: -1.25em" color="accent">
+						<mat-label>Anonymize level</mat-label>
+						<mat-select
+							(selectionChange)="preSentChange()"
+							[(ngModel)]="preSent.anonymize">
+							<mat-option [value]="0">
+								Raw
+							</mat-option>
+							<mat-option [value]="1">
+								Swapped data
+							</mat-option>
+							<mat-option [value]="2">
+								Replaced value
+							</mat-option>
+						</mat-select>
+					</mat-form-field>
+				</div>
+
+				<div class="slider">
+					<div>
+						<span>Rows count</span>
+						<span>{{preSent.count}}</span>
+					</div>
 					<mat-slider
 						(change)="preSentChange()"
+						(input)="preSent.count = $event.value!.valueOf()"
+						[value]="preSent.count"
 						color="accent"
 						max="200"
-						min="1"
-						step="1"
-						thumbLabel
-						[(ngModel)]="preSent.count">
+						min="5"
+						step="1">
 					</mat-slider>
 				</div>
 
-				<div>
-					Deep level
+				<div class="slider">
+					<div>
+						<span>Deep level</span>
+						<span>{{preSent.deep}}</span>
+					</div>
 					<mat-slider
 						(change)="preSentChange()"
+						(input)="preSent.deep = $event.value!.valueOf()"
+						[value]="preSent.deep"
 						color="accent"
 						max="15"
 						min="0"
-						step="1"
-						thumbLabel
-						[(ngModel)]="preSent.deep">
+						step="1">
 					</mat-slider>
 				</div>
-
-				<button
-					(click)="chat = []; saveChat()"
-					mat-button>
-					<span class="material-symbols-outlined notranslate">
-						delete_sweep
-					</span>
-					Clear
-				</button>
 			</div>
 
 			<mat-divider></mat-divider>
@@ -108,21 +123,32 @@
 					<mat-button-toggle value="gpt-4-32k">gpt-4-32k</mat-button-toggle>
 				</mat-button-toggle-group>
 
-				<div
-					matTooltipPosition="left"
-					matTooltip="Higher values will make the output more random
-					Lower values will make it more focused and deterministic">
-					Temperature
+				<div class="slider">
+					<div>
+						<span matTooltipPosition="left"
+							  matTooltip="Higher values will make the output more random
+					Lower values will make it more focused and deterministic">Temperature</span>
+						<span>{{config.temperature}}</span>
+					</div>
 					<mat-slider
 						(change)="configChange()"
+						(input)="config.temperature = $event.value!.valueOf()"
+						[value]="config.temperature"
 						color="accent"
 						max="2"
 						min="0"
-						step="0.1"
-						thumbLabel
-						[(ngModel)]="config.temperature">
+						step="0.1">
 					</mat-slider>
 				</div>
+
+				<button
+					(click)="chat = []; saveChat()"
+					matTooltip="Clear conversation"
+					mat-button>
+					<span class="material-symbols-outlined notranslate">
+						delete_sweep
+					</span>
+				</button>
 			</div>
 
 			<mat-divider></mat-divider>
