@@ -90,14 +90,14 @@ export class AiComponent implements OnInit {
 	preSent = {
 		tables: [""],
 		deep: 2,
-		count: 5
+		count: 5,
+		anonymize: 0
 	}
 	stream?: string;
 
 	constructor(
 		private request: RequestService,
 		private drawer: DrawerService,
-		private route: ActivatedRoute,
 		public snackBar: MatSnackBar
 	) {
 		const local = localStorage.getItem(localKeyConfig);
@@ -125,11 +125,18 @@ export class AiComponent implements OnInit {
 		this.localKeyChatHistory = 'chat-' + this.selectedDatabase.name;
 		this.localKeyPreSent = 'preSent-' + this.selectedDatabase.name;
 
+		const msgs = JSON.parse(localStorage.getItem(this.localKeyChatHistory) || '[]');
+		this.chat = msgs.map((msg: Msg) => new Msg(msg.txt, msg.user, msg.error));
+
+		const pre = localStorage.getItem(this.localKeyPreSent);
+		if (pre) {
+			this.preSent = JSON.parse(pre);
+		}
+
 		await Promise.all([
 			(this.licence = await Licence.get(this.request)),
 			this.configChange(false),
 			this.preSentChange(),
-			this.initChat()
 		]);
 
 		if (this.config.openAI) {
@@ -160,11 +167,6 @@ export class AiComponent implements OnInit {
 			language: navigator.language
 		}, undefined)).txt;
 		this.isLoading = false;
-	}
-
-	initChat() {
-		const msgs = JSON.parse(localStorage.getItem(this.localKeyChatHistory) || '[]');
-		this.chat = msgs.map((msg: Msg) => new Msg(msg.txt, msg.user, msg.error));
 	}
 
 	saveChat() {

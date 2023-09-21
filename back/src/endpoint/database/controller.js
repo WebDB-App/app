@@ -35,6 +35,22 @@ class Controller {
 
 		const tables = await wrapper.sampleDatabase(database, req.body.preSent);
 		for (const table of tables) {
+			if (req.body.preSent.anonymize !== 0) {
+				const indexes = Object.keys(table.data);
+				for (const [index, row] of Object.entries(table.data)) {
+					if (req.body.preSent.anonymize === 1) {
+						for (const [key, value] of Object.entries(row)) {
+							table.data[indexes[Math.floor(Math.random() * indexes.length)]][key] = value;
+						}
+					}
+					if (req.body.preSent.anonymize === 2) {
+						for (const [key, value] of Object.entries(row)) {
+							table.data[index][key] = value === null ? "null" : value.constructor.name;
+						}
+					}
+				}
+			}
+
 			txt += `\n \`\`\`${table.structure}\`\`\` is a table. Here is a data sample : \`\`\`${JSON.stringify(table.data)}\`\`\`.`;
 		}
 
