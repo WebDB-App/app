@@ -1,13 +1,11 @@
 # Bin
-- ci(.gitlab-ci + dockerfile) + gitlab wiki (home)
-- deps: Brew + chocolate + apt + yum
 - distribuer sur les store DEPUIS DOCKER
-
+- deps: Brew + chocolate + apt + yum
 - autoupdate
 - test binaires (mysql-client bash mongodb-tools postgresql-client python3 make g++ openssh-keygen)
+
 - release on gitlab with tags and message summary par AI ??
-- search in page
-- tabs ?
+- search in page + tabs/multi window
 
 
 
