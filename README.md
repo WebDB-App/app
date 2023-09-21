@@ -1,5 +1,20 @@
+# Bin
+- deps: Brew + chocolate + apt + yum
+- ci(changelog+version+obfuscate+common-helper.mjs ) + gitlab wiki (home)
+- distribuer sur les store
+- search in page
+- autoupdate
+- test binaires (mysql-client bash mongodb-tools postgresql-client python3 make g++ openssh-keygen)
+- logo + couleurs + menu-bar
+- release on gitlab with tags and message summary par AI ??
+- tabs ?
+
+
+
+
 - https://www.mongodb.com/docs/manual/reference/operator/aggregation/lookup/#use--lookup-with-an-array
 - ERD
+- electron-nightly
 
 # Server gît avec autobackup
 - Checksum par table
@@ -13,10 +28,6 @@
 
 
 
-# Bin
-- deps: Brew + chocolate + apt + yum
-- https://twitter.com/electronjs
-- ci + gitlab wiki (home)
 
 # Tests
 - gitlab docker fullstack test
