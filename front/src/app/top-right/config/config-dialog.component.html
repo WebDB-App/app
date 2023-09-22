@@ -45,7 +45,7 @@
 				</div>
 			</div>
 			<div class="mat-dialog-actions">
-				<a href="https://webdb.app/price" mat-stroked-button target="_blank">
+				<a href="https://webdb.app/page/price" mat-stroked-button target="_blank">
 					<span class="material-symbols-outlined notranslate">
 						shopping_cart
 					</span>
@@ -78,13 +78,16 @@
 					WebDB
 				</div>
 
-				<div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 20px">
+				<div style="display: flex; align-items: center; justify-content: center; gap: 20px; margin-bottom: 20px">
 					<h3>Version {{packageJson.version}}</h3>
-					<div *ngIf="upToDate">
-						Up to date
-					</div>
 					<div *ngIf="!upToDate">
-						Update available
+						<a href="https://hub.docker.com/r/webdb/app"
+						   mat-flat-button
+						   color="accent"
+						   target="_blank">
+							<mat-icon svgIcon="docker"></mat-icon>
+							Update available
+						</a>
 					</div>
 				</div>
 
