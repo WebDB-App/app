@@ -13,7 +13,7 @@ export class AppComponent {
 		private domSanitizer: DomSanitizer,
 		private matIconRegistry: MatIconRegistry) {
 
-		for (const icon of ['gitlab', 'linkedin', 'webdb', 'chatgpt']) {
+		for (const icon of ['gitlab', 'linkedin', 'webdb', 'chatgpt', 'docker']) {
 			this.matIconRegistry.addSvgIcon(
 				icon,
 				this.domSanitizer.bypassSecurityTrustResourceUrl(`/assets/${icon}.svg`)

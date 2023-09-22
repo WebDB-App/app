@@ -7,7 +7,6 @@ import { HistoryService } from "../shared/history.service";
 import { Relation } from "../classes/relation";
 import { Configuration } from "../classes/configuration";
 import { HttpClient } from "@angular/common/http";
-import helper from "../shared/common-helper.mjs";
 import commonHelper from "../shared/common-helper.mjs";
 
 //import * as monaco from 'monaco-editor'
@@ -216,7 +215,7 @@ export class SQL implements Driver {
 	}
 
 	extractForView(query: string) {
-		if (!helper.sql_isSelect(query)) {
+		if (!commonHelper.sql_isSelect(query)) {
 			return false;
 		}
 		return query;
@@ -257,7 +256,7 @@ export class SQL implements Driver {
 
 	extractConditionParams(query: string): QueryParams {
 		const result = <QueryParams>{
-			query: helper.singleLine(query.toLowerCase()),
+			query: commonHelper.singleLine(query.toLowerCase()),
 			params: []
 		};
 		if (result.query.indexOf("where") < 0) {

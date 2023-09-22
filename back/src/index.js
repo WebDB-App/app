@@ -14,8 +14,9 @@ const port = Number(process.env.API_PORT);
 app.use(cors({origin: "*"}));
 app.use(express.json());
 app.use(express.static(dirname + "front"));
+var server;
 
-export default (async () => {
+(async () => {
 	const endpointPath = dirname + "endpoint";
 	const entries = await fsp.readdir(endpointPath);
 
@@ -28,7 +29,15 @@ export default (async () => {
 		res.status(404).send("Not Found");
 	});
 
-	return app.listen(port, () => {
+	server = app.listen(port, () => {
 		bash.logCommand("WebDB App running", "database", "ping_", port, "rows");
 	});
 })();
+
+
+export const shutdown = async () => {
+	console.log("API stopping ...");
+	server.close((err) => {
+		process.exit(err ? 1 : 0);
+	});
+};

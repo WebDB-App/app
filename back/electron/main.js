@@ -1,13 +1,13 @@
 import { app as electron, BrowserWindow } from "electron";
 import {URL} from "url";
 import * as dotenv from "dotenv";
-import * as exp from "../src/index.js";
+import {shutdown} from "../src/index.js";
 
 const dirname = new URL(".", import.meta.url).pathname;
 dotenv.config({path: dirname + "/../.env"});
-const port = Number(process.env.API_PORT);
+const address = `http://localhost:${Number(process.env.API_PORT)}`;
 
-function createWindow() {
+async function createWindow() {
 	const mainWindow = new BrowserWindow({
 		width: 1200,
 		height: 800,
@@ -16,23 +16,29 @@ function createWindow() {
 		}
 	});
 
-	mainWindow.loadURL(`http://localhost:${port}`);
+	await new Promise(resolve => {
+		setTimeout(() => {
+			mainWindow.loadURL(address);
+			resolve();
+		}, 1000);
+	});
+
 	mainWindow.focus();
 	//mainWindow.webContents.openDevTools()
 }
 
-electron.whenReady().then(() => {
-	createWindow();
+electron.whenReady().then(async () => {
+	await createWindow();
 
-	electron.on("activate", function () {
+	electron.on("activate", async function () {
 		if (BrowserWindow.getAllWindows().length === 0) {
-			createWindow();
+			await createWindow();
 		}
 	});
 });
 
 electron.on("before-quit", function () {
-	exp.default.then(express => express.close());
+	shutdown();
 });
 
 electron.on("window-all-closed", function () {
