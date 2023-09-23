@@ -26,6 +26,16 @@ services:
             MONGO_INITDB_ROOT_USERNAME: root
             MONGO_INITDB_ROOT_PASSWORD: example
 
+    cockroach:
+        image: cockroachdb/cockroach
+        command: start-single-node --insecure
+        ports:
+            - 26257:26257
+
+    # tidb:
+
+    # vitess
+
 #    sqldata:
 #        image: mcr.microsoft.com/mssql/server:2017-latest
 #        environment:
@@ -45,15 +55,6 @@ services:
 #        environment:
 #            MYSQL_ROOT_PASSWORD: notSecureChangeMe
 #
-#    cockroach:
-#        image: cockroachdb/cockroach
-#        command: start-single-node --insecure
-#        ports:
-#            - 26257:26257
-#
-#    tidb:
-#
-#    vitess
 
 #--------------------------------------------
 

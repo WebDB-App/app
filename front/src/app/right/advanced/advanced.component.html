@@ -23,6 +23,7 @@
 	<div style="padding: 20px">
 
 		<ngx-monaco-editor
+			style="width: 100%; resize: vertical"
 			cdkFocusInitial
 			(onInit)="initEditor($event)"
 			[(ngModel)]="str"

@@ -78,18 +78,20 @@
 					WebDB
 				</div>
 
-				<div style="display: flex; align-items: center; justify-content: center; gap: 20px; margin-bottom: 20px">
-					<h3>Version {{packageJson.version}}</h3>
-					<div *ngIf="!upToDate">
-						<a href="https://hub.docker.com/r/webdb/app"
-						   mat-flat-button
-						   color="accent"
-						   target="_blank">
-							<mat-icon svgIcon="docker"></mat-icon>
-							Update available
-						</a>
-					</div>
-				</div>
+				<h3 style="text-align: center; margin-bottom: 20px">
+					Version {{packageJson.version}}
+
+					<a href="https://webdb.app/page/install#update"
+					   mat-flat-button
+					   color="accent"
+					   style="margin-left: 20px"
+					   target="_blank">
+						<span class="material-symbols-outlined">
+							{{upToDate ? 'check_circle' : 'release_alert'}}
+						</span>
+						{{upToDate ? 'Up to date' : 'New version available'}}
+					</a>
+				</h3>
 
 				<mat-divider></mat-divider>
 
@@ -98,16 +100,32 @@
 					   mat-button
 					   target="_blank">
 						<mat-icon svgIcon="linkedin"></mat-icon>
-						LinkedIn
+					</a>
+
+					<a href="https://gitlab.com/web-db/public/"
+					   mat-button
+					   target="_blank">
+						<mat-icon svgIcon="gitlab"></mat-icon>
+					</a>
+
+					<a href="https://hub.docker.com/r/webdb/app"
+					   mat-button
+					   target="_blank">
+						<mat-icon svgIcon="docker"></mat-icon>
+					</a>
+
+					<a href="https://stackoverflow.com/users/21482136/webdb"
+					   mat-button
+					   target="_blank">
+						<mat-icon svgIcon="stackoverflow"></mat-icon>
 					</a>
 
 					<a href="mailto:main.webdb@gmail.com"
 					   target="_blank"
 					   mat-button>
-					<span class="material-symbols-outlined notranslate">
-						mail
-					</span>
-						Contact
+						<span class="material-symbols-outlined notranslate">
+							mail
+						</span>
 					</a>
 				</div>
 			</div>

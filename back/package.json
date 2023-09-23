@@ -1,27 +1,24 @@
 {
 	"name": "webdb",
 	"version": "PACKAGE_VERSION",
+	"description": "Free and Efficient Database IDE",
 	"productName": "WebDB",
-	"main": "electron/main.js",
-	"scripts": {
-		"electron": "electron .",
-		"start": "until node src/index.js 2>> src/front/logs/err.log 1> src/front/logs/out.log; do echo \"WebDB crashed with exit code $?. Respawning...\" >&2; sleep 1; done",
-		"dev:back": "nodemon src/index.js 2>> src/front/logs/err.log 1> src/front/logs/out.log",
-		"lint": "eslint . --fix",
-		"obfuscate": "javascript-obfuscator ./src --options-preset low-obfuscation && cd src && find . -name '*js' -exec bash -c ' mv $0 ${0/\\-obfuscated/}' {} \\; && cd .."
-	},
 	"author": {
 		"name": "WebDB",
 		"email": "main.webdb@gmail.com"
 	},
 	"type": "module",
+	"scripts": {
+		"start": "{ NODE_ENV=production node src/index.js | tee src/front/logs/out.log; } 3>&1 1>&2 2>&3 | tee src/front/logs/err.log",
+		"dev:back": "nodemon src/index.js 2>> src/front/logs/err.log 1> src/front/logs/out.log",
+		"lint": "eslint . --fix",
+		"obfuscate": "javascript-obfuscator ./src --options-preset low-obfuscation && cd src && find . -name '*js' -exec bash -c ' mv $0 ${0/\\-obfuscated/}' {} \\; && cd .."
+	},
 	"dependencies": {
 		"axios": "latest",
 		"cors": "latest",
 		"dotenv": "latest",
-		"electron-nightly": "28.0.0-nightly.20230920",
 		"express": "latest",
-		"i18n": "latest",
 		"javascript-obfuscator": "latest",
 		"mongodb": "latest",
 		"multer": "latest",

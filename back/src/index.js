@@ -14,30 +14,19 @@ const port = Number(process.env.API_PORT);
 app.use(cors({origin: "*"}));
 app.use(express.json());
 app.use(express.static(dirname + "front"));
-var server;
 
-(async () => {
-	const endpointPath = dirname + "endpoint";
-	const entries = await fsp.readdir(endpointPath);
+const endpointPath = dirname + "endpoint";
+const entries = await fsp.readdir(endpointPath);
 
-	for (const entry of entries) {
-		const router = await import(`${endpointPath}/${entry}/route.js`);
-		app.use(`/api/${entry}`, router.default);
-	}
+for (const entry of entries) {
+	const router = await import(`${endpointPath}/${entry}/route.js`);
+	app.use(`/api/${entry}`, router.default);
+}
 
-	app.all("*", (req, res) => {
-		res.status(404).send("Not Found");
-	});
+app.all("*", (req, res) => {
+	res.status(404).send("Not Found");
+});
 
-	server = app.listen(port, () => {
-		bash.logCommand("WebDB App running", "database", "ping_", port, "rows");
-	});
-})();
-
-
-export const shutdown = async () => {
-	console.log("API stopping ...");
-	server.close((err) => {
-		process.exit(err ? 1 : 0);
-	});
-};
+export const server = app.listen(port, () => {
+	bash.logCommand("WebDB App running", "database", "ping_", port, "rows");
+});

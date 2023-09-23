@@ -81,7 +81,7 @@ export class AiComponent implements OnInit {
 	isLoading = false;
 
 	editorOptions = {
-		language: "text"
+		language: "plaintext"
 	};
 
 	sample = "";
