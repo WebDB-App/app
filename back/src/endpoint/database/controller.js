@@ -31,7 +31,10 @@ class Controller {
 	async sample(req, res) {
 		const [wrapper, database] = await http.getLoggedDriver(req);
 
-		let txt = `There is a database called ${database} on a ${wrapper.constructor.name} server. `;
+		let txt = `Respond me in ${req.body.language} for natural language and markdown for codes.
+If you miss information or if you need precisions of my database or server, write me queries to run so I can give you back results.
+Don't respond on supposition, only based on the following data:
+There is a database called "${database}" on a ${wrapper.constructor.name} server.`;
 
 		const tables = await wrapper.sampleDatabase(database, req.body.preSent);
 		for (const table of tables) {
@@ -51,11 +54,8 @@ class Controller {
 				}
 			}
 
-			txt += `\n \`\`\`${table.structure}\`\`\` is a table. Here is a data sample : \`\`\`${JSON.stringify(table.data)}\`\`\`.`;
+			txt += `\n\nThere is is a entity with structure : \`\`\`${table.structure}\`\`\` and associated data : \`\`\`${JSON.stringify(table.data)}\`\`\`.`;
 		}
-
-		txt += `Respond me in ${req.body.language} for sentences and markdown for codes`;
-		txt += "You can ask me queries to run if it can help you be more precise. ";
 		res.send({txt});
 	}
 

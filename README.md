@@ -1,4 +1,5 @@
-
+- ia générative : exclusive feature docker.hub + gitlab wiki + title landing + features
+-
 - distribuer sur les store DEPUIS DOCKER
 - deps: Brew + chocolate + apt + yum
 - autoupdate
