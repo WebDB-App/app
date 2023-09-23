@@ -8,7 +8,6 @@ import { Configuration } from "../../../classes/configuration";
 import { marked } from 'marked';
 import { DrawerService } from "../../../shared/drawer.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { ActivatedRoute } from "@angular/router";
 import { isSQL } from "../../../shared/helper";
 
 const localKeyConfig = 'ia-config';
@@ -81,6 +80,10 @@ export class AiComponent implements OnInit {
 	openai?: OpenAI;
 	isLoading = false;
 
+	editorOptions = {
+		language: "text"
+	};
+
 	sample = "";
 	config = {
 		model: "gpt-3.5-turbo-16k",
@@ -94,6 +97,9 @@ export class AiComponent implements OnInit {
 		anonymize: 0
 	}
 	stream?: string;
+	abort = false;
+
+	protected readonly isSQL = isSQL;
 
 	constructor(
 		private request: RequestService,
@@ -199,7 +205,13 @@ export class AiComponent implements OnInit {
 		this.chat.push(await new Promise<Msg>(resolve => {
 			stream.then(async str => {
 				this.stream = "";
+
 				for await (const part of str) {
+					if (this.abort) {
+						this.abort = false;
+						str.controller.abort();
+					}
+
 					this.stream += part.choices[0]?.delta?.content || '';
 					this.scrollToBottom();
 				}
@@ -261,5 +273,7 @@ export class AiComponent implements OnInit {
 		}
 	}
 
-	protected readonly isSQL = isSQL;
+	alternative() {
+		this.sendMessage(this.chat.reverse().find(chat => chat.user === Role.User)!.txt);
+	}
 }

@@ -4,7 +4,6 @@ import { environment } from "../../environments/environment";
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { firstValueFrom, Subscription } from "rxjs";
-import { Router } from "@angular/router";
 import { Server, SSH } from "../../classes/server";
 import { RequestService } from "../../shared/request.service";
 import * as drivers from '../../drivers/index';

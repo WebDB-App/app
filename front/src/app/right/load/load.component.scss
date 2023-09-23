@@ -18,5 +18,9 @@
 
 	.mat-card-header {
 		align-items: center;
+
+		::ng-deep .mat-card-header-text {
+			display: none;
+		}
 	}
 }

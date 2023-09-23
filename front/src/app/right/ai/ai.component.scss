@@ -19,6 +19,10 @@
 	padding: 8px;
 	font-size: 14px;
 
+	::ng-deep .mat-expansion-panel-body {
+		padding: 1px 1px;
+	}
+
 	> div {
 		gap: 20px;
 		display: flex;
