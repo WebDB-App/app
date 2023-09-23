@@ -1,6 +1,8 @@
 node_modules
 src/front/
 out/
+dist/
 
+src/shared/common-helper.mjs
 src/endpoint/subscription/licence
 src/endpoint/subscription/public_key.pub

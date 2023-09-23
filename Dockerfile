@@ -1,6 +1,4 @@
-ARG BRANCH_NAME
-
-FROM node:lts-alpine AS front
+FROM --platform=$BUILDPLATFORM node:alpine AS front
 ENV NODE_ENV=production
 
 RUN corepack enable && corepack prepare pnpm@latest --activate
@@ -19,7 +17,7 @@ RUN pnpm run build
 COPY ./front/changelog.html ./dist/webdb
 
 
-FROM node:lts-alpine
+FROM node:alpine
 ENV NODE_ENV=production
 
 RUN apk update
@@ -41,4 +39,4 @@ RUN cp .env.production .env
 COPY --from=front /usr/src/app/dist/webdb ./src/front
 
 EXPOSE 22071
-ENTRYPOINT NODE_ENV=production npm run start
+ENTRYPOINT ["npm", "run", "start"]

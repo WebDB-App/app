@@ -1,10 +1,9 @@
-- distribuer sur les store DEPUIS DOCKER
-- deps: Brew + chocolate + apt + yum
-- autoupdate
-- fresh install : network authorization
-- test binaires (mysql-client bash mongodb-tools postgresql-client python3 make g++ openssh-keygen)
+post linkedin : arm arch supported + link to /install + capture ecran dockerhub + docker official image / extensions
+docker official image / extensions
+rebase
 
 
+- passer sur la dev
 
 # Server gît avec autobackup
 - Checksum par table
@@ -13,23 +12,21 @@
 - permet just de force revert avec nombre de ligne de diff
 
 
-# DB
-- SQLServer
-- Cockroachdb
-- Oracle
-- SQLite
-
 
 ----------------------------------------------------------
 
 
+- SQLServer
+- Cockroachdb
 
 
 # Tests
+- pupetter (generate par IA ?)
+- plusieurs version de bdd
 - gitlab docker fullstack test
-- Unit Test open source (generate par IA ?) en front avec plusieurs version de bdd
-- revoir front : Compatibility
+- mock openai
 - test en parralele avec scenario et anaylyse de text
+- utiulise l'image du registry gitlab pour les tests. Push sur docker hub si tests ok
 
 
 # Relation wizard
@@ -50,6 +47,7 @@
 
 
 # IA
+- Welcom to intercativ ai
 - Export Query : btn to export via IA (Stripe Metadata additionnal feature)
 - faraday.dev
 - own model : crud les complexes
@@ -62,12 +60,6 @@
 - https://media.licdn.com/dms/image/D4E22AQGx27end7jE5Q/feedshare-shrink_800/0/1684474332765?e=1688601600&v=beta&t=g1NR0-Uuifv4muNn1Hps1p8H5BjYDOU9w1Sej-NkkqY
 - https://external-preview.redd.it/chatgpt-for-data-science-cheat-sheet-v0-Odpv_XqB8SiefptXNzZP-t9AjrVOxg0IF81UuKFx2sw.jpg?auto=webp&s=2b8b8a80fa2c3a4b6f85545cffa26726021a60a4
 
-
-# Bin
-- electron-nightly
-- release on gitlab with tags and message summary par AI ??
-- search in page + tabs/multi window + URL
-- recent database in dock/taskbar/desktoplaucheractions
 
 
 # Other
