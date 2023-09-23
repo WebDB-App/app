@@ -31,8 +31,9 @@ class Controller {
 	async sample(req, res) {
 		const [wrapper, database] = await http.getLoggedDriver(req);
 
-		let txt = `Respond me in ${req.body.language} for natural language and markdown for codes.
-If you miss information or if you need precisions of my database or server, write me queries to run so I can give you back results.
+		let txt = `I'm WebDB, a database IDE.
+Respond to the user in ${req.body.language} for natural language and markdown for codes.
+Ask any questions you need for more information. Ask the questions in multiple choice form, one at a time, and let me know on each response how many questions are left.
 Don't respond on supposition, only based on the following data:
 There is a database called "${database}" on a ${wrapper.constructor.name} server.`;
 
@@ -54,7 +55,7 @@ There is a database called "${database}" on a ${wrapper.constructor.name} server
 				}
 			}
 
-			txt += `\n\nThere is is a entity with structure : \`\`\`${table.structure}\`\`\` and associated data : \`\`\`${JSON.stringify(table.data)}\`\`\`.`;
+			txt += `\n\nThere is a entity with structure : \`\`\`${table.structure}\`\`\` and with this associated data : \`\`\`${JSON.stringify(table.data)}\`\`\`.`;
 		}
 		res.send({txt});
 	}

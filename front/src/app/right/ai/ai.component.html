@@ -184,6 +184,8 @@
 					></ngx-monaco-editor>
 				</mat-expansion-panel>
 			</mat-accordion>
+
+			<mat-divider style="margin-top: 20px"></mat-divider>
 		</div>
 	</mat-toolbar>
 
@@ -237,9 +239,7 @@
 							(click)="message.value = ch.txt"
 							*ngIf="ch.user === Role.User"
 							color="accent"
-							mat-icon-button
-							matTooltip="Edit request"
-							matTooltipPosition="left">
+							mat-icon-button>
 							<span class="material-symbols-outlined notranslate">
 								edit
 							</span>
