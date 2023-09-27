@@ -39,4 +39,4 @@ RUN cp .env.production .env
 COPY --from=front /usr/src/app/dist/webdb ./src/front
 
 EXPOSE 22071
-ENTRYPOINT ["npm", "run", "start"]
+CMD ["npm", "run", "start"]

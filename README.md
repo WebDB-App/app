@@ -1,10 +1,3 @@
-post linkedin : arm arch supported + link to /install + capture ecran dockerhub + docker official image / extensions
-docker official image / extensions
-rebase
-
-
-- passer sur la dev
-
 # Server gît avec autobackup
 - Checksum par table
 - back : each ENV_VAR_SECONDS

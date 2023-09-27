@@ -1,0 +1,16 @@
+{
+	"icon": "webdb.svg",
+	"vm": {
+		"composefile": "docker-compose.yaml",
+		"exposes": {
+			"port": "22073"
+		}
+	},
+	"ui": {
+		"dashboard-tab": {
+			"title": "WebDB",
+			"src": "index.html",
+			"root": "."
+		}
+	}
+}

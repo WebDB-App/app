@@ -1,0 +1,6 @@
+services:
+    extension:
+        image: ${DESKTOP_PLUGIN_IMAGE}
+        ports:
+            - "22073:22071"
+        restart: always
