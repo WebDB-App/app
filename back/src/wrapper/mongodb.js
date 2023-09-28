@@ -263,7 +263,7 @@ export default class MongoDB extends Driver {
 					name: options.validator.$jsonSchema.description,
 					database: database.name,
 					table: collection.name,
-					type: commonHelper.complex.VALIDATOR
+					type: helper.complex.VALIDATOR
 				});
 			});
 		}
@@ -385,9 +385,9 @@ export default class MongoDB extends Driver {
 	async runCommand(command, database = false) {
 		let db = this.connection;
 		let lgth = -1;
-		const start = Date.now();
+		let cid;
 
-		command = commonHelper.removeComment(command);
+		command = helper.removeComment(command);
 		if (!command.trim().startsWith("return")) {
 			command = `return ${command}`;
 		}
@@ -396,6 +396,7 @@ export default class MongoDB extends Driver {
 			if (database) {
 				db = await this.connection.db(database);
 			}
+			cid = bash.startCommand(command, database, this.port);
 			const fct = new Function("db", "bson", "mongo", command);
 			const res = await fct(db, bson, MongoClient);
 			lgth = res.length;
@@ -403,7 +404,7 @@ export default class MongoDB extends Driver {
 		} catch (e) {
 			return {error: e.message};
 		} finally {
-			bash.logCommand(command, database, Date.now() - start, this.port, lgth);
+			bash.endCommand(cid, lgth);
 		}
 	}
 
@@ -455,7 +456,7 @@ export default class MongoDB extends Driver {
 		}
 
 		if (query.indexOf(".aggregate(") >= 0) {
-			query = commonHelper.mongo_injectAggregate(query, { "$group": { "_id": null, "count": { "$sum": 1 } } });
+			query = helper.mongo_injectAggregate(query, { "$group": { "_id": null, "count": { "$sum": 1 } } });
 			let result = await this.runCommand(query, database);
 			if (result.error) {
 				return "0";
@@ -483,8 +484,8 @@ export default class MongoDB extends Driver {
 			query.indexOf("limit") < 0) {
 
 			if (query.indexOf(".aggregate(") >= 0) {
-				query = commonHelper.mongo_injectAggregate(query, { "$limit": pageSize });
-				query = commonHelper.mongo_injectAggregate(query, { "$skip": page });
+				query = helper.mongo_injectAggregate(query, { "$limit": pageSize });
+				query = helper.mongo_injectAggregate(query, { "$skip": page });
 			} else if (query.indexOf(".toArray(") >= 0) {
 				query = query.replace(".toArray()", `.skip(${page * pageSize}).limit(${pageSize}).toArray()`);
 			}

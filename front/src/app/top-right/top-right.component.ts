@@ -71,7 +71,7 @@ export class LogsDialog implements OnDestroy {
 	strFiltered: any = "";
 	filter = "";
 	interval?: NodeJS.Timer;
-	file: 'out.log' | 'err.log' = "out.log";
+	file: 'finished.log' | 'error.log' = "finished.log";
 
 	constructor(
 		private http: HttpClient,

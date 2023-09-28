@@ -227,20 +227,21 @@ export default class MySQL extends SQL {
 
 	async runCommand(command, database = false) {
 		const connection = await this.connection.promise().getConnection();
-		const start = Date.now();
 		let lgth = -1;
+		let cid;
 
 		try {
 			if (database) {
 				await connection.query(`USE \`${database}\``);
 			}
+			cid = bash.startCommand(command, database, this.port);
 			const [res] = await connection.query(command);
 			lgth = res.length;
 			return res;
 		} catch (e) {
 			return this.foundErrorPos({error: e.sqlMessage}, command);
 		} finally {
-			bash.logCommand(command, database, Date.now() - start, this.port, lgth);
+			bash.endCommand(cid, lgth);
 			connection.release();
 		}
 	}

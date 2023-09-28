@@ -28,5 +28,6 @@ app.all("*", (req, res) => {
 });
 
 export const server = app.listen(port, () => {
-	bash.logCommand("WebDB App running", "database", "ping_", port, "rows");
+	const cid = bash.startCommand("WebDB App running", "database", port);
+	bash.endCommand(cid,  "rows", "ping_");
 });
