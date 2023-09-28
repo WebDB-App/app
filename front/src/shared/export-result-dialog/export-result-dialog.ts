@@ -2,6 +2,9 @@ import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { saveAs } from "file-saver-es";
 import { Table } from "../../classes/table";
+import { Column } from "../../classes/column";
+import { Server } from "../../classes/server";
+import { Group } from "../../classes/driver";
 
 @Component({
 	templateUrl: './export-result-dialog.html',
@@ -21,7 +24,9 @@ export class ExportResultDialog {
 	constructor(
 		@Inject(MAT_DIALOG_DATA) public data: any[],
 	) {
-		this.columns = Object.keys(this.data[0]);
+		this.columns = Object.keys(this.data[0]).filter(col => {
+			return !Column.isOfGroups(Server.getSelected().driver, Table.getSelected().columns.find(c => c.name === col)!, [Group.Blob]);
+		});
 		this.show(this.columns);
 	}
 
