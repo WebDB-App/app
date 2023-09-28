@@ -82,7 +82,7 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	showError() {
 		this.dialog.open(LogsDialog, {
-			data: 'err.log',
+			data: 'error.log',
 			hasBackdrop: false
 		});
 	}

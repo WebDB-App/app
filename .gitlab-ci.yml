@@ -43,7 +43,6 @@ docker:
                 ./changeLog.sh 2d3cf36c03dfda72765ada56cea1310c6a58f139 > ./changelog.html
             )
         - docker login -u 'webdb' -p $DOCKER_PASS
-        - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
         - docker buildx create --use
         - docker buildx build --cache-from $IMAGE_NAME:$CI_COMMIT_REF_NAME --platform linux/arm64,linux/amd64 -t $IMAGE_NAME:$CI_COMMIT_REF_NAME --push .
         - '[[ $CI_COMMIT_REF_NAME == "main" ]] && docker buildx build --cache-from $IMAGE_NAME:$CI_COMMIT_REF_NAME --platform linux/arm64,linux/amd64 -t $IMAGE_NAME --push .'
