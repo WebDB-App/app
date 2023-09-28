@@ -1,30 +1,50 @@
-<ng-container *ngIf="fkLink">
-	<a [queryParams]="fkParams"
-	   [routerLink]="fkLink">
-		{{value}}
-	</a>
+<ng-container *ngIf="blob && value">
+	<button
+		(click)="download()"
+		mat-icon-button>
+		<span class="material-symbols-outlined">
+			download
+		</span>
+	</button>
+	<button
+		matTooltipPosition="left"
+		[matTooltip]="value.substring(0, 100)"
+		mat-icon-button>
+		<span class="material-symbols-outlined">
+			preview
+		</span>
+	</button>
 </ng-container>
+<ng-container *ngIf="!blob">
+	<ng-container *ngIf="fkLink">
+		<a [queryParams]="fkParams"
+		   [routerLink]="fkLink">
+			{{value}}
+		</a>
+	</ng-container>
 
-<ng-container *ngIf="!fkLink">
-	<ng-container *ngIf="nested">
-		<ng-container *ngIf="expand">
-			<ngx-json-viewer
-				[expanded]="false"
-				[json]="value">
-			</ngx-json-viewer>
+	<ng-container *ngIf="!fkLink">
+		<ng-container *ngIf="nested">
+			<ng-container *ngIf="expand">
+				<ngx-json-viewer
+					[expanded]="false"
+					[json]="value">
+				</ngx-json-viewer>
+			</ng-container>
+			<ng-container *ngIf="!expand">
+				<button
+					(click)="expand = true; ref.nativeElement.style.resize = 'both'"
+					mat-icon-button>
+					<span class="material-symbols-outlined">
+						folder_open
+					</span>
+				</button>
+			</ng-container>
 		</ng-container>
-		<ng-container *ngIf="!expand">
-			<button
-				(click)="expand = true; ref.nativeElement.style.resize = 'both'"
-				mat-icon-button>
-				<span class="material-symbols-outlined">
-					folder_open
-				</span>
-			</button>
+		<ng-container
+			*ngIf="!nested">
+			{{value}}
 		</ng-container>
 	</ng-container>
-	<ng-container
-		*ngIf="!nested">
-		{{value}}
-	</ng-container>
+
 </ng-container>

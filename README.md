@@ -1,18 +1,12 @@
-auto wrap quote
+- auto wrap quote
+- cockraochdb
 
 
-# Server gît avec autobackup
-- Checksum par table
-- back : each ENV_VAR_SECONDS
-- show git remote
-- permet just de force revert avec nombre de ligne de diff
 
 
 
 ----------------------------------------------------------
 
-
-- SQLServer
 
 
 # Tests
@@ -22,6 +16,13 @@ auto wrap quote
 - mock openai
 - test en parralele avec scenario et anaylyse de text
 - utiulise l'image du registry gitlab pour les tests. Push sur docker hub si tests ok
+
+
+# Server gît avec autobackup
+- Checksum par table
+- back : each ENV_VAR_SECONDS
+- show git remote
+- permet just de force revert avec nombre de ligne de diff
 
 
 # Relation wizard

@@ -5,6 +5,9 @@ import { Server } from "../../classes/server";
 import { Database } from "../../classes/database";
 import helper from "../common-helper.mjs";
 import { Params } from "@angular/router";
+import { saveAs } from "file-saver-es";
+import { Column } from "../../classes/column";
+import { Group } from "../../classes/driver";
 
 @Component({
 	selector: 'app-cell',
@@ -23,6 +26,7 @@ export class CellComponent implements OnInit {
 	expand = true;
 	fkLink?: string[];
 	fkParams?: Params;
+	blob = false;
 
 	constructor(
 		public ref: ElementRef
@@ -32,6 +36,14 @@ export class CellComponent implements OnInit {
 	ngOnInit(): void {
 		if (this.value === undefined) {
 			return;
+		}
+
+		const col = Table.getSelected().columns.find(col => col.name === this.column);
+		if (col) {
+			this.blob = Column.isOfGroups(Server.getSelected().driver, col, [Group.Blob]);
+			if (this.blob) {
+				return;
+			}
 		}
 
 		this.relations = Table.getRelations();
@@ -62,5 +74,10 @@ export class CellComponent implements OnInit {
 				this.fkParams = {chips: this.selectedServer?.driver.quickSearch(this.selectedServer?.driver, col, ref) + ';'}
 			}
 		}
+	}
+
+	download() {
+		const blob = new Blob([this.value.data]);
+		saveAs(blob, Table.getSelected().name + '-' + this.column.toLowerCase() + '.bin');
 	}
 }

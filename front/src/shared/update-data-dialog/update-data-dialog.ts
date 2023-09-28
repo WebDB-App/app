@@ -5,6 +5,8 @@ import { RequestService } from "../request.service";
 import { Table } from "../../classes/table";
 import { Server } from "../../classes/server";
 import { Database } from "../../classes/database";
+import { Column } from "../../classes/column";
+import { Group } from "../../classes/driver";
 
 @Component({
 	templateUrl: './update-data-dialog.html',
@@ -27,10 +29,17 @@ export class UpdateDataDialog {
 		public snackBar: MatSnackBar,
 		private request: RequestService,
 		@Inject(MAT_DIALOG_DATA) public data: {
-			row: {},
+			row: any,
 			updateInPlace: boolean
 		},
 	) {
+		data.row = {...data.row};
+		for (const col of Object.keys(data.row)) {
+			if (Column.isOfGroups(Server.getSelected().driver, Table.getSelected().columns.find(c => c.name === col)!, [Group.Blob])) {
+				delete data.row[col];
+			}
+		}
+
 		this.str = JSON.stringify(data.row, null, "\t");
 		this.loadSuggestions();
 		this.selectedServer = Server.getSelected();

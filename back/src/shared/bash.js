@@ -1,8 +1,8 @@
 import {execSync} from "child_process";
 import helper from "./common-helper.mjs";
-import {BSON} from "mongodb";
 import {URL} from "url";
 import {writeFileSync, appendFileSync} from "fs";
+import {randomUUID} from "crypto";
 
 const dirname = new URL(".", import.meta.url).pathname;
 const finished = dirname + "../front/logs/finished.log";
@@ -15,7 +15,7 @@ class Bash {
 	}
 
 	startCommand(command, database, port) {
-		const cid = BSON.UUID.generate();
+		const cid = randomUUID();
 
 		database = database ? `\x1B[36m${database.padStart(20, " ")}\x1b[0m` : " ".padStart(20, " ");
 		command = helper.singleLine(command).trim();

@@ -68,16 +68,7 @@ There is a database called "${database}" on a ${wrapper.constructor.name} server
 			rows = rows.slice(0, process.env.RESULT_LIMIT || 5000).map(row => {
 				for (const [key, col] of Object.entries(row)) {
 					if (Buffer.isBuffer(col)) {
-						row[key] = {
-							type: "###BLOB###",
-							//cards
-							preview: col.subarray(0, 1024).toString(),
-						};
-
-						//tableau 1000 buff temp
-
-						//set id to download
-						//upload
+						row[key] = col.toString();
 					}
 				}
 				return row;
