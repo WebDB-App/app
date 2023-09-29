@@ -1,5 +1,5 @@
-- auto wrap quote
-- cockraochdb
+- tester mysql namedel (crud data, column)
+- cockraochdb : guess + docs
 
 
 

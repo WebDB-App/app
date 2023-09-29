@@ -22,7 +22,6 @@ export class SQL implements Driver {
 		defaultParams: {},
 		disclaimerSsh: "",
 		acceptedExt: [".sql", ".json"],
-		nameDel: this.configuration.getByName("useNameDel")?.value ? '"' : '',
 		fileTypes: [
 			{extension: "json", name: "JSON"},
 			{extension: "sql", name: "SQL"},
@@ -225,8 +224,15 @@ export class SQL implements Driver {
 		return `'${value}'`;
 	}
 
+	wrapStructure(structure: string) {
+		if (structure.match(/^[a-z]+$/)) {
+			return structure;
+		}
+		return `"${structure}"`;
+	}
+
 	quickSearch(driver: Driver, column: Column, value: string) {
-		let chip = `${this.connection.nameDel + column.name + this.connection.nameDel} `;
+		let chip = this.wrapStructure(column.name) + ' ';
 		if (driver.language.comparators.find((comparator) => {
 			return value.toLowerCase().startsWith(comparator.symbol.toLowerCase() + ' ')
 		})) {
@@ -523,8 +529,8 @@ export class SQL implements Driver {
 	}
 
 	basicFilter(table: Table, condition: string[], operand: 'AND' | 'OR') {
-		const cols = table.columns.map(column => `${this.connection.nameDel + column.name + this.connection.nameDel}`);
-		const select = `SELECT ${cols.join(', ')} FROM ${this.connection.nameDel + table.name + this.connection.nameDel}`;
+		const cols = table.columns.map(column => this.wrapStructure(column.name));
+		const select = `SELECT ${cols.join(', ')} FROM ` + this.wrapStructure(table.name);
 		if (condition.length < 1) {
 			return select;
 		}
@@ -537,32 +543,32 @@ export class SQL implements Driver {
 	}
 
 	getColForSelect(columns: Column[]) {
-		return columns.map(column => `${this.connection.nameDel + column.name + this.connection.nameDel}`);
+		return columns.map(column => this.wrapStructure(column.name));
 	}
 
 	getColForWhere(columns: Column[]) {
-		return columns.map(column => `${this.connection.nameDel + column.name + this.connection.nameDel} = '${column.type.replaceAll("'", '"')}'`);
+		return columns.map(column => `${this.wrapStructure(column.name)} = '${column.type.replaceAll("'", '"')}'`);
 	}
 
 	queryTemplates = {
 		"select": (table: Table) => {
 			const cols = this.getColForSelect(table.columns).join(', ');
 			const where = this.getColForWhere(table.columns).join(" AND ");
-			return `SELECT ${cols} FROM ${this.connection.nameDel + table.name + this.connection.nameDel} WHERE ${where}`;
+			return `SELECT ${cols} FROM ${this.wrapStructure(table.name)} WHERE ${where}`;
 		},
 		"delete": (table: Table) => {
-			const cols = table.columns.map(column => `${this.connection.nameDel + column.name + this.connection.nameDel} = '${column.type}'`);
-			return `DELETE FROM ${this.connection.nameDel + table.name + this.connection.nameDel} WHERE ${cols.join(" AND ")}`;
+			const cols = table.columns.map(column => `${this.wrapStructure(column.name)} = '${column.type}'`);
+			return `DELETE FROM ${this.wrapStructure(table.name)} WHERE ${cols.join(" AND ")}`;
 		},
 		"insert": (table: Table) => {
 			const cols = this.getColForSelect(table.columns).join(', ');
 			const values = this.getColForWhere(table.columns).join(', ');
-			return `INSERT INTO ${this.connection.nameDel + table.name + this.connection.nameDel} (${cols}) VALUES (${values})`;
+			return `INSERT INTO ${this.wrapStructure(table.name)} (${cols}) VALUES (${values})`;
 		},
 		"update": (table: Table) => {
 			const cols = this.getColForSelect(table.columns).map(col => `${col} = ''`);
 			const where = this.getColForWhere(table.columns).join(" AND ");
-			return `UPDATE ${this.connection.nameDel + table.name + this.connection.nameDel} SET ${cols} WHERE ${where}`;
+			return `UPDATE ${this.wrapStructure(table.name)} SET ${cols} WHERE ${where}`;
 		},
 		"select join group": (table: Table, relations: Relation[]) => {
 			const columns = table.columns.map(column => `${table.name}.${column.name}`).join(', ');

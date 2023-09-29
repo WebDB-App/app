@@ -22,7 +22,6 @@ export class MongoDB implements Driver {
 			authSource: 'admin'
 		},
 		acceptedExt: ['.csv', '.tsv', '.json', '.gz'],
-		nameDel: this.configuration.getByName("useNameDel")?.value ? '"' : '',
 		fileTypes: [
 			{extension: "json", name: "JSON"},
 			{extension: "bson", name: "BSON"},
@@ -227,7 +226,7 @@ async function main() {
 	getColumns(table: Table) {
 		const cols = [];
 		for (const column of table.columns) {
-			let col = `${this.connection.nameDel + column.name + this.connection.nameDel}: `;
+			let col = `"${column.name}": `;
 			if (Array.isArray(column.type)) {
 				col += JSON.stringify(column.type);
 			} else {

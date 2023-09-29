@@ -17,7 +17,6 @@ export class MySQL extends SQL {
 
 		this.connection = {
 			...this.connection,
-			nameDel: this.configuration.getByName("useNameDel")?.value ? '`' : '',
 			disclaimerSsh: "MySQL require password for remote connection",
 			defaultParams: {
 				dateStrings: true,
@@ -310,5 +309,12 @@ async function main() {
 				return code;
 			}
 		}
+	}
+
+	override wrapStructure(structure: string) {
+		if (structure.match(/^[a-z]+$/)) {
+			return structure;
+		}
+		return `\`${structure}\``;
 	}
 }

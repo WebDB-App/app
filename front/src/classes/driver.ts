@@ -47,7 +47,6 @@ export interface Driver {
 		defaultParams: {},
 		disclaimerSsh?: string,
 		acceptedExt: string[],
-		nameDel: string,
 		fileTypes: FileType[]
 	}
 

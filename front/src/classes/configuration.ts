@@ -21,10 +21,6 @@ export class Configuration {
 			description: 'Time in second to reload data when activated',
 			values: ['3', '5', '15']
 		}, {
-			name: 'useNameDel',
-			description: 'Use special char to enclose table and column name',
-			values: [false, true]
-		}, {
 			name: 'noSqlSample',
 			description: 'Sample size to infer NoSQL structure from',
 			values: ['50', '200', '500']
