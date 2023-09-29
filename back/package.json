@@ -3,12 +3,15 @@
 	"version": "PACKAGE_VERSION",
 	"description": "Free and Efficient Database IDE",
 	"productName": "WebDB",
+	"main": "./electron/main.js",
 	"author": {
 		"name": "WebDB",
 		"email": "main.webdb@gmail.com"
 	},
 	"type": "module",
 	"scripts": {
+		"electron": "electron .",
+		"dist": "electron-builder --win --linux",
 		"start": "NODE_ENV=production src/index.js 2>> src/front/logs/err.log",
 		"dev:back": "nodemon src/index.js 2>> src/front/logs/err.log",
 		"lint": "eslint . --fix",
@@ -18,8 +21,8 @@
 		"axios": "latest",
 		"cors": "latest",
 		"dotenv": "latest",
+		"electron-squirrel-startup": "latest",
 		"express": "latest",
-		"javascript-obfuscator": "latest",
 		"mongodb": "latest",
 		"multer": "latest",
 		"mysql2": "latest",
@@ -30,7 +33,46 @@
 		"tunnel-ssh": "latest"
 	},
 	"devDependencies": {
+		"electron-builder": "latest",
+		"electron-nightly": "latest"
+	},
+	"optionalDependencies": {
 		"eslint": "latest",
 		"nodemon": "latest"
+	},
+	"build": {
+		"appId": "com.webdb.app",
+		"copyright": "Copyright © 2023 WebDB"
+	},
+	"config": {
+		"forge": {
+			"packagerConfig": {
+				"icon": "./electron/webdb"
+			},
+			"makers": [
+				{
+					"name": "@electron-forge/maker-squirrel",
+					"config": {
+						"name": "WebDB",
+						"iconUrl": "https://webdb.app/webdb.ico",
+						"setupIcon": "./electron/webdb.ico"
+					}
+				},
+				{
+					"name": "@electron-forge/maker-zip",
+					"platforms": [
+						"darwin"
+					]
+				},
+				{
+					"name": "@electron-forge/maker-deb",
+					"config": {
+						"options": {
+							"icon": "./electron/webdb.png"
+						}
+					}
+				}
+			]
+		}
 	}
 }

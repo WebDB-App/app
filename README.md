@@ -1,4 +1,3 @@
-- tester mysql namedel (crud data, column)
 - cockraochdb : guess + docs
 
 
