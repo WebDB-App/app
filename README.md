@@ -1,4 +1,4 @@
-
+- electron?? : apt install + brew install + nuget install
 
 
 
@@ -6,7 +6,7 @@
 
 ----------------------------------------------------------
 
-- cockraochdb : guess + docs
+
 
 # Tests
 - pupetter (generate par IA ?)
@@ -59,7 +59,6 @@
 
 # Other
 - ERD
-- electron?? : apt install + brew install + nuget install
 - sql function doc (generate from web scrap)
 - Export Query : tester tout
 - revoir MySQL load avec tunnel (essayer en bash)
