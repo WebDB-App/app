@@ -1,4 +1,3 @@
-- tester mysql namedel (crud data, column)
 - cockraochdb : guess + docs
 
 
@@ -60,6 +59,7 @@
 
 # Other
 - ERD
+- electron?? : apt install + brew install + nuget install
 - sql function doc (generate from web scrap)
 - Export Query : tester tout
 - revoir MySQL load avec tunnel (essayer en bash)

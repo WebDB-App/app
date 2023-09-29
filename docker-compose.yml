@@ -31,10 +31,10 @@ services:
         command: start-single-node --insecure
         ports:
             - 26257:26257
+        environment:
+            COCKROACH_USER: 'root'
+            COCKROACH_PASSWORD: 'password'
 
-    # tidb:
-
-    # vitess
 
 #    sqldata:
 #        image: mcr.microsoft.com/mssql/server:2017-latest
