@@ -1,25 +1,15 @@
-- tester windows / linux
-- requirements : brew install + nuget install
-- tests : mysql-client bash mongodb-tools postgresql-client openssh-keygen
+- cockraochdb : guess + docs
 
 
+# Tests
+- backend
+- plusieurs version de bdd
+- branch dev : test en la place de release : gitlab test docker image
 
 
 
 
 ----------------------------------------------------------
-
-- dev : pas tests a la place de release
-- cockraochdb : guess + docs
-
-
-# Tests
-- pupetter (generate par IA ?)
-- plusieurs version de bdd
-- gitlab docker fullstack test
-- mock openai
-- test en parralele avec scenario et anaylyse de text
-- utiulise l'image du registry gitlab pour les tests. Push sur docker hub si tests ok
 
 
 # Server gît avec autobackup
@@ -27,6 +17,11 @@
 - back : each ENV_VAR_SECONDS
 - show git remote
 - permet just de force revert avec nombre de ligne de diff
+
+
+# Bin
+- tester windows / linux
+- electron-nightly + setUserTasks
 
 
 # Relation wizard
@@ -47,7 +42,7 @@
 
 
 # IA
-- Welcom to intercativ ai
+- Welcome to interactive ai
 - Export Query : btn to export via IA (Stripe Metadata additionnal feature)
 - faraday.dev
 - own model : crud les complexes
@@ -64,7 +59,6 @@
 
 # Other
 - ERD
-- bin : electron-nightly + setUserTasks
 - sql function doc (generate from web scrap)
 - Export Query : tester tout
 - revoir MySQL load avec tunnel (essayer en bash)

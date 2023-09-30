@@ -7,8 +7,6 @@ stages:
 include:
     - template: Security/Secret-Detection.gitlab-ci.yml
 
-
-
 .common: &common
     rules:
         -   if: $CI_COMMIT_TAG
@@ -59,7 +57,7 @@ binaries:
         - prepare
     stage: build
     tags:
-        - saas-macos-medium-m1
+        - mbp
     image: macos-12-xcode-14
     script:
         - curl "https://nodejs.org/dist/latest/node-${VERSION:-$(wget -qO- https://nodejs.org/dist/latest/ | sed -nE 's|.*>node-(.*)\.pkg</a>.*|\1|p')}.pkg" > "$HOME/Downloads/node-latest.pkg" && sudo installer -store -pkg "$HOME/Downloads/node-latest.pkg" -target "/"
@@ -91,8 +89,8 @@ docker:
         - cd back
         - docker login -u 'webdb' -p $DOCKER_PASS
         - docker buildx create --use
-        - '[[ $CI_COMMIT_REF_NAME != "main" ]] && docker buildx build --cache-from $IMAGE_NAME:$CI_COMMIT_REF_NAME --platform linux/arm64,linux/amd64 -t $IMAGE_NAME:$CI_COMMIT_REF_NAME --push .'
-        - '[[ $CI_COMMIT_REF_NAME == "main" ]] && docker buildx build --cache-from $IMAGE_NAME:$CI_COMMIT_REF_NAME --platform linux/arm64,linux/amd64 -t $IMAGE_NAME:$CI_COMMIT_REF_NAME -t $IMAGE_NAME --push .'
+        - '[[ $CI_COMMIT_REF_NAME != "main" ]] && docker buildx build --cache-from $IMAGE_NAME:$CI_COMMIT_REF_NAME --platform linux/arm64,linux/amd64 -t $IMAGE_NAME:$CI_COMMIT_REF_NAME --push . || echo'
+        - '[[ $CI_COMMIT_REF_NAME == "main" ]] && docker buildx build --cache-from $IMAGE_NAME:$CI_COMMIT_REF_NAME --platform linux/arm64,linux/amd64 -t $IMAGE_NAME:$CI_COMMIT_REF_NAME -t $IMAGE_NAME --push . || echo'
 
 
 #-----------------------------------------
