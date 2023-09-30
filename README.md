@@ -9,7 +9,7 @@
 
 ----------------------------------------------------------
 
-
+- dev : pas tests a la place de release
 - cockraochdb : guess + docs
 
 

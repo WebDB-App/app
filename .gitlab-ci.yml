@@ -2,6 +2,7 @@ stages:
     - test
     - prepare
     - build
+    - release
 
 include:
     - template: Security/Secret-Detection.gitlab-ci.yml
@@ -39,7 +40,7 @@ prepare:
         - ./changeLog.sh 2d3cf36c03dfda72765ada56cea1310c6a58f139 > ./dist/webdb/changelog.html
     artifacts:
         paths:
-            - ./dist/webdb
+            - ./dist/webdb/
 
 binaries:
     <<: *common
@@ -59,8 +60,8 @@ binaries:
         paths:
             - ./dist/
 
-gitlab:release:
-    stage: build
+release:
+    stage: release
     image: registry.gitlab.com/gitlab-org/release-cli:latest
     rules:
         -   if: $CI_COMMIT_TAG
