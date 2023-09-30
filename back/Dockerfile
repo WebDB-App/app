@@ -12,7 +12,6 @@ COPY ./package.json ./pnpm-lock.yaml ./
 RUN pnpm install --prod --frozen-lockfile
 
 COPY . .
-COPY common-helper.mjs ./src/shared/common-helper.mjs
 
 RUN npm run obfuscate
 RUN cp .env.production .env

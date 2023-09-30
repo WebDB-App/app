@@ -87,6 +87,7 @@ docker:
         - docker:dind
     script:
         - cp -fr ./front/dist/webdb/* ./back/src/front/
+        - rm ./back/src/shared/common-helper.mjs && cp common-helper.mjs ./back/src/shared/common-helper.mjs
         - cd back
         - docker login -u 'webdb' -p $DOCKER_PASS
         - docker buildx create --use
