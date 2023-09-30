@@ -12,7 +12,7 @@ eslint:
     image: registry.gitlab.com/pipeline-components/eslint:latest
     script:
         - cd back
-        - eslint $( [[ -e .eslintrc ]] || echo '--no-eslintrc' ) --color .
+        - eslint --color .
 
 .common: &common
     rules:
