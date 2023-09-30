@@ -7,12 +7,7 @@ stages:
 include:
     - template: Security/Secret-Detection.gitlab-ci.yml
 
-eslint:
-    stage: test
-    image: registry.gitlab.com/pipeline-components/eslint:latest
-    script:
-        - cd back
-        - eslint --color .
+
 
 .common: &common
     rules:
@@ -23,6 +18,21 @@ eslint:
     before_script:
         - printenv
         - sed -i "s/PACKAGE_VERSION/$(date '+%y.%m.%d')/g" **/package.json
+
+
+#-----------------------------------------
+
+
+eslint:
+    stage: test
+    image: registry.gitlab.com/pipeline-components/eslint:latest
+    script:
+        - cd back
+        - eslint --color .
+
+
+#-----------------------------------------
+
 
 prepare:
     <<: *common
@@ -39,6 +49,10 @@ prepare:
         paths:
             - ./front/dist/webdb/
 
+
+#-----------------------------------------
+
+
 binaries:
     <<: *common
     dependencies:
@@ -49,7 +63,7 @@ binaries:
     image: macos-12-xcode-14
     script:
         - curl "https://nodejs.org/dist/latest/node-${VERSION:-$(wget -qO- https://nodejs.org/dist/latest/ | sed -nE 's|.*>node-(.*)\.pkg</a>.*|\1|p')}.pkg" > "$HOME/Downloads/node-latest.pkg" && sudo installer -store -pkg "$HOME/Downloads/node-latest.pkg" -target "/"
-        - cp ./front/dist/webdb/* ./back/src/front/
+        - cp -fr ./front/dist/webdb/* ./back/src/front/
         - cd back
         - cp .env.production .env
         - npm install --prod --frozen-lockfile
@@ -58,6 +72,31 @@ binaries:
     artifacts:
         paths:
             - ./dist/
+
+docker:
+    <<: *common
+    dependencies:
+        - prepare
+    stage: build
+    variables:
+        IMAGE_NAME: webdb/app
+        DOCKER_HOST: tcp://docker:2375/
+        DOCKER_DRIVER: overlay2
+    image: docker:latest
+    services:
+        - docker:dind
+    script:
+        - cp -fr ./front/dist/webdb/* ./back/src/front/
+        - cd back
+        - docker login -u 'webdb' -p $DOCKER_PASS
+        - docker buildx create --use
+        - '[[ $CI_COMMIT_REF_NAME != "main" ]] && docker buildx build --cache-from $IMAGE_NAME:$CI_COMMIT_REF_NAME --platform linux/arm64,linux/amd64 -t $IMAGE_NAME:$CI_COMMIT_REF_NAME --push .'
+        - '[[ $CI_COMMIT_REF_NAME == "main" ]] && docker buildx build --cache-from $IMAGE_NAME:$CI_COMMIT_REF_NAME --platform linux/arm64,linux/amd64 -t $IMAGE_NAME:$CI_COMMIT_REF_NAME -t $IMAGE_NAME --push .'
+
+
+#-----------------------------------------
+
+
 
 release:
     stage: release
@@ -75,24 +114,3 @@ release:
         description: 'Created using the release-cli $EXTRA_DESCRIPTION'
         tag_name: '$TAG'
         ref: '$CI_COMMIT_SHA'
-
-
-docker:
-    <<: *common
-    dependencies:
-        - prepare
-    stage: build
-    variables:
-        IMAGE_NAME: webdb/app
-        DOCKER_HOST: tcp://docker:2375/
-        DOCKER_DRIVER: overlay2
-    image: docker:latest
-    services:
-        - docker:dind
-    script:
-        - cp ./front/dist/webdb/* ./back/src/front/
-        - cd back
-        - docker login -u 'webdb' -p $DOCKER_PASS
-        - docker buildx create --use
-        - '[[ $CI_COMMIT_REF_NAME != "main" ]] && docker buildx build --cache-from $IMAGE_NAME:$CI_COMMIT_REF_NAME --platform linux/arm64,linux/amd64 -t $IMAGE_NAME:$CI_COMMIT_REF_NAME --push .'
-        - '[[ $CI_COMMIT_REF_NAME == "main" ]] && docker buildx build --cache-from $IMAGE_NAME:$CI_COMMIT_REF_NAME --platform linux/arm64,linux/amd64 -t $IMAGE_NAME:$CI_COMMIT_REF_NAME -t $IMAGE_NAME --push .'
