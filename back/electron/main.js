@@ -10,16 +10,16 @@ if (squirrel.default) {
 }
 
 const dirname = new URL(".", import.meta.url).pathname;
-dotenv.config({path: dirname + "/../.env"});
+dotenv.config({path: dirname + "/.env"});
 const address = `http://localhost:${Number(process.env.API_PORT)}`;
 
 async function createWindow() {
 	const mainWindow = new BrowserWindow({
 		width: 1200,
 		height: 800,
-		icon: dirname + "/webdb.png",
+		icon: dirname + "/assets/webdb.png",
 		webPreferences: {
-			preload: dirname + "preload.js"
+			preload: dirname + "/preload.js"
 		}
 	});
 

@@ -1,4 +1,7 @@
-- electron?? : apt install + brew install + nuget install
+- tester windows / linux
+- requirements : brew install + nuget install
+- tests : mysql-client bash mongodb-tools postgresql-client openssh-keygen
+
 
 
 
@@ -59,6 +62,7 @@
 
 # Other
 - ERD
+- bin : electron-nightly + setUserTasks
 - sql function doc (generate from web scrap)
 - Export Query : tester tout
 - revoir MySQL load avec tunnel (essayer en bash)
