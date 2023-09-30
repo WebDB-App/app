@@ -3,13 +3,12 @@ ENV NODE_ENV=production
 
 RUN apk update
 RUN apk add mysql-client bash mongodb-tools postgresql-client python3 make g++ openssh-keygen
-RUN corepack enable && corepack prepare pnpm@latest --activate
 
 WORKDIR /usr/src/app
 
-COPY ./package.json ./pnpm-lock.yaml ./
+COPY ./package.json ./package-lock.json ./
 
-RUN pnpm install --prod --frozen-lockfile
+RUN npm install --prod --frozen-lockfile
 
 COPY . .
 
