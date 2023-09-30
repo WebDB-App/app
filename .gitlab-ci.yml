@@ -7,15 +7,12 @@ stages:
 include:
     - template: Security/Secret-Detection.gitlab-ci.yml
 
-image: node:lts-alpine
-
 eslint:
     stage: test
-    interruptible: true
+    image: registry.gitlab.com/pipeline-components/eslint:latest
     script:
         - cd back
-        - npm i
-        - ./node_modules/.bin/eslint . || true
+        - eslint $( [[ -e .eslintrc ]] || echo '--no-eslintrc' ) --color .
 
 .common: &common
     rules:
@@ -40,10 +37,12 @@ prepare:
         - ./changeLog.sh 2d3cf36c03dfda72765ada56cea1310c6a58f139 > ./dist/webdb/changelog.html
     artifacts:
         paths:
-            - ./dist/webdb/
+            - ./front/dist/webdb/
 
 binaries:
     <<: *common
+    dependencies:
+        - prepare
     stage: build
     tags:
         - saas-macos-medium-m1
@@ -63,6 +62,8 @@ binaries:
 release:
     stage: release
     image: registry.gitlab.com/gitlab-org/release-cli:latest
+    dependencies:
+        - binaries
     rules:
         -   if: $CI_COMMIT_TAG
         -   if: $CI_COMMIT_BRANCH == "main"
@@ -78,6 +79,8 @@ release:
 
 docker:
     <<: *common
+    dependencies:
+        - prepare
     stage: build
     variables:
         IMAGE_NAME: webdb/app
