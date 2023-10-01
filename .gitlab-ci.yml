@@ -58,7 +58,6 @@ binaries:
     stage: build
     tags:
         - mbp
-    image: macos-12-xcode-14
     script:
         - curl "https://nodejs.org/dist/latest/node-${VERSION:-$(wget -qO- https://nodejs.org/dist/latest/ | sed -nE 's|.*>node-(.*)\.pkg</a>.*|\1|p')}.pkg" > "$HOME/Downloads/node-latest.pkg" && sudo installer -store -pkg "$HOME/Downloads/node-latest.pkg" -target "/"
         - cp -fr ./front/dist/webdb/* ./back/src/front/
@@ -96,7 +95,6 @@ docker:
 #-----------------------------------------
 
 
-
 release:
     stage: release
     image: registry.gitlab.com/gitlab-org/release-cli:latest
@@ -107,9 +105,8 @@ release:
         -   if: $CI_COMMIT_BRANCH == "main"
         -   if: $CI_COMMIT_BRANCH == "dev"
     script:
-        - echo "running release_job"
-    release:
-        name: 'Release $TAG'
-        description: 'Created using the release-cli $EXTRA_DESCRIPTION'
-        tag_name: '$TAG'
-        ref: '$CI_COMMIT_SHA'
+        - release-cli create --name "Release $CI_COMMIT_SHA" --description \
+            "Created using the release-cli $EXTRA_DESCRIPTION" \
+            --tag-name "v${MAJOR}.${MINOR}.${REVISION}" --ref "$CI_COMMIT_SHA" \
+            --released-at "2020-07-15T08:00:00Z" --milestone "m1" --milestone "m2" --milestone "m3" \
+            --assets-link "{\"name\":\"asset1\",\"url\":\"https://example.com/assets/1\",\"link_type\":\"other\"}"

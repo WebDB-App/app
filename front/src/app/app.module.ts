@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -38,6 +38,7 @@ import { CreateTableDialog, TablesComponent } from "./tables/tables.component";
 import { ConfigDialog } from "./top-right/config/config-dialog.component";
 import { SharedModule } from "../shared/shared.module";
 import { ChangelogDialog, LogsDialog, TopRightComponent } from './top-right/top-right.component';
+import { createErrorHandler } from "@sentry/angular-ivy";
 
 declare var monaco: any;
 
@@ -131,6 +132,12 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 		SharedModule
 	],
 	providers: [
+		{
+			provide: ErrorHandler,
+			useValue: createErrorHandler({
+				showDialog: false,
+			}),
+		},
 		{
 			provide: HIGHLIGHT_OPTIONS,
 			useValue: <HighlightOptions>{

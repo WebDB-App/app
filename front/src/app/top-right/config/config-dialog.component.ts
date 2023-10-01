@@ -23,6 +23,7 @@ export class ConfigDialog implements OnInit {
 	licence?: Licence;
 	env = environment
 	protected readonly packageJson = packageJson;
+	currentYear = new Date().getFullYear();
 
 	constructor(
 		public dialogRef: MatDialogRef<ConfigDialog>,
