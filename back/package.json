@@ -13,8 +13,8 @@
 		"email": "main.webdb@gmail.com"
 	},
 	"scripts": {
-		"start": "NODE_ENV=production node src/index.js 3>&1 1>&2 2>&3 | tee src/front/logs/err.log",
-		"dev:back": "nodemon src/index.js 3>&1 1>&2 2>&3 | tee src/front/logs/err.log",
+		"start": "NODE_ENV=production node src/index.js 3>&1 1>&2 2>&3 | tee src/front/logs/error.log",
+		"dev:back": "nodemon src/index.js 3>&1 1>&2 2>&3 | tee src/front/logs/error.log",
 		"dev:electron": "electron .",
 		"lint": "eslint . --fix",
 		"obfuscate": "javascript-obfuscator ./src --exclude=/front/ --options-preset low-obfuscation && cd src && find . -name '*js' -exec bash -c ' mv $0 ${0/\\-obfuscated/}' {} \\; && cd .."

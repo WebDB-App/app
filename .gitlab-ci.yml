@@ -88,9 +88,12 @@ docker:
         - cd back
         - docker login -u 'webdb' -p $DOCKER_PASS
         - docker buildx create --use
-        - '[[ $CI_COMMIT_REF_NAME != "main" ]] && docker buildx build --cache-from $IMAGE_NAME:$CI_COMMIT_REF_NAME --platform linux/arm64,linux/amd64 -t $IMAGE_NAME:$CI_COMMIT_REF_NAME --push . || echo'
-        - '[[ $CI_COMMIT_REF_NAME == "main" ]] && docker buildx build --cache-from $IMAGE_NAME:$CI_COMMIT_REF_NAME --platform linux/arm64,linux/amd64 -t $IMAGE_NAME:$CI_COMMIT_REF_NAME -t $IMAGE_NAME --push . || echo'
-
+        - >
+            if [ "$CI_COMMIT_REF_NAME" == "main" ]; then
+                docker buildx build --cache-from $IMAGE_NAME:$CI_COMMIT_REF_NAME --platform linux/arm64,linux/amd64 -t $IMAGE_NAME:$CI_COMMIT_REF_NAME -t $IMAGE_NAME --push .
+            else
+                docker buildx build --cache-from $IMAGE_NAME:$CI_COMMIT_REF_NAME --platform linux/arm64,linux/amd64 -t $IMAGE_NAME:$CI_COMMIT_REF_NAME --push .
+            fi
 
 #-----------------------------------------
 
