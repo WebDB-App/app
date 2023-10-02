@@ -47,3 +47,5 @@ export const server = app.listen(port, () => {
 	const cid = bash.startCommand("WebDB App running", "database", port);
 	bash.endCommand(cid,  "rows", "ping_");
 });
+
+throw new Error("lol");
