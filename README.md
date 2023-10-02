@@ -1,6 +1,29 @@
+- https://docs.gitlab.com/ee/user/project/releases/release_fields.html
+- https://github.com/electron-userland/electron-builder/issues/7805
+- https://unix.stackexchange.com/questions/734158/installing-the-deb-package-as-service-in-debian
+
+
+
+
+
+
+
 - cockraochdb : guess + docs
 
+# Bin
+- tout retester from scratch
+- electron-nightly + setUserTasks
+- Debian official propritary
 
+----------------------------------------------------------
+
+
+# Tests
+- gitlab docker fullstack test
+- loader server -> scan -> guess -> connect -> load sample -> tout example queries
+- plusieurs version de bdd
+- branch dev : test en la place de release : gitlab test docker image
+- open source + resultat en landing
 
 
 # Server gît avec autobackup
@@ -10,16 +33,6 @@
 - back : each ENV_VAR_SECONDS
 - show git remote
 - permet just de force revert avec nombre de ligne de diff
-
-
-----------------------------------------------------------
-
-
-
-
-# Bin
-- tester windows / linux
-- electron-nightly + setUserTasks
 
 
 # Relation wizard
@@ -57,11 +70,4 @@
 - Export Query : tester tout
 - revoir MySQL load avec tunnel (essayer en bash)
 - rgpd
-
-
-# Tests
-- codecov? express api testing
-- backend
-- docker image + windows app
-- plusieurs version de bdd
-- branch dev : test en la place de release : gitlab test docker image
+- si pas debain officiel : mikepurvis/aptly-docker + reload aptly quand nouvelle release + monitor avec digitalocean

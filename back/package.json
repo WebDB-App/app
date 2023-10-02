@@ -13,7 +13,7 @@
 		"email": "main.webdb@gmail.com"
 	},
 	"scripts": {
-		"dist": "electron-builder --mac && electron-builder --win && electron-builder --linux",
+		"dist": "electron-builder --mac && electron-builder --linux",
 		"start": "NODE_ENV=production node src/index.js 2>> src/front/logs/err.log",
 		"dev:back": "nodemon src/index.js 2>> src/front/logs/err.log",
 		"dev:electron": "electron .",
@@ -56,18 +56,6 @@
 				{
 					"target": "dmg",
 					"arch": "universal"
-				}
-			]
-		},
-		"win": {
-			"icon": "electron/icon.ico",
-			"target": [
-				{
-					"target": "default",
-					"arch": [
-						"x64",
-						"arm64"
-					]
 				}
 			]
 		},
