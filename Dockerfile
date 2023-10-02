@@ -22,13 +22,12 @@ ENV NODE_ENV=production
 
 RUN apk update
 RUN apk add mysql-client bash mongodb-tools postgresql-client python3 make g++ openssh-keygen
-RUN corepack enable && corepack prepare pnpm@latest --activate
 
 WORKDIR /usr/src/app
 
-COPY back/package.json back/pnpm-lock.yaml ./
+COPY back/package.json back/package-lock.json ./
 
-RUN pnpm install --prod --frozen-lockfile
+RUN npm install --prod --frozen-lockfile
 
 COPY back .
 COPY common-helper.mjs ./src/shared/common-helper.mjs
