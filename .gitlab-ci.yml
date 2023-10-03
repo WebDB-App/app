@@ -1,7 +1,6 @@
 stages:
     - test
     - prepare
-    - build
     - release
 
 include:
@@ -57,14 +56,16 @@ binaries:
         -   if: $CI_COMMIT_TAG
         -   if: $CI_COMMIT_BRANCH == "main"
         -   if: $CI_COMMIT_BRANCH == "dev"
+    variables:
+        TAG: "$(date '+%y.%m.%d')"
     interruptible: true
     before_script:
         - printenv
-        - sed -i '' "s/PACKAGE_VERSION/$(date '+%y.%m.%d')/g" back/package.json
-        - sed -i '' "s/PACKAGE_VERSION/$(date '+%y.%m.%d')/g" front/package.json
+        - sed -i '' "s/PACKAGE_VERSION/${TAG}/g" back/package.json
+        - sed -i '' "s/PACKAGE_VERSION/${TAG}/g" front/package.json
     dependencies:
         - prepare
-    stage: build
+    stage: release
     tags:
         - mbp
     script:
@@ -75,6 +76,15 @@ binaries:
         - npm run obfuscate
         - npm run binaries:linux
         - npm run binaries:macos
+        - >
+            release-cli create
+            --name "Release $TAG"
+            --ref $CI_COMMIT_SHA
+            --tag-name "$TAG"
+            --assets-link '{"name":"WebDB-$TAG-arm64.dmg","url":"https://gitlab.com/web-db/app/-/jobs/$JOB_ID/artifacts/file/back/out/make/WebDB-$TAG-arm64.dmg"}'
+            --assets-link '{"name":"WebDB-$TAG-x64.dmg","url":"https://gitlab.com/web-db/app/-/jobs/$JOB_ID/artifacts/file/back/out/make/WebDB-$TAG-x64.dmg"}'
+            --assets-link '{"name":"webdb_$TAG_arm64.deb","url":"https://gitlab.com/web-db/app/-/jobs/$JOB_ID/artifacts/file/back/out/make/deb/arm64/webdb_$TAG_arm64.deb"}'
+            --assets-link '{"name":"webdb_$TAG_x64.deb","url":"https://gitlab.com/web-db/app/-/jobs/$JOB_ID/artifacts/file/back/out/make/deb/arm64/webdb_$TAG_x64.deb"}'
     artifacts:
         paths:
             - ./back/out/make/
@@ -83,7 +93,7 @@ docker:
     <<: *common
     dependencies:
         - prepare
-    stage: build
+    stage: release
     variables:
         IMAGE_NAME: webdb/app
         DOCKER_HOST: tcp://docker:2375/
@@ -103,36 +113,3 @@ docker:
             else
                 docker buildx build --cache-from $IMAGE_NAME:$CI_COMMIT_REF_NAME --platform linux/arm64,linux/amd64 -t $IMAGE_NAME:$CI_COMMIT_REF_NAME --push .
             fi
-
-#-----------------------------------------
-
-
-release:
-    stage: release
-    image: registry.gitlab.com/gitlab-org/release-cli:latest
-    dependencies:
-        - binaries
-    rules:
-        -   if: $CI_COMMIT_TAG
-        -   if: $CI_COMMIT_BRANCH == "main"
-        -   if: $CI_COMMIT_BRANCH == "dev"
-    variables:
-        TAG: "$(date '+%y.%m.%d')"
-    script:
-        - echo "Create Release $TAG"
-        - echo $JOB_ID
-    release:
-        name: 'Release $TAG'
-        tag_name: '$TAG'
-        ref: '$TAG'
-        description: 'Release $TAG'
-        assets:
-            links:
-                -   name: "WebDB-$TAG-arm64.dmg"
-                    url: "https://gitlab.com/web-db/app/-/jobs/$JOB_ID/artifacts/download"
-                -   name: "WebDB-$TAG-x64.dmg"
-                    url: "https://gitlab.com/web-db/app/-/jobs/$JOB_ID/artifacts/download"
-                -   name: "deb/arm64/webdb_$TAG_arm64.deb"
-                    url: "https://gitlab.com/web-db/app/-/jobs/$JOB_ID/artifacts/download"
-                -   name: "deb/x64/webdb_$TAG_x64.deb"
-                    url: "https://gitlab.com/web-db/app/-/jobs/$JOB_ID/artifacts/download"
