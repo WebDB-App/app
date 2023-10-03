@@ -15,7 +15,8 @@ include:
     interruptible: true
     before_script:
         - printenv
-        - sed -i "s/PACKAGE_VERSION/$(date '+%y.%m.%d')/g" **/package.json
+        - sed -i "s/PACKAGE_VERSION/$(date '+%y.%m.%d')/g" back/package.json
+        - sed -i "s/PACKAGE_VERSION/$(date '+%y.%m.%d')/g" front/package.json
 
 
 #-----------------------------------------
@@ -52,7 +53,15 @@ prepare:
 
 
 binaries:
-    <<: *common
+    rules:
+        -   if: $CI_COMMIT_TAG
+        -   if: $CI_COMMIT_BRANCH == "main"
+        -   if: $CI_COMMIT_BRANCH == "dev"
+    interruptible: true
+    before_script:
+        - printenv
+        - sed -i '' "s/PACKAGE_VERSION/$(date '+%y.%m.%d')/g" back/package.json
+        - sed -i '' "s/PACKAGE_VERSION/$(date '+%y.%m.%d')/g" front/package.json
     dependencies:
         - prepare
     stage: build
