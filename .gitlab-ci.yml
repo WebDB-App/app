@@ -71,7 +71,7 @@ binaries:
         - cp -fr ./front/dist/webdb/* ./back/src/front/
         - cd back
         - cp .env.production .env
-        - npm install --prod --frozen-lockfile
+        - npm install --frozen-lockfile
         - npm run obfuscate
         - npm run binaries:linux
         - npm run binaries:macos
