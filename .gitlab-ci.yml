@@ -64,10 +64,11 @@ binaries:
         - cp .env.production .env
         - npm install --prod --frozen-lockfile
         - npm run obfuscate
-        - npm run dist
+        - npm run binaries:linux
+        - npm run binaries:macos
     artifacts:
         paths:
-            - ./dist/
+            - ./back/out/make/
 
 docker:
     <<: *common

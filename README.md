@@ -1,14 +1,8 @@
-- https://docs.gitlab.com/ee/user/project/releases/release_fields.html
-- https://github.com/electron-userland/electron-builder/issues/7805
-- https://unix.stackexchange.com/questions/734158/installing-the-deb-package-as-service-in-debian
-
-
-
-
-
-
-
+- PACKAGE_VERSION
+- network authorisation
 - cockraochdb : guess + docs
+
+
 
 # Bin
 - tout retester from scratch

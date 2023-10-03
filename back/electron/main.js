@@ -3,11 +3,6 @@ import {URL} from "url";
 import * as dotenv from "dotenv";
 // eslint-disable-next-line no-unused-vars
 import {server} from "../src/index.js";
-import * as squirrel from "electron-squirrel-startup";
-
-if (squirrel.default) {
-	electron.quit();
-}
 
 const dirname = new URL(".", import.meta.url).pathname;
 dotenv.config({path: dirname + "/.env"});
