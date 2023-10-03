@@ -107,9 +107,23 @@ release:
         -   if: $CI_COMMIT_TAG
         -   if: $CI_COMMIT_BRANCH == "main"
         -   if: $CI_COMMIT_BRANCH == "dev"
+    variables:
+        TAG: "$(date '+%y.%m.%d')"
     script:
-        - release-cli create --name "Release $CI_COMMIT_SHA" --description \
-            "Created using the release-cli $EXTRA_DESCRIPTION" \
-            --tag-name "v${MAJOR}.${MINOR}.${REVISION}" --ref "$CI_COMMIT_SHA" \
-            --released-at "2020-07-15T08:00:00Z" --milestone "m1" --milestone "m2" --milestone "m3" \
-            --assets-link "{\"name\":\"asset1\",\"url\":\"https://example.com/assets/1\",\"link_type\":\"other\"}"
+        - echo "Create Release $TAG"
+        - echo $JOB_ID
+    release:
+        name: 'Release $TAG'
+        tag_name: '$TAG'
+        ref: '$TAG'
+        description: 'Release $TAG'
+        assets:
+            links:
+                -   name: "WebDB-$TAG-arm64.dmg"
+                    url: "https://gitlab.com/web-db/app/-/jobs/$JOB_ID/artifacts/download"
+                -   name: "WebDB-$TAG-x64.dmg"
+                    url: "https://gitlab.com/web-db/app/-/jobs/$JOB_ID/artifacts/download"
+                -   name: "deb/arm64/webdb_$TAG_arm64.deb"
+                    url: "https://gitlab.com/web-db/app/-/jobs/$JOB_ID/artifacts/download"
+                -   name: "deb/x64/webdb_$TAG_x64.deb"
+                    url: "https://gitlab.com/web-db/app/-/jobs/$JOB_ID/artifacts/download"

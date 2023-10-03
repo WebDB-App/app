@@ -76,9 +76,9 @@
 	},
 	"devDependencies": {
 		"electron-nightly": "latest",
-		"@electron-forge/cli": "^6.4.2",
-		"@electron-forge/maker-deb": "^6.4.2",
-		"@electron-forge/maker-dmg": "^6.4.2"
+		"@electron-forge/cli": "latest",
+		"@electron-forge/maker-deb": "latest",
+		"@electron-forge/maker-dmg": "latest"
 	},
 	"optionalDependencies": {
 		"eslint": "latest",

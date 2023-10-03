@@ -1,4 +1,3 @@
-- PACKAGE_VERSION
 - network authorisation
 - cockraochdb : guess + docs
 
