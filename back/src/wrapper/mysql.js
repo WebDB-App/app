@@ -14,7 +14,7 @@ export default class MySQL extends SQL {
 	systemDbs = ["information_schema", "mysql", "performance_schema", "sys"];
 
 	async scan() {
-		return super.scan(this.host, 3300, 3310);
+		return super.scan(this.host, 3300, 3320);
 	}
 
 	async sampleDatabase(name, {count, tables}) {
