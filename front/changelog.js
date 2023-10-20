@@ -12,6 +12,8 @@ Don't hesitate to improve it and if you think your changes can benefit to other 
 
 const fs = require('fs');
 const {execSync} = require("child_process");
+const {marked} = require("marked");
+const {emojify} = require("node-emoji");
 
 function getLogsByDate() {
 	const logs = execSync(`git log --date=short`).toString();
@@ -47,7 +49,11 @@ function getLogsByDate() {
 			let lis = '';
 			for (const com of commit) {
 				const sub = com.subject.trim();
-				lis += `<li style="padding: 6px 0px;"><div class='msg'>${sub.replaceAll('\n', '<br>')}</div></li>`;
+				if (sub.length < 10) {
+					continue;
+				}
+				const mark = marked(emojify(sub), {mangle: false, headerIds: false});
+				lis += `<li style="padding: 6px 0px;"><div class='msg'>${mark}</div></li>`;
 			}
 			if (lis.length < 1) {
 				continue;

@@ -43,6 +43,7 @@
 		"ngx-highlightjs": "^7.0.1",
 		"ngx-json-viewer": "latest",
 		"ngx-monaco-editor-v2": "^14.0.4",
+		"node-emoji": "latest",
 		"openai": "latest",
 		"rxjs": "~7.8.1",
 		"sql-formatter": "latest",

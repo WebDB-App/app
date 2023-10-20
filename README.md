@@ -67,3 +67,4 @@
 - Export Query : tester tout
 - help applying rgpd rules to db (pii anonymisation, server certificate)
 - landing: show cloud VM compatibiltys (+ask gpt to give blog page on how to connect to SSH bdd)
+- node:20-alpine -> 21
