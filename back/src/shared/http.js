@@ -1,4 +1,4 @@
-import wrapperModel from "./wrapper.js";
+const wrapperModel = require("./wrapper.js");
 
 class Http {
 
@@ -6,8 +6,8 @@ class Http {
 		const server = JSON.parse(req.get("Server"));
 		const driver = await wrapperModel.getDriver(server);
 
-		return [driver, req.get("Database"), req.get("Table")];
+		return [driver, req.get("Database"), req.get("Table"), JSON.parse(req.get("Server"))];
 	}
 }
 
-export default new Http();
+module.exports = new Http();

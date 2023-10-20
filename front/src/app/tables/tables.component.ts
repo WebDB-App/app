@@ -9,7 +9,7 @@ import { Title } from "@angular/platform-browser";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
-import helper from "../../shared/common-helper.mjs";
+import helper from "../../shared/common-helper.js";
 import { uniqueValidator } from "../../shared/unique.validator";
 
 const localStorageTableWidthKey = "tableWidth";
@@ -71,7 +71,7 @@ export class TablesComponent implements OnInit {
 					this.selectedServer.name,
 					this.selectedDatabase.name,
 					this.selectedTable.name
-				], {skipLocationChange: true});
+				]);
 			}
 
 			const widths = JSON.parse(localStorage.getItem(localStorageTableWidthKey) || "{}");

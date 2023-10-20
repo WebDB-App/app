@@ -1,7 +1,7 @@
-import Driver from "./driver.js";
-import helper from "./common-helper.mjs";
+const Driver = require("./driver.js");
+const helper = require("./common-helper.js");
 
-export default class SQL extends Driver {
+module.exports = class SQL extends Driver {
 
 	columnToSQL(column) {
 		if (!column.name || !column.type) {
@@ -44,10 +44,10 @@ export default class SQL extends Driver {
 
 	async addRelation(relation) {
 		return await this.runCommand(`ALTER TABLE
-		${this.nameDel + relation.table_source + this.nameDel}
-		ADD CONSTRAINT ${this.nameDel + relation.name + this.nameDel}
-		FOREIGN KEY (${this.nameDel + relation.column_source + this.nameDel})
-		REFERENCES ${this.nameDel + relation.table_dest + this.nameDel} (${this.nameDel + relation.column_dest + this.nameDel})
+    		${this.nameDel + relation.table_source + this.nameDel}
+    		ADD CONSTRAINT ${this.nameDel + relation.name + this.nameDel}
+    		FOREIGN KEY (${this.nameDel + relation.column_source + this.nameDel})
+    		REFERENCES ${this.nameDel + relation.table_dest + this.nameDel} (${this.nameDel + relation.column_dest + this.nameDel})
 			ON DELETE ${relation.delete_rule}
 			ON UPDATE ${relation.update_rule}`,
 		relation.database);
@@ -200,4 +200,4 @@ export default class SQL extends Driver {
 
 		return await this.runCommand(query, database);
 	}
-}
+};

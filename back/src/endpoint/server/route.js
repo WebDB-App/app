@@ -1,6 +1,6 @@
-import express from "express";
-import serverCtrl from "./controller.js";
-import multer from "multer";
+const express = require("express");
+const serverCtrl = require("./controller.js");
+const multer = require("multer");
 
 const router = express.Router();
 const upload = multer({dest: "/tmp/"});
@@ -12,4 +12,4 @@ router.post("/dump", serverCtrl.dump);
 router.post("/connect", serverCtrl.connect);
 router.post("/structure", serverCtrl.getStructure.bind(serverCtrl));
 
-export default router;
+module.exports = router;

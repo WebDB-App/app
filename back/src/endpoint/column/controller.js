@@ -1,4 +1,4 @@
-import http from "../../shared/http.js";
+const http = require("../../shared/http.js");
 
 class Controller {
 
@@ -25,4 +25,4 @@ class Controller {
 	}
 }
 
-export default new Controller();
+module.exports = new Controller();

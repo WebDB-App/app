@@ -10,7 +10,11 @@
 	<mat-button-toggle-group
 		#group="matButtonToggleGroup">
 		<ng-container *ngFor="let fileT of selectedServer!.driver.connection.fileTypes; let i = index">
-			<mat-button-toggle [checked]="i === 0" [value]="fileT.extension">{{fileT.name}}</mat-button-toggle>
+			<mat-button-toggle
+				[checked]="i === 0"
+				[value]="fileT.extension">
+				{{fileT.name}}
+			</mat-button-toggle>
 		</ng-container>
 	</mat-button-toggle-group>
 

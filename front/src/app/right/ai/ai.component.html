@@ -62,7 +62,7 @@
 			<div>
 				<div>
 					<mat-form-field appearance="outline" style="margin-bottom: -1.25em" color="accent">
-						<mat-label>Anonymize level</mat-label>
+						<mat-label>Anonymize</mat-label>
 						<mat-select
 							(selectionChange)="preSentChange()"
 							[(ngModel)]="preSent.anonymize">
@@ -124,11 +124,22 @@
 			<mat-divider></mat-divider>
 
 			<div>
-				<mat-button-toggle-group (change)="configChange()" [(ngModel)]="config.model">
-					<mat-button-toggle value='gpt-3.5-turbo-16k'>gpt-3.5-turbo-16k</mat-button-toggle>
-					<mat-button-toggle value="gpt-4">gpt-4</mat-button-toggle>
-					<mat-button-toggle value="gpt-4-32k">gpt-4-32k</mat-button-toggle>
-				</mat-button-toggle-group>
+				<mat-form-field appearance="standard" color="accent">
+					<mat-label>Model</mat-label>
+					<mat-select
+						(selectionChange)="configChange()"
+						[(ngModel)]="config.model">
+						<mat-option value='gpt-3.5-turbo-16k'>
+							gpt-3.5-turbo-16k
+						</mat-option>
+						<mat-option value="gpt-4">
+							gpt-4
+						</mat-option>
+						<mat-option value="gpt-4-32k">
+							gpt-4-32k
+						</mat-option>
+					</mat-select>
+				</mat-form-field>
 
 				<div class="slider">
 					<div>

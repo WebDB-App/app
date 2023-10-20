@@ -1,18 +1,17 @@
 {
-	"name": "webdb",
 	"version": "PACKAGE_VERSION",
 	"scripts": {
-		"dev:front": "ng serve",
-		"build": "ng build",
+		"dev:front": "ng serve --host 0.0.0.0",
+		"build": "ng build && node ./changelog.js ./dist/webdb/changelog.html",
 		"updateLibs": "./extraLibs.sh",
 		"watch": "ng build --watch --configuration development"
 	},
 	"dependencies": {
-		"@angular-devkit/build-angular": "^14.2.11",
+		"@angular-devkit/build-angular": "^14.2.13",
 		"@angular-builders/custom-webpack": "^14.1.0",
 		"@angular/animations": "^14.3.0",
 		"@angular/cdk": "^14.2.7",
-		"@angular/cli": "^14.2.11",
+		"@angular/cli": "^14.2.12",
 		"@angular/common": "^14.3.0",
 		"@angular/compiler": "^14.3.0",
 		"@angular/compiler-cli": "^14.3.0",
@@ -23,8 +22,10 @@
 		"@angular/platform-browser": "^14.3.0",
 		"@angular/platform-browser-dynamic": "^14.3.0",
 		"@angular/router": "^14.3.0",
+		"@angular/service-worker": "^14.3.0",
 		"@faker-js/faker": "7.6.0",
 		"@ngneat/falso": "^6.4.0",
+		"@sentry/angular-ivy": "latest",
 		"@types/file-saver-es": "latest",
 		"@types/js-beautify": "latest",
 		"@types/marked": "^5.0.0",

@@ -16,7 +16,8 @@ import { ExportResultDialog } from "../../../shared/export-result-dialog/export-
 import { MatPaginatorIntl } from "@angular/material/paginator";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import helper from "../../../shared/common-helper.mjs";
+import helper from "../../../shared/common-helper.js";
+import { saveAs } from "file-saver-es";
 
 declare var monaco: any;
 
@@ -32,6 +33,7 @@ export class QueryComponent implements OnInit, OnDestroy {
 	selectedServer?: Server;
 	selectedDatabase?: Database;
 	selectedTable?: Table;
+
 	stringify = this.configuration.getByName('stringifyData')?.value;
 	relations?: Relation[];
 	editors: any[] = [];
@@ -58,6 +60,7 @@ export class QueryComponent implements OnInit, OnDestroy {
 	dataSource?: MatTableDataSource<any>;
 	autoFormat = this.configuration.getByName('autoFormat')?.value;
 
+	protected readonly Object = Object;
 	protected readonly Math = Math;
 
 	constructor(
@@ -72,7 +75,7 @@ export class QueryComponent implements OnInit, OnDestroy {
 
 	@HostListener('window:keydown', ['$event'])
 	async onKeyDown(event: KeyboardEvent) {
-		if ((event.metaKey || event.ctrlKey) && ['Enter', 's'].indexOf(event.key) >= 0) {
+		if ((event.metaKey || event.ctrlKey) && ['Enter'].indexOf(event.key) >= 0) {
 			await this.runQuery();
 			event.preventDefault();
 		}
@@ -105,7 +108,9 @@ export class QueryComponent implements OnInit, OnDestroy {
 		});
 
 		this.interval = setInterval(() => {
-			this.router.navigate(['query', this.query], {relativeTo: this.activatedRoute.parent});
+			if (this.query.length < 5000) {
+				this.router.navigate(['query', this.query], {relativeTo: this.activatedRoute.parent});
+			}
 			this.configuration.update('autoFormat', this.autoFormat);
 		}, 1000);
 	}
@@ -231,7 +236,17 @@ export class QueryComponent implements OnInit, OnDestroy {
 		return this.selectedServer?.driver.extractForView(helper.removeComment(this.query));
 	}
 
-	protected readonly Object = Object;
+	async inputChange(fileInputEvent: any) {
+		if (!fileInputEvent.target.files) {
+			return;
+		}
+		this.query = await fileInputEvent.target.files[0].text();
+	}
+
+	saveToDisk() {
+		const ext = this.selectedServer?.driver.language.extension;
+		saveAs(new File([this.query], this.selectedTable?.name + '.' + ext, {type: `text/${ext};charset=utf-8`}));
+	}
 }
 
 @Component({
@@ -320,7 +335,7 @@ export class CreateViewDialog {
 		private snackBar: MatSnackBar,
 		@Inject(MAT_DIALOG_DATA) public code: string
 	) {
-		this.form = fb.group({
+		this.form = this.fb.group({
 			name: [null, [Validators.required, Validators.pattern(helper.validName)]],
 			code: [code]
 		});

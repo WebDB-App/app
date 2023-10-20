@@ -1,3 +1,21 @@
+# Server gît avec autobackup
+- git format-patch -100
+- ctrl/cmd z + add (landing/feature)
+- show git remote
+- permet just de force revert avec nombre de ligne de diff
+
+- tester DISABLE_WATCHER et add dans la doc
+- disclaimer : Seulement changement fait a travers webdb et pas load fichier
+- payant +20 commits
+
+
+
+????
+- Checksum par table
+- https://stackoverflow.com/questions/17177914/is-there-a-more-elegant-way-to-detect-changes-in-a-large-sql-table-without-alter#comment24874308_17178078
+- https://www.tutorialspoint.com/mysql/mysql_checksum_table_statement.htm
+- https://www.google.com/search?q=mongo+watch+databasr&oq=mongo+watch+databasr&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIJCAEQIRgKGKAB0gEJMTM3MDVqMGo0qAIAsAIA&client=ms-android-google&sourceid=chrome-mobile&ie=UTF-8
+- https://github.com/debezium/debezium
 
 
 
@@ -6,22 +24,10 @@
 
 ----------------------------------------------------------
 
-- cockraochdb : guess + docs
-
-# Tests
-- pupetter (generate par IA ?)
-- plusieurs version de bdd
-- gitlab docker fullstack test
-- mock openai
-- test en parralele avec scenario et anaylyse de text
-- utiulise l'image du registry gitlab pour les tests. Push sur docker hub si tests ok
 
 
-# Server gît avec autobackup
-- Checksum par table
-- back : each ENV_VAR_SECONDS
-- show git remote
-- permet just de force revert avec nombre de ligne de diff
+
+
 
 
 # Relation wizard
@@ -42,24 +48,22 @@
 
 
 # IA
-- Welcom to intercativ ai
-- Export Query : btn to export via IA (Stripe Metadata additionnal feature)
-- faraday.dev
-- own model : crud les complexes
-- https://llama-node.vercel.app/
-- regarger plugins gpt
+- tester create/update functions/procedure/check
+- paperspace.com
+- Stripe Metadata additionnal feature
+- stackoverflow llm
+- faraday.dev / LocalAI / llama-node / llama.cpp / mistral.ai / falcon 180b
+- Export Query : btn to export via IA
 - 2 videos micode
 - https://pbs.twimg.com/media/FtkoX8_WIAA_5ds.jpg:large
 - https://preview.redd.it/chat-gpt-cheat-sheet-v2-v0-eunvmybl9cua1.png?width=640&crop=smart&auto=webp&s=06ba6c54e001fdcca2a1e1eb54b42b9fefdde413
-- https://media.licdn.com/dms/image/D4D22AQF__oKSdRBu8A/feedshare-shrink_800/0/1680459400162?e=1687996800&v=beta&t=zDJ4A0NkYJg47W-HmF6MId60SOYPUaprPZFhkGptawo
-- https://media.licdn.com/dms/image/D4E22AQGx27end7jE5Q/feedshare-shrink_800/0/1684474332765?e=1688601600&v=beta&t=g1NR0-Uuifv4muNn1Hps1p8H5BjYDOU9w1Sej-NkkqY
 - https://external-preview.redd.it/chatgpt-for-data-science-cheat-sheet-v0-Odpv_XqB8SiefptXNzZP-t9AjrVOxg0IF81UuKFx2sw.jpg?auto=webp&s=2b8b8a80fa2c3a4b6f85545cffa26726021a60a4
-
+- interactive ai
 
 
 # Other
 - ERD
 - sql function doc (generate from web scrap)
 - Export Query : tester tout
-- revoir MySQL load avec tunnel (essayer en bash)
-- rgpd
+- help applying rgpd rules to db (pii anonymisation, server certificate)
+- landing: show cloud VM compatibiltys (+ask gpt to give blog page on how to connect to SSH bdd)

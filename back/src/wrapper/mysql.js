@@ -1,14 +1,14 @@
-import mysql from "mysql2";
-import SQL from "../shared/sql.js";
-import {writeFileSync} from "fs";
-import bash from "../shared/bash.js";
-import {URL} from "url";
+const mysql = require("mysql2");
+const SQL = require("../shared/sql.js");
+const State = require("../shared/state.js");
+const {writeFileSync} = require("fs");
+const bash = require("../shared/bash.js");
+const {join} = require("path");
+const buffer = require("../shared/buffer");
 
-const dirname = new URL(".", import.meta.url).pathname;
+module.exports = class MySQL extends SQL {
 
-export default class MySQL extends SQL {
-
-	nameDel = "\`";
+	nameDel = "`";
 	commonUser = ["mysql", "maria", "mariadb"];
 	commonPass = ["mysql", "my-secret-pw", "maria", "mariadb", "mypass"];
 	systemDbs = ["information_schema", "mysql", "performance_schema", "sys"];
@@ -35,7 +35,7 @@ export default class MySQL extends SQL {
 	}
 
 	async dump(database, exportType = "sql", tables, includeData = true) {
-		const path = `${dirname}../front/dump/${database}.${exportType}`;
+		const path = join(__dirname, `../../static/dump/${database}.${exportType}`);
 		const total = await this.runCommand(`SELECT COUNT(DISTINCT TABLE_NAME) as total FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '${database}'`);
 
 		if (exportType === "sql") {
@@ -52,7 +52,7 @@ export default class MySQL extends SQL {
 		if (exportType === "json") {
 			const results = {};
 			for (const table of tables) {
-				results[table] = await this.runCommand(`SELECT * FROM ${table}`, database);
+				results[table] = buffer.loadData(await this.runCommand(`SELECT * FROM ${table}`, database));
 			}
 
 			writeFileSync(path, JSON.stringify({
@@ -62,6 +62,10 @@ export default class MySQL extends SQL {
 		}
 
 		return {path: `dump/${database}.${exportType}`};
+	}
+
+	async saveState(path, database) {
+		return bash.runBash(`mysqldump --user='${this.user}' --port=${this.port} --password='${this.password}' --host='${this.host}' --column-statistics=0 ${database} > ${path}`);
 	}
 
 	async load(filePath, database) {
@@ -226,17 +230,17 @@ export default class MySQL extends SQL {
 	}
 
 	async runCommand(command, database = false) {
+		const cid = bash.startCommand(command, database, this.port);
 		const connection = await this.connection.promise().getConnection();
 		let lgth = -1;
-		let cid;
 
 		try {
 			if (database) {
 				await connection.query(`USE \`${database}\``);
 			}
-			cid = bash.startCommand(command, database, this.port);
 			const [res] = await connection.query(command);
 			lgth = res.length;
+			State.commandFinished(this, command, database);
 			return res;
 		} catch (e) {
 			return this.foundErrorPos({error: e.sqlMessage}, command);
@@ -247,7 +251,7 @@ export default class MySQL extends SQL {
 	}
 
 	foundErrorPos(error, command) {
-		let message = error.error;
+		let message = error.error || "";
 		error["position"] = -1;
 
 		if (message.indexOf("'") >= 0) {
@@ -288,4 +292,4 @@ export default class MySQL extends SQL {
 			return {error: e.sqlMessage || e.message};
 		}
 	}
-}
+};

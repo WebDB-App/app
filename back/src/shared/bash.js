@@ -1,11 +1,9 @@
-import {execSync} from "child_process";
-import helper from "./common-helper.mjs";
-import {URL} from "url";
-import {writeFileSync, appendFileSync} from "fs";
-import {randomUUID} from "crypto";
-
-const dirname = new URL(".", import.meta.url).pathname;
-const finished = dirname + "../front/logs/finished.log";
+const {execSync} = require("child_process");
+const helper = require("./common-helper.js");
+const {writeFileSync, appendFileSync} = require("fs");
+const {randomUUID} = require("crypto");
+const {join} = require("path");
+const finished = join(__dirname, "../../static/logs/finished.log");
 
 class Bash {
 	commands = {};
@@ -19,7 +17,7 @@ class Bash {
 
 		database = database ? `\x1B[36m${database.padStart(20, " ")}\x1b[0m` : " ".padStart(20, " ");
 		command = helper.singleLine(command).trim();
-		port = `\x1b[34m${port.toString().padStart(5, " ")}\x1b[0m`;
+		port = `\x1b[33m${port.toString().padStart(5, " ")}\x1b[0m`;
 
 		this.commands[cid] = {
 			start: new Date(),
@@ -35,8 +33,8 @@ class Bash {
 		const {port, database, command, start} = this.commands[cid];
 
 		ping = ping || ((new Date()) - start);
-		ping = `\x1b[35m${ping.toString().padStart(5, " ")}ms\x1b[0m`;
-		length = `\x1b[33m${length.toString().padStart(6, " ")}\x1b[0m`;
+		ping = `\x1b[32m${ping.toString().padStart(5, " ")}ms\x1b[0m`;
+		length = `\x1b[34m${length.toString().padStart(6, " ")}\x1b[0m`;
 
 		appendFileSync(finished, `${port} ${ping} ${database} ${length} ${command}\n`);
 		delete this.commands[cid];
@@ -47,7 +45,7 @@ class Bash {
 		let cid;
 
 		try {
-			cid = this.startCommand(cmd, "bash",  0);
+			cid = this.startCommand(cmd, "bash",  "");
 			const result = execSync(cmd, {shell: "/bin/bash"}).toString();
 			lght = result.length;
 			return {result};
@@ -60,4 +58,4 @@ class Bash {
 	}
 }
 
-export default new Bash();
+module.exports = new Bash();

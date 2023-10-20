@@ -1,12 +1,9 @@
-import SoftwareLicenseKey from "software-license-key";
-import * as fs from "fs";
-import {URL} from "url";
-import axios from "axios";
-
-const dirname = new URL(".", import.meta.url).pathname;
-const publicKey = fs.readFileSync(dirname + "public_key.pub", "utf8");
+const SoftwareLicenseKey = require("software-license-key");
+const fs = require("fs");
+const {join} = require("path");
+const publicKey = fs.readFileSync(join(__dirname, "./public_key.pub"), "utf8");
 const validator = new SoftwareLicenseKey(publicKey);
-const licencePath = dirname + "licence";
+const licencePath = join(__dirname, "./licence");
 
 class Controller {
 
@@ -40,16 +37,17 @@ class Controller {
 	async getRemote(email) {
 		let request;
 		try {
-			request = (await axios.get(process.env.LANDING_ADDR + "/client/" + email));
+			request = (await fetch(process.env.LANDING_ADDR + "/client/" + email));
+			request = await request.json();
 		} catch (e) {
 			throw new Error("Licence API unreachable");
 		}
 
-		if (request.data.length < 1) {
+		if (request.length < 1) {
 			throw new Error("You must subscribe before entering your email");
 		}
 
-		const client = request.data[0];
+		const client = request[0];
 		const licence = validator.validateLicense(client.licence);
 		if (!licence) {
 			throw new Error("Malformed Licence");
@@ -93,4 +91,6 @@ class Controller {
 	}
 }
 
-export default new Controller();
+module.exports = new Controller();
+
+

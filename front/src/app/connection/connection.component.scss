@@ -1,19 +1,31 @@
 #container {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-evenly;
+	padding: 0px 26px 26px;
 
 	.driver {
-		min-width: 470px;
-		margin-top: 15px;
+		width: 100%;
 
 		.logo {
-			margin: 18px;
+			margin: 38px 0px 18px;
 		}
 	}
 
-	.mat-expansion-panel-header {
-		height: 58px;
+	.servers {
+		border-radius: 10px;
+		margin-top: -50px;
+		padding-top: 32px;
+		overflow: auto;
+		display: flex;
+		align-items: center;
+		transition: border 250ms ease-in-out;
+		border: 1px solid rgba(255, 255, 255, 0.1);
+
+		&:hover {
+			border: 1px solid rgba(255, 255, 255, 0.5);
+		}
+
+		.mat-card {
+			min-width: 450px;
+		}
 	}
 }
 
@@ -27,7 +39,8 @@
 			border-radius: 100px;
 			width: 110px;
 			height: 42px;
-			background: rgba(255, 255, 255, 0.85);
+			background: rgba(255, 255, 255);
+			transition: box-shadow 250ms ease-in-out;
 		}
 	}
 

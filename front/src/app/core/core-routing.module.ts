@@ -42,3 +42,4 @@ const routes: Routes = [
 })
 export class CoreRoutingModule {
 }
+

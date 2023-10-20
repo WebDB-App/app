@@ -61,8 +61,12 @@ export class RequestService {
 		const toLoad = [];
 
 		for (let server of servers) {
-			// @ts-ignore
-			server.driver = new drivers[server.wrapper];
+			try {
+				// @ts-ignore
+				server.driver = new drivers[server.wrapper];
+			} catch (e) {
+				console.error(e);
+			}
 			server.params = server.params || server.driver.connection.defaultParams;
 
 			const connect = await firstValueFrom(this.http.post<any>(environment.apiRootUrl + 'server/connect', Server.getShallow(server)));

@@ -28,6 +28,10 @@ export class Configuration {
 			name: 'stringifyData',
 			description: 'Show data types, null, empty string and empty key',
 			values: [false, true]
+		}, {
+			name: 'autoFormat',
+			description: 'Format query when executed',
+			values: [true, false]
 		}
 	];
 

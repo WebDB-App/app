@@ -7,7 +7,7 @@ import { HistoryService } from "../shared/history.service";
 import { Relation } from "../classes/relation";
 import { Configuration } from "../classes/configuration";
 import { HttpClient } from "@angular/common/http";
-import commonHelper from "../shared/common-helper.mjs";
+import commonHelper from "../shared/common-helper.js";
 
 //import * as monaco from 'monaco-editor'
 declare var monaco: any;
@@ -20,7 +20,6 @@ export class SQL implements Driver {
 
 	connection = {
 		defaultParams: {},
-		disclaimerSsh: "",
 		acceptedExt: [".sql", ".json"],
 		fileTypes: [
 			{extension: "json", name: "JSON"},
@@ -37,6 +36,7 @@ export class SQL implements Driver {
 	language: {
 		comparators: Comparator[],
 		id: string,
+		extension: string,
 		keywords: string[],
 		functions: { [key: string]: string | null },
 		constraints: string[],
@@ -62,6 +62,7 @@ export class SQL implements Driver {
 			{symbol: 'NOT LIKE', example: "'abc%'", definition: "Not equal to"},
 		],
 		id: "sql",
+		extension: "sql",
 		keywords: [
 			'SELECT',
 			'INSERT INTO',

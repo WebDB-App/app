@@ -1,21 +1,20 @@
-import {promises as fsp} from "fs";
-import Tunnel from "../endpoint/tunnel/controller.js";
+const fsp = require("fs").promises;
+const Tunnel = require("../endpoint/tunnel/controller.js");
+const {join} = require("path");
 
 class Wrapper {
 
 	pool = [];
 
 	async getWrappers() {
-		const dirname = new URL(".", import.meta.url).pathname;
-
 		if (this.wrappers === undefined) {
 			this.wrappers = (async () => {
-				const wrapperPath = dirname + "../wrapper/";
+				const wrapperPath = join(__dirname, "../wrapper/");
 				const files = await fsp.readdir(wrapperPath);
 
 				const wrappers = [];
 				for (const file of files) {
-					wrappers.push(await import(`${wrapperPath}/${file}`));
+					wrappers.push(await require(`${wrapperPath}/${file}`));
 				}
 
 				return wrappers;
@@ -27,9 +26,9 @@ class Wrapper {
 
 	async getDriverClass(className) {
 		for (const wrapper of await this.getWrappers()) {
-			const drv = new wrapper.default;
+			const drv = new wrapper;
 			if (drv.constructor.name === className) {
-				return wrapper.default;
+				return wrapper;
 			}
 		}
 
@@ -69,4 +68,4 @@ class Wrapper {
 	}
 }
 
-export default new Wrapper();
+module.exports = new Wrapper();

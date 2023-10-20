@@ -1,34 +1,33 @@
-import {BSON as bson, MongoClient, ObjectId} from "mongodb";
-import Driver from "../shared/driver.js";
-import bash from "../shared/bash.js";
-import {URL} from "url";
-import {writeFileSync} from "fs";
-import helper from "../shared/common-helper.mjs";
+const {MongoClient, ObjectId, BSON} = require("mongodb");
+const Driver = require("../shared/driver.js");
+const bash = require("../shared/bash.js");
+const {writeFileSync} = require("fs");
+const {join} = require("path");
+const helper = require("../shared/common-helper.js");
+const buffer = require("../shared/buffer");
+const State = require("../shared/state");
 
-const dirname = new URL(".", import.meta.url).pathname;
-
-export default class MongoDB extends Driver {
+module.exports = class MongoDB extends Driver {
 	commonUser = ["mongo"];
 	commonPass = ["mongo"];
 	systemDbs = ["admin", "config", "local"];
 
 	async scan() {
-		return super.scan(this.host, 27010, 27020);
+		return super.scan(this.host, 27010, 27030);
 	}
 
 	async dump(database, exportType = "bson", tables) {
-		let path = `${dirname}../front/dump/${database}`;
+		let path = join(__dirname, `../../static/dump/${database}`);
 		if (exportType === "json") {
 			path = `${path}.json`;
 			const results = {};
 			for (const table of tables) {
 				try {
-					results[table] = await this.connection.db(database).collection(table).find().toArray();
+					results[table] = buffer.loadData(await this.connection.db(database).collection(table).find().toArray());
 				} catch(e) {
 					console.error(e);
 				}
 			}
-
 			writeFileSync(path, JSON.stringify({
 				database: database,
 				tables: results
@@ -36,10 +35,16 @@ export default class MongoDB extends Driver {
 		}
 		if (exportType === "bson") {
 			path = `${path}.gz`;
-			bash.runBash(`mongodump --uri="${this.makeUri()}" --db=${database} --gzip --archive=${path}`);
-			return {path: `dump/${database}.gz`};
+			const result = bash.runBash(`mongodump --uri="${this.makeUri()}" --db=${database} --gzip --archive=${path}`);
+			if (result.error) {
+				return result;
+			}
 		}
 		return {path: `dump/${database}.${exportType}`};
+	}
+
+	async saveState(path, database) {
+		return bash.runBash(`mongodump --uri="${this.makeUri()}" --db=${database} --archive=${path}`);
 	}
 
 	async load(filePath, database, originalName) {
@@ -56,7 +61,7 @@ export default class MongoDB extends Driver {
 		try {
 			return await this.connection.db(database).createCollection(view, {
 				viewOn: table,
-				pipeline: bson.EJSON.parse(code)
+				pipeline: BSON.EJSON.parse(code)
 			});
 		} catch (e) {
 			return {error: e.message};
@@ -69,7 +74,7 @@ export default class MongoDB extends Driver {
 
 	async insert(db, table, datas) {
 		try {
-			const res = await this.connection.db(db).collection(table).insertMany(bson.EJSON.deserialize(datas));
+			const res = await this.connection.db(db).collection(table).insertMany(BSON.EJSON.deserialize(datas));
 			return res.insertedCount.toString();
 		} catch (e) {
 			return {error: e.message};
@@ -80,7 +85,7 @@ export default class MongoDB extends Driver {
 		let nbT = 0;
 		for (const row of rows) {
 			try {
-				const res = await this.connection.db(db).collection(table).deleteOne(bson.EJSON.deserialize(row));
+				const res = await this.connection.db(db).collection(table).deleteOne(BSON.EJSON.deserialize(row));
 				nbT += res.deletedCount;
 			} catch (e) {
 				return {error: e.message};
@@ -91,8 +96,8 @@ export default class MongoDB extends Driver {
 
 	async update(db, table, old_data, new_data) {
 		try {
-			old_data = bson.EJSON.deserialize(old_data);
-			new_data = bson.EJSON.deserialize(new_data);
+			old_data = BSON.EJSON.deserialize(old_data);
+			new_data = BSON.EJSON.deserialize(new_data);
 
 			const res = await this.connection.db(db).collection(table).updateOne(old_data, {$set: new_data});
 			return res.modifiedCount.toString();
@@ -182,8 +187,8 @@ export default class MongoDB extends Driver {
 	wrapValue(type, value) {
 		const cast = (type) => {
 			try {
-				if (Object.keys(bson).indexOf(type) >= 0) {
-					return new bson[type](value);
+				if (Object.keys(BSON).indexOf(type) >= 0) {
+					return new BSON[type](value);
 				}
 				if (type === "Date") {
 					return new Date(value);
@@ -385,22 +390,22 @@ export default class MongoDB extends Driver {
 	async runCommand(command, database = false) {
 		let db = this.connection;
 		let lgth = -1;
-		let cid;
 
 		command = helper.removeComment(command);
 		if (!command.trim().startsWith("return")) {
 			command = `return ${command}`;
 		}
+		const cid = bash.startCommand(command, database, this.port);
 
 		try {
 			if (database) {
 				db = await this.connection.db(database);
 			}
-			cid = bash.startCommand(command, database, this.port);
 			const fct = new Function("db", "bson", "mongo", command);
-			const res = await fct(db, bson, MongoClient);
+			const res = await fct(db, BSON, MongoClient);
 			lgth = res.length;
-			return bson.EJSON.stringify(res);
+			State.commandFinished(this, command, database);
+			return BSON.EJSON.stringify(res);
 		} catch (e) {
 			return {error: e.message};
 		} finally {
@@ -624,4 +629,4 @@ export default class MongoDB extends Driver {
 
 		return final;
 	}
-}
+};

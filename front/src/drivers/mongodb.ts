@@ -7,7 +7,7 @@ import { Database } from "../classes/database";
 import { loadLibAsset } from "../shared/helper";
 import { Server } from "../classes/server";
 import { Configuration } from "../classes/configuration";
-import helper from "../shared/common-helper.mjs";
+import helper from "../shared/common-helper.js";
 import * as bson from "bson";
 
 declare var monaco: any;
@@ -51,6 +51,7 @@ export class MongoDB implements Driver {
 			{symbol: '$nin', example: '["a", "b"]', definition: "Is not in array of"},
 		],
 		id: "javascript",
+		extension: "js",
 		arrayType: true,
 		fctAsDefault: [],
 		keywords: [],
@@ -287,7 +288,7 @@ db.collection("${table.name}").aggregate([
 	}
 ]).toArray()`;
 		},
-		"command": () => {
+		"command (shell)": () => {
 			return `db.command({
     dbStats: 1,
 });`;

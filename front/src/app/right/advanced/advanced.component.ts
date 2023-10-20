@@ -5,7 +5,7 @@ import { Server } from "../../../classes/server";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { RequestService } from "../../../shared/request.service";
 import { Router } from "@angular/router";
-import helper from "../../../shared/common-helper.mjs";
+import helper from "../../../shared/common-helper.js";
 
 @Component({
 	selector: 'app-advanced',

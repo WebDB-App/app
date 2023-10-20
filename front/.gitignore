@@ -20,4 +20,4 @@ yarn-error.log
 testem.log
 /typings
 
-src/shared/common-helper.mjs
+src/shared/common-helper.js

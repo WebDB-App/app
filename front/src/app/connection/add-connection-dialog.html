@@ -17,7 +17,7 @@
 			</div>
 
 			<div>
-				<a href="https://webdb.app/page/features"
+				<a href="https://webdb.app/page/compatibility"
 				   mat-flat-button
 				   color="accent"
 				   target="_blank">
@@ -158,17 +158,6 @@
 						{{!showPassword ? 'visibility' : 'visibility_off'}}</mat-icon>
 				</mat-form-field>
 			</div>
-
-			<ng-container *ngIf="server.driver && server.driver.connection.disclaimerSsh && server.ssh.host">
-
-				<mat-divider></mat-divider>
-				<p style="display: flex; align-items: center; justify-content: center;">
-					<span class="material-symbols-outlined notranslate" style="margin-right: 8px">
-						warning
-					</span>
-					{{server.driver.connection.disclaimerSsh}}
-				</p>
-			</ng-container>
 
 			<div>
 				<button

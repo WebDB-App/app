@@ -81,7 +81,7 @@
 				<h3 style="text-align: center; margin-bottom: 20px">
 					Version {{packageJson.version}}
 
-					<a href="https://webdb.app/page/install#update"
+					<a href="https://webdb.app/page/install"
 					   mat-flat-button
 					   color="accent"
 					   style="margin-left: 20px"
@@ -96,6 +96,12 @@
 				<mat-divider></mat-divider>
 
 				<div class="mat-dialog-actions">
+					<a href="https://www.reddit.com/user/WebDB-app"
+					   mat-button
+					   target="_blank">
+						<mat-icon svgIcon="reddit"></mat-icon>
+					</a>
+
 					<a href="https://www.linkedin.com/company/web-db"
 					   mat-button
 					   target="_blank">
@@ -127,6 +133,12 @@
 							mail
 						</span>
 					</a>
+				</div>
+
+				<mat-divider></mat-divider>
+
+				<div class="mat-dialog-actions">
+					Copyright © {{currentYear}} WebDB
 				</div>
 			</div>
 		</mat-tab>

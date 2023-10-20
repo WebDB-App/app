@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule, Provider } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -38,6 +38,29 @@ import { CreateTableDialog, TablesComponent } from "./tables/tables.component";
 import { ConfigDialog } from "./top-right/config/config-dialog.component";
 import { SharedModule } from "../shared/shared.module";
 import { ChangelogDialog, LogsDialog, TopRightComponent } from './top-right/top-right.component';
+import { createErrorHandler } from "@sentry/angular-ivy";
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
+
+const providers: Provider[] = [
+	{
+		provide: HIGHLIGHT_OPTIONS,
+		useValue: <HighlightOptions>{
+			lineNumbers: true,
+			// @ts-ignore
+			lineNumbersLoader: () => import('highlightjs-line-numbers.js'),
+			fullLibraryLoader: () => import('highlight.js'),
+		}
+	}
+];
+if (environment.production) {
+	providers.push({
+		provide: ErrorHandler,
+		useValue: createErrorHandler({
+			showDialog: false,
+		}),
+	});
+}
 
 declare var monaco: any;
 
@@ -47,8 +70,6 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 		minimap: {enabled: false},
 		theme: 'vs-dark',
 		automaticLayout: true,
-		fontSize: '13px',
-		fontFamily: "'Fira Code', monospace",
 		fixedOverflowWidgets: true,
 		tabSize: 4
 	}, onMonacoLoad: () => {
@@ -92,7 +113,7 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 		AddConnectionDialog,
 		TablesComponent,
 		CreateTableDialog,
-		TopRightComponent,
+  		TopRightComponent,
 	],
 	imports: [
 		AppRoutingModule,
@@ -128,19 +149,13 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 		ClipboardModule,
 		MatTabsModule,
 		DragDropModule,
-		SharedModule
+		SharedModule,
+	  	ServiceWorkerModule.register('ngsw-worker.js', {
+			enabled: environment.production,
+			registrationStrategy: 'registerWhenStable:30000'
+	  	})
 	],
-	providers: [
-		{
-			provide: HIGHLIGHT_OPTIONS,
-			useValue: <HighlightOptions>{
-				lineNumbers: true,
-				// @ts-ignore
-				lineNumbersLoader: () => import('highlightjs-line-numbers.js'),
-				fullLibraryLoader: () => import('highlight.js'),
-			}
-		}
-	],
+	providers,
 	bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -17,7 +17,6 @@ export class MySQL extends SQL {
 
 		this.connection = {
 			...this.connection,
-			disclaimerSsh: "MySQL require password for remote connection",
 			defaultParams: {
 				dateStrings: true,
 				multipleStatements: true,

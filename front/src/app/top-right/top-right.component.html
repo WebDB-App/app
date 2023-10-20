@@ -1,4 +1,14 @@
 <button
+	(click)="installPWA()"
+	*ngIf="router.url === '/'"
+	[hidden]="!shouldInstall()"
+	mat-button>
+	<span class="material-symbols-outlined notranslate">
+		install_desktop
+	</span>
+</button>
+
+<button
 	mat-button
 	(click)="showLogs()">
 	<span class="material-symbols-outlined notranslate">

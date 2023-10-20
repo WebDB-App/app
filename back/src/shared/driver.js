@@ -1,6 +1,6 @@
-import nodePortScanner from "node-port-scanner";
+const nodePortScanner = require("node-port-scanner");
 
-export default class Driver {
+module.exports = class Driver {
 
 	dbToSchemaDelimiter = ", ";
 	nameDel = "\"";
@@ -20,10 +20,6 @@ export default class Driver {
 		this.user = user;
 		this.password = password;
 		this.params = params;
-	}
-
-	async getTypes() {
-		return [];
 	}
 
 	async scan(host, from, to) {
@@ -61,4 +57,4 @@ export default class Driver {
 			data: []
 		}];
 	}
-}
+};

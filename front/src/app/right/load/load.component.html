@@ -48,11 +48,31 @@
 			</mat-form-field>
 
 			<button
+				(click)="arraymove(files, i, i - 1)"
+				[hidden]="i === 0"
+				matTooltip="Import this file before"
+				mat-icon-button>
+				<span class="material-symbols-outlined notranslate">
+					arrow_upward
+				</span>
+			</button>
+
+			<button
+				(click)="arraymove(files, i, i + 1)"
+				[hidden]="i === files.length -1"
+				matTooltip="Import this file after"
+				mat-icon-button>
+				<span class="material-symbols-outlined notranslate">
+					arrow_downward
+				</span>
+			</button>
+
+			<button
 				(click)="files.splice(i, 1)"
 				mat-icon-button>
-					<span class="material-symbols-outlined notranslate">
-						remove
-					</span>
+				<span class="material-symbols-outlined notranslate">
+					delete
+				</span>
 			</button>
 		</mat-card-header>
 

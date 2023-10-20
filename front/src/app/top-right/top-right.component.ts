@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnDestroy, ViewChild } from '@angular/core';
 import { MatDialog } from "@angular/material/dialog";
 import { HttpClient } from "@angular/common/http";
 import { DomSanitizer } from "@angular/platform-browser";
@@ -7,6 +7,7 @@ import { environment } from "../../environments/environment";
 import { ConfigDialog } from "./config/config-dialog.component";
 import { isSQL } from "../../shared/helper";
 import { firstValueFrom } from "rxjs";
+import { Router } from "@angular/router";
 
 @Component({
 	selector: 'app-top-right',
@@ -15,9 +16,19 @@ import { firstValueFrom } from "rxjs";
 })
 export class TopRightComponent {
 
+	@HostListener('window:beforeinstallprompt', ['$event'])
+	onbeforeinstallprompt(e: any) {
+		e.preventDefault();
+		this.promptEvent = e;
+	}
+
+	public promptEvent: any;
+	protected readonly isSQL = isSQL;
+
 	constructor(
 		private dialog: MatDialog,
-	) { }
+		public router: Router
+	) {	}
 
 	showSettings() {
 		this.dialog.open(ConfigDialog);
@@ -30,10 +41,20 @@ export class TopRightComponent {
 		});
 	}
 
-	protected readonly isSQL = isSQL;
-
 	changelog() {
 		this.dialog.open(ChangelogDialog);
+	}
+
+	public installPWA() {
+		this.promptEvent.prompt();
+	}
+
+	public shouldInstall(): boolean {
+		return !this.isRunningStandalone() && this.promptEvent;
+	}
+
+	public isRunningStandalone(): boolean {
+		return (window.matchMedia('(display-mode: standalone)').matches);
 	}
 }
 

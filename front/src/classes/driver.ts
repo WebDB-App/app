@@ -45,7 +45,6 @@ export interface Driver {
 
 	connection: {
 		defaultParams: {},
-		disclaimerSsh?: string,
 		acceptedExt: string[],
 		fileTypes: FileType[]
 	}
@@ -59,6 +58,7 @@ export interface Driver {
 	language: {
 		comparators: Comparator[],
 		id: string,
+		extension: string,
 		keywords: string[],
 		functions: { [key: string]: string | null },
 		constraints: string[],

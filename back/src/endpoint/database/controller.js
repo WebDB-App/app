@@ -1,7 +1,6 @@
-import http from "../../shared/http.js";
-import {unlinkSync} from "fs";
-import {URL} from "url";
-const dirname = new URL(".", import.meta.url).pathname;
+const http = require("../../shared/http.js");
+const {unlinkSync} = require("fs");
+const {join} = require("path");
 
 class Controller {
 
@@ -107,7 +106,7 @@ There is a database called "${database}" on a ${wrapper.constructor.name} server
 		}
 
 		const path = await driver.dump(database, undefined, false);
-		const p = dirname + "../../front/" + path.path;
+		const p = join(__dirname, "../../../static/", path.path);
 
 		await new Promise(resolve => setTimeout(resolve, 1000));
 		await driver.load(p, req.body.name);
@@ -117,4 +116,4 @@ There is a database called "${database}" on a ${wrapper.constructor.name} server
 	}
 }
 
-export default new Controller();
+module.exports = new Controller();

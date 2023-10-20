@@ -1,27 +1,16 @@
 {
-	"name": "webdb",
 	"version": "PACKAGE_VERSION",
-	"description": "Free and Efficient Database IDE",
-	"productName": "WebDB",
-	"main": "./electron/main.js",
-	"author": {
-		"name": "WebDB",
-		"email": "main.webdb@gmail.com"
-	},
-	"type": "module",
 	"scripts": {
-		"electron": "electron .",
-		"dist": "electron-builder --win --linux",
-		"start": "NODE_ENV=production src/index.js 2>> src/front/logs/err.log",
-		"dev:back": "nodemon src/index.js 2>> src/front/logs/err.log",
+		"prod": "NODE_ENV=production node src/index.js 3>&1 1>&2 2>&3 | tee ./static/logs/error.log",
+		"dev:back": "node --watch src/index.js 3>&1 1>&2 2>&3 | tee ./static/logs/error.log",
 		"lint": "eslint . --fix",
-		"obfuscate": "javascript-obfuscator ./src --options-preset low-obfuscation && cd src && find . -name '*js' -exec bash -c ' mv $0 ${0/\\-obfuscated/}' {} \\; && cd .."
+		"compile": "bytenode --compile --compress ./src/**/**/*.js ./src/**/*.js ./src/*.js -l %.js"
 	},
 	"dependencies": {
-		"axios": "latest",
+		"@sentry/node": "latest",
+		"bytenode": "latest",
 		"cors": "latest",
 		"dotenv": "latest",
-		"electron-squirrel-startup": "latest",
 		"express": "latest",
 		"mongodb": "latest",
 		"multer": "latest",
@@ -29,50 +18,9 @@
 		"node-port-scanner": "latest",
 		"pg": "latest",
 		"software-license-key": "latest",
-		"ssh2": "latest",
-		"tunnel-ssh": "latest"
+		"ssh-tunneling": "latest"
 	},
 	"devDependencies": {
-		"electron-builder": "latest",
-		"electron-nightly": "latest"
-	},
-	"optionalDependencies": {
-		"eslint": "latest",
-		"nodemon": "latest"
-	},
-	"build": {
-		"appId": "com.webdb.app",
-		"copyright": "Copyright © 2023 WebDB"
-	},
-	"config": {
-		"forge": {
-			"packagerConfig": {
-				"icon": "./electron/webdb"
-			},
-			"makers": [
-				{
-					"name": "@electron-forge/maker-squirrel",
-					"config": {
-						"name": "WebDB",
-						"iconUrl": "https://webdb.app/webdb.ico",
-						"setupIcon": "./electron/webdb.ico"
-					}
-				},
-				{
-					"name": "@electron-forge/maker-zip",
-					"platforms": [
-						"darwin"
-					]
-				},
-				{
-					"name": "@electron-forge/maker-deb",
-					"config": {
-						"options": {
-							"icon": "./electron/webdb.png"
-						}
-					}
-				}
-			]
-		}
+		"eslint": "latest"
 	}
 }

@@ -85,11 +85,16 @@
 		></mat-paginator>
 	</div>
 
+	<input #inputFile (change)="inputChange($event)" accept=".{{selectedServer!.driver.language.extension}}" hidden="true"
+		   onclick="this.value=null" type="file"/>
+
 	<div>
 		<button [matMenuTriggerFor]="advanced" mat-icon-button>
 			<mat-icon>more_vert</mat-icon>
 		</button>
 		<mat-menu #advanced="matMenu" xPosition="before">
+			<button	mat-menu-item (click)="inputFile.click()">Load file</button>
+			<button	mat-menu-item (click)="saveToDisk()">Save to file</button>
 			<button (click)="addView()" [disabled]="!isQuerySelect()" mat-menu-item>Create view from query</button>
 			<button (click)="exportQuery()" [disabled]="query.length < 1" mat-menu-item>Export query</button>
 			<button [matMenuTriggerFor]="shortcuts" mat-menu-item>Shortcuts</button>
@@ -97,7 +102,7 @@
 		</mat-menu>
 		<mat-menu #shortcuts="matMenu">
 			<button mat-menu-item>Alt + Space → <span style="color: #2196f3">Autocomplete</span></button>
-			<button mat-menu-item>Ctrl + s / Enter → <span style="color: #2196f3">Run query</span></button>
+			<button mat-menu-item>Ctrl / ⌘ + Enter → <span style="color: #2196f3">Run query</span></button>
 			<button mat-menu-item>Ctrl / ⌘ + f → <span style="color: #2196f3">Find and / or replace</span></button>
 			<button mat-menu-item>Alt + Maj + f → <span style="color: #2196f3">Format query</span></button>
 		</mat-menu>

@@ -126,7 +126,7 @@ export class AiComponent implements OnInit {
 			if (question) {
 				await this.sendMessage(question);
 			}
-		})
+		});
 
 		this.localKeyChatHistory = 'chat-' + this.selectedDatabase.name;
 		this.localKeyPreSent = 'preSent-' + this.selectedDatabase.name;
@@ -196,7 +196,7 @@ export class AiComponent implements OnInit {
 			model: this.config.model,
 			messages: [
 				{role: Role.System, content: this.sample},
-				{role: Role.User, content: txt}
+				...(this.chat.map(ch => { return { role: ch.user, content: ch.txt } }))
 			],
 			stream: true,
 			temperature: this.config.temperature

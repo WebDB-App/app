@@ -1,9 +1,9 @@
-import wrapperModel from "../../shared/wrapper.js";
-import {commonPass, commonUser} from "../../shared/guess.js";
-import http from "../../shared/http.js";
-import subscriptionCtrl from "../subscription/controller.js";
-import * as fs from "fs";
-import Tunnel from "../tunnel/controller.js";
+const wrapperModel = require("../../shared/wrapper.js");
+const {commonPass, commonUser} = require("../../shared/guess.js");
+const http = require("../../shared/http.js");
+const subscriptionCtrl = require("../subscription/controller.js");
+const fs = require("fs");
+const Tunnel = require("../tunnel/controller.js");
 
 class Controller {
 
@@ -16,7 +16,7 @@ class Controller {
 
 		for (const wrapper of await wrapperModel.getWrappers()) {
 			for (const host of hosts) {
-				const driver = new wrapper.default(undefined, host);
+				const driver = new wrapper(undefined, host);
 				promises.push(driver.scan());
 			}
 		}
@@ -69,7 +69,12 @@ class Controller {
 	}
 
 	async load(req, res) {
-		const [driver] = await http.getLoggedDriver(req);
+		const [driver, , , server] = await http.getLoggedDriver(req);
+		if (server.ssh) {
+			fs.unlinkSync(req.file.path);
+			return res.send({error: "While tunneling, native import is not available with WebDB"});
+		}
+
 		const result = await driver.load(req.file.path, req.get("Database"), req.file.originalname);
 
 		fs.unlinkSync(req.file.path);
@@ -77,12 +82,17 @@ class Controller {
 	}
 
 	async dump(req, res) {
-		const [driver] = await http.getLoggedDriver(req);
+		const [driver, , , server] = await http.getLoggedDriver(req);
+
+		if (req.body.exportType.toLowerCase() !== "json" && server.ssh) {
+			return res.send({error: "While tunneling, native export is not available with WebDB"});
+		}
+
 		const result = await driver.dump(
 			req.get("Database"),
 			req.body.exportType,
 			req.body.tables,
-			req.body.includeData
+			req.body.includeData,
 		);
 
 		res.send(result);
@@ -144,4 +154,4 @@ class Controller {
 	}
 }
 
-export default new Controller();
+module.exports = new Controller();

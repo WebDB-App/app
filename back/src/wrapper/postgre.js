@@ -1,20 +1,19 @@
-import pg from "pg";
-import SQL from "../shared/sql.js";
-import {writeFileSync} from "fs";
-import {URL} from "url";
-import bash from "../shared/bash.js";
+const {Pool} = require("pg");
+const SQL = require("../shared/sql.js");
+const {writeFileSync} = require("fs");
+const bash = require("../shared/bash.js");
+const buffer = require("../shared/buffer");
+const {join} = require("path");
+const State = require("../shared/state");
 
-const {Pool} = pg;
-const dirname = new URL(".", import.meta.url).pathname;
-
-export default class PostgreSQL extends SQL {
+module.exports = class PostgreSQL extends SQL {
 
 	commonUser = ["postgres", "postgre"];
 	commonPass = ["postgres", "postgre", "mysecretpassword"];
 	systemDbs = ["information_schema", "pg_catalog", "pg_toast"];
 
 	async scan() {
-		return super.scan(this.host, 5430, 5440);
+		return super.scan(this.host, 5430, 5450);
 	}
 
 	async sampleDatabase(name, {count, tables}) {
@@ -44,9 +43,9 @@ export default class PostgreSQL extends SQL {
 		if (old.type !== column.type) {
 			let r = await this.runCommand(`ALTER TABLE ${this.nameDel + table + this.nameDel} ALTER COLUMN ${this.nameDel + column.name + this.nameDel} TYPE ${this.nameDel + column.type + this.nameDel}`, database);
 			if (r.error) {
-				const using = /"(USING .*)"/.exec(r.error);
-				if (using?.length > 0) {
-					r = await this.runCommand(`ALTER TABLE ${this.nameDel + table + this.nameDel} ALTER COLUMN ${this.nameDel + column.name + this.nameDel} TYPE ${this.nameDel + column.type + this.nameDel} ${using[1]}`, database);
+				const match = /"(USING .*)"/.exec(r.error);
+				if (match?.length > 0) {
+					r = await this.runCommand(`ALTER TABLE ${this.nameDel + table + this.nameDel} ALTER COLUMN ${this.nameDel + column.name + this.nameDel} TYPE ${this.nameDel + column.type + this.nameDel} ${match[1]}`, database);
 				}
 				if (r.error) {
 					return r;
@@ -71,7 +70,7 @@ export default class PostgreSQL extends SQL {
 	async dump(dbSchema, exportType = "sql", tables, includeData = true) {
 		const [database, schema] = dbSchema.split(this.dbToSchemaDelimiter);
 
-		const path = `${dirname}../front/dump/${database}.${exportType}`;
+		const path = join(__dirname, `../../static/dump/${database}.${exportType}`);
 		const total = await this.runCommand(`SELECT COUNT(DISTINCT TABLE_NAME) as total FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '${schema}'`, database);
 
 		if (exportType === "sql") {
@@ -87,7 +86,7 @@ export default class PostgreSQL extends SQL {
 		if (exportType === "json") {
 			const results = {};
 			for (const table of tables) {
-				results[table] = await this.runCommand(`SELECT * FROM ${table}`, dbSchema);
+				results[table] = buffer.loadData(await this.runCommand(`SELECT * FROM ${table}`, dbSchema));
 			}
 
 			writeFileSync(path, JSON.stringify({
@@ -97,6 +96,11 @@ export default class PostgreSQL extends SQL {
 		}
 
 		return {path: `dump/${database}.${exportType}`};
+	}
+
+	async saveState(path, dbSchema) {
+		const [database, schema] = dbSchema.split(this.dbToSchemaDelimiter);
+		return bash.runBash(`pg_dump ${this.makeUri(database)} -n ${schema} > ${path}`);
 	}
 
 	makeUri(database = false) {
@@ -388,7 +392,7 @@ export default class PostgreSQL extends SQL {
 	}
 
 	async runCommand(command, database = false) {
-		let schema, connection, cid;
+		let schema, connection;
 		let lgth = -1;
 
 		if (database) {
@@ -402,14 +406,15 @@ export default class PostgreSQL extends SQL {
 			connection = await this.connection.connect();
 		}
 
+		const cid = bash.startCommand(command, (database || "") + (schema ? `,${schema}` : ""), this.port);
 		try {
 			if (schema) {
 				await connection.query(`SET search_path TO ${schema};`);
 			}
-			cid = bash.startCommand(command, (database || "") + (schema ? `,${schema}` : ""), this.port);
 			let res = await connection.query(command);
 			res = res.command === "SELECT" ? res.rows : res;
 			lgth = res.length;
+			State.commandFinished(this, command, database);
 			return res;
 		} catch (e) {
 			return {error: e.message + ". " + (e.hint || ""), position: e.position};
@@ -439,4 +444,4 @@ export default class PostgreSQL extends SQL {
 			return {error: e.message};
 		}
 	}
-}
+};
