@@ -15,6 +15,8 @@ include:
     before_script:
         - export TAG=$(date '+%y.%m.%d')
         - printenv
+        - cp common-helper.js ./front/src/shared/common-helper.js
+        - cp common-helper.js ./back/src/shared/common-helper.js
         - >
             if [ $(uname) == "Darwin" ]; then
             	sed -i '' "s/PACKAGE_VERSION/${TAG}/g" ./back/package.json
@@ -72,7 +74,6 @@ docker:
     script:
         - apk add --no-cache --upgrade curl
         - cp -fr ./front/dist/webdb/* ./back/static/
-        - cp common-helper.js ./back/src/shared/common-helper.js
         - cd back
         - docker login -u 'webdb' -p $DOCKER_PASS
         - docker buildx create --use
