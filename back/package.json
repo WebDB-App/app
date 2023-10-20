@@ -1,7 +1,6 @@
 {
 	"version": "PACKAGE_VERSION",
 	"scripts": {
-		"prod": "NODE_ENV=production node src/index.js 3>&1 1>&2 2>&3 | tee ./static/logs/error.log",
 		"dev:back": "node --watch src/index.js 3>&1 1>&2 2>&3 | tee ./static/logs/error.log",
 		"lint": "eslint . --fix",
 		"compile": "bytenode --compile --compress ./src/**/**/*.js ./src/**/*.js ./src/*.js -l %.js"
