@@ -49,6 +49,7 @@ prepare:
         - cd front
         - pnpm install --prod --frozen-lockfile
         - pnpm run build
+        - node ./changelog.js ./dist/webdb/changelog.html
     artifacts:
         paths:
             - ./front/dist/webdb/
