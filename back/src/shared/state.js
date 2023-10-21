@@ -16,16 +16,15 @@ class State {
 			}
 			setTimeout(() => {loop();}, 20 * 1000);
 		};
-		return;
 		// eslint-disable-next-line no-unreachable
 		bash.runBash(`cd ${statePath} && git init --initial-branch=main`);
 		loop();
 	}
 
-	saveState(database, driver) {
+	async saveState(database, driver) {
 		const path = join(statePath, database);
 
-		const result = driver.saveState(path, database);
+		const result = await driver.saveState(path, database);
 		if (result.error) {
 			return;
 		}
@@ -36,8 +35,6 @@ class State {
 	}
 
 	commandFinished(driver, command, database) {
-		return;
-		// eslint-disable-next-line no-unreachable
 		if (!database) {
 			return;
 		}

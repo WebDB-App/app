@@ -48,20 +48,29 @@ function getLogsByDate() {
 		for (const [date, commit] of Object.entries(logs)) {
 			let lis = '';
 			for (const com of commit) {
-				const sub = com.subject.trim();
-				if (sub.length < 10) {
+				let sub = com.subject.trim();
+				sub = emojify(sub);
+				sub = marked(sub, {mangle: false, headerIds: false});
+				sub = sub.replaceAll('\n', '<br>');
+				sub = sub.replaceAll('\t', ' - ');
+				if (sub.length < 30) {
 					continue;
 				}
-				const mark = marked(emojify(sub), {mangle: false, headerIds: false});
-				lis += `<li style="padding: 6px 0px;"><div class='msg'>${mark}</div></li>`;
+				lis += `<li><div class='msg'>${sub}</div></li>`;
 			}
 			if (lis.length < 1) {
 				continue;
 			}
-			html += `<div class='changelog-day'><h2 style='margin-bottom: 0px;'>${date}</h2><ul style='padding: 14px 20px; outline: auto;'>${lis}</ul></div>`;
+			html +=
+				`<div class='changelog-day' style="display: flex; flex-direction: row; align-items: center; justify-content: flex-start;">
+					<h2 style='margin-bottom: 0px; transform: rotate(270deg); white-space: nowrap; width: 20px; height: 36px; min-width: 85px;'>${date}</h2>
+					<ul style="border-left: 1px solid black;">
+						${lis}
+					</ul>
+				</div>`;
 		}
 
-		fs.writeFileSync(process.argv[2], `<html><body><div class='changelog'>${html}</div></body></html>`);
+		fs.writeFileSync(process.argv[2], `<html><head><style>p {margin: 0px;}</style></head><body><div class='changelog'>${html}</div></body></html>`);
 	} catch (error) {
 		console.error(error);
 	}

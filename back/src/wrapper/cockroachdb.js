@@ -14,4 +14,8 @@ module.exports = class CockroachDB extends PostgreSQL {
 	async dump(dbSchema, exportType = "sql", tables, includeData = true) {
 		return {error: "Feature not available due to the incompatibility of CockroachDB with pg_dump"};
 	}
+
+	async statsDatabase() {
+		return undefined;
+	}
 };

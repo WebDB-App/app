@@ -40,7 +40,6 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 	@ViewChild(MatPaginator) paginator!: MatPaginator;
 	@ViewChild('scrollContainer') private scrollContainer!: ElementRef;
 
-
 	selectedServer?: Server;
 	selectedDatabase?: Database;
 	selectedTable?: Table;

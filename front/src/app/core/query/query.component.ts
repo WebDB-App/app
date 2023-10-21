@@ -11,7 +11,7 @@ import { RequestService } from "../../../shared/request.service";
 import { Relation } from "../../../classes/relation";
 import { Configuration } from "../../../classes/configuration";
 import { HistoryService, Query } from "../../../shared/history.service";
-import { initBaseEditor, isSQL, REMOVED_LABELS, addMonacoError } from "../../../shared/helper";
+import { initBaseEditor, REMOVED_LABELS, addMonacoError } from "../../../shared/helper";
 import { ExportResultDialog } from "../../../shared/export-result-dialog/export-result-dialog";
 import { MatPaginatorIntl } from "@angular/material/paginator";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
