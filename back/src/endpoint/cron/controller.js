@@ -11,7 +11,6 @@ class FileCleanup {
 	}
 
 	checkAndCleanup() {
-		const cid = bash.startCommand(this.folderPath, "file cleaner", "");
 		const files = readdirSync(this.folderPath).filter(file => !file.startsWith("."));
 		const fileStats = files.map((file) => ({
 			name: file,
@@ -36,7 +35,7 @@ class FileCleanup {
 		if (filesToDelete.length > 0) {
 			this.deleteFiles(filesToDelete);
 		}
-		bash.endCommand(cid, filesToDelete.length);
+		return filesToDelete.length;
 	}
 
 	deleteFiles(filesToDelete) {
@@ -52,10 +51,15 @@ class FileCleanup {
 }
 
 setInterval(() => {
+	const cid = bash.startCommand("file(s) cleaned", "", "");
+	let cleaned = 0;
+
 	const logs = new FileCleanup(join(frontPath, "logs"), 10_000_000, 5);
 	const dumps = new FileCleanup(join(frontPath, "dump"), 100_000_000, 5);
 	const states = new FileCleanup(join(frontPath, "state"), 100_000_000, 5);
-	logs.checkAndCleanup();
-	dumps.checkAndCleanup();
-	states.checkAndCleanup();
-}, 300_000);
+	cleaned += logs.checkAndCleanup();
+	cleaned += dumps.checkAndCleanup();
+	cleaned += states.checkAndCleanup();
+
+	bash.endCommand(cid, cleaned);
+}, 5 * 60 * 1000);

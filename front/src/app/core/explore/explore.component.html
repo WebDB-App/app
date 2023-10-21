@@ -5,13 +5,13 @@
 				<mat-label>
 					Page
 				</mat-label>
-				<mat-select (selectionChange)="changePage($event.value)" [value]="params.page">
+				<mat-select (selectionChange)="changePage($event.value); refreshData()" [value]="params.page">
 					<mat-option *ngFor="let item of [].constructor(Math.floor(querySize / pageSize) + 1); let i = index"
 								[value]="i">{{i}}</mat-option>
 				</mat-select>
 			</mat-form-field>
 			<mat-paginator
-				(page)="changePage($event.pageIndex)"
+				(page)="changePage($event.pageIndex); refreshData()"
 				[length]="querySize"
 				[pageIndex]="params.page"
 				pageSize="{{pageSize}}"
@@ -44,7 +44,7 @@
 		<mat-form-field>
 			<mat-label>Sort By</mat-label>
 			<mat-select
-				(selectionChange)="navigateWithParams()"
+				(selectionChange)="refreshData()"
 				[(ngModel)]="params.field">
 				<ng-container *ngFor="let column of displayedColumns">
 					<mat-option
@@ -58,7 +58,7 @@
 		<mat-button-toggle-group
 			*ngIf="params.field"
 			[(ngModel)]="params.direction"
-			(change)="navigateWithParams()">
+			(change)="refreshData()">
 			<mat-button-toggle matTooltip="Asc" value="asc">↑</mat-button-toggle>
 			<mat-button-toggle matTooltip="Desc" value="desc">↓</mat-button-toggle>
 			<mat-button-toggle matTooltip="No Sort" value="">×</mat-button-toggle>

@@ -10,7 +10,7 @@ class State {
 		const loop = () => {
 			for (const [database, change] of Object.entries(this.changes)) {
 				if (!change.done) {
-					this.saveState(database, change.driver);
+					this.saveChanges(database, change.driver);
 					this.changes[database].done = true;
 				}
 			}
@@ -22,7 +22,7 @@ class State {
 		loop();
 	}
 
-	async saveState(database, driver) {
+	async saveChanges(database, driver) {
 		const path = join(statePath, database);
 
 		const result = await driver.saveState(path, database);

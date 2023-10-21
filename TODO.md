@@ -26,10 +26,6 @@
 
 
 
-# Bugs
-- tidb
-- recent-tags
-
 
 # Relation wizard
 - 1,1 -> 0,n

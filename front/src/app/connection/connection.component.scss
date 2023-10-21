@@ -3,25 +3,25 @@
 
 	.driver {
 		width: 100%;
+		border-top: 3px solid rgba(255, 255, 255, 0.2);
+		margin: 74px 0px 20px;
+		padding-top: 10px;
+		transition: border 250ms ease-in-out;
 
 		.logo {
-			margin: 38px 0px 18px;
+			margin-top: -42px;
+		}
+
+		&:hover {
+			border-top: 3px solid rgba(255, 255, 255, 1);
 		}
 	}
 
 	.servers {
-		border-radius: 10px;
-		margin-top: -50px;
-		padding-top: 32px;
-		overflow: auto;
+		justify-content: center;
 		display: flex;
-		align-items: center;
-		transition: border 250ms ease-in-out;
-		border: 1px solid rgba(255, 255, 255, 0.1);
-
-		&:hover {
-			border: 1px solid rgba(255, 255, 255, 0.5);
-		}
+		flex-wrap: wrap;
+		align-items: flex-start;
 
 		.mat-card {
 			min-width: 450px;

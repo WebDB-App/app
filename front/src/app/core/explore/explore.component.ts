@@ -63,49 +63,44 @@ export class ExploreComponent implements OnInit, OnDestroy {
 		}
 	}
 
-	ngOnInit() {
+	async ngOnInit() {
 		this.selectedServer = Server.getSelected();
 
-		this.activatedRoute.parent?.params!.subscribe(async () => {
+		this.activatedRoute.parent?.paramMap!.subscribe(async () => {
+			if (this.selectedTable && this.selectedTable?.name !== Table.getSelected().name) {
+				this.changePage(0);
+				this.params.field = "";
+				this.params.direction = "";
+				this.params.chips = "";
+
+			} else {
+				const params = this.activatedRoute.snapshot.paramMap;
+				this.params.page = +(params.get("page") || 0);
+				this.params.field = params.get("field") || "";
+				this.params.direction = params.get("direction") || "";
+				this.params.chips = params.get("chips") || "";
+			}
+
 			this.selectedTable = Table.getSelected();
-			this.changePage(0, false);
-			this.params.field = "";
-			this.params.direction = "";
-			this.params.chips = "";
 			this.selection.clear();
-
 			await this.refreshData();
 		});
-		this.activatedRoute?.paramMap.subscribe(async (params) => {
-			this.changePage(params.get("page") || 0, false);
-			this.params.field = params.get("field") || "";
-			this.params.direction = params.get("direction") || "";
-			this.params.chips = params.get("chips") || "";
-			this.selection.clear();
 
-			await this.refreshData();
-		});
+		setInterval(() => {
+			this.router.navigate([this.params], {
+				relativeTo: this.activatedRoute,
+			});
+		}, 1000);
 	}
 
-	changePage(page: any, navigate = true) {
+	changePage(page: any) {
 		page = +page;
 		if ((page * this.pageSize) > this.querySize) {
 			page = 0;
-			navigate = true;
 		}
 
 		this.params.page = +page;
-
-		if (navigate) {
-			this.navigateWithParams()
-		}
 		return event;
-	}
-
-	navigateWithParams() {
-		this.router.navigate([this.params], {
-			relativeTo: this.activatedRoute,
-		});
 	}
 
 	async refreshData() {
@@ -148,7 +143,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 		return this.selectedServer!.driver.basicFilter(this.selectedTable!, condition, operand);
 	}
 
-	addChips(column: string, event: MatChipInputEvent): void {
+	async addChips(column: string, event: MatChipInputEvent) {
 		let value = event.value.trim();
 		if (!value) {
 			return;
@@ -160,13 +155,12 @@ export class ExploreComponent implements OnInit, OnDestroy {
 			value) + ';';
 		this.params.page = 0;
 		event.chipInput!.clear();
-		this.navigateWithParams();
+		await this.refreshData();
 	}
 
-	removeChips(chips: string): void {
+	async removeChips(chips: string) {
 		this.params.chips = this.params.chips.replace(`${chips};`, '');
-
-		this.navigateWithParams();
+		await this.refreshData();
 	}
 
 	async removeRows() {

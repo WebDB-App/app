@@ -3,7 +3,7 @@
 		<mat-step *ngIf="newConnection">
 			<ng-template matStepLabel>Driver</ng-template>
 
-			<div style="display: flex; flex-direction: column;">
+			<div style="display: flex; max-width: 600px; flex-wrap: wrap;">
 				<div (click)="changeWrapper(wrapper)"
 					 *ngFor="let wrapper of driverNames"
 					 class="driver">
