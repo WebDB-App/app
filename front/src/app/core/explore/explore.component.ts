@@ -31,8 +31,8 @@ export class ExploreComponent implements OnInit, OnDestroy {
 	pageSize = 50;
 	params = {
 		chips: "",
-		sortField: "",
-		sortDirection: "",
+		field: "",
+		direction: "",
 		page: 0
 	}
 	filter: { [key: string]: string } = {};
@@ -69,18 +69,18 @@ export class ExploreComponent implements OnInit, OnDestroy {
 		this.activatedRoute.parent?.params!.subscribe(async () => {
 			this.selectedTable = Table.getSelected();
 			this.changePage(0, false);
-			this.params.sortField = "";
-			this.params.sortDirection = "";
+			this.params.field = "";
+			this.params.direction = "";
 			this.params.chips = "";
 			this.selection.clear();
 
 			await this.refreshData();
 		});
-		this.activatedRoute?.queryParams.subscribe(async (params) => {
-			this.changePage(params["page"] || 0, false);
-			this.params.sortField = params["sortField"] || "";
-			this.params.sortDirection = params["sortDirection"] || "";
-			this.params.chips = params["chips"] || "";
+		this.activatedRoute?.paramMap.subscribe(async (params) => {
+			this.changePage(params.get("page") || 0, false);
+			this.params.field = params.get("field") || "";
+			this.params.direction = params.get("direction") || "";
+			this.params.chips = params.get("chips") || "";
 			this.selection.clear();
 
 			await this.refreshData();
@@ -103,10 +103,8 @@ export class ExploreComponent implements OnInit, OnDestroy {
 	}
 
 	navigateWithParams() {
-		this.router.navigate([], {
+		this.router.navigate([this.params], {
 			relativeTo: this.activatedRoute,
-			queryParams: this.params,
-			queryParamsHandling: 'merge',
 		});
 	}
 
@@ -125,8 +123,8 @@ export class ExploreComponent implements OnInit, OnDestroy {
 	async getQueryData() {
 		let query = this.query;
 
-		if (this.params.sortDirection && this.params.sortField) {
-			query = this.selectedServer?.driver.basicSort(query, this.params.sortField, <"asc" | "desc">this.params.sortDirection)!;
+		if (this.params.direction && this.params.field) {
+			query = this.selectedServer?.driver.basicSort(query, this.params.field, <"asc" | "desc">this.params.direction)!;
 		}
 
 		const result = await this.request.post('database/query', {

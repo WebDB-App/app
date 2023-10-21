@@ -43,24 +43,22 @@
 	<div>
 		<mat-form-field>
 			<mat-label>Sort By</mat-label>
-			<mat-select [(ngModel)]="params.sortField">
+			<mat-select
+				(selectionChange)="navigateWithParams()"
+				[(ngModel)]="params.field">
 				<ng-container *ngFor="let column of displayedColumns">
 					<mat-option
 						*ngIf="column !== actionColum"
-						[queryParams]="params"
-						[routerLink]="'./'"
-						[value]="column"
-					>
+						[value]="column">
 						{{column}}
 					</mat-option>
 				</ng-container>
 			</mat-select>
 		</mat-form-field>
 		<mat-button-toggle-group
-			*ngIf="params.sortField"
-			[(ngModel)]="params.sortDirection"
-			[queryParams]="params"
-			[routerLink]="'./'">
+			*ngIf="params.field"
+			[(ngModel)]="params.direction"
+			(change)="navigateWithParams()">
 			<mat-button-toggle matTooltip="Asc" value="asc">↑</mat-button-toggle>
 			<mat-button-toggle matTooltip="Desc" value="desc">↓</mat-button-toggle>
 			<mat-button-toggle matTooltip="No Sort" value="">×</mat-button-toggle>
