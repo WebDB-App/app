@@ -16,6 +16,7 @@ class State {
 			}
 			setTimeout(() => {loop();}, 20 * 1000);
 		};
+		return;
 		// eslint-disable-next-line no-unreachable
 		bash.runBash(`cd ${statePath} && git init --initial-branch=main`);
 		loop();
@@ -35,6 +36,8 @@ class State {
 	}
 
 	commandFinished(driver, command, database) {
+		return;
+		// eslint-disable-next-line no-unreachable
 		if (!database) {
 			return;
 		}

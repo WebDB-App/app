@@ -15,7 +15,8 @@ COPY . .
 RUN npm run compile
 RUN cp .env.production .env
 
-RUN apk del python3 make g++
+RUN apk del --purge python3 make g++
+RUN cd /root/ && rm -rf .cache/ .local/ .npm/ && cd /usr/bin/ && rm -rf mongofiles mongostat mongoexport mongotop mongostat mariadb-check bsondump
 
 EXPOSE 22071
 ENTRYPOINT NODE_ENV=production node src/index.js 3>&1 1>&2 2>&3 | tee ./static/logs/error.log
