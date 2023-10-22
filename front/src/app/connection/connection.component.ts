@@ -11,6 +11,12 @@ import { DomSanitizer, Title } from "@angular/platform-browser";
 import { MatIconRegistry } from "@angular/material/icon";
 import helper from "../../shared/common-helper.js";
 
+enum Status {
+	Connected = 'Connected',
+	Discovered = 'Discovered',
+	Problem = 'Problem'
+}
+
 @Component({
 	selector: 'app-connection',
 	templateUrl: './connection.component.html',
@@ -21,8 +27,11 @@ export class ConnectionComponent implements OnInit {
 	servers: Server[] = [];
 	showPassword = false;
 	loading = 0;
-	driverNames = Object.keys(drivers);
 	sub!: Subscription;
+
+	protected readonly Status = Status;
+	protected readonly Object = Object;
+	protected readonly environment = environment;
 
 	constructor(
 		private http: HttpClient,
@@ -33,7 +42,7 @@ export class ConnectionComponent implements OnInit {
 		private titleService: Title,
 		private dialog: MatDialog) {
 
-		for (const driver of this.driverNames) {
+		for (const driver of Object.keys(drivers)) {
 			this.matIconRegistry.addSvgIcon(
 				driver.toLowerCase(),
 				this.domSanitizer.bypassSecurityTrustResourceUrl(`/assets/drivers/${driver.toLowerCase()}.svg`)
@@ -79,10 +88,7 @@ export class ConnectionComponent implements OnInit {
 			}
 		}
 
-		servers = await this.request.connectServers(locals, false);
-		this.servers = servers.sort((a, b) => {
-			return Number(b.connected) - Number(a.connected)
-		});
+		this.servers = await this.request.connectServers(locals, false);
 	}
 
 	async postLogged(localServer: Server, remoteServer: Server) {
@@ -183,24 +189,17 @@ export class ConnectionComponent implements OnInit {
 		});
 	}
 
-	getDetails(server: Server) {
-		if (server.connected) {
-			return {icon: 'signal_wifi_4_bar', txt: 'Connected'};
-		}
-		if (server.scanned) {
-			if (server.stored) {
-				return {icon: 'signal_wifi_bad', txt: 'Bad credentials'};
+	getServerByStatus(status: string): Server[] {
+		return this.servers.filter(server => {
+			if (status === Status.Connected) {
+				return server.connected;
 			}
-			return {icon: 'network_wifi_1_bar_locked', txt: 'Discovered'};
-		}
-		return {icon: 'signal_wifi_off', txt: 'Unreachable'};
+			if (status === Status.Discovered) {
+				return !server.connected && server.scanned && !server.stored;
+			}
+			return !server.connected && (!server.scanned || server.stored);
+		});
 	}
-
-	getServerByDriver(driver: string): Server[] {
-		return this.servers.filter(server => server.wrapper === driver);
-	}
-
-	protected readonly environment = environment;
 }
 
 @Component({
