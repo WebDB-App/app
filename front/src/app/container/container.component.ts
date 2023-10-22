@@ -29,9 +29,10 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 	selectedServer!: Server;
 	selectedDatabase!: Database;
 	panels: Panel[] = [
-		{link: "relations", icon: "attach_file"},
-		{link: "diagram", icon: "polyline"},
 		{link: "history", icon: "schedule_send"},
+		{link: "diagram", icon: "polyline"},
+		{link: "relations", icon: "attach_file"},
+		{link: "version", icon: "settings_backup_restore"},
 		{link: "assistant", icon: "support_agent"},
 		{link: "load", icon: "input"},
 		{link: "dump", icon: "ios_share"},

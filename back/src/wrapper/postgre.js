@@ -4,7 +4,7 @@ const {writeFileSync} = require("fs");
 const bash = require("../shared/bash.js");
 const buffer = require("../shared/buffer");
 const {join} = require("path");
-const State = require("../shared/state");
+const State = require("../shared/version");
 
 module.exports = class PostgreSQL extends SQL {
 
@@ -99,8 +99,8 @@ module.exports = class PostgreSQL extends SQL {
 	}
 
 	async saveState(path, dbSchema) {
-		const [database, schema] = dbSchema.split(this.dbToSchemaDelimiter);
-		return bash.runBash(`pg_dump ${this.makeUri(database)} -n ${schema} > ${path}`);
+		const [database] = dbSchema.split(this.dbToSchemaDelimiter);
+		return bash.runBash(`pg_dump ${this.makeUri(database)} > ${path}`);
 	}
 
 	makeUri(database = false) {
@@ -114,7 +114,6 @@ module.exports = class PostgreSQL extends SQL {
 
 	async getComplexes() {
 		const promises = [];
-
 
 		for (const db of await this.getDbs()) {
 			promises.push(new Promise(async resolve => {

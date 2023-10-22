@@ -1,6 +1,6 @@
 const mysql = require("mysql2");
 const SQL = require("../shared/sql.js");
-const State = require("../shared/state.js");
+const State = require("../shared/version.js");
 const {writeFileSync} = require("fs");
 const bash = require("../shared/bash.js");
 const {join} = require("path");
@@ -41,7 +41,7 @@ module.exports = class MySQL extends SQL {
 		if (exportType === "sql") {
 			const cmd = `mysqldump --user='${this.user}' --port=${this.port} --password='${this.password}' --host='${this.host}' ${database} `;
 			const data = includeData ? "" : "--no-data";
-			const dbOpts = (tables === false || tables.length < total[0].total) ? "" : `${database} ${tables.join(" ")}`;
+			const dbOpts = (tables === false || tables.length >= total[0].total) ? "" : ` ${tables.join(" ")}`;
 			const cliOpts = "--column-statistics=0";
 
 			const result = bash.runBash(`${cmd} ${cliOpts} ${dbOpts} ${data} > ${path}`);

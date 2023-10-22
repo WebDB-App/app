@@ -5,7 +5,7 @@ const {writeFileSync} = require("fs");
 const {join} = require("path");
 const helper = require("../shared/common-helper.js");
 const buffer = require("../shared/buffer");
-const State = require("../shared/state");
+const State = require("../shared/version");
 
 module.exports = class MongoDB extends Driver {
 	commonUser = ["mongo"];

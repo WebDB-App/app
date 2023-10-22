@@ -1,23 +1,3 @@
-# Server gît avec autobackup
-- git format-patch -100
-- ctrl/cmd z + add (landing/feature)
-- show git remote
-- permet just de force revert avec nombre de ligne de diff
-
-- tester DISABLE_WATCHER et add dans la doc
-- disclaimer : Seulement changement fait a travers webdb et pas load fichier
-- payant +20 commits
-
-
-
-????
-- Checksum par table
-- https://stackoverflow.com/questions/17177914/is-there-a-more-elegant-way-to-detect-changes-in-a-large-sql-table-without-alter#comment24874308_17178078
-- https://www.tutorialspoint.com/mysql/mysql_checksum_table_statement.htm
-- https://www.google.com/search?q=mongo+watch+databasr&oq=mongo+watch+databasr&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIJCAEQIRgKGKAB0gEJMTM3MDVqMGo0qAIAsAIA&client=ms-android-google&sourceid=chrome-mobile&ie=UTF-8
-- https://github.com/debezium/debezium
-
-
 
 
 
@@ -63,4 +43,4 @@
 - sql function doc (generate from web scrap)
 - Export Query : tester tout
 - help applying rgpd rules to db (pii anonymisation, server certificate)
-- node:20-alpine -> 21
+- node:20-alpine -> 21 (app+landing)

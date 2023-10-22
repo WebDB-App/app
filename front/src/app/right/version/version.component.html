@@ -1,0 +1,49 @@
+<div style="height: calc(100vh - 56px); overflow: auto; max-width: 50vw;">
+
+	<ng-container *ngIf="selectedDatabase?.system">
+		Database Versioning is not available for system databases
+	</ng-container>
+
+	<ng-container *ngIf="!selectedDatabase?.system">
+
+
+		<mat-toolbar
+			fxLayout="row"
+			fxLayoutAlign="space-between center">
+
+			show git remote
+		</mat-toolbar>
+
+		<!--
+		<mat-card *ngFor="let his of queryHistory | sort: order"
+				  [hidden]="his.query.toLowerCase().indexOf(filter.toLowerCase()) < 0"
+				  [style.background-color]="his.star ? 'black' : undefined">
+
+			taille du patch
+			<mat-card-content>
+
+
+				load diff -> monaco editor
+			</mat-card-content>
+
+			<mat-card-actions>
+				<h4>
+					checkout
+				</h4>
+
+				sha1
+				+autre meta donnée util??
+
+				<h4>
+					n minute ago
+					{{his.date | date: 'HH:mm dd/MM'}}
+				</h4>
+			</mat-card-actions>
+		</mat-card>
+		-->
+	</ng-container>
+
+</div>
+
+btn pour en acheter a la fin
+quid de cockroachdb ?

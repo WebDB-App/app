@@ -56,10 +56,10 @@ setInterval(() => {
 
 	const logs = new FileCleanup(join(frontPath, "logs"), 10_000_000, 5);
 	const dumps = new FileCleanup(join(frontPath, "dump"), 100_000_000, 5);
-	const states = new FileCleanup(join(frontPath, "state"), 100_000_000, 5);
+	const versions = new FileCleanup(join(frontPath, "version"), 100_000_000, 5);
 	cleaned += logs.checkAndCleanup();
 	cleaned += dumps.checkAndCleanup();
-	cleaned += states.checkAndCleanup();
+	cleaned += versions.checkAndCleanup();
 
 	bash.endCommand(cid, cleaned);
 }, 5 * 60 * 1000);

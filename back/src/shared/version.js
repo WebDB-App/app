@@ -1,8 +1,8 @@
 const {join} = require("path");
-const statePath = join(__dirname, "../../static/state/");
+const versionPath = join(__dirname, "../../static/version/");
 const bash = require("./bash");
 
-class State {
+class Version {
 
 	changes = {};
 
@@ -10,34 +10,34 @@ class State {
 		const loop = () => {
 			for (const [database, change] of Object.entries(this.changes)) {
 				if (!change.done) {
-					this.saveChanges(database, change.driver);
+					//TODO
+					//this.saveChanges(database, change.driver);
 					this.changes[database].done = true;
 				}
 			}
 			setTimeout(() => {loop();}, 20 * 1000);
 		};
-		return;
-		// eslint-disable-next-line no-unreachable
-		bash.runBash(`cd ${statePath} && git init --initial-branch=main`);
+		//bash.runBash(`cd ${versionPath} && git init --initial-branch=main`);
 		loop();
 	}
 
 	async saveChanges(database, driver) {
-		const path = join(statePath, database);
+		const path = join(versionPath, database);
 
 		const result = await driver.saveState(path, database);
 		if (result.error) {
 			return;
 		}
-		const r = bash.runBash(`cd ${statePath} && git add --all && git commit -m '${new Date()}'`);
+		const r = bash.runBash(`cd ${versionPath} && git add --all && git commit -m '${(new Date()).getTime()}'`);
 		if (r.error) {
 			return;
 		}
+		//git format-patch -100
+		//tester DISABLE_WATCHER et add dans la doc
+		//limit a 10 en free, 50 en medium, 200 en ultimate
 	}
 
 	commandFinished(driver, command, database) {
-		return;
-		// eslint-disable-next-line no-unreachable
 		if (!database) {
 			return;
 		}
@@ -61,4 +61,4 @@ class State {
 	}
 }
 
-module.exports = new State();
+module.exports = new Version();

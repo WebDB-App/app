@@ -7,17 +7,12 @@ import { DumpComponent } from "./dump/dump.component";
 import { DiagramComponent } from "./diagram/diagram.component";
 import { AiComponent } from "./ai/ai.component";
 import { HistoryComponent } from "./history/history.component";
+import { VersionComponent } from "./version/version.component";
 
 const routes: Routes = [
 	{
 		path: 'relations',
 		component: RelationsComponent
-	}, {
-		path: 'load',
-		component: LoadComponent
-	}, {
-		path: 'dump',
-		component: DumpComponent
 	}, {
 		path: 'diagram',
 		component: DiagramComponent
@@ -25,11 +20,20 @@ const routes: Routes = [
 		path: 'history',
 		component: HistoryComponent
 	}, {
-		path: 'advanced',
-		component: AdvancedComponent
-	}, {
 		path: 'assistant',
 		component: AiComponent
+	}, {
+		path: 'version',
+		component: VersionComponent
+	}, {
+		path: 'load',
+		component: LoadComponent
+	}, {
+		path: 'dump',
+		component: DumpComponent
+	}, {
+		path: 'advanced',
+		component: AdvancedComponent
 	}
 ];
 
