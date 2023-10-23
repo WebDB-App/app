@@ -72,7 +72,6 @@ export class ConnectionComponent implements OnInit {
 			return;
 		}
 
-		let servers = [];
 		this.loading = 10;
 
 		const locals = Server.getAll().map(local => {
@@ -88,7 +87,9 @@ export class ConnectionComponent implements OnInit {
 			}
 		}
 
-		this.servers = await this.request.connectServers(locals, false);
+		this.servers = (await this.request.connectServers(locals, false)).sort((a, b) => {
+			return Number(a.port) - Number(b.port)
+		});
 	}
 
 	async postLogged(localServer: Server, remoteServer: Server) {
