@@ -1,3 +1,14 @@
+<mat-toolbar
+	fxLayout="row"
+	fxLayoutAlign="space-between center">
+	Database Versioning
+
+	on par défaut
+
+	show git remote
+</mat-toolbar>
+
+
 <div style="height: calc(100vh - 56px); overflow: auto; max-width: 50vw;">
 
 	<ng-container *ngIf="selectedDatabase?.system">
@@ -5,14 +16,6 @@
 	</ng-container>
 
 	<ng-container *ngIf="!selectedDatabase?.system">
-
-
-		<mat-toolbar
-			fxLayout="row"
-			fxLayoutAlign="space-between center">
-
-			show git remote
-		</mat-toolbar>
 
 		<!--
 		<mat-card *ngFor="let his of queryHistory | sort: order"
@@ -22,7 +25,7 @@
 			taille du patch
 			<mat-card-content>
 
-
+				200 première line avec button -> load full patch
 				load diff -> monaco editor
 			</mat-card-content>
 

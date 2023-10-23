@@ -1,14 +1,4 @@
-/*
-This script is for anyone who spent too much time generating pretty changelog (almost everyone)
-It just parse the commit message from local git repo and generate a easy customizable HTML code
-
-Just download this file to your repo and run it with the output path like:
-```
-node ./changelog.js the/path/of/changelog.html
-```
-
-Don't hesitate to improve it and if you think your changes can benefit to other people, tell us
- */
+#!/usr/bin/env node
 
 const fs = require('fs');
 const {execSync} = require("child_process");
@@ -61,16 +51,34 @@ function getLogsByDate() {
 			if (lis.length < 1) {
 				continue;
 			}
-			html +=
-				`<div class='changelog-day' style="display: flex; flex-direction: row; align-items: center; justify-content: flex-start;">
-					<h2 style='margin-bottom: 0px; transform: rotate(270deg); white-space: nowrap; width: 20px; height: 36px; min-width: 85px;'>${date}</h2>
-					<ul style="border-left: 1px solid black;">
-						${lis}
-					</ul>
-				</div>`;
+			html += `<div class='changelog-day'><h2>${date}</h2><ul>${lis}</ul></div>`;
 		}
 
-		fs.writeFileSync(process.argv[2], `<html><head><style>p {margin: 0px;}</style></head><body><div class='changelog'>${html}</div></body></html>`);
+		fs.writeFileSync(process.argv[2], `<html><head>
+<style>
+	p {
+		margin: 0px;
+	}
+	.changelog-day {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: flex-start;
+		min-height: 130px;
+	}
+	h2 {
+		margin-bottom: 0px;
+		transform: rotate(270deg);
+		white-space: nowrap;
+		width: 20px;
+		height: 36px;
+		min-width: 85px;
+	}
+	ul {
+		border-left: 1px solid black;
+	}
+</style>
+</head><body><div class='changelog'>${html}</div></body></html>`);
 	} catch (error) {
 		console.error(error);
 	}
