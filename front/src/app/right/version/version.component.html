@@ -1,19 +1,44 @@
 <mat-toolbar
 	fxLayout="row"
 	fxLayoutAlign="space-between center">
-	Database Versioning
+	<mat-form-field style="width: 100%; margin-bottom: -1.25em" appearance="legacy">
+		<input #filter
+			   (keyup)="filterChanged(filter.value)"
+			   placeholder="Search in patches"
+			   autocomplete="off"
+			   matInput>
+		<button (click)="filter.value=''; filterChanged(filter.value)" *ngIf="filter.value" aria-label="Clear"
+				mat-icon-button
+				matSuffix>
+			<mat-icon>close</mat-icon>
+		</button>
+	</mat-form-field>
 
-	on par défaut
+	<!--
+	for remote, construct url from front
+	attetion si url accessible publiquement
+	-->
 
-	show git remote
+	<button
+		(click)="snackBar.open('Git remote copied', '╳', {duration: 3000})"
+		[cdkCopyToClipboard]="'TODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODO'"
+		mat-icon-button>
+		<span class="material-symbols-outlined notranslate">
+			tv_remote
+		</span>
+	</button>
 </mat-toolbar>
 
 
 <div style="height: calc(100vh - 56px); overflow: auto; max-width: 50vw;">
 
-	<ng-container *ngIf="selectedDatabase?.system">
-		Database Versioning is not available for system databases
-	</ng-container>
+	<mat-card *ngIf="selectedDatabase?.system">
+		<mat-card-content>
+			<mat-error>
+				Database Versioning is not available for system databases
+			</mat-error>
+		</mat-card-content>
+	</mat-card>
 
 	<ng-container *ngIf="!selectedDatabase?.system">
 
@@ -23,11 +48,6 @@
 				  [style.background-color]="his.star ? 'black' : undefined">
 
 			taille du patch
-			<mat-card-content>
-
-				200 première line avec button -> load full patch
-				load diff -> monaco editor
-			</mat-card-content>
 
 			<mat-card-actions>
 				<h4>
@@ -42,6 +62,12 @@
 					{{his.date | date: 'HH:mm dd/MM'}}
 				</h4>
 			</mat-card-actions>
+
+			<mat-card-content>
+
+				200 première line avec button -> load full patch
+				load diff -> monaco editor
+			</mat-card-content>
 		</mat-card>
 		-->
 	</ng-container>

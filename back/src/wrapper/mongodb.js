@@ -5,7 +5,7 @@ const {writeFileSync} = require("fs");
 const {join} = require("path");
 const helper = require("../shared/common-helper.js");
 const buffer = require("../shared/buffer");
-const State = require("../shared/version");
+const version = require("../shared/version");
 
 module.exports = class MongoDB extends Driver {
 	commonUser = ["mongo"];
@@ -404,7 +404,7 @@ module.exports = class MongoDB extends Driver {
 			const fct = new Function("db", "bson", "mongo", command);
 			const res = await fct(db, BSON, MongoClient);
 			lgth = res.length;
-			State.commandFinished(this, command, database);
+			version.commandFinished(this, command, database);
 			return BSON.EJSON.stringify(res);
 		} catch (e) {
 			return {error: e.message};

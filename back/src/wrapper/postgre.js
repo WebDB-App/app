@@ -4,7 +4,7 @@ const {writeFileSync} = require("fs");
 const bash = require("../shared/bash.js");
 const buffer = require("../shared/buffer");
 const {join} = require("path");
-const State = require("../shared/version");
+const version = require("../shared/version");
 
 module.exports = class PostgreSQL extends SQL {
 
@@ -413,7 +413,7 @@ module.exports = class PostgreSQL extends SQL {
 			let res = await connection.query(command);
 			res = res.command === "SELECT" ? res.rows : res;
 			lgth = res.length;
-			State.commandFinished(this, command, database);
+			version.commandFinished(this, command, database);
 			return res;
 		} catch (e) {
 			return {error: e.message + ". " + (e.hint || ""), position: e.position};

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Server } from "../../../classes/server";
 import { Database } from "../../../classes/database";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-version',
@@ -12,7 +13,9 @@ export class VersionComponent implements OnInit {
 	selectedServer?: Server;
 	selectedDatabase?: Database;
 
-	constructor() {}
+	constructor(
+		public snackBar: MatSnackBar
+	) {	}
 
 	ngOnInit(): void {
 		this.selectedDatabase = Database.getSelected();
@@ -20,16 +23,24 @@ export class VersionComponent implements OnInit {
 
 	}
 
+	filterChanged(_value = '') {
+		/*const value = _value.toLowerCase();
+		for (const [index, msg] of this.chat.entries()) {
+			let founded = msg.txt.toLowerCase().indexOf(value) >= 0;
+			if (!founded && msg.marked) {
+				founded = msg.marked?.findIndex(mark => {
+					return mark.code ? mark.code.toLowerCase().indexOf(value) >= 0 : false;
+				}) >= 0;
+			}
+
+			this.chat[index].hide = !founded;
+		}*/
+	}
 }
 
 
 /*
-
-- disclaimer : Seulement changement fait a travers webdb et n'est pas trigger par le load fichier
-- ctrl/cmd z shortcut -> open panel
-- favorite
-
-
+ctrl/cmd z shortcut -> open panel
 
 - Checksum par table
 - https://stackoverflow.com/questions/17177914/is-there-a-more-elegant-way-to-detect-changes-in-a-large-sql-table-without-alter#comment24874308_17178078

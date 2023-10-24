@@ -4,6 +4,9 @@ const http = require("../../shared/http.js");
 const subscriptionCtrl = require("../subscription/controller.js");
 const fs = require("fs");
 const Tunnel = require("../tunnel/controller.js");
+const {join} = require("path");
+const {unlinkSync} = require("fs");
+const version = require("../../shared/version.js");
 
 class Controller {
 
@@ -82,18 +85,23 @@ class Controller {
 	}
 
 	async dump(req, res) {
-		const [driver, , , server] = await http.getLoggedDriver(req);
+		const [driver, database, , server] = await http.getLoggedDriver(req);
 
 		if (req.body.exportType.toLowerCase() !== "json" && server.ssh) {
 			return res.send({error: "While tunneling, native export is not available with WebDB"});
 		}
 
 		const result = await driver.dump(
-			req.get("Database"),
+			database,
 			req.body.exportType,
 			req.body.tables,
 			req.body.includeData,
 		);
+
+		version.commandFinished(driver, "update", database);
+		setTimeout(() => {
+			unlinkSync(join(__dirname, "../../../static/", result.path));
+		}, 60 * 1000);
 
 		res.send(result);
 	}

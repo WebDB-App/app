@@ -132,6 +132,14 @@
 
 						<mat-card-content>
 							<ng-container *ngIf="!server.connected">
+								<ng-container *ngIf="!server.scanned">
+									<br>
+									<mat-error>
+										<div style="text-align: center">
+											Unreachable or bad credentials
+										</div>
+									</mat-error>
+								</ng-container>
 								<ng-container *ngIf="server.scanned">
 									<div (keyup.enter)="loginBtn._elementRef.nativeElement.click()">
 										<div fxLayout="row" fxLayoutAlign="space-around none"

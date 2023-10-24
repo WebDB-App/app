@@ -131,9 +131,7 @@ export class ConnectionComponent implements OnInit {
 		const value = _value.toLowerCase();
 
 		for (const [indexServer, server] of this.servers.entries()) {
-			const nbDb = 0;
 			let oneDisplayed = false
-
 			this.servers[indexServer].hide = server.name.toLowerCase().indexOf(value) === -1;
 
 			if (!server.dbs) {
@@ -141,10 +139,9 @@ export class ConnectionComponent implements OnInit {
 			}
 
 			for (const [indexDatabase, database] of server.dbs.entries()) {
-
 				this.servers[indexServer].dbs[indexDatabase].hide = database.name.toLowerCase().indexOf(value) === -1;
 				if (this.servers[indexServer].dbs[indexDatabase].hide) {
-					oneDisplayed = true
+					oneDisplayed = true;
 				}
 			}
 			this.servers[indexServer].hide = this.servers[indexServer].hide && !oneDisplayed;

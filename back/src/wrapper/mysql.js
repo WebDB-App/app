@@ -1,6 +1,6 @@
 const mysql = require("mysql2");
 const SQL = require("../shared/sql.js");
-const State = require("../shared/version.js");
+const version = require("../shared/version.js");
 const {writeFileSync} = require("fs");
 const bash = require("../shared/bash.js");
 const {join} = require("path");
@@ -240,7 +240,7 @@ module.exports = class MySQL extends SQL {
 			}
 			const [res] = await connection.query(command);
 			lgth = res.length;
-			State.commandFinished(this, command, database);
+			version.commandFinished(this, command, database);
 			return res;
 		} catch (e) {
 			return this.foundErrorPos({error: e.sqlMessage}, command);
