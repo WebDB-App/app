@@ -38,7 +38,7 @@
 		"html-to-image": "latest",
 		"js-beautify": "latest",
 		"marked": "^5.0.5",
-		"monaco-editor": "latest",
+		"monaco-editor": "^0.36.1",
 		"mongodb": "latest",
 		"ngx-highlightjs": "^7.0.1",
 		"ngx-json-viewer": "latest",
