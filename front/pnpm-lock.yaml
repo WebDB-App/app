@@ -99,8 +99,8 @@ dependencies:
     specifier: ^5.0.5
     version: 5.1.2
   monaco-editor:
-    specifier: ^0.33.0
-    version: 0.33.0
+    specifier: ^0.44.0
+    version: 0.44.0
   mongodb:
     specifier: latest
     version: 6.1.0
@@ -112,7 +112,7 @@ dependencies:
     version: 3.2.1
   ngx-monaco-editor-v2:
     specifier: ^14.0.4
-    version: 14.0.4(@angular/common@14.3.0)(@angular/core@14.3.0)(monaco-editor@0.33.0)
+    version: 14.0.4(@angular/common@14.3.0)(@angular/core@14.3.0)(monaco-editor@0.44.0)
   node-emoji:
     specifier: latest
     version: 2.1.0
@@ -5361,8 +5361,8 @@ packages:
     hasBin: true
     dev: false
 
-  /monaco-editor@0.33.0:
-    resolution: {integrity: sha512-VcRWPSLIUEgQJQIE0pVT8FcGBIgFoxz7jtqctE+IiCxWugD0DwgyQBcZBhdSrdMC84eumoqMZsGl2GTreOzwqw==}
+  /monaco-editor@0.44.0:
+    resolution: {integrity: sha512-5SmjNStN6bSuSE5WPT2ZV+iYn1/yI9sd4Igtk23ChvqB7kDk9lZbB9F5frsuvpB+2njdIeGGFf2G4gbE6rCC9Q==}
     dev: false
 
   /mongodb-connection-string-url@2.6.0:
@@ -5492,7 +5492,7 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /ngx-monaco-editor-v2@14.0.4(@angular/common@14.3.0)(@angular/core@14.3.0)(monaco-editor@0.33.0):
+  /ngx-monaco-editor-v2@14.0.4(@angular/common@14.3.0)(@angular/core@14.3.0)(monaco-editor@0.44.0):
     resolution: {integrity: sha512-l1r5i6Xsn3OZed2DoUsYRgjHM1TvrOZId7JRNRGzCs7fjE8zvv1Kz/KimH2Ef9rF+ItUD4FUI29u9u6/NOf+fQ==}
     peerDependencies:
       '@angular/common': ^14.1.0
@@ -5501,7 +5501,7 @@ packages:
     dependencies:
       '@angular/common': 14.3.0(@angular/core@14.3.0)(rxjs@7.8.1)
       '@angular/core': 14.3.0(rxjs@7.8.1)(zone.js@0.12.0)
-      monaco-editor: 0.33.0
+      monaco-editor: 0.44.0
       tslib: 2.6.2
     dev: false
 

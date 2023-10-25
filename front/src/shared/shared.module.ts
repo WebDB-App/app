@@ -30,6 +30,7 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { ErrorComponent } from './error/error.component';
 import { MatBottomSheetModule } from "@angular/material/bottom-sheet";
 import { MatDividerModule } from "@angular/material/divider";
+import { TimeAgoPipe } from "./time-ago.pipe";
 
 @NgModule({
 	declarations: [
@@ -39,6 +40,7 @@ import { MatDividerModule } from "@angular/material/divider";
 		ExportResultDialog,
 		BatchUpdateDialog,
 		ColumnComponent,
+		TimeAgoPipe,
 		ErrorComponent
 	],
 	exports: [
@@ -47,7 +49,8 @@ import { MatDividerModule } from "@angular/material/divider";
 		UpdateDataDialog,
 		ExportResultDialog,
 		BatchUpdateDialog,
-		ColumnComponent
+		ColumnComponent,
+		TimeAgoPipe
 	],
     imports: [
         CommonModule,

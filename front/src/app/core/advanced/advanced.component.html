@@ -8,7 +8,7 @@
 			style="padding: 20px">
 
 			<span>
-				{{selectedTable!.name}}
+				{{selectedTable?.view ? "View" : "Table"}}: {{selectedTable!.name}}
 			</span>
 
 			<button (click)="truncate()" *ngIf="!selectedTable?.view" color="warn" mat-stroked-button>
@@ -79,7 +79,7 @@
 							mat-stroked-button
 							matTooltip="Do not duplicate References/Indexes on new table">
 						<span class="material-symbols-outlined notranslate">
-							{{selectedTable?.view ? "table_view" : "table"}}
+							file_copy
 						</span>
 						Duplicate
 					</button>
@@ -100,7 +100,7 @@
 							[disabled]="!validName(tableRename.value)"
 							mat-stroked-button>
 						<span class="material-symbols-outlined notranslate">
-							{{selectedTable?.view ? "table_view" : "table"}}
+							edit_square
 						</span>
 						Rename
 					</button>

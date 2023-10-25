@@ -93,8 +93,8 @@
 			<mat-icon>more_vert</mat-icon>
 		</button>
 		<mat-menu #advanced="matMenu" xPosition="before">
-			<button	mat-menu-item (click)="inputFile.click()">Load file</button>
-			<button	mat-menu-item (click)="saveToDisk()">Save to file</button>
+			<button	mat-menu-item (click)="inputFile.click()">Load query from file</button>
+			<button	mat-menu-item (click)="saveToDisk()">Save query to file</button>
 			<button (click)="addView()" [disabled]="!isQuerySelect()" mat-menu-item>Create view from query</button>
 			<button (click)="exportQuery()" [disabled]="query.length < 1" mat-menu-item>Export query</button>
 			<button [matMenuTriggerFor]="shortcuts" mat-menu-item>Shortcuts</button>
@@ -134,7 +134,7 @@
 	</ngx-monaco-editor>
 
 	<div *ngIf="!diff && dataSource?.data && dataSource!.data!.length > 0" id="results">
-		<table [dataSource]="dataSource!" class="table" mat-table>
+		<table [dataSource]="dataSource!" class="table" mat-table [trackBy]="identify">
 			<ng-container
 				*ngFor="let column of displayedColumns"
 				matColumnDef="{{column}}"

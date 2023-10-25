@@ -2,13 +2,14 @@
 	fxLayout="row"
 	fxLayoutAlign="space-between center">
 	<mat-form-field style="width: 100%; margin-bottom: -1.25em" appearance="legacy">
-		<input #filter
-			   (keyup)="filterChanged(filter.value)"
-			   placeholder="Search in patches"
+		<input [(ngModel)]="filter"
+			   (keyup)="filterChanged()"
 			   autocomplete="off"
-			   matInput>
-		<button (click)="filter.value=''; filterChanged(filter.value)" *ngIf="filter.value" aria-label="Clear"
-				mat-icon-button
+			   matInput
+			   placeholder="Search in patches">
+		<button (click)="filter = ''; filterChanged()"
+				*ngIf="filter"
+				aria-label="Clear" mat-icon-button
 				matSuffix>
 			<mat-icon>close</mat-icon>
 		</button>
@@ -29,8 +30,7 @@
 	</button>
 </mat-toolbar>
 
-
-<div style="height: calc(100vh - 56px); overflow: auto; max-width: 50vw;">
+<div style="height: calc(100vh - 56px); overflow: auto;">
 
 	<mat-card *ngIf="selectedDatabase?.system">
 		<mat-card-content>
@@ -42,37 +42,51 @@
 
 	<ng-container *ngIf="!selectedDatabase?.system">
 
-		<!--
-		<mat-card *ngFor="let his of queryHistory | sort: order"
-				  [hidden]="his.query.toLowerCase().indexOf(filter.toLowerCase()) < 0"
-				  [style.background-color]="his.star ? 'black' : undefined">
-
-			taille du patch
+		<mat-card *ngFor="let patch of patches; trackBy:identify"
+				  [hidden]="patch.hide">
 
 			<mat-card-actions>
-				<h4>
-					checkout
-				</h4>
 
-				sha1
-				+autre meta donnée util??
+				<span
+					matTooltipPosition="right"
+					[matTooltip]="date(patch.time)">
+					{{patch.time | timeAgo}}
+				</span>
 
-				<h4>
-					n minute ago
-					{{his.date | date: 'HH:mm dd/MM'}}
-				</h4>
+				<button
+					(click)="snackBar.open('Hash copied', '╳', {duration: 3000})"
+					[cdkCopyToClipboard]="patch.sha1"
+					mat-button>
+					<span class="material-symbols-outlined notranslate">
+						tag
+					</span>
+					{{patch.sha1 | slice:0:6}}
+				</button>
+
+				<button
+					[disabled]="isLoading"
+					color="accent"
+					mat-stroked-button>
+					<span class="material-symbols-outlined notranslate">
+						restart_alt
+					</span>
+					Reset
+				</button>
 			</mat-card-actions>
 
 			<mat-card-content>
-
-				200 première line avec button -> load full patch
-				load diff -> monaco editor
+				<ngx-monaco-editor
+					style="min-height: 200px; resize: vertical"
+					(onInit)="initEditor($event, patch.diff)"
+					[(ngModel)]="patch.diff"
+					[options]="editorOptions">
+				</ngx-monaco-editor>
 			</mat-card-content>
 		</mat-card>
-		-->
-	</ng-container>
 
+	</ng-container>
 </div>
+
 <!--
 btn pour en acheter a la fin
 quid de cockroachdb ?

@@ -80,7 +80,7 @@
 
 <div class="scrollDiv" style="height: calc(100vh - 161px);">
 
-	<table [dataSource]="dataSource" class="table mat-elevation-z8" mat-table>
+	<table [dataSource]="dataSource" class="table mat-elevation-z8" mat-table [trackBy]="identify">
 		<ng-container
 			*ngFor="let column of displayedColumns"
 			[stickyEnd]="column === actionColum"

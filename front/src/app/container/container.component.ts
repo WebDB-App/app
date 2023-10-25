@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from "@angular/router";
+import { AfterViewInit, Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from "@angular/router";
 import { MatDrawer } from "@angular/material/sidenav";
 import { DrawerService } from "../../shared/drawer.service";
 import { Server } from "../../classes/server";
@@ -23,6 +23,7 @@ class Panel {
 export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	@ViewChild("drawer") drawer!: MatDrawer;
+
 	sub!: Subscription;
 	env = environment;
 	loading = 0;
@@ -32,17 +33,29 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 		{link: "history", icon: "schedule_send"},
 		{link: "diagram", icon: "polyline"},
 		{link: "relations", icon: "attach_file"},
-		{link: "version", icon: "settings_backup_restore"},
+		{link: "version", icon: "difference"},
 		{link: "assistant", icon: "support_agent"},
 		{link: "load", icon: "input"},
 		{link: "dump", icon: "ios_share"},
 		{link: "advanced", icon: "instant_mix"},
 	];
+
 	protected readonly environment = environment;
+
+	@HostListener('window:keydown', ['$event'])
+	async onKeyDown(event: KeyboardEvent) {
+		if ((event.metaKey || event.ctrlKey) && ['z'].indexOf(event.key) >= 0) {
+			await this.router.navigate(
+				[{outlets: {right: ['version']}}],
+				{relativeTo: this.activatedRoute});
+			await this.drawer.open();
+		}
+	}
 
 	constructor(
 		public activatedRoute: ActivatedRoute,
 		public request: RequestService,
+		private router: Router,
 		private drawerService: DrawerService,
 		private dialog: MatDialog
 	) {

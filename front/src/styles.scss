@@ -79,9 +79,7 @@ body {
 
 	.mat-cell {
 		font-size: 13px;
-		border-right: 1px solid #1e1e1e;
-		border-top: none;
-		border-left: none;
+		border-left: 1px solid #1e1e1e;
 		border-bottom: none;
 
 		.material-symbols-outlined {
@@ -106,6 +104,7 @@ body {
 	.mat-table-sticky {
 		background-color: #1e1e1e !important;
 		box-shadow: $bottom-shadow;
+		border-left: 1px solid black;
 	}
 
 	tbody {

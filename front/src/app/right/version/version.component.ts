@@ -1,50 +1,94 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Server } from "../../../classes/server";
 import { Database } from "../../../classes/database";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { RequestService } from "../../../shared/request.service";
+
+class Patch {
+	diff!: string;
+	sha1!: string;
+	time!: string;
+	hide = false;
+}
+
+declare var monaco: any;
 
 @Component({
   selector: 'app-version',
   templateUrl: './version.component.html',
   styleUrls: ['./version.component.scss']
 })
-export class VersionComponent implements OnInit {
+export class VersionComponent implements OnInit, OnDestroy {
 
 	selectedServer?: Server;
 	selectedDatabase?: Database;
 
+	filter = "";
+	isLoading = false;
+	interval?: NodeJS.Timer;
+	patches: Patch[] = [];
+	editorOptions = {
+		language: 'text',
+		glyphMargin: true
+	};
+
 	constructor(
+		private request: RequestService,
 		public snackBar: MatSnackBar
 	) {	}
 
-	ngOnInit(): void {
+	async ngOnInit() {
 		this.selectedDatabase = Database.getSelected();
 		this.selectedServer = Server.getSelected();
 
+		const loop = async () => {
+			await this.refreshData();
+			setTimeout(() => loop(), 2000);
+		};
+		loop();
 	}
 
-	filterChanged(_value = '') {
-		/*const value = _value.toLowerCase();
-		for (const [index, msg] of this.chat.entries()) {
-			let founded = msg.txt.toLowerCase().indexOf(value) >= 0;
-			if (!founded && msg.marked) {
-				founded = msg.marked?.findIndex(mark => {
-					return mark.code ? mark.code.toLowerCase().indexOf(value) >= 0 : false;
-				}) >= 0;
-			}
+	ngOnDestroy() {
+		clearInterval(this.interval);
+	}
 
-			this.chat[index].hide = !founded;
-		}*/
+	date(unix: string) {
+		return (new Date(+unix)).toString();
+	}
+
+	identify(index: any, patch: Patch){
+		return patch.sha1;
+	}
+
+	async refreshData() {
+		this.patches = await this.request.post('version/list', undefined);
+		this.filterChanged();
+	}
+
+	filterChanged() {
+		const value = this.filter.toLowerCase();
+		for (const [index, patch] of this.patches.entries()) {
+			this.patches[index].hide = patch.diff.indexOf(value) < 0;
+		}
+	}
+
+	initEditor(editor: any, diff: string) {
+		const decos: any[] = [];
+		let lid = 0;
+		diff.split('\n').map(line => {
+			lid++;
+			if (line[0] !== "+" && line[0] !== "-") {
+				return;
+			}
+			decos.push({
+				range: new monaco.Range(lid, 1, lid, 1),
+				options: {
+					isWholeLine: true,
+					className: "glyph",
+					glyphMarginClassName: line[0] === "+" ? "addGlyph" : "removeGlyph",
+				},
+			});
+		})
+		setTimeout(() => editor.createDecorationsCollection(decos), 100);
 	}
 }
-
-
-/*
-ctrl/cmd z shortcut -> open panel
-
-- Checksum par table
-- https://stackoverflow.com/questions/17177914/is-there-a-more-elegant-way-to-detect-changes-in-a-large-sql-table-without-alter#comment24874308_17178078
-- https://www.tutorialspoint.com/mysql/mysql_checksum_table_statement.htm
-- https://www.google.com/search?q=mongo+watch+databasr&oq=mongo+watch+databasr&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIJCAEQIRgKGKAB0gEJMTM3MDVqMGo0qAIAsAIA&client=ms-android-google&sourceid=chrome-mobile&ie=UTF-8
-- https://github.com/debezium/debezium
- */

@@ -119,6 +119,10 @@ export class QueryComponent implements OnInit, OnDestroy {
 		clearInterval(this.interval);
 	}
 
+	identify(index: any, rom: any){
+		return JSON.stringify(rom);
+	}
+
 	async initEditor(editor: any, index: number) {
 		initBaseEditor(editor);
 		this.editors[index] = editor;

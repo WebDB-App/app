@@ -12,10 +12,6 @@ class Controller {
 			await this.renew();
 		}, 1000 * 3600);
 
-		if (process.env.NODE_ENV !== "production") {
-			return;
-		}
-
 		this.renew();
 	}
 
@@ -65,7 +61,15 @@ class Controller {
 		return fs.readFileSync(licencePath, "utf8");
 	}
 
-	getLimit() {
+	getPatchLimit() {
+		const licence = validator.validateLicense(this.getLocal());
+		if (licence.expire * 1000 < Date.now()) {
+			licence.versions = 10;
+		}
+		return licence.versions;
+	}
+
+	getDbLimit() {
 		const licence = validator.validateLicense(this.getLocal());
 		if (licence.expire * 1000 < Date.now()) {
 			licence.dbLimit = 2;

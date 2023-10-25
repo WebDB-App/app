@@ -37,7 +37,7 @@ import { DragDropModule } from "@angular/cdk/drag-drop";
 import { CreateTableDialog, TablesComponent } from "./tables/tables.component";
 import { ConfigDialog } from "./top-right/config/config-dialog.component";
 import { SharedModule } from "../shared/shared.module";
-import { ChangelogDialog, LogsDialog, TopRightComponent } from './top-right/top-right.component';
+import { LogsDialog, TopRightComponent } from './top-right/top-right.component';
 import { createErrorHandler } from "@sentry/angular-ivy";
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
@@ -108,7 +108,6 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 		ConnectionComponent,
 		ConfigDialog,
 		LogsDialog,
-		ChangelogDialog,
 		CreateDatabaseDialog,
 		AddConnectionDialog,
 		TablesComponent,

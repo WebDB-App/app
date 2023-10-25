@@ -2,6 +2,7 @@ const {join} = require("path");
 const {existsSync} = require("fs");
 const rootPath = join(__dirname, "../../static/version/");
 const bash = require("./bash");
+//const {execSync} = require("child_process");
 
 class Version {
 
@@ -20,7 +21,51 @@ class Version {
 		loop();
 	}
 
+	async resetTo(database, driver, sha1) {
+		const dir = join(rootPath, driver.port.toString());
+		if (!existsSync(dir)) {
+			return {error: "Directory does not exist"};
+		}
+
+		//tester fuctions/procedure/complex dans le patch
+
+		//const r = bash.runBash(`cd ${dir} && git reset --hard ${sha1}`);
+		//delete db
+		//import file
+		return {};
+	}
+
+	async listPatch(database, driver, versions) {
+		const dir = join(rootPath, driver.port.toString());
+		if (!existsSync(dir)) {
+			return [];
+		}
+
+		const r = bash.runBash(`cd ${dir} && git format-patch -${versions} --stdout`);
+		const tmp = Object.entries(r.result.split(/(From [a-zA-Z0-9]{40})/g));
+
+		const patches = [];
+		for (const [index, patch] of tmp) {
+			if (!patch || patch.startsWith("From ")) {
+				continue;
+			}
+			let diff = "@@ " + patch.split("\n@@ ")[1];
+			diff = diff.substring(0, diff.lastIndexOf("-- \n")) + " -- ";
+			diff = diff.length > 10000 ? diff.slice(0, 10000) + "..." : diff;
+
+			const obj = {
+				time: patch.split("] ")[1].split("\n\n---")[0],
+				sha1: tmp[index - 1][1].split("From ")[1],
+				diff
+			};
+			patches.push(obj);
+		}
+		return patches.reverse();
+	}
+
+	// eslint-disable-next-line no-unused-vars
 	async saveChanges(database, driver) {
+		/*
 		const dir = join(rootPath, driver.port.toString());
 		if (!existsSync(dir)) {
 			bash.runBash(`mkdir ${dir} && cd ${dir} && git init --initial-branch=main`);
@@ -34,8 +79,8 @@ class Version {
 		if (r.error) {
 			return;
 		}
-		//git format-patch -${versions}
-		//tester DISABLE_WATCHER
+		return r;
+		 */
 	}
 
 	commandFinished(driver, command, database) {
@@ -61,3 +106,15 @@ class Version {
 }
 
 module.exports = new Version();
+
+
+
+
+
+/*
+- Checksum par table
+- https://stackoverflow.com/questions/17177914/is-there-a-more-elegant-way-to-detect-changes-in-a-large-sql-table-without-alter#comment24874308_17178078
+- https://www.tutorialspoint.com/mysql/mysql_checksum_table_statement.htm
+- https://www.google.com/search?q=mongo+watch+databasr&oq=mongo+watch+databasr&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIJCAEQIRgKGKAB0gEJMTM3MDVqMGo0qAIAsAIA&client=ms-android-google&sourceid=chrome-mobile&ie=UTF-8
+- https://github.com/debezium/debezium
+ */

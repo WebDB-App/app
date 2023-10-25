@@ -4,7 +4,6 @@ import { HttpClient } from "@angular/common/http";
 import { firstValueFrom } from "rxjs";
 import { MatPaginatorIntl } from "@angular/material/paginator";
 
-
 declare var monaco: any;
 
 export class REMOVED_LABELS extends MatPaginatorIntl {

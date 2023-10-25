@@ -93,6 +93,10 @@ export class ExploreComponent implements OnInit, OnDestroy {
 		}, 1000);
 	}
 
+	identify(index: any, rom: any){
+		return JSON.stringify(rom);
+	}
+
 	changePage(page: any) {
 		page = +page;
 		if ((page * this.pageSize) > this.querySize) {

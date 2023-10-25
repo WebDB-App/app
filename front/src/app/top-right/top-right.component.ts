@@ -41,10 +41,6 @@ export class TopRightComponent {
 		});
 	}
 
-	changelog() {
-		this.dialog.open(ChangelogDialog);
-	}
-
 	public installPWA() {
 		this.promptEvent.prompt();
 	}
@@ -56,29 +52,8 @@ export class TopRightComponent {
 	public isRunningStandalone(): boolean {
 		return (window.matchMedia('(display-mode: standalone)').matches);
 	}
-}
 
-
-@Component({
-	templateUrl: 'changelog-dialog.html',
-})
-export class ChangelogDialog {
-
-	str: any = "";
-
-	constructor(
-		private http: HttpClient,
-		private sanitizer: DomSanitizer
-	) {
-	}
-
-	async ngOnInit() {
-		this.str = this.sanitizer.bypassSecurityTrustHtml(
-			await firstValueFrom(
-				this.http.get(`${environment.rootUrl}changelog.html`, {responseType: 'text'})
-			)
-		);
-	}
+	protected readonly environment = environment;
 }
 
 @Component({

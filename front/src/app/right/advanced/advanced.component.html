@@ -84,7 +84,7 @@
 				[disabled]="!nameValid(dbCopy.value)"
 				mat-stroked-button>
 				<span class="material-symbols-outlined notranslate">
-					database
+					folder_copy
 				</span>
 				Duplicate Database
 				<mat-error *ngIf="dbCopy.value !== selectedDatabase!.name.split(', ')[0] && !nameValid(dbCopy.value)">Name already taken or containing special characters</mat-error>

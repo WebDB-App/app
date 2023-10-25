@@ -1,5 +1,17 @@
 #!/usr/bin/env node
 
+/*
+This script is for anyone who spent too much time generating pretty changelog (almost everyone)
+It just parse the commit message from local git repo and generate a easy customizable HTML code
+
+Just download this file to your repo and run it with the output path like:
+```
+node ./changelog.js the/path/of/changelog.html
+```
+
+Don't hesitate to improve it and if you think your changes can benefit to other people, tell us
+ */
+
 const fs = require('fs');
 const {execSync} = require("child_process");
 const {marked} = require("marked");
@@ -56,6 +68,9 @@ function getLogsByDate() {
 
 		fs.writeFileSync(process.argv[2], `<html><head>
 <style>
+	* {
+		font-family: system-ui;
+	}
 	p {
 		margin: 0px;
 	}
