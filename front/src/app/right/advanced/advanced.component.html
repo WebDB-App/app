@@ -1,5 +1,4 @@
-<div fxFlexFill fxLayout="column" fxLayoutAlign="space-between stretch">
-
+<ng-container *ngIf="selectedServer && selectedDatabase">
 	<mat-toolbar
 		fxLayout="row"
 		fxLayoutAlign="space-between center"
@@ -7,7 +6,7 @@
 
 		<div>
 			<span style="vertical-align: middle;">
-				{{selectedDatabase!.name}}
+				Database: {{selectedDatabase!.name}}
 			</span>
 		</div>
 
@@ -20,120 +19,124 @@
 
 	</mat-toolbar>
 
-	<div style="padding: 20px">
+	<div style="overflow: auto; height: calc(100vh - 56px); position: relative;">
 
-		<ngx-monaco-editor
-			style="width: 100%; resize: vertical"
-			cdkFocusInitial
-			(onInit)="initEditor($event)"
-			[(ngModel)]="str"
-			[options]="editorOptions"
-		></ngx-monaco-editor>
+		<div style="padding: 20px">
 
-		<mat-divider></mat-divider>
+			<ngx-monaco-editor
+				style="width: 100%; resize: vertical"
+				cdkFocusInitial
+				(onInit)="initEditor($event)"
+				[(ngModel)]="str"
+				[options]="editorOptions"
+			></ngx-monaco-editor>
 
-		<div *ngIf="stats" fxLayout="row" fxLayoutAlign="space-between center">
-			<span>Total Index Size : {{+stats.index_length | round}} Mb</span>
-			<span>Total Data Size : {{+stats.data_length | round}} Mb</span>
-		</div>
-
-		<ng-container *ngIf="selectedServer?.wrapper === 'MySQL'">
 			<mat-divider></mat-divider>
 
-			<div fxLayout="row" fxLayoutAlign="space-between center">
-				<mat-form-field color="accent">
-					<mat-label>Collation</mat-label>
-					<mat-select #collation [value]="selectedDatabase!.collation" disableOptionCentering>
-						<mat-option *ngFor="let collation of collations" [value]="collation">{{collation}}</mat-option>
-					</mat-select>
-				</mat-form-field>
+			<div *ngIf="stats" fxLayout="row" fxLayoutAlign="space-between center">
+				<span>Total Index Size : {{+stats.index_length | round}} Mb</span>
+				<span>Total Data Size : {{+stats.data_length | round}} Mb</span>
+			</div>
 
-				<button (click)="changeCollation(collation.value)"
-						[disabled]="!collation.value"
-						color="accent"
-						mat-stroked-button>
+			<ng-container *ngIf="selectedServer?.wrapper === 'MySQL'">
+				<mat-divider></mat-divider>
+
+				<div fxLayout="row" fxLayoutAlign="space-between center">
+					<mat-form-field color="accent">
+						<mat-label>Collation</mat-label>
+						<mat-select #collation [value]="selectedDatabase!.collation" disableOptionCentering>
+							<mat-option *ngFor="let collation of collations" [value]="collation">{{collation}}</mat-option>
+						</mat-select>
+					</mat-form-field>
+
+					<button (click)="changeCollation(collation.value)"
+							[disabled]="!collation.value"
+							color="accent"
+							mat-stroked-button>
 				<span class="material-symbols-outlined notranslate">
 					database
 				</span>
-					Convert Entire Database
-				</button>
-			</div>
-		</ng-container>
+						Convert Entire Database
+					</button>
+				</div>
+			</ng-container>
 
-		<mat-divider></mat-divider>
+			<mat-divider></mat-divider>
 
-		<div fxLayout="row" fxLayoutAlign="space-between center">
-			<mat-form-field>
-				<mat-label>Copy Name</mat-label>
-				<input
-					#dbCopy
-					[value]="selectedDatabase!.name.split(', ')[0]"
-					autocomplete="off"
-					matInput>
-			</mat-form-field>
+			<div fxLayout="row" fxLayoutAlign="space-between center">
+				<mat-form-field>
+					<mat-label>Copy Name</mat-label>
+					<input
+						#dbCopy
+						[value]="selectedDatabase!.name.split(', ')[0]"
+						autocomplete="off"
+						matInput>
+				</mat-form-field>
 
-			<mat-spinner
-				*ngIf="duplicateLoading"
-				[diameter]="30"
-				color="primary"
-			></mat-spinner>
+				<mat-spinner
+					*ngIf="duplicateLoading"
+					[diameter]="30"
+					color="primary"
+				></mat-spinner>
 
-			<button
-				*ngIf="!duplicateLoading"
-				(click)="duplicate(dbCopy.value)"
-				[disabled]="!nameValid(dbCopy.value)"
-				mat-stroked-button>
+				<button
+					*ngIf="!duplicateLoading"
+					(click)="duplicate(dbCopy.value)"
+					[disabled]="!nameValid(dbCopy.value)"
+					mat-stroked-button>
 				<span class="material-symbols-outlined notranslate">
 					folder_copy
 				</span>
-				Duplicate Database
-				<mat-error *ngIf="dbCopy.value !== selectedDatabase!.name.split(', ')[0] && !nameValid(dbCopy.value)">Name already taken or containing special characters</mat-error>
-			</button>
+					Duplicate Database
+					<mat-error *ngIf="dbCopy.value !== selectedDatabase!.name.split(', ')[0] && !nameValid(dbCopy.value)">Name already taken or containing special characters</mat-error>
+				</button>
+			</div>
+
 		</div>
 
-	</div>
-
-	<mat-accordion>
-		<mat-expansion-panel>
-			<mat-expansion-panel-header>
-				<mat-panel-title>
+		<mat-accordion>
+			<mat-expansion-panel>
+				<mat-expansion-panel-header>
+					<mat-panel-title>
 					<span class="material-symbols-outlined notranslate">
 						speed
 					</span>
-				</mat-panel-title>
-				<mat-panel-description>
-					Performance Tips
-				</mat-panel-description>
-			</mat-expansion-panel-header>
-			• If you do >10req/sec, use unix socket or try to reduce network latency
-			<br>
-			• Check resource (CPU, RAM, Disk I/O) usage of the server and allocate more
-			<br>
-			• Use cloud hosted databases if you don't have time dedicated to infrastructure
-			<br>
-			• Use the assistant for more advanced optimizations of the database structure or the server tuning
-			<br>
-			• Sharding, load balancing and replication can help but are not simple to implement and maintain
-			<br>
-		</mat-expansion-panel>
+					</mat-panel-title>
+					<mat-panel-description>
+						Performance Tips
+					</mat-panel-description>
+				</mat-expansion-panel-header>
+				• If you do >10req/sec, use unix socket or try to reduce network latency
+				<br>
+				• Check resource (CPU, RAM, Disk I/O) usage of the server and allocate more
+				<br>
+				• Use cloud hosted databases if you don't have time dedicated to infrastructure
+				<br>
+				• Use the assistant for more advanced optimizations of the database structure or the server tuning
+				<br>
+				• Sharding, load balancing and replication can help but are not simple to implement and maintain
+				<br>
+			</mat-expansion-panel>
 
-		<mat-expansion-panel>
-			<mat-expansion-panel-header>
-				<mat-panel-title>
+			<mat-expansion-panel>
+				<mat-expansion-panel-header>
+					<mat-panel-title>
 					<span class="material-symbols-outlined notranslate">
 						health_and_safety
 					</span>
-				</mat-panel-title>
-				<mat-panel-description>
-					Security Tips
-				</mat-panel-description>
-			</mat-expansion-panel-header>
-			• Avoid exposing database to public network, prefer SSH tunnel
-			<br>
-			• Do regular backup of your database to an external provider
-			<br>
-			• Follow RGPD rules (personal data encryption, strong password encryption with salt, etc)
-			<br>
-		</mat-expansion-panel>
-	</mat-accordion>
-</div>
+					</mat-panel-title>
+					<mat-panel-description>
+						Security Tips
+					</mat-panel-description>
+				</mat-expansion-panel-header>
+				• Avoid exposing database to public network, prefer SSH tunnel
+				<br>
+				• Do regular backup of your database to an external provider
+				<br>
+				• Follow RGPD rules (personal data encryption, strong password encryption with salt, etc)
+				<br>
+			</mat-expansion-panel>
+		</mat-accordion>
+	</div>
+
+</ng-container>

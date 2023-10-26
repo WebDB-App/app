@@ -126,7 +126,9 @@ export class QueryComponent implements OnInit, OnDestroy {
 	async initEditor(editor: any, index: number) {
 		initBaseEditor(editor);
 		this.editors[index] = editor;
-		await this.selectedServer?.driver.loadExtraLib(this.http);
+		if (index < 1) {
+			await this.selectedServer?.driver.loadExtraLib(this.http);
+		}
 	}
 
 	async runQuery() {

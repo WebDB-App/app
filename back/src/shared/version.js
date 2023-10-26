@@ -2,7 +2,6 @@ const {join} = require("path");
 const {existsSync} = require("fs");
 const rootPath = join(__dirname, "../../static/version/");
 const bash = require("./bash");
-//const {execSync} = require("child_process");
 
 class Version {
 

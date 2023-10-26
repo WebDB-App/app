@@ -8,6 +8,7 @@ import { RequestService } from "../../../shared/request.service";
 import { environment } from "../../../environments/environment";
 import { saveAs } from "file-saver-es";
 import { isSQL } from "../../../shared/helper";
+import { DrawerService } from "../../../shared/drawer.service";
 
 export class ItemTree {
 	name?: string;
@@ -19,7 +20,7 @@ export class ItemTree {
 	templateUrl: './dump.component.html',
 	styleUrls: ['./dump.component.scss']
 })
-export class DumpComponent implements OnInit {
+export class DumpComponent {
 
 	selectedServer?: Server;
 	selectedDatabase?: Database;
@@ -31,10 +32,16 @@ export class DumpComponent implements OnInit {
 	dataSource = new MatTreeNestedDataSource<ItemTree>();
 	protected readonly isSQL = isSQL;
 
-	constructor(private request: RequestService) {
+	constructor(
+		private drawer: DrawerService,
+		private request: RequestService
+	) {
+		this.drawer.drawer.openedChange.subscribe(async (state) => {
+			this.refreshData();
+		});
 	}
 
-	ngOnInit(): void {
+	refreshData() {
 		this.selectedDatabase = Database.getSelected();
 		this.selectedServer = Server.getSelected();
 

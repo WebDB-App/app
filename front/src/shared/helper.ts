@@ -4,6 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import { firstValueFrom } from "rxjs";
 import { MatPaginatorIntl } from "@angular/material/paginator";
 
+
 declare var monaco: any;
 
 export class REMOVED_LABELS extends MatPaginatorIntl {
@@ -45,7 +46,6 @@ export async function loadLibAsset(http: HttpClient, paths: string[]) {
 		const lib = await firstValueFrom(http.get('assets/libs/' + path, {responseType: 'text' as 'json'}))
 		monaco.languages.typescript.javascriptDefaults.addExtraLib(
 			`declare module '${path}' { ${lib} }; `,
-			`file://${path}`
 		);
 	}
 }

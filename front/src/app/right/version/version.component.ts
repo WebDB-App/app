@@ -3,6 +3,7 @@ import { Server } from "../../../classes/server";
 import { Database } from "../../../classes/database";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { RequestService } from "../../../shared/request.service";
+import { DrawerService } from "../../../shared/drawer.service";
 
 class Patch {
 	diff!: string;
@@ -18,14 +19,13 @@ declare var monaco: any;
   templateUrl: './version.component.html',
   styleUrls: ['./version.component.scss']
 })
-export class VersionComponent implements OnInit, OnDestroy {
+export class VersionComponent {
 
 	selectedServer?: Server;
 	selectedDatabase?: Database;
 
 	filter = "";
 	isLoading = false;
-	interval?: NodeJS.Timer;
 	patches: Patch[] = [];
 	editorOptions = {
 		language: 'text',
@@ -34,22 +34,12 @@ export class VersionComponent implements OnInit, OnDestroy {
 
 	constructor(
 		private request: RequestService,
+		private drawer: DrawerService,
 		public snackBar: MatSnackBar
-	) {	}
-
-	async ngOnInit() {
-		this.selectedDatabase = Database.getSelected();
-		this.selectedServer = Server.getSelected();
-
-		const loop = async () => {
+	) {
+		this.drawer.drawer.openedChange.subscribe(async (state) => {
 			await this.refreshData();
-			setTimeout(() => loop(), 2000);
-		};
-		loop();
-	}
-
-	ngOnDestroy() {
-		clearInterval(this.interval);
+		});
 	}
 
 	date(unix: string) {
@@ -61,8 +51,19 @@ export class VersionComponent implements OnInit, OnDestroy {
 	}
 
 	async refreshData() {
-		this.patches = await this.request.post('version/list', undefined);
-		this.filterChanged();
+		const loop = async () => {
+			if (!this.drawer.drawer.opened) {
+				return;
+			}
+			this.patches = await this.request.post('version/list', undefined);
+			this.filterChanged();
+			setTimeout(() => loop(), 2000);
+		};
+
+		this.selectedDatabase = Database.getSelected();
+		this.selectedServer = Server.getSelected();
+
+		loop();
 	}
 
 	filterChanged() {

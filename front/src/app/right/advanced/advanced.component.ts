@@ -6,20 +6,20 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { RequestService } from "../../../shared/request.service";
 import { Router } from "@angular/router";
 import helper from "../../../shared/common-helper.js";
+import { DrawerService } from "../../../shared/drawer.service";
 
 @Component({
 	selector: 'app-advanced',
 	templateUrl: './advanced.component.html',
 	styleUrls: ['./advanced.component.scss']
 })
-export class AdvancedComponent implements OnInit, OnDestroy {
+export class AdvancedComponent {
 
 	selectedServer?: Server;
 	selectedDatabase?: Database;
 
 	duplicateLoading = false;
 	collations: string[] = [];
-	interval?: NodeJS.Timer;
 	stats?: {
 		index_length: number,
 		data_length: number
@@ -34,29 +34,26 @@ export class AdvancedComponent implements OnInit, OnDestroy {
 		public request: RequestService,
 		private dialog: MatDialog,
 		private snackBar: MatSnackBar,
+		private drawer: DrawerService,
 		private router: Router) {
+
+		this.drawer.drawer.openedChange.subscribe(async (state) => {
+			await this.refreshData();
+		});
 	}
 
-	async ngOnInit() {
+	async refreshData() {
 		this.selectedDatabase = Database.getSelected();
 		this.selectedServer = Server.getSelected();
+
 		const {driver, ...rest} = {...this.selectedServer};
 		this.str = JSON.stringify(rest, null, 4);
 
 		this.collations = await this.request.post('database/availableCollations', undefined);
-
 		this.stats = await this.request.post('database/stats', undefined);
-		this.interval = setInterval(async () => {
-			this.stats = await this.request.post('database/stats', undefined);
-		}, 2000);
-
 		if (!this.collations.includes(this.selectedDatabase!.collation)) {
 			this.collations.push(this.selectedDatabase!.collation)
 		}
-	}
-
-	ngOnDestroy() {
-		clearInterval(this.interval);
 	}
 
 	initEditor(editor: any) {

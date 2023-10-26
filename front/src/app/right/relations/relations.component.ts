@@ -7,14 +7,14 @@ import { Relation } from "../../../classes/relation";
 import { RequestService } from "../../../shared/request.service";
 import { Table } from "../../../classes/table";
 import { isSQL } from "../../../shared/helper";
-import { DomSanitizer } from "@angular/platform-browser";
+import { DrawerService } from "../../../shared/drawer.service";
 
 @Component({
 	selector: 'app-relations',
 	templateUrl: './relations.component.html',
 	styleUrls: ['./relations.component.scss'],
 })
-export class RelationsComponent implements OnInit {
+export class RelationsComponent {
 
 	selectedServer?: Server;
 	selectedDatabase?: Database;
@@ -22,25 +22,30 @@ export class RelationsComponent implements OnInit {
 
 	constraints?: string[];
 	actionColum = "##ACTION##";
-	displayedColumns = ['column_source', 'table_source', 'table_dest', 'column_dest'];
+	displayedColumns: string[] = [];
 	dataSource!: MatTableDataSource<Relation>;
 	expanded: string[] = [];
+
 	protected readonly isSQL = isSQL;
 
 	constructor(
+		private drawer: DrawerService,
 		private request: RequestService,
 		private snackBar: MatSnackBar) {
-	}
 
-	async ngOnInit() {
+		this.drawer.drawer.openedChange.subscribe(async (state) => {
+			await this.refreshData();
+		});
+	}
+	async refreshData() {
 		this.selectedDatabase = Database.getSelected();
 		this.selectedServer = Server.getSelected();
+		this.constraints = this.selectedServer?.driver.language.constraints;
 
+		this.displayedColumns = ['column_source', 'table_source', 'table_dest', 'column_dest'];
 		if (isSQL()) {
 			this.displayedColumns.push(this.actionColum);
 		}
-
-		this.constraints = this.selectedServer?.driver.language.constraints;
 		this.relations = this.selectedServer?.relations.filter(relation => relation.database === this.selectedDatabase?.name);
 		this.dataSource = new MatTableDataSource(this.relations);
 	}
