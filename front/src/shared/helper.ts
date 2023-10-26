@@ -45,7 +45,7 @@ export async function loadLibAsset(http: HttpClient, paths: string[]) {
 
 		const lib = await firstValueFrom(http.get('assets/libs/' + path, {responseType: 'text' as 'json'}))
 		monaco.languages.typescript.javascriptDefaults.addExtraLib(
-			`declare module '${path}' { ${lib} }; `,
+			`declare module '${path}' { ${lib} }; `
 		);
 	}
 }
