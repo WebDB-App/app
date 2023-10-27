@@ -43,6 +43,16 @@
 
 	<ng-container *ngIf="!selectedDatabase?.system">
 
+		<mat-card
+			*ngIf="patches.length < 1">
+			<mat-card-header>
+				<mat-card-subtitle>
+					<br>
+					No patch yet, make a modification to your database to see one
+				</mat-card-subtitle>
+			</mat-card-header>
+		</mat-card>
+
 		<mat-card *ngFor="let patch of patches; trackBy:identify"
 				  [hidden]="patch.hide">
 

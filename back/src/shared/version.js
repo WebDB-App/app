@@ -41,8 +41,9 @@ class Version {
 			return [];
 		}
 
-		const r = bash.runBash(`cd ${dir} && git format-patch -${versions} --stdout`);
-		const tmp = Object.entries(r.result.split(/(From [a-zA-Z0-9]{40})/g));
+		const r = bash.runBash(`cd ${dir} && git format-patch --stdout -${versions}`);
+		let tmp = Object.entries(r.result.split(/(From [a-zA-Z0-9]{40})/g));
+		tmp = tmp.slice(-2);
 
 		const patches = [];
 		for (const [index, patch] of tmp) {
@@ -50,8 +51,8 @@ class Version {
 				continue;
 			}
 			let diff = "@@ " + patch.split("\n@@ ")[1];
-			diff = diff.substring(0, diff.lastIndexOf("-- \n")) + " -- ";
-			diff = diff.length > 10000 ? diff.slice(0, 10000) + "..." : diff;
+			//diff = diff.substring(0, diff.lastIndexOf("-- \n")) + " -- ";
+			diff = diff.length > 100000 ? diff.slice(0, 100000) + "\n\n\n### DIFF SHORTEN ###" : diff;
 
 			const obj = {
 				time: patch.split("] ")[1].split("\n\n---")[0],
@@ -63,9 +64,7 @@ class Version {
 		return patches.reverse();
 	}
 
-	// eslint-disable-next-line no-unused-vars
 	async saveChanges(database, driver) {
-		/*
 		const dir = join(rootPath, driver.port.toString());
 		if (!existsSync(dir)) {
 			bash.runBash(`mkdir ${dir} && cd ${dir} && git init --initial-branch=main`);
@@ -80,7 +79,6 @@ class Version {
 			return;
 		}
 		return r;
-		 */
 	}
 
 	commandFinished(driver, command, database) {

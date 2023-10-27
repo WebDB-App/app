@@ -65,11 +65,22 @@ module.exports = class MySQL extends SQL {
 	}
 
 	async saveState(path, database) {
-		return bash.runBash(`mysqldump --user='${this.user}' --port=${this.port} --password='${this.password}' --host='${this.host}' --column-statistics=0 ${database} > ${path}`);
+		return bash.runBash(`mysqldump --user='${this.user}' --port=${this.port} --password='${this.password}' --host='${this.host}' --column-statistics=0 --skip-extended-insert ${database} > ${path}`);
 	}
 
 	async load(filePath, database) {
 		return bash.runBash(`mysql --user='${this.user}' --port=${this.port} --password='${this.password}' --host='${this.host}' ${database} < ${filePath}`);
+	}
+
+	async insert(db, table, datas) {
+		for (const [key, data] of Object.entries(datas)) {
+			for (const [index, da] of Object.entries(data)) {
+				if (typeof da === "string") {
+					datas[key][index] = `"${da}"`;
+				}
+			}
+		}
+		return super.insert(db, table, datas);
 	}
 
 	async modifyColumn(database, table, old, column) {

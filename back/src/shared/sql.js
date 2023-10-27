@@ -131,12 +131,7 @@ module.exports = class SQL extends Driver {
 	async insert(db, table, datas) {
 		const values = [];
 		for (const data of datas) {
-			values.push(`(${Object.values(data).map(da => {
-				if (typeof da === "string") {
-					return `"${da}"`;
-				}
-				return da;
-			}).join(", ")})`);
+			values.push(`(${Object.values(data).join(", ")})`);
 		}
 
 		const res = await this.nbChangment(`INSERT INTO ${this.nameDel + table + this.nameDel} (${Object.keys(datas[0]).join(",")}) VALUES ${values.join(", ")}`, db);
