@@ -39,7 +39,7 @@
 
 					<ng-container *ngIf="column !== actionColum">
 						<ng-container *ngIf="column.startsWith('table_')">
-							<a [routerLink]="['/' + selectedServer?.name, selectedDatabase?.name, row[column]]">
+							<a [routerLink]="['/' + selectedServer!.name, selectedDatabase!.name, row[column]]">
 								{{row[column]}}
 							</a>
 						</ng-container>

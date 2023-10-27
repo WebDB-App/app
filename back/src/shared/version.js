@@ -64,7 +64,9 @@ class Version {
 		return patches.reverse();
 	}
 
+	// eslint-disable-next-line no-unused-vars
 	async saveChanges(database, driver) {
+		/*
 		const dir = join(rootPath, driver.port.toString());
 		if (!existsSync(dir)) {
 			bash.runBash(`mkdir ${dir} && cd ${dir} && git init --initial-branch=main`);
@@ -79,6 +81,7 @@ class Version {
 			return;
 		}
 		return r;
+		 */
 	}
 
 	commandFinished(driver, command, database) {
