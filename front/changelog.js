@@ -51,6 +51,7 @@ function getLogsByDate() {
 			for (const com of commit) {
 				let sub = com.subject.trim();
 				sub = emojify(sub);
+				sub = sub.replaceAll(/<[^>]*>?/gm, '');
 				sub = sub.replaceAll(/(\s\s+)/gm, "<br>");
 				if (sub.length < 30) {
 					continue;
