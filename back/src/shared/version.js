@@ -20,7 +20,6 @@ class Version {
 		loop();
 	}
 
-	// eslint-disable-next-line no-unused-vars
 	async resetTo(database, driver, sha1) {
 		const dir = join(rootPath, driver.port.toString());
 		if (!existsSync(dir)) {
@@ -43,7 +42,6 @@ class Version {
 
 		const r = bash.runBash(`cd ${dir} && git format-patch --stdout -${versions}`);
 		let tmp = Object.entries(r.result.split(/(From [a-zA-Z0-9]{40})/g));
-		tmp = tmp.slice(-2);
 
 		const patches = [];
 		for (const [index, patch] of tmp) {
@@ -64,9 +62,7 @@ class Version {
 		return patches.reverse();
 	}
 
-	// eslint-disable-next-line no-unused-vars
 	async saveChanges(database, driver) {
-		/*
 		const dir = join(rootPath, driver.port.toString());
 		if (!existsSync(dir)) {
 			bash.runBash(`mkdir ${dir} && cd ${dir} && git init --initial-branch=main`);
@@ -81,7 +77,6 @@ class Version {
 			return;
 		}
 		return r;
-		 */
 	}
 
 	commandFinished(driver, command, database) {
