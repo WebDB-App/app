@@ -19,9 +19,17 @@ module.exports = class MySQL extends SQL {
 
 	async sampleDatabase(name, {count, tables}) {
 		const getSample = async (table) => {
-			const create = await this.runCommand(`SHOW CREATE TABLE \`${table}\``, name);
+			let create = await this.runCommand(`SHOW CREATE TABLE \`${table}\``, name);
+			create = create[0];
+
+			if (create["Create View"]) {
+				return {
+					structure: create["Create View"],
+					data: []
+				};
+			}
 			return {
-				structure: create[0]["Create Table"],
+				structure: create["Create Table"],
 				data: await this.runCommand(`SELECT * FROM \`${table}\` LIMIT ${count}`, name)
 			};
 		};

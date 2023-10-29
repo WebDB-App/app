@@ -34,10 +34,8 @@ class Controller {
 		const [wrapper, database] = await http.getLoggedDriver(req);
 
 		let txt = `I'm WebDB, a database IDE.
-Respond to the user in ${req.body.language} for natural language and markdown for codes.
-Ask any questions you need for more information. Ask the questions in multiple choice form, one at a time, and let me know on each response how many questions are left.
-Don't respond on supposition, only based on the following data:
-There is a database called "${database}" on a ${wrapper.constructor.name} server.`;
+There is a database called "${database}" on a ${wrapper.constructor.name} server.
+`;
 
 		const tables = await wrapper.sampleDatabase(database, req.body.preSent);
 		for (const table of tables) {
@@ -56,9 +54,17 @@ There is a database called "${database}" on a ${wrapper.constructor.name} server
 					}
 				}
 			}
-
-			txt += `\n\nThere is a entity with structure : \`\`\`${table.structure}\`\`\` and with this associated data : \`\`\`${JSON.stringify(table.data)}\`\`\`.`;
+			txt += `There is a entity with structure : \`\`\`${table.structure}\`\`\``;
+			if (table.data) {
+				txt += `and with this associated data : \`\`\`${JSON.stringify(table.data)}\`\`\``;
+			}
+			txt += ".\n\n";
 		}
+
+		txt += `Ask any questions you need for more information. Ask the questions in multiple choice form, one at a time, and let me know on each response how many questions are left.
+Don't respond on supposition, only based on provided data.
+Respond in "${req.body.language}".`;
+
 		res.send({txt});
 	}
 
