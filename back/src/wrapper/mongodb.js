@@ -149,10 +149,6 @@ module.exports = class MongoDB extends Driver {
 	}
 
 	async dropDatabase(name) {
-		if (this.isSystemDbs(name)) {
-			return {error: `You should not delete ${name}`};
-		}
-
 		return await this.connection.db(name).dropDatabase();
 	}
 

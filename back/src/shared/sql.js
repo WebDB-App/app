@@ -63,10 +63,6 @@ module.exports = class SQL extends Driver {
 	}
 
 	async dropDatabase(name) {
-		if (this.isSystemDbs(name)) {
-			return {error: `You should not delete ${name}`};
-		}
-
 		return await this.runCommand(`DROP DATABASE ${this.nameDel + name + this.nameDel}`);
 	}
 

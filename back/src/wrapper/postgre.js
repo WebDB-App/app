@@ -310,14 +310,11 @@ module.exports = class PostgreSQL extends SQL {
 	async dropDatabase(name) {
 		name = name.split(this.dbToSchemaDelimiter)[0];
 
-		await this.connection.end();
-		delete this.connection;
-		this.dbPool = {};
-
-		bash.runBash(`trap \`psql ${this.makeUri()} -c 'DROP DATABASE ${this.nameDel + name + this.nameDel} WITH (FORCE)'\` ERR`);
-		await new Promise(resolve => setTimeout(resolve, 1000));
-
-		return {};
+		let error = "PostgreSQL database deletion is not supported with WebDB.\n";
+		error += "First, close all connection to this database, so restart WebDB and other possibly connected app\n";
+		error += `Finally, run: \n`;
+		error += `# psql ${this.makeUri()} -c 'DROP DATABASE ${this.nameDel + name + this.nameDel}'`;
+		return {error};
 	}
 
 	getDbs() {
@@ -336,6 +333,11 @@ module.exports = class PostgreSQL extends SQL {
 					this.runCommand("SELECT table_schema, table_name, table_type FROM information_schema.tables", db.datname),
 					(full ? this.runCommand("SELECT table_schema, table_name, column_name, character_maximum_length, ordinal_position, column_default, is_nullable, udt_name::regtype as data_type FROM information_schema.columns ORDER BY ordinal_position", db.datname) : undefined)
 				]);
+
+				if (!Array.isArray(schemas)) {
+					console.error(`Can't read schemas of ${db.datname}`);
+					return resolve();
+				}
 
 				for (const schema of schemas) {
 					const dbPath = `${db.datname + this.dbToSchemaDelimiter + schema.schema_name}`;

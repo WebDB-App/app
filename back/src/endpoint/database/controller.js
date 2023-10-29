@@ -13,6 +13,9 @@ class Controller {
 	async drop(req, res) {
 		const [driver, database] = await http.getLoggedDriver(req);
 
+		if (driver.isSystemDbs(database)) {
+			return res.send( {error: `You should not delete ${database}`});
+		}
 		res.send(await driver.dropDatabase(database));
 	}
 

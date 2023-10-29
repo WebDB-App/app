@@ -159,25 +159,17 @@
 					</mat-slider>
 				</div>
 
-				<div style="display: flex; align-items: center;">
-					<a href="https://platform.openai.com/account/api-keys"
-					   mat-button
-					   target="_blank">
-						<mat-icon svgIcon="chatgpt"></mat-icon>
-					</a>
-
-					<div>
-						<mat-form-field style="margin-bottom: -1.25em" appearance="outline">
-							<mat-label>OpenAI Key</mat-label>
-							<input
-								(change)="goodKey() ? configChange() : undefined"
-								[(ngModel)]="config.openAI"
-								matInput>
-						</mat-form-field>
-						<mat-error *ngIf="!goodKey()">
-							Bad key format
-						</mat-error>
-					</div>
+				<div>
+					<mat-form-field style="margin-bottom: -1.25em" appearance="outline">
+						<mat-label>OpenAI Key</mat-label>
+						<input
+							(change)="goodKey() ? configChange() : undefined"
+							[(ngModel)]="config.openAI"
+							matInput>
+					</mat-form-field>
+					<mat-error *ngIf="!goodKey()">
+						Bad key format
+					</mat-error>
 				</div>
 			</div>
 
@@ -200,7 +192,17 @@
 		</div>
 	</mat-toolbar>
 
-	<div *ngIf="!chat.length || !config.openAI">
+	<div *ngIf="!config.openAI" style="margin-bottom: 30vh">
+		<h3 style="text-align: center; border-bottom: 1px dashed grey">
+			Enter a
+			<a href="https://platform.openai.com/account/api-keys" target="_blank">
+				OpenAI
+			</a>
+			key to use assistant
+		</h3>
+	</div>
+
+	<div *ngIf="!chat.length && config.openAI">
 		<h3 style="text-align: center; border-bottom: 1px dashed grey">Some examples</h3>
 		<div id="examples">
 			<button (click)="sendMessage(example);"
