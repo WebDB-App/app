@@ -5,7 +5,7 @@ import { DrawerService } from "../../shared/drawer.service";
 import { Server } from "../../classes/server";
 import { Database } from "../../classes/database";
 import { environment } from "../../environments/environment";
-import { RequestService } from "../../shared/request.service";
+import { LoadingStatus, RequestService } from "../../shared/request.service";
 import { Subscription } from "rxjs";
 import { LogsDialog } from "../top-right/top-right.component";
 import { MatDialog } from "@angular/material/dialog";
@@ -26,7 +26,7 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	sub!: Subscription;
 	env = environment;
-	loading = 'loading';
+	loading = LoadingStatus.LOADING;
 	selectedServer!: Server;
 	selectedDatabase!: Database;
 	panels: Panel[] = [
@@ -41,6 +41,7 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 	];
 
 	protected readonly environment = environment;
+	protected readonly LoadingStatus = LoadingStatus;
 
 	constructor(
 		public activatedRoute: ActivatedRoute,
@@ -59,7 +60,7 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 	}
 
 	async ngOnInit() {
-		this.loading = "loading";
+		this.loading = LoadingStatus.LOADING;
 		let server, database;
 		const local = Server.getAll().find(local => local.name === this.activatedRoute.snapshot.paramMap.get('server'));
 
@@ -70,7 +71,7 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 		}
 
 		if (!server || !database) {
-			this.loading = "error";
+			this.loading = LoadingStatus.ERROR;
 			return;
 		}
 

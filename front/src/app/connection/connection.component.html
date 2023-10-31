@@ -14,7 +14,7 @@
 
 	<button
 		(click)="ngOnInit()"
-		*ngIf="loading === 'done'"
+		*ngIf="loading === LoadingStatus.DONE"
 		mat-flat-button>
 		<span class="material-symbols-outlined notranslate">
 			wifi_find
@@ -34,18 +34,18 @@
 	<app-top-right></app-top-right>
 </mat-toolbar>
 
-<div *ngIf="loading !== 'done'"
+<div *ngIf="loading !== LoadingStatus.DONE"
 	 style="height: calc(100vh - 56px); justify-content: center; display: flex;">
 	<div style="align-self: center;">
 
-		<ng-container *ngIf="loading === 'loading'">
+		<ng-container *ngIf="loading === LoadingStatus.LOADING">
 			<mat-spinner
 				mode="indeterminate"
 				style="margin: 0px auto;"></mat-spinner>
 			<h2 style="color: #2196f3">Scanning Connections ...</h2>
 		</ng-container>
 
-		<div *ngIf="loading === 'error'">
+		<div *ngIf="loading === LoadingStatus.ERROR">
 			<mat-error>
 				<h3>Backend unreachable, please check logs directly from it</h3>
 			</mat-error>
@@ -76,7 +76,7 @@
 	</div>
 </div>
 
-<div id="container" *ngIf="loading === 'done'">
+<div id="container" *ngIf="loading === LoadingStatus.DONE">
 
 	<div *ngIf="servers.length < 1">
 		<mat-card>

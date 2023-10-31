@@ -10,6 +10,12 @@ import { MatBottomSheet } from "@angular/material/bottom-sheet";
 import { ErrorComponent } from "./error/error.component";
 import { Configuration } from "../classes/configuration";
 
+export enum LoadingStatus {
+	LOADING = 'LOADING',
+	DONE = "DONE",
+	ERROR = "ERROR"
+}
+
 @Injectable({
 	providedIn: 'root'
 })
@@ -17,7 +23,7 @@ export class RequestService {
 
 	configuration: Configuration = new Configuration();
 
-	private loadingSubject = new BehaviorSubject('loading');
+	private loadingSubject = new BehaviorSubject(LoadingStatus.LOADING);
 	loadingServer = this.loadingSubject.asObservable();
 
 	constructor(
@@ -82,7 +88,7 @@ export class RequestService {
 	}
 
 	async loadServers(servers: Server[], full: boolean) {
-		this.loadingSubject.next("loading");
+		this.loadingSubject.next(LoadingStatus.LOADING);
 
 		const load = (server: Server) => {
 			return new Promise(async resolve => {
@@ -95,7 +101,7 @@ export class RequestService {
 
 					resolve({...server, ...res});
 				} catch (e) {
-					this.loadingSubject.next("error");
+					this.loadingSubject.next(LoadingStatus.ERROR);
 				}
 			})
 		};
@@ -106,7 +112,7 @@ export class RequestService {
 		}
 		servers = <Server[]>(await Promise.all(promises));
 
-		this.loadingSubject.next("done");
+		this.loadingSubject.next(LoadingStatus.DONE);
 		return servers;
 	}
 

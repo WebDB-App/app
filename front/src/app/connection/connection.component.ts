@@ -5,13 +5,13 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dial
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { firstValueFrom, Subscription } from "rxjs";
 import { Server, SSH } from "../../classes/server";
-import { RequestService } from "../../shared/request.service";
+import { LoadingStatus, RequestService } from "../../shared/request.service";
 import * as drivers from '../../drivers/index';
 import { DomSanitizer, Title } from "@angular/platform-browser";
 import { MatIconRegistry } from "@angular/material/icon";
 import helper from "../../shared/common-helper.js";
 
-enum Status {
+enum ServerStatus {
 	Connected = 'Connected',
 	Discovered = 'Discovered',
 	Problem = 'Problem'
@@ -26,12 +26,13 @@ export class ConnectionComponent implements OnInit {
 
 	servers: Server[] = [];
 	showPassword = false;
-	loading = 'loading';
+	loading: LoadingStatus = LoadingStatus.LOADING;
 	sub!: Subscription;
 
-	protected readonly Status = Status;
+	protected readonly Status = ServerStatus;
 	protected readonly Object = Object;
 	protected readonly environment = environment;
+	protected readonly LoadingStatus = LoadingStatus;
 
 	constructor(
 		private http: HttpClient,
@@ -58,6 +59,7 @@ export class ConnectionComponent implements OnInit {
 		this.filterChanged('');
 		Server.setSelected(undefined);
 		this.titleService.setTitle("WebDB – App");
+		this.loading = LoadingStatus.LOADING;
 		let scans: Server[] = [];
 
 		try {
@@ -67,7 +69,7 @@ export class ConnectionComponent implements OnInit {
 				return scan;
 			});
 		} catch (err) {
-			this.loading = 'error';
+			this.loading = LoadingStatus.ERROR;
 			return;
 		}
 
@@ -186,10 +188,10 @@ export class ConnectionComponent implements OnInit {
 
 	getServerByStatus(status: string): Server[] {
 		return this.servers.filter(server => {
-			if (status === Status.Connected) {
+			if (status === ServerStatus.Connected) {
 				return server.connected;
 			}
-			if (status === Status.Discovered) {
+			if (status === ServerStatus.Discovered) {
 				return !server.connected && server.scanned && !server.stored;
 			}
 			return !server.connected && (!server.scanned || server.stored);

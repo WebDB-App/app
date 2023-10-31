@@ -1,6 +1,6 @@
 <mat-drawer-container>
 	<mat-drawer #drawer id="right" mode="over" position="end">
-		<router-outlet *ngIf="loading === 'done'" name="right"></router-outlet>
+		<router-outlet *ngIf="loading === LoadingStatus.DONE" name="right"></router-outlet>
 	</mat-drawer>
 
 	<mat-drawer-content style="display: flex; flex-direction: column">
@@ -20,7 +20,7 @@
 						<span style="color: #1de9b6;">{{selectedDatabase.name}}</span>
 					</div>
 					<button
-						[disabled]="loading !== 'done'"
+						[disabled]="loading !== LoadingStatus.DONE"
 						mat-icon-button
 						color="accent"
 						matTooltipPosition="right"
@@ -54,10 +54,10 @@
 			<app-top-right></app-top-right>
 		</mat-toolbar>
 
-		<div *ngIf="loading !== 'done'"
+		<div *ngIf="loading !== LoadingStatus.DONE"
 			 style="height: calc(100vh - 56px); align-self: center; display: flex;">
 			<div style="align-self: center;">
-				<ng-container *ngIf="loading === 'loading'">
+				<ng-container *ngIf="loading === LoadingStatus.LOADING">
 					<mat-spinner
 						color="accent"
 						mode="indeterminate"
@@ -65,7 +65,7 @@
 					<h2 style="color: #1de9b6">Loading {{activatedRoute.snapshot.paramMap.get('database')}} ...</h2>
 				</ng-container>
 
-				<div *ngIf="loading === 'error'">
+				<div *ngIf="loading === LoadingStatus.ERROR">
 					<mat-error>
 						<h3>
 							Can't connect to {{activatedRoute.snapshot.paramMap.get('server')}} / {{activatedRoute.snapshot.paramMap.get('database')}}
@@ -115,6 +115,6 @@
 			</div>
 		</div>
 
-		<router-outlet *ngIf="loading === 'done'"></router-outlet>
+		<router-outlet *ngIf="loading === LoadingStatus.DONE"></router-outlet>
 	</mat-drawer-content>
 </mat-drawer-container>
