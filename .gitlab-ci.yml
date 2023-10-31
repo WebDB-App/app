@@ -84,7 +84,7 @@ docker:
         - docker buildx create --use
         - >
             if [ "$CI_COMMIT_REF_NAME" == "main" ]; then
-                docker buildx build --cache-from $IMAGE_NAME:$CI_COMMIT_REF_NAME --platform $PLATFORM, -t $IMAGE_NAME:$CI_COMMIT_REF_NAME -t $IMAGE_NAME:$TAG -t $IMAGE_NAME --push .
+                docker buildx build --cache-from $IMAGE_NAME:$CI_COMMIT_REF_NAME --platform $PLATFORM -t $IMAGE_NAME:$CI_COMMIT_REF_NAME -t $IMAGE_NAME:$TAG -t $IMAGE_NAME --push .
             else
                 docker buildx build --cache-from $IMAGE_NAME:$CI_COMMIT_REF_NAME --platform $PLATFORM -t $IMAGE_NAME:$CI_COMMIT_REF_NAME --push .
             fi
