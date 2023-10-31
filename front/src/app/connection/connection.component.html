@@ -14,7 +14,7 @@
 
 	<button
 		(click)="ngOnInit()"
-		*ngIf="loading === LoadingStatus.DONE"
+		[disabled]="loading !== LoadingStatus.DONE"
 		mat-flat-button>
 		<span class="material-symbols-outlined notranslate">
 			wifi_find
@@ -42,7 +42,7 @@
 			<mat-spinner
 				mode="indeterminate"
 				style="margin: 0px auto;"></mat-spinner>
-			<h2 style="color: #2196f3">Scanning Connections ...</h2>
+			<h2 style="color: #2196f3">Scanning Connections</h2>
 		</ng-container>
 
 		<div *ngIf="loading === LoadingStatus.ERROR">
@@ -92,8 +92,7 @@
 				<div class="servers">
 					<mat-card
 						*ngFor="let server of getServerByStatus(status)"
-						[hidden]="server.hide"
-						style="margin-bottom: 15px">
+						[hidden]="server.hide">
 
 						<h4 fxLayout="row" fxLayoutAlign="space-between center" style="padding: 0px 10px">
 							<div class="logo">

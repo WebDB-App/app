@@ -1,14 +1,14 @@
 #container {
-	padding: 0px 26px 26px;
+	padding: 80px 20px 0px;
 
 	.servers {
 		justify-content: center;
+		padding-bottom: 40px;
 		display: flex;
 		flex-wrap: wrap;
 		align-items: flex-start;
 		width: 100%;
 		border-top: 3px solid rgba(255, 255, 255, 0.2);
-		margin-top: 80px;
 		transition: border 250ms ease-in-out;
 
 		.logo img {
@@ -26,6 +26,7 @@
 
 		.mat-card {
 			min-width: 450px;
+			margin-bottom: 12px;
 		}
 	}
 }
