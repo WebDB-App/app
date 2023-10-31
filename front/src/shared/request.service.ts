@@ -82,6 +82,9 @@ export class RequestService {
 	}
 
 	async loadServers(servers: Server[], full: boolean) {
+		let loading = 50;
+		this.loadingSubject.next(loading);
+
 		const load = (server: Server) => {
 			return new Promise(async resolve => {
 				if (!server.connected) {
@@ -98,9 +101,6 @@ export class RequestService {
 				}
 			})
 		};
-
-		let loading = 0;
-		this.loadingSubject.next(loading);
 
 		const promises = [];
 		for (const server of servers) {

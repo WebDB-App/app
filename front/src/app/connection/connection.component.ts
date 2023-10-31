@@ -58,7 +58,7 @@ export class ConnectionComponent implements OnInit {
 		this.filterChanged('');
 		Server.setSelected(undefined);
 		this.titleService.setTitle("WebDB – App");
-		this.loading = 0;
+		this.loading = 10;
 		let scans: Server[] = [];
 
 		try {
@@ -72,7 +72,7 @@ export class ConnectionComponent implements OnInit {
 			return;
 		}
 
-		this.loading = 10;
+		this.loading = 30;
 
 		const locals = Server.getAll().map(local => {
 			const scan = scans.find(sc => sc.name === local.name);
