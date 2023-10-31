@@ -5,7 +5,7 @@ const fsp = require("fs").promises;
 const bash = require("./shared/bash.js");
 const {join} = require("path");
 const Sentry = require("@sentry/node");
-const compression = require('compression')
+const compression = require("compression");
 
 dotenv.config({path: join(__dirname, "../.env")});
 
