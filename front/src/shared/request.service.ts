@@ -17,7 +17,7 @@ export class RequestService {
 
 	configuration: Configuration = new Configuration();
 
-	private loadingSubject = new BehaviorSubject(0);
+	private loadingSubject = new BehaviorSubject('loading');
 	loadingServer = this.loadingSubject.asObservable();
 
 	constructor(
@@ -82,8 +82,7 @@ export class RequestService {
 	}
 
 	async loadServers(servers: Server[], full: boolean) {
-		let loading = 50;
-		this.loadingSubject.next(loading);
+		this.loadingSubject.next("loading");
 
 		const load = (server: Server) => {
 			return new Promise(async resolve => {
@@ -93,11 +92,10 @@ export class RequestService {
 				try {
 					const size = this.configuration.getByName("noSqlSample")?.value;
 					const res = await firstValueFrom(this.http.post<Database[]>(environment.apiRootUrl + `server/structure?full=${+full}&size=${size}`, Server.getShallow(server)));
-					this.loadingSubject.next(loading += 100 / servers.length);
 
 					resolve({...server, ...res});
 				} catch (e) {
-					this.loadingSubject.next(-1);
+					this.loadingSubject.next("error");
 				}
 			})
 		};
@@ -108,7 +106,7 @@ export class RequestService {
 		}
 		servers = <Server[]>(await Promise.all(promises));
 
-		this.loadingSubject.next(100);
+		this.loadingSubject.next("done");
 		return servers;
 	}
 

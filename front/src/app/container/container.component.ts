@@ -26,7 +26,7 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	sub!: Subscription;
 	env = environment;
-	loading = 0;
+	loading = 'loading';
 	selectedServer!: Server;
 	selectedDatabase!: Database;
 	panels: Panel[] = [
@@ -59,7 +59,7 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 	}
 
 	async ngOnInit() {
-		this.loading = 0;
+		this.loading = "loading";
 		let server, database;
 		const local = Server.getAll().find(local => local.name === this.activatedRoute.snapshot.paramMap.get('server'));
 
@@ -70,7 +70,7 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 		}
 
 		if (!server || !database) {
-			this.loading = -1;
+			this.loading = "error";
 			return;
 		}
 

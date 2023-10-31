@@ -26,7 +26,7 @@ export class ConnectionComponent implements OnInit {
 
 	servers: Server[] = [];
 	showPassword = false;
-	loading = 0;
+	loading = 'loading';
 	sub!: Subscription;
 
 	protected readonly Status = Status;
@@ -58,7 +58,6 @@ export class ConnectionComponent implements OnInit {
 		this.filterChanged('');
 		Server.setSelected(undefined);
 		this.titleService.setTitle("WebDB – App");
-		this.loading = 10;
 		let scans: Server[] = [];
 
 		try {
@@ -68,11 +67,9 @@ export class ConnectionComponent implements OnInit {
 				return scan;
 			});
 		} catch (err) {
-			this.loading = -1;
+			this.loading = 'error';
 			return;
 		}
-
-		this.loading = 30;
 
 		const locals = Server.getAll().map(local => {
 			const scan = scans.find(sc => sc.name === local.name);
