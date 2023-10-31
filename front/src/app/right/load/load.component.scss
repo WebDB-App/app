@@ -9,18 +9,21 @@
 }
 
 .mat-card {
-	margin-left: 0px;
-	margin-right: 0px;
+	padding: 0px;
+	margin: 24px 0px 0px 0px;
+	display: flex;
 
-	ngx-monaco-editor {
-		margin: 0px -16px;
+	.mat-card-content {
+		margin-bottom: 0px;
 	}
 
-	.mat-card-header {
-		align-items: center;
-
-		::ng-deep .mat-card-header-text {
-			display: none;
-		}
+	.mat-card-actions {
+		width: 164px;
+		text-align: center;
+		display: flex;
+		justify-content: space-between;
+		margin: 14px;
+		flex-direction: column;
+		align-items: stretch;
 	}
 }

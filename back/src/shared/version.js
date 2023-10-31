@@ -20,9 +20,13 @@ class Version {
 		loop();
 	}
 
+	getPath(database, driver) {
+		return join(rootPath, driver.port.toString(), database);
+	}
+
 	// eslint-disable-next-line no-unused-vars
 	async resetTo(database, driver, sha1) {
-		const dir = join(rootPath, driver.port.toString());
+		const dir = this.getPath(database, driver);
 		if (!existsSync(dir)) {
 			return {error: "Directory does not exist"};
 		}
@@ -36,7 +40,7 @@ class Version {
 	}
 
 	async listPatch(database, driver, versions) {
-		const dir = join(rootPath, driver.port.toString());
+		const dir = this.getPath(database, driver);
 		if (!existsSync(dir)) {
 			return [];
 		}
@@ -50,7 +54,6 @@ class Version {
 				continue;
 			}
 			let diff = "@@ " + patch.split("\n@@ ")[1];
-			//diff = diff.substring(0, diff.lastIndexOf("-- \n")) + " -- ";
 			diff = diff.length > 100000 ? diff.slice(0, 100000) + "\n\n\n### DIFF SHORTEN ###" : diff;
 
 			const obj = {
@@ -63,12 +66,10 @@ class Version {
 		return patches.reverse();
 	}
 
-	// eslint-disable-next-line no-unused-vars
 	async saveChanges(database, driver) {
-		/*
-		const dir = join(rootPath, driver.port.toString());
+		const dir = this.getPath(database, driver);
 		if (!existsSync(dir)) {
-			bash.runBash(`mkdir ${dir} && cd ${dir} && git init --initial-branch=main`);
+			bash.runBash(`mkdir -p ${dir} && cd ${dir} && git init --initial-branch=main`);
 		}
 
 		const result = await driver.saveState(join(dir, database), database);
@@ -80,7 +81,6 @@ class Version {
 			return;
 		}
 		return r;
-		 */
 	}
 
 	commandFinished(driver, command, database) {
@@ -95,21 +95,21 @@ class Version {
 			process.env.DISABLE_WATCHER.indexOf(database) >= 0)) {
 			return;
 		}
-		if (!["update", "delete", "insert", "drop", "alter", "add"].some(v => command.toLowerCase().includes(v.toLowerCase()))) {
+		if (![
+			"updateone", "updatemany", "update ",
+			"deleteone", "deletemany", "delete ",
+			"insertone", "insertmany", "insert ",
+			"drop", "alter ", "add ", "create", "rename", "replace"].some(v => command.toLowerCase().includes(v.toLowerCase()))) {
 			return;
 		}
-		this.changes[database] = {
+		/*this.changes[database] = {
 			done: false,
 			driver
-		};
+		};*/
 	}
 }
 
 module.exports = new Version();
-
-
-
-
 
 /*
 - Checksum par table

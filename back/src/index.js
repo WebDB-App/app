@@ -5,6 +5,7 @@ const fsp = require("fs").promises;
 const bash = require("./shared/bash.js");
 const {join} = require("path");
 const Sentry = require("@sentry/node");
+const compression = require('compression')
 
 dotenv.config({path: join(__dirname, "../.env")});
 
@@ -26,6 +27,7 @@ if (process.env.NODE_ENV === "production") {
 	app.use(Sentry.Handlers.errorHandler());
 }
 
+app.use(compression());
 app.use(cors({origin: "*"}));
 app.use(express.json());
 app.use(express.static(join(__dirname, "../static/")));

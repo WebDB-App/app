@@ -8,6 +8,7 @@
 	"dependencies": {
 		"@sentry/node": "latest",
 		"bytenode": "latest",
+		"compression": "latest",
 		"cors": "latest",
 		"dotenv": "latest",
 		"express": "latest",

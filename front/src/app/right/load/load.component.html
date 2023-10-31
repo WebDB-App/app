@@ -1,45 +1,35 @@
-<mat-toolbar>
-	<mat-form-field style="width: 100%; margin-bottom: -1.25em">
-		<mat-label>Database to import files</mat-label>
-		<input #database
-			   [value]="selectedDatabase.name"
-			   autocomplete="off"
-			   matInput
-			   required>
-	</mat-form-field>
-
+<mat-toolbar style="font-size: 14px; gap: 24px;">
+	Drop here or
+	<input #inputFile (change)="inputChange($event)" accept="{{acceptedExt.join(', ')}}" hidden="true" multiple
+		   onclick="this.value=null" type="file"/>
 	<button
-		matTooltip="Drop your files here"
-		matTooltipPosition="left"
-		mat-icon-button>
-		<span class="material-symbols-outlined">
-			place_item
-		</span>
+		(click)="inputFile.click()"
+		style="width: 100%"
+		color="accent"
+		mat-stroked-button>
+		select
 	</button>
+
+	{{acceptedExt.join(', ')}} files
 </mat-toolbar>
 
-<div fxLayout="column" fxLayoutAlign="space-between center" style="padding: 20px">
-
-	<div fxFill>
-		<input #inputFile (change)="inputChange($event)" accept="{{acceptedExt.join(', ')}}" hidden="true" multiple
-			   onclick="this.value=null" type="file"/>
-		<button
-			fxFill
-			(click)="inputFile.click()"
-			color="accent"
-			mat-stroked-button>
-			<span class="material-symbols-outlined notranslate">
-				upload_file
-			</span>
-			Choose [{{acceptedExt.join(', ')}}] files
-		</button>
-	</div>
+<div fxLayout="column" fxLayoutAlign="space-between center" style="padding: 0px 20px">
 
 	<mat-card *ngFor="let file of files; let i = index">
-		<mat-card-header>
+
+		<mat-card-content>
+			<ngx-monaco-editor
+				style="resize: none"
+				*ngIf="files[i].text.length < 10000000"
+				[(ngModel)]="files[i].text"
+				[options]="files[i].editorOptions">
+			</ngx-monaco-editor>
+		</mat-card-content>
+
+		<mat-card-actions>
 			<mat-form-field
 				appearance="outline"
-				style="flex: 1; margin-bottom: -1em">
+				style="width: 100%; margin-bottom: -1.25em">
 				<mat-label>File name</mat-label>
 				<input [(ngModel)]="file.name"
 					   autocomplete="off"
@@ -50,72 +40,62 @@
 			<button
 				(click)="arraymove(files, i, i - 1)"
 				[hidden]="i === 0"
-				matTooltip="Import this file before"
-				mat-icon-button>
+				mat-button>
 				<span class="material-symbols-outlined notranslate">
 					arrow_upward
 				</span>
+				Import before
 			</button>
 
 			<button
 				(click)="arraymove(files, i, i + 1)"
 				[hidden]="i === files.length -1"
-				matTooltip="Import this file after"
-				mat-icon-button>
+				mat-button>
 				<span class="material-symbols-outlined notranslate">
 					arrow_downward
 				</span>
+				Import after
 			</button>
 
 			<button
 				(click)="files.splice(i, 1)"
-				mat-icon-button>
+				mat-button>
 				<span class="material-symbols-outlined notranslate">
-					delete
+					remove
 				</span>
+				Remove
 			</button>
-		</mat-card-header>
 
-		<mat-card-content>
-			<ngx-monaco-editor
-				*ngIf="files[i].text.length < 10000000"
-				[(ngModel)]="files[i].text"
-				[options]="files[i].editorOptions">
-			</ngx-monaco-editor>
 			<mat-progress-bar
 				[color]="file.progress < 0 ? 'warn' : 'accent'"
 				[value]="file.progress"
 				style="margin-top: 8px"
-				mode="determinate"></mat-progress-bar>
-		</mat-card-content>
+				mode="determinate">
+			</mat-progress-bar>
+		</mat-card-actions>
 	</mat-card>
 
-	<mat-divider style="width: 100%; margin: 10px 0px"></mat-divider>
+	<mat-divider style="width: 100%; margin: 30px 0px 20px;"></mat-divider>
 
-	<div fxFlexFill fxLayout="row" fxLayoutAlign="space-between center">
-		<button
-			(click)="files = []"
-			[disabled]="files.length < 1"
-			mat-button>
-			Clear All
-		</button>
-
+	<div style="display: flex; gap: 12px;">
 		<button
 			(click)="importFiles(database.value)"
-			*ngIf="!isLoading"
-			[disabled]="files.length < 1"
+			[disabled]="files.length < 1 || isLoading"
+			style="width: 200px;"
 			color="accent"
 			mat-raised-button>
 			<span class="material-symbols-outlined notranslate">
 				exit_to_app
 			</span>
-			Load Files
+			Load into
 		</button>
 
-		<mat-spinner
-			*ngIf="isLoading"
-			[diameter]="30"
-			color="accent"
-		></mat-spinner>
+		<mat-form-field style="margin-bottom: -1.25em">
+			<input #database
+				   [value]="selectedDatabase.name"
+				   autocomplete="off"
+				   matInput
+				   required>
+		</mat-form-field>
 	</div>
 </div>

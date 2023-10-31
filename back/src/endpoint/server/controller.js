@@ -98,7 +98,7 @@ class Controller {
 			req.body.includeData,
 		);
 
-		version.commandFinished(driver, "update", database);
+		version.commandFinished(driver, "update ", database);
 		setTimeout(() => {
 			unlinkSync(join(__dirname, "../../../static/", result.path));
 		}, 60 * 1000);

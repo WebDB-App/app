@@ -42,16 +42,6 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	protected readonly environment = environment;
 
-	@HostListener('window:keydown', ['$event'])
-	async onKeyDown(event: KeyboardEvent) {
-		if ((event.metaKey || event.ctrlKey) && ['z'].indexOf(event.key) >= 0) {
-			await this.router.navigate(
-				[{outlets: {right: ['version']}}],
-				{relativeTo: this.activatedRoute});
-			await this.drawer.open();
-		}
-	}
-
 	constructor(
 		public activatedRoute: ActivatedRoute,
 		public request: RequestService,

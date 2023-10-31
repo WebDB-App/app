@@ -52,7 +52,7 @@ export class VersionComponent {
 
 	async refreshData() {
 		const loop = async () => {
-			if (!this.drawer.drawer.opened) {
+			if (!this.drawer.drawer.opened || !Database.getSelected()) {
 				return;
 			}
 			this.patches = await this.request.post('version/list', undefined);

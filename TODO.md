@@ -1,5 +1,5 @@
 tester DISABLE_WATCHER
-ERD
+tls + cloud (google sql / atlas / rds / aurora) + afficher dans la landing
 
 
 
@@ -48,3 +48,4 @@ ERD
 
 # Other
 - sql function doc (generate from web scrap)
+- ERD
