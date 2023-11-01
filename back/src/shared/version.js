@@ -24,6 +24,7 @@ class Version {
 		return join(rootPath, driver.port.toString(), database);
 	}
 
+	// eslint-disable-next-line no-unused-vars
 	async resetTo(database, driver, sha1) {
 		const dir = this.getPath(database, driver);
 		if (!existsSync(dir)) {
