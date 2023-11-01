@@ -1,35 +1,102 @@
 #container {
-	padding: 80px 20px 0px;
+	padding: 20px;
 
 	.servers {
-		justify-content: center;
-		padding-bottom: 40px;
 		display: flex;
-		flex-wrap: wrap;
-		align-items: flex-start;
-		width: 100%;
-		border-top: 3px solid rgba(255, 255, 255, 0.2);
-		transition: border 250ms ease-in-out;
+		height: 230px;
 
-		.logo img {
-			border-radius: 4px;
-			padding: 2px 4px;
-			width: 100px;
-			height: 36px;
-			background: rgb(190 190 190);
-			vertical-align: middle;
+		.mat-card-header {
+			width: 20%;
+
+			.mat-card-title {
+				display: flex;
+				margin-bottom: 8px;
+				flex-direction: column;
+				height: 100%;
+				justify-content: space-around;
+
+				div span {
+					vertical-align: sub;
+				}
+			}
+		}
+
+		.mat-card-content {
+			width: 76%;
+
+			.mat-list-base {
+				height: 100%;
+				display: flex;
+				flex-direction: column;
+				flex-wrap: wrap;
+				width: 100%;
+			}
+
+			.mat-list-option {
+				width: auto;
+			}
+		}
+
+		.logo {
+			margin: 0px auto;
+
+			img {
+				border-radius: 4px;
+				padding: 2px 4px;
+				width: 100px;
+				height: 36px;
+				background: rgb(190 190 190);
+				vertical-align: middle;
+				transition: background 250ms ease-in-out;
+			}
 		}
 
 		&:hover {
-			border-top: 3px solid rgba(255, 255, 255, 1);
-		}
-
-		.mat-card {
-			min-width: 450px;
-			margin-bottom: 12px;
+			.logo img {
+				background: whitesmoke;
+			}
 		}
 	}
 }
+
+::ng-deep .mat-card-header-text {
+	margin: 0px;
+	width: 100%;
+}
+
+::ng-deep .mat-tab-body-wrapper {
+	overflow: auto;
+	height: calc(100vh - 147px);
+}
+
+::ng-deep .mat-tab-labels {
+	& > div:last-child {
+		right: 0px;
+		position: absolute;
+	}
+}
+
+.login {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	justify-content: center;
+
+	> div {
+		gap: 20px;
+		display: flex;
+
+		.mat-form-field, button {
+			width: 50%;
+		}
+	}
+}
+
+
+
+
+
+
 
 ::ng-deep .connection {
 

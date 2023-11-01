@@ -1,5 +1,13 @@
+//stocker en front les cle priv/pub par connection
+//en front -> générer nouvelle clé / paste
+//ajouter endpoit pour en generer une
+tls
+
+
+
+
 tester DISABLE_WATCHER
-tls + cloud (google sql / atlas / rds / aurora) + afficher dans la landing
+cloud (google sql / atlas / rds / aurora) + afficher dans la landing
 
 
 

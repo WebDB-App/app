@@ -27,6 +27,7 @@ export class ConnectionComponent implements OnInit {
 	servers: Server[] = [];
 	showPassword = false;
 	loading: LoadingStatus = LoadingStatus.LOADING;
+	systemDbs = false;
 	sub!: Subscription;
 
 	protected readonly Status = ServerStatus;
@@ -169,20 +170,6 @@ export class ConnectionComponent implements OnInit {
 				this.snackBar.open(result.name + " Saved", "╳", {duration: 3000});
 			}
 			await this.ngOnInit();
-		});
-	}
-
-	addServer() {
-		const dialogRef = this.dialog.open(AddConnectionDialog, {
-			data: new Server(),
-			disableClose: true
-		});
-
-		dialogRef.afterClosed().subscribe(async result => {
-			if (result) {
-				this.snackBar.open(result.name + " Added", "╳", {duration: 3000});
-				await this.ngOnInit();
-			}
 		});
 	}
 
