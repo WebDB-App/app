@@ -29,27 +29,51 @@
 		<mat-step optional>
 			<ng-template matStepLabel>SSH Tunnel</ng-template>
 			<div class="login">
-				<div>
-					<mat-form-field appearance="fill">
-						<mat-label>Host / IP</mat-label>
-						<input [(ngModel)]="server.ssh.host" autocomplete="off" matInput>
-					</mat-form-field>
-					<mat-form-field appearance="fill">
-						<mat-label>Port</mat-label>
-						<input [(ngModel)]="server.ssh.port" matInput max="47000" min="1" type="number">
-					</mat-form-field>
-					<mat-form-field appearance="outline">
-						<mat-label>User</mat-label>
-						<input [(ngModel)]="server.ssh.user" autocomplete="off" matInput>
-					</mat-form-field>
-				</div>
+				<mat-form-field appearance="fill">
+					<mat-label>Host / IP</mat-label>
+					<input [(ngModel)]="server.ssh.host" autocomplete="off" matInput>
+				</mat-form-field>
+				<mat-form-field appearance="fill">
+					<mat-label>Port</mat-label>
+					<input [(ngModel)]="server.ssh.port" matInput max="47000" min="1" type="number">
+				</mat-form-field>
+				<mat-form-field appearance="outline">
+					<mat-label>User</mat-label>
+					<input [(ngModel)]="server.ssh.user" autocomplete="off" matInput>
+				</mat-form-field>
 			</div>
 
-			<div>
+			<div style="display: flex">
+				<div style="width: 30%">
+					<mat-form-field appearance="standard" style="width: 100%">
+						<mat-label>Private Key</mat-label>
+						<textarea
+							[(ngModel)]="server.ssh.privateKey"
+							cdkTextareaAutosize
+							matInput
+							style="max-height: 10vh;">
+						</textarea>
+					</mat-form-field>
+					<div>
+						<button (click)="snackBar.open('Code copied', '╳', {duration: 3000})"
+								[cdkCopyToClipboard]="'cat ~/.ssh/id_rsa'"
+								mat-button>
+							Get id_rsa
+						</button>
 
-				cat ~/.ssh/id_rsa
+						<button (click)="snackBar.open('Code copied', '╳', {duration: 3000})"
+								[cdkCopyToClipboard]='"ssh-keygen -t rsa -N \"\" -f ~/.ssh/id_rsa"'
+								mat-button>
+							Generate key
+						</button>
+					</div>
+				</div>
 
-				<mat-form-field appearance="outline">
+				<span style="margin: 0px 30px">
+					OR
+				</span>
+
+				<mat-form-field appearance="standard" style="width: 30%">
 					<mat-label>Password</mat-label>
 					<input [(ngModel)]="server.ssh.password"
 						   autocomplete="off"
@@ -67,6 +91,7 @@
 							[disabled]="!server.ssh.host || !server.ssh.port || !server.ssh.user"
 							[ngClass]="{'mat-flat-button' : sshStatus === 'notConnected'}"
 							color="accent"
+							style="width: 200px;"
 							mat-button>
 						Test SSH
 					</button>
@@ -78,16 +103,6 @@
 						mode="indeterminate">
 					</mat-progress-spinner>
 				</div>
-
-				<button (click)="snackBar.open('Key copied', '╳', {duration: 3000})"
-						[cdkCopyToClipboard]="pubRsa"
-						color="primary"
-						mat-stroked-button>
-					<span class="material-symbols-outlined notranslate">
-						vpn_key
-					</span>
-					WebDB Public Key
-				</button>
 			</div>
 		</mat-step>
 		<mat-step>
@@ -156,6 +171,8 @@
 			</div>
 		</mat-step>
 	</mat-stepper>
+
+	<mat-divider vertical></mat-divider>
 
 	<div style="width: 15%; display: flex; flex-direction: column; justify-content: space-evenly; padding: 20px;">
 		<button

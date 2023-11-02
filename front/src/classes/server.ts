@@ -12,6 +12,7 @@ export class SSH {
 	port = 22;
 	user!: string;
 	password?: string;
+	privateKey?: string;
 }
 
 export class Server {

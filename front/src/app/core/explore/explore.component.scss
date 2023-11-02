@@ -7,13 +7,13 @@
 			width: inherit;
 		}
 	}
-}
 
-::ng-deep .mat-chip-list-wrapper {
-	max-height: 50px;
-	overflow: auto;
-}
+	::ng-deep .mat-chip-list-wrapper {
+		max-height: 50px;
+		overflow: auto;
+	}
 
-::ng-deep .mat-paginator-range-label {
-	min-width: 120px;
+	::ng-deep .mat-paginator-range-label {
+		min-width: 120px;
+	}
 }

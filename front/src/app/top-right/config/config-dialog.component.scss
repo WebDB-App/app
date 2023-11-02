@@ -11,17 +11,19 @@ table {
 	}
 }
 
-::ng-deep .mat-tab-label {
-	width: 100%;
-}
+:host {
+	::ng-deep .mat-tab-label {
+		width: 100%;
+	}
 
-::ng-deep .mat-tab-label:last-child {
-	width: 0px;
-	min-width: 0px;
-}
+	::ng-deep .mat-tab-label:last-child {
+		width: 0px;
+		min-width: 0px;
+	}
 
-::ng-deep .mat-card-header-text {
-	width: 100%;
+	::ng-deep .mat-card-header-text {
+		width: 100%;
+	}
 }
 
 h3 {

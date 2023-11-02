@@ -26,14 +26,16 @@ export class ConnectionComponent implements OnInit {
 
 	servers: Server[] = [];
 	showPassword = false;
+	systemDbs = false;
 	loading: LoadingStatus = LoadingStatus.LOADING;
 	sub!: Subscription;
+	newServer = new Server();
+	editServer?: Server;
 
 	protected readonly Status = ServerStatus;
 	protected readonly Object = Object;
 	protected readonly environment = environment;
 	protected readonly LoadingStatus = LoadingStatus;
-	protected readonly newServer = new Server();
 
 	constructor(
 		private http: HttpClient,

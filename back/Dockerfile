@@ -2,7 +2,7 @@ FROM node:alpine
 ENV NODE_ENV=production
 
 RUN apk update
-RUN apk add mysql-client bash mongodb-tools postgresql-client python3 make g++ openssh-keygen git
+RUN apk add mysql-client bash mongodb-tools postgresql-client python3 make g++ git
 
 WORKDIR /usr/src/app
 

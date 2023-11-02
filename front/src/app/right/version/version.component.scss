@@ -1,13 +1,15 @@
-::ng-deep .removeGlyph {
-	background: rgba(244, 67, 54, 0.7);
-}
+:host {
+	::ng-deep .removeGlyph {
+		background: rgba(244, 67, 54, 0.7);
+	}
 
-::ng-deep .addGlyph {
-	background: rgba(33, 150, 243, 0.7);
-}
+	::ng-deep .addGlyph {
+		background: rgba(33, 150, 243, 0.7);
+	}
 
-::ng-deep .glyph {
-	background-color: rgba(0, 0, 0, 0.3);
+	::ng-deep .glyph {
+		background-color: rgba(0, 0, 0, 0.3);
+	}
 }
 
 .mat-card {

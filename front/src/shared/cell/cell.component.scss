@@ -7,7 +7,7 @@
 	letter-spacing: 0.7px;
 }
 
-::ng-deep .ngx-json-viewer {
+:host ::ng-deep .ngx-json-viewer {
 	overflow: visible !important;
 
 	.segment {

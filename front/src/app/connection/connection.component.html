@@ -22,6 +22,13 @@
 		Rescan Connections
 	</button>
 
+	<mat-checkbox
+		[(ngModel)]="systemDbs"
+		style="font-size: 14px"
+		color="primary">
+		System DBs
+	</mat-checkbox>
+
 	<app-top-right></app-top-right>
 </mat-toolbar>
 
@@ -69,7 +76,7 @@
 
 <div id="container" *ngIf="loading === LoadingStatus.DONE">
 
-	<mat-tab-group>
+	<mat-tab-group #tabGroup>
 		<mat-tab
 			*ngFor="let status of Object.values(Status)"
 			[disabled]="getServerByStatus(status).length < 1"
@@ -84,8 +91,14 @@
 					<div class="infos">
 						<div class="logo">
 							<img src="/assets/drivers/{{server.wrapper.toLowerCase()}}.svg" />
-						</div>
 
+							<div>
+								<span class="material-symbols-outlined notranslate">
+									numbers
+								</span>
+								{{server.port}}
+							</div>
+						</div>
 						<h3 *ngIf="server.user">
 							<span class="material-symbols-outlined notranslate">
 								person
@@ -98,13 +111,6 @@
 							</span>
 							{{server.host}}
 						</h3>
-						<h3>
-							<span class="material-symbols-outlined notranslate">
-								numbers
-							</span>
-							{{server.port}}
-						</h3>
-
 						<span
 							[matTooltip]="server.ssh | json"
 							*ngIf="server.ssh && server.ssh.host"
@@ -112,16 +118,15 @@
 							class="material-symbols-outlined notranslate">
 							subway
 						</span>
-
 						<button
 							*ngIf="(server.scanned && server.stored) || !server.scanned"
-							(click)="editConnection(server)"
+							(click)="editServer = server; tabGroup.selectedIndex = 3"
 							style="justify-self: center"
 							mat-button>
 							<span class="material-symbols-outlined notranslate">
 								network_manage
 							</span>
-							Edit Connection
+							Edit
 						</button>
 					</div>
 
@@ -187,7 +192,7 @@
 							<mat-list-option
 								*ngFor="let database of server.dbs"
 								[disabled]="database.tables === undefined"
-								[hidden]="database.hide"
+								[hidden]="database.hide || (!systemDbs && database.system)"
 								[style.opacity]="database.system ? '0.5' : 1"
 								routerLink="/{{server.name}}/{{database.name}}">
 								{{database.name}}
@@ -206,7 +211,7 @@
 										class="material-symbols-outlined notranslate">
 										database
 									</span>
-									Create Database
+									Create
 								</div>
 							</mat-list-option>
 						</mat-selection-list>
@@ -220,14 +225,31 @@
 				</mat-card-content>
 			</mat-card>
 		</mat-tab>
+		<mat-tab *ngIf="editServer">
+			<ng-template mat-tab-label>
+				<span class="material-symbols-outlined notranslate">
+					edit
+				</span>
+				Edit {{editServer.name}}
+			</ng-template>
+			<mat-card>
+				<mat-card-content>
+					<app-edit-connection [server]="editServer"></app-edit-connection>
+				</mat-card-content>
+			</mat-card>
+		</mat-tab>
 		<mat-tab>
 			<ng-template mat-tab-label>
 				<span class="material-symbols-outlined notranslate">
 					wifi_add
 				</span>
-				Add Connection
+				Add
 			</ng-template>
-			<app-edit-connection [server]="newServer"></app-edit-connection>
+			<mat-card>
+				<mat-card-content>
+					<app-edit-connection [server]="newServer"></app-edit-connection>
+				</mat-card-content>
+			</mat-card>
 		</mat-tab>
 	</mat-tab-group>
 </div>

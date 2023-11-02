@@ -1,20 +1,5 @@
 const fs = require("fs");
-const bash = require("../../shared/bash.js");
-const {join} = require("path");
-const frontPath = join(__dirname, "../../../static/");
-const privateKeyPath = frontPath + "id_rsa";
-const publicKeyPath = frontPath + "id_rsa.pub";
 const { SshTunnel } = require("ssh-tunneling");
-
-async function generate() {
-	if (fs.existsSync(privateKeyPath) && fs.existsSync(publicKeyPath)) {
-		return;
-	}
-
-	bash.runBash(`ssh-keygen -C "main.webdb@gmail.com" -f ${privateKeyPath} -q -N ""`);
-}
-
-generate();
 
 class Controller {
 
@@ -40,7 +25,7 @@ class Controller {
 		if (connection.ssh.password) {
 			sshOptions["password"] = connection.ssh.password;
 		} else {
-			sshOptions["privateKey"] = fs.readFileSync(privateKeyPath, "utf8");
+			sshOptions["privateKey"] = connection.ssh.privateKey;
 		}
 		const client = new SshTunnel(sshOptions);
 		const forwardInfo = await client.forwardOut(`${connection.port + 10}:${connection.host}:${connection.port}`);

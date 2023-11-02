@@ -15,7 +15,6 @@ export class EditConnectionComponent implements OnChanges {
 
 	@Input() server!: Server;
 
-	pubRsa!: string;
 	newConnection = false;
 	connected = false;
 	sshStatus: 'notConnected' | 'loading' | 'connected' = "notConnected";

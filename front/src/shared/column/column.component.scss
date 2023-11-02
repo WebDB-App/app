@@ -43,6 +43,6 @@
 	}
 }
 
-::ng-deep .mat-tooltip-trigger:not(.bold) {
+:host ::ng-deep .mat-tooltip-trigger:not(.bold) {
 	font-size: 10px;
 }
