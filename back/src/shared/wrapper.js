@@ -35,7 +35,7 @@ class Wrapper {
 		return false;
 	}
 
-	async getDriver(connection) {
+	async getDriver(connection, test = false) {
 		// eslint-disable-next-line no-unused-vars
 		const makeHash = (port, user, password, host, params) => {
 			return JSON.stringify(arguments);
@@ -61,7 +61,7 @@ class Wrapper {
 		}
 
 		const driver = new driverClass(connection.port, connection.host, connection.user, connection.password, connection.params);
-		driver.connection = await driver.establish();
+		driver.connection = await driver.establish(false, test);
 
 		this.pool[hash] = driver;
 		return driver;

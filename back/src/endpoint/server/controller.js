@@ -126,7 +126,7 @@ class Controller {
 				};
 
 				promise.push(new Promise(async resolve => {
-					const driver = await wrapperModel.getDriver(connection);
+					const driver = await wrapperModel.getDriver(connection, true);
 					if (!driver.connection.error) {
 						resolve(connection);
 					}
@@ -156,7 +156,7 @@ class Controller {
 		}
 
 		const driver = new driverClass(req.body.port, req.body.host, req.body.user, req.body.password, req.body.params);
-		const connection = await driver.establish();
+		const connection = await driver.establish(false, true);
 
 		res.send(connection?.error ? connection : {...req.body, uri: driver.makeUri()});
 	}

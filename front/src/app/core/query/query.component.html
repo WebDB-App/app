@@ -9,7 +9,6 @@
 			color="primary"
 			mat-raised-button>
 		<span class="material-symbols-outlined notranslate">send</span>
-		Execute
 	</button>
 
 	<button
@@ -18,7 +17,6 @@
 		color="primary"
 		mat-raised-button>
 		<span class="material-symbols-outlined notranslate">difference</span>
-		Compare
 	</button>
 
 	<div>
@@ -26,11 +24,13 @@
 			matTooltip="Format query on run"
 			(click)="autoFormat = !autoFormat"
 			[class.mat-raised-button]="autoFormat"
-			mat-button>
+			mat-icon-button>
 			<span class="material-symbols-outlined notranslate">format_indent_increase</span>
 		</button>
 
-		<button [matMenuTriggerFor]="templatesMenu" mat-button matTooltip="Template">
+		<button
+			[matMenuTriggerFor]="templatesMenu"
+			mat-icon-button>
 			<span class="material-symbols-outlined notranslate">grid_guides</span>
 		</button>
 		<mat-menu #templatesMenu="matMenu" xPosition="before">
@@ -45,24 +45,34 @@
 			matTooltip="Compare Mode"
 			(click)="diff = !diff; query2 = query;"
 			[class.mat-raised-button]="diff"
-			mat-button>
+			mat-icon-button>
 			<span class="material-symbols-outlined notranslate">splitscreen_left</span>
 		</button>
 
 		<button
-			mat-button
+			mat-icon-button
 			matTooltip="Export all results"
 			(click)="exportResult()"
 			[disabled]="!dataSource || dataSource.data.length < 1">
 			<span class="material-symbols-outlined notranslate">export_notes</span>
 		</button>
 
-		<a  mat-button
+		<a  mat-icon-button
 			[matTooltip]='(selectedServer!.driver.language.id === "sql" ? "SQL" : (selectedServer!.driver.language.id | titlecase)) + " References"'
 			[href]="selectedServer!.driver.docs.language"
 			target="_blank">
 			<span class="material-symbols-outlined notranslate">developer_guide</span>
 		</a>
+
+		<button
+			(click)="setAutoUp()"
+			[class.mat-raised-button]="autoUp"
+			mat-icon-button
+			matTooltip="Reload data periodically">
+			<span class="material-symbols-outlined notranslate">
+				repeat_one
+			</span>
+		</button>
 	</div>
 
 	<div style="display: flex; align-items: center">

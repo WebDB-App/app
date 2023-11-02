@@ -14,7 +14,6 @@ import { ExportResultDialog } from "../../../shared/export-result-dialog/export-
 import { BatchUpdateDialog } from "../../../shared/batch-update-dialog/batch-update-dialog";
 import { MatPaginatorIntl } from "@angular/material/paginator";
 import { REMOVED_LABELS } from "../../../shared/helper";
-import { Database } from "../../../classes/database";
 
 @Component({
 	selector: 'app-explore',

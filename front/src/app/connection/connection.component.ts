@@ -34,6 +34,7 @@ export class ConnectionComponent implements OnInit {
 	protected readonly Object = Object;
 	protected readonly environment = environment;
 	protected readonly LoadingStatus = LoadingStatus;
+	protected readonly newServer = new Server();
 
 	constructor(
 		private http: HttpClient,
@@ -161,7 +162,7 @@ export class ConnectionComponent implements OnInit {
 	}
 
 	editConnection(server: Server) {
-		const dialogRef = this.dialog.open(AddConnectionDialog, {
+		/*const dialogRef = this.dialog.open(AddConnectionDialog, {
 			data: server,
 		});
 
@@ -170,7 +171,7 @@ export class ConnectionComponent implements OnInit {
 				this.snackBar.open(result.name + " Saved", "╳", {duration: 3000});
 			}
 			await this.ngOnInit();
-		});
+		});*/
 	}
 
 	getServerByStatus(status: string): Server[] {
@@ -183,96 +184,6 @@ export class ConnectionComponent implements OnInit {
 			}
 			return !server.connected && (!server.scanned || server.stored);
 		});
-	}
-}
-
-@Component({
-	templateUrl: 'add-connection-dialog.html',
-})
-export class AddConnectionDialog {
-
-	pubRsa!: string;
-	newConnection = false;
-	connected = false;
-	sshStatus: 'notConnected' | 'loading' | 'connected' = "notConnected";
-	showPassword = false;
-	showPasswordSSH = false;
-	driverNames = Object.keys(drivers);
-	editorOptions = {
-		language: 'json'
-	};
-	params = "{}";
-
-	constructor(
-		public snackBar: MatSnackBar,
-		public dialogRef: MatDialogRef<AddConnectionDialog>,
-		private http: HttpClient,
-		@Inject(MAT_DIALOG_DATA) public server: Server,
-	) {
-		this.http.get(environment.rootUrl + 'id_rsa.pub', {responseType: 'text'}).subscribe((res) => {
-			this.pubRsa = res;
-		});
-
-		this.server.ssh = this.server.ssh || new SSH();
-		if (!this.server.wrapper) {
-			this.newConnection = true;
-		}
-		this.params = JSON.stringify(this.server.params, null, "\t");
-	}
-
-	changeWrapper(wrapper: string) {
-		//@ts-ignore
-		this.server.driver = new drivers[wrapper];
-		this.server.wrapper = wrapper;
-		this.server.params = this.server.driver.connection.defaultParams;
-		this.params = JSON.stringify(this.server.params, null, "\t");
-	}
-
-	saveParams() {
-		this.server.params = JSON.parse(this.params);
-	}
-
-	useDefault() {
-		this.params = JSON.stringify(this.server.driver.connection.defaultParams, null, "\t");
-	}
-
-	async testServer() {
-		this.connected = false;
-		this.saveParams();
-		const data = await firstValueFrom(this.http.post<any>(environment.apiRootUrl + 'server/connect', Server.getShallow(this.server)));
-
-		if (data.error) {
-			this.snackBar.open(data.error, "╳", {duration: 3000});
-			return;
-		}
-		this.snackBar.open("Connection Valid", "╳", {duration: 3000});
-		this.connected = true;
-	}
-
-	async testSSH() {
-		this.sshStatus = 'loading';
-		this.saveParams();
-		const data = await firstValueFrom(this.http.post<any>(environment.apiRootUrl + 'tunnel/test', Server.getShallow(this.server)));
-
-		if (data.error) {
-			this.sshStatus = 'notConnected';
-			this.snackBar.open(data.error, "╳", {panelClass: 'snack-error'});
-			return;
-		}
-		this.snackBar.open("SSH Connection Valid", "╳", {duration: 3000});
-		this.sshStatus = 'connected';
-	}
-
-	forget() {
-		Server.remove(this.server!.name);
-		this.snackBar.open(this.server!.name + " Forgot", "╳", {duration: 3000});
-		this.dialogRef.close(false);
-	}
-
-	saveConnection() {
-		this.saveParams();
-		Server.remove(this.server.name);
-		this.dialogRef.close(Server.add(this.server));
 	}
 }
 

@@ -26,7 +26,7 @@
 		[(ngModel)]="systemDbs"
 		style="font-size: 14px"
 		color="primary">
-		Show system DBs
+		System DBs
 	</mat-checkbox>
 
 	<app-top-right></app-top-right>
@@ -88,7 +88,7 @@
 				[hidden]="server.hide">
 
 				<mat-card-header>
-					<mat-card-title>
+					<mat-card-title style="font-size: 16px">
 						<div class="logo">
 							<img src="/assets/drivers/{{server.wrapper.toLowerCase()}}.svg" />
 						</div>
@@ -229,8 +229,7 @@
 				</span>
 				Add Connection
 			</ng-template>
-			addServer
-			app-edit-connection
+			<app-edit-connection [server]="newServer"></app-edit-connection>
 		</mat-tab>
 	</mat-tab-group>
 </div>

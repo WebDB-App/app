@@ -34,6 +34,7 @@ export class QueryComponent implements OnInit, OnDestroy {
 	selectedDatabase?: Database;
 	selectedTable?: Table;
 
+	autoUp: boolean | NodeJS.Timer = false;
 	stringify = this.configuration.getByName('stringifyData')?.value;
 	relations?: Relation[];
 	editors: any[] = [];
@@ -203,6 +204,17 @@ export class QueryComponent implements OnInit, OnDestroy {
 		[this.originalResult.code, this.modifiedResult.code] = await Promise.all([run(this.query, this.editors[0]), run(this.query2, this.editors[1])]);
 	}
 
+	setAutoUp() {
+		if (this.autoUp && typeof this.autoUp === "number") {
+			clearInterval(this.autoUp);
+			this.autoUp = false
+		} else {
+			this.autoUp = setInterval(async () => {
+				await this.runQuery();
+			}, this.configuration.getByName('reloadData')?.value * 1000);
+		}
+	}
+
 	loadTemplate(fct: string) {
 		this.query = this.selectedServer!.driver.queryTemplates[fct](this.selectedTable!, this.relations!);
 		if (this.autoFormat) {
@@ -225,10 +237,12 @@ export class QueryComponent implements OnInit, OnDestroy {
 			page: 0
 		});
 		this.isLoading = false;
-		this.dialog.open(ExportResultDialog, {
-			data,
-			hasBackdrop: false
-		});
+		if (data.length > 0) {
+			this.dialog.open(ExportResultDialog, {
+				data,
+				hasBackdrop: false
+			});
+		}
 	}
 
 	addView() {

@@ -6,7 +6,7 @@
 		height: 230px;
 
 		.mat-card-header {
-			width: 20%;
+			width: 250px;
 
 			.mat-card-title {
 				display: flex;
@@ -22,17 +22,23 @@
 		}
 
 		.mat-card-content {
-			width: 76%;
+			flex: 1;
 
 			.mat-list-base {
+				overflow: auto;
 				height: 100%;
 				display: flex;
 				flex-direction: column;
 				flex-wrap: wrap;
 				width: 100%;
+
+				::ng-deep .mat-list-text {
+					padding-right: 40px;
+				}
 			}
 
 			.mat-list-option {
+				max-width: 420px;
 				width: auto;
 			}
 		}
@@ -81,6 +87,7 @@
 	flex-direction: column;
 	height: 100%;
 	justify-content: center;
+	padding: 0px 40px;
 
 	> div {
 		gap: 20px;
@@ -89,65 +96,5 @@
 		.mat-form-field, button {
 			width: 50%;
 		}
-	}
-}
-
-
-
-
-
-
-
-::ng-deep .connection {
-
-	.mat-form-field {
-		margin-bottom: -1.25em
-	}
-
-	.driver {
-		margin: 8px;
-		cursor: pointer;
-		align-self: center;
-
-		.logo {
-			text-align: center;
-
-			img {
-				vertical-align: middle;
-				padding: 10px 60px;
-				border-radius: 100px;
-				width: 110px;
-				height: 42px;
-				background: rgba(255, 255, 255);
-				transition: box-shadow 250ms ease-in-out;
-			}
-		}
-	}
-
-	.mat-horizontal-content-container {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-	}
-
-	.mat-horizontal-stepper-content {
-		justify-content: space-evenly;
-		display: flex;
-		flex-direction: column;
-		gap: 20px;
-		margin-bottom: 4px;
-
-		> div {
-			place-content: space-between;
-			flex-direction: row;
-			box-sizing: border-box;
-			display: flex;
-			align-items: center;
-			padding: 0px 50px;
-		}
-	}
-
-	.mat-horizontal-content-container {
-		padding: 0px;
 	}
 }

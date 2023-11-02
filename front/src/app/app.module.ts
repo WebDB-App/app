@@ -13,7 +13,7 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatMenuModule } from "@angular/material/menu";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatSidenavModule } from "@angular/material/sidenav";
-import { AddConnectionDialog, ConnectionComponent, CreateDatabaseDialog } from "./connection/connection.component";
+import { ConnectionComponent, CreateDatabaseDialog } from "./connection/connection.component";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
@@ -42,6 +42,7 @@ import { createErrorHandler } from "@sentry/angular-ivy";
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { MatCheckboxModule } from "@angular/material/checkbox";
+import { EditConnectionComponent } from './connection/edit-connection/edit-connection.component';
 
 const providers: Provider[] = [
 	{
@@ -110,10 +111,10 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 		ConfigDialog,
 		LogsDialog,
 		CreateDatabaseDialog,
-		AddConnectionDialog,
 		TablesComponent,
 		CreateTableDialog,
   		TopRightComponent,
+    	EditConnectionComponent,
 	],
     imports: [
         AppRoutingModule,

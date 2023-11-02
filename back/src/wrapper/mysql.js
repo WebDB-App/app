@@ -293,16 +293,24 @@ module.exports = class MySQL extends SQL {
 		return error;
 	}
 
-	async establish() {
+	// eslint-disable-next-line no-unused-vars
+	async establish(database = false, test = false) {
+		const params = {
+			host: this.host,
+			port: this.port,
+			user: this.user,
+			password: this.password,
+			...this.params
+		};
 		try {
-			const pool = mysql.createPool({
-				host: this.host,
-				port: this.port,
-				user: this.user,
-				password: this.password,
-				...this.params
-			});
+			if (test) {
+				const co = mysql.createConnection(params);
+				await co.promise().query("select 1");
+				co.end();
+				return params;
+			}
 
+			const pool = mysql.createPool(params);
 			const connection = await pool.promise().getConnection();
 			connection.release();
 
