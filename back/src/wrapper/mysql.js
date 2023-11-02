@@ -80,6 +80,10 @@ module.exports = class MySQL extends SQL {
 		return bash.runBash(`mysql --user='${this.user}' --port=${this.port} --password='${this.password}' --host='${this.host}' ${database} < ${filePath}`);
 	}
 
+	async process() {
+		return (await this.runCommand("SHOW PROCESSLIST")).map(process => {return {pid: process.Id, query: process.Command};});
+	}
+
 	async insert(db, table, datas) {
 		for (const [key, data] of Object.entries(datas)) {
 			for (const [index, da] of Object.entries(data)) {

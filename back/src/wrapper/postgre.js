@@ -112,6 +112,10 @@ module.exports = class PostgreSQL extends SQL {
 		return bash.runBash(`psql ${this.makeUri(database)} < ${filePath}`);
 	}
 
+	async process() {
+		return await this.runCommand("SELECT pid, query FROM pg_stat_activity");
+	}
+
 	async getComplexes() {
 		const promises = [];
 

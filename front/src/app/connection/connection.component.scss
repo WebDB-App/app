@@ -3,26 +3,52 @@
 
 	.servers {
 		display: flex;
-		height: 230px;
-
-		.mat-card-header {
-			width: 250px;
-
-			.mat-card-title {
-				display: flex;
-				margin-bottom: 8px;
-				flex-direction: column;
-				height: 100%;
-				justify-content: space-around;
-
-				div span {
-					vertical-align: sub;
-				}
-			}
-		}
+		height: 300px;
 
 		.mat-card-content {
-			flex: 1;
+
+			display: flex;
+			width: 100%;
+
+			.login {
+				width: 100%;
+				display: flex;
+				flex-direction: column;
+				height: 100%;
+				justify-content: center;
+				padding: 0px 40px;
+
+				> div {
+					gap: 20px;
+					display: flex;
+
+					.mat-form-field, button {
+						width: 50%;
+					}
+				}
+			}
+
+			.infos {
+				width: 300px;
+				display: flex;
+				flex-direction: column;
+				justify-content: space-around;
+
+				h3 {
+					margin: 0px;
+
+					span {
+						vertical-align: middle;
+					}
+				}
+			}
+
+			.activity {
+				width: 500px;
+				display: flex;
+				flex-direction: column;
+				justify-content: space-around;
+			}
 
 			.mat-list-base {
 				overflow: auto;
@@ -82,19 +108,8 @@
 	}
 }
 
-.login {
-	display: flex;
-	flex-direction: column;
-	height: 100%;
-	justify-content: center;
-	padding: 0px 40px;
-
-	> div {
-		gap: 20px;
-		display: flex;
-
-		.mat-form-field, button {
-			width: 50%;
-		}
+@media (max-width: 1200px) {
+	.activity {
+		display: none;
 	}
 }

@@ -22,13 +22,6 @@
 		Rescan Connections
 	</button>
 
-	<mat-checkbox
-		[(ngModel)]="systemDbs"
-		style="font-size: 14px"
-		color="primary">
-		System DBs
-	</mat-checkbox>
-
 	<app-top-right></app-top-right>
 </mat-toolbar>
 
@@ -87,30 +80,30 @@
 				*ngFor="let server of getServerByStatus(status)"
 				[hidden]="server.hide">
 
-				<mat-card-header>
-					<mat-card-title style="font-size: 16px">
+				<mat-card-content>
+					<div class="infos">
 						<div class="logo">
 							<img src="/assets/drivers/{{server.wrapper.toLowerCase()}}.svg" />
 						</div>
 
-						<div *ngIf="server.user">
+						<h3 *ngIf="server.user">
 							<span class="material-symbols-outlined notranslate">
 								person
 							</span>
 							{{server.user}}
-						</div>
-						<div>
+						</h3>
+						<h3>
 							<span class="material-symbols-outlined notranslate">
 								signpost
 							</span>
 							{{server.host}}
-						</div>
-						<div>
+						</h3>
+						<h3>
 							<span class="material-symbols-outlined notranslate">
 								numbers
 							</span>
 							{{server.port}}
-						</div>
+						</h3>
 
 						<span
 							[matTooltip]="server.ssh | json"
@@ -130,13 +123,11 @@
 							</span>
 							Edit Connection
 						</button>
-					</mat-card-title>
-				</mat-card-header>
+					</div>
 
-				<mat-divider vertical style="margin: -16px 20px;"></mat-divider>
+					<mat-divider vertical style="margin: -16px 20px;"></mat-divider>
 
-				<mat-card-content>
-					<ng-container *ngIf="!server.connected">
+					<div class="body" *ngIf="!server.connected">
 						<ng-container *ngIf="!server.scanned">
 							<br>
 							<mat-error>
@@ -190,13 +181,14 @@
 								</button>
 							</div>
 						</div>
-					</ng-container>
+					</div>
 					<ng-container *ngIf="server.connected">
 						<mat-selection-list [multiple]="false">
 							<mat-list-option
 								*ngFor="let database of server.dbs"
 								[disabled]="database.tables === undefined"
-								[hidden]="database.hide || (!systemDbs && database.system)"
+								[hidden]="database.hide"
+								[style.opacity]="database.system ? '0.5' : 1"
 								routerLink="/{{server.name}}/{{database.name}}">
 								{{database.name}}
 								<ng-container *ngIf="database.tables === undefined"> [Limited]</ng-container>
@@ -218,6 +210,12 @@
 								</div>
 							</mat-list-option>
 						</mat-selection-list>
+
+						<mat-divider vertical style="margin: -16px 20px;"></mat-divider>
+
+						<div class="activity">
+							<app-activity [server]="server"></app-activity>
+						</div>
 					</ng-container>
 				</mat-card-content>
 			</mat-card>

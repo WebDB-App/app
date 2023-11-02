@@ -27,7 +27,6 @@ export class ConnectionComponent implements OnInit {
 	servers: Server[] = [];
 	showPassword = false;
 	loading: LoadingStatus = LoadingStatus.LOADING;
-	systemDbs = false;
 	sub!: Subscription;
 
 	protected readonly Status = ServerStatus;

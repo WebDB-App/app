@@ -72,6 +72,11 @@ module.exports = class MongoDB extends Driver {
 		return await this.connection.db(database).dropCollection(table);
 	}
 
+	async process() {
+		const ops = await this.connection.db().admin().command({currentOp: true});
+		return ops.inprog.map(op => { return {pid: op.opid, query: op.op}; });
+	}
+
 	async insert(db, table, datas) {
 		try {
 			const res = await this.connection.db(db).collection(table).insertMany(BSON.EJSON.deserialize(datas));
