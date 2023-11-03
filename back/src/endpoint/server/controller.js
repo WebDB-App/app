@@ -106,18 +106,6 @@ class Controller {
 		res.send(result);
 	}
 
-	async process(req, res) {
-		const [driver] = await http.getLoggedDriver(req);
-		let list = [];
-		try {
-			list = await driver.process();
-		} catch (e) {
-			console.error(e);
-		}
-
-		res.send(list);
-	}
-
 	async guess(req, res) {
 		let scanned = [];
 		const driverClass = await wrapperModel.getDriverClass(req.body.wrapper);

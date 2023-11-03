@@ -80,6 +80,9 @@ dependencies:
   bson:
     specifier: latest
     version: 6.2.0
+  chart.js:
+    specifier: ^3.6.0
+    version: 3.9.1
   file-saver-es:
     specifier: latest
     version: 2.0.5
@@ -104,6 +107,9 @@ dependencies:
   mongodb:
     specifier: latest
     version: 6.2.0
+  ng2-charts:
+    specifier: 4.1.1
+    version: 4.1.1(@angular/cdk@14.2.7)(@angular/common@14.3.0)(@angular/core@14.3.0)(chart.js@3.9.1)(rxjs@7.8.1)
   ngx-highlightjs:
     specifier: ^7.0.1
     version: 7.0.1(@angular/common@14.3.0)(@angular/core@14.3.0)(rxjs@7.8.1)
@@ -3176,6 +3182,10 @@ packages:
     resolution: {integrity: sha512-yrLQ/yVUFXkzg7EDQsPieE/53+0RlaWTs+wBrvW36cyilJ2SaDWfl4Yj7MtLTXleV9uEKefbAGUPv2/iWSooRA==}
     dev: false
 
+  /chart.js@3.9.1:
+    resolution: {integrity: sha512-Ro2JbLmvg83gXF5F4sniaQ+lTbSv18E+TIf2cOeiH1Iqd2PGFOtem+DUufMZsCJwFE7ywPOpfXFBwRTGq7dh6w==}
+    dev: false
+
   /chokidar@3.5.3:
     resolution: {integrity: sha512-Dr3sfKRP6oTcjf2JmUmFJfeVMvXBdegxB0iVQ5eb2V10uFJUCAS8OByZdVAyVb8xXNz3GjjTgj9kLWsZTqE6kw==}
     engines: {node: '>= 8.10.0'}
@@ -5048,6 +5058,10 @@ packages:
       p-locate: 4.1.0
     dev: false
 
+  /lodash-es@4.17.21:
+    resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
+    dev: false
+
   /lodash.debounce@4.0.8:
     resolution: {integrity: sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==}
     dev: false
@@ -5497,6 +5511,24 @@ packages:
 
   /neo-async@2.6.2:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
+    dev: false
+
+  /ng2-charts@4.1.1(@angular/cdk@14.2.7)(@angular/common@14.3.0)(@angular/core@14.3.0)(chart.js@3.9.1)(rxjs@7.8.1):
+    resolution: {integrity: sha512-iHwXDbmX86lfeH8VRcsaW2tJATsuAZo4kvvC/Yk2l35zOHjevja1qBvO6BAibiDazi9r9aS6ZRJOqWPsz1pP2w==}
+    peerDependencies:
+      '@angular/cdk': '>=14.0.0'
+      '@angular/common': '>=14.0.0'
+      '@angular/core': '>=14.0.0'
+      chart.js: ^3.4.0 || ^4.0.0
+      rxjs: ^6.5.3 || ^7.4.0
+    dependencies:
+      '@angular/cdk': 14.2.7(@angular/common@14.3.0)(@angular/core@14.3.0)(rxjs@7.8.1)
+      '@angular/common': 14.3.0(@angular/core@14.3.0)(rxjs@7.8.1)
+      '@angular/core': 14.3.0(rxjs@7.8.1)(zone.js@0.12.0)
+      chart.js: 3.9.1
+      lodash-es: 4.17.21
+      rxjs: 7.8.1
+      tslib: 2.6.2
     dev: false
 
   /ngx-highlightjs@7.0.1(@angular/common@14.3.0)(@angular/core@14.3.0)(rxjs@7.8.1):
@@ -7311,6 +7343,30 @@ packages:
       webpack: 5.76.1(esbuild@0.15.5)
     dev: false
 
+  /terser-webpack-plugin@5.3.9(webpack@5.76.1):
+    resolution: {integrity: sha512-ZuXsqE07EcggTWQjXUj+Aot/OMcD0bMKGgF63f7UxYcu5/AJF53aIpK1YoP5xR9l6s/Hy2b+t1AM0bLNPRuhwA==}
+    engines: {node: '>= 10.13.0'}
+    peerDependencies:
+      '@swc/core': '*'
+      esbuild: '*'
+      uglify-js: '*'
+      webpack: ^5.1.0
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      esbuild:
+        optional: true
+      uglify-js:
+        optional: true
+    dependencies:
+      '@jridgewell/trace-mapping': 0.3.20
+      jest-worker: 27.5.1
+      schema-utils: 3.3.0
+      serialize-javascript: 6.0.1
+      terser: 5.22.0
+      webpack: 5.76.1
+    dev: false
+
   /terser@5.14.2:
     resolution: {integrity: sha512-oL0rGeM/WFQCUd0y2QrWxYnq7tfSuKBiqTjRPWrRgB46WD/kiwHwF8T23z78H6Q6kGCuuHcPB+KULHRdxvVGQA==}
     engines: {node: '>=10'}
@@ -7687,7 +7743,7 @@ packages:
       serve-index: 1.9.1
       sockjs: 0.3.24
       spdy: 4.0.2
-      webpack: 5.76.1(esbuild@0.15.5)
+      webpack: 5.76.1
       webpack-dev-middleware: 5.3.3(webpack@5.76.1)
       ws: 8.14.2
     transitivePeerDependencies:
@@ -7731,6 +7787,46 @@ packages:
     dependencies:
       typed-assert: 1.0.9
       webpack: 5.76.1(esbuild@0.15.5)
+    dev: false
+
+  /webpack@5.76.1:
+    resolution: {integrity: sha512-4+YIK4Abzv8172/SGqObnUjaIHjLEuUasz9EwQj/9xmPPkYJy2Mh03Q/lJfSD3YLzbxy5FeTq5Uw0323Oh6SJQ==}
+    engines: {node: '>=10.13.0'}
+    hasBin: true
+    peerDependencies:
+      webpack-cli: '*'
+    peerDependenciesMeta:
+      webpack-cli:
+        optional: true
+    dependencies:
+      '@types/eslint-scope': 3.7.6
+      '@types/estree': 0.0.51
+      '@webassemblyjs/ast': 1.11.1
+      '@webassemblyjs/wasm-edit': 1.11.1
+      '@webassemblyjs/wasm-parser': 1.11.1
+      acorn: 8.10.0
+      acorn-import-assertions: 1.9.0(acorn@8.10.0)
+      browserslist: 4.22.1
+      chrome-trace-event: 1.0.3
+      enhanced-resolve: 5.15.0
+      es-module-lexer: 0.9.3
+      eslint-scope: 5.1.1
+      events: 3.3.0
+      glob-to-regexp: 0.4.1
+      graceful-fs: 4.2.11
+      json-parse-even-better-errors: 2.3.1
+      loader-runner: 4.3.0
+      mime-types: 2.1.35
+      neo-async: 2.6.2
+      schema-utils: 3.3.0
+      tapable: 2.2.1
+      terser-webpack-plugin: 5.3.9(webpack@5.76.1)
+      watchpack: 2.4.0
+      webpack-sources: 3.2.3
+    transitivePeerDependencies:
+      - '@swc/core'
+      - esbuild
+      - uglify-js
     dev: false
 
   /webpack@5.76.1(esbuild@0.15.5):

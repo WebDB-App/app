@@ -113,7 +113,7 @@ module.exports = class PostgreSQL extends SQL {
 	}
 
 	async process() {
-		return await this.runCommand("SELECT pid, query FROM pg_stat_activity");
+		return await this.runCommand("SELECT pid, query, ROUND( EXTRACT( epoch FROM NOW() - pg_stat_activity.query_start ) * 1000 ) AS duration FROM pg_stat_activity");
 	}
 
 	async getComplexes() {

@@ -22,13 +22,6 @@
 		Rescan Connections
 	</button>
 
-	<mat-checkbox
-		[(ngModel)]="systemDbs"
-		style="font-size: 14px"
-		color="primary">
-		System DBs
-	</mat-checkbox>
-
 	<app-top-right></app-top-right>
 </mat-toolbar>
 
@@ -91,7 +84,6 @@
 					<div class="infos">
 						<div class="logo">
 							<img src="/assets/drivers/{{server.wrapper.toLowerCase()}}.svg" />
-
 							<div>
 								<span class="material-symbols-outlined notranslate">
 									numbers
@@ -114,24 +106,74 @@
 						<span
 							[matTooltip]="server.ssh | json"
 							*ngIf="server.ssh && server.ssh.host"
-							style="margin-right: 10px"
 							class="material-symbols-outlined notranslate">
 							subway
 						</span>
-						<button
-							*ngIf="(server.scanned && server.stored) || !server.scanned"
-							(click)="editServer = server; tabGroup.selectedIndex = 3"
-							style="justify-self: center"
-							mat-button>
-							<span class="material-symbols-outlined notranslate">
-								network_manage
-							</span>
-							Edit
-						</button>
 					</div>
 
 					<mat-divider vertical style="margin: -16px 20px;"></mat-divider>
 
+					<ng-container *ngIf="server.connected">
+						<mat-selection-list [multiple]="false">
+							<mat-list-option
+								*ngFor="let database of server.dbs"
+								[disabled]="database.tables === undefined"
+								[hidden]="database.hide"
+								[style.opacity]="database.system ? '0.5' : 1"
+								routerLink="/{{server.name}}/{{database.name}}">
+								{{database.name}}
+								<ng-container *ngIf="database.tables === undefined"> [Limited]</ng-container>
+								<span matTooltip="Tables"
+									  matTooltipPosition="right"
+									  style="position: absolute; right: 20px">
+									{{database.tables?.length}}
+								</span>
+							</mat-list-option>
+							<mat-list-option>
+								<div style="text-align: center;"
+									(click)="addDatabase(server)">
+									<span
+										style="vertical-align: middle"
+										class="material-symbols-outlined notranslate">
+										database
+									</span>
+									Create
+								</div>
+							</mat-list-option>
+						</mat-selection-list>
+
+						<mat-divider vertical style="margin: -16px 20px;"></mat-divider>
+
+						<div style="display: flex; flex-direction: column; width: 145px; justify-content: space-evenly;">
+							<button
+								(click)="editServer = server; tabGroup.selectedIndex = 3"
+								style="justify-self: center"
+								mat-button>
+								<span class="material-symbols-outlined notranslate">
+									network_manage
+								</span>
+								Edit
+							</button>
+							<button
+								(click)="processServer(server)"
+								style="justify-self: center"
+								mat-button>
+								<span class="material-symbols-outlined notranslate">
+									process_chart
+								</span>
+								Process
+							</button>
+							<button
+								(click)="statsServer(server)"
+								style="justify-self: center"
+								mat-button>
+								<span class="material-symbols-outlined notranslate">
+									monitoring
+								</span>
+								Stats
+							</button>
+						</div>
+					</ng-container>
 					<div class="body" *ngIf="!server.connected">
 						<ng-container *ngIf="!server.scanned">
 							<br>
@@ -142,8 +184,8 @@
 							</mat-error>
 						</ng-container>
 						<div class="login"
-							*ngIf="server.scanned"
-							(keyup.enter)="loginBtn._elementRef.nativeElement.click()">
+							 *ngIf="server.scanned"
+							 (keyup.enter)="loginBtn._elementRef.nativeElement.click()">
 							<div>
 								<mat-form-field appearance="outline">
 									<mat-label>User</mat-label>
@@ -187,41 +229,6 @@
 							</div>
 						</div>
 					</div>
-					<ng-container *ngIf="server.connected">
-						<mat-selection-list [multiple]="false">
-							<mat-list-option
-								*ngFor="let database of server.dbs"
-								[disabled]="database.tables === undefined"
-								[hidden]="database.hide || (!systemDbs && database.system)"
-								[style.opacity]="database.system ? '0.5' : 1"
-								routerLink="/{{server.name}}/{{database.name}}">
-								{{database.name}}
-								<ng-container *ngIf="database.tables === undefined"> [Limited]</ng-container>
-								<span matTooltip="Tables"
-									  matTooltipPosition="right"
-									  style="position: absolute; right: 20px">
-									{{database.tables?.length}}
-								</span>
-							</mat-list-option>
-							<mat-list-option>
-								<div style="text-align: center;"
-									(click)="addDatabase(server)">
-									<span
-										style="vertical-align: middle"
-										class="material-symbols-outlined notranslate">
-										database
-									</span>
-									Create
-								</div>
-							</mat-list-option>
-						</mat-selection-list>
-
-						<mat-divider vertical style="margin: -16px 20px;"></mat-divider>
-
-						<div class="activity">
-							<app-activity [server]="server"></app-activity>
-						</div>
-					</ng-container>
 				</mat-card-content>
 			</mat-card>
 		</mat-tab>

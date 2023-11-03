@@ -81,7 +81,7 @@ module.exports = class MySQL extends SQL {
 	}
 
 	async process() {
-		return (await this.runCommand("SHOW PROCESSLIST")).map(process => {return {pid: process.Id, query: process.Command};});
+		return (await this.runCommand("SHOW PROCESSLIST")).map(process => {return {pid: process.Id, query: process.Command, duration: process.Time};});
 	}
 
 	async insert(db, table, datas) {

@@ -1,28 +1,39 @@
-<button
-	(click)="installPWA()"
-	*ngIf="router.url === '/'"
-	[hidden]="!shouldInstall()"
-	mat-button>
-	<span class="material-symbols-outlined notranslate">
-		install_desktop
-	</span>
-</button>
-
-<button
-	mat-button
-	(click)="showLogs()">
+<button [matMenuTriggerFor]="activity" mat-button>
 	<span class="material-symbols-outlined notranslate">
 		browse_activity
 	</span>
 </button>
+<mat-menu #activity="matMenu">
+	<a (click)="showProcess()"
+	   *ngIf="Server.getSelected()"
+	   mat-menu-item
+	   target="_blank">
+		<span class="material-symbols-outlined notranslate">
+			process_chart
+		</span>
+		Process List
+	</a>
+	<a (click)="showProcess()"
+	   *ngIf="Server.getSelected()"
+	   mat-menu-item
+	   target="_blank">
+		<span class="material-symbols-outlined notranslate">
+			monitoring
+		</span>
+		Monitor
+	</a>
+	<a (click)="showLogs()"
+	   mat-menu-item
+	   target="_blank">
+		<span class="material-symbols-outlined notranslate">
+			receipt_long
+		</span>
+		Logs
+	</a>
+</mat-menu>
 <button [matMenuTriggerFor]="help" mat-button>
 	<span class="material-symbols-outlined notranslate">
 		help
-	</span>
-</button>
-<button (click)="showSettings()" mat-button>
-	<span class="material-symbols-outlined notranslate">
-		settings
 	</span>
 </button>
 <mat-menu #help="matMenu">
@@ -68,3 +79,8 @@
 		Limitation
 	</a>
 </mat-menu>
+<button (click)="showSettings()" mat-button>
+	<span class="material-symbols-outlined notranslate">
+		settings
+	</span>
+</button>

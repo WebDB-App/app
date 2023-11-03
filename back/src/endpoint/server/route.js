@@ -11,6 +11,5 @@ router.post("/load", upload.single("file"), serverCtrl.load);
 router.post("/dump", serverCtrl.dump);
 router.post("/connect", serverCtrl.connect);
 router.post("/structure", serverCtrl.getStructure.bind(serverCtrl));
-router.post("/process", serverCtrl.process);
 
 module.exports = router;

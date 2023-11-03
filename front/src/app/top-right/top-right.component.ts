@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnDestroy, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { MatDialog } from "@angular/material/dialog";
 import { HttpClient } from "@angular/common/http";
 import { DomSanitizer } from "@angular/platform-browser";
@@ -8,6 +8,8 @@ import { ConfigDialog } from "./config/config-dialog.component";
 import { isSQL } from "../../shared/helper";
 import { firstValueFrom } from "rxjs";
 import { Router } from "@angular/router";
+import { Server } from "../../classes/server";
+import { ProcessDialogComponent } from "../process/process-dialog.component";
 
 @Component({
 	selector: 'app-top-right',
@@ -16,14 +18,9 @@ import { Router } from "@angular/router";
 })
 export class TopRightComponent {
 
-	@HostListener('window:beforeinstallprompt', ['$event'])
-	onbeforeinstallprompt(e: any) {
-		e.preventDefault();
-		this.promptEvent = e;
-	}
-
-	public promptEvent: any;
 	protected readonly isSQL = isSQL;
+	protected readonly environment = environment;
+	protected readonly Server = Server;
 
 	constructor(
 		private dialog: MatDialog,
@@ -41,19 +38,12 @@ export class TopRightComponent {
 		});
 	}
 
-	public installPWA() {
-		this.promptEvent.prompt();
+	showProcess() {
+		this.dialog.open(ProcessDialogComponent, {
+			id: "logs",
+			hasBackdrop: false
+		});
 	}
-
-	public shouldInstall(): boolean {
-		return !this.isRunningStandalone() && this.promptEvent;
-	}
-
-	public isRunningStandalone(): boolean {
-		return (window.matchMedia('(display-mode: standalone)').matches);
-	}
-
-	protected readonly environment = environment;
 }
 
 @Component({

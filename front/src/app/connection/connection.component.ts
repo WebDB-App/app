@@ -10,6 +10,8 @@ import * as drivers from '../../drivers/index';
 import { DomSanitizer, Title } from "@angular/platform-browser";
 import { MatIconRegistry } from "@angular/material/icon";
 import helper from "../../shared/common-helper.js";
+import { ProcessDialogComponent } from "../process/process-dialog.component";
+import { StatsDialogComponent } from "../stats/stats-dialog.component";
 
 enum ServerStatus {
 	Connected = 'Connected',
@@ -26,7 +28,6 @@ export class ConnectionComponent implements OnInit {
 
 	servers: Server[] = [];
 	showPassword = false;
-	systemDbs = false;
 	loading: LoadingStatus = LoadingStatus.LOADING;
 	sub!: Subscription;
 	newServer = new Server();
@@ -162,17 +163,20 @@ export class ConnectionComponent implements OnInit {
 		});
 	}
 
-	editConnection(server: Server) {
-		/*const dialogRef = this.dialog.open(AddConnectionDialog, {
+	processServer(server: Server) {
+		this.dialog.open(ProcessDialogComponent, {
+			hasBackdrop: false,
+			id: server.name,
 			data: server,
 		});
+	}
 
-		dialogRef.afterClosed().subscribe(async (result: Server) => {
-			if (result) {
-				this.snackBar.open(result.name + " Saved", "╳", {duration: 3000});
-			}
-			await this.ngOnInit();
-		});*/
+	statsServer(server: Server) {
+		this.dialog.open(StatsDialogComponent, {
+			hasBackdrop: false,
+			id: server.name,
+			data: server,
+		});
 	}
 
 	getServerByStatus(status: string): Server[] {

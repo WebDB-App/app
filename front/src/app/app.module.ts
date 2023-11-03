@@ -44,7 +44,9 @@ import { environment } from '../environments/environment';
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { EditConnectionComponent } from './connection/edit-connection/edit-connection.component';
 import { MatTableModule } from "@angular/material/table";
-import { ActivityComponent } from './connection/activity/activity.component';
+import { NgChartsModule } from 'ng2-charts';
+import { StatsDialogComponent } from "./stats/stats-dialog.component";
+import { ProcessDialogComponent } from "./process/process-dialog.component";
 
 const providers: Provider[] = [
 	{
@@ -117,7 +119,8 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 		CreateTableDialog,
   		TopRightComponent,
     	EditConnectionComponent,
-     ActivityComponent,
+     	StatsDialogComponent,
+		ProcessDialogComponent
 	],
 	imports: [
 		AppRoutingModule,
@@ -159,7 +162,8 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 			registrationStrategy: 'registerWhenStable:30000'
 		}),
 		MatCheckboxModule,
-		MatTableModule
+		MatTableModule,
+  		NgChartsModule
 	],
 	providers,
 	bootstrap: [AppComponent]

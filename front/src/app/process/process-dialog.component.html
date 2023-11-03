@@ -1,0 +1,38 @@
+<div cdkDrag cdkDragHandle
+	 cdkDragRootElement=".cdk-overlay-pane"
+	 mat-dialog-title>
+	<h4>
+		Process of {{server.name}}
+	</h4>
+
+	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
+		<mat-icon>close</mat-icon>
+	</button>
+</div>
+<div mat-dialog-content>
+	<table mat-table [dataSource]="processList">
+		<ng-container matColumnDef="pid">
+			<th mat-header-cell *matHeaderCellDef> PID </th>
+			<td mat-cell *matCellDef="let element"> {{element.pid}} </td>
+		</ng-container>
+
+		<ng-container matColumnDef="duration">
+			<th mat-header-cell *matHeaderCellDef> Duration (sec) </th>
+			<td mat-cell *matCellDef="let element"> {{element.duration / 1000}} </td>
+		</ng-container>
+
+		<ng-container matColumnDef="query">
+			<th mat-header-cell *matHeaderCellDef> Query </th>
+			<td mat-cell *matCellDef="let element"> {{element.query}} </td>
+		</ng-container>
+
+		<ng-container matColumnDef="kill">
+			<th mat-header-cell *matHeaderCellDef> Kill </th>
+			<td mat-cell *matCellDef="let element"> X </td>
+		</ng-container>
+
+		<tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+		<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+	</table>
+</div>
+
