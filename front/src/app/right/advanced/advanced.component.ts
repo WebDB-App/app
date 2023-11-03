@@ -50,7 +50,7 @@ export class AdvancedComponent {
 		this.str = JSON.stringify(rest, null, 4);
 
 		this.collations = await this.request.post('database/availableCollations', undefined);
-		this.stats = await this.request.post('database/stats', undefined);
+		this.stats = await this.request.post('stats/dbSize', undefined);
 		if (!this.collations.includes(this.selectedDatabase!.collation)) {
 			this.collations.push(this.selectedDatabase!.collation)
 		}

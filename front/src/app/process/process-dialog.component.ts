@@ -21,13 +21,22 @@ export class ProcessDialogComponent implements OnInit, OnDestroy {
 	) { }
 
 	async ngOnInit() {
-		this.processList = await this.request.post('process/list', {}, undefined, undefined, this.server);
+		await this.refreshData();
 		this.interval = setInterval(async () => {
-			this.processList = await this.request.post('process/list', {}, undefined, undefined, this.server);
+			await this.refreshData();
 		}, 2000);
+	}
+
+	async refreshData() {
+		this.processList = await this.request.post('process/list', {}, undefined, undefined, this.server);
 	}
 
 	ngOnDestroy() {
 		clearInterval(this.interval);
+	}
+
+	async kill(pid: string) {
+		await this.request.post('process/kill', {pid}, undefined, undefined, this.server);
+		await this.refreshData();
 	}
 }

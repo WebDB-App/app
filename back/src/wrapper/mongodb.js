@@ -74,7 +74,27 @@ module.exports = class MongoDB extends Driver {
 
 	async process() {
 		const ops = await this.connection.db().admin().command({currentOp: true});
-		return ops.inprog.map(op => { return {pid: op.opid, query: op.op, duration: op.microsecs_running}; });
+		return ops.inprog.map(op => { return {pid: op.opid, query: op.op, duration: Math.floor(op.microsecs_running / 1000)}; });
+	}
+
+	async kill(pid) {
+		await this.connection.db().admin().command({killOp: pid});
+	}
+
+	async serverStats() {
+		const stats = await this.connection.db().admin().command({serverStatus: 1});
+		return [
+			{Variable_name: "connActive", "Value": stats.connections.active},
+			{Variable_name: "connCurrent", "Value": stats.connections.current},
+			{Variable_name: "connRejected", "Value": stats.connections.rejected},
+			{Variable_name: "connTotalCreated", "Value": stats.connections.totalCreated},
+			{Variable_name: "bytesIn", "Value": stats.network.bytesIn},
+			{Variable_name: "bytesOut", "Value": stats.network.bytesOut},
+			{Variable_name: "opCommand", "Value": stats.opcounters.command},
+			{Variable_name: "opDelete", "Value": stats.opcounters.delete},
+			{Variable_name: "opInsert", "Value": stats.opcounters.insert},
+			{Variable_name: "opQuery", "Value": stats.opcounters.query}
+		];
 	}
 
 	async insert(db, table, datas) {

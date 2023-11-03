@@ -116,6 +116,14 @@ module.exports = class PostgreSQL extends SQL {
 		return await this.runCommand("SELECT pid, query, ROUND( EXTRACT( epoch FROM NOW() - pg_stat_activity.query_start ) * 1000 ) AS duration FROM pg_stat_activity");
 	}
 
+	async kill(pid) {
+		await this.runCommand(`SELECT pg_terminate_backend(${pid});`);
+	}
+
+	async serverStats() {
+		return {error: "Statistics unavailable for PostgreSQL"};
+	}
+
 	async getComplexes() {
 		const promises = [];
 

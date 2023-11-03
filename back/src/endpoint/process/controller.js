@@ -18,7 +18,7 @@ class Controller {
 		const [driver] = await http.getLoggedDriver(req);
 		let list = [];
 		try {
-			list = await driver.process();
+			list = await driver.kill(req.body.pid);
 		} catch (e) {
 			console.error(e);
 		}

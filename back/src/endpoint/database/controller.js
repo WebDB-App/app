@@ -19,17 +19,6 @@ class Controller {
 		res.send(await driver.dropDatabase(database));
 	}
 
-	async stats(req, res) {
-		const [driver, database] = await http.getLoggedDriver(req);
-
-		try {
-			res.send(await driver.statsDatabase(database));
-		} catch (e) {
-			console.error(e);
-			res.send({});
-		}
-	}
-
 	async sample(req, res) {
 		const [wrapper, database] = await http.getLoggedDriver(req);
 

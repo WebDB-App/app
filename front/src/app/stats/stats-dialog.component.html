@@ -1,6 +1,22 @@
-<canvas baseChart height="400px"
+<div cdkDrag cdkDragHandle
+	 cdkDragRootElement=".cdk-overlay-pane"
+	 mat-dialog-title>
+	<h4>
+		Stats of {{server.name}}
+	</h4>
+
+	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
+		<mat-icon>close</mat-icon>
+	</button>
+</div>
+<div mat-dialog-content>
+	<canvas
+		*ngIf="datasets.length > 0"
+		baseChart height="400px" width="700px"
 		[type]="'line'"
-		[data]="lineChartData"
-		[options]="lineChartOptions"
-		[legend]="lineChartLegend">
-</canvas>
+		[datasets]="datasets"
+		[labels]="labels"
+		[options]="lineChartOptions">
+	</canvas>
+</div>
+

@@ -10,6 +10,7 @@ import { firstValueFrom } from "rxjs";
 import { Router } from "@angular/router";
 import { Server } from "../../classes/server";
 import { ProcessDialogComponent } from "../process/process-dialog.component";
+import { StatsDialogComponent } from "../stats/stats-dialog.component";
 
 @Component({
 	selector: 'app-top-right',
@@ -40,8 +41,17 @@ export class TopRightComponent {
 
 	showProcess() {
 		this.dialog.open(ProcessDialogComponent, {
-			id: "logs",
-			hasBackdrop: false
+			hasBackdrop: false,
+			id: Server.getSelected().name,
+			data: {...Server.getSelected()},
+		});
+	}
+
+	showStats() {
+		this.dialog.open(StatsDialogComponent, {
+			hasBackdrop: false,
+			id: Server.getSelected().name,
+			data: {...Server.getSelected()},
 		});
 	}
 }

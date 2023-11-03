@@ -1,8 +1,9 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Server } from "../../classes/server";
-import { MatTableDataSource } from "@angular/material/table";
 import { RequestService } from "../../shared/request.service";
-import { ChartConfiguration, ChartOptions } from "chart.js";
+import { ChartOptions } from "chart.js";
+import { MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { BaseChartDirective } from "ng2-charts";
 
 @Component({
   selector: 'app-activity',
@@ -11,44 +12,54 @@ import { ChartConfiguration, ChartOptions } from "chart.js";
 })
 export class StatsDialogComponent implements OnInit, OnDestroy {
 
-	processList = new MatTableDataSource();
-	interval!: NodeJS.Timer;
-	public lineChartData: ChartConfiguration<'line'>['data'] = {
-		labels: [
-			'January',
-			'February',
-			'March',
-			'April',
-			'May',
-			'June',
-			'July'
-		],
-		datasets: [
-			{
-				data: [ 65, 59, 80, 81, 56, 55, 40 ],
-				label: 'Series A',
-				fill: true,
-				tension: 0.5,
-				borderColor: 'grey',
-				backgroundColor: 'rgba(255,0,0,0.3)'
-			}
-		]
-	};
-	public lineChartOptions: ChartOptions<'line'> = {
-		responsive: false
-	};
-	public lineChartLegend = true;
+	@ViewChild(BaseChartDirective) public chart?: BaseChartDirective;
 
-	@Input() server!: Server;
+	interval!: NodeJS.Timer;
+	public labels: string[] = [];
+	public datasets: any[] = [];
+	public lineChartOptions: ChartOptions<'line'> = {
+		responsive: false,
+		plugins: {
+			legend: {
+				display: true,
+				labels: {
+					color: 'white'
+				}
+			},
+		},
+
+	};
 
 	constructor(
-		private request: RequestService
+		private request: RequestService,
+		@Inject(MAT_DIALOG_DATA) public server: Server,
 	) { }
 
-	ngOnInit(): void {
+	async ngOnInit() {
+		await this.refreshData();
 		this.interval = setInterval(async () => {
-			this.processList = await this.request.post('server/process', {}, undefined, undefined, this.server);
+			await this.refreshData();
 		}, 2000);
+	}
+
+	async refreshData() {
+		const stats = await this.request.post('stats/server', {}, undefined, undefined, this.server);
+		for (const stat of stats) {
+			const index = this.datasets.findIndex(dataset => dataset.label === stat.Variable_name);
+			if (index >= 0) {
+				this.datasets[index].data.push(stat.Value);
+			} else {
+				this.datasets.push({
+					data: [ +stat.Value ],
+					label: stat.Variable_name,
+					fill: false,
+					tension: 0.2,
+					backgroundColor: 'transparent'
+				});
+			}
+		}
+		this.labels.push('');
+		this.chart?.update();
 	}
 
 	ngOnDestroy() {

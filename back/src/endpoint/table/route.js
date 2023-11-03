@@ -9,7 +9,6 @@ router.post("/rename", tableCtrl.rename);
 router.post("/truncate", tableCtrl.truncate);
 router.post("/create", tableCtrl.create);
 router.post("/createView", tableCtrl.createView);
-router.post("/stats", tableCtrl.stats);
 router.post("/duplicate", tableCtrl.duplicate);
 
 module.exports = router;

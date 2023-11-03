@@ -28,7 +28,15 @@
 
 		<ng-container matColumnDef="kill">
 			<th mat-header-cell *matHeaderCellDef> Kill </th>
-			<td mat-cell *matCellDef="let element"> X </td>
+			<td mat-cell *matCellDef="let element">
+				<button
+					(click)="kill(element.pid)"
+					color="warn" mat-icon-button>
+					<span class="material-symbols-outlined notranslate">
+						delete
+					</span>
+				</button>
+			</td>
 		</ng-container>
 
 		<tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>

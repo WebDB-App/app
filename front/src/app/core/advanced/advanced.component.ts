@@ -53,9 +53,9 @@ export class TableAdvancedComponent implements OnDestroy {
 	}
 
 	async ngOnInit() {
-		this.stats = await this.request.post('table/stats', undefined);
+		this.stats = await this.request.post('stats/tableSize', undefined);
 		this.interval = setInterval(async () => {
-			this.stats = await this.request.post('table/stats', undefined);
+			this.stats = await this.request.post('stats/tableSize', undefined);
 		}, 2000);
 	}
 

@@ -84,6 +84,10 @@ module.exports = class MySQL extends SQL {
 		return (await this.runCommand("SHOW PROCESSLIST")).map(process => {return {pid: process.Id, query: process.Command, duration: process.Time};});
 	}
 
+	async kill(pid) {
+		await this.runCommand(`KILL ${pid}`);
+	}
+
 	async insert(db, table, datas) {
 		for (const [key, data] of Object.entries(datas)) {
 			for (const [index, da] of Object.entries(data)) {
@@ -115,6 +119,10 @@ module.exports = class MySQL extends SQL {
 
 	async statsTable(database, table) {
 		return (await this.runCommand(`SELECT SUM(data_length) AS "data_length", SUM(index_length) AS "index_length" FROM information_schema.TABLES WHERE table_schema = "${database}" AND table_name = "${table}"`))[0];
+	}
+
+	async serverStats() {
+		return await this.runCommand("SHOW STATUS WHERE Variable_name IN ('Aborted_clients', 'Aborted_connects', 'Bytes_received', 'Bytes_sent', 'Connections', 'Created_tmp_files', 'Created_tmp_tables', 'Questions')");
 	}
 
 	async getAvailableCollations() {

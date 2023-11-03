@@ -11,16 +11,16 @@
 		<span class="material-symbols-outlined notranslate">
 			process_chart
 		</span>
-		Process List
+		Process
 	</a>
-	<a (click)="showProcess()"
+	<a (click)="showStats()"
 	   *ngIf="Server.getSelected()"
 	   mat-menu-item
 	   target="_blank">
 		<span class="material-symbols-outlined notranslate">
 			monitoring
 		</span>
-		Monitor
+		Stats
 	</a>
 	<a (click)="showLogs()"
 	   mat-menu-item

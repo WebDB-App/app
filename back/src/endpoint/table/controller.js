@@ -14,16 +14,6 @@ class Controller {
 		res.send(await driver.createView(database, req.body.name, req.body.code, table));
 	}
 
-	async stats(req, res) {
-		const [driver, database, table] = await http.getLoggedDriver(req);
-
-		try {
-			res.send(await driver.statsTable(database, table));
-		} catch (e) {
-			res.send({});
-		}
-	}
-
 	async drop(req, res) {
 		const [driver, database, table] = await http.getLoggedDriver(req);
 
