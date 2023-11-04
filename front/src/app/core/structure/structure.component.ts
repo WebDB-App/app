@@ -31,6 +31,7 @@ export class StructureComponent implements OnInit, AfterViewChecked {
 
 	indexColumns: string[] = [];
 	indexSource!: MatTableDataSource<Index>;
+	protected readonly isSQL = isSQL;
 
 	constructor(
 		private request: RequestService,
@@ -178,8 +179,6 @@ export class StructureComponent implements OnInit, AfterViewChecked {
 	applyFilter(filterValue: string) {
 		this.structureSource.filter = filterValue.trim().toLowerCase();
 	}
-
-	protected readonly isSQL = isSQL;
 }
 
 @Component({
@@ -312,7 +311,8 @@ export class UpdateColumnDialog {
 			await this.request.post('column/modify', this.form.getRawValue());
 			this.snackBar.open(`Columns Altered`, "╳", {duration: 3000});
 			await this.request.reloadServer();
-		} catch (e) {}
+		} catch (e) {
+		}
 
 		this.isLoading = false;
 	}

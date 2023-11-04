@@ -5,9 +5,9 @@ import { RequestService } from "../../shared/request.service";
 import { MAT_DIALOG_DATA } from "@angular/material/dialog";
 
 @Component({
-  selector: 'app-activity',
-  templateUrl: './process-dialog.component.html',
-  styleUrls: ['./process-dialog.component.scss']
+	selector: 'app-activity',
+	templateUrl: './process-dialog.component.html',
+	styleUrls: ['./process-dialog.component.scss']
 })
 export class ProcessDialogComponent implements OnInit, OnDestroy {
 
@@ -18,7 +18,8 @@ export class ProcessDialogComponent implements OnInit, OnDestroy {
 	constructor(
 		private request: RequestService,
 		@Inject(MAT_DIALOG_DATA) public server: Server,
-	) { }
+	) {
+	}
 
 	async ngOnInit() {
 		await this.refreshData();

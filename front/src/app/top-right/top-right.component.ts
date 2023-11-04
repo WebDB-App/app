@@ -26,7 +26,8 @@ export class TopRightComponent {
 	constructor(
 		private dialog: MatDialog,
 		public router: Router
-	) {	}
+	) {
+	}
 
 	showSettings() {
 		this.dialog.open(ConfigDialog);
@@ -61,13 +62,12 @@ export class TopRightComponent {
 })
 export class LogsDialog implements OnDestroy {
 
-	@ViewChild('scrollContainer') private scrollContainer!: ElementRef;
-
 	str: any = "";
 	strFiltered: any = "";
 	filter = "";
 	interval?: NodeJS.Timer;
 	file: 'finished.log' | 'error.log' = "finished.log";
+	@ViewChild('scrollContainer') private scrollContainer!: ElementRef;
 
 	constructor(
 		private http: HttpClient,
@@ -108,7 +108,7 @@ export class LogsDialog implements OnDestroy {
 
 	filterChanged() {
 		const convert = new Convert({colors: {4: '#2196f3'}});
-		let str= convert.toHtml(this.str).split('\n');
+		let str = convert.toHtml(this.str).split('\n');
 
 		if (this.filter) {
 			str = str.filter((s: string) => s.toLowerCase().indexOf(this.filter.toLowerCase()) >= 0);

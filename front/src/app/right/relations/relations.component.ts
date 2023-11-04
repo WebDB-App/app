@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Server } from "../../../classes/server";
 import { Database } from "../../../classes/database";
 import { MatTableDataSource } from "@angular/material/table";
@@ -37,6 +37,7 @@ export class RelationsComponent {
 			await this.refreshData();
 		});
 	}
+
 	async refreshData() {
 		this.selectedDatabase = Database.getSelected();
 		this.selectedServer = Server.getSelected();

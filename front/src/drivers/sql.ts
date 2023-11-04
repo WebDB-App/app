@@ -208,6 +208,37 @@ export class SQL implements Driver {
 		arrayType: true,
 		fctAsDefault: []
 	}
+	queryTemplates = {
+		"select": (table: Table) => {
+			const cols = this.getColForSelect(table.columns).join(', ');
+			const where = this.getColForWhere(table.columns).join(" AND ");
+			return `SELECT ${cols} FROM ${this.wrapStructure(table.name)} WHERE ${where}`;
+		},
+		"delete": (table: Table) => {
+			const cols = table.columns.map(column => `${this.wrapStructure(column.name)} = '${column.type}'`);
+			return `DELETE FROM ${this.wrapStructure(table.name)} WHERE ${cols.join(" AND ")}`;
+		},
+		"insert": (table: Table) => {
+			const cols = this.getColForSelect(table.columns).join(', ');
+			const values = this.getColForWhere(table.columns).join(', ');
+			return `INSERT INTO ${this.wrapStructure(table.name)} (${cols}) VALUES (${values})`;
+		},
+		"update": (table: Table) => {
+			const cols = this.getColForSelect(table.columns).map(col => `${col} = ''`);
+			const where = this.getColForWhere(table.columns).join(" AND ");
+			return `UPDATE ${this.wrapStructure(table.name)} SET ${cols} WHERE ${where}`;
+		},
+		"select join group": (table: Table, relations: Relation[]) => {
+			const columns = table.columns.map(column => `${table.name}.${column.name}`).join(', ');
+
+			const joins: string[] = [];
+			for (const relation of relations) {
+				joins.push(`JOIN ${relation.table_dest} ON ${relation.table_dest}.${relation.column_dest} = ${relation.table_source}.${relation.column_source}`)
+			}
+
+			return `SELECT ${columns} FROM ${table.name} ${joins.join("\n")} GROUP BY ${columns} HAVING 1 = 1`;
+		},
+	};
 
 	nodeLib = (query: QueryParams) => "";
 
@@ -550,36 +581,4 @@ export class SQL implements Driver {
 	getColForWhere(columns: Column[]) {
 		return columns.map(column => `${this.wrapStructure(column.name)} = '${column.type.replaceAll("'", '"')}'`);
 	}
-
-	queryTemplates = {
-		"select": (table: Table) => {
-			const cols = this.getColForSelect(table.columns).join(', ');
-			const where = this.getColForWhere(table.columns).join(" AND ");
-			return `SELECT ${cols} FROM ${this.wrapStructure(table.name)} WHERE ${where}`;
-		},
-		"delete": (table: Table) => {
-			const cols = table.columns.map(column => `${this.wrapStructure(column.name)} = '${column.type}'`);
-			return `DELETE FROM ${this.wrapStructure(table.name)} WHERE ${cols.join(" AND ")}`;
-		},
-		"insert": (table: Table) => {
-			const cols = this.getColForSelect(table.columns).join(', ');
-			const values = this.getColForWhere(table.columns).join(', ');
-			return `INSERT INTO ${this.wrapStructure(table.name)} (${cols}) VALUES (${values})`;
-		},
-		"update": (table: Table) => {
-			const cols = this.getColForSelect(table.columns).map(col => `${col} = ''`);
-			const where = this.getColForWhere(table.columns).join(" AND ");
-			return `UPDATE ${this.wrapStructure(table.name)} SET ${cols} WHERE ${where}`;
-		},
-		"select join group": (table: Table, relations: Relation[]) => {
-			const columns = table.columns.map(column => `${table.name}.${column.name}`).join(', ');
-
-			const joins: string[] = [];
-			for (const relation of relations) {
-				joins.push(`JOIN ${relation.table_dest} ON ${relation.table_dest}.${relation.column_dest} = ${relation.table_source}.${relation.column_source}`)
-			}
-
-			return `SELECT ${columns} FROM ${table.name} ${joins.join("\n")} GROUP BY ${columns} HAVING 1 = 1`;
-		},
-	};
 }

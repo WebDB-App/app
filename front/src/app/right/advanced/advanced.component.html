@@ -24,11 +24,11 @@
 		<div style="padding: 20px">
 
 			<ngx-monaco-editor
-				style="width: 100%; resize: vertical"
-				cdkFocusInitial
 				(onInit)="initEditor($event)"
 				[(ngModel)]="str"
 				[options]="editorOptions"
+				cdkFocusInitial
+				style="width: 100%; resize: vertical"
 			></ngx-monaco-editor>
 
 			<mat-divider></mat-divider>
@@ -45,7 +45,8 @@
 					<mat-form-field color="accent">
 						<mat-label>Collation</mat-label>
 						<mat-select #collation [value]="selectedDatabase!.collation" disableOptionCentering>
-							<mat-option *ngFor="let collation of collations" [value]="collation">{{collation}}</mat-option>
+							<mat-option *ngFor="let collation of collations"
+										[value]="collation">{{collation}}</mat-option>
 						</mat-select>
 					</mat-form-field>
 
@@ -80,15 +81,18 @@
 				></mat-spinner>
 
 				<button
-					*ngIf="!duplicateLoading"
 					(click)="duplicate(dbCopy.value)"
+					*ngIf="!duplicateLoading"
 					[disabled]="!nameValid(dbCopy.value)"
 					mat-stroked-button>
 				<span class="material-symbols-outlined notranslate">
 					folder_copy
 				</span>
 					Duplicate Database
-					<mat-error *ngIf="dbCopy.value !== selectedDatabase!.name.split(', ')[0] && !nameValid(dbCopy.value)">Name already taken or containing special characters</mat-error>
+					<mat-error
+						*ngIf="dbCopy.value !== selectedDatabase!.name.split(', ')[0] && !nameValid(dbCopy.value)">Name
+						already taken or containing special characters
+					</mat-error>
 				</button>
 			</div>
 

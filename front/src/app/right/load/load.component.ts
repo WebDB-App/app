@@ -88,7 +88,7 @@ export class LoadComponent {
 			file.progress = 30;
 
 			try {
-				await this.request.post('server/load', formData,undefined, <Database>{name: database});
+				await this.request.post('server/load', formData, undefined, <Database>{name: database});
 			} catch (err: unknown) {
 				file.progress = -1;
 				this.isLoading = false;

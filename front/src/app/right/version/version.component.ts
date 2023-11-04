@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Server } from "../../../classes/server";
 import { Database } from "../../../classes/database";
 import { MatSnackBar } from "@angular/material/snack-bar";
@@ -15,9 +15,9 @@ class Patch {
 declare var monaco: any;
 
 @Component({
-  selector: 'app-version',
-  templateUrl: './version.component.html',
-  styleUrls: ['./version.component.scss']
+	selector: 'app-version',
+	templateUrl: './version.component.html',
+	styleUrls: ['./version.component.scss']
 })
 export class VersionComponent {
 
@@ -46,7 +46,7 @@ export class VersionComponent {
 		return (new Date(+unix)).toString();
 	}
 
-	identify(index: any, patch: Patch){
+	identify(index: any, patch: Patch) {
 		return patch.sha1;
 	}
 

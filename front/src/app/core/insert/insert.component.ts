@@ -38,17 +38,13 @@ declare var monaco: any;
 export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 
 	@ViewChild(MatPaginator) paginator!: MatPaginator;
-	@ViewChild('scrollContainer') private scrollContainer!: ElementRef;
-
 	selectedServer?: Server;
 	selectedDatabase?: Database;
 	selectedTable?: Table;
-
 	actionColum = "##ACTION##";
 	dataSource: MatTableDataSource<any> = new MatTableDataSource();
 	displayedColumns?: string[];
 	selection = new SelectionModel<any>(true, []);
-
 	editorOptions = {
 		language: 'javascript'
 	};
@@ -58,6 +54,8 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 	interval?: NodeJS.Timer;
 	iframe?: SafeResourceUrl;
 	codes: any = JSON.parse(localStorage.getItem(localStorageName) || "{}");
+	protected readonly JSON = JSON;
+	@ViewChild('scrollContainer') private scrollContainer!: ElementRef;
 
 	constructor(
 		private request: RequestService,
@@ -318,6 +316,4 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 			{relativeTo: this.activatedRoute.parent?.parent})
 		await this.drawer.open(`With ${framework}, give me the code to generate random data for my column "${random.column.name}" in the table "${this.selectedTable?.name}"`);
 	}
-
-	protected readonly JSON = JSON;
 }

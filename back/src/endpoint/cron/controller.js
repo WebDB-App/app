@@ -1,4 +1,4 @@
-const {readdirSync, statSync, unlink}= require("fs");
+const {readdirSync, statSync, unlink} = require("fs");
 const {join} = require("path");
 const bash = require("../../shared/bash");
 const frontPath = join(__dirname, "../../../static/");

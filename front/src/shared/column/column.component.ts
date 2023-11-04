@@ -23,6 +23,8 @@ export class ColumnComponent implements OnInit {
 	selectedServer?: Server;
 	selectedTable?: Table;
 	typeGroups!: TypeGroup[];
+	protected readonly isSQL = isSQL;
+	protected readonly commonHelper = commonHelper;
 
 	constructor(
 		public snackBar: MatSnackBar
@@ -60,7 +62,4 @@ export class ColumnComponent implements OnInit {
 	copyColumn(column: Column) {
 		this.formColumn.push(Column.getFormGroup(this.selectedTable!, column));
 	}
-
-	protected readonly isSQL = isSQL;
-	protected readonly commonHelper = commonHelper;
 }

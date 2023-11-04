@@ -18,12 +18,12 @@
 
 		<div fxLayout="row"
 			 fxLayoutAlign="space-between center">
-			<mat-form-field style="width: 200px; margin-bottom: -1.25em" appearance="legacy">
+			<mat-form-field appearance="legacy" style="width: 200px; margin-bottom: -1.25em">
 				<input #filter
 					   (keyup)="filterChanged(filter.value)"
-					   placeholder="Search Message"
 					   autocomplete="off"
-					   matInput>
+					   matInput
+					   placeholder="Search Message">
 				<button (click)="filter.value=''; filterChanged(filter.value)" *ngIf="filter.value" aria-label="Clear"
 						mat-icon-button
 						matSuffix>
@@ -57,11 +57,11 @@
 			</button>
 		</div>
 
-		<div id="settings" #settings>
+		<div #settings id="settings">
 
 			<div>
 				<div>
-					<mat-form-field appearance="outline" style="margin-bottom: -1.25em" color="accent">
+					<mat-form-field appearance="outline" color="accent" style="margin-bottom: -1.25em">
 						<mat-label>Anonymize</mat-label>
 						<mat-select
 							(selectionChange)="preSentChange()"
@@ -113,8 +113,8 @@
 
 				<button
 					(click)="chat = []; saveChat()"
-					matTooltip="Clear conversation"
-					mat-button>
+					mat-button
+					matTooltip="Clear conversation">
 					<span class="material-symbols-outlined notranslate">
 						delete_sweep
 					</span>
@@ -143,9 +143,9 @@
 
 				<div class="slider">
 					<div>
-						<span matTooltipPosition="left"
-							  matTooltip="Higher values will make the output more random
-					Lower values will make it more focused and deterministic">Temperature</span>
+						<span matTooltip="Higher values will make the output more random
+					Lower values will make it more focused and deterministic"
+							  matTooltipPosition="left">Temperature</span>
 						<span>{{config.temperature}}</span>
 					</div>
 					<mat-slider
@@ -160,7 +160,7 @@
 				</div>
 
 				<div>
-					<mat-form-field style="margin-bottom: -1.25em" appearance="outline">
+					<mat-form-field appearance="outline" style="margin-bottom: -1.25em">
 						<mat-label>OpenAI Key</mat-label>
 						<input
 							(change)="goodKey() ? configChange() : undefined"
@@ -214,7 +214,7 @@
 		</div>
 	</div>
 
-	<div *ngIf="config.openAI && chat.length" id="container" #scrollContainer>
+	<div #scrollContainer *ngIf="config.openAI && chat.length" id="container">
 		<mat-card *ngFor="let ch of chat"
 				  [hidden]="ch.hide"
 				  [style.background-color]="ch.error ? '#f44336' : ch.user === Role.Assistant ? '#1e1e1e' : undefined">
@@ -291,7 +291,7 @@
 		</mat-card>
 	</div>
 
-	<mat-progress-bar *ngIf="isLoading" mode="indeterminate" color="accent" style="z-index: 100;"></mat-progress-bar>
+	<mat-progress-bar *ngIf="isLoading" color="accent" mode="indeterminate" style="z-index: 100;"></mat-progress-bar>
 
 	<div [hidden]="!config.openAI" style="box-shadow: 0px -10px 16px 1px #363636; position: relative;">
 		<mat-form-field appearance="fill"

@@ -11,7 +11,7 @@ import { RequestService } from "../../../shared/request.service";
 import { Relation } from "../../../classes/relation";
 import { Configuration } from "../../../classes/configuration";
 import { HistoryService, Query } from "../../../shared/history.service";
-import { initBaseEditor, REMOVED_LABELS, addMonacoError } from "../../../shared/helper";
+import { addMonacoError, initBaseEditor, REMOVED_LABELS } from "../../../shared/helper";
 import { ExportResultDialog } from "../../../shared/export-result-dialog/export-result-dialog";
 import { MatPaginatorIntl } from "@angular/material/paginator";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
@@ -25,7 +25,7 @@ declare var monaco: any;
 	selector: 'app-query',
 	templateUrl: './query.component.html',
 	styleUrls: ['./query.component.scss'],
-	providers: [{provide: MatPaginatorIntl, useValue: new REMOVED_LABELS()} ]
+	providers: [{provide: MatPaginatorIntl, useValue: new REMOVED_LABELS()}]
 })
 export class QueryComponent implements OnInit, OnDestroy {
 
@@ -120,7 +120,7 @@ export class QueryComponent implements OnInit, OnDestroy {
 		clearInterval(this.interval);
 	}
 
-	identify(index: any, rom: any){
+	identify(index: any, rom: any) {
 		return JSON.stringify(rom);
 	}
 
@@ -145,8 +145,8 @@ export class QueryComponent implements OnInit, OnDestroy {
 			if (this.autoFormat) {
 				setTimeout(() => this.editors.map(editor => editor.trigger("editor", "editor.action.formatDocument")), 1);
 			}
-		} catch (e) {}
-		finally {
+		} catch (e) {
+		} finally {
 			this.isLoading = false;
 		}
 	}

@@ -10,25 +10,25 @@
 	</button>
 </div>
 <div mat-dialog-content>
-	<table mat-table [dataSource]="processList">
+	<table [dataSource]="processList" mat-table>
 		<ng-container matColumnDef="pid">
-			<th mat-header-cell *matHeaderCellDef> PID </th>
-			<td mat-cell *matCellDef="let element"> {{element.pid}} </td>
+			<th *matHeaderCellDef mat-header-cell> PID</th>
+			<td *matCellDef="let element" mat-cell> {{element.pid}} </td>
 		</ng-container>
 
 		<ng-container matColumnDef="duration">
-			<th mat-header-cell *matHeaderCellDef> Duration (sec) </th>
-			<td mat-cell *matCellDef="let element"> {{element.duration / 1000}} </td>
+			<th *matHeaderCellDef mat-header-cell> Duration (sec)</th>
+			<td *matCellDef="let element" mat-cell> {{element.duration / 1000}} </td>
 		</ng-container>
 
 		<ng-container matColumnDef="query">
-			<th mat-header-cell *matHeaderCellDef> Query </th>
-			<td mat-cell *matCellDef="let element"> {{element.query}} </td>
+			<th *matHeaderCellDef mat-header-cell> Query</th>
+			<td *matCellDef="let element" mat-cell> {{element.query}} </td>
 		</ng-container>
 
 		<ng-container matColumnDef="kill">
-			<th mat-header-cell *matHeaderCellDef> Kill </th>
-			<td mat-cell *matCellDef="let element">
+			<th *matHeaderCellDef mat-header-cell> Kill</th>
+			<td *matCellDef="let element" mat-cell>
 				<button
 					(click)="kill(element.pid)"
 					color="warn" mat-icon-button>
@@ -39,8 +39,8 @@
 			</td>
 		</ng-container>
 
-		<tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-		<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+		<tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
+		<tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
 	</table>
 </div>
 

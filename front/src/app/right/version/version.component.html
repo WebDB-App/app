@@ -1,9 +1,9 @@
 <mat-toolbar
 	fxLayout="row"
 	fxLayoutAlign="space-between center">
-	<mat-form-field style="width: 100%; margin-bottom: -1.25em" appearance="legacy">
-		<input [(ngModel)]="filter"
-			   (keyup)="filterChanged()"
+	<mat-form-field appearance="legacy" style="width: 100%; margin-bottom: -1.25em">
+		<input (keyup)="filterChanged()"
+			   [(ngModel)]="filter"
 			   autocomplete="off"
 			   matInput
 			   placeholder="Search in patches">
@@ -59,8 +59,8 @@
 			<mat-card-actions>
 
 				<span
-					matTooltipPosition="right"
-					[matTooltip]="date(patch.time)">
+					[matTooltip]="date(patch.time)"
+					matTooltipPosition="right">
 					{{patch.time | timeAgo}}
 				</span>
 
@@ -87,10 +87,10 @@
 
 			<mat-card-content>
 				<ngx-monaco-editor
-					style="min-height: 200px; resize: vertical"
 					(onInit)="initEditor($event, patch.diff)"
 					[(ngModel)]="patch.diff"
-					[options]="editorOptions">
+					[options]="editorOptions"
+					style="min-height: 200px; resize: vertical">
 				</ngx-monaco-editor>
 			</mat-card-content>
 		</mat-card>

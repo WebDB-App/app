@@ -47,8 +47,8 @@
 <mat-dialog-actions>
 	<button (click)="createIndex(name.value, type.value, columns.value)"
 			[disabled]="!name.value || !type.value || !columns.value || indexNames.indexOf(name.value) >= 0"
-			color="primary"
 			cdkFocusInitial
+			color="primary"
 			mat-stroked-button>
 		Add Index
 	</button>

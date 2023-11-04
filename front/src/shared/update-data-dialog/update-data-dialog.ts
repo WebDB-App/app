@@ -23,6 +23,7 @@ export class UpdateDataDialog {
 	editorOptions = {
 		language: 'json'
 	};
+	protected readonly Object = Object;
 
 	constructor(
 		private dialogRef: MatDialogRef<UpdateDataDialog>,
@@ -91,6 +92,4 @@ export class UpdateDataDialog {
 		row[column] = value;
 		this.str = JSON.stringify(row, null, "\t");
 	}
-
-	protected readonly Object = Object;
 }

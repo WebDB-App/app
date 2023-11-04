@@ -92,7 +92,7 @@ class Version {
 		}
 		if (process.env.DISABLE_WATCHER &&
 			(process.env.DISABLE_WATCHER === "true" ||
-			process.env.DISABLE_WATCHER.indexOf(database) >= 0)) {
+				process.env.DISABLE_WATCHER.indexOf(database) >= 0)) {
 			return;
 		}
 		if (![

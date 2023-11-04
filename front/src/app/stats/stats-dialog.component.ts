@@ -6,9 +6,9 @@ import { MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { BaseChartDirective } from "ng2-charts";
 
 @Component({
-  selector: 'app-activity',
-  templateUrl: './stats-dialog.component.html',
-  styleUrls: ['./stats-dialog.component.scss']
+	selector: 'app-activity',
+	templateUrl: './stats-dialog.component.html',
+	styleUrls: ['./stats-dialog.component.scss']
 })
 export class StatsDialogComponent implements OnInit, OnDestroy {
 
@@ -33,7 +33,8 @@ export class StatsDialogComponent implements OnInit, OnDestroy {
 	constructor(
 		private request: RequestService,
 		@Inject(MAT_DIALOG_DATA) public server: Server,
-	) { }
+	) {
+	}
 
 	async ngOnInit() {
 		await this.refreshData();
@@ -50,7 +51,7 @@ export class StatsDialogComponent implements OnInit, OnDestroy {
 				this.datasets[index].data.push(stat.Value);
 			} else {
 				this.datasets.push({
-					data: [ +stat.Value ],
+					data: [+stat.Value],
 					label: stat.Variable_name,
 					fill: false,
 					tension: 0.2,

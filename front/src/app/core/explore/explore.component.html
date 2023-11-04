@@ -14,8 +14,8 @@
 				(page)="changePage($event.pageIndex); refreshData()"
 				[length]="querySize"
 				[pageIndex]="params.page"
-				pageSize="{{pageSize}}"
 				[pageSizeOptions]="[50, 100, 500, 2000]"
+				pageSize="{{pageSize}}"
 			></mat-paginator>
 		</div>
 	</div>
@@ -56,9 +56,9 @@
 			</mat-select>
 		</mat-form-field>
 		<mat-button-toggle-group
+			(change)="refreshData()"
 			*ngIf="params.field"
-			[(ngModel)]="params.direction"
-			(change)="refreshData()">
+			[(ngModel)]="params.direction">
 			<mat-button-toggle matTooltip="Asc" value="asc">↑</mat-button-toggle>
 			<mat-button-toggle matTooltip="Desc" value="desc">↓</mat-button-toggle>
 			<mat-button-toggle matTooltip="No Sort" value="">×</mat-button-toggle>
@@ -67,8 +67,8 @@
 		<button
 			(click)="setAutoUp()"
 			mat-icon-button
-			matTooltipPosition="left"
-			matTooltip="Reload data periodically">
+			matTooltip="Reload data periodically"
+			matTooltipPosition="left">
 			<span class="material-symbols-outlined notranslate">
 				{{autoUp ? 'repeat_one_on' : 'repeat_one'}}
 			</span>
@@ -80,7 +80,7 @@
 
 <div class="scrollDiv" style="height: calc(100vh - 161px);">
 
-	<table [dataSource]="dataSource" class="table mat-elevation-z8" mat-table [trackBy]="identify">
+	<table [dataSource]="dataSource" [trackBy]="identify" class="table mat-elevation-z8" mat-table>
 		<ng-container
 			*ngFor="let column of displayedColumns"
 			[stickyEnd]="column === actionColum"
@@ -155,8 +155,8 @@
 				<app-cell
 					*ngIf="column !== actionColum"
 					[column]="column"
-					[value]="row[column]"
 					[stringify]="stringify"
+					[value]="row[column]"
 				></app-cell>
 			</td>
 		</ng-container>

@@ -24,7 +24,7 @@ module.exports = class MongoDB extends Driver {
 			for (const table of tables) {
 				try {
 					results[table] = buffer.loadData(await this.connection.db(database).collection(table).find().toArray());
-				} catch(e) {
+				} catch (e) {
 					console.error(e);
 				}
 			}
@@ -74,7 +74,9 @@ module.exports = class MongoDB extends Driver {
 
 	async process() {
 		const ops = await this.connection.db().admin().command({currentOp: true});
-		return ops.inprog.map(op => { return {pid: op.opid, query: op.op, duration: Math.floor(op.microsecs_running / 1000)}; });
+		return ops.inprog.map(op => {
+			return {pid: op.opid, query: op.op, duration: Math.floor(op.microsecs_running / 1000)};
+		});
 	}
 
 	async kill(pid) {
@@ -183,7 +185,7 @@ module.exports = class MongoDB extends Driver {
 
 		const row = {_id: new ObjectId()};
 		table.columns.map(column => {
-			row[column.name] = this.wrapValue(column.type, row[column.name] === undefined ? column.defaut: row[column.name]);
+			row[column.name] = this.wrapValue(column.type, row[column.name] === undefined ? column.defaut : row[column.name]);
 		});
 		return coll.insertOne(row);
 	}
@@ -228,15 +230,15 @@ module.exports = class MongoDB extends Driver {
 
 	async addColumns(database, table, columns) {
 		for (const column of columns) {
-			const add = { $set: {} };
-			add["$set"][column.name] =  this.wrapValue(column.type, column.defaut || null);
+			const add = {$set: {}};
+			add["$set"][column.name] = this.wrapValue(column.type, column.defaut || null);
 			await this.connection.db(database).collection(table).updateMany({}, add);
 		}
 		return true;
 	}
 
 	async dropColumn(database, table, column) {
-		const rem = { $unset: {} };
+		const rem = {$unset: {}};
 		rem["$unset"][column] = 1;
 		return await this.connection.db(database).collection(table).updateMany({}, rem);
 	}
@@ -257,7 +259,7 @@ module.exports = class MongoDB extends Driver {
 			const rows = await this.connection.db(database).collection(table).find({}).toArray();
 			await Promise.all(rows.map(row => {
 				updates["$set"] = {};
-				updates["$set"][column.name] = this.wrapValue(column.type, row[column.name] === undefined ? column.defaut: row[column.name]);
+				updates["$set"][column.name] = this.wrapValue(column.type, row[column.name] === undefined ? column.defaut : row[column.name]);
 				return this.connection.db(database).collection(table).updateOne(row, updates);
 			}));
 		}
@@ -318,12 +320,14 @@ module.exports = class MongoDB extends Driver {
 								promises.push(new Promise(async resolve => {
 									let fks = 0;
 									const rows = await this.connection.db(database.name).collection(table_source.name).aggregate([
-										{ $lookup: {
-											from: table_dest.name,
-											localField: column_source.name,
-											foreignField: column_dest.name,
-											as: "fks" }
-										}, {"$limit": sampleSize} ]).toArray();
+										{
+											$lookup: {
+												from: table_dest.name,
+												localField: column_source.name,
+												foreignField: column_dest.name,
+												as: "fks"
+											}
+										}, {"$limit": sampleSize}]).toArray();
 
 									rows.map(row => fks += row.fks.length);
 									if (fks >= 1) {
@@ -461,7 +465,8 @@ module.exports = class MongoDB extends Driver {
 				try {
 					samples = await this.connection.db(name).collection(table).aggregate([{$sample: {size: count}}]).toArray();
 					samples = samples.map(sample => limit(sample, count, deep));
-				} catch (e) { /* empty */ }
+				} catch (e) { /* empty */
+				}
 				resolve({
 					structure: table,
 					data: samples
@@ -482,7 +487,7 @@ module.exports = class MongoDB extends Driver {
 		}
 
 		if (query.indexOf(".aggregate(") >= 0) {
-			query = helper.mongo_injectAggregate(query, { "$group": { "_id": null, "count": { "$sum": 1 } } });
+			query = helper.mongo_injectAggregate(query, {"$group": {"_id": null, "count": {"$sum": 1}}});
 			let result = await this.runCommand(query, database);
 			if (result.error) {
 				return "0";
@@ -510,8 +515,8 @@ module.exports = class MongoDB extends Driver {
 			query.indexOf("limit") < 0) {
 
 			if (query.indexOf(".aggregate(") >= 0) {
-				query = helper.mongo_injectAggregate(query, { "$limit": pageSize });
-				query = helper.mongo_injectAggregate(query, { "$skip": page });
+				query = helper.mongo_injectAggregate(query, {"$limit": pageSize});
+				query = helper.mongo_injectAggregate(query, {"$skip": page});
 			} else if (query.indexOf(".toArray(") >= 0) {
 				query = query.replace(".toArray()", `.skip(${page * pageSize}).limit(${pageSize}).toArray()`);
 			}

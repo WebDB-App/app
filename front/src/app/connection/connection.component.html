@@ -1,10 +1,10 @@
 <mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
-	<mat-form-field style="width: 250px" appearance="standard">
+	<mat-form-field appearance="standard" style="width: 250px">
 		<input #filter
 			   (keyup)="filterChanged(filter.value)"
-			   placeholder="Search Server | Database"
 			   autocomplete="off"
-			   matInput>
+			   matInput
+			   placeholder="Search Server | Database">
 		<button (click)="filter.value=''; filterChanged(filter.value)" *ngIf="filter.value" aria-label="Clear"
 				mat-icon-button
 				matSuffix>
@@ -45,9 +45,9 @@
 
 			<div style="display: flex; justify-content: space-between;">
 				<button
-					mat-stroked-button
+					(click)="ngOnInit()"
 					color="primary"
-					(click)="ngOnInit()">
+					mat-stroked-button>
 					<span class="material-symbols-outlined notranslate">
 						refresh
 					</span>
@@ -67,7 +67,7 @@
 	</div>
 </div>
 
-<div id="container" *ngIf="loading === LoadingStatus.DONE">
+<div *ngIf="loading === LoadingStatus.DONE" id="container">
 
 	<mat-tab-group #tabGroup>
 		<mat-tab
@@ -76,14 +76,14 @@
 			[label]="status">
 
 			<mat-card
-				class="servers"
 				*ngFor="let server of getServerByStatus(status)"
-				[hidden]="server.hide">
+				[hidden]="server.hide"
+				class="servers">
 
 				<mat-card-content>
 					<div class="infos">
 						<div class="logo">
-							<img src="/assets/drivers/{{server.wrapper.toLowerCase()}}.svg" />
+							<img src="/assets/drivers/{{server.wrapper.toLowerCase()}}.svg"/>
 							<div>
 								<span class="material-symbols-outlined notranslate">
 									numbers
@@ -104,14 +104,14 @@
 							{{server.host}}
 						</h3>
 						<span
-							[matTooltip]="server.ssh | json"
 							*ngIf="server.ssh && server.ssh.host"
+							[matTooltip]="server.ssh | json"
 							class="material-symbols-outlined notranslate">
 							subway
 						</span>
 					</div>
 
-					<mat-divider vertical style="margin: -16px 20px;"></mat-divider>
+					<mat-divider style="margin: -16px 20px;" vertical></mat-divider>
 
 					<ng-container *ngIf="server.connected">
 						<mat-selection-list [multiple]="false">
@@ -130,11 +130,11 @@
 								</span>
 							</mat-list-option>
 							<mat-list-option>
-								<div style="text-align: center;"
-									(click)="addDatabase(server)">
+								<div (click)="addDatabase(server)"
+									 style="text-align: center;">
 									<span
-										style="vertical-align: middle"
-										class="material-symbols-outlined notranslate">
+										class="material-symbols-outlined notranslate"
+										style="vertical-align: middle">
 										database
 									</span>
 									Create
@@ -142,13 +142,14 @@
 							</mat-list-option>
 						</mat-selection-list>
 
-						<mat-divider vertical style="margin: -16px 20px;"></mat-divider>
+						<mat-divider style="margin: -16px 20px;" vertical></mat-divider>
 
-						<div style="display: flex; flex-direction: column; width: 145px; justify-content: space-evenly;">
+						<div
+							style="display: flex; flex-direction: column; width: 145px; justify-content: space-evenly;">
 							<button
 								(click)="editServer = server; tabGroup.selectedIndex = 3"
-								style="justify-self: center"
-								mat-button>
+								mat-button
+								style="justify-self: center">
 								<span class="material-symbols-outlined notranslate">
 									network_manage
 								</span>
@@ -156,8 +157,8 @@
 							</button>
 							<button
 								(click)="processServer(server)"
-								style="justify-self: center"
-								mat-button>
+								mat-button
+								style="justify-self: center">
 								<span class="material-symbols-outlined notranslate">
 									smart_display
 								</span>
@@ -165,8 +166,8 @@
 							</button>
 							<button
 								(click)="statsServer(server)"
-								style="justify-self: center"
-								mat-button>
+								mat-button
+								style="justify-self: center">
 								<span class="material-symbols-outlined notranslate">
 									stacked_line_chart
 								</span>
@@ -174,7 +175,7 @@
 							</button>
 						</div>
 					</ng-container>
-					<div class="body" *ngIf="!server.connected">
+					<div *ngIf="!server.connected" class="body">
 						<ng-container *ngIf="!server.scanned">
 							<br>
 							<mat-error>
@@ -184,17 +185,17 @@
 							<br>
 							<button
 								(click)="editServer = server; tabGroup.selectedIndex = 3"
-								style="justify-self: center"
-								mat-button>
+								mat-button
+								style="justify-self: center">
 								<span class="material-symbols-outlined notranslate">
 									network_manage
 								</span>
 								Edit
 							</button>
 						</ng-container>
-						<div class="login"
+						<div (keyup.enter)="loginBtn._elementRef.nativeElement.click()"
 							 *ngIf="server.scanned"
-							 (keyup.enter)="loginBtn._elementRef.nativeElement.click()">
+							 class="login">
 							<div>
 								<mat-form-field appearance="outline">
 									<mat-label>User</mat-label>
@@ -250,7 +251,7 @@
 			</ng-template>
 			<mat-card>
 				<mat-card-content>
-					<app-edit-connection [server]="editServer" (edited)="finished(true)"></app-edit-connection>
+					<app-edit-connection (edited)="finished(true)" [server]="editServer"></app-edit-connection>
 				</mat-card-content>
 			</mat-card>
 		</mat-tab>
@@ -263,7 +264,7 @@
 			</ng-template>
 			<mat-card>
 				<mat-card-content>
-					<app-edit-connection [server]="newServer" (edited)="finished(false)"></app-edit-connection>
+					<app-edit-connection (edited)="finished(false)" [server]="newServer"></app-edit-connection>
 				</mat-card-content>
 			</mat-card>
 		</mat-tab>

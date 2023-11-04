@@ -4,9 +4,9 @@
 
 	<mat-form-field appearance="standard" style="width: 80%">
 		<input [(ngModel)]="filter"
-			   placeholder="Search History"
 			   autocomplete="off"
-			   matInput>
+			   matInput
+			   placeholder="Search History">
 		<button (click)="filter=''" *ngIf="filter" aria-label="Clear"
 				mat-button mat-icon-button
 				matSuffix>

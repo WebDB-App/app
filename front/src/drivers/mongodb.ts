@@ -64,11 +64,11 @@ export class MongoDB implements Driver {
 					id: "String",
 					bold: true,
 					description: "BSON strings are UTF-8"
-				},{
+				}, {
 					id: "UUID",
 					bold: false,
 					description: "Specify a 36 character string to convert to a UUID BSON object"
-				},{
+				}, {
 					id: "ObjectId",
 					bold: true,
 					description: "ObjectIds are small, likely unique, fast to generate, and ordered"
@@ -129,6 +129,62 @@ export class MongoDB implements Driver {
 		],
 		extraAttributes: []
 	}
+	queryTemplates = {
+		"find": (table: Table) => {
+			return `/*
+const db = (await new MongoClient()).db("${Database.getSelected().name}");
+const bson = require("bson");
+*/
+
+db.collection("${table.name}").find({
+	${this.getColumns(table).join(",\n\t")}
+}).toArray();`;
+		},
+		"deleteOne": (table: Table) => {
+			return `db.collection("${table.name}").deleteOne({${this.getColumns(table).join(",\n")}})`;
+		},
+		"insertOne": (table: Table) => {
+			return `db.collection("${table.name}").insertOne({${this.getColumns(table).join(",\n")}})`;
+		},
+		"updateOne": (table: Table) => {
+			const cols = this.getColumns(table);
+			return `db.collection("${table.name}").updateOne(
+				{${cols.join(", ")}},
+				{${cols.join(", ")}}
+			)`;
+		},
+		"lookup": (table: Table, relations: Relation[]) => {
+			return `db.collection("${table.name}").aggregate([
+	{
+		${relations.map(rel => `$lookup: {
+			from: "${rel.table_dest}",
+			localField: "${rel.column_source}",
+			foreignField: "${rel.column_dest}",
+			as: "fks"
+		}`)}
+	}]).toArray();
+		`;
+		},
+		"aggregate": (table: Table) => {
+			return `/*
+const db = (await new MongoClient()).db("${Database.getSelected().name}");
+const bson = require("bson");
+*/
+db.collection("${table.name}").aggregate([
+	{
+		$match: { ${table.columns[0].name}: "${table.columns[0].type}" }
+	},
+	{
+		$group: { _id: "$${table.columns[0].name}" }
+	}
+]).toArray()`;
+		},
+		"command (shell)": () => {
+			return `db.command({
+    dbStats: 1,
+});`;
+		},
+	};
 
 	nodeLib(query: QueryParams) {
 		return `import {MongoClient} from "mongodb";
@@ -199,7 +255,7 @@ async function main() {
 
 	basicSort(query: string, field: string, direction: 'asc' | 'desc') {
 		if (query.indexOf(".aggregate(") >= 0) {
-			const s: any = {$sort : {}};
+			const s: any = {$sort: {}};
 			s.$sort[field] = direction === "asc" ? 1 : -1;
 			query = helper.mongo_injectAggregate(query, s);
 		}
@@ -237,61 +293,4 @@ async function main() {
 		}
 		return cols;
 	}
-
-	queryTemplates = {
-		"find": (table: Table) => {
-			return `/*
-const db = (await new MongoClient()).db("${Database.getSelected().name}");
-const bson = require("bson");
-*/
-
-db.collection("${table.name}").find({
-	${this.getColumns(table).join(",\n\t")}
-}).toArray();`;
-		},
-		"deleteOne": (table: Table) => {
-			return `db.collection("${table.name}").deleteOne({${this.getColumns(table).join(",\n")}})`;
-		},
-		"insertOne": (table: Table) => {
-			return `db.collection("${table.name}").insertOne({${this.getColumns(table).join(",\n")}})`;
-		},
-		"updateOne": (table: Table) => {
-			const cols = this.getColumns(table);
-			return `db.collection("${table.name}").updateOne(
-				{${cols.join(", ")}},
-				{${cols.join(", ")}}
-			)`;
-		},
-		"lookup": (table: Table, relations: Relation[]) => {
-			return `db.collection("${table.name}").aggregate([
-	{
-		${relations.map(rel => `$lookup: {
-			from: "${rel.table_dest}",
-			localField: "${rel.column_source}",
-			foreignField: "${rel.column_dest}",
-			as: "fks"
-		}`)}
-	}]).toArray();
-		`;
-		},
-		"aggregate": (table: Table) => {
-			return `/*
-const db = (await new MongoClient()).db("${Database.getSelected().name}");
-const bson = require("bson");
-*/
-db.collection("${table.name}").aggregate([
-	{
-		$match: { ${table.columns[0].name}: "${table.columns[0].type}" }
-	},
-	{
-		$group: { _id: "$${table.columns[0].name}" }
-	}
-]).toArray()`;
-		},
-		"command (shell)": () => {
-			return `db.command({
-    dbStats: 1,
-});`;
-		},
-	};
 }

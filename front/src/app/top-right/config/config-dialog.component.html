@@ -1,4 +1,4 @@
-<div mat-dialog-content cdkFocusInitial>
+<div cdkFocusInitial mat-dialog-content>
 	<mat-tab-group #tabs (selectedTabChange)="$event.index === 3 ? dialogRef.close() : undefined">
 		<mat-tab label="Parameters">
 			<table style="padding: 20px">
@@ -34,7 +34,8 @@
 						</mat-card-header>
 						<mat-card-content fxLayout="row" fxLayoutAlign="space-evenly center">
 							<span *ngIf="licence?.email">{{licence?.email}}</span>
-							<span *ngIf="licence?.expire! > 0">Expire : {{licence?.expire! * 1000 | date: 'mediumDate'}}</span>
+							<span
+								*ngIf="licence?.expire! > 0">Expire : {{licence?.expire! * 1000 | date: 'mediumDate'}}</span>
 						</mat-card-content>
 					</mat-card>
 
@@ -74,16 +75,17 @@
 		<mat-tab label="About">
 			<div style="text-align: center">
 				<div style="font-weight: 300; font-size: 30px;">
-					<img alt="logo" id="logo" src="/assets/webdb.svg" style="height: 60px; margin: 30px 4px; width: auto; vertical-align: middle;"/>
+					<img alt="logo" id="logo" src="/assets/webdb.svg"
+						 style="height: 60px; margin: 30px 4px; width: auto; vertical-align: middle;"/>
 					WebDB
 				</div>
 
 				<h3 style="text-align: center; margin-bottom: 20px">
 					Version {{packageJson.version}}
 
-					<a href="https://webdb.app/page/install"
+					<a color="accent"
+					   href="https://webdb.app/page/install"
 					   mat-flat-button
-					   color="accent"
 					   style="margin-left: 20px"
 					   target="_blank">
 						<span class="material-symbols-outlined">
@@ -121,8 +123,8 @@
 					</a>
 
 					<a href="mailto:main.webdb@gmail.com"
-					   target="_blank"
-					   mat-button>
+					   mat-button
+					   target="_blank">
 						<span class="material-symbols-outlined notranslate">
 							mail
 						</span>

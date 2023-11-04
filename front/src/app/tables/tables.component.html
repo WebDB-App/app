@@ -1,16 +1,16 @@
 <mat-sidenav-container autosize fxFlexFill id="container">
 	<mat-sidenav
+		#sidenav
+		(click)="saveWidth(sidenav._getWidth())"
+		[style.width]="width + 'px'"
 		disableClose
 		id="tableList"
 		mode="side"
-		opened
-		#sidenav
-		[style.width]="width + 'px'"
-		(click)="saveWidth(sidenav._getWidth())">
+		opened>
 
 		<mat-list fxLayout="column">
 			<mat-list-item style="box-shadow: 0px 0px 0px, 0px 4px 6px -4px rgba(0, 0, 0, 0.6);">
-				<mat-form-field style="width: 100%" appearance="standard">
+				<mat-form-field appearance="standard" style="width: 100%">
 					<input #filter
 						   (keyup)="filterChanged(filter.value)"
 						   autocomplete="off"
@@ -30,7 +30,8 @@
 			</mat-list-item>
 
 			<mat-selection-list #tables
-								(selectionChange)="changeTable(tables.selectedOptions.selected[0].value)" [multiple]="false">
+								(selectionChange)="changeTable(tables.selectedOptions.selected[0].value)"
+								[multiple]="false">
 				<div *ngFor="let table of selectedDatabase?.tables"
 					 [hidden]="table.hide"
 					 [style.border-right]="selectedTable?.name === table.name ? '2px solid #2196f3' : undefined"
@@ -40,8 +41,8 @@
 							 style="display: flex;">
 							<button
 								(click)="getTooltip(table)"
-								style="zoom: 0.8"
-								mat-icon-button>
+								mat-icon-button
+								style="zoom: 0.8">
 								<span class="material-symbols-outlined notranslate">
 									{{tooltips[table.name] ? 'expand_less' : 'expand_more'}}
 								</span>
@@ -67,9 +68,9 @@
 
 			<mat-list-item style="box-shadow: 0px -4px 6px -4px rgba(0, 0, 0, 0.6);">
 				<button (click)="addTable()"
-						style="flex: 1"
 						color="primary"
-						mat-button>
+						mat-button
+						style="flex: 1">
 					<span class="material-symbols-outlined notranslate">
 						add_box
 					</span>

@@ -3,9 +3,9 @@
 		<input
 			#filter
 			(keyup)="applyFilter(filter.value)"
-			placeholder="Search Relation"
 			autocomplete="off"
-			matInput>
+			matInput
+			placeholder="Search Relation">
 		<button (click)="filter.value=''; applyFilter(filter.value)" *ngIf="filter.value" aria-label="Clear"
 				mat-button mat-icon-button
 				matSuffix>
@@ -30,9 +30,9 @@
 				<td *matCellDef="let row; let i = index" mat-cell>
 					<ng-container *ngIf="column === actionColum">
 					<span
-						style="cursor: pointer;"
+						(click)="expanded.indexOf(row.name) >= 0 ? expanded.splice(expanded.indexOf(row.name)) : expanded.push(row.name)"
 						class="material-symbols-outlined notranslate"
-						(click)="expanded.indexOf(row.name) >= 0 ? expanded.splice(expanded.indexOf(row.name)) : expanded.push(row.name)">
+						style="cursor: pointer;">
 						{{expanded.indexOf(row.name) >= 0 ? 'expand_less' : 'expand_more'}}
 					</span>
 					</ng-container>
@@ -51,7 +51,7 @@
 			</ng-container>
 
 			<ng-container matColumnDef="details">
-				<td mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length">
+				<td *matCellDef="let row" [attr.colspan]="displayedColumns.length" mat-cell>
 					<div style="display: flex; justify-content: space-between">
 						<h3 style="margin: 0px; align-self: center;">{{row.name}}</h3>
 
@@ -74,11 +74,12 @@
 			</ng-container>
 
 			<tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
-			<tr mat-row *matRowDef="let row; columns: displayedColumns;"
+			<tr *matRowDef="let row; columns: displayedColumns;" [class.expanded-row]="expanded.indexOf(row.name) >= 0"
 				class="element-row"
-				[class.expanded-row]="expanded.indexOf(row.name) >= 0">
+				mat-row>
 			</tr>
-			<tr mat-row *matRowDef="let row; columns: ['details']" [class.expended]="expanded.indexOf(row.name) >= 0" class="details"></tr>
+			<tr *matRowDef="let row; columns: ['details']" [class.expended]="expanded.indexOf(row.name) >= 0" class="details"
+				mat-row></tr>
 
 			<tr *matNoDataRow class="mat-row">
 				<td class="mat-cell" colspan="100%">No Relations</td>

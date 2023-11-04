@@ -16,8 +16,8 @@ if (process.env.NODE_ENV === "production") {
 	Sentry.init({
 		dsn: "https://glet_4aa313505f2ab7f4bb992102d99bbc1b@observe.gitlab.com:443/errortracking/api/v1/projects/42963773",
 		integrations: [
-			new Sentry.Integrations.Http({ tracing: true }),
-			new Sentry.Integrations.Express({ app }),
+			new Sentry.Integrations.Http({tracing: true}),
+			new Sentry.Integrations.Express({app}),
 		],
 		tracesSampleRate: 0.2,
 		profilesSampleRate: 0.2,
@@ -45,7 +45,7 @@ app.use(express.static(join(__dirname, "../static/")));
 	});
 
 	app.listen(port, () => {
-		bash.endCommand(bash.startCommand("WebDB App running", "database", port),  "rows", "ping_");
+		bash.endCommand(bash.startCommand("WebDB App running", "database", port), "rows", "ping_");
 	});
 })();
 

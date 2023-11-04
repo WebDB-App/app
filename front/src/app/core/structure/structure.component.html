@@ -4,9 +4,9 @@
 			<input
 				#filter
 				(keyup)="applyFilter(filter.value)"
-				placeholder="Search Column"
 				autocomplete="off"
-				matInput>
+				matInput
+				placeholder="Search Column">
 			<button (click)="filter.value=''; applyFilter(filter.value)" *ngIf="filter.value" aria-label="Clear"
 					mat-icon-button
 					matSuffix>
@@ -48,10 +48,10 @@
 				</button>
 
 				<button
-					hidden
-					*ngIf="!isSQL()"
 					(click)="harmonizeColumn(row)"
+					*ngIf="!isSQL()"
 					color="primary"
+					hidden
 					mat-icon-button>
 					<span class="material-symbols-outlined notranslate">
 						equalizer
@@ -69,10 +69,10 @@
 			</ng-container>
 
 			<app-cell
-				style="max-width: 50vw"
 				*ngIf="column !== actionColum"
 				[column]="column"
-				[value]="row[column]">
+				[value]="row[column]"
+				style="max-width: 50vw">
 			</app-cell>
 		</td>
 	</ng-container>

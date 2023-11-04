@@ -9,8 +9,8 @@
 			<div fxLayout="row" fxLayoutGap="12px" style="align-items: center">
 				<button id="home"
 						mat-button
-						style="background: radial-gradient(ellipse at bottom,#1b2735 0%,#090a0f 100%);"
-						routerLink="/">
+						routerLink="/"
+						style="background: radial-gradient(ellipse at bottom,#1b2735 0%,#090a0f 100%);">
 					<mat-icon style="height: 32px; width: 32px;" svgIcon="webdb"></mat-icon>
 				</button>
 
@@ -20,11 +20,11 @@
 						<span style="color: #1de9b6;">{{selectedDatabase.name}}</span>
 					</div>
 					<button
+						(click)="request.reloadServer()"
 						[disabled]="loading !== LoadingStatus.DONE"
-						mat-icon-button
 						color="accent"
-						matTooltipPosition="right"
-						(click)="request.reloadServer()">
+						mat-icon-button
+						matTooltipPosition="right">
 						<span class="material-symbols-outlined notranslate">
 							frame_reload
 						</span>
@@ -38,8 +38,8 @@
 					 color="accent"
 					 mat-tab-nav-bar>
 					<a #rla="routerLinkActive"
-					   *ngFor="let panel of panels"
 					   (click)="drawer.toggle();"
+					   *ngFor="let panel of panels"
 					   [active]="rla.isActive"
 					   [routerLinkActive]="'mat-button-toggle-checked'"
 					   [routerLink]="[{outlets: {right: [panel.link]}}]"
@@ -68,7 +68,8 @@
 				<div *ngIf="loading === LoadingStatus.ERROR">
 					<mat-error>
 						<h3>
-							Can't connect to {{activatedRoute.snapshot.paramMap.get('server')}} / {{activatedRoute.snapshot.paramMap.get('database')}}
+							Can't connect to {{activatedRoute.snapshot.paramMap.get('server')}}
+							/ {{activatedRoute.snapshot.paramMap.get('database')}}
 							<br>
 							Common problems are :
 							<ul>
@@ -83,9 +84,9 @@
 
 					<div style="display: flex; justify-content: space-around; gap: 20px">
 						<button
-							routerLink="/"
 							color="primary"
-							mat-stroked-button>
+							mat-stroked-button
+							routerLink="/">
 							<span class="material-symbols-outlined notranslate">
 								wifi_find
 							</span>
@@ -102,9 +103,9 @@
 						</button>
 
 						<button
-							mat-stroked-button
+							(click)="ngOnInit()"
 							color="accent"
-							(click)="ngOnInit()">
+							mat-stroked-button>
 							<span class="material-symbols-outlined notranslate">
 								refresh
 							</span>

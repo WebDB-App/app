@@ -1,8 +1,8 @@
 <div style="display: flex; flex-direction: row;">
 	<mat-stepper
-		style="width: 85%;"
+		[selectedIndex]="newConnection && !server.ssh.host ? 0 : 1"
 		orientation="vertical"
-		[selectedIndex]="newConnection && !server.ssh.host ? 0 : 1">
+		style="width: 85%;">
 		<mat-step *ngIf="newConnection">
 			<ng-template matStepLabel>Driver</ng-template>
 
@@ -10,13 +10,13 @@
 				<div (click)="changeWrapper(wrapper)"
 					 *ngFor="let wrapper of driverNames"
 					 class="logo">
-					<img src="/assets/drivers/{{wrapper | lowercase}}.svg"
-						[style.border-color]="wrapper === server.wrapper ? '#2196f3' : 'transparent'">
+					<img [style.border-color]="wrapper === server.wrapper ? '#2196f3' : 'transparent'"
+						 src="/assets/drivers/{{wrapper | lowercase}}.svg">
 				</div>
 
-				<a href="https://webdb.app/page/features"
+				<a color="accent"
+				   href="https://webdb.app/page/features"
 				   mat-flat-button
-				   color="accent"
 				   target="_blank">
 					<span class="material-symbols-outlined notranslate">
 						database
@@ -26,7 +26,7 @@
 			</div>
 		</mat-step>
 
-		<mat-step optional *ngIf="server.wrapper">
+		<mat-step *ngIf="server.wrapper" optional>
 			<ng-template matStepLabel>SSH Tunnel</ng-template>
 			<div class="login">
 				<mat-form-field appearance="fill">
@@ -49,15 +49,15 @@
 						<button
 							(click)="snackBar.open('Code copied', '╳', {duration: 3000})"
 							[cdkCopyToClipboard]="'cat ~/.ssh/id_rsa'"
-							style="width: 160px"
-							mat-button>
+							mat-button
+							style="width: 160px">
 							cat ~/.ssh/id_rsa
 						</button>
 						<button
 							(click)="snackBar.open('Code copied', '╳', {duration: 3000})"
 							[cdkCopyToClipboard]='"ssh-keygen -t rsa -N \"\" -f ~/.ssh/id_rsa"'
-							style="width: 160px"
-							mat-button>
+							mat-button
+							style="width: 160px">
 							ssh-keygen
 						</button>
 					</div>
@@ -93,8 +93,8 @@
 							[disabled]="!server.ssh.host || !server.ssh.port || !server.ssh.user"
 							[ngClass]="{'mat-flat-button' : sshStatus === 'notConnected'}"
 							color="accent"
-							style="width: 200px;"
-							mat-button>
+							mat-button
+							style="width: 200px;">
 						Test SSH
 					</button>
 
@@ -192,9 +192,9 @@
 			<button
 				(click)="testServer()"
 				[disabled]="!server.host || !server.port || connectionStatus === 'loading'"
-				style="flex: 1;"
 				color="primary"
-				mat-stroked-button>
+				mat-stroked-button
+				style="flex: 1;">
 				<span class="material-symbols-outlined notranslate">
 					network_wifi_2_bar
 				</span>
@@ -202,8 +202,8 @@
 			</button>
 
 			<mat-spinner
-				diameter="30"
 				*ngIf="connectionStatus === 'loading'"
+				diameter="30"
 				mode="indeterminate">
 			</mat-spinner>
 		</div>

@@ -10,7 +10,7 @@
 </div>
 <div mat-dialog-content>
 	<div *ngIf="Object.keys(updateSuggestions).length > 0"
-		style="display: flex; justify-content: space-between; padding: 12px 12px 0px 12px;">
+		 style="display: flex; justify-content: space-between; padding: 12px 12px 0px 12px;">
 		<div *ngFor="let column of updateSuggestions | keyvalue">
 			<mat-form-field appearance="fill">
 				<mat-label>{{column.key}}</mat-label>
@@ -38,8 +38,8 @@
 <mat-dialog-actions>
 	<button (click)="update()"
 			[disabled]="!isTouched()"
-			color="primary"
 			cdkFocusInitial
+			color="primary"
 			mat-flat-button>
 		<span class="material-symbols-outlined notranslate">
 			edit

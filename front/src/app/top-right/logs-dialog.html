@@ -4,7 +4,7 @@
 	<h4>
 		<mat-button-toggle-group
 			(change)="file = $event.value; load(); scrollToBottom()">
-			<mat-button-toggle value='finished.log' checked>
+			<mat-button-toggle checked value='finished.log'>
 				Finished
 			</mat-button-toggle>
 			<mat-button-toggle value='error.log'>
@@ -17,8 +17,8 @@
 		appearance="legacy"
 		color="primary"
 		style="font-size: 13px; flex: 1; margin-bottom: -0.25em">
-		<input [(ngModel)]="filter"
-			   (keyup)="filterChanged()"
+		<input (keyup)="filterChanged()"
+			   [(ngModel)]="filter"
 			   autocomplete="off"
 			   matInput
 			   placeholder="Search Text">
@@ -47,7 +47,7 @@
 <div mat-dialog-content>
 	<pre><code
 		#scrollContainer
-		cdkFocusInitial
 		[innerHTML]="strFiltered"
+		cdkFocusInitial
 		style="overflow: auto; white-space: inherit; height: 30vh; width: 50vw; resize: both; font-size: 12px; box-shadow: #000000 0 6px 6px -6px inset;"></code></pre>
 </div>

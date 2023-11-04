@@ -8,12 +8,13 @@
 	<mat-form-field appearance="fill" style="padding: 20px 20px 0px 20px; flex: 1">
 		<mat-label>Database Name</mat-label>
 		<input #name
-			   cdkFocusInitial
 			   autocomplete="off"
+			   cdkFocusInitial
 			   matInput
 			   required>
 	</mat-form-field>
-	<mat-error *ngIf="name.value && !nameValid(name.value)">Name already taken or containing special characters</mat-error>
+	<mat-error *ngIf="name.value && !nameValid(name.value)">Name already taken or containing special characters
+	</mat-error>
 </div>
 <mat-dialog-actions>
 	<button (click)="createDb(name.value)" [disabled]="!name.value || !nameValid(name.value)" color="primary"

@@ -19,7 +19,7 @@ import { REMOVED_LABELS } from "../../../shared/helper";
 	selector: 'app-explore',
 	styleUrls: ['explore.component.scss'],
 	templateUrl: 'explore.component.html',
-	providers: [{provide: MatPaginatorIntl, useValue: new REMOVED_LABELS()} ]
+	providers: [{provide: MatPaginatorIntl, useValue: new REMOVED_LABELS()}]
 })
 export class ExploreComponent implements OnInit, OnDestroy {
 
@@ -92,7 +92,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 		}, 1000);
 	}
 
-	identify(index: any, rom: any){
+	identify(index: any, rom: any) {
 		return JSON.stringify(rom);
 	}
 

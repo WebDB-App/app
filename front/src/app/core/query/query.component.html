@@ -21,10 +21,10 @@
 
 	<div>
 		<button
-			matTooltip="Format query on run"
 			(click)="autoFormat = !autoFormat"
 			[class.mat-raised-button]="autoFormat"
-			mat-icon-button>
+			mat-icon-button
+			matTooltip="Format query on run">
 			<span class="material-symbols-outlined notranslate">format_indent_increase</span>
 		</button>
 
@@ -42,25 +42,25 @@
 		</mat-menu>
 
 		<button
-			matTooltip="Compare Mode"
 			(click)="diff = !diff; query2 = query;"
 			[class.mat-raised-button]="diff"
-			mat-icon-button>
+			mat-icon-button
+			matTooltip="Compare Mode">
 			<span class="material-symbols-outlined notranslate">splitscreen_left</span>
 		</button>
 
 		<button
-			mat-icon-button
-			matTooltip="Export all results"
 			(click)="exportResult()"
-			[disabled]="!dataSource || dataSource.data.length < 1">
+			[disabled]="!dataSource || dataSource.data.length < 1"
+			mat-icon-button
+			matTooltip="Export all results">
 			<span class="material-symbols-outlined notranslate">export_notes</span>
 		</button>
 
-		<a  mat-icon-button
-			[matTooltip]='(selectedServer!.driver.language.id === "sql" ? "SQL" : (selectedServer!.driver.language.id | titlecase)) + " References"'
-			[href]="selectedServer!.driver.docs.language"
-			target="_blank">
+		<a [href]="selectedServer!.driver.docs.language"
+		   [matTooltip]='(selectedServer!.driver.language.id === "sql" ? "SQL" : (selectedServer!.driver.language.id | titlecase)) + " References"'
+		   mat-icon-button
+		   target="_blank">
 			<span class="material-symbols-outlined notranslate">developer_guide</span>
 		</a>
 
@@ -95,7 +95,8 @@
 		></mat-paginator>
 	</div>
 
-	<input #inputFile (change)="inputChange($event)" accept=".{{selectedServer!.driver.language.extension}}" hidden="true"
+	<input #inputFile (change)="inputChange($event)" accept=".{{selectedServer!.driver.language.extension}}"
+		   hidden="true"
 		   onclick="this.value=null" type="file"/>
 
 	<div>
@@ -103,8 +104,8 @@
 			<mat-icon>more_vert</mat-icon>
 		</button>
 		<mat-menu #advanced="matMenu" xPosition="before">
-			<button	mat-menu-item (click)="inputFile.click()">Load query from file</button>
-			<button	mat-menu-item (click)="saveToDisk()">Save query to file</button>
+			<button (click)="inputFile.click()" mat-menu-item>Load query from file</button>
+			<button (click)="saveToDisk()" mat-menu-item>Save query to file</button>
 			<button (click)="addView()" [disabled]="!isQuerySelect()" mat-menu-item>Create view from query</button>
 			<button (click)="exportQuery()" [disabled]="query.length < 1" mat-menu-item>Export query</button>
 			<button [matMenuTriggerFor]="shortcuts" mat-menu-item>Shortcuts</button>
@@ -144,7 +145,7 @@
 	</ngx-monaco-editor>
 
 	<div *ngIf="!diff && dataSource?.data && dataSource!.data!.length > 0" id="results">
-		<table [dataSource]="dataSource!" class="table" mat-table [trackBy]="identify">
+		<table [dataSource]="dataSource!" [trackBy]="identify" class="table" mat-table>
 			<ng-container
 				*ngFor="let column of displayedColumns"
 				matColumnDef="{{column}}"
@@ -154,8 +155,8 @@
 				</th>
 				<td *matCellDef="let row" mat-cell>
 					<app-cell
-						[stringify]="stringify"
 						[column]="column"
+						[stringify]="stringify"
 						[value]="row[column]"
 					></app-cell>
 				</td>

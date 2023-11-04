@@ -22,8 +22,8 @@ export class ConfigDialog implements OnInit {
 	email = new FormControl('', [Validators.required, Validators.email]);
 	licence?: Licence;
 	env = environment
-	protected readonly packageJson = packageJson;
 	currentYear = new Date().getFullYear();
+	protected readonly packageJson = packageJson;
 
 	constructor(
 		public dialogRef: MatDialogRef<ConfigDialog>,

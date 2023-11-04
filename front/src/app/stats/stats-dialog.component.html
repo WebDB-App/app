@@ -12,11 +12,12 @@
 <div mat-dialog-content>
 	<canvas
 		*ngIf="datasets.length > 0"
-		baseChart height="400px" width="700px"
+		[datasets]="datasets" [labels]="labels" [options]="lineChartOptions"
 		[type]="'line'"
-		[datasets]="datasets"
-		[labels]="labels"
-		[options]="lineChartOptions">
+		style="margin: 8px;"
+		baseChart
+		height="400px"
+		width="700px">
 	</canvas>
 </div>
 

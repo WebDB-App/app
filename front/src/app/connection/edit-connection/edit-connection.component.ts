@@ -7,9 +7,9 @@ import { environment } from "../../../environments/environment";
 import { firstValueFrom } from "rxjs";
 
 @Component({
-  selector: 'app-edit-connection',
-  templateUrl: './edit-connection.component.html',
-  styleUrls: ['./edit-connection.component.scss']
+	selector: 'app-edit-connection',
+	templateUrl: './edit-connection.component.html',
+	styleUrls: ['./edit-connection.component.scss']
 })
 export class EditConnectionComponent implements OnChanges {
 
@@ -17,7 +17,7 @@ export class EditConnectionComponent implements OnChanges {
 	@Output() edited = new EventEmitter<void>();
 
 	newConnection = false;
-	connectionStatus : 'notConnected' | 'loading' | 'connected' = "notConnected";
+	connectionStatus: 'notConnected' | 'loading' | 'connected' = "notConnected";
 	sshStatus: 'notConnected' | 'loading' | 'connected' = "notConnected";
 	showPassword = false;
 	driverNames = Object.keys(drivers);
@@ -29,7 +29,8 @@ export class EditConnectionComponent implements OnChanges {
 	constructor(
 		public snackBar: MatSnackBar,
 		private http: HttpClient,
-	) {	}
+	) {
+	}
 
 	ngOnChanges(changes: SimpleChanges) {
 		if (changes['server']) {

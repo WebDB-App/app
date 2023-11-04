@@ -117,9 +117,9 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 		CreateDatabaseDialog,
 		TablesComponent,
 		CreateTableDialog,
-  		TopRightComponent,
-    	EditConnectionComponent,
-     	StatsDialogComponent,
+		TopRightComponent,
+		EditConnectionComponent,
+		StatsDialogComponent,
 		ProcessDialogComponent
 	],
 	imports: [
@@ -163,7 +163,7 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 		}),
 		MatCheckboxModule,
 		MatTableModule,
-  		NgChartsModule
+		NgChartsModule
 	],
 	providers,
 	bootstrap: [AppComponent]

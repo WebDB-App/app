@@ -61,17 +61,17 @@
 		</span>
 		Symbols
 	</a>
-	<a  [href]="environment.rootUrl + 'changelog.html'"
-		mat-menu-item
-		target="_blank">
+	<a [href]="environment.rootUrl + 'changelog.html'"
+	   mat-menu-item
+	   target="_blank">
 		<span class="material-symbols-outlined notranslate">
 			receipt_long
 		</span>
 		Changelog
 	</a>
 	<a *ngIf="isSQL() === false"
-	   mat-menu-item
 	   href="https://gitlab.com/web-db/public/-/wikis/NoSQL-Disclaimer"
+	   mat-menu-item
 	   target="_blank">
 		<span class="material-symbols-outlined notranslate">
 			indeterminate_question_box

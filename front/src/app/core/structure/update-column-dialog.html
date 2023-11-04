@@ -19,7 +19,7 @@
 		(click)="oldValues = !oldValues"
 		[class.mat-raised-button]="oldValues"
 		color="primary"
-	   	mat-button>
+		mat-button>
 		<span class="material-symbols-outlined notranslate">
 			preview
 		</span>
@@ -43,11 +43,11 @@
 	></mat-spinner>
 
 	<button
-		*ngIf="!isLoading"
 		(click)="update()"
+		*ngIf="!isLoading"
 		[disabled]="!form.valid || JSON.stringify(form.get('old')?.value) === JSON.stringify(form.get('columns')!.value[0])"
-		color="primary"
 		cdkFocusInitial
+		color="primary"
 		mat-flat-button>
 		<span class="material-symbols-outlined notranslate">
 			drive_file_rename_outline

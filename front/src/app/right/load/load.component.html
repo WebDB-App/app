@@ -4,9 +4,9 @@
 		   onclick="this.value=null" type="file"/>
 	<button
 		(click)="inputFile.click()"
-		style="width: 100%"
 		color="accent"
-		mat-stroked-button>
+		mat-stroked-button
+		style="width: 100%">
 		select
 	</button>
 
@@ -19,10 +19,10 @@
 
 		<mat-card-content>
 			<ngx-monaco-editor
-				style="resize: none"
 				*ngIf="files[i].text.length < 10000000"
 				[(ngModel)]="files[i].text"
-				[options]="files[i].editorOptions">
+				[options]="files[i].editorOptions"
+				style="resize: none">
 			</ngx-monaco-editor>
 		</mat-card-content>
 
@@ -69,8 +69,8 @@
 			<mat-progress-bar
 				[color]="file.progress < 0 ? 'warn' : 'accent'"
 				[value]="file.progress"
-				style="margin-top: 8px"
-				mode="determinate">
+				mode="determinate"
+				style="margin-top: 8px">
 			</mat-progress-bar>
 		</mat-card-actions>
 	</mat-card>
@@ -81,9 +81,9 @@
 		<button
 			(click)="importFiles(database.value)"
 			[disabled]="files.length < 1 || isLoading"
-			style="width: 200px;"
 			color="accent"
-			mat-raised-button>
+			mat-raised-button
+			style="width: 200px;">
 			<span class="material-symbols-outlined notranslate">
 				exit_to_app
 			</span>

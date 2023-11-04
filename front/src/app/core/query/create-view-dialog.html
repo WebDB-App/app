@@ -28,8 +28,8 @@
 	</mat-dialog-content>
 
 	<mat-dialog-actions>
-		<button [disabled]="!form.valid"
-				(click)="create()"
+		<button (click)="create()"
+				[disabled]="!form.valid"
 				color="primary"
 				mat-flat-button>
 			<span class="material-symbols-outlined notranslate">

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Server } from "../../../classes/server";
 import { Database } from "../../../classes/database";
 import { NestedTreeControl } from "@angular/cdk/tree";
@@ -89,7 +89,8 @@ export class DumpComponent {
 				includeData: this.includeData
 			});
 			saveAs(environment.rootUrl + result.path, result.path.split('/')[1]);
-		} catch (e) {}
+		} catch (e) {
+		}
 		this.isLoading = false;
 	}
 }

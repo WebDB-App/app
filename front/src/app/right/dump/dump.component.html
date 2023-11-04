@@ -27,8 +27,8 @@
 		</mat-progress-spinner>
 
 		<button (click)="dump(group.value)"
-				[disabled]="checklistSelection.isEmpty()"
 				*ngIf="!isLoading"
+				[disabled]="checklistSelection.isEmpty()"
 				color="accent"
 				mat-raised-button>
 			<span class="material-symbols-outlined notranslate">

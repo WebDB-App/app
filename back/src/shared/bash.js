@@ -45,7 +45,7 @@ class Bash {
 		let cid;
 
 		try {
-			cid = this.startCommand(cmd, "bash",  "");
+			cid = this.startCommand(cmd, "bash", "");
 			const result = execSync(cmd, {shell: "/bin/bash"}).toString();
 			lght = result.length;
 			return {result};

@@ -53,15 +53,11 @@ class Msg {
 })
 export class AiComponent implements OnInit {
 
-	@ViewChild('scrollContainer') private scrollContainer!: ElementRef;
-	@ViewChild('settings') private settings!: ElementRef;
-
 	selectedServer?: Server;
 	selectedDatabase?: Database;
 	licence?: Licence;
 	configuration: Configuration = new Configuration();
 	initialized = false
-
 	Role = Role;
 	examples = [
 		'Adapt this query to retrieve "registering_date" : `SELECT email, password FROM users WHERE email LIKE ?`',
@@ -79,11 +75,9 @@ export class AiComponent implements OnInit {
 	chat: Msg[] = [];
 	openai?: OpenAI;
 	isLoading = false;
-
 	editorOptions = {
 		language: "plaintext"
 	};
-
 	sample = "";
 	config = {
 		model: "gpt-3.5-turbo-16k",
@@ -98,8 +92,9 @@ export class AiComponent implements OnInit {
 	}
 	stream?: string;
 	abort = false;
-
 	protected readonly isSQL = isSQL;
+	@ViewChild('scrollContainer') private scrollContainer!: ElementRef;
+	@ViewChild('settings') private settings!: ElementRef;
 
 	constructor(
 		private request: RequestService,
@@ -196,7 +191,9 @@ export class AiComponent implements OnInit {
 			model: this.config.model,
 			messages: [
 				{role: Role.System, content: this.sample},
-				...(this.chat.map(ch => { return { role: ch.user, content: ch.txt } }))
+				...(this.chat.map(ch => {
+					return {role: ch.user, content: ch.txt}
+				}))
 			],
 			stream: true,
 			temperature: this.config.temperature

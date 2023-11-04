@@ -4,10 +4,10 @@
 	</div>
 
 	<div>
-		<a	target="_blank"
-			href="https://google.com/search?q={{data.error.error}}"
-			matTooltip="Search on web"
-			mat-icon-button>
+		<a href="https://google.com/search?q={{data.error.error}}"
+		   mat-icon-button
+		   matTooltip="Search on web"
+		   target="_blank">
 			<span class="material-symbols-outlined notranslate">
 				travel_explore
 			</span>
@@ -15,16 +15,16 @@
 
 		<button
 			(click)="assistant()"
-			matTooltip="Ask IA for help"
-			mat-icon-button>
+			mat-icon-button
+			matTooltip="Ask IA for help">
 			<span class="material-symbols-outlined notranslate">
 				support_agent
 			</span>
 		</button>
 
 		<button
-			mat-icon-button
-			(click)="bottomSheetRef.dismiss()">
+			(click)="bottomSheetRef.dismiss()"
+			mat-icon-button>
 			<span class="material-symbols-outlined notranslate">
 				close
 			</span>

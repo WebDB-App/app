@@ -4,9 +4,9 @@ import { DrawerService } from "../drawer.service";
 import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
-  selector: 'app-error',
-  templateUrl: './error.component.html',
-  styleUrls: ['./error.component.scss']
+	selector: 'app-error',
+	templateUrl: './error.component.html',
+	styleUrls: ['./error.component.scss']
 })
 export class ErrorComponent {
 
@@ -19,7 +19,8 @@ export class ErrorComponent {
 			error: any,
 			context: any
 		}
-	) {}
+	) {
+	}
 
 	async assistant() {
 		this.bottomSheetRef.dismiss();
