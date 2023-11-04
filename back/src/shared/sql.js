@@ -50,7 +50,7 @@ module.exports = class SQL extends Driver {
     		REFERENCES ${this.nameDel + relation.table_dest + this.nameDel} (${this.nameDel + relation.column_dest + this.nameDel})
 			ON DELETE ${relation.delete_rule}
 			ON UPDATE ${relation.update_rule}`,
-			relation.database);
+		relation.database);
 	}
 
 	async dropRelation(relation) {

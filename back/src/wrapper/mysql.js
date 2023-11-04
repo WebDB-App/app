@@ -108,7 +108,7 @@ module.exports = class MySQL extends SQL {
 	async duplicateTable(database, old_table, new_name) {
 		return await this.runCommand(`CREATE TABLE \`${new_name}\` LIKE \`${old_table}\`;
 			INSERT INTO \`${new_name}\` SELECT * FROM \`${old_table}\`;`,
-			database);
+		database);
 	}
 
 	async createDatabase(name) {

@@ -324,7 +324,7 @@ module.exports = class PostgreSQL extends SQL {
 
 		let error = "PostgreSQL database deletion is not supported with WebDB.\n";
 		error += "First, close all connection to this database, so restart WebDB and other possibly connected app\n";
-		error += `Finally, run: \n`;
+		error += "Finally, run: \n";
 		error += `# psql ${this.makeUri()} -c 'DROP DATABASE ${this.nameDel + name + this.nameDel}'`;
 		return {error};
 	}
