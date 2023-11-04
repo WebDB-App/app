@@ -1,6 +1,3 @@
-capture
-select first tab
-
 tester DISABLE_WATCHER
 tls + cloud (google sql / atlas / rds / aurora) + afficher dans la landing
 

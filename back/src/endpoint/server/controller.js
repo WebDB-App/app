@@ -24,7 +24,8 @@ class Controller {
 			}
 		}
 
-		res.send((await Promise.all(promises)).filter(prom => prom.length).flat());
+		const openned = (await Promise.all(promises)).filter(prom => prom.length).flat();
+		res.send([...new Set(openned)]);
 	}
 
 	async getStructure(req, res) {

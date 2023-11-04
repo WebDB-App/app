@@ -71,6 +71,10 @@ export class DiagramComponent implements OnDestroy {
 				entity.position = {x: position.x, y: position.y}
 			}
 
+			if (!table.columns) {
+				continue;
+			}
+
 			for (const col of table.columns) {
 				const relation = this.relations.find(relation => relation.table_source === table.name && relation.column_source === col.name);
 
