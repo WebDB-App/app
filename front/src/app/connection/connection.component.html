@@ -72,8 +72,13 @@
 	<mat-tab-group #tabGroup>
 		<mat-tab
 			*ngFor="let status of Object.values(Status)"
-			[disabled]="getServerByStatus(status).length < 1"
 			[label]="status">
+
+			<mat-card *ngIf="getServerByStatus(status).length < 1">
+				<h3 style="height: 100%; display: flex; justify-content: center; align-items: center;">
+					No {{status}} server
+				</h3>
+			</mat-card>
 
 			<mat-card
 				*ngFor="let server of getServerByStatus(status)"
