@@ -190,6 +190,13 @@ export class ConnectionComponent implements OnInit {
 			return !server.connected && (!server.scanned || server.stored);
 		});
 	}
+
+	async finished(edition: boolean) {
+		if (edition) {
+			delete this.editServer;
+		}
+		await this.ngOnInit();
+	}
 }
 
 @Component({

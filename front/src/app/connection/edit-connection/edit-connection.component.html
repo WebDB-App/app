@@ -26,7 +26,7 @@
 			</div>
 		</mat-step>
 
-		<mat-step optional>
+		<mat-step optional *ngIf="server.wrapper">
 			<ng-template matStepLabel>SSH Tunnel</ng-template>
 			<div class="login">
 				<mat-form-field appearance="fill">
@@ -43,33 +43,37 @@
 				</mat-form-field>
 			</div>
 
-			<div style="display: flex">
-				<div style="width: 30%">
-					<mat-form-field appearance="standard" style="width: 100%">
+			<div class="login">
+				<div>
+					<div>
+						<button
+							(click)="snackBar.open('Code copied', '╳', {duration: 3000})"
+							[cdkCopyToClipboard]="'cat ~/.ssh/id_rsa'"
+							style="width: 160px"
+							mat-button>
+							cat ~/.ssh/id_rsa
+						</button>
+						<button
+							(click)="snackBar.open('Code copied', '╳', {duration: 3000})"
+							[cdkCopyToClipboard]='"ssh-keygen -t rsa -N \"\" -f ~/.ssh/id_rsa"'
+							style="width: 160px"
+							mat-button>
+							ssh-keygen
+						</button>
+					</div>
+					<mat-form-field appearance="standard" style="width: 100%;">
 						<mat-label>Private Key</mat-label>
 						<textarea
 							[(ngModel)]="server.ssh.privateKey"
 							cdkTextareaAutosize
 							matInput
-							style="max-height: 10vh;">
+							style="max-height: 100px;">
 						</textarea>
 					</mat-form-field>
-					<div>
-						<button (click)="snackBar.open('Code copied', '╳', {duration: 3000})"
-								[cdkCopyToClipboard]="'cat ~/.ssh/id_rsa'"
-								mat-button>
-							Get id_rsa
-						</button>
-
-						<button (click)="snackBar.open('Code copied', '╳', {duration: 3000})"
-								[cdkCopyToClipboard]='"ssh-keygen -t rsa -N \"\" -f ~/.ssh/id_rsa"'
-								mat-button>
-							Generate key
-						</button>
-					</div>
 				</div>
 
-				<span style="margin: 0px 30px">
+
+				<span>
 					OR
 				</span>
 
@@ -83,10 +87,8 @@
 							  style="cursor: pointer; position: absolute; right: 0px; top: -22px">
 						{{!showPassword ? 'visibility' : 'visibility_off'}}</mat-icon>
 				</mat-form-field>
-			</div>
 
-			<div>
-				<div fxLayout="row">
+				<div style="display: flex;">
 					<button (click)="testSSH()"
 							[disabled]="!server.ssh.host || !server.ssh.port || !server.ssh.user"
 							[ngClass]="{'mat-flat-button' : sshStatus === 'notConnected'}"
@@ -105,10 +107,10 @@
 				</div>
 			</div>
 		</mat-step>
-		<mat-step>
+		<mat-step *ngIf="server.wrapper">
 			<ng-template matStepLabel>Address & Credentials</ng-template>
-			<div class="login">
-				<div>
+			<div>
+				<div class="login">
 					<mat-form-field appearance="fill">
 						<mat-label>Host / IP</mat-label>
 						<input [(ngModel)]="server.host" autocomplete="off" matInput required>
@@ -118,7 +120,7 @@
 						<input [(ngModel)]="server.port" matInput max="47000" min="1" required type="number">
 					</mat-form-field>
 				</div>
-				<div>
+				<div class="login">
 					<mat-form-field appearance="outline">
 						<mat-label>User</mat-label>
 						<input [(ngModel)]="server.user" matInput>
@@ -136,7 +138,7 @@
 				</div>
 			</div>
 		</mat-step>
-		<mat-step>
+		<mat-step *ngIf="server.wrapper">
 			<ng-template matStepLabel>Driver Parameters</ng-template>
 
 			<div style="display: flex;">
@@ -186,27 +188,40 @@
 			Forget
 		</button>
 
-		<button (click)="testServer()"
-				[color]="connected ? 'accent' : 'primary'"
-				[disabled]="!server.host || !server.port"
-				mat-stroked-button>
-			<span class="material-symbols-outlined notranslate">
-				network_wifi_2_bar
-			</span>
-			Test
-		</button>
-
-		<button (click)="saveConnection()"
-				[disabled]="!connected"
+		<div style="display: flex;">
+			<button
+				(click)="testServer()"
+				[disabled]="!server.host || !server.port || connectionStatus === 'loading'"
+				style="flex: 1;"
 				color="primary"
-				mat-flat-button>
+				mat-stroked-button>
+				<span class="material-symbols-outlined notranslate">
+					network_wifi_2_bar
+				</span>
+				Test
+			</button>
+
+			<mat-spinner
+				diameter="30"
+				*ngIf="connectionStatus === 'loading'"
+				mode="indeterminate">
+			</mat-spinner>
+		</div>
+
+		<button
+			(click)="saveConnection()"
+			[disabled]="connectionStatus !== 'connected'"
+			color="primary"
+			mat-flat-button>
 			<span class="material-symbols-outlined notranslate">
 				wifi_add
 			</span>
 			Save
 		</button>
 
-		<button aria-label="close dialog" mat-dialog-close mat-button>
+		<button
+			(click)="edited.emit()"
+			mat-button>
 			<mat-icon>close</mat-icon>
 			Discard
 		</button>

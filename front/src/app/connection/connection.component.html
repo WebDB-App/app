@@ -159,7 +159,7 @@
 								style="justify-self: center"
 								mat-button>
 								<span class="material-symbols-outlined notranslate">
-									process_chart
+									smart_display
 								</span>
 								Process
 							</button>
@@ -168,7 +168,7 @@
 								style="justify-self: center"
 								mat-button>
 								<span class="material-symbols-outlined notranslate">
-									monitoring
+									stacked_line_chart
 								</span>
 								Stats
 							</button>
@@ -178,10 +178,19 @@
 						<ng-container *ngIf="!server.scanned">
 							<br>
 							<mat-error>
-								<div style="text-align: center">
-									Unreachable or bad credentials
-								</div>
+								Unreachable or bad credentials
 							</mat-error>
+							<br>
+							<br>
+							<button
+								(click)="editServer = server; tabGroup.selectedIndex = 3"
+								style="justify-self: center"
+								mat-button>
+								<span class="material-symbols-outlined notranslate">
+									network_manage
+								</span>
+								Edit
+							</button>
 						</ng-container>
 						<div class="login"
 							 *ngIf="server.scanned"
@@ -241,7 +250,7 @@
 			</ng-template>
 			<mat-card>
 				<mat-card-content>
-					<app-edit-connection [server]="editServer"></app-edit-connection>
+					<app-edit-connection [server]="editServer" (edited)="finished(true)"></app-edit-connection>
 				</mat-card-content>
 			</mat-card>
 		</mat-tab>
@@ -254,7 +263,7 @@
 			</ng-template>
 			<mat-card>
 				<mat-card-content>
-					<app-edit-connection [server]="newServer"></app-edit-connection>
+					<app-edit-connection [server]="newServer" (edited)="finished(false)"></app-edit-connection>
 				</mat-card-content>
 			</mat-card>
 		</mat-tab>

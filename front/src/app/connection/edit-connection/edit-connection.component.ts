@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import * as drivers from "../../../drivers";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { HttpClient } from "@angular/common/http";
@@ -14,9 +14,10 @@ import { firstValueFrom } from "rxjs";
 export class EditConnectionComponent implements OnChanges {
 
 	@Input() server!: Server;
+	@Output() edited = new EventEmitter<void>();
 
 	newConnection = false;
-	connected = false;
+	connectionStatus : 'notConnected' | 'loading' | 'connected' = "notConnected";
 	sshStatus: 'notConnected' | 'loading' | 'connected' = "notConnected";
 	showPassword = false;
 	driverNames = Object.keys(drivers);
@@ -57,16 +58,17 @@ export class EditConnectionComponent implements OnChanges {
 	}
 
 	async testServer() {
-		this.connected = false;
+		this.connectionStatus = 'loading';
 		this.saveParams();
 		const data = await firstValueFrom(this.http.post<any>(environment.apiRootUrl + 'server/connect', Server.getShallow(this.server)));
 
 		if (data.error) {
+			this.connectionStatus = 'notConnected';
 			this.snackBar.open(data.error, "╳", {duration: 3000});
 			return;
 		}
 		this.snackBar.open("Connection Valid", "╳", {duration: 3000});
-		this.connected = true;
+		this.connectionStatus = 'connected';
 	}
 
 	async testSSH() {
@@ -86,12 +88,12 @@ export class EditConnectionComponent implements OnChanges {
 	forget() {
 		Server.remove(this.server!.name);
 		this.snackBar.open(this.server!.name + " Forgot", "╳", {duration: 3000});
-		//this.dialogRef.close(false);
+		this.edited.emit();
 	}
 
 	saveConnection() {
 		this.saveParams();
 		Server.remove(this.server.name);
-		//this.dialogRef.close(Server.add(this.server));
+		this.edited.emit();
 	}
 }

@@ -18,7 +18,7 @@
 		"node-port-scanner": "latest",
 		"pg": "latest",
 		"software-license-key": "latest",
-		"ssh-tunneling": "latest"
+		"ssh2": "latest"
 	},
 	"devDependencies": {
 		"eslint": "latest"

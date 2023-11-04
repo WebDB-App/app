@@ -1,5 +1,5 @@
-const fs = require("fs");
-const { SshTunnel } = require("ssh-tunneling");
+const net = require("net");
+const {Client} = require("ssh2");
 
 class Controller {
 
@@ -16,30 +16,65 @@ class Controller {
 			return this.pool[makeHash(connection)];
 		}
 
-		const sshOptions = {
+		const forwardPort = await this.newTunnel(connection);
+		this.pool[makeHash(connection)] = forwardPort;
+		return forwardPort;
+	}
+
+	async newTunnel(connection, test = false) {
+		const client = new Client();
+		const cfg = {
 			host: connection.ssh.host,
 			port: connection.ssh.port,
 			username: connection.ssh.user,
-			readyTimeout: 1000
+			readyTimeout: 10000
 		};
 		if (connection.ssh.password) {
-			sshOptions["password"] = connection.ssh.password;
+			cfg["password"] = connection.ssh.password;
 		} else {
-			sshOptions["privateKey"] = connection.ssh.privateKey;
+			cfg["privateKey"] = connection.ssh.privateKey;
 		}
-		const client = new SshTunnel(sshOptions);
-		const forwardInfo = await client.forwardOut(`${connection.port + 10}:${connection.host}:${connection.port}`);
 
-		this.pool[makeHash(connection)] = forwardInfo.localPort;
-		return forwardInfo.localPort;
+		await new Promise((resolve, reject) => {
+			client.on("ready", () => {
+				resolve();
+			}).on("error", (err) => {
+				reject(err);
+			}).connect(cfg);
+		});
+
+		if (test) {
+			return client.end();
+		}
+
+		const freePort = await new Promise(res => {
+			const srv = net.createServer();
+			srv.listen(0, () => {
+				const port = srv.address().port;
+				srv.close(() => res(port));
+			});
+		});
+
+		await new Promise((resolve, reject) => {
+			client.forwardOut("127.0.0.1", freePort, connection.host, connection.port, (err) => {
+				if (err) {
+					client.end();
+					console.error(err);
+					reject(err);
+				}
+				resolve(true);
+			});
+		});
+
+		return freePort;
 	}
 
 	async test(req, res) {
 		try {
-			await this.handleSsh(req.body, false);
+			await this.newTunnel(req.body, true);
 			return res.send({ok: true});
 		} catch (error) {
-			return res.send({error: JSON.stringify(error)});
+			return res.send({error: error.message});
 		}
 	}
 }
