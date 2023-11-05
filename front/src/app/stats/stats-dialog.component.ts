@@ -65,10 +65,8 @@ export class StatsDialogComponent implements OnInit, OnDestroy {
 				this.datasets.push({
 					data: [+stat.Value],
 					label: stat.Variable_name,
-					fill: false,
-					pointRadius: 1,
-					tension: 0.2,
-					backgroundColor: 'transparent'
+					borderWidth: 2,
+					radius: 2,
 				});
 			}
 		}

@@ -6,7 +6,7 @@
 			   [(ngModel)]="filter"
 			   autocomplete="off"
 			   matInput
-			   placeholder="Search in patches">
+			   placeholder="Search in versions">
 		<button (click)="filter = ''; filterChanged()"
 				*ngIf="filter"
 				aria-label="Clear" mat-icon-button
@@ -48,7 +48,7 @@
 			<mat-card-header>
 				<mat-card-subtitle>
 					<br>
-					No patch yet, make a modification to your database to see one
+					No version yet, make a modification to your database to see one
 				</mat-card-subtitle>
 			</mat-card-header>
 		</mat-card>

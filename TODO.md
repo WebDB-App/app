@@ -1,7 +1,15 @@
 tester DISABLE_WATCHER
-tls + cloud (google sql / atlas / rds / aurora) + afficher dans la landing
+
+seed + api + migrer email column
+
+# Other
+- tls + cloud (google sql / atlas / rds / aurora) + afficher dans la landing
+- sql function doc (generate from web scrap)
+- ERD
 
 
+
+----------------------------------------------------------
 
 
 # IA
@@ -22,13 +30,6 @@ tls + cloud (google sql / atlas / rds / aurora) + afficher dans la landing
 - Stripe Metadata additionnal feature
 
 
-
-
-----------------------------------------------------------
-
-
-
-
 # Relation wizard
 - 1,1 -> 0,n
 - 0,n -> 1,1
@@ -44,8 +45,3 @@ tls + cloud (google sql / atlas / rds / aurora) + afficher dans la landing
 - columns with array > 2 : harmonize to one of the type (attention deep)
 - obj column update
 - harmonizer obj > 2
-
-
-# Other
-- sql function doc (generate from web scrap)
-- ERD

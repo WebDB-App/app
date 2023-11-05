@@ -67,8 +67,9 @@ export class Column {
 				if (!control.value || helper.isNested(control.value)) {
 					return null;
 				}
+				const val = control.value.split("(")[0].trim().toLowerCase();
 				for (const type of allTypes) {
-					if (control.value.startsWith(type)) {
+					if (val === type.split("(")[0].trim().toLowerCase()) {
 						return null;
 					}
 				}
