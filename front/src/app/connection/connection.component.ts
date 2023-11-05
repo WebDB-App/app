@@ -166,7 +166,7 @@ export class ConnectionComponent implements OnInit {
 	processServer(server: Server) {
 		this.dialog.open(ProcessDialogComponent, {
 			hasBackdrop: false,
-			id: server.name,
+			id: 'process-' + server.name,
 			data: server,
 		});
 	}
@@ -174,7 +174,7 @@ export class ConnectionComponent implements OnInit {
 	statsServer(server: Server) {
 		this.dialog.open(StatsDialogComponent, {
 			hasBackdrop: false,
-			id: server.name,
+			id: 'stats-' + server.name,
 			data: server,
 		});
 	}

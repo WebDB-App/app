@@ -9,15 +9,15 @@
 		<mat-icon>close</mat-icon>
 	</button>
 </div>
-<div mat-dialog-content>
+<div mat-dialog-content style="resize: both; overflow: auto; width: 600px; height: 300px; min-width: 400px; min-height: 200px; padding: 0px 8px;">
 	<canvas
 		*ngIf="datasets.length > 0"
-		[datasets]="datasets" [labels]="labels" [options]="lineChartOptions"
+		[datasets]="datasets"
+		[labels]="labels"
+		[options]="lineChartOptions"
 		[type]="'line'"
-		style="margin: 8px;"
-		baseChart
-		height="400px"
-		width="700px">
+		style="height: 100% !important; width: 100% !important;"
+		baseChart>
 	</canvas>
 </div>
 

@@ -43,7 +43,7 @@ export class TopRightComponent {
 	showProcess() {
 		this.dialog.open(ProcessDialogComponent, {
 			hasBackdrop: false,
-			id: Server.getSelected().name,
+			id: 'process',
 			data: {...Server.getSelected()},
 		});
 	}
@@ -51,7 +51,7 @@ export class TopRightComponent {
 	showStats() {
 		this.dialog.open(StatsDialogComponent, {
 			hasBackdrop: false,
-			id: Server.getSelected().name,
+			id: 'stats',
 			data: {...Server.getSelected()},
 		});
 	}

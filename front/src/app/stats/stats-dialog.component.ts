@@ -18,16 +18,28 @@ export class StatsDialogComponent implements OnInit, OnDestroy {
 	public labels: string[] = [];
 	public datasets: any[] = [];
 	public lineChartOptions: ChartOptions<'line'> = {
-		responsive: false,
 		plugins: {
 			legend: {
+				position: 'right',
 				display: true,
 				labels: {
+					boxWidth: 2,
 					color: 'white'
 				}
 			},
 		},
-
+		scales: {
+			x: {
+				display: true,
+				grid: {
+					display: false
+				}
+			},
+			y: {
+				display: true,
+				type: 'logarithmic',
+			}
+		}
 	};
 
 	constructor(
@@ -54,6 +66,7 @@ export class StatsDialogComponent implements OnInit, OnDestroy {
 					data: [+stat.Value],
 					label: stat.Variable_name,
 					fill: false,
+					pointRadius: 1,
 					tension: 0.2,
 					backgroundColor: 'transparent'
 				});

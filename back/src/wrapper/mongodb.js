@@ -86,16 +86,18 @@ module.exports = class MongoDB extends Driver {
 	async serverStats() {
 		const stats = await this.connection.db().admin().command({serverStatus: 1});
 		return [
-			{Variable_name: "connActive", "Value": stats.connections.active},
-			{Variable_name: "connCurrent", "Value": stats.connections.current},
-			{Variable_name: "connRejected", "Value": stats.connections.rejected},
-			{Variable_name: "connTotalCreated", "Value": stats.connections.totalCreated},
+			{Variable_name: "conActive", "Value": stats.connections.active},
+			{Variable_name: "conCurrent", "Value": stats.connections.current},
+			{Variable_name: "conRejected", "Value": stats.connections.rejected},
 			{Variable_name: "bytesIn", "Value": stats.network.bytesIn},
 			{Variable_name: "bytesOut", "Value": stats.network.bytesOut},
-			{Variable_name: "opCommand", "Value": stats.opcounters.command},
+			{Variable_name: "latencyReads", "Value": stats.opLatencies.reads.latency},
+			{Variable_name: "latencyWrites", "Value": stats.opLatencies.writes.latency},
 			{Variable_name: "opDelete", "Value": stats.opcounters.delete},
 			{Variable_name: "opInsert", "Value": stats.opcounters.insert},
-			{Variable_name: "opQuery", "Value": stats.opcounters.query}
+			{Variable_name: "opQuery", "Value": stats.opcounters.query},
+			{Variable_name: "transAborted", "Value": stats.transactions.totalAborted},
+			{Variable_name: "transCommitted", "Value": stats.transactions.totalCommitted},
 		];
 	}
 

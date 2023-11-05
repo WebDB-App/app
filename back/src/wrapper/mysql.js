@@ -124,7 +124,7 @@ module.exports = class MySQL extends SQL {
 	}
 
 	async serverStats() {
-		return await this.runCommand("SHOW STATUS WHERE Variable_name IN ('Aborted_clients', 'Aborted_connects', 'Bytes_received', 'Bytes_sent', 'Connections', 'Created_tmp_files', 'Created_tmp_tables', 'Questions')");
+		return await this.runCommand("SHOW STATUS WHERE Variable_name IN ('Aborted_clients', 'Aborted_connects', 'Bytes_received', 'Bytes_sent', 'Connections', 'Created_tmp_files', 'Created_tmp_tables', 'Innodb_rows_updated', 'Innodb_rows_deleted', 'Innodb_rows_inserted', 'Innodb_rows_read', 'Threads_running')");
 	}
 
 	async getAvailableCollations() {
