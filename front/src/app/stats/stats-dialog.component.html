@@ -5,6 +5,13 @@
 		Stats of {{server.name}}
 	</h4>
 
+	<mat-checkbox
+		style="font-size: 14px"
+		(change)="showLive = !showLive"
+		color="primary">
+		Foreground latest values
+	</mat-checkbox>
+
 	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
 		<mat-icon>close</mat-icon>
 	</button>

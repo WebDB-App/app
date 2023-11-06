@@ -11,14 +11,17 @@
 		<mat-list fxLayout="column">
 			<mat-list-item style="box-shadow: 0px 0px 0px, 0px 4px 6px -4px rgba(0, 0, 0, 0.6);">
 				<mat-form-field appearance="standard" style="width: 100%">
-					<input #filter
-						   (keyup)="filterChanged(filter.value)"
-						   autocomplete="off"
-						   matInput
-						   placeholder="Search Table | Column | Type">
-					<button (click)="filter.value=''; filterChanged(filter.value)" *ngIf="filter.value"
-							aria-label="Clear" mat-icon-button
-							matSuffix>
+					<input
+						#filter
+						(keyup)="filterChanged(filter.value)"
+						autocomplete="off"
+						matInput
+						placeholder="Search Table | Column | Type">
+					<button
+						(click)="filter.value=''; filterChanged(filter.value)"
+						*ngIf="filter.value"
+						aria-label="Clear" mat-icon-button
+						matSuffix>
 						<mat-icon>close</mat-icon>
 					</button>
 				</mat-form-field>

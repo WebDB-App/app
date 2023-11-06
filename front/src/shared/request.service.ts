@@ -63,28 +63,16 @@ export class RequestService {
 		return result;
 	}
 
-	async connectServers(servers: Server[], full = true) {
-		const promises: Promise<Server>[] = [];
+	async connectServer(server: Server) {
+		// @ts-ignore
+		server.driver = new drivers[server.wrapper];
+		server.params = server.params || server.driver.connection.defaultParams;
 
-		for (let server of servers) {
-			promises.push(new Promise(async resolve => {
-				try {
-					// @ts-ignore
-					server.driver = new drivers[server.wrapper];
-				} catch (e) {
-					console.error(e);
-				}
-				server.params = server.params || server.driver.connection.defaultParams;
+		const connect = await firstValueFrom(this.http.post<any>(environment.apiRootUrl + 'server/connect', Server.getShallow(server)));
 
-				const connect = await firstValueFrom(this.http.post<any>(environment.apiRootUrl + 'server/connect', Server.getShallow(server)));
-
-				server.connected = !connect.error;
-				server.uri = connect.uri;
-				resolve(server);
-			}));
-		}
-
-		return await this.loadServers(await Promise.all(promises), full);
+		server.connected = !connect.error;
+		server.uri = connect.uri;
+		return server;
 	}
 
 	async loadServers(servers: Server[], full: boolean) {

@@ -90,7 +90,8 @@ export class ConnectionComponent implements OnInit {
 			}
 		}
 
-		this.servers = (await this.request.connectServers(locals, false)).sort((a, b) => {
+		const servers = await this.request.loadServers(await Promise.all(locals.map(server => this.request.connectServer(server))), false);
+		this.servers = servers.sort((a, b) => {
 			return Number(a.port) - Number(b.port)
 		});
 	}

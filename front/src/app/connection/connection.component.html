@@ -1,13 +1,17 @@
 <mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
 	<mat-form-field appearance="standard" style="width: 250px">
-		<input #filter
-			   (keyup)="filterChanged(filter.value)"
-			   autocomplete="off"
-			   matInput
-			   placeholder="Search Server | Database">
-		<button (click)="filter.value=''; filterChanged(filter.value)" *ngIf="filter.value" aria-label="Clear"
-				mat-icon-button
-				matSuffix>
+		<input
+			#filter
+			(keyup)="filterChanged(filter.value)"
+			autocomplete="off"
+			matInput
+			placeholder="Search Server | Database">
+		<button
+			(click)="filter.value=''; filterChanged(filter.value)"
+			*ngIf="filter.value"
+			aria-label="Clear"
+			mat-icon-button
+			matSuffix>
 			<mat-icon>close</mat-icon>
 		</button>
 	</mat-form-field>

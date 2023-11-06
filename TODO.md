@@ -1,6 +1,5 @@
 tester DISABLE_WATCHER
 
-seed + api + migrer email column
 
 # Other
 - tls + cloud (google sql / atlas / rds / aurora) + afficher dans la landing

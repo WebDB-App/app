@@ -1,7 +1,7 @@
 import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Server } from "../../classes/server";
 import { RequestService } from "../../shared/request.service";
-import { ChartOptions } from "chart.js";
+import { Chart, ChartOptions } from "chart.js";
 import { MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { BaseChartDirective } from "ng2-charts";
 
@@ -26,8 +26,9 @@ export class StatsDialogComponent implements OnInit, OnDestroy {
 					boxWidth: 2,
 					color: 'white'
 				}
-			},
+			}
 		},
+		animation: false,
 		scales: {
 			x: {
 				display: true,
@@ -41,6 +42,7 @@ export class StatsDialogComponent implements OnInit, OnDestroy {
 			}
 		}
 	};
+	showLive = false;
 
 	constructor(
 		private request: RequestService,
@@ -55,6 +57,25 @@ export class StatsDialogComponent implements OnInit, OnDestroy {
 		}, 2000);
 	}
 
+	triggerTooltip() {
+		if (!this.chart || !this.chart.chart || !this.chart.chart.tooltip) {
+			return;
+		}
+
+		const tooltip = this.chart.chart.tooltip;
+		const chartArea = this.chart.chart.chartArea;
+		const index = this.datasets[0].data.length - 1;
+		const actives = this.datasets.map((val, ind) => {
+			return {datasetIndex: ind, index: index};
+		});
+
+		tooltip.setActiveElements(actives, {
+			x: (chartArea.left + chartArea.right) / 2,
+			y: (chartArea.top + chartArea.bottom) / 2,
+		});
+		this.chart.update();
+	}
+
 	async refreshData() {
 		const stats = await this.request.post('stats/server', {}, undefined, undefined, this.server);
 		for (const stat of stats) {
@@ -66,12 +87,15 @@ export class StatsDialogComponent implements OnInit, OnDestroy {
 					data: [+stat.Value],
 					label: stat.Variable_name,
 					borderWidth: 2,
-					radius: 2,
+					radius: 1,
 				});
 			}
 		}
 		this.labels.push('');
 		this.chart?.update();
+		if (this.showLive) {
+			this.triggerTooltip();
+		}
 	}
 
 	ngOnDestroy() {

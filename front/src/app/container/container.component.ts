@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 import { MatDrawer } from "@angular/material/sidenav";
 import { DrawerService } from "../../shared/drawer.service";
 import { Server } from "../../classes/server";
@@ -46,7 +46,6 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 	constructor(
 		public activatedRoute: ActivatedRoute,
 		public request: RequestService,
-		private router: Router,
 		private drawerService: DrawerService,
 		private dialog: MatDialog
 	) {
@@ -61,14 +60,18 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	async ngOnInit() {
 		this.loading = LoadingStatus.LOADING;
-		let server, database;
+
 		const local = Server.getAll().find(local => local.name === this.activatedRoute.snapshot.paramMap.get('server'));
+		let server;
 
 		try {
-			server = (await this.request.connectServers([local!]))[0];
-			database = server?.dbs.find(db => db.name === this.activatedRoute.snapshot.paramMap.get('database'))!;
+			server = (await this.request.loadServers([await this.request.connectServer(local!)], true))[0];
 		} catch (e) {
+			this.loading = LoadingStatus.ERROR;
+			return;
 		}
+
+		const database = server?.dbs.find(db => db.name === this.activatedRoute.snapshot.paramMap.get('database'))!;
 
 		if (!server || !database) {
 			this.loading = LoadingStatus.ERROR;

@@ -75,12 +75,12 @@ module.exports = class MongoDB extends Driver {
 	async process() {
 		const ops = await this.connection.db().admin().command({currentOp: true});
 		return ops.inprog.map(op => {
-			return {pid: op.opid, query: op.op, duration: Math.floor(op.microsecs_running / 1000)};
+			return {pid: op.opid, query: op.ns + " : " + op.op, duration: Math.floor(op.microsecs_running / 1000)};
 		});
 	}
 
 	async kill(pid) {
-		await this.connection.db().admin().command({killOp: pid});
+		await this.connection.db().admin().command({killOp: 1, op: pid});
 	}
 
 	async serverStats() {

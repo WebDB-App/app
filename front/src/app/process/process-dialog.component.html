@@ -12,28 +12,45 @@
 <div mat-dialog-content>
 	<table [dataSource]="processList" mat-table>
 		<ng-container matColumnDef="pid">
-			<th *matHeaderCellDef mat-header-cell> PID</th>
+			<th *matHeaderCellDef mat-header-cell style="min-width: 50px"> PID</th>
 			<td *matCellDef="let element" mat-cell> {{element.pid}} </td>
 		</ng-container>
 
 		<ng-container matColumnDef="duration">
-			<th *matHeaderCellDef mat-header-cell> Duration (sec)</th>
-			<td *matCellDef="let element" mat-cell> {{element.duration / 1000}} </td>
+			<th *matHeaderCellDef mat-header-cell style="min-width: 60px"> Duration (sec)</th>
+			<td *matCellDef="let element" mat-cell> {{(element.duration / 1000) - (element.duration / 1000) % 1 | number}} </td>
 		</ng-container>
 
 		<ng-container matColumnDef="query">
-			<th *matHeaderCellDef mat-header-cell> Query</th>
+			<th *matHeaderCellDef mat-header-cell style="width: 100%">
+				<mat-form-field appearance="standard" style="width: 100%">
+					<input
+						#filter
+						(keyup)="filterChanged(filter.value)"
+						autocomplete="off"
+						matInput
+						placeholder="Search Query">
+					<button
+						(click)="filter.value=''; filterChanged(filter.value)"
+						*ngIf="filter.value"
+						aria-label="Clear"
+						mat-icon-button
+						matSuffix>
+						<mat-icon>close</mat-icon>
+					</button>
+				</mat-form-field>
+			</th>
 			<td *matCellDef="let element" mat-cell> {{element.query}} </td>
 		</ng-container>
 
 		<ng-container matColumnDef="kill">
-			<th *matHeaderCellDef mat-header-cell> Kill</th>
+			<th *matHeaderCellDef mat-header-cell></th>
 			<td *matCellDef="let element" mat-cell>
 				<button
 					(click)="kill(element.pid)"
 					color="warn" mat-icon-button>
 					<span class="material-symbols-outlined notranslate">
-						delete
+						stop_circle
 					</span>
 				</button>
 			</td>

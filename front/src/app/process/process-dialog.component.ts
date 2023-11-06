@@ -29,7 +29,8 @@ export class ProcessDialogComponent implements OnInit, OnDestroy {
 	}
 
 	async refreshData() {
-		this.processList = await this.request.post('process/list', {}, undefined, undefined, this.server);
+		const list = await this.request.post('process/list', {}, undefined, undefined, this.server);
+		this.processList.data = list.sort((a: { pid: number; }, b: { pid: number; }) => a.pid - b.pid);
 	}
 
 	ngOnDestroy() {
@@ -39,5 +40,9 @@ export class ProcessDialogComponent implements OnInit, OnDestroy {
 	async kill(pid: string) {
 		await this.request.post('process/kill', {pid}, undefined, undefined, this.server);
 		await this.refreshData();
+	}
+
+	filterChanged(_value = '') {
+		this.processList.filter = _value.trim().toLowerCase();
 	}
 }
