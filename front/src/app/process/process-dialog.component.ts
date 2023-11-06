@@ -11,7 +11,7 @@ import { MAT_DIALOG_DATA } from "@angular/material/dialog";
 })
 export class ProcessDialogComponent implements OnInit, OnDestroy {
 
-	displayedColumns = ['pid', 'duration', 'query', 'kill'];
+	displayedColumns = ['db', 'duration', 'query', 'kill'];
 	processList = new MatTableDataSource();
 	interval!: NodeJS.Timer;
 
@@ -25,7 +25,7 @@ export class ProcessDialogComponent implements OnInit, OnDestroy {
 		await this.refreshData();
 		this.interval = setInterval(async () => {
 			await this.refreshData();
-		}, 2000);
+		}, 1000);
 	}
 
 	async refreshData() {
@@ -44,5 +44,9 @@ export class ProcessDialogComponent implements OnInit, OnDestroy {
 
 	filterChanged(_value = '') {
 		this.processList.filter = _value.trim().toLowerCase();
+	}
+
+	identify(index: any, rom: any) {
+		return rom.pid;
 	}
 }

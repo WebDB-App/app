@@ -10,14 +10,19 @@
 	</button>
 </div>
 <div mat-dialog-content>
-	<table [dataSource]="processList" mat-table>
+	<table [dataSource]="processList" mat-table [trackBy]="identify">
 		<ng-container matColumnDef="pid">
-			<th *matHeaderCellDef mat-header-cell style="min-width: 50px"> PID</th>
+			<th *matHeaderCellDef mat-header-cell style="min-width: 50px"> PID </th>
 			<td *matCellDef="let element" mat-cell> {{element.pid}} </td>
 		</ng-container>
 
+		<ng-container matColumnDef="db">
+			<th *matHeaderCellDef mat-header-cell style="min-width: 50px"> DB </th>
+			<td *matCellDef="let element" mat-cell> {{element.db}} </td>
+		</ng-container>
+
 		<ng-container matColumnDef="duration">
-			<th *matHeaderCellDef mat-header-cell style="min-width: 60px"> Duration (sec)</th>
+			<th *matHeaderCellDef mat-header-cell style="min-width: 60px"> Duration (sec) </th>
 			<td *matCellDef="let element" mat-cell> {{(element.duration / 1000) - (element.duration / 1000) % 1 | number}} </td>
 		</ng-container>
 

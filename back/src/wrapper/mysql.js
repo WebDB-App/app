@@ -82,7 +82,7 @@ module.exports = class MySQL extends SQL {
 
 	async process() {
 		return (await this.runCommand("SHOW PROCESSLIST")).map(process => {
-			return {pid: process.Id, query: process.Command, duration: process.Time};
+			return {pid: process.Id, db: process.db, query: process.State + " : " + process.Command + " : " + process.Info, duration: process.Time};
 		});
 	}
 
