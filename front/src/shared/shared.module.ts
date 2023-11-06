@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RoundPipe } from "./round.pipe";
 import { CellComponent } from './cell/cell.component';
 import { NgxJsonViewerModule } from "ngx-json-viewer";
-import { RouterLinkWithHref } from "@angular/router";
+import { RouterLink, RouterLinkWithHref } from "@angular/router";
 import { UpdateDataDialog } from './update-data-dialog/update-data-dialog';
 import { FlexModule } from "@angular/flex-layout";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
@@ -31,6 +31,7 @@ import { ErrorComponent } from './error/error.component';
 import { MatBottomSheetModule } from "@angular/material/bottom-sheet";
 import { MatDividerModule } from "@angular/material/divider";
 import { TimeAgoPipe } from "./time-ago.pipe";
+import { UnreachableComponent } from './unreachable/unreachable.component';
 
 @NgModule({
 	declarations: [
@@ -41,7 +42,8 @@ import { TimeAgoPipe } from "./time-ago.pipe";
 		BatchUpdateDialog,
 		ColumnComponent,
 		TimeAgoPipe,
-		ErrorComponent
+		ErrorComponent,
+		UnreachableComponent
 	],
 	exports: [
 		RoundPipe,
@@ -50,7 +52,8 @@ import { TimeAgoPipe } from "./time-ago.pipe";
 		ExportResultDialog,
 		BatchUpdateDialog,
 		ColumnComponent,
-		TimeAgoPipe
+		TimeAgoPipe,
+		UnreachableComponent
 	],
 	imports: [
 		CommonModule,
@@ -78,6 +81,7 @@ import { TimeAgoPipe } from "./time-ago.pipe";
 		MatSlideToggleModule,
 		MatTooltipModule,
 		MatDividerModule,
+		RouterLink,
 	]
 })
 export class SharedModule {

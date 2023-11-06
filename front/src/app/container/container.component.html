@@ -65,54 +65,10 @@
 					<h2 style="color: #1de9b6">Loading {{activatedRoute.snapshot.paramMap.get('database')}}</h2>
 				</ng-container>
 
-				<div *ngIf="loading === LoadingStatus.ERROR">
-					<mat-error>
-						<h3>
-							Can't connect to {{activatedRoute.snapshot.paramMap.get('server')}}
-							/ {{activatedRoute.snapshot.paramMap.get('database')}}
-							<br>
-							Common problems are :
-							<ul>
-								<li>Bad connection credentials</li>
-								<li>Database server doesn't respond correctly</li>
-								<li>Backend doesn't respond</li>
-							</ul>
-						</h3>
-					</mat-error>
-
-					<mat-divider style="margin: 20px 0px;"></mat-divider>
-
-					<div style="display: flex; justify-content: space-around; gap: 20px">
-						<button
-							color="primary"
-							mat-stroked-button
-							routerLink="/">
-							<span class="material-symbols-outlined notranslate">
-								wifi_find
-							</span>
-							Connection List
-						</button>
-
-						<button
-							(click)="showError()"
-							mat-stroked-button>
-							<span class="material-symbols-outlined notranslate">
-								report
-							</span>
-							Error Logs
-						</button>
-
-						<button
-							(click)="ngOnInit()"
-							color="accent"
-							mat-stroked-button>
-							<span class="material-symbols-outlined notranslate">
-								refresh
-							</span>
-							Reload Page
-						</button>
-					</div>
-				</div>
+				<app-unreachable
+					*ngIf="loading === LoadingStatus.ERROR"
+					(reloadPage)="ngOnInit()"
+				></app-unreachable>
 			</div>
 		</div>
 

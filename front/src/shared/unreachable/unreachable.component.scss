@@ -1,0 +1,14 @@
+.btns {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+
+	> div {
+		display: flex;
+		gap: 20px;
+
+		.mat-button-base {
+			width: 180px;
+		}
+	}
+}

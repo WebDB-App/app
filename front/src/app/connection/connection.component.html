@@ -40,34 +40,10 @@
 			<h2 style="color: #2196f3">Scanning Connections</h2>
 		</ng-container>
 
-		<div *ngIf="loading === LoadingStatus.ERROR">
-			<mat-error>
-				<h3>Backend unreachable, please check logs directly from it</h3>
-			</mat-error>
-
-			<mat-divider style="margin: 20px 0px;"></mat-divider>
-
-			<div style="display: flex; justify-content: space-between;">
-				<button
-					(click)="ngOnInit()"
-					color="primary"
-					mat-stroked-button>
-					<span class="material-symbols-outlined notranslate">
-						refresh
-					</span>
-					Reload Page
-				</button>
-
-				<a [href]="'https://gitlab.com/web-db/public/-/issues/new?issue[title]=Problem%20reaching%20the%20backend&issue[description]=Here%20is%20the%20error%20log:%0A'"
-				   mat-stroked-button
-				   target="_blank">
-					<span class="material-symbols-outlined notranslate">
-						bug_report
-					</span>
-					Send Report
-				</a>
-			</div>
-		</div>
+		<app-unreachable
+			*ngIf="loading === LoadingStatus.ERROR"
+			(reloadPage)="ngOnInit()">
+		</app-unreachable>
 	</div>
 </div>
 
