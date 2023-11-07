@@ -19,16 +19,6 @@
 						<span>{{selectedServer.host}}</span>:<span>{{selectedServer.port}}</span>
 						<span style="color: #1de9b6;">{{selectedDatabase.name}}</span>
 					</div>
-					<button
-						(click)="request.reloadServer()"
-						[disabled]="loading !== LoadingStatus.DONE"
-						color="accent"
-						mat-icon-button
-						matTooltipPosition="right">
-						<span class="material-symbols-outlined notranslate">
-							frame_reload
-						</span>
-					</button>
 				</div>
 			</div>
 
@@ -51,6 +41,7 @@
 				</nav>
 				<mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
 			</div>
+
 			<app-top-right></app-top-right>
 		</mat-toolbar>
 

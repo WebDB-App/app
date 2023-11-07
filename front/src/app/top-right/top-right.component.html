@@ -1,34 +1,44 @@
 <button [matMenuTriggerFor]="activity" mat-button>
 	<span class="material-symbols-outlined notranslate">
-		monitor_heart
+		vital_signs
 	</span>
 </button>
 <mat-menu #activity="matMenu">
-	<a (click)="showProcess()"
-	   *ngIf="Server.getSelected()"
-	   mat-menu-item
-	   target="_blank">
-		<span class="material-symbols-outlined notranslate">
-			smart_display
-		</span>
-		Process
-	</a>
-	<a (click)="showStats()"
-	   *ngIf="Server.getSelected()"
-	   mat-menu-item
-	   target="_blank">
-		<span class="material-symbols-outlined notranslate">
-			stacked_line_chart
-		</span>
-		Stats
-	</a>
+	<ng-container
+		*ngIf="Server.getSelected()">
+		<a  (click)="request.reloadServer()"
+			mat-menu-item>
+			<span class="material-symbols-outlined notranslate">
+				frame_reload
+			</span>
+			Reload Database
+		</a>
+		<a (click)="showProcess()"
+		   *ngIf="Server.getSelected()"
+		   mat-menu-item
+		   target="_blank">
+			<span class="material-symbols-outlined notranslate">
+				smart_display
+			</span>
+			Process List
+		</a>
+		<a (click)="showStats()"
+		   mat-menu-item
+		   target="_blank">
+			<span class="material-symbols-outlined notranslate">
+				timeline
+			</span>
+			Server Stats
+		</a>
+	</ng-container>
+
 	<a (click)="showLogs()"
 	   mat-menu-item
 	   target="_blank">
 		<span class="material-symbols-outlined notranslate">
 			receipt_long
 		</span>
-		Logs
+		Backend Logs
 	</a>
 </mat-menu>
 <button [matMenuTriggerFor]="help" mat-button>
@@ -65,7 +75,7 @@
 	   mat-menu-item
 	   target="_blank">
 		<span class="material-symbols-outlined notranslate">
-			receipt_long
+			receipt
 		</span>
 		Changelog
 	</a>

@@ -11,6 +11,7 @@ import { Router } from "@angular/router";
 import { Server } from "../../classes/server";
 import { ProcessDialogComponent } from "../process/process-dialog.component";
 import { StatsDialogComponent } from "../stats/stats-dialog.component";
+import { LoadingStatus, RequestService } from "../../shared/request.service";
 
 @Component({
 	selector: 'app-top-right',
@@ -25,7 +26,8 @@ export class TopRightComponent {
 
 	constructor(
 		private dialog: MatDialog,
-		public router: Router
+		public router: Router,
+		public request: RequestService
 	) {
 	}
 
