@@ -54,7 +54,7 @@
 
 			<button
 				(click)="settings.toggleAttribute('hidden')"
-				mat-button>
+				mat-flat-button>
 				<span class="material-symbols-outlined notranslate">
 					page_info
 				</span>
@@ -77,7 +77,7 @@
 								Swapped data
 							</mat-option>
 							<mat-option [value]="2">
-								Replaced value
+								Fake data
 							</mat-option>
 						</mat-select>
 					</mat-form-field>
@@ -117,11 +117,8 @@
 
 				<button
 					(click)="chat = []; saveChat()"
-					mat-button
-					matTooltip="Clear conversation">
-					<span class="material-symbols-outlined notranslate">
-						delete_sweep
-					</span>
+					mat-stroked-button>
+					Clear chat
 				</button>
 			</div>
 

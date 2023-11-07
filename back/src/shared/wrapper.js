@@ -25,9 +25,11 @@ class Wrapper {
 	}
 
 	async getDriverClass(className) {
+		className = className.toLowerCase();
+
 		for (const wrapper of await this.getWrappers()) {
 			const drv = new wrapper;
-			if (drv.constructor.name === className) {
+			if (drv.constructor.name.toLowerCase() === className) {
 				return wrapper;
 			}
 		}
