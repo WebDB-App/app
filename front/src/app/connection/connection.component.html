@@ -88,12 +88,14 @@
 							</span>
 							{{server.host}}
 						</h3>
-						<span
-							*ngIf="server.ssh && server.ssh.host"
-							[matTooltip]="server.ssh | json"
-							class="material-symbols-outlined notranslate">
-							subway
-						</span>
+						<h3 *ngIf="server.ssh && server.ssh.host">
+							<span
+								[matTooltip]="server.ssh | json"
+								class="material-symbols-outlined notranslate">
+								subway
+							</span>
+							SSH
+						</h3>
 					</div>
 
 					<mat-divider style="margin: -16px 20px;" vertical></mat-divider>

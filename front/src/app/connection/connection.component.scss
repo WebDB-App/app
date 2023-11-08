@@ -28,7 +28,7 @@
 			}
 
 			.infos {
-				width: 250px;
+				width: 200px;
 				display: flex;
 				flex-direction: column;
 				justify-content: space-around;
@@ -108,5 +108,10 @@
 			right: 0px;
 			position: absolute;
 		}
+	}
+
+	::ng-deep .mat-tab-body-content {
+		height: inherit;
+		overflow: inherit;
 	}
 }
