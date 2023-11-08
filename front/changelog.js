@@ -46,44 +46,55 @@ function getLogsByDate() {
 		const logs = getLogsByDate();
 
 		let html = "";
-		for (const [date, commit] of Object.entries(logs)) {
-			let lis = '';
-			for (const com of commit) {
-				let sub = com.subject.trim();
-				sub = emojify(sub);
-				sub = sub.replaceAll(/<[^>]*>?/gm, '');
-				sub = sub.replaceAll(/(\s\s+)/gm, "<br>");
-				if (sub.length < 30) {
-					continue;
-				}
-				lis += `<li><div class='msg'>${sub}</div></li>`;
+		for (const [date, commits] of Object.entries(logs)) {
+			const subjects = {};
+
+			for (const commit of commits) {
+				let subject = commit.subject.trim();
+				subject = emojify(subject);
+				subject = subject.replaceAll(/<[^>]*>?/gm, '');
+
+				subject.split(/(\s\s+)/).map(s => {
+					if (s.length < 30) {
+						return;
+					}
+					subjects[s] = 1;
+				});
 			}
-			if (lis.length < 1) {
+			if (Object.keys(subjects).length < 1) {
 				continue;
 			}
-			html += `<div class='changelog-day'><h2>${date}</h2><ul>${lis}</ul></div>`;
+
+			const subs = Object.keys(subjects).map(sub => `<li>${sub}</li>`);
+			html += `<div class='day'><h2>${date}</h2><ul>${subs.join('')}</ul></div>`;
 		}
 
 		fs.writeFileSync(process.argv[2], `<html><head>
 <style>
+	#changelog {
+	    background-color: #282929;
+	    padding: 10px;
+	}
 	#changelog * {
 		font-family: system-ui;
+		color: white;
 	}
 	#changelog p {
 		margin: 0px;
 	}
-	.changelog-day {
+	#changelog .day {
 		display: flex;
 		flex-direction: row;
 		align-items: center;
 		justify-content: flex-start;
 		min-height: 130px;
-	}
-	.msg {
-		white-space: pre-line;
+		background-color: #515151;
+		border-radius: 4px;
+		margin: 10px;
+		padding: 10px;
 	}
 	#changelog h2 {
-		margin-bottom: 0px;
+		margin-bottom: -32px;
 		transform: rotate(270deg);
 		white-space: nowrap;
 		width: 20px;
@@ -92,9 +103,16 @@ function getLogsByDate() {
 	}
 	#changelog ul {
 		border-left: 1px solid black;
+		list-style: none;
+		margin: 0;
+		font-weight: 300;
+   		font-size: 14px;
+	}
+	#changelog li {
+		white-space: pre-line;
 	}
 </style>
-</head><body><div id='changelog'>${html}</div></body></html>`);
+</head><body style="margin: 0px"><div id='changelog'>${html}</div></body></html>`);
 	} catch (error) {
 		console.error(error);
 	}
