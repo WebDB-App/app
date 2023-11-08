@@ -44,6 +44,11 @@
 	}
 }
 
-:host ::ng-deep .mat-tooltip-trigger:not(.bold) {
-	font-size: 10px;
+::ng-deep .mat-optgroup-label {
+	text-align: center !important;
+	border-top: 1px solid grey;
+}
+
+::ng-deep .mat-option:not(.bold) {
+	color: grey;
 }

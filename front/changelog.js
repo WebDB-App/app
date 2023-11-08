@@ -66,10 +66,10 @@ function getLogsByDate() {
 
 		fs.writeFileSync(process.argv[2], `<html><head>
 <style>
-	* {
+	#changelog * {
 		font-family: system-ui;
 	}
-	p {
+	#changelog p {
 		margin: 0px;
 	}
 	.changelog-day {
@@ -82,7 +82,7 @@ function getLogsByDate() {
 	.msg {
 		white-space: pre-line;
 	}
-	h2 {
+	#changelog h2 {
 		margin-bottom: 0px;
 		transform: rotate(270deg);
 		white-space: nowrap;
@@ -90,11 +90,11 @@ function getLogsByDate() {
 		height: 36px;
 		min-width: 85px;
 	}
-	ul {
+	#changelog ul {
 		border-left: 1px solid black;
 	}
 </style>
-</head><body><div class='changelog'>${html}</div></body></html>`);
+</head><body><div id='changelog'>${html}</div></body></html>`);
 	} catch (error) {
 		console.error(error);
 	}

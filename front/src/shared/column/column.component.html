@@ -92,9 +92,10 @@
 							class="hide">
 							<mat-optgroup *ngFor="let group of typeGroups"
 										  [label]="group.name">
-								<mat-option *ngFor="let type of group.list" [value]="type.id">
+								<mat-option
+									[class.bold]="type.bold"
+									*ngFor="let type of group.list" [value]="type.id">
 									<span
-										[class.bold]="type.bold"
 										[matTooltip]="type.description ? type.description : ''"
 										matTooltipPosition="left">
 										{{type.id}}

@@ -1,13 +1,13 @@
-:host {
-	::ng-deep .removeGlyph {
+:host ::ng-deep {
+	.removeGlyph {
 		background: rgba(244, 67, 54, 0.7);
 	}
 
-	::ng-deep .addGlyph {
+	.addGlyph {
 		background: rgba(33, 150, 243, 0.7);
 	}
 
-	::ng-deep .glyph {
+	.glyph {
 		background-color: rgba(0, 0, 0, 0.3);
 	}
 }

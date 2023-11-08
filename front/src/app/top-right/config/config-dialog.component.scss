@@ -11,18 +11,10 @@ table {
 	}
 }
 
-:host {
-	::ng-deep .mat-tab-label {
-		width: 100%;
-	}
-
-	::ng-deep .mat-tab-label:last-child {
+:host ::ng-deep {
+	.mat-tab-label:last-child {
 		width: 0px;
 		min-width: 0px;
-	}
-
-	::ng-deep .mat-card-header-text {
-		width: 100%;
 	}
 }
 
