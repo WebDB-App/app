@@ -54,8 +54,8 @@ setInterval(() => {
 	const cid = bash.startCommand("file(s) cleaned", "", "");
 	let cleaned = 0;
 
-	const logs = new FileCleanup(join(frontPath, "logs"), 100_000_000, 5);
-	const dumps = new FileCleanup(join(frontPath, "dump"), 1_000_000_000, 5);
+	const logs = new FileCleanup(join(frontPath, "logs"), 100_000_000, 1);
+	const dumps = new FileCleanup(join(frontPath, "dump"), 1_000_000_000, 1);
 	cleaned += logs.checkAndCleanup();
 	cleaned += dumps.checkAndCleanup();
 
