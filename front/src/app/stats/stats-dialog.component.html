@@ -7,7 +7,7 @@
 
 	<mat-checkbox
 		style="font-size: 14px"
-		(change)="showLive = !showLive"
+		(change)="showLive = !showLive; refreshData()"
 		color="primary">
 		Foreground latest values
 	</mat-checkbox>
