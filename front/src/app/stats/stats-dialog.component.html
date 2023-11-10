@@ -6,6 +6,7 @@
 	</h4>
 
 	<mat-button-toggle-group
+		appearance="legacy"
 		style="font-size: 13px"
 		[(ngModel)]="mode"
 		(change)="refreshData()">
@@ -19,6 +20,17 @@
 			Live
 		</mat-button-toggle>
 	</mat-button-toggle-group>
+
+	<mat-form-field style="font-size: 13px; width: 60px; margin-bottom: -1.25em">
+		<mat-label>Refresh rate</mat-label>
+		<input
+			matInput
+			[(ngModel)]="refreshRate"
+			type="number"
+			min="1"
+			max="20"
+			required>
+	</mat-form-field>
 
 	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
 		<mat-icon>close</mat-icon>

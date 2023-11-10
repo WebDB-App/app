@@ -1,16 +1,10 @@
-<div cdkDrag cdkDragHandle
-	 cdkDragRootElement=".cdk-overlay-pane"
-	 mat-dialog-title>
-	<h4>
-		Process of {{server.name}}
-	</h4>
-
-	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
-		<mat-icon>close</mat-icon>
-	</button>
-</div>
 <div mat-dialog-content>
-	<table [dataSource]="processList" mat-table [trackBy]="identify">
+	<table
+		style="border-radius: 6px; border: 1px solid transparent;"
+		[dataSource]="processList"
+		mat-table
+		[trackBy]="identify">
+
 		<ng-container matColumnDef="pid">
 			<th *matHeaderCellDef mat-header-cell style="min-width: 50px"> PID </th>
 			<td *matCellDef="let element" mat-cell> {{element.pid}} </td>
@@ -49,7 +43,15 @@
 		</ng-container>
 
 		<ng-container matColumnDef="kill">
-			<th *matHeaderCellDef mat-header-cell></th>
+			<th *matHeaderCellDef mat-header-cell>
+				<button
+					aria-label="close dialog"
+					style="position: absolute; top: 0px; right: 0px"
+					mat-dialog-close
+					mat-icon-button>
+					<mat-icon>close</mat-icon>
+				</button>
+			</th>
 			<td *matCellDef="let element" mat-cell>
 				<button
 					(click)="kill(element.pid)"
@@ -61,8 +63,9 @@
 			</td>
 		</ng-container>
 
-		<tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
-		<tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+		<tr *matHeaderRowDef="displayedColumns; sticky: true" cdkDrag cdkDragHandle
+			cdkDragRootElement=".cdk-overlay-pane" mat-header-row></tr>
+		<tr *matRowDef="let row; columns: displayedColumns;" mat-row style="background-color: rgba(0, 0, 0, 0.25);"></tr>
 	</table>
 </div>
 

@@ -10,11 +10,12 @@ import { BaseChartDirective } from "ng2-charts";
 	templateUrl: './stats-dialog.component.html',
 	styleUrls: ['./stats-dialog.component.scss']
 })
-export class StatsDialogComponent implements OnInit, OnDestroy {
+export class StatsDialogComponent implements OnDestroy {
 
 	@ViewChild(BaseChartDirective) public chart!: BaseChartDirective;
 
 	interval!: NodeJS.Timer;
+	refreshRate = 1;
 	labels: string[] = [];
 	datasets: any[] = [];
 	times: { [key: string]: number[] } = {};
@@ -63,13 +64,12 @@ export class StatsDialogComponent implements OnInit, OnDestroy {
 	constructor(
 		private request: RequestService,
 		@Inject(MAT_DIALOG_DATA) public server: Server,
-	) {}
-
-	async ngOnInit() {
-		await this.refreshData();
-		this.interval = setInterval(async () => {
+	) {
+		const loop = async () => {
 			await this.refreshData();
-		}, 1000);
+			setTimeout(() => loop(), this.refreshRate * 1000);
+		};
+		loop();
 	}
 
 	async refreshData() {
