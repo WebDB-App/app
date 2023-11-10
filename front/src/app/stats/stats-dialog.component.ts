@@ -1,7 +1,7 @@
 import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Server } from "../../classes/server";
 import { RequestService } from "../../shared/request.service";
-import { ChartOptions } from "chart.js";
+import { ChartOptions, LegendItem } from "chart.js";
 import { MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { BaseChartDirective } from "ng2-charts";
 
@@ -12,7 +12,7 @@ import { BaseChartDirective } from "ng2-charts";
 })
 export class StatsDialogComponent implements OnInit, OnDestroy {
 
-	@ViewChild(BaseChartDirective) public chart?: BaseChartDirective;
+	@ViewChild(BaseChartDirective) public chart!: BaseChartDirective;
 
 	interval!: NodeJS.Timer;
 	labels: string[] = [];
@@ -27,6 +27,18 @@ export class StatsDialogComponent implements OnInit, OnDestroy {
 				labels: {
 					boxWidth: 2,
 					color: 'white'
+				},
+				onHover: (evt, legendItem: LegendItem) => {
+					this.chart.chart!.setActiveElements(
+						this.chart.chart!.getDatasetMeta(
+							legendItem.datasetIndex!
+						).data!.map((x, i) => ({
+							datasetIndex: legendItem.datasetIndex!,
+							index: i,
+						}))
+					);
+
+					this.chart.update();
 				},
 			},
 		},
@@ -98,7 +110,7 @@ export class StatsDialogComponent implements OnInit, OnDestroy {
 		}
 
 		this.labels.push('');
-		this.chart?.update();
+		this.chart.update();
 	}
 
 	ngOnDestroy() {

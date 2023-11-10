@@ -6,7 +6,7 @@
 	</h4>
 
 	<mat-button-toggle-group
-		style="font-size: 12px"
+		style="font-size: 13px"
 		[(ngModel)]="mode"
 		(change)="refreshData()">
 		<mat-button-toggle value="raw">
@@ -24,14 +24,13 @@
 		<mat-icon>close</mat-icon>
 	</button>
 </div>
-<div mat-dialog-content style="resize: both; overflow: auto; width: 600px; height: 300px; min-width: 400px; min-height: 200px; padding: 0px 8px;">
+<div mat-dialog-content style="resize: both; overflow: auto; width: 800px; height: 400px; min-width: 400px; min-height: 200px; padding: 0px 8px;">
 	<canvas
-		*ngIf="datasets.length > 0"
 		[datasets]="datasets"
 		[labels]="labels"
 		[options]="lineChartOptions"
 		[type]="'line'"
-		style="height: 100% !important; width: 100% !important;"
+		style="height: 100% !important; width: 100% !important; border-radius: 4px; background-color: rgba(0, 0, 0, 0.25); box-shadow: #000000 0 6px 6px -6px inset;"
 		baseChart>
 	</canvas>
 </div>
