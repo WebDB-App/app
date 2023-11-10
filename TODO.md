@@ -1,9 +1,10 @@
 tester DISABLE_WATCHER
 
 
-# Other
-- tls + cloud (google sql / atlas / rds / aurora) + afficher dans la landing
-- sql function doc (generate from web scrap)
+
+
+- cloud (google sql / atlas / rds / aurora) + afficher dans la landing
+- tls ?
 - ERD
 
 
@@ -44,3 +45,7 @@ tester DISABLE_WATCHER
 - columns with array > 2 : harmonize to one of the type (attention deep)
 - obj column update
 - harmonizer obj > 2
+
+
+# Other
+- sql function doc (generate from web scrap)

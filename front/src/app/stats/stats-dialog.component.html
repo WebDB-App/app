@@ -5,12 +5,20 @@
 		Stats of {{server.name}}
 	</h4>
 
-	<mat-checkbox
-		style="font-size: 14px"
-		(change)="showLive = !showLive; refreshData()"
-		color="primary">
-		Foreground latest values
-	</mat-checkbox>
+	<mat-button-toggle-group
+		style="font-size: 12px"
+		[(ngModel)]="mode"
+		(change)="refreshData()">
+		<mat-button-toggle value="raw">
+			Total
+		</mat-button-toggle>
+		<mat-button-toggle value="sinceOpen">
+			Relative
+		</mat-button-toggle>
+		<mat-button-toggle value="difference">
+			Live
+		</mat-button-toggle>
+	</mat-button-toggle-group>
 
 	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
 		<mat-icon>close</mat-icon>

@@ -1,7 +1,7 @@
 import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Server } from "../../classes/server";
 import { RequestService } from "../../shared/request.service";
-import { Chart, ChartOptions } from "chart.js";
+import { ChartOptions } from "chart.js";
 import { MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { BaseChartDirective } from "ng2-charts";
 
@@ -15,9 +15,11 @@ export class StatsDialogComponent implements OnInit, OnDestroy {
 	@ViewChild(BaseChartDirective) public chart?: BaseChartDirective;
 
 	interval!: NodeJS.Timer;
-	public labels: string[] = [];
-	public datasets: any[] = [];
-	public lineChartOptions: ChartOptions<'line'> = {
+	labels: string[] = [];
+	datasets: any[] = [];
+	times: { [key: string]: number[] } = {};
+	mode : 'raw' | 'difference' | 'sinceOpen' = 'sinceOpen';
+	lineChartOptions: ChartOptions<'line'> = {
 		plugins: {
 			legend: {
 				position: 'right',
@@ -25,8 +27,12 @@ export class StatsDialogComponent implements OnInit, OnDestroy {
 				labels: {
 					boxWidth: 2,
 					color: 'white'
-				}
-			}
+				},
+			},
+		},
+		interaction: {
+			mode: 'index',
+			intersect: false,
 		},
 		animation: false,
 		scales: {
@@ -37,65 +43,62 @@ export class StatsDialogComponent implements OnInit, OnDestroy {
 				}
 			},
 			y: {
-				display: true,
-				type: 'logarithmic',
+				display: true
 			}
-		}
+		},
 	};
-	showLive = false;
 
 	constructor(
 		private request: RequestService,
 		@Inject(MAT_DIALOG_DATA) public server: Server,
-	) {
-	}
+	) {}
 
 	async ngOnInit() {
 		await this.refreshData();
 		this.interval = setInterval(async () => {
 			await this.refreshData();
-		}, 2000);
-	}
-
-	triggerTooltip() {
-		if (!this.chart || !this.chart.chart || !this.chart.chart.tooltip) {
-			return;
-		}
-
-		const tooltip = this.chart.chart.tooltip;
-		const chartArea = this.chart.chart.chartArea;
-		const index = this.datasets[0].data.length - 1;
-		const actives = this.datasets.map((val, ind) => {
-			return {datasetIndex: ind, index: index};
-		});
-
-		tooltip.setActiveElements(actives, {
-			x: (chartArea.left + chartArea.right) / 2,
-			y: (chartArea.top + chartArea.bottom) / 2,
-		});
-		this.chart.update();
+		}, 1000);
 	}
 
 	async refreshData() {
-		const stats = await this.request.post('stats/server', {}, undefined, undefined, this.server);
-		for (const stat of stats) {
-			const index = this.datasets.findIndex(dataset => dataset.label === stat.Variable_name);
-			if (index >= 0) {
-				this.datasets[index].data.push(stat.Value);
+		const newVals = await this.request.post('stats/server', {}, undefined, undefined, this.server);
+		newVals.map((newVal: { Variable_name: any; Value: any; }) => {
+			if (!this.times[newVal.Variable_name]) {
+				this.times[newVal.Variable_name] = [];
+			}
+			this.times[newVal.Variable_name].push(+newVal.Value);
+		});
+
+		for (const [Variable_name, Values] of Object.entries(this.times)) {
+			let datas = [0];
+			if (this.mode === 'difference') {
+				for (let i = 1; i < Values.length; i++) {
+					datas.push(Values[i] - Values[i-1]);
+				}
+			} else if (this.mode === 'sinceOpen') {
+				for (let i = 1; i < Values.length; i++) {
+					datas.push(Values[i] - Values[0]);
+				}
+			} else {
+				datas = Values;
+			}
+
+			const datasetIndex = this.datasets.findIndex(dataset => dataset.label === Variable_name);
+			if (datasetIndex >= 0) {
+				this.datasets[datasetIndex].data = datas
 			} else {
 				this.datasets.push({
-					data: [+stat.Value],
-					label: stat.Variable_name,
+					data: datas,
+					label: Variable_name,
 					borderWidth: 2,
-					radius: 1,
+					tension: 0.1,
+					radius: 0,
 				});
 			}
 		}
+
 		this.labels.push('');
 		this.chart?.update();
-		if (this.showLive) {
-			this.triggerTooltip();
-		}
 	}
 
 	ngOnDestroy() {

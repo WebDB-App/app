@@ -124,7 +124,17 @@ module.exports = class MySQL extends SQL {
 	}
 
 	async serverStats() {
-		return await this.runCommand("SHOW STATUS WHERE Variable_name IN ('Aborted_clients', 'Aborted_connects', 'Bytes_received', 'Bytes_sent', 'Connections', 'Created_tmp_files', 'Created_tmp_tables', 'Innodb_rows_updated', 'Innodb_rows_deleted', 'Innodb_rows_inserted', 'Innodb_rows_read', 'Threads_running')");
+		const stats = await this.runCommand("SHOW STATUS WHERE Variable_name IN ('Aborted_clients', 'Aborted_connects', 'Bytes_received', 'Bytes_sent', 'Connections', 'Created_tmp_files', 'Created_tmp_tables', 'Innodb_rows_updated', 'Innodb_rows_deleted', 'Innodb_rows_inserted', 'Innodb_rows_read', 'Threads_running')");
+		const kilos = ["Bytes_received", "Bytes_sent", "Innodb_rows_inserted", "Innodb_rows_read"];
+
+		return stats.map(stat => {
+			if (kilos.indexOf(stat.Variable_name) >= 0) {
+				stat.Variable_name = "K_" + stat.Variable_name;
+				stat.Value = Math.floor(stat.Value / 1000);
+			}
+
+			return stat;
+		});
 	}
 
 	async getAvailableCollations() {
