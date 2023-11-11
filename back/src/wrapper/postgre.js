@@ -121,7 +121,7 @@ module.exports = class PostgreSQL extends SQL {
 	}
 
 	async serverStats() {
-		return {error: "Statistics unavailable for PostgreSQL"};
+		return {error: "Statistics unavailable for this driver"};
 	}
 
 	async getComplexes() {
@@ -322,7 +322,7 @@ module.exports = class PostgreSQL extends SQL {
 	async dropDatabase(name) {
 		name = name.split(this.dbToSchemaDelimiter)[0];
 
-		let error = "PostgreSQL database deletion is not supported with WebDB.\n";
+		let error = "Database deletion is not supported for the driver.\n";
 		error += "First, close all connection to this database, so restart WebDB and other possibly connected app\n";
 		error += "Finally, run: \n";
 		error += `# psql ${this.makeUri()} -c 'DROP DATABASE ${this.nameDel + name + this.nameDel}'`;

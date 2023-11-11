@@ -10,14 +10,15 @@
 		"bytenode": "latest",
 		"compression": "latest",
 		"cors": "latest",
+		"crypto-js": "latest",
 		"dotenv": "latest",
 		"express": "latest",
 		"mongodb": "latest",
 		"multer": "latest",
 		"mysql2": "latest",
 		"node-port-scanner": "latest",
+		"node-rsa": "latest",
 		"pg": "latest",
-		"software-license-key": "latest",
 		"ssh2": "latest"
 	},
 	"devDependencies": {

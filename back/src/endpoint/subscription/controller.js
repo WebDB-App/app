@@ -1,4 +1,4 @@
-const SoftwareLicenseKey = require("software-license-key");
+const SoftwareLicenseKey = require("./software");
 const fs = require("fs");
 const {join} = require("path");
 const publicKey = fs.readFileSync(join(__dirname, "./public_key.pub"), "utf8");
