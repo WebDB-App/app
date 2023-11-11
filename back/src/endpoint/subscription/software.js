@@ -1,5 +1,5 @@
 const NodeRSA = require("node-rsa");
-const {CryptoJS} = require("crypto-js");
+const CryptoJS = require("crypto-js");
 
 class SoftwareLicenseKey {
 
