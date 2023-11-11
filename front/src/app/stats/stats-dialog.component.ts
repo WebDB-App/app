@@ -16,6 +16,7 @@ export class StatsDialogComponent implements OnDestroy {
 
 	interval!: NodeJS.Timer;
 	refreshRate = 1;
+	valSize = 50;
 	labels: string[] = [];
 	datasets: any[] = [];
 	times: { [key: string]: number[] } = {};
@@ -81,8 +82,10 @@ export class StatsDialogComponent implements OnDestroy {
 			this.times[newVal.Variable_name].push(+newVal.Value);
 		});
 
-		for (const [Variable_name, Values] of Object.entries(this.times)) {
+		for (const [Variable_name, _Values] of Object.entries(this.times)) {
 			let datas = [0];
+			const Values = _Values.slice(-this.valSize);
+
 			if (this.mode === 'difference') {
 				for (let i = 1; i < Values.length; i++) {
 					datas.push(Values[i] - Values[i-1]);
@@ -108,8 +111,9 @@ export class StatsDialogComponent implements OnDestroy {
 				});
 			}
 		}
-
-		this.labels.push('');
+		if (this.labels.length < this.valSize) {
+			this.labels.push('');
+		}
 		this.chart.update();
 	}
 
