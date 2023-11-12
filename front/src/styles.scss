@@ -33,9 +33,9 @@ body {
 
 .mat-tooltip, .mat-select-panel, .mat-menu-panel {
 	white-space: pre-line !important;
-	background-color: rgba(30, 30, 30, 0.9);
+	background-color: rgba(30, 30, 30, 0.6);
 	border: 1px solid rgba(255, 255, 255, 0.12);
-	backdrop-filter: blur(3px);
+	backdrop-filter: blur(4px);
 }
 
 [hidden] {
@@ -102,9 +102,9 @@ body {
 	}
 
 	.mat-table-sticky {
-		background-color: #1e1e1e !important;
+		background-color: rgba(30, 30, 30, 0.6) !important;
+		backdrop-filter: blur(4px);
 		box-shadow: $bottom-shadow;
-		border-left: 1px solid black;
 	}
 
 	tbody {
@@ -137,8 +137,8 @@ a {
 }
 
 .mat-bottom-sheet-container {
-	background-color: rgba(244, 67, 54, 0.7);
-	backdrop-filter: blur(3px);
+	background-color: rgba(244, 67, 54, 0.6);
+	backdrop-filter: blur(4px);
 }
 
 .snack-error {
@@ -284,7 +284,6 @@ a {
 
 .mat-toolbar {
 	box-shadow: $bottom-shadow;
-	background-color: #1e1e1e;
 
 	.mat-form-field, .mat-select, .mat-slide-toggle, .mat-button-toggle-group {
 		font-size: 14px !important;

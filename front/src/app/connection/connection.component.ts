@@ -113,7 +113,7 @@ export class ConnectionComponent implements OnInit {
 			this.snackBar.open("Combination found : " + guessed.map(guess => `${guess.user} | ${guess.password}`).join(', '), "╳", {duration: 3000})
 			await this.postLogged(server, guessed[0]);
 		} else {
-			this.snackBar.open("Guess Failed", "╳", {duration: 3000})
+			this.snackBar.open("Guess failed", "╳", {duration: 3000})
 		}
 		this.servers[indexServer].isLoading = false;
 	}

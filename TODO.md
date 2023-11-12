@@ -11,6 +11,7 @@ tester DISABLE_WATCHER
 ----------------------------------------------------------
 
 
+
 # IA
 - tester create/update functions/procedure/check
 - https://github.com/microsoft/autogen / ollama / 
@@ -49,3 +50,4 @@ tester DISABLE_WATCHER
 
 # Other
 - sql function doc (generate from web scrap)
+- dans l'optique de produire un changelog, propose 3 message de commit possible -> ollama

@@ -170,7 +170,7 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 
 	async insert() {
 		const result = await this.request.post('data/insert', this.dataSource.data);
-		this.snackBar.open(`${result} Affected Rows`, "╳", {duration: 3000});
+		this.snackBar.open(`${result} affected Rows`, "╳", {duration: 3000});
 	}
 
 	removeRows() {

@@ -68,7 +68,7 @@ export class EditConnectionComponent implements OnChanges {
 			this.snackBar.open(data.error, "╳", {duration: 3000});
 			return;
 		}
-		this.snackBar.open("Connection Valid", "╳", {duration: 3000});
+		this.snackBar.open("Connection valid", "╳", {duration: 3000});
 		this.connectionStatus = 'connected';
 	}
 
@@ -82,13 +82,13 @@ export class EditConnectionComponent implements OnChanges {
 			this.snackBar.open(data.error, "╳", {panelClass: 'snack-error'});
 			return;
 		}
-		this.snackBar.open("SSH Connection Valid", "╳", {duration: 3000});
+		this.snackBar.open("SSH connection valid", "╳", {duration: 3000});
 		this.sshStatus = 'connected';
 	}
 
 	forget() {
 		Server.remove(this.server!.name);
-		this.snackBar.open(this.server!.name + " Forgot", "╳", {duration: 3000});
+		this.snackBar.open(this.server!.name + " forgot", "╳", {duration: 3000});
 		this.edited.emit();
 	}
 

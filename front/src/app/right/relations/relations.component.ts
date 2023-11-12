@@ -79,6 +79,6 @@ export class RelationsComponent {
 
 		await this.request.post('relation/add', {relation});
 		await this.request.reloadServer();
-		this.snackBar.open(`Added Relation ${relation.name}`, "╳", {duration: 3000});
+		this.snackBar.open(`Added relation ${relation.name}`, "╳", {duration: 3000});
 	}
 }

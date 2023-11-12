@@ -98,7 +98,7 @@ export class LoadComponent {
 			file.progress = 100;
 		}
 
-		this.snackBar.open("Import Succeed", "╳", {duration: 3000})
+		this.snackBar.open("Import succeed", "╳", {duration: 3000})
 		await this.request.reloadServer();
 		this.isLoading = false;
 	}
