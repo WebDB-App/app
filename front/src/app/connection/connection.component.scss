@@ -3,7 +3,6 @@
 
 	.servers {
 		display: flex;
-		height: 140px;
 
 		.mat-card-content {
 			display: flex;
@@ -43,6 +42,7 @@
 			}
 
 			.mat-list-base {
+				min-width: 280px;
 				overflow: auto;
 				height: 100%;
 				display: flex;
@@ -58,6 +58,13 @@
 			.mat-list-option {
 				max-width: 420px;
 				margin: 0px auto;
+			}
+
+			.right-actions {
+				display: flex;
+				flex-direction: column;
+				width: 145px;
+				justify-content: space-evenly;
 			}
 		}
 
@@ -113,5 +120,15 @@
 	::ng-deep .mat-tab-body-content {
 		height: inherit;
 		overflow: inherit;
+	}
+}
+
+@media (max-width: 1200px) {
+	.right-actions {
+		display: none !important;
+	}
+
+	.servers .login > div {
+		flex-direction: column;
 	}
 }
