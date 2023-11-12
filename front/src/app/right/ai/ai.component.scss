@@ -6,12 +6,12 @@
 	display: flex;
 	flex-wrap: wrap;
 	gap: 12px;
-	margin: 0px 30px;
+	margin: 30px;
 	justify-content: space-between;
 
 	button {
 		white-space: break-spaces;
-		width: 49%;
+		width: calc(50% - 6px);
 	}
 }
 
