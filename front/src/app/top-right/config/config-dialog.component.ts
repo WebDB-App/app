@@ -34,28 +34,35 @@ export class ConfigDialog implements OnInit {
 	}
 
 	async ngOnInit() {
-		this.licence = await Licence.get(this.request, false);
+		this.loadLicence();
+		this.checkUptoDate();
+	}
 
-		const local = await firstValueFrom(
-			this.http.get(`${environment.rootUrl}changelog.html`, {responseType: 'text'})
-		);
-		const remote = await firstValueFrom(
-			this.http.get(`https://demo.webdb.app/changelog.html`, {responseType: 'text'})
-		);
-		this.upToDate = local.length >= remote.length;
+	async loadLicence() {
+		this.licence = await Licence.get(false);
+	}
+
+	async checkUptoDate() {
+		try {
+			const local = await firstValueFrom(this.http.get(`${environment.rootUrl}changelog.html`, {responseType: 'text'}))
+			const remote = await firstValueFrom(this.http.get(`https://demo.webdb.app/changelog.html`, {responseType: 'text'}));
+			this.upToDate = local.length >= remote.length;
+		} catch (e) {
+			console.error(e);
+		}
 	}
 
 	async save(email: string) {
 		try {
-			await this.request.post('subscription/save', {email});
-			this.snackBar.open(`You successfully register this account. Thanks you =)`, "╳", {duration: 3000});
-			await this.ngOnInit();
+			await Licence.add(email);
+			this.snackBar.open(`Account successfully registered `, "╳", {duration: 3000});
+			await this.loadLicence();
 
 			if (Server.getSelected()) {
 				await this.request.reloadServer();
 			}
 		} catch (err: any) {
-			this.snackBar.open("Error : " + err.error + ". You can contact us at: main.webdb@gmail.com", "╳", {panelClass: 'snack-error'});
+			this.snackBar.open(err + ". Contact us at: main.webdb@gmail.com", "╳", {panelClass: 'snack-error'});
 		}
 	}
 

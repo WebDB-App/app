@@ -1,77 +1,69 @@
-const SoftwareLicenseKey = require("./software");
 const fs = require("fs");
 const {join} = require("path");
-const publicKey = fs.readFileSync(join(__dirname, "./public_key.pub"), "utf8");
-const validator = new SoftwareLicenseKey(publicKey);
-const licencePath = join(__dirname, "./licence");
+const NodeRSA = require("node-rsa");
+const CryptoJS = require("crypto-js");
 
 class Controller {
 
 	constructor() {
-		setInterval(async () => {
-			await this.renew();
-		}, 1000 * 3600);
-
-		this.renew();
+		const pub = fs.readFileSync(join(__dirname, "./public_key.pub"), "utf8");
+		this.key = new NodeRSA(pub);
 	}
 
-	async save(req, res) {
+	parseFromApi(req, res) {
 		try {
-			res.send(await this.getRemote(req.body.email));
+			res.send(this.parseLicense(req.body.privateKey));
 		} catch (e) {
 			res.send({error: e.message});
 		}
 	}
 
-	async list(req, res) {
-		const file = this.getLocal();
-		const licence = validator.validateLicense(file);
+	parseLicense(privateKey) {
+		const lines = privateKey.split("\n");
+		const keyMsg = lines[1].split("||");
+		const signature = lines[2];
 
-		res.send(licence);
-	}
+		let randomSymmetricKey, decrypteddata;
 
-	async getRemote(email) {
-		let request;
 		try {
-			request = (await fetch(process.env.LANDING_ADDR + "/client/" + email));
-			request = await request.json();
+			randomSymmetricKey = this.key.decryptPublic(keyMsg[0], "utf8");
+		} catch(e) {
+			return {error: "Invalid data: Could not extract symmetric key."};
+		}
+
+		try {
+			decrypteddata = CryptoJS.AES.decrypt(keyMsg[1], randomSymmetricKey).toString(CryptoJS.enc.Utf8);
 		} catch (e) {
-			throw new Error("Licence API unreachable");
+			return {error: "Invalid Data: Could not decrypt data with key found."};
 		}
 
-		if (request.length < 1) {
-			throw new Error("You must subscribe before entering your email");
-		}
+		if (this.key.verify(decrypteddata, signature, "utf8", "base64")) {
+			const parsed = JSON.parse(decrypteddata);
 
-		const client = request[0];
-		const licence = validator.validateLicense(client.licence);
-		if (!licence) {
-			throw new Error("Malformed Licence");
-		}
+			if (!parsed) {
+				return {error: "Malformed Licence"};
+			}
 
-		if (licence.expire * 1000 < Date.now()) {
-			throw new Error("Licence Expired");
-		}
+			return {error: "Licence Expired"};
+			if (parsed.expire * 1000 < Date.now()) {
+				return {error: "Licence Expired"};
+			}
 
-		fs.writeFileSync(licencePath, client.licence, "utf8");
-		return true;
+			return parsed;
+		} else {
+			return {error: "License Key signature invalid. This license key may have been tampered with"};
+		}
 	}
 
-	getLocal() {
-		return fs.readFileSync(licencePath, "utf8");
+	getPatchLimit(privateKey) {
+		const licence = this.parseLicense(privateKey);
+
+		return licence.error ? 10 : licence.versions;
 	}
 
-	getPatchLimit() {
-		const licence = validator.validateLicense(this.getLocal());
-		if (licence.expire * 1000 < Date.now()) {
-			licence.versions = 10;
-		}
-		return licence.versions;
-	}
-
-	getDbLimit() {
-		const licence = validator.validateLicense(this.getLocal());
-		if (licence.expire * 1000 < Date.now()) {
+	getDbLimit(privateKey) {
+		const licence = this.parseLicense(privateKey);
+		if (licence.error) {
 			licence.dbLimit = 2;
 		}
 		if (licence.dbLimit === 0) {
@@ -79,19 +71,6 @@ class Controller {
 		}
 
 		return licence.dbLimit;
-	}
-
-	async renew() {
-		const licence = validator.validateLicense(this.getLocal());
-		if (!licence.email) {
-			return;
-		}
-
-		try {
-			await this.getRemote(licence.email);
-		} catch (e) {
-			console.error(e.message);
-		}
 	}
 }
 

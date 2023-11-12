@@ -9,6 +9,7 @@ import * as drivers from "../drivers/index";
 import { MatBottomSheet } from "@angular/material/bottom-sheet";
 import { ErrorComponent } from "./error/error.component";
 import { Configuration } from "../classes/configuration";
+import { Licence } from "../classes/licence";
 
 export enum LoadingStatus {
 	LOADING = 'LOADING',
@@ -32,6 +33,11 @@ export class RequestService {
 	) {
 	}
 
+	async getLicenceHeader(headers = new HttpHeaders()) {
+		const licence = await Licence.get();
+		return headers.set('Privatekey', btoa(licence.privateKey));
+	}
+
 	async post(url: string, data: any,
 			   table = Table.getSelected(),
 			   database = Database.getSelected(),
@@ -41,6 +47,7 @@ export class RequestService {
 
 		const shallow = Server.getShallow(server);
 
+		headers = await this.getLicenceHeader(headers);
 		headers = headers.set('Server', JSON.stringify(shallow));
 		if (table) {
 			headers = headers.set('Table', table.name)
@@ -77,6 +84,7 @@ export class RequestService {
 
 	async loadServers(servers: Server[], full: boolean) {
 		this.loadingSubject.next(LoadingStatus.LOADING);
+		const headers = await this.getLicenceHeader();
 
 		const load = (server: Server) => {
 			return new Promise(async resolve => {
@@ -85,10 +93,15 @@ export class RequestService {
 				}
 				try {
 					const size = this.configuration.getByName("noSqlSample")?.value;
-					const res = await firstValueFrom(this.http.post<Database[]>(environment.apiRootUrl + `server/structure?full=${+full}&size=${size}`, Server.getShallow(server)));
+					const res = await firstValueFrom(this.http.post<Database[]>(
+						environment.apiRootUrl + `server/structure?full=${+full}&size=${size}`,
+						Server.getShallow(server),
+						{headers}
+					));
 
 					resolve({...server, ...res});
 				} catch (e) {
+					console.error(e);
 					this.loadingSubject.next(LoadingStatus.ERROR);
 				}
 			})

@@ -135,7 +135,7 @@ export class AiComponent implements OnInit {
 		}
 
 		await Promise.all([
-			(this.licence = await Licence.get(this.request)),
+			(this.licence = await Licence.get()),
 			this.configChange(false),
 			this.preSentChange(),
 		]);

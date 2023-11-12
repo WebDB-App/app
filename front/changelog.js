@@ -87,14 +87,12 @@ function getLogsByDate() {
 		flex-direction: row;
 		align-items: center;
 		justify-content: flex-start;
-		min-height: 130px;
 		background-color: #515151;
 		border-radius: 4px;
 		margin: 10px;
-		padding: 10px;
 	}
 	#changelog h2 {
-		margin-bottom: -32px;
+		margin: 54px -14px 0px -6px;
 		transform: rotate(270deg);
 		white-space: nowrap;
 		width: 20px;
@@ -102,11 +100,13 @@ function getLogsByDate() {
 		min-width: 85px;
 	}
 	#changelog ul {
-		border-left: 1px solid black;
+		border-left: 2px solid #282929;
 		list-style: none;
 		margin: 0;
+		padding: 20px;
 		font-weight: 300;
-   		font-size: 14px;
+		font-size: 14px;
+		min-height: 110px;
 	}
 	#changelog li {
 		white-space: pre-line;

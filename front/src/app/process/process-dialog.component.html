@@ -16,13 +16,13 @@
 		</ng-container>
 
 		<ng-container matColumnDef="duration">
-			<th *matHeaderCellDef mat-header-cell style="min-width: 60px"> Duration (sec) </th>
+			<th *matHeaderCellDef mat-header-cell style="min-width: 60px"> Duration </th>
 			<td *matCellDef="let element" mat-cell> {{(element.duration / 1000) - (element.duration / 1000) % 1 | number}} </td>
 		</ng-container>
 
 		<ng-container matColumnDef="query">
 			<th *matHeaderCellDef mat-header-cell style="width: 100%">
-				<mat-form-field appearance="standard" style="width: 100%">
+				<mat-form-field appearance="legacy" style="width: 100%; margin-bottom: -1.25em">
 					<input
 						#filter
 						(keyup)="filterChanged(filter.value)"
@@ -46,7 +46,7 @@
 			<th *matHeaderCellDef mat-header-cell>
 				<button
 					aria-label="close dialog"
-					style="position: absolute; top: 0px; right: 0px"
+					style="position: absolute; top: 6px; right: 6px"
 					mat-dialog-close
 					mat-icon-button>
 					<mat-icon>close</mat-icon>

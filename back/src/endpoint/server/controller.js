@@ -39,7 +39,7 @@ class Controller {
 		const promises = [
 			new Promise(async resolve => {
 				const structure = await driver.getDatabases(+req.query.full, +req.query.size);
-				let dbLimit = subscriptionCtrl.getDbLimit();
+				let dbLimit = subscriptionCtrl.getDbLimit(atob(req.get("Privatekey")));
 
 				for (const str of Object.values(structure)) {
 					structure[str.name].system = driver.isSystemDbs(str.name);

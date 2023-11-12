@@ -8,7 +8,7 @@ class Controller {
 		const [driver, database] = await http.getLoggedDriver(req);
 
 		try {
-			res.send(await version.listPatch(database, driver, subscriptionCtrl.getPatchLimit()));
+			res.send(await version.listPatch(database, driver, subscriptionCtrl.getPatchLimit(atob(req.get("Privatekey")))));
 		} catch (e) {
 			console.error(e);
 			res.send(e);

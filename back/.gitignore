@@ -2,5 +2,3 @@ node_modules
 static/*
 
 src/shared/common-helper.js
-src/endpoint/subscription/licence
-src/endpoint/subscription/public_key.pub

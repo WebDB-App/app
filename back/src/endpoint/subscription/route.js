@@ -3,7 +3,6 @@ const subscriptionCtrl = require("./controller.js");
 
 const router = express.Router();
 
-router.post("/save", subscriptionCtrl.save.bind(subscriptionCtrl));
-router.post("/list", subscriptionCtrl.list.bind(subscriptionCtrl));
+router.post("/parse", subscriptionCtrl.parseFromApi.bind(subscriptionCtrl));
 
 module.exports = router;

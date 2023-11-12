@@ -3,8 +3,7 @@ tester DISABLE_WATCHER
 
 
 
-- cloud (google sql / atlas / rds / aurora) + afficher dans la landing
-- tls ?
+- cloud (google sql / atlas / rds / aurora) + afficher dans la landing + tls ?
 - ERD
 
 
@@ -14,6 +13,7 @@ tester DISABLE_WATCHER
 
 # IA
 - tester create/update functions/procedure/check
+- https://github.com/microsoft/autogen / ollama / 
 - paperspace.com / stackoverflow llm / faraday.dev / LocalAI / llama-node / llama.cpp / mistral.ai / falcon 180b
 - 2 videos micode
 - https://pbs.twimg.com/media/FtkoX8_WIAA_5ds.jpg:large
