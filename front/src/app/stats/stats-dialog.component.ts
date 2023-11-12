@@ -15,7 +15,7 @@ export class StatsDialogComponent implements OnDestroy {
 	@ViewChild(BaseChartDirective) public chart!: BaseChartDirective;
 
 	interval!: NodeJS.Timer;
-	refreshRate = 1;
+	pause = false;
 	valSize = 50;
 	labels: string[] = [];
 	datasets: any[] = [];
@@ -67,8 +67,10 @@ export class StatsDialogComponent implements OnDestroy {
 		@Inject(MAT_DIALOG_DATA) public server: Server,
 	) {
 		const loop = async () => {
-			await this.refreshData();
-			setTimeout(() => loop(), this.refreshRate * 1000);
+			if (!this.pause) {
+				await this.refreshData();
+			}
+			setTimeout(() => loop(), 1000);
 		};
 		loop();
 	}

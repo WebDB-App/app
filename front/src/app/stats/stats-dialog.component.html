@@ -21,16 +21,12 @@
 		</mat-button-toggle>
 	</mat-button-toggle-group>
 
-	<mat-form-field style="font-size: 13px; width: 60px; margin-bottom: -1.25em">
-		<mat-label>Refresh rate</mat-label>
-		<input
-			matInput
-			[(ngModel)]="refreshRate"
-			type="number"
-			min="1"
-			max="20"
-			required>
-	</mat-form-field>
+	<button (click)="pause = !pause"
+			mat-icon-button>
+		<span class="material-symbols-outlined notranslate">
+			{{pause ? 'play_circle' : 'pause_circle'}}
+		</span>
+	</button>
 
 	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
 		<mat-icon>close</mat-icon>
