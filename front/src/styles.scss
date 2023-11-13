@@ -28,12 +28,6 @@ html, body {
 
 body {
 	margin: 0;
-	font-family: 'Noto Sans', sans-serif;
-}
-
-* {
-	font-weight: 200 !important;
-	letter-spacing: 1px !important;
 }
 
 .mat-tooltip, .mat-select-panel, .mat-menu-panel {
@@ -56,6 +50,8 @@ body {
 	white-space: nowrap;
 	border-spacing: 0px;
 	background-color: transparent;
+	font-family: 'Fira Code', monospace !important;
+	font-weight: 300;
 
 	.mat-header-row {
 		height: 45px;
@@ -366,11 +362,6 @@ ngx-monaco-editor {
 	width: 40vw;
 	resize: both;
 	overflow: auto;
-
-	* {
-		letter-spacing: 0px !important;
-		font-weight: normal !important;
-	}
 }
 
 .editor-container {
@@ -392,7 +383,7 @@ ngx-monaco-editor {
 	--ngx-json-null: white;
 	--ngx-json-undefined: white;
 
-	--ngx-json-font-family: 'Noto Sans', sans-serif;
+	--ngx-json-font-family: 'Fira Code', monospace;
 }
 
 #right {
