@@ -31,9 +31,14 @@ body {
 	font-family: 'Noto Sans', sans-serif;
 }
 
+* {
+	font-weight: 200 !important;
+	letter-spacing: 1px !important;
+}
+
 .mat-tooltip, .mat-select-panel, .mat-menu-panel {
 	white-space: pre-line !important;
-	background-color: rgba(30, 30, 30, 0.6);
+	background-color: rgba(30, 30, 30, 0.8);
 	border: 1px solid rgba(255, 255, 255, 0.12);
 	backdrop-filter: blur(4px);
 }
@@ -361,6 +366,11 @@ ngx-monaco-editor {
 	width: 40vw;
 	resize: both;
 	overflow: auto;
+
+	* {
+		letter-spacing: 0px !important;
+		font-weight: normal !important;
+	}
 }
 
 .editor-container {

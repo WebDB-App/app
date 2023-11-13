@@ -3,13 +3,6 @@ mat-drawer {
 	max-width: 83vw;
 }
 
-#title {
-	color: #2196f3;
-	font-size: 30px;
-	vertical-align: middle;
-	font-weight: initial;
-}
-
 #server {
 	display: flex;
 	align-items: center;
@@ -36,7 +29,6 @@ mat-drawer {
 	.mat-tab-link {
 		min-width: inherit;
 		height: 56px;
-		width: 62px;
 		color: #1de9b6;
 	}
 

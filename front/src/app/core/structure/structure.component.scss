@@ -2,11 +2,6 @@ table {
 	::ng-deep .hoverClass {
 		background-color: rgba(33, 150, 243, 0.3) !important;
 	}
-
-	::ng-deep app-cell {
-		font-weight: inherit;
-		letter-spacing: inherit;
-	}
 }
 
 ::ng-deep {
