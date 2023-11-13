@@ -32,9 +32,8 @@ body {
 
 .mat-tooltip, .mat-select-panel, .mat-menu-panel {
 	white-space: pre-line !important;
-	background-color: rgba(30, 30, 30, 0.8);
+	background-color: rgba(30, 30, 30, 0.9);
 	border: 1px solid rgba(255, 255, 255, 0.12);
-	backdrop-filter: blur(4px);
 }
 
 [hidden] {
@@ -101,8 +100,7 @@ body {
 	}
 
 	.mat-table-sticky {
-		background-color: rgba(30, 30, 30, 0.6) !important;
-		backdrop-filter: blur(4px);
+		background-color: rgba(30, 30, 30, 0.9) !important;
 		box-shadow: $bottom-shadow;
 	}
 
@@ -136,8 +134,7 @@ a {
 }
 
 .mat-bottom-sheet-container {
-	background-color: rgba(244, 67, 54, 0.6);
-	backdrop-filter: blur(4px);
+	background-color: rgba(244, 67, 54, 0.8);
 }
 
 .snack-error {
