@@ -24,8 +24,10 @@ class Controller {
 			}
 		}
 
-		const openned = (await Promise.all(promises)).filter(prom => prom.length).flat();
-		res.send([...new Set(openned)]);
+		const openned = {};
+		(await Promise.all(promises)).filter(prom => prom.length).flat().map(scan => openned[scan.port] = scan);
+
+		res.send(Object.values(openned));
 	}
 
 	async getStructure(req, res) {

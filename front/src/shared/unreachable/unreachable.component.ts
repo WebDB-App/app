@@ -16,17 +16,9 @@ export class UnreachableComponent implements OnInit {
 	constructor(
 		public activatedRoute: ActivatedRoute,
 		public router: Router,
-		public snackBar: MatSnackBar,
-		private dialog: MatDialog
+		public snackBar: MatSnackBar
 	) {}
 
 	ngOnInit(): void {
-	}
-
-	showError() {
-		this.dialog.open(LogsDialog, {
-			data: 'error.log',
-			hasBackdrop: false
-		});
 	}
 }

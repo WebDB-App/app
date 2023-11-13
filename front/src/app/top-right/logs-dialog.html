@@ -2,15 +2,7 @@
 	 cdkDragRootElement=".cdk-overlay-pane"
 	 mat-dialog-title>
 	<h4>
-		<mat-button-toggle-group
-			(change)="file = $event.value; load(); scrollToBottom()">
-			<mat-button-toggle checked value='finished.log'>
-				Finished
-			</mat-button-toggle>
-			<mat-button-toggle value='error.log'>
-				Error
-			</mat-button-toggle>
-		</mat-button-toggle-group>
+		Finished queries
 	</h4>
 
 	<mat-form-field
@@ -29,16 +21,6 @@
 			<mat-icon>close</mat-icon>
 		</button>
 	</mat-form-field>
-
-	<a *ngIf="file === 'error.log'"
-	   [href]="'https://gitlab.com/web-db/public/-/issues/new?issue[title]=Problem%20while%20... &issue[description]=Here%20is%20the%20error%20log:%0A' + str.slice(0, 1000)"
-	   mat-button
-	   matTooltip="Send Report"
-	   target="_blank">
-		<span class="material-symbols-outlined notranslate">
-			bug_report
-		</span>
-	</a>
 
 	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
 		<mat-icon>close</mat-icon>

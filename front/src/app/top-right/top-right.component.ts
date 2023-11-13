@@ -68,7 +68,6 @@ export class LogsDialog implements OnDestroy {
 	strFiltered: any = "";
 	filter = "";
 	interval?: NodeJS.Timer;
-	file: 'finished.log' | 'error.log' = "finished.log";
 	@ViewChild('scrollContainer') private scrollContainer!: ElementRef;
 
 	constructor(
@@ -100,7 +99,7 @@ export class LogsDialog implements OnDestroy {
 	}
 
 	async load() {
-		const str = await firstValueFrom(this.http.get(`${environment.rootUrl}logs/${this.file}`, {responseType: 'text'}));
+		const str = await firstValueFrom(this.http.get(`${environment.rootUrl}logs/finished.log`, {responseType: 'text'}));
 		if (this.str.length === str.length) {
 			return;
 		}

@@ -32,12 +32,12 @@
 		</button>
 
 		<button
-			(click)="showError()"
+			(click)="snackBar.open('Code copied', '╳', {duration: 3000})"
+			[cdkCopyToClipboard]="'docker logs $(docker ps -a -q --filter ancestor=webdb/app)'"
+			color="primary"
 			mat-stroked-button>
-			<span class="material-symbols-outlined notranslate">
-				report
-			</span>
-			Error Logs
+			<mat-icon svgIcon="docker"></mat-icon>
+			Get Logs
 		</button>
 	</div>
 
@@ -64,14 +64,6 @@
 	</div>
 
 	<div>
-		<button
-			(click)="snackBar.open('Code copied', '╳', {duration: 3000})"
-			[cdkCopyToClipboard]="'docker logs $(docker ps -a -q --filter ancestor=webdb/app)'"
-			color="primary"
-			mat-stroked-button>
-			<mat-icon svgIcon="docker"></mat-icon>
-			Get Logs
-		</button>
 
 		<button
 			(click)="snackBar.open('Code copied', '╳', {duration: 3000})"
