@@ -39,7 +39,7 @@ export class ConfigDialog implements OnInit {
 	}
 
 	async loadLicence() {
-		this.licence = await Licence.get(false);
+		this.licence = await Licence.getCached();
 	}
 
 	async checkUptoDate() {
@@ -54,7 +54,7 @@ export class ConfigDialog implements OnInit {
 
 	async save(email: string) {
 		try {
-			await Licence.add(email);
+			await Licence.renew(email);
 			this.snackBar.open(`Account successfully registered `, "╳", {duration: 3000});
 			await this.loadLicence();
 

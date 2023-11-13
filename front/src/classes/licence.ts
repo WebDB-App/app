@@ -5,6 +5,28 @@ const defaultLicence = "====BEGIN LICENSE KEY====\ntVSIfKTzC26pHc8HTAK0QxAtVslNE
 
 let selected: Licence;
 
+async function parseLicence(privateKey: string) {
+	const request = (await fetch(environment.apiRootUrl + "subscription/parse", {
+		method: 'POST',
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({privateKey})
+	}));
+	return await request.json();
+}
+
+async function download(email: string) {
+	let request: any = (await fetch(environment.landingApi + "client/" + email));
+	request = await request.json();
+
+	if (request.length < 1) {
+		throw new Error("email not registered");
+	}
+	return request[0].licence;
+}
+
 export class Licence {
 	dbLimit: number
 	versions: number
@@ -18,7 +40,6 @@ export class Licence {
 	constructor(
 		dbLimit: number,
 		patchLimit: number,
-		valid: boolean,
 		expire: number,
 		email: string,
 		plan: string,
@@ -32,62 +53,39 @@ export class Licence {
 		this.email = email;
 		this.plan = plan;
 		this.privateKey = privateKey;
+		this.error = error;
 	}
 
 	static set(licence: Licence, privateKey: string) {
-		selected = new Licence(licence.dbLimit, licence.versions, licence.valid, licence.expire, licence.email, licence.plan, privateKey, licence.error);
+		selected = new Licence(licence.dbLimit, licence.versions, licence.expire, licence.email, licence.plan, privateKey, licence.error);
 	}
 
-	static async parseLicence(privateKey: string) {
-		const request = (await fetch(environment.apiRootUrl + "subscription/parse", {
-			method: 'POST',
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({privateKey})
-		}));
-		const parsed = await request.json();
-		if (parsed.error) {
-			console.error(parsed.error);
-		}
-		return parsed;
-	}
-
-	static async add(email: string) {
-		let request: any = (await fetch(environment.landingApi + "client/" + email));
-		request = await request.json();
-
-		if (request.length < 1) {
-			throw new Error("email not registered");
-		}
-		Licence.set(await Licence.parseLicence(request[0].licence), request[0].licence);
-		localStorage.setItem(localStorageName, request[0].licence);
-	}
-
-	static async get(cache = true): Promise<Licence> {
-		if (!cache) {
-			const current = await Licence.get();
-			if (current.email) {
-				try {
-					await Licence.add(current.email);
-				} catch (e) {
-					console.error(e);
-					current.error = <string>e;
-					Licence.set(current, current.privateKey);
-				}
-			}
-		}
-
+	static async getCached(): Promise<Licence> {
 		if (!selected) {
 			const privateKey = localStorage.getItem(localStorageName) || defaultLicence;
-			Licence.set(await Licence.parseLicence(privateKey), privateKey);
+			Licence.set(await parseLicence(privateKey), privateKey);
 		}
 
 		return selected;
 	}
-}
 
-setInterval(async () => {
-	await Licence.get(false);
-}, 1000 * 3600);
+	static async renew(email: string | false = false): Promise<Licence> {
+		if (!email) {
+			const currentPrivateKey = localStorage.getItem(localStorageName) || defaultLicence;
+			const current = await parseLicence(currentPrivateKey);
+			email = current.email;
+
+			if (!current.email) {
+				return current;
+			}
+		}
+
+		const newPrivateKey = await download(<string>email);
+		const newLicence = await parseLicence(newPrivateKey);
+
+		Licence.set(newLicence, newPrivateKey);
+		localStorage.setItem(localStorageName, newPrivateKey);
+
+		return selected;
+	}
+}

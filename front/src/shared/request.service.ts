@@ -34,7 +34,7 @@ export class RequestService {
 	}
 
 	async getLicenceHeader(headers = new HttpHeaders()) {
-		const licence = await Licence.get();
+		const licence = await Licence.getCached();
 		return headers.set('Privatekey', btoa(licence.privateKey));
 	}
 

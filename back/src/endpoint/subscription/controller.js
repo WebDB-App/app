@@ -44,7 +44,6 @@ class Controller {
 				return {error: "Malformed Licence"};
 			}
 
-			return {error: "Licence Expired"};
 			if (parsed.expire * 1000 < Date.now()) {
 				return {error: "Licence Expired"};
 			}
