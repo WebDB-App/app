@@ -1,8 +1,3 @@
-tester DISABLE_WATCHER
-
-
-
-
 - cloud (google sql / atlas / rds / aurora) + afficher dans la landing + tls ?
 - ERD
 
@@ -50,4 +45,3 @@ tester DISABLE_WATCHER
 
 # Other
 - sql function doc (generate from web scrap)
-- dans l'optique de produire un changelog, propose 3 message de commit possible -> ollama

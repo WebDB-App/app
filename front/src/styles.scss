@@ -50,8 +50,7 @@ body {
 	white-space: nowrap;
 	border-spacing: 0px;
 	background-color: transparent;
-	font-family: 'Fira Code', monospace !important;
-	font-weight: 300;
+	font-family: 'Fira Sans', sans-serif !important;
 
 	.mat-header-row {
 		height: 45px;
@@ -79,7 +78,6 @@ body {
 	}
 
 	.mat-cell {
-		font-size: 13px;
 		border-left: 1px solid #1e1e1e;
 		border-bottom: none;
 
@@ -332,12 +330,11 @@ pre {
 }
 
 code, .hljs {
-	font-size: 13px;
 	white-space: pre-wrap;
 	tab-size: 34px;
 	border-radius: 4px;
 	background-color: rgba(0, 0, 0, 0.25);
-	font-family: 'Fira Code', monospace;
+	font-family: 'system-ui';
 	display: block;
 	padding: 10px 12px;
 	box-shadow: none;
@@ -383,7 +380,7 @@ ngx-monaco-editor {
 	--ngx-json-null: white;
 	--ngx-json-undefined: white;
 
-	--ngx-json-font-family: 'Fira Code', monospace;
+	--ngx-json-font-family: 'Fira Sans', sans-serif;
 }
 
 #right {
