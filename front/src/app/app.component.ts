@@ -30,9 +30,13 @@ export class AppComponent {
 	}
 
 	async checkLicence() {
-		const licence = await Licence.renew();
-		if (licence.error) {
-			this.snackBar.open(licence.error, "╳", {panelClass: 'snack-error'});
+		try {
+			const licence = await Licence.renew();
+			if (licence.error) {
+				this.snackBar.open(licence.error, "╳", {panelClass: 'snack-error'});
+			}
+		} catch (e) {
+			console.error(e);
 		}
 	}
 

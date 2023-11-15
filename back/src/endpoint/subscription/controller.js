@@ -28,29 +28,29 @@ class Controller {
 		try {
 			randomSymmetricKey = this.key.decryptPublic(keyMsg[0], "utf8");
 		} catch(e) {
-			return {error: "Invalid data: Could not extract symmetric key."};
+			return {error: "Invalid data: could not extract symmetric key."};
 		}
 
 		try {
 			decrypteddata = CryptoJS.AES.decrypt(keyMsg[1], randomSymmetricKey).toString(CryptoJS.enc.Utf8);
 		} catch (e) {
-			return {error: "Invalid Data: Could not decrypt data with key found."};
+			return {error: "Invalid data: could not decrypt data with key found."};
 		}
 
 		if (this.key.verify(decrypteddata, signature, "utf8", "base64")) {
 			const parsed = JSON.parse(decrypteddata);
 
 			if (!parsed) {
-				return {error: "Malformed Licence"};
+				return {error: "Malformed licence"};
 			}
 
 			if (parsed.expire * 1000 < Date.now()) {
-				return {error: "Licence Expired"};
+				return {error: "Licence expired"};
 			}
 
 			return parsed;
 		} else {
-			return {error: "License Key signature invalid. This license key may have been tampered with"};
+			return {error: "License key signature invalid. This license key may have been tampered with"};
 		}
 	}
 

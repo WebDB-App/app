@@ -133,12 +133,9 @@ a {
 	color: mat.get-color-from-palette($angular-accent, default);
 }
 
-.mat-bottom-sheet-container {
+.mat-bottom-sheet-container, .snack-error {
+	color: white;
 	background-color: rgba(244, 67, 54, 0.8);
-}
-
-.snack-error {
-	background-color: mat.get-color-from-palette($angular-warn, default);
 }
 
 .mat-paginator {
