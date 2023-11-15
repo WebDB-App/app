@@ -56,10 +56,17 @@ Don't make presumption, use only provided data. Respond in "${req.body.language}
 
 		res.send({txt});
 	}
-
+	
 	async query(req, res) {
+		const htmlEscape = (text) => {
+			return text.replace(/&/g, "&amp;").
+				replace(/</g, "&lt;").
+				replace(/"/g, "&quot;").
+				replace(/'/g, "&#039;");
+		};
+
 		const [driver, database] = await http.getLoggedDriver(req);
-		let rows = await driver.runPagedQuery(req.body.query, req.body.page, req.body.pageSize, database);
+		let rows = await driver.runPagedQuery(htmlEscape(req.body.query), req.body.page, req.body.pageSize, database);
 
 		if (Array.isArray(rows)) {
 			rows = rows.slice(0, process.env.RESULT_LIMIT || 5000).map(row => {

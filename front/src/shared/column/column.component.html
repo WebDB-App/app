@@ -90,8 +90,10 @@
 							#typeSuggestion
 							(selectionChange)="column.get('type')?.patchValue($event.value)"
 							class="hide">
-							<mat-optgroup *ngFor="let group of typeGroups"
-										  [label]="group.name">
+							<mat-optgroup
+								*ngFor="let group of typeGroups"
+								[label]="group.name"
+								class="types">
 								<mat-option
 									[class.bold]="type.bold"
 									*ngFor="let type of group.list" [value]="type.id">

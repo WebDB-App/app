@@ -44,11 +44,13 @@
 	}
 }
 
-::ng-deep .mat-optgroup-label {
-	text-align: center !important;
-	border-top: 1px solid grey;
-}
+::ng-deep .types {
+	.mat-optgroup-label {
+		text-align: center !important;
+		border-top: 1px solid grey;
+	}
 
-::ng-deep .mat-option:not(.bold) {
-	color: grey;
+	.mat-option:not(.bold) {
+		color: grey;
+	}
 }
