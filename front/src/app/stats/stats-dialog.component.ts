@@ -66,13 +66,12 @@ export class StatsDialogComponent implements OnDestroy {
 		private request: RequestService,
 		@Inject(MAT_DIALOG_DATA) public server: Server,
 	) {
-		const loop = async () => {
+		this.interval = setInterval(() => {
 			if (!this.pause) {
-				await this.refreshData();
+				this.refreshData();
 			}
-			setTimeout(() => loop(), 1000);
-		};
-		loop();
+		}, 1000);
+		this.refreshData();
 	}
 
 	async refreshData() {

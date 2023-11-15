@@ -22,10 +22,10 @@ export class ProcessDialogComponent implements OnInit, OnDestroy {
 	}
 
 	async ngOnInit() {
-		await this.refreshData();
 		this.interval = setInterval(async () => {
 			await this.refreshData();
 		}, 1000);
+		await this.refreshData();
 	}
 
 	async refreshData() {
