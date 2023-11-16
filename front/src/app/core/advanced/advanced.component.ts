@@ -73,7 +73,12 @@ export class TableAdvancedComponent implements OnDestroy {
 				return;
 			}
 			this.snackBar.open(`Dropped ${this.selectedTable?.name}`, "╳", {duration: 3000});
-			await this.goToNew('');
+			await this.router.navigate([
+				'/',
+				this.selectedServer?.name,
+				this.selectedDatabase?.name
+			]);
+			await this.request.reloadServer();
 		});
 	}
 
@@ -106,8 +111,8 @@ export class TableAdvancedComponent implements OnDestroy {
 			this.selectedServer?.name,
 			this.selectedDatabase?.name,
 			new_name,
-			"advanced"]
-		);
+			"advanced"
+		]);
 	}
 
 	validName(name: string) {

@@ -1,4 +1,4 @@
-<div style="height: calc(100vh - 112px)">
+<div style="height: calc(100vh - 112px)" *ngIf="selectedTable">
 
 	<div fxFlexFill fxLayout="column" fxLayoutAlign="space-between center">
 
@@ -8,10 +8,10 @@
 			style="padding: 20px">
 
 			<span>
-				{{selectedTable?.view ? "View" : "Table"}}: {{selectedTable!.name}}
+				{{selectedTable.view ? "View" : "Table"}}: {{selectedTable.name}}
 			</span>
 
-			<button (click)="truncate()" *ngIf="!selectedTable?.view" color="warn" mat-stroked-button>
+			<button (click)="truncate()" *ngIf="!selectedTable.view" color="warn" mat-stroked-button>
 				<span class="material-symbols-outlined notranslate">
 				  delete
 				</span>
@@ -56,7 +56,7 @@
 
 			<mat-divider></mat-divider>
 
-			<ng-container *ngIf="!selectedTable?.view">
+			<ng-container *ngIf="!selectedTable.view">
 
 				<div *ngIf="stats" fxLayout="row" fxLayoutAlign="space-between center">
 					<span>Index Size : {{+stats.index_length  | round}} Mb</span>
@@ -70,7 +70,7 @@
 						<mat-label>Copy Name</mat-label>
 						<input
 							#tableCopy
-							[value]="selectedTable?.name"
+							[value]="selectedTable.name"
 							autocomplete="off"
 							matInput>
 					</mat-form-field>
@@ -92,7 +92,7 @@
 						<mat-label>New Name</mat-label>
 						<input
 							#tableRename
-							[value]="selectedTable?.name"
+							[value]="selectedTable.name"
 							autocomplete="off"
 							matInput>
 					</mat-form-field>

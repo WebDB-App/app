@@ -140,10 +140,13 @@ export class ExploreComponent implements OnInit, OnDestroy {
 	}
 
 	filterToWhere(): string {
+		if (!this.selectedTable) {
+			return "";
+		}
 		const condition = this.params.chips.split(';').filter(e => e);
 		const operand = this.configuration.getByName('operand')?.value;
 
-		return this.selectedServer!.driver.basicFilter(this.selectedTable!, condition, operand);
+		return this.selectedServer!.driver.basicFilter(this.selectedTable, condition, operand);
 	}
 
 	async addChips(column: string, event: MatChipInputEvent) {
