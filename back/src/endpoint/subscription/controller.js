@@ -55,21 +55,29 @@ class Controller {
 	}
 
 	getPatchLimit(privateKey) {
-		const licence = this.parseLicense(privateKey);
+		let licence;
+		if (privateKey) {
+			licence = this.parseLicense(atob(privateKey));
+		}
 
-		return licence.error ? 10 : licence.versions;
+		return !licence || licence.error ? 10 : licence.versions;
 	}
 
 	getDbLimit(privateKey) {
-		const licence = this.parseLicense(privateKey);
-		if (licence.error) {
-			licence.dbLimit = 2;
-		}
-		if (licence.dbLimit === 0) {
-			licence.dbLimit = Infinity;
+		let licence, dbLimit;
+		if (privateKey) {
+			licence = this.parseLicense(atob(privateKey));
+
+			if (licence.dbLimit === 0) {
+				dbLimit = Infinity;
+			}
 		}
 
-		return licence.dbLimit;
+		if (!licence || licence.error) {
+			dbLimit = 2;
+		}
+
+		return dbLimit;
 	}
 }
 

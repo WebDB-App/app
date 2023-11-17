@@ -110,7 +110,7 @@ export class ConnectionComponent implements OnInit {
 		const guessed = await firstValueFrom(this.http.post<Server[]>(environment.apiRootUrl + 'server/guess', Server.getShallow(server)))
 
 		if (guessed.length) {
-			this.snackBar.open("Combination found : " + guessed.map(guess => `${guess.user} | ${guess.password}`).join(', '), "╳", {duration: 3000})
+			this.snackBar.open("Credentials found: " + guessed.map(guess => `${guess.user} | ${guess.password}`).join(', '), "╳", {duration: 3000})
 			await this.postLogged(server, guessed[0]);
 		} else {
 			this.snackBar.open("Guess failed", "╳", {duration: 3000})

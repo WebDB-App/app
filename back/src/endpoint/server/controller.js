@@ -41,7 +41,7 @@ class Controller {
 		const promises = [
 			new Promise(async resolve => {
 				const structure = await driver.getDatabases(+req.query.full, +req.query.size);
-				let dbLimit = subscriptionCtrl.getDbLimit(atob(req.get("Privatekey")));
+				let dbLimit = subscriptionCtrl.getDbLimit(req.get("Privatekey"));
 
 				for (const str of Object.values(structure)) {
 					structure[str.name].system = driver.isSystemDbs(str.name);
@@ -146,7 +146,7 @@ class Controller {
 	async connect(req, res) {
 		const driverClass = await wrapperModel.getDriverClass(req.body.wrapper);
 		if (!driverClass) {
-			return res.send({error: "Driver Not Yet Implemented"});
+			return res.send({error: "Driver not yet implemented"});
 		}
 
 		try {
