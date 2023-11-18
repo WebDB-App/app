@@ -1,9 +1,14 @@
-import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnDestroy, ViewChild } from '@angular/core';
 import { Server } from "../../classes/server";
 import { RequestService } from "../../shared/request.service";
-import { ChartOptions, LegendItem } from "chart.js";
+import { ChartOptions, LegendItem, Chart } from "chart.js";
 import { MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { BaseChartDirective } from "ng2-charts";
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import zoomPlugin from 'chartjs-plugin-zoom';
+
+Chart.register(zoomPlugin);
+Chart.register(ChartDataLabels);
 
 @Component({
 	selector: 'app-activity',
@@ -16,15 +21,43 @@ export class StatsDialogComponent implements OnDestroy {
 
 	interval!: NodeJS.Timer;
 	pause = false;
-	valSize = 50;
+	valSize = 1000;
 	labels: string[] = [];
 	datasets: any[] = [];
 	times: { [key: string]: number[] } = {};
 	mode : 'raw' | 'difference' | 'sinceOpen' = 'sinceOpen';
 	lineChartOptions: ChartOptions<'line'> = {
+		layout: {
+			padding: {
+				left: 10,
+				right: 50,
+				top: 25,
+				bottom: 0
+			}
+		},
 		plugins: {
+			datalabels: {
+				display: function(context) {
+					return context.dataIndex === context.dataset.data.length - 1;
+				},
+				color: 'white',
+				align: 'right',
+			},
+			zoom: {
+				pan: {
+					enabled: true,
+					mode: 'x',
+					modifierKey: 'ctrl',
+				},
+				zoom: {
+					drag: {
+						enabled: true
+					},
+					mode: 'x',
+				},
+			},
 			legend: {
-				position: 'right',
+				position: 'left',
 				display: true,
 				labels: {
 					boxWidth: 2,
@@ -57,7 +90,9 @@ export class StatsDialogComponent implements OnDestroy {
 				}
 			},
 			y: {
-				display: true
+				ticks: {
+					display: false
+				}
 			}
 		},
 	};
@@ -70,7 +105,7 @@ export class StatsDialogComponent implements OnDestroy {
 			if (!this.pause) {
 				this.refreshData();
 			}
-		}, 1000);
+		}, 500);
 		this.refreshData();
 	}
 
@@ -107,7 +142,7 @@ export class StatsDialogComponent implements OnDestroy {
 					data: datas,
 					label: Variable_name,
 					borderWidth: 2,
-					tension: 0.1,
+					tension: 0,
 					radius: 0,
 				});
 			}

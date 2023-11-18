@@ -21,24 +21,33 @@
 		</mat-button-toggle>
 	</mat-button-toggle-group>
 
-	<button (click)="pause = !pause"
+	<div *ngIf="chart && chart.chart">
+		<button (click)="pause = !pause"
+				mat-icon-button>
+			<span class="material-symbols-outlined notranslate">
+				{{pause ? 'play_circle' : 'pause_circle'}}
+			</span>
+		</button>
+		<button
+			[disabled]="chart.chart.getZoomLevel() <= 1"
+			(click)="chart.chart.resetZoom()"
 			mat-icon-button>
-		<span class="material-symbols-outlined notranslate">
-			{{pause ? 'play_circle' : 'pause_circle'}}
-		</span>
-	</button>
+			<span class="material-symbols-outlined">
+				center_focus_strong
+			</span>
+		</button>
+	</div>
 
 	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
 		<mat-icon>close</mat-icon>
 	</button>
 </div>
-<div mat-dialog-content style="resize: both; overflow: auto; width: 800px; height: 400px; min-width: 400px; min-height: 200px; padding: 0px 8px;">
+<div mat-dialog-content>
 	<canvas
 		[datasets]="datasets"
 		[labels]="labels"
 		[options]="lineChartOptions"
 		[type]="'line'"
-		style="height: 100% !important; width: 100% !important; border-radius: 4px; background-color: rgba(0, 0, 0, 0.25); box-shadow: #000000 0 6px 6px -6px inset;"
 		baseChart>
 	</canvas>
 </div>

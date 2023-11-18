@@ -1,0 +1,16 @@
+.mat-dialog-content {
+	resize: both;
+	overflow: auto;
+	width: 800px;
+	height: 400px;
+	min-width: 400px;
+	min-height: 200px;
+}
+
+canvas {
+	height: 100% !important;
+	width: 100% !important;
+	border-radius: 4px;
+	background-color: rgba(0, 0, 0, 0.25);
+	box-shadow: #000000 0 6px 6px -6px inset;
+}
