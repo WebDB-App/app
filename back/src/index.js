@@ -49,7 +49,9 @@ app.use(express.static(join(__dirname, "../static/")));
 	});
 })();
 
-process.on("SIGINT", () => {
+function exit() {
 	console.info("Exiting WebDB");
 	process.exit(0);
-});
+}
+process.on("SIGINT", exit);
+process.on("SIGTERM", exit);

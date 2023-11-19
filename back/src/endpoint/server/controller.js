@@ -11,22 +11,23 @@ const version = require("../../shared/version.js");
 class Controller {
 
 	async scan(req, res) {
-		const promises = [];
 		let hosts = ["127.0.0.1", "host.docker.internal"];
 		if (process.env.ADD_HOSTS) {
 			hosts = hosts.concat(process.env.ADD_HOSTS.split(","));
 		}
 
-		for (const wrapper of await wrapperModel.getWrappers()) {
-			for (const host of hosts) {
+		const wrappers = await wrapperModel.getWrappers();
+		const openned = {};
+		const promises = [];
+
+		for (const host of hosts) {
+			for (const wrapper of wrappers) {
 				const driver = new wrapper(undefined, host);
 				promises.push(driver.scan());
 			}
 		}
-
-		const openned = {};
-		(await Promise.all(promises)).filter(prom => prom.length).flat().map(scan => openned[scan.port] = scan);
-
+		
+		(await Promise.all(promises)).filter(prom => prom.length).flat().map(scan => openned[scan.host + scan.port] = scan);
 		res.send(Object.values(openned));
 	}
 

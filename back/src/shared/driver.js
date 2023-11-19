@@ -27,7 +27,7 @@ module.exports = class Driver {
 		return scanned.ports.open.map(port => {
 			return {
 				wrapper: this.constructor.name,
-				host: host,
+				host,
 				port
 			};
 		});
