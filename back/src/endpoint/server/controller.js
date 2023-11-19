@@ -26,7 +26,7 @@ class Controller {
 				promises.push(driver.scan());
 			}
 		}
-		
+
 		(await Promise.all(promises)).filter(prom => prom.length).flat().map(scan => openned[scan.host + scan.port] = scan);
 		res.send(Object.values(openned));
 	}

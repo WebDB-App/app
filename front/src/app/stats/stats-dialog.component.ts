@@ -110,7 +110,15 @@ export class StatsDialogComponent implements OnDestroy {
 	}
 
 	async refreshData() {
-		const newVals = await this.request.post('stats/server', {}, undefined, undefined, this.server);
+		let newVals;
+
+		try {
+			newVals = await this.request.post('stats/server', {}, undefined, undefined, this.server);
+		} catch (e) {
+			this.pause = true;
+			return;
+		}
+
 		newVals.map((newVal: { Variable_name: any; Value: any; }) => {
 			if (!this.times[newVal.Variable_name]) {
 				this.times[newVal.Variable_name] = [];
