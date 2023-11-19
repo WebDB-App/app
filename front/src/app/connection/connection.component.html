@@ -17,7 +17,7 @@
 	</mat-form-field>
 
 	<button
-		(click)="ngOnInit()"
+		(click)="ngOnInit(true)"
 		[disabled]="loading !== LoadingStatus.DONE"
 		mat-flat-button>
 		<span class="material-symbols-outlined notranslate">
@@ -42,14 +42,14 @@
 
 		<app-unreachable
 			*ngIf="loading === LoadingStatus.ERROR"
-			(reloadPage)="ngOnInit()">
+			(reloadPage)="ngOnInit(true)">
 		</app-unreachable>
 	</div>
 </div>
 
 <div *ngIf="loading === LoadingStatus.DONE" id="container">
 
-	<mat-tab-group #tabGroup>
+	<mat-tab-group #tabGroup [(selectedIndex)]="selectedIndex">
 		<mat-tab
 			*ngFor="let status of Object.values(Status)"
 			[label]="status">

@@ -32,6 +32,7 @@ export class ConnectionComponent implements OnInit {
 	sub!: Subscription;
 	newServer = new Server();
 	editServer?: Server;
+	selectedIndex = 0;
 
 	protected readonly Status = ServerStatus;
 	protected readonly Object = Object;
@@ -59,7 +60,7 @@ export class ConnectionComponent implements OnInit {
 		});
 	}
 
-	async ngOnInit() {
+	async ngOnInit(reload = false) {
 		this.filterChanged('');
 		Server.setSelected(undefined);
 		this.titleService.setTitle("WebDB – App");
@@ -94,6 +95,17 @@ export class ConnectionComponent implements OnInit {
 		this.servers = servers.sort((a, b) => {
 			return Number(a.port) - Number(b.port)
 		});
+
+		if (!reload) {
+			for (let i = 0; i < Object.values(ServerStatus).length; i++) {
+				const found = this.getServerByStatus(Object.values(ServerStatus)[i]).length;
+
+				if (found) {
+					this.selectedIndex = i;
+					break;
+				}
+			}
+		}
 	}
 
 	async postLogged(localServer: Server, remoteServer: Server) {
