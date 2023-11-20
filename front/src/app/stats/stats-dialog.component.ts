@@ -36,12 +36,25 @@ export class StatsDialogComponent implements OnDestroy {
 			}
 		},
 		plugins: {
+			tooltip: {
+				borderColor: 'rgba(255, 255, 255, 0.12)',
+				borderWidth: 1,
+				backgroundColor: 'rgba(30, 30, 30, 0.9)',
+				padding: 10,
+				bodySpacing: 5,
+				bodyFont: {
+					family: 'Roboto',
+				}
+			},
 			datalabels: {
 				display: function(context) {
 					return context.dataIndex === context.dataset.data.length - 1;
 				},
 				color: 'white',
 				align: 'right',
+				font: {
+					family: 'Roboto',
+				}
 			},
 			zoom: {
 				pan: {
@@ -61,7 +74,10 @@ export class StatsDialogComponent implements OnDestroy {
 				display: true,
 				labels: {
 					boxWidth: 2,
-					color: 'white'
+					color: 'white',
+					font: {
+						family: 'Roboto',
+					}
 				},
 				onHover: (evt, legendItem: LegendItem) => {
 					this.chart.chart!.setActiveElements(
