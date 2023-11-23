@@ -34,8 +34,6 @@ include:
 
 eslint:
     stage: test
-    tags:
-        - shell
     image: registry.gitlab.com/pipeline-components/eslint:latest
     script:
         - cd back
