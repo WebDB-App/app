@@ -15,7 +15,7 @@ include:
         -   if: $CI_COMMIT_BRANCH == "dev"
     interruptible: true
     before_script:
-        - export TAG=$(date '+%y.%m.%d')
+        - export TAG=$(date '+%Y.%m.%d')
         - printenv
         - cp common-helper.js ./front/src/shared/common-helper.js
         - cp common-helper.js ./back/src/shared/common-helper.js
@@ -58,6 +58,7 @@ prepare:
 
 
 #-----------------------------------------
+
 
 docker:
     <<: *common
