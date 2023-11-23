@@ -48,7 +48,6 @@ prepare:
     stage: prepare
     image: node:alpine
     script:
-        - apk add --no-cache --upgrade bash git
         - corepack enable && corepack prepare pnpm@latest --activate
         - cd front
         - pnpm install --prod --frozen-lockfile
@@ -68,7 +67,6 @@ docker:
     stage: release
     image: docker:latest
     script:
-        - apk add --no-cache --upgrade curl
         - cp -fr ./front/dist/webdb/* ./back/static/
         - cd back
         - docker login -u 'webdb' -p $DOCKER_PASS
