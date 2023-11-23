@@ -72,8 +72,8 @@ function getLogsByDate() {
 		fs.writeFileSync(process.argv[2], `<html><head>
 <style>
 	#changelog {
-	    background-color: #282929;
-	    padding: 10px;
+		background-color: #282929;
+		padding: 10px;
 	}
 	#changelog * {
 		font-family: system-ui;
