@@ -100,7 +100,7 @@ class Version {
 			"deleteone", "deletemany", "delete ",
 			"insertone", "insertmany", "insert ",
 			"drop", "alter ", "add ", "create", "rename", "replace"].some(v => command.toLowerCase().includes(v.toLowerCase()))) {
-
+			//TODO
 		}
 		/*
 		this.changes[database] = {
