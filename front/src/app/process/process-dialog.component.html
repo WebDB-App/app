@@ -1,23 +1,24 @@
 <div mat-dialog-content>
 	<table
-		style="border-radius: 6px; border: 1px solid transparent;"
 		[dataSource]="processList"
+		[trackBy]="identify"
 		mat-table
-		[trackBy]="identify">
+		style="border-radius: 6px; border: 1px solid transparent;">
 
 		<ng-container matColumnDef="pid">
-			<th *matHeaderCellDef mat-header-cell style="min-width: 50px"> PID </th>
+			<th *matHeaderCellDef mat-header-cell style="min-width: 50px"> PID</th>
 			<td *matCellDef="let element" mat-cell> {{element.pid}} </td>
 		</ng-container>
 
 		<ng-container matColumnDef="db">
-			<th *matHeaderCellDef mat-header-cell style="min-width: 50px"> DB </th>
+			<th *matHeaderCellDef mat-header-cell style="min-width: 50px"> DB</th>
 			<td *matCellDef="let element" mat-cell> {{element.db}} </td>
 		</ng-container>
 
 		<ng-container matColumnDef="duration">
-			<th *matHeaderCellDef mat-header-cell style="min-width: 60px"> Duration </th>
-			<td *matCellDef="let element" mat-cell> {{(element.duration / 1000) - (element.duration / 1000) % 1 | number}} </td>
+			<th *matHeaderCellDef mat-header-cell style="min-width: 60px"> Duration</th>
+			<td *matCellDef="let element"
+				mat-cell> {{(element.duration / 1000) - (element.duration / 1000) % 1 | number}} </td>
 		</ng-container>
 
 		<ng-container matColumnDef="query">
@@ -46,9 +47,9 @@
 			<th *matHeaderCellDef mat-header-cell>
 				<button
 					aria-label="close dialog"
-					style="position: absolute; top: 6px; right: 6px"
 					mat-dialog-close
-					mat-icon-button>
+					mat-icon-button
+					style="position: absolute; top: 6px; right: 6px">
 					<mat-icon>close</mat-icon>
 				</button>
 			</th>
@@ -65,7 +66,8 @@
 
 		<tr *matHeaderRowDef="displayedColumns; sticky: true" cdkDrag cdkDragHandle
 			cdkDragRootElement=".cdk-overlay-pane" mat-header-row></tr>
-		<tr *matRowDef="let row; columns: displayedColumns;" mat-row style="background-color: rgba(0, 0, 0, 0.25);"></tr>
+		<tr *matRowDef="let row; columns: displayedColumns;" mat-row
+			style="background-color: rgba(0, 0, 0, 0.25);"></tr>
 	</table>
 </div>
 

@@ -95,8 +95,9 @@
 								[label]="group.name"
 								class="types">
 								<mat-option
+									*ngFor="let type of group.list"
 									[class.bold]="type.bold"
-									*ngFor="let type of group.list" [value]="type.id">
+									[value]="type.id">
 									<span
 										[matTooltip]="type.description ? type.description : ''"
 										matTooltipPosition="left">

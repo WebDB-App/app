@@ -78,7 +78,8 @@
 				class="element-row"
 				mat-row>
 			</tr>
-			<tr *matRowDef="let row; columns: ['details']" [class.expended]="expanded.indexOf(row.name) >= 0" class="details"
+			<tr *matRowDef="let row; columns: ['details']" [class.expended]="expanded.indexOf(row.name) >= 0"
+				class="details"
 				mat-row></tr>
 
 			<tr *matNoDataRow class="mat-row">

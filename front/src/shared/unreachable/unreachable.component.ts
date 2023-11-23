@@ -1,15 +1,13 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { LogsDialog } from "../../app/top-right/top-right.component";
-import { MatDialog } from "@angular/material/dialog";
+import { Component, EventEmitter, Output } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
-  selector: 'app-unreachable',
-  templateUrl: './unreachable.component.html',
-  styleUrls: ['./unreachable.component.scss']
+	selector: 'app-unreachable',
+	templateUrl: './unreachable.component.html',
+	styleUrls: ['./unreachable.component.scss']
 })
-export class UnreachableComponent implements OnInit {
+export class UnreachableComponent {
 
 	@Output() reloadPage = new EventEmitter<void>();
 
@@ -17,8 +15,6 @@ export class UnreachableComponent implements OnInit {
 		public activatedRoute: ActivatedRoute,
 		public router: Router,
 		public snackBar: MatSnackBar
-	) {}
-
-	ngOnInit(): void {
+	) {
 	}
 }

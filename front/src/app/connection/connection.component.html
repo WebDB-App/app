@@ -41,8 +41,8 @@
 		</ng-container>
 
 		<app-unreachable
-			*ngIf="loading === LoadingStatus.ERROR"
-			(reloadPage)="ngOnInit(true)">
+			(reloadPage)="ngOnInit(true)"
+			*ngIf="loading === LoadingStatus.ERROR">
 		</app-unreachable>
 	</div>
 </div>

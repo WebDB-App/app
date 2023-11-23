@@ -27,7 +27,7 @@ class Controller {
 
 		try {
 			randomSymmetricKey = this.key.decryptPublic(keyMsg[0], "utf8");
-		} catch(e) {
+		} catch (e) {
 			return {error: "Invalid data: could not extract symmetric key."};
 		}
 

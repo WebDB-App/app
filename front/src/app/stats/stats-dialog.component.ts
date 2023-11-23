@@ -1,7 +1,7 @@
 import { Component, Inject, OnDestroy, ViewChild } from '@angular/core';
 import { Server } from "../../classes/server";
 import { RequestService } from "../../shared/request.service";
-import { ChartOptions, LegendItem, Chart } from "chart.js";
+import { Chart, ChartOptions, LegendItem } from "chart.js";
 import { MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { BaseChartDirective } from "ng2-charts";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
@@ -25,7 +25,7 @@ export class StatsDialogComponent implements OnDestroy {
 	labels: string[] = [];
 	datasets: any[] = [];
 	times: { [key: string]: number[] } = {};
-	mode : 'raw' | 'difference' | 'sinceOpen' = 'sinceOpen';
+	mode: 'raw' | 'difference' | 'sinceOpen' = 'sinceOpen';
 	lineChartOptions: ChartOptions<'line'> = {
 		layout: {
 			padding: {
@@ -47,7 +47,7 @@ export class StatsDialogComponent implements OnDestroy {
 				}
 			},
 			datalabels: {
-				display: function(context) {
+				display: function (context) {
 					return context.dataIndex === context.dataset.data.length - 1;
 				},
 				color: 'white',
@@ -148,7 +148,7 @@ export class StatsDialogComponent implements OnDestroy {
 
 			if (this.mode === 'difference') {
 				for (let i = 1; i < Values.length; i++) {
-					datas.push(Values[i] - Values[i-1]);
+					datas.push(Values[i] - Values[i - 1]);
 				}
 			} else if (this.mode === 'sinceOpen') {
 				for (let i = 1; i < Values.length; i++) {

@@ -7,9 +7,9 @@
 		<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center"
 					 style="background-color: #444444; z-index: 1000">
 			<div fxLayout="row" fxLayoutGap="12px" style="align-items: center">
-				<a  mat-raised-button
-					mat-stroked-button
-					routerLink="/">
+				<a mat-raised-button
+				   mat-stroked-button
+				   routerLink="/">
 					<mat-icon style="height: 32px; width: 32px;" svgIcon="webdb"></mat-icon>
 				</a>
 
@@ -56,8 +56,8 @@
 				</ng-container>
 
 				<app-unreachable
-					*ngIf="loading === LoadingStatus.ERROR"
 					(reloadPage)="ngOnInit()"
+					*ngIf="loading === LoadingStatus.ERROR"
 				></app-unreachable>
 			</div>
 		</div>

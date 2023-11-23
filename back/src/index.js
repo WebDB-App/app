@@ -53,5 +53,6 @@ function exit() {
 	console.info("Exiting WebDB");
 	process.exit(0);
 }
+
 process.on("SIGINT", exit);
 process.on("SIGTERM", exit);

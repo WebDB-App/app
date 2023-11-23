@@ -6,10 +6,10 @@
 	</h4>
 
 	<mat-button-toggle-group
-		appearance="legacy"
-		style="font-size: 13px"
+		(change)="refreshData()"
 		[(ngModel)]="mode"
-		(change)="refreshData()">
+		appearance="legacy"
+		style="font-size: 13px">
 		<mat-button-toggle value="raw">
 			Total
 		</mat-button-toggle>
@@ -29,8 +29,8 @@
 			</span>
 		</button>
 		<button
-			[disabled]="chart.chart.getZoomLevel() <= 1"
 			(click)="chart.chart.resetZoom()"
+			[disabled]="chart.chart.getZoomLevel() <= 1"
 			mat-icon-button>
 			<span class="material-symbols-outlined">
 				center_focus_strong

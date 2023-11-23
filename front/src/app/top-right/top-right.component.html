@@ -6,8 +6,8 @@
 <mat-menu #activity="matMenu">
 	<ng-container
 		*ngIf="Server.getSelected()">
-		<a  (click)="request.reloadServer()"
-			mat-menu-item>
+		<a (click)="request.reloadServer()"
+		   mat-menu-item>
 			<span class="material-symbols-outlined notranslate">
 				frame_reload
 			</span>
