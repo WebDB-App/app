@@ -48,7 +48,6 @@ prepare:
     stage: prepare
     image: node:alpine
     script:
-        - corepack enable && corepack prepare pnpm@latest --activate
         - cd front
         - pnpm install --prod --frozen-lockfile
         - pnpm run build
