@@ -65,6 +65,8 @@ docker:
         - prepare
     stage: release
     image: docker:latest
+    variables:
+        IMAGE_NAME: webdb/app
     script:
         - cp -fr ./front/dist/webdb/* ./back/static/
         - cd back
