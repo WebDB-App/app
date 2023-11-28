@@ -49,7 +49,7 @@ class Wrapper {
 			return false;
 		}
 
-		if (test && this.pool[hash] && this.pool[hash].connection) {
+		if (!test && this.pool[hash] && this.pool[hash].connection) {
 			return this.pool[hash];
 		}
 
