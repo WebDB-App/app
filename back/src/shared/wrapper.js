@@ -52,9 +52,11 @@ class Wrapper {
 			return false;
 		}
 
-		const hash = makeHash(connection.port, connection.host, connection.user, connection.password, connection.params);
-		if (this.pool[hash] && this.pool[hash].connection) {
-			return this.pool[hash];
+		if (!test) {
+			const hash = makeHash(connection.port, connection.host, connection.user, connection.password, connection.params);
+			if (this.pool[hash] && this.pool[hash].connection) {
+				return this.pool[hash];
+			}
 		}
 
 		const driverClass = await this.getDriverClass(connection.wrapper);
