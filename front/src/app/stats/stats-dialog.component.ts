@@ -27,6 +27,8 @@ export class StatsDialogComponent implements OnDestroy {
 	times: { [key: string]: number[] } = {};
 	mode: 'raw' | 'difference' | 'sinceOpen' = 'sinceOpen';
 	lineChartOptions: ChartOptions<'line'> = {
+		responsive: true,
+		maintainAspectRatio: false,
 		layout: {
 			padding: {
 				left: 10,
@@ -97,7 +99,10 @@ export class StatsDialogComponent implements OnDestroy {
 			mode: 'index',
 			intersect: false,
 		},
-		animation: false,
+		animation: {
+			easing: 'linear',
+			duration: 10,
+		},
 		scales: {
 			x: {
 				display: true,
