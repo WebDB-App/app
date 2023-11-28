@@ -885,6 +885,7 @@ export declare class BulkWriteResult {
 	/* Excluded from this release type: __constructor */
 	/** Evaluates to true if the bulk operation correctly executes */
 	get ok(): number;
+	/* Excluded from this release type: getSuccessfullyInsertedIds */
 	/** Returns the upserted id at the given index */
 	getUpsertedIdAt(index: number): Document | undefined;
 	/** Returns raw internal result */
@@ -2935,11 +2936,13 @@ export declare class Db {
 	static SYSTEM_COMMAND_COLLECTION: string;
 	static SYSTEM_JS_COLLECTION: string;
 	/**
-	 * Creates a new Db instance
+	 * Creates a new Db instance.
+	 *
+	 * Db name cannot contain a dot, the server may apply more restrictions when an operation is run.
 	 *
 	 * @param client - The MongoClient for the database.
 	 * @param databaseName - The name of the database this instance represents.
-	 * @param options - Optional settings for Db construction
+	 * @param options - Optional settings for Db construction.
 	 */
 	constructor(client: MongoClient, databaseName: string, options?: DbOptions);
 	get databaseName(): string;
@@ -2960,6 +2963,8 @@ export declare class Db {
 	/**
 	 * Create a new collection on a server with the specified options. Use this to create capped collections.
 	 * More information about command options available at https://www.mongodb.com/docs/manual/reference/command/create/
+	 *
+	 * Collection namespace validation is performed server-side.
 	 *
 	 * @param name - The name of the collection to create
 	 * @param options - Optional settings for the command
@@ -3002,6 +3007,8 @@ export declare class Db {
 	admin(): Admin;
 	/**
 	 * Returns a reference to a MongoDB Collection. If it does not exist it will be created implicitly.
+	 *
+	 * Collection namespace validation is performed server-side.
 	 *
 	 * @param name - the collection name we wish to access.
 	 * @returns return the new Collection instance
@@ -6243,6 +6250,8 @@ export declare class ServerHeartbeatFailedEvent {
 	duration: number;
 	/** The command failure */
 	failure: Error;
+	/** Is true when using the streaming protocol. */
+	awaited: boolean;
 }
 /**
  * Emitted when the server monitor’s hello command is started - immediately before
@@ -6254,6 +6263,8 @@ export declare class ServerHeartbeatFailedEvent {
 export declare class ServerHeartbeatStartedEvent {
 	/** The connection id for the command */
 	connectionId: string;
+	/** Is true when using the streaming protocol. */
+	awaited: boolean;
 }
 /**
  * Emitted when the server monitor’s hello succeeds.
@@ -6267,6 +6278,8 @@ export declare class ServerHeartbeatSucceededEvent {
 	duration: number;
 	/** The command reply */
 	reply: Document;
+	/** Is true when using the streaming protocol. */
+	awaited: boolean;
 }
 /**
  * Emitted when server is initialized.
@@ -6444,6 +6457,7 @@ export declare type SupportedTLSSocketOptions = Pick<TLSSocketOptions, Extract<k
 export declare type TagSet = {
 	[key: string]: string;
 };
+/* Excluded from this release type: TimeoutController */
 /* Excluded from this release type: TimerQueue */
 /** @public
  * Configuration options for timeseries collections

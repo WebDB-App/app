@@ -10,7 +10,7 @@ module.exports = class PostgreSQL extends SQL {
 
 	commonUser = ["postgres", "postgre"];
 	commonPass = ["postgres", "postgre", "mysecretpassword"];
-	systemDbs = ["information_schema", "pg_catalog", "pg_toast"];
+	systemDbs = ["information_schema", "pg_catalog", "pg_toast", "pg_temp"];
 
 	async scan() {
 		return super.scan(this.host, 5430, 5450);

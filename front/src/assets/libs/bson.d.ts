@@ -70,7 +70,7 @@ export declare class Binary extends BSONValue {
 	/** Creates an Binary instance from a base64 string */
 	static createFromBase64(base64: string, subType?: number): Binary;
 	/* Excluded from this release type: fromExtendedJSON */
-	inspect(): string;
+	inspect(depth?: number, options?: unknown, inspect?: InspectFn): string;
 }
 /** @public */
 export declare interface BinaryExtended {
@@ -129,7 +129,7 @@ export declare class BSONRegExp extends BSONValue {
 	static parseOptions(options?: string): string;
 	/* Excluded from this release type: toExtendedJSON */
 	/* Excluded from this release type: fromExtendedJSON */
-	inspect(): string;
+	inspect(depth?: number, options?: unknown, inspect?: InspectFn): string;
 }
 /** @public */
 export declare interface BSONRegExpExtended {
@@ -170,8 +170,10 @@ export declare class BSONSymbol extends BSONValue {
 	/** Access the wrapped string value. */
 	valueOf(): string;
 	toString(): string;
-	inspect(): string;
 	toJSON(): string;
+	/* Excluded from this release type: toExtendedJSON */
+	/* Excluded from this release type: fromExtendedJSON */
+	inspect(depth?: number, options?: unknown, inspect?: InspectFn): string;
 }
 /** @public */
 export declare interface BSONSymbolExtended {
@@ -207,8 +209,12 @@ export declare type BSONType = (typeof BSONType)[keyof typeof BSONType];
 export declare abstract class BSONValue {
 	/** @public */
 	abstract get _bsontype(): string;
-	/** @public */
-	abstract inspect(): string;
+	/**
+	 * @public
+	 * Prints a human-readable string of BSON value information
+	 * If invoked manually without node.js.inspect function, this will default to a modified JSON.stringify
+	 */
+	abstract inspect(depth?: number, options?: unknown, inspect?: InspectFn): string;
 }
 /**
  * @public
@@ -248,7 +254,7 @@ export declare class Code extends BSONValue {
 	};
 	/* Excluded from this release type: toExtendedJSON */
 	/* Excluded from this release type: fromExtendedJSON */
-	inspect(): string;
+	inspect(depth?: number, options?: unknown, inspect?: InspectFn): string;
 }
 /** @public */
 export declare interface CodeExtended {
@@ -277,7 +283,7 @@ export declare class DBRef extends BSONValue {
 	toJSON(): DBRefLike & Document;
 	/* Excluded from this release type: toExtendedJSON */
 	/* Excluded from this release type: fromExtendedJSON */
-	inspect(): string;
+	inspect(depth?: number, options?: unknown, inspect?: InspectFn): string;
 }
 /** @public */
 export declare interface DBRefLike {
@@ -329,7 +335,7 @@ export declare class Decimal128 extends BSONValue {
 	toJSON(): Decimal128Extended;
 	/* Excluded from this release type: toExtendedJSON */
 	/* Excluded from this release type: fromExtendedJSON */
-	inspect(): string;
+	inspect(depth?: number, options?: unknown, inspect?: InspectFn): string;
 }
 /** @public */
 export declare interface Decimal128Extended {
@@ -446,7 +452,7 @@ export declare class Double extends BSONValue {
 	toString(radix?: number): string;
 	/* Excluded from this release type: toExtendedJSON */
 	/* Excluded from this release type: fromExtendedJSON */
-	inspect(): string;
+	inspect(depth?: number, options?: unknown, inspect?: InspectFn): string;
 }
 /** @public */
 export declare interface DoubleExtended {
@@ -478,6 +484,7 @@ export declare type EJSONOptions = {
 	useBigInt64?: boolean;
 };
 declare function EJSONserialize(value: any, options?: EJSONOptions): Document;
+export declare type InspectFn = (x: unknown, options?: unknown) => string;
 /**
  * A class representation of a BSON Int32 type.
  * @public
@@ -502,7 +509,7 @@ export declare class Int32 extends BSONValue {
 	toJSON(): number;
 	/* Excluded from this release type: toExtendedJSON */
 	/* Excluded from this release type: fromExtendedJSON */
-	inspect(): string;
+	inspect(depth?: number, options?: unknown, inspect?: InspectFn): string;
 }
 /** @public */
 export declare interface Int32Extended {
@@ -821,7 +828,7 @@ export declare class Long extends BSONValue {
 	static fromExtendedJSON(doc: {
 		$numberLong: string;
 	}, options?: EJSONOptions): number | Long | bigint;
-	inspect(): string;
+	inspect(depth?: number, options?: unknown, inspect?: InspectFn): string;
 }
 /** @public */
 export declare interface LongExtended {
@@ -933,7 +940,12 @@ export declare class ObjectId extends BSONValue {
 	static isValid(id: string | number | ObjectId | ObjectIdLike | Uint8Array): boolean;
 	/* Excluded from this release type: toExtendedJSON */
 	/* Excluded from this release type: fromExtendedJSON */
-	inspect(): string;
+	/**
+	 * Converts to a string representation of this Id.
+	 *
+	 * @returns return the 24 character hex string representation.
+	 */
+	inspect(depth?: number, options?: unknown, inspect?: InspectFn): string;
 }
 /** @public */
 export declare interface ObjectIdExtended {
@@ -1042,7 +1054,7 @@ export declare class Timestamp extends LongWithoutOverridesClass {
 	static fromString(str: string, optRadix: number): Timestamp;
 	/* Excluded from this release type: toExtendedJSON */
 	/* Excluded from this release type: fromExtendedJSON */
-	inspect(): string;
+	inspect(depth?: number, options?: unknown, inspect?: InspectFn): string;
 }
 /** @public */
 export declare interface TimestampExtended {
@@ -1114,7 +1126,13 @@ export declare class UUID extends Binary {
 	static createFromBase64(base64: string): UUID;
 	/* Excluded from this release type: bytesFromString */
 	/* Excluded from this release type: isValidUUIDString */
-	inspect(): string;
+	/**
+	 * Converts to a string representation of this Id.
+	 *
+	 * @returns return the 36 character hex string representation.
+	 *
+	 */
+	inspect(depth?: number, options?: unknown, inspect?: InspectFn): string;
 }
 /** @public */
 export declare type UUIDExtended = {
