@@ -38,10 +38,7 @@ class Wrapper {
 	}
 
 	async getDriver(connection, test = false) {
-		// eslint-disable-next-line no-unused-vars
-		const makeHash = (port, user, password, host, params) => {
-			return JSON.stringify(arguments);
-		};
+		const hash = JSON.stringify([connection.port, connection.host, connection.user, connection.password, connection.params]);
 
 		try {
 			const forwardPort = await Tunnel.handleSsh(connection);
@@ -52,11 +49,8 @@ class Wrapper {
 			return false;
 		}
 
-		if (!test) {
-			const hash = makeHash(connection.port, connection.host, connection.user, connection.password, connection.params);
-			if (this.pool[hash] && this.pool[hash].connection) {
-				return this.pool[hash];
-			}
+		if (test && this.pool[hash] && this.pool[hash].connection) {
+			return this.pool[hash];
 		}
 
 		const driverClass = await this.getDriverClass(connection.wrapper);
