@@ -38,7 +38,7 @@ class Wrapper {
 	}
 
 	async getDriver(connection, test = false) {
-		const hash = JSON.stringify([connection.port, connection.host, connection.user, connection.password, connection.params]);
+		const hash = JSON.stringify(connection);
 
 		try {
 			const forwardPort = await Tunnel.handleSsh(connection);
@@ -49,8 +49,10 @@ class Wrapper {
 			return false;
 		}
 
-		if (!test && this.pool[hash] && this.pool[hash].connection) {
-			return this.pool[hash];
+		if (!test) {
+			if (this.pool[hash] && this.pool[hash].connection) {
+				return this.pool[hash];
+			}
 		}
 
 		const driverClass = await this.getDriverClass(connection.wrapper);
