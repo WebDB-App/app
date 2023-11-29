@@ -95,6 +95,7 @@ export class EditConnectionComponent implements OnChanges {
 	saveConnection() {
 		this.saveParams();
 		Server.remove(this.server.name);
+		Server.add(this.server);
 		this.edited.emit();
 	}
 }
