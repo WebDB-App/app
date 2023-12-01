@@ -32,6 +32,10 @@ export class Configuration {
 			name: 'autoFormat',
 			description: 'Format query when executed',
 			values: [true, false]
+		}, {
+			name: 'statsRefreshRate',
+			description: 'Refresh rate of statistics, in seconds',
+			values: ['1', '5', '30']
 		}
 	];
 

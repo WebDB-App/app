@@ -6,6 +6,7 @@ import { MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { BaseChartDirective } from "ng2-charts";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import zoomPlugin from 'chartjs-plugin-zoom';
+import { Configuration } from "../../classes/configuration";
 
 Chart.register(zoomPlugin);
 Chart.register(ChartDataLabels);
@@ -19,6 +20,7 @@ export class StatsDialogComponent implements OnDestroy {
 
 	@ViewChild(BaseChartDirective) public chart!: BaseChartDirective;
 
+	configuration = new Configuration();
 	interval!: NodeJS.Timer;
 	pause = false;
 	valSize = 1000;
@@ -123,7 +125,7 @@ export class StatsDialogComponent implements OnDestroy {
 			if (!this.pause) {
 				this.refreshData();
 			}
-		}, 500);
+		}, this.configuration.getByName('statsRefreshRate')?.value * 1000);
 		this.refreshData();
 	}
 
