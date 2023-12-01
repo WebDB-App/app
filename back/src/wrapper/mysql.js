@@ -129,17 +129,24 @@ module.exports = class MySQL extends SQL {
 	}
 
 	async serverStats() {
-		const stats = await this.runCommand("SHOW STATUS WHERE Variable_name IN ('Bytes_received', 'Bytes_sent', 'Connections', 'Created_tmp_files', 'Created_tmp_tables', 'Innodb_rows_updated', 'Innodb_rows_deleted', 'Innodb_rows_inserted', 'Innodb_rows_read', 'Threads_connected', 'Threads_running')");
-		const kilos = ["Bytes_received", "Bytes_sent", "Innodb_rows_inserted", "Innodb_rows_read"];
+		const tmp = (await this.runCommand("SHOW STATUS WHERE Variable_name IN ('Bytes_received', 'Bytes_sent', 'Connections', 'Created_tmp_files', 'Created_tmp_tables', 'Innodb_rows_updated', 'Innodb_rows_deleted', 'Innodb_rows_inserted', 'Innodb_rows_read', 'Threads_connected', 'Threads_running')"));
 
-		return stats.map(stat => {
-			if (kilos.indexOf(stat.Variable_name) >= 0) {
-				stat.Variable_name = "K_" + stat.Variable_name;
-				stat.Value = Math.floor(stat.Value / 1000);
-			}
+		const stats = {};
+		tmp.map(t => stats[t.Variable_name] = t.Value);
 
-			return stat;
-		});
+		return [
+			{Variable_name: "Conn active", "Value": stats.Threads_running},
+			{Variable_name: "Conn current", "Value": stats.Threads_connected},
+			{Variable_name: "Conn attempts", "Value": stats.Connections},
+			{Variable_name: "Net in (Mo)", "Value": Math.floor(stats.Bytes_received / 1000000)},
+			{Variable_name: "Net out (Mo)", "Value": Math.floor(stats.Bytes_sent / 1000000)},
+			{Variable_name: "Oper deletes", "Value": stats.Innodb_rows_deleted},
+			{Variable_name: "Oper updates", "Value": stats.Innodb_rows_updated},
+			{Variable_name: "Oper inserts", "Value": stats.Innodb_rows_inserted},
+			{Variable_name: "Oper reads", "Value": stats.Innodb_rows_read},
+			{Variable_name: "Tmp created files", "Value": stats.Created_tmp_files},
+			{Variable_name: "Tmp created tables", "Value": stats.Created_tmp_tables},
+		];
 	}
 
 	async getAvailableCollations() {

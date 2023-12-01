@@ -99,10 +99,7 @@ export class StatsDialogComponent implements OnDestroy {
 			mode: 'index',
 			intersect: false,
 		},
-		animation: {
-			easing: 'linear',
-			duration: 10,
-		},
+		animation: false,
 		scales: {
 			x: {
 				display: true,

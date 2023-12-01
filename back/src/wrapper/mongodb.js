@@ -91,18 +91,18 @@ module.exports = class MongoDB extends Driver {
 	async serverStats() {
 		const stats = await this.connection.db().admin().command({serverStatus: 1});
 		return [
-			{Variable_name: "conActive", "Value": stats.connections.active},
-			{Variable_name: "conCurrent", "Value": stats.connections.current},
-			{Variable_name: "conRejected", "Value": stats.connections.rejected},
-			{Variable_name: "K_bytesIn", "Value": Math.floor(stats.network.bytesIn / 1000)},
-			{Variable_name: "M_bytesOut", "Value": Math.floor(stats.network.bytesOut / 1000000)},
-			{Variable_name: "K_latencyReads", "Value": Math.floor(stats.opLatencies.reads.latency / 1000)},
-			{Variable_name: "K_latencyWrites", "Value": Math.floor(stats.opLatencies.writes.latency / 1000)},
-			{Variable_name: "opDelete", "Value": stats.opcounters.delete},
-			{Variable_name: "opInsert", "Value": stats.opcounters.insert},
-			{Variable_name: "opQuery", "Value": stats.opcounters.query},
-			{Variable_name: "transAborted", "Value": stats.transactions.totalAborted},
-			{Variable_name: "transCommitted", "Value": stats.transactions.totalCommitted},
+			{Variable_name: "Conn active", "Value": stats.connections.active},
+			{Variable_name: "Conn current", "Value": stats.connections.current},
+			{Variable_name: "Conn rejected", "Value": stats.connections.rejected},
+			{Variable_name: "Net in (Mo)", "Value": Math.floor(stats.network.bytesIn / 1000000)},
+			{Variable_name: "Net out (Mo)", "Value": Math.floor(stats.network.bytesOut / 1000000)},
+			{Variable_name: "Latency reads (sec)", "Value": Math.floor(stats.opLatencies.reads.latency / 1000000)},
+			{Variable_name: "Latency writes (sec)", "Value": Math.floor(stats.opLatencies.writes.latency / 1000000)},
+			{Variable_name: "Oper deletes", "Value": stats.opcounters.delete},
+			{Variable_name: "Oper inserts", "Value": stats.opcounters.insert},
+			{Variable_name: "Oper queries", "Value": stats.opcounters.query},
+			{Variable_name: "Trans aborted", "Value": stats.transactions.totalAborted},
+			{Variable_name: "Trans committed", "Value": stats.transactions.totalCommitted},
 		];
 	}
 

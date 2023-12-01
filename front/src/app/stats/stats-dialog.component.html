@@ -29,11 +29,11 @@
 			</span>
 		</button>
 		<button
+			*ngIf="chart.chart.getZoomLevel() > 1"
 			(click)="chart.chart.resetZoom()"
-			[disabled]="chart.chart.getZoomLevel() <= 1"
 			mat-icon-button>
 			<span class="material-symbols-outlined">
-				center_focus_strong
+				zoom_out
 			</span>
 		</button>
 	</div>
