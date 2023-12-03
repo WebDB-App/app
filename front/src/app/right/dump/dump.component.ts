@@ -8,7 +8,7 @@ import { RequestService } from "../../../shared/request.service";
 import { environment } from "../../../environments/environment";
 import { saveAs } from "file-saver-es";
 import { isSQL } from "../../../shared/helper";
-import { DrawerService } from "../../../shared/drawer.service";
+import { FileType } from "../../../classes/driver";
 
 export class ItemTree {
 	name?: string;
@@ -25,35 +25,34 @@ export class DumpComponent {
 	selectedServer?: Server;
 	selectedDatabase?: Database;
 
+	fileType!: FileType;
 	isLoading = false;
-	includeData = true;
+	cliOptions = "";
+	editorOptions = {
+		language: 'text'
+	};
+
 	checklistSelection = new SelectionModel<ItemTree>(true);
 	treeControl = new NestedTreeControl<ItemTree>(node => node.children);
 	dataSource = new MatTreeNestedDataSource<ItemTree>();
 	protected readonly isSQL = isSQL;
 
 	constructor(
-		private drawer: DrawerService,
 		private request: RequestService
 	) {
-		this.drawer.drawer.openedChange.subscribe(async (state) => {
-			this.refreshData();
-		});
-	}
-
-	refreshData() {
 		this.selectedDatabase = Database.getSelected();
 		this.selectedServer = Server.getSelected();
 
-		const tree = new ItemTree();
+		this.fileType = this.selectedServer.driver.connection.fileTypes[0];
+		this.useDefault()
 
+		const tree = new ItemTree();
 		tree.name = this.selectedDatabase?.name;
 		tree.children = this.selectedDatabase?.tables!.map(table => {
 			return {name: table.name}
 		});
 
 		this.dataSource.data = [tree];
-
 		this.treeControl.dataNodes = [tree];
 		this.treeControl.expandAll()
 		this.itemSelectionToggle(tree);
@@ -80,17 +79,21 @@ export class DumpComponent {
 			: this.checklistSelection.deselect(...descendants);
 	}
 
-	async dump(type: string) {
+	async dump() {
 		this.isLoading = true;
 		try {
 			const result = await this.request.post('server/dump', {
-				exportType: type,
+				exportType: this.fileType.extension,
 				tables: this.checklistSelection.selected.filter(select => !select.children).map(select => select.name),
-				includeData: this.includeData
+				options: this.cliOptions
 			});
 			saveAs(environment.rootUrl + result.path, result.path.split('/')[1]);
 		} catch (e) {
 		}
 		this.isLoading = false;
+	}
+
+	useDefault() {
+		this.cliOptions = this.selectedServer!.driver.connection.defaultDumpOptions;
 	}
 }

@@ -21,17 +21,19 @@ export class MongoDB implements Driver {
 			serverSelectionTimeoutMS: 2000,
 			authSource: 'admin'
 		},
-		acceptedExt: ['.csv', '.tsv', '.json', '.gz'],
+		acceptedExt: ['.csv', '.tsv', '.json', '.gz', '.bson'],
 		fileTypes: [
+			{extension: "bson", name: "BSON", native: true},
 			{extension: "json", name: "JSON"},
-			{extension: "bson", name: "BSON"},
-		]
+		],
+		defaultDumpOptions: "--gzip"
 	}
 
 	docs = {
 		driver: "https://www.mongodb.com/docs/drivers/node/current/fundamentals/connection/connection-options/",
 		types: "https://www.mongodb.com/docs/manual/reference/bson-types/",
-		language: "https://www.mongodb.com/docs/drivers/node/current/quick-reference/"
+		language: "https://www.mongodb.com/docs/drivers/node/current/quick-reference/",
+		dump: "https://www.mongodb.com/docs/v4.0/reference/program/mongodump/#options"
 	}
 
 	language = {

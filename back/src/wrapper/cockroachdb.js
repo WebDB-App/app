@@ -11,7 +11,7 @@ module.exports = class CockroachDB extends PostgreSQL {
 	}
 
 	// eslint-disable-next-line no-unused-vars
-	async dump(dbSchema, exportType = "sql", tables, includeData = true) {
+	async dump(dbSchema, exportType = "sql", tables, options = "") {
 		return {error: "Feature not available due to the incompatibility of CockroachDB with pg_dump"};
 	}
 

@@ -67,7 +67,7 @@ module.exports = class PostgreSQL extends SQL {
 		return {ok: true};
 	}
 
-	async dump(dbSchema, exportType = "sql", tables, includeData = true) {
+	async dump(dbSchema, exportType = "sql", tables, options = "") {
 		const [database, schema] = dbSchema.split(this.dbToSchemaDelimiter);
 
 		const path = join(__dirname, `../../static/dump/${database}.${exportType}`);
@@ -75,10 +75,9 @@ module.exports = class PostgreSQL extends SQL {
 
 		if (exportType === "sql") {
 			const cmd = `pg_dump ${this.makeUri(database)}`;
-			const data = includeData ? "" : "-s -b";
 			const dbOpts = (tables === false || tables.length.toString() === total[0].total) ? "" : `${tables.map(table => `-t '${table}'`).join(" ")}`;
 
-			const result = bash.runBash(`${cmd} ${dbOpts} -n ${schema} ${data} > ${path}`);
+			const result = bash.runBash(`${cmd} ${dbOpts} ${options} -n ${schema} > ${path}`);
 			if (result.error) {
 				return result;
 			}

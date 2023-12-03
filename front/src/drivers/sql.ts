@@ -22,15 +22,17 @@ export class SQL implements Driver {
 		defaultParams: {},
 		acceptedExt: [".sql", ".json"],
 		fileTypes: [
+			{extension: "sql", name: "SQL", native: true},
 			{extension: "json", name: "JSON"},
-			{extension: "sql", name: "SQL"},
-		]
+		],
+		defaultDumpOptions: ""
 	}
 
 	docs = {
 		driver: "",
 		types: "https://www.w3resource.com/sql/data-type.php",
-		language: "https://www.w3schools.com/sql/sql_quickref.asp"
+		language: "https://www.w3schools.com/sql/sql_quickref.asp",
+		dump: ""
 	}
 
 	language: {

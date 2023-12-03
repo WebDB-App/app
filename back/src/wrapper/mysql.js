@@ -42,17 +42,15 @@ module.exports = class MySQL extends SQL {
 		return await Promise.all(promises);
 	}
 
-	async dump(database, exportType = "sql", tables, includeData = true) {
+	async dump(database, exportType = "sql", tables, options = "") {
 		const path = join(__dirname, `../../static/dump/${database}.${exportType}`);
 		const total = await this.runCommand(`SELECT COUNT(DISTINCT TABLE_NAME) as total FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '${database}'`);
 
 		if (exportType === "sql") {
 			const cmd = `mysqldump --user='${this.user}' --port=${this.port} --password='${this.password}' --host='${this.host}' ${database} `;
-			const data = includeData ? "" : "--no-data";
 			const dbOpts = (tables === false || tables.length >= total[0].total) ? "" : ` ${tables.join(" ")}`;
-			const cliOpts = "--column-statistics=0";
 
-			const result = bash.runBash(`${cmd} ${cliOpts} ${dbOpts} ${data} > ${path}`);
+			const result = bash.runBash(`${cmd} ${dbOpts} ${options} > ${path}`);
 			if (result.error) {
 				return result;
 			}

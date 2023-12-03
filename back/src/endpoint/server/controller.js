@@ -89,6 +89,10 @@ class Controller {
 	}
 
 	async dump(req, res) {
+		if (process.env.PROTECTED_MODE === "true") {
+			return {error: "Dump is disable by backend configuration"};
+		}
+
 		const [driver, database, , server] = await http.getLoggedDriver(req);
 
 		if (req.body.exportType.toLowerCase() !== "json" && server.ssh) {
@@ -99,15 +103,19 @@ class Controller {
 			database,
 			req.body.exportType,
 			req.body.tables,
-			req.body.includeData,
+			req.body.options.replaceAll("\n", " "),
 		);
 
 		version.commandFinished(driver, "update ", database);
-		setTimeout(() => {
-			unlinkSync(join(__dirname, "../../../static/", result.path));
-		}, 60 * 1000);
-
 		res.send(result);
+
+		setTimeout(() => {
+			try {
+				unlinkSync(join(__dirname, "../../../static/", result.path));
+			} catch (e) {
+				console.log(e);
+			}
+		}, 60 * 1000);
 	}
 
 	async guess(req, res) {

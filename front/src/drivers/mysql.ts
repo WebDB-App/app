@@ -12,7 +12,8 @@ export class MySQL extends SQL {
 		this.docs = {
 			driver: "https://github.com/sidorares/node-mysql2/blob/master/typings/mysql/lib/Connection.d.ts",
 			types: "https://dev.mysql.com/doc/refman/8.0/en/data-types.html",
-			language: "https://dev.mysql.com/doc/refman/8.0/en/sql-statements.html"
+			language: "https://dev.mysql.com/doc/refman/8.0/en/sql-statements.html",
+			dump: "https://dev.mysql.com/doc/refman/8.0/en/mysqldump.html#mysqldump-option-summary"
 		}
 
 		this.connection = {
@@ -22,7 +23,8 @@ export class MySQL extends SQL {
 				multipleStatements: true,
 				supportBigNumbers: true,
 				bigNumberStrings: true
-			}
+			},
+			defaultDumpOptions: "--column-statistics=0"
 		}
 
 		this.language = {

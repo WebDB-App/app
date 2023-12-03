@@ -131,13 +131,18 @@ export class StatsDialogComponent implements OnDestroy {
 
 	async refreshData() {
 		let newVals;
+		const start = (new Date()).getTime();
+		let ping;
 
 		try {
 			newVals = await this.request.post('stats/server', {}, undefined, undefined, this.server);
+			ping = (new Date()).getTime() - start;
 		} catch (e) {
 			this.pause = true;
 			return;
 		}
+
+		newVals.push({ Variable_name: "Ping WebDB (ms)", Value: ping });
 
 		newVals.map((newVal: { Variable_name: any; Value: any; }) => {
 			if (!this.times[newVal.Variable_name]) {

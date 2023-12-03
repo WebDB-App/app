@@ -1,41 +1,68 @@
 <ng-container *ngIf="selectedDatabase && selectedServer">
-	<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="12px">
-		<mat-slide-toggle
-			[(ngModel)]="includeData"
-			[disabled]="!isSQL()"
-			checked
-			color="accent">
-			Include Data
-		</mat-slide-toggle>
+	<mat-toolbar style="display: flex; flex-direction: column; height: auto; padding: 8px 16px">
+		<div style="display: flex; width: 100%; justify-content: space-between; align-items: center;">
+			<mat-button-toggle-group
+				[(ngModel)]="fileType">
+				<ng-container *ngFor="let fileT of selectedServer!.driver.connection.fileTypes; let i = index">
+					<mat-button-toggle
+						[value]="fileT">
+						{{fileT.name}}
+					</mat-button-toggle>
+				</ng-container>
+			</mat-button-toggle-group>
 
-		<mat-button-toggle-group
-			#group="matButtonToggleGroup">
-			<ng-container *ngFor="let fileT of selectedServer!.driver.connection.fileTypes; let i = index">
-				<mat-button-toggle
-					[checked]="i === 0"
-					[value]="fileT.extension">
-					{{fileT.name}}
-				</mat-button-toggle>
-			</ng-container>
-		</mat-button-toggle-group>
-
-		<mat-progress-spinner
-			*ngIf="isLoading"
-			[diameter]="30"
-			color="accent"
-			mode="indeterminate">
-		</mat-progress-spinner>
-
-		<button (click)="dump(group.value)"
-				*ngIf="!isLoading"
-				[disabled]="checklistSelection.isEmpty()"
+			<mat-progress-spinner
+				*ngIf="isLoading"
+				[diameter]="30"
 				color="accent"
-				mat-raised-button>
-			<span class="material-symbols-outlined notranslate">
-				upload
-			</span>
-			Export
-		</button>
+				mode="indeterminate">
+			</mat-progress-spinner>
+
+			<button (click)="dump()"
+					*ngIf="!isLoading"
+					[disabled]="checklistSelection.isEmpty()"
+					color="accent"
+					mat-raised-button>
+				<span class="material-symbols-outlined notranslate">
+					upload
+				</span>
+				Export
+			</button>
+		</div>
+
+		<ng-container *ngIf="fileType.native">
+			<mat-divider style="width: 100%; margin: 12px 0px;"></mat-divider>
+
+			<div style="display: flex; gap: 12px;">
+
+				<div style="display: flex; flex-direction: column; justify-content: space-evenly;">
+					<button (click)="useDefault()"
+							color="primary"
+							mat-stroked-button>
+						<span class="material-symbols-outlined notranslate">
+							device_reset
+						</span>
+						Use default
+					</button>
+
+					<a [href]="selectedServer.driver.docs.dump"
+					   mat-button
+					   mat-stroked-button
+					   target="_blank">
+						<span class="material-symbols-outlined notranslate">
+							developer_guide
+						</span>
+						Dump cli options
+					</a>
+				</div>
+
+				<ngx-monaco-editor
+					[(ngModel)]="cliOptions"
+					[options]="editorOptions"
+					style="flex: 1; min-height: 200px; resize: none; width: 350px">
+				</ngx-monaco-editor>
+			</div>
+		</ng-container>
 	</mat-toolbar>
 
 	<mat-tree [dataSource]="dataSource"

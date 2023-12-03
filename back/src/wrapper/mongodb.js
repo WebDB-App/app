@@ -16,7 +16,7 @@ module.exports = class MongoDB extends Driver {
 		return super.scan(this.host, 27010, 27030);
 	}
 
-	async dump(database, exportType = "bson", tables) {
+	async dump(database, exportType = "bson", tables, options = "") {
 		let path = join(__dirname, `../../static/dump/${database}`);
 		if (exportType === "json") {
 			path = `${path}.json`;
@@ -35,7 +35,7 @@ module.exports = class MongoDB extends Driver {
 		}
 		if (exportType === "bson") {
 			path = `${path}.gz`;
-			const result = bash.runBash(`mongodump --uri="${this.makeUri()}" --db=${database} --gzip --archive=${path}`);
+			const result = bash.runBash(`mongodump --uri="${this.makeUri()}" --db=${database} --archive=${path} ${options}`);
 			if (result.error) {
 				return result;
 			}
@@ -484,7 +484,7 @@ module.exports = class MongoDB extends Driver {
 	}
 
 	async querySize(query, database) {
-		if (process.env.DISABLE_EVAL === "true") {
+		if (process.env.PROTECTED_MODE === "true") {
 			return {error: "Code evaluation is disable by backend configuration"};
 		}
 
@@ -514,7 +514,7 @@ module.exports = class MongoDB extends Driver {
 	}
 
 	async runPagedQuery(query, page, pageSize, database) {
-		if (process.env.DISABLE_EVAL === "true") {
+		if (process.env.PROTECTED_MODE === "true") {
 			return {error: "Code evaluation is disable by backend configuration"};
 		}
 

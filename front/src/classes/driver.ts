@@ -39,6 +39,7 @@ export class QueryParams {
 export class FileType {
 	extension!: string;
 	name!: string;
+	native? = false;
 }
 
 export interface Driver {
@@ -46,13 +47,15 @@ export interface Driver {
 	connection: {
 		defaultParams: {},
 		acceptedExt: string[],
-		fileTypes: FileType[]
+		fileTypes: FileType[],
+		defaultDumpOptions: string
 	}
 
 	docs: {
 		driver: string,
 		types: string,
 		language: string
+		dump: string
 	}
 
 	language: {
