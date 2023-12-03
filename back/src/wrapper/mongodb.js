@@ -47,14 +47,22 @@ module.exports = class MongoDB extends Driver {
 		return bash.runBash(`mongodump --uri="${this.makeUri()}" --db=${database} --archive=${path}`);
 	}
 
-	async load(filePath, database, originalName) {
-		if (originalName.endsWith(".csv") ||
-			originalName.endsWith(".json") ||
-			originalName.endsWith(".tsv")) {
-			return bash.runBash(`mongoimport --db="${database}" --uri="${this.makeUri()}" --file "${filePath}" --collection ${originalName.split(".")[0]}`);
+	async load(files, database, folder = false) {
+		if (folder) {
+			return bash.runBash(`mongorestore --uri="${this.makeUri()}" --db="${database}" ${files[0].destination}`);
 		}
 
-		return bash.runBash(`mongorestore --nsFrom="*" --nsTo="${database}.*" --gzip --uri="${this.makeUri()}" --archive="${filePath}"`);
+		for (const file of files) {
+			if (file.originalname.endsWith(".csv") ||
+				file.originalname.endsWith(".json") ||
+				file.originalname.endsWith(".tsv")) {
+				bash.runBash(`mongoimport --uri="${this.makeUri()}" --db="${database}" --file "${file.path}" --collection ${file.originalname.split(".")[0]}`);
+			} else {
+				bash.runBash(`mongorestore --uri="${this.makeUri()}" --nsFrom="*" --nsTo="${database}.*" --gzip --archive="${file.path}"`);
+			}
+		}
+
+		return {ok: true};
 	}
 
 	async createView(database, view, code, table) {

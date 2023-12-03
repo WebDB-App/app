@@ -3,19 +3,18 @@ import { Database } from "../../../classes/database";
 import { Server } from "../../../classes/server";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { RequestService } from "../../../shared/request.service";
+import { isSQL } from "../../../shared/helper";
 
 class Loads {
 	name: string;
 	text: string;
 	file: File;
 	editorOptions: {};
-	progress!: number;
 
 	constructor(name: string, text: string, file: File) {
 		this.name = name;
 		this.text = text;
 		this.file = file;
-		this.progress = 0;
 		this.editorOptions = {
 			language: this.name.toLowerCase().split('.')[1],
 			readOnly: true,
@@ -36,6 +35,8 @@ export class LoadComponent {
 	selectedServer!: Server;
 	files: Loads[] = [];
 	acceptedExt!: string[];
+	folder = false;
+
 	@HostBinding('class.blur') blur = false;
 
 	constructor(
@@ -77,25 +78,16 @@ export class LoadComponent {
 	async importFiles(database: string) {
 		this.isLoading = true;
 
+		const formData: FormData = new FormData();
 		for (const file of this.files) {
-			if (file.progress === 100) {
-				continue;
-			}
+			formData.append("files[]", file.file, file.name);
+		}
 
-			const formData: FormData = new FormData();
-			formData.append('file', file.file, file.name);
-
-			file.progress = 30;
-
-			try {
-				await this.request.post('server/load', formData, undefined, <Database>{name: database});
-			} catch (err: unknown) {
-				file.progress = -1;
-				this.isLoading = false;
-				return;
-			}
-
-			file.progress = 100;
+		try {
+			await this.request.post('server/load?folder=' + this.folder, formData, undefined, <Database>{name: database});
+		} catch (err: unknown) {
+			this.isLoading = false;
+			return;
 		}
 
 		this.snackBar.open("Import succeed", "╳", {duration: 3000})
@@ -125,9 +117,11 @@ export class LoadComponent {
 		await this.setImport(Array.from(fileInputEvent.target.files));
 	}
 
-	arraymove(arr: any[], fromIndex: number, toIndex: number) {
+	arrayMove(arr: any[], fromIndex: number, toIndex: number) {
 		const element = arr[fromIndex];
 		arr.splice(fromIndex, 1);
 		arr.splice(toIndex, 0, element);
 	}
+
+	protected readonly isSQL = isSQL;
 }

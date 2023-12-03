@@ -74,8 +74,11 @@ module.exports = class MySQL extends SQL {
 		return bash.runBash(`mysqldump --single-transaction --user='${this.user}' --port=${this.port} --password='${this.password}' --host='${this.host}' --column-statistics=0 --skip-extended-insert ${database} > ${path}`);
 	}
 
-	async load(filePath, database) {
-		return bash.runBash(`mysql --user='${this.user}' --port=${this.port} --password='${this.password}' --host='${this.host}' ${database} < ${filePath}`);
+	async load(files, database) {
+		for (const file of files) {
+			bash.runBash(`mysql --user='${this.user}' --port=${this.port} --password='${this.password}' --host='${this.host}' ${database} < ${file.path}`);
+		}
+		return {ok: true};
 	}
 
 	async process() {

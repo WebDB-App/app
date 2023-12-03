@@ -12,6 +12,11 @@ dotenv.config({path: join(__dirname, "../.env")});
 const app = express();
 const port = Number(process.env.API_PORT);
 
+app.use(function (req, res, next) {
+	req.startTime = (new Date()).getTime();
+	next();
+});
+
 if (process.env.NODE_ENV === "production") {
 	Sentry.init({
 		dsn: "https://glet_4aa313505f2ab7f4bb992102d99bbc1b@observe.gitlab.com:443/errortracking/api/v1/projects/42963773",

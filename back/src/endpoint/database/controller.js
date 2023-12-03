@@ -107,7 +107,8 @@ Don't make presumption, use only provided data. Respond in "${req.body.language}
 		const p = join(__dirname, "../../../static/", path.path);
 
 		await new Promise(resolve => setTimeout(resolve, 1000));
-		await driver.load(p, req.body.name);
+
+		await driver.load([{path: p}], req.body.name);
 		unlinkSync(p);
 
 		res.send({});

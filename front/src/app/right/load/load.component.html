@@ -1,16 +1,27 @@
 <mat-toolbar style="font-size: 14px; gap: 24px;">
-	Drop here or
-	<input #inputFile (change)="inputChange($event)" accept="{{acceptedExt.join(', ')}}" hidden="true" multiple
-		   onclick="this.value=null" type="file"/>
+	Drop or select files
+	<input
+		#inputFile
+		(change)="inputChange($event)"
+		accept="{{acceptedExt.join(', ')}}"
+		hidden="true"
+		multiple
+		onclick="this.value=null"
+		type="file"/>
 	<button
 		(click)="inputFile.click()"
 		color="accent"
 		mat-stroked-button
 		style="width: 100%">
-		select
+		{{acceptedExt.join(' ')}}
 	</button>
 
-	{{acceptedExt.join(', ')}} files
+	<mat-checkbox
+		*ngIf="!isSQL()"
+		[(ngModel)]="folder"
+		color="accent">
+		Load as folder
+	</mat-checkbox>
 </mat-toolbar>
 
 <div fxLayout="column" fxLayoutAlign="space-between center" style="padding: 0px 20px">
@@ -38,7 +49,7 @@
 			</mat-form-field>
 
 			<button
-				(click)="arraymove(files, i, i - 1)"
+				(click)="arrayMove(files, i, i - 1)"
 				[hidden]="i === 0"
 				mat-button>
 				<span class="material-symbols-outlined notranslate">
@@ -48,7 +59,7 @@
 			</button>
 
 			<button
-				(click)="arraymove(files, i, i + 1)"
+				(click)="arrayMove(files, i, i + 1)"
 				[hidden]="i === files.length -1"
 				mat-button>
 				<span class="material-symbols-outlined notranslate">
@@ -65,13 +76,6 @@
 				</span>
 				Remove
 			</button>
-
-			<mat-progress-bar
-				[color]="file.progress < 0 ? 'warn' : 'accent'"
-				[value]="file.progress"
-				mode="determinate"
-				style="margin-top: 8px">
-			</mat-progress-bar>
 		</mat-card-actions>
 	</mat-card>
 
@@ -90,12 +94,19 @@
 			Load into
 		</button>
 
+		<mat-spinner
+			*ngIf="isLoading"
+			[diameter]="30"
+			color="accent"
+		></mat-spinner>
+
 		<mat-form-field style="margin-bottom: -1.25em">
-			<input #database
-				   [value]="selectedDatabase.name"
-				   autocomplete="off"
-				   matInput
-				   required>
+			<input
+				#database
+			   [value]="selectedDatabase.name"
+			   autocomplete="off"
+			   matInput
+			   required>
 		</mat-form-field>
 	</div>
 </div>

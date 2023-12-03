@@ -106,9 +106,14 @@ module.exports = class PostgreSQL extends SQL {
 		return `postgresql://${this.user}:${this.password}@${this.host}:${this.port}` + (database ? ("/" + database) : "");
 	}
 
-	async load(filePath, dbSchema) {
+	async load(files, dbSchema) {
 		const [database] = dbSchema.split(this.dbToSchemaDelimiter);
-		return bash.runBash(`psql ${this.makeUri(database)} < ${filePath}`);
+
+		for (const file of files) {
+			bash.runBash(`psql ${this.makeUri(database)} < ${file.path}`);
+		}
+
+		return {ok: true};
 	}
 
 	async process() {
