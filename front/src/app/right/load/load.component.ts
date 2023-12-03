@@ -35,7 +35,6 @@ export class LoadComponent {
 	selectedServer!: Server;
 	files: Loads[] = [];
 	acceptedExt!: string[];
-	folder = false;
 
 	@HostBinding('class.blur') blur = false;
 
@@ -84,7 +83,7 @@ export class LoadComponent {
 		}
 
 		try {
-			await this.request.post('server/load?folder=' + this.folder, formData, undefined, <Database>{name: database});
+			await this.request.post('server/load', formData, undefined, <Database>{name: database});
 		} catch (err: unknown) {
 			this.isLoading = false;
 			return;

@@ -82,7 +82,7 @@ class Controller {
 			return res.send({error: "While tunneling, native import is not available with WebDB"});
 		}
 
-		const result = await driver.load(req.files, req.get("Database"), req.query.folder === "true");
+		const result = await driver.load(req.files, req.get("Database"));
 
 		fs.rmSync(req.files[0].destination, { recursive: true, force: true });
 		res.send(result);

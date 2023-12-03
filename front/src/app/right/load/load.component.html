@@ -1,5 +1,5 @@
 <mat-toolbar style="font-size: 14px; gap: 24px;">
-	Drop or select files
+	Drop here or select
 	<input
 		#inputFile
 		(change)="inputChange($event)"
@@ -15,13 +15,6 @@
 		style="width: 100%">
 		{{acceptedExt.join(' ')}}
 	</button>
-
-	<mat-checkbox
-		*ngIf="!isSQL()"
-		[(ngModel)]="folder"
-		color="accent">
-		Load as folder
-	</mat-checkbox>
 </mat-toolbar>
 
 <div fxLayout="column" fxLayoutAlign="space-between center" style="padding: 0px 20px">

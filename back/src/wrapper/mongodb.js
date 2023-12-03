@@ -47,7 +47,8 @@ module.exports = class MongoDB extends Driver {
 		return bash.runBash(`mongodump --uri="${this.makeUri()}" --db=${database} --archive=${path}`);
 	}
 
-	async load(files, database, folder = false) {
+	async load(files, database) {
+		const folder = files.find(file => file.originalname.endsWith(".metadata.json"));
 		if (folder) {
 			return bash.runBash(`mongorestore --uri="${this.makeUri()}" --db="${database}" ${files[0].destination}`);
 		}
