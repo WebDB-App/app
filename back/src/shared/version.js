@@ -39,13 +39,13 @@ class Version {
 		return {};
 	}
 
-	async listPatch(database, driver, versions) {
+	async listPatch(database, driver) {
 		const dir = this.getPath(database, driver);
 		if (!existsSync(dir)) {
 			return [];
 		}
 
-		const r = bash.runBash(`cd ${dir} && git format-patch --stdout -${versions}`);
+		const r = bash.runBash(`cd ${dir} && git format-patch --stdout -100`);
 		let tmp = Object.entries(r.result.split(/(From [a-zA-Z0-9]{40})/g));
 
 		const patches = [];

@@ -1,7 +1,7 @@
 - https://chat.openai.com/c/eae4f88e-e100-45de-9502-8708f7f48bf8
 - chatgpt documentation generator
 - lookup chrome history: stackoverflow+reddit+github (aleluff + webdb)
-- +gitlab/github : data/uml generator, ai tools
+- +gitlab/github : data/uml generator, ai tools, open source
 
 
 
@@ -12,6 +12,7 @@
 ### stackoverflow/reddit
 - nouvelle feature, bug bounty, etc
 - campagne backend/sql/nosql/erd/ai/data
+
 
 ### Question commu
 - favorite patch
@@ -50,10 +51,26 @@
 
 
 
-#### Open source
-- plus dbLimit / versions
-- pipeline journbalière de test
+### Alternatives
+- datagrip
+- dbForge
+- dbeaver / CloudBeaver
+- navicat
+- sqldbm
+- ERBuilder Data Modeler
+- beekeeper
+- tableplus
+- SQLGate
+- dbvis
+- Aqua Data Studio
+- pgmodeler
+- studio3t
+- pgadmin
+- phpmyadmin
+- mysqlworkbench
+- mongodb compass
+- Text2SQL.AI
+- AI2sql
+- AIHelperBot
+- Blaze SQL
 
-- docker opensource program
-- github best open source software (awesome self-hosted)
-- modules payant : ml + new feature

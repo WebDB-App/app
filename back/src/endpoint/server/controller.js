@@ -1,7 +1,6 @@
 const wrapperModel = require("../../shared/wrapper.js");
 const {commonPass, commonUser} = require("../../shared/guess.js");
 const http = require("../../shared/http.js");
-const subscriptionCtrl = require("../subscription/controller.js");
 const fs = require("fs");
 const Tunnel = require("../tunnel/controller.js");
 const {join} = require("path");
@@ -42,14 +41,10 @@ class Controller {
 		const promises = [
 			new Promise(async resolve => {
 				const structure = await driver.getDatabases(+req.query.full, +req.query.size);
-				let dbLimit = subscriptionCtrl.getDbLimit(req.get("Privatekey"));
 
 				for (const str of Object.values(structure)) {
 					structure[str.name].system = driver.isSystemDbs(str.name);
 
-					if (!structure[str.name].system && --dbLimit < 0) {
-						delete structure[str.name].tables;
-					}
 					if (structure[str.name].tables) {
 						for (const table of Object.values(structure[str.name].tables)) {
 							structure[str.name].tables[table.name].columns = Object.values(table.columns);

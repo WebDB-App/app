@@ -54,6 +54,9 @@ class Controller {
 		}
 	}
 
+	/*
+	example pour plus tard
+
 	getPatchLimit(privateKey) {
 		let licence;
 		if (privateKey) {
@@ -62,7 +65,6 @@ class Controller {
 
 		return !licence || licence.error ? 10 : licence.versions;
 	}
-
 	getDbLimit(privateKey) {
 		let licence, dbLimit;
 		if (privateKey) {
@@ -79,6 +81,7 @@ class Controller {
 
 		return dbLimit;
 	}
+	 */
 }
 
 module.exports = new Controller();

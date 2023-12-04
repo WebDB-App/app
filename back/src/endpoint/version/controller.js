@@ -1,6 +1,5 @@
 const http = require("../../shared/http.js");
 const version = require("../../shared/version.js");
-const subscriptionCtrl = require("../subscription/controller.js");
 
 class Controller {
 
@@ -8,7 +7,7 @@ class Controller {
 		const [driver, database] = await http.getLoggedDriver(req);
 
 		try {
-			res.send(await version.listPatch(database, driver, subscriptionCtrl.getPatchLimit(req.get("Privatekey"))));
+			res.send(await version.listPatch(database, driver));
 		} catch (e) {
 			console.error(e);
 			res.send(e);

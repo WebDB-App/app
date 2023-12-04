@@ -109,7 +109,6 @@
 								[style.opacity]="database.system ? '0.5' : 1"
 								routerLink="/{{server.name}}/{{database.name}}">
 								{{database.name}}
-								<ng-container *ngIf="database.tables === undefined"> [Limited]</ng-container>
 								<span matTooltip="Tables"
 									  matTooltipPosition="right"
 									  style="position: absolute; right: 20px">
