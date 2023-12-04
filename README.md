@@ -23,7 +23,8 @@
 
 You can then create your database or import from submodules with 
 ``` git submodule update --init --recursive ```.<br>
-Once done, you can pick up in dataset folder
+Once done, you can pick up in dataset folder.<br>
+If you found good datasets for testing, don't hesite to propose them also
 
 ##### Merge request
 - Please make a merge request for contribution between your branch and dev

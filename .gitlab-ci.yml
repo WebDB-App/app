@@ -2,6 +2,7 @@ stages:
     - test
     - prepare
     - release
+    - e2e
 
 include:
     - template: Security/Secret-Detection.gitlab-ci.yml
@@ -13,6 +14,9 @@ include:
         -   if: $CI_COMMIT_TAG
         -   if: $CI_COMMIT_BRANCH == "main"
         -   if: $CI_COMMIT_BRANCH == "dev"
+        -   changes:
+                - back/**/*
+                - front/**/*
     interruptible: true
     before_script:
         - export TAG=$(date '+%Y.%m.%d')
@@ -82,19 +86,17 @@ docker:
 
 #-----------------------------------------
 
-todo : que trigger ou changes
-
 e2e:
     stage: test
     image: docker:latest
     interruptible: true
-    rules:
+    only:
+        - schedules
         - changes:
             - tests/**/*
     tags:
         - shell
     before_script:
-        #        - printenv
         - docker container prune -f > /dev/null
         - docker volume prune --all -f > /dev/null
     script:
