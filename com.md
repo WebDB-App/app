@@ -51,19 +51,9 @@
 
 
 #### Open source
-- trnaferer les liens vers public : web-db/public -> web-db/app
-- docker opensource program
-- github best open source software (awesome self-hosted)
 - plus dbLimit / versions
 - pipeline journbalière de test
-- changer licence en gplv3/affero
-- mettre licence dans package.json
 
-
-- changer licence
-- catchphrase : free and efficient database ide
-- ajouter bouton landing -> open source
-- changer le pricing dans stripe
-- don / sponsoring
-
+- docker opensource program
+- github best open source software (awesome self-hosted)
 - modules payant : ml + new feature
