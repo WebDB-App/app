@@ -18,4 +18,4 @@ export default class CockroachDB extends PostgreSQL {
 	async statsDatabase() {
 		return undefined;
 	}
-};
+}

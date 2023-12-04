@@ -359,4 +359,4 @@ export default class MySQL extends SQL {
 			return {error: e.sqlMessage || e.message};
 		}
 	}
-};
+}

@@ -1,4 +1,4 @@
-import pg from 'pg';
+import pg from "pg";
 import SQL from "../shared/sql.js";
 import {writeFileSync} from "fs";
 import bash from "../shared/bash.js";
@@ -465,4 +465,4 @@ export default class PostgreSQL extends SQL {
 			return {error: e.message};
 		}
 	}
-};
+}

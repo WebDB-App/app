@@ -196,4 +196,4 @@ export default class SQL extends Driver {
 
 		return await this.runCommand(query, database);
 	}
-};
+}

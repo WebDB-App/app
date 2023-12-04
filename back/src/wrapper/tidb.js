@@ -9,4 +9,4 @@ export default class TiDB extends MySQL {
 	async scan() {
 		return Driver.prototype.scan.call(this, this.host, 4000, 4020);
 	}
-};
+}

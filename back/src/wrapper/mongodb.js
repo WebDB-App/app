@@ -674,4 +674,4 @@ export default class MongoDB extends Driver {
 
 		return final;
 	}
-};
+}
