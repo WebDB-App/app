@@ -9,6 +9,10 @@
 
 # IA
 - [Chrome bookmarks]
+- zephyr, codellama
+- ml pruning
+- https://huggingface.co/datasets/b-mc2/sql-create-context/viewer/default/train?p=1
+- https://horde.koboldai.net/ https://github.com/bigscience-workshop/petals https://blog.cloudflare.com/fr-fr/workers-ai-fr-fr/
 - tester create/update functions/procedure/check
 - interactive ai
 - Export Query : tester existant

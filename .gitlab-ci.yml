@@ -79,3 +79,34 @@ docker:
             else
                 docker buildx build --cache-from $IMAGE_NAME:$CI_COMMIT_REF_NAME --platform linux/arm64,linux/amd64 -t $IMAGE_NAME:$CI_COMMIT_REF_NAME --push .
             fi
+
+#-----------------------------------------
+
+todo : que trigger ou changes
+
+e2e:
+    stage: test
+    image: docker:latest
+    interruptible: true
+    rules:
+        - changes:
+            - tests/**/*
+    tags:
+        - shell
+    before_script:
+        #        - printenv
+        - docker container prune -f > /dev/null
+        - docker volume prune --all -f > /dev/null
+    script:
+        - cd tests
+        - npm install --prod --frozen-lockfile
+        - npm run launch:webdb
+        - sleep 3
+        - npm run prod:app
+        - npm run prod:database || echo
+    artifacts:
+        paths:
+            - ./tests/report.xml
+            - ./tests/app.xml
+        reports:
+            junit: ./tests/app.xml

@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+#    webdb:
+#        image: webdb/app
+#        ports:
+#            - 22071:22071
+#
+    cloudbeaver:
+        image: dbeaver/cloudbeaver
+        restart: always
+        ports:
+            - '8978:8978'
+
+    phpmyadmin:
+        image: phpmyadmin
+        restart: always
+        ports:
+            - 4306:80
+        environment:
+            - PMA_ARBITRARY=1
+
+    pgadmin:
+        image: dpage/pgadmin4
+        environment:
+            PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+            PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+            PGADMIN_CONFIG_SERVER_MODE: 'False'
+        ports:
+            - 5050:80

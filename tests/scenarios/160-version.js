@@ -1,0 +1,1 @@
+//CockroachDB versioning: State.impossible
