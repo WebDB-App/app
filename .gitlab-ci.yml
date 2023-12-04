@@ -11,8 +11,6 @@ include:
     tags:
         - shell
     rules:
-        - if: $CI_PIPELINE_SOURCE == "schedule"
-          when: never
         - if: $CI_COMMIT_TAG
           when: on_success
         - if: $CI_COMMIT_BRANCH == "main"
@@ -89,16 +87,9 @@ docker:
 #-----------------------------------------
 
 e2e:
+    <<: *common
     stage: e2e
     image: docker:latest
-    interruptible: true
-    rules:
-        - if: $CI_PIPELINE_SOURCE == "schedule"
-          when: on_success
-        - changes:
-            - tests/**/*
-    tags:
-        - shell
     before_script:
         - docker container prune -f > /dev/null
         - docker volume prune --all -f > /dev/null
