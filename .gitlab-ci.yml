@@ -90,8 +90,8 @@ e2e:
     stage: test
     image: docker:latest
     interruptible: true
-    only:
-        - schedules
+    rules:
+        - if: $CI_PIPELINE_SOURCE == "schedule"
         - changes:
             - tests/**/*
     tags:
