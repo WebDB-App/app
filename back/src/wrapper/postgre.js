@@ -1,12 +1,13 @@
-import {Pool} from "pg";
+import pg from 'pg';
 import SQL from "../shared/sql.js";
 import {writeFileSync} from "fs";
 import bash from "../shared/bash.js";
-import {loadData} from "../shared/buffer";
+import {loadData} from "../shared/buffer.js";
 import {join} from "path";
-import version from "../shared/version";
+import version from "../shared/version.js";
 import {URL} from "url";
 
+const Pool = pg.Pool;
 const dirname = new URL(".", import.meta.url).pathname;
 
 export default class PostgreSQL extends SQL {

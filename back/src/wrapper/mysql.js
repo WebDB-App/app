@@ -4,7 +4,7 @@ import version from "../shared/version.js";
 import {writeFileSync} from "fs";
 import bash from "../shared/bash.js";
 import {join} from "path";
-import {loadData} from "../shared/buffer";
+import {loadData} from "../shared/buffer.js";
 import {URL} from "url";
 
 const dirname = new URL(".", import.meta.url).pathname;

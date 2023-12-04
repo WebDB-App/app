@@ -1,6 +1,6 @@
 import {readdirSync, statSync, unlink} from "fs";
 import {join} from "path";
-import bash from "../../shared/bash";
+import bash from "../../shared/bash.js";
 import {URL} from "url";
 
 const dirname = new URL(".", import.meta.url).pathname;

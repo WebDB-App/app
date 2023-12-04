@@ -16,7 +16,7 @@ import { ExportResultDialog } from "../../../shared/export-result-dialog/export-
 import { MatPaginatorIntl } from "@angular/material/paginator";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import helper from "../../../shared/common-helper.js";
+import helper from "../../../shared/common-helper.mjs";
 import { saveAs } from "file-saver-es";
 
 declare var monaco: any;

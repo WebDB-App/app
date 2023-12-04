@@ -12,9 +12,9 @@ node ./changelog.js the/path/of/changelog.html
 Don't hesitate to improve it and if you think your changes can benefit to other people, tell us
  */
 
-const fs from 'fs');
-const {execSync} from "child_process");
-const {emojify} from "node-emoji");
+import fs from 'fs';
+import {execSync} from "child_process";
+import {emojify} from "node-emoji";
 
 function getLogsByDate() {
 	const logs = execSync(`git log --date=short`).toString();

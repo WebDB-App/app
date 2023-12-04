@@ -23,8 +23,8 @@ include:
     before_script:
         - export TAG=$(date '+%Y.%m.%d')
         - printenv
-        - cp common-helper.js ./front/src/shared/common-helper.js
-        - cp common-helper.js ./back/src/shared/common-helper.js
+        - cp common-helper.mjs ./front/src/shared/common-helper.mjs
+        - cp common-helper.mjs ./back/src/shared/common-helper.mjs
         - >
             if [ $(uname) == "Darwin" ]; then
             	sed -i '' "s/PACKAGE_VERSION/${TAG}/g" ./back/package.json

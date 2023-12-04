@@ -43,8 +43,8 @@ app.use(express.static(join(dirname, "../static/")));
 	const endpointPath = join(dirname, "./endpoint/");
 	const entries = await fsp.readdir(endpointPath);
 	for (const entry of entries) {
-		const router = await require(`${endpointPath}/${entry}/route.js`);
-		app.use(`/api/${entry}`, router);
+		const router = await import(`${endpointPath}/${entry}/route.js`);
+		app.use(`/api/${entry}`, router.default);
 	}
 
 	app.all("*", (req, res) => {

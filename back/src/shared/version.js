@@ -1,6 +1,6 @@
 import {join} from "path";
 import {existsSync} from "fs";
-import bash from "./bash";
+import bash from "./bash.js";
 import {URL} from "url";
 
 const dirname = new URL(".", import.meta.url).pathname;

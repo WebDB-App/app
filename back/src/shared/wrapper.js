@@ -17,7 +17,8 @@ class Wrapper {
 
 				const wrappers = [];
 				for (const file of files) {
-					wrappers.push(await require(`${wrapperPath}/${file}`));
+					const module = await import(`${wrapperPath}/${file}`);
+					wrappers.push(module.default);
 				}
 
 				return wrappers;

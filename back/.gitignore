@@ -1,4 +1,4 @@
 node_modules
 static/*
 
-src/shared/common-helper.js
+src/shared/common-helper.mjs
