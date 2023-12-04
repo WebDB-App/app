@@ -38,6 +38,7 @@ include:
 
 eslint:
     stage: test
+    interruptible: true
     image: registry.gitlab.com/pipeline-components/eslint:latest
     script:
         - cd back
