@@ -36,11 +36,14 @@
 <div style="height: calc(100vh - 56px); overflow: auto;">
 
 	<mat-card *ngIf="selectedDatabase?.system">
-		<mat-card-content>
-			<mat-error>
-				Database Versioning is not available for system databases
-			</mat-error>
-		</mat-card-content>
+		<mat-card-header>
+			<mat-card-subtitle>
+				<mat-error>
+					<br>
+					Database Versioning is not available for system databases
+				</mat-error>
+			</mat-card-subtitle>
+		</mat-card-header>
 	</mat-card>
 
 	<ng-container *ngIf="!selectedDatabase?.system">

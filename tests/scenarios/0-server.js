@@ -19,20 +19,20 @@ async function run(config) {
 
 	const goodConnect = await axios.post(`${config.api}server/connect`, config.credentials);
 	const result_goodConnect = goodConnect.data.user && goodConnect.data.password;
-	await test('[connection] connect with hard coded credentials works', () => {
+	await test('[connection] Connect with hard coded credentials works', () => {
 		assert.ok(result_goodConnect);
 	});
 	if (!result_goodConnect) {
 		throw new Error();
 	}
 
-	config.credentials.name = currentWithoutCreds.name = "connection01";
-
-	//--------------------------------------------
-
 	const currentWithoutCreds = {...config.credentials};
 	currentWithoutCreds.user = "";
 	currentWithoutCreds.password = "";
+
+	config.credentials.name = currentWithoutCreds.name = "connection01";
+
+	//--------------------------------------------
 
 	const guess = await axios.post(`${config.api}server/guess`, currentWithoutCreds);
 	const result_guess = guess.data.length >= 1;

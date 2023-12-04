@@ -84,7 +84,9 @@ docker:
                 docker buildx build --cache-from $IMAGE_NAME:$CI_COMMIT_REF_NAME --platform linux/arm64,linux/amd64 -t $IMAGE_NAME:$CI_COMMIT_REF_NAME --push .
             fi
 
+
 #-----------------------------------------
+
 
 e2e:
     <<: *common
