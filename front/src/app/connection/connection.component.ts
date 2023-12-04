@@ -9,7 +9,7 @@ import { LoadingStatus, RequestService } from "../../shared/request.service";
 import * as drivers from '../../drivers/index';
 import { DomSanitizer, Title } from "@angular/platform-browser";
 import { MatIconRegistry } from "@angular/material/icon";
-import helper from "../../shared/common-helper.mjs";
+import helper from "../../shared/common-helper.cjs";
 import { ProcessDialogComponent } from "../process/process-dialog.component";
 import { StatsDialogComponent } from "../stats/stats-dialog.component";
 

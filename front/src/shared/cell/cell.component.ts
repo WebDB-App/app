@@ -3,7 +3,7 @@ import { Table } from "../../classes/table";
 import { Relation } from "../../classes/relation";
 import { Server } from "../../classes/server";
 import { Database } from "../../classes/database";
-import helper from "../common-helper.mjs";
+import helper from "../common-helper.cjs";
 import { Params } from "@angular/router";
 import { saveAs } from "file-saver-es";
 import { Column } from "../../classes/column";

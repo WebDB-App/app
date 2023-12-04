@@ -17,8 +17,8 @@
 
 ##### Setup
 - git clone git@gitlab.com:web-db/app.git && cd app
-- cd back/src/shared && ln -s ../../../common-helper.mjs ./ && npm i && npm run dev:back
-- cd front/src/shared && ln -s ../../../common-helper.mjs ./ && pnpm i && npm run dev:front
+- cd back/src/shared && ln -s ../../../common-helper.cjs ./ && npm i && npm run dev:back
+- cd front/src/shared && ln -s ../../../common-helper.cjs ./ && pnpm i && npm run dev:front
 - go to http://localhost:4200
 
 You can then create your database or import from submodules with 

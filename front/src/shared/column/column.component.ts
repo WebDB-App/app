@@ -7,7 +7,7 @@ import { isSQL } from "../helper";
 import { Table } from "../../classes/table";
 import { Group, TypeData, TypeGroup } from "../../classes/driver";
 import { Database } from "../../classes/database";
-import commonHelper from "../common-helper.mjs";
+import commonHelper from "../common-helper.cjs";
 
 @Component({
 	selector: 'app-column',

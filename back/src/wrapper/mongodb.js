@@ -3,7 +3,7 @@ import Driver from "../shared/driver.js";
 import bash from "../shared/bash.js";
 import {writeFileSync} from "fs";
 import {join} from "path";
-import helper from "../shared/common-helper.mjs";
+import helper from "../shared/common-helper.cjs";
 import {loadData} from "../shared/buffer.js";
 import version from "../shared/version.js";
 import {URL} from "url";
