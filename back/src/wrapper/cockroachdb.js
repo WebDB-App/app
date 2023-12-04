@@ -1,7 +1,7 @@
-const PostgreSQL = require("./postgre.js");
-const Driver = require("../shared/driver.js");
+import PostgreSQL from "./postgre.js";
+import Driver from "../shared/driver.js";
 
-module.exports = class CockroachDB extends PostgreSQL {
+export default class CockroachDB extends PostgreSQL {
 	commonUser = ["", "postgres", "postgre"];
 	commonPass = ["", "postgres", "postgre", "mysecretpassword"];
 	systemDbs = ["information_schema", "pg_catalog", "pg_toast", "pg_extension", "crdb_internal"];

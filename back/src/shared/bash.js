@@ -1,9 +1,12 @@
-const {execSync} = require("child_process");
-const helper = require("./common-helper.js");
-const {writeFileSync, appendFileSync} = require("fs");
-const {randomUUID} = require("crypto");
-const {join} = require("path");
-const finished = join(__dirname, "../../static/logs/finished.log");
+import {execSync} from "child_process";
+import helper from "./common-helper.js";
+import {writeFileSync, appendFileSync} from "fs";
+import {randomUUID} from "crypto";
+import {join} from "path";
+import {URL} from "url";
+
+const dirname = new URL(".", import.meta.url).pathname;
+const finished = join(dirname, "../../static/logs/finished.log");
 
 class Bash {
 	commands = {};
@@ -58,4 +61,4 @@ class Bash {
 	}
 }
 
-module.exports = new Bash();
+export default new Bash();

@@ -1,8 +1,8 @@
-const express = require("express");
-const tunnelCtrl = require("./controller.js");
+import express from "express";
+import tunnelCtrl from "./controller.js";
 
 const router = express.Router();
 
 router.post("/test", tunnelCtrl.test.bind(tunnelCtrl));
 
-module.exports = router;
+export default router;

@@ -1,7 +1,10 @@
-const {join} = require("path");
-const {existsSync} = require("fs");
-const rootPath = join(__dirname, "../../static/version/");
-const bash = require("./bash");
+import {join} from "path";
+import {existsSync} from "fs";
+import bash from "./bash";
+import {URL} from "url";
+
+const dirname = new URL(".", import.meta.url).pathname;
+const rootPath = join(dirname, "../../static/version/");
 
 class Version {
 
@@ -110,7 +113,7 @@ class Version {
 	}
 }
 
-module.exports = new Version();
+export default new Version();
 
 /*
 - Checksum par table

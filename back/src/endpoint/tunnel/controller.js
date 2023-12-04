@@ -1,5 +1,5 @@
-const net = require("net");
-const {Client} = require("ssh2");
+import net from "net";
+import {Client} from "ssh2";
 
 class Controller {
 
@@ -80,4 +80,4 @@ class Controller {
 }
 
 
-module.exports = new Controller();
+export default new Controller();

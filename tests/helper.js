@@ -10,7 +10,7 @@ export async function iterateDir(dir) {
 		return +a.split('-')[0] - +b.split('-')[0];
 	});
 
-	return entries;
+	return entries.map(entry => join(endpointPath, entry));
 }
 
 export async function getScenarios() {
@@ -18,7 +18,7 @@ export async function getScenarios() {
 
 	const loaded = [];
 	for (const file of files) {
-		const test = await import(join(endpointPath, file));
+		const test = await import(file);
 		if (test.default) {
 			loaded.push(test.default);
 		}

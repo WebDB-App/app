@@ -1,6 +1,6 @@
-const nodePortScanner = require("node-port-scanner");
+import nodePortScanner from "node-port-scanner";
 
-module.exports = class Driver {
+export default class Driver {
 
 	dbToSchemaDelimiter = ", ";
 	nameDel = "\"";

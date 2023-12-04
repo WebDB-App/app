@@ -1,12 +1,15 @@
-const {Pool} = require("pg");
-const SQL = require("../shared/sql.js");
-const {writeFileSync} = require("fs");
-const bash = require("../shared/bash.js");
-const buffer = require("../shared/buffer");
-const {join} = require("path");
-const version = require("../shared/version");
+import {Pool} from "pg";
+import SQL from "../shared/sql.js";
+import {writeFileSync} from "fs";
+import bash from "../shared/bash.js";
+import {loadData} from "../shared/buffer";
+import {join} from "path";
+import version from "../shared/version";
+import {URL} from "url";
 
-module.exports = class PostgreSQL extends SQL {
+const dirname = new URL(".", import.meta.url).pathname;
+
+export default class PostgreSQL extends SQL {
 
 	commonUser = ["postgres", "postgre"];
 	commonPass = ["postgres", "postgre", "mysecretpassword"];
@@ -70,7 +73,7 @@ module.exports = class PostgreSQL extends SQL {
 	async dump(dbSchema, exportType = "sql", tables, options = "") {
 		const [database, schema] = dbSchema.split(this.dbToSchemaDelimiter);
 
-		const path = join(__dirname, `../../static/dump/${database}.${exportType}`);
+		const path = join(dirname, `../../static/dump/${database}.${exportType}`);
 		const total = await this.runCommand(`SELECT COUNT(DISTINCT TABLE_NAME) as total FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '${schema}'`, database);
 
 		if (exportType === "sql") {
@@ -85,7 +88,7 @@ module.exports = class PostgreSQL extends SQL {
 		if (exportType === "json") {
 			const results = {};
 			for (const table of tables) {
-				results[table] = buffer.loadData(await this.runCommand(`SELECT * FROM ${table}`, dbSchema));
+				results[table] = loadData(await this.runCommand(`SELECT * FROM ${table}`, dbSchema));
 			}
 
 			writeFileSync(path, JSON.stringify({

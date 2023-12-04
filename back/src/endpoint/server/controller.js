@@ -1,11 +1,14 @@
-const wrapperModel = require("../../shared/wrapper.js");
-const {commonPass, commonUser} = require("../../shared/guess.js");
-const http = require("../../shared/http.js");
-const fs = require("fs");
-const Tunnel = require("../tunnel/controller.js");
-const {join} = require("path");
-const {unlinkSync} = require("fs");
-const version = require("../../shared/version.js");
+import wrapperModel from "../../shared/wrapper.js";
+import {commonPass, commonUser} from "../../shared/guess.js";
+import http from "../../shared/http.js";
+import fs from "fs";
+import Tunnel from "../tunnel/controller.js";
+import {join} from "path";
+import {unlinkSync} from "fs";
+import version from "../../shared/version.js";
+import {URL} from "url";
+
+const dirname = new URL(".", import.meta.url).pathname;
 
 class Controller {
 
@@ -106,7 +109,7 @@ class Controller {
 
 		setTimeout(() => {
 			try {
-				unlinkSync(join(__dirname, "../../../static/", result.path));
+				unlinkSync(join(dirname, "../../../static/", result.path));
 			} catch (e) {
 				console.log(e);
 			}
@@ -169,4 +172,4 @@ class Controller {
 	}
 }
 
-module.exports = new Controller();
+export default new Controller();

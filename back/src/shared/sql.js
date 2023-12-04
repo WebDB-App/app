@@ -1,7 +1,7 @@
-const Driver = require("./driver.js");
-const helper = require("./common-helper.js");
+import Driver from "./driver.js";
+import helper from "./common-helper.js";
 
-module.exports = class SQL extends Driver {
+export default class SQL extends Driver {
 
 	columnToSQL(column) {
 		if (!column.name || !column.type) {

@@ -1,5 +1,5 @@
-const express = require("express");
-const dataCtrl = require("./controller.js");
+import express from "express";
+import dataCtrl from "./controller.js";
 
 const router = express.Router();
 
@@ -9,4 +9,4 @@ router.post("/delete", dataCtrl.delete);
 router.post("/download", dataCtrl.download);
 router.post("/upload", dataCtrl.upload);
 
-module.exports = router;
+export default router;

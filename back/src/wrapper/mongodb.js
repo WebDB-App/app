@@ -1,13 +1,16 @@
-const {MongoClient, ObjectId, BSON} = require("mongodb");
-const Driver = require("../shared/driver.js");
-const bash = require("../shared/bash.js");
-const {writeFileSync} = require("fs");
-const {join} = require("path");
-const helper = require("../shared/common-helper.js");
-const buffer = require("../shared/buffer");
-const version = require("../shared/version");
+import {MongoClient, ObjectId, BSON} from "mongodb";
+import Driver from "../shared/driver.js";
+import bash from "../shared/bash.js";
+import {writeFileSync} from "fs";
+import {join} from "path";
+import helper from "../shared/common-helper.js";
+import {loadData} from "../shared/buffer";
+import version from "../shared/version";
+import {URL} from "url";
 
-module.exports = class MongoDB extends Driver {
+const dirname = new URL(".", import.meta.url).pathname;
+
+export default class MongoDB extends Driver {
 	commonUser = ["mongo"];
 	commonPass = ["mongo"];
 	systemDbs = ["admin", "config", "local"];
@@ -17,13 +20,13 @@ module.exports = class MongoDB extends Driver {
 	}
 
 	async dump(database, exportType = "bson", tables, options = "") {
-		let path = join(__dirname, `../../static/dump/${database}`);
+		let path = join(dirname, `../../static/dump/${database}`);
 		if (exportType === "json") {
 			path = `${path}.json`;
 			const results = {};
 			for (const table of tables) {
 				try {
-					results[table] = buffer.loadData(await this.connection.db(database).collection(table).find().toArray());
+					results[table] = loadData(await this.connection.db(database).collection(table).find().toArray());
 				} catch (e) {
 					console.error(e);
 				}

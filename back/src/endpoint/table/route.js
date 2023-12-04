@@ -1,5 +1,5 @@
-const express = require("express");
-const tableCtrl = require("./controller.js");
+import express from "express";
+import tableCtrl from "./controller.js";
 
 const router = express.Router();
 
@@ -11,4 +11,4 @@ router.post("/create", tableCtrl.create);
 router.post("/createView", tableCtrl.createView);
 router.post("/duplicate", tableCtrl.duplicate);
 
-module.exports = router;
+export default router;

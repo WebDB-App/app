@@ -1,12 +1,15 @@
-const mysql = require("mysql2");
-const SQL = require("../shared/sql.js");
-const version = require("../shared/version.js");
-const {writeFileSync} = require("fs");
-const bash = require("../shared/bash.js");
-const {join} = require("path");
-const buffer = require("../shared/buffer");
+import mysql from "mysql2";
+import SQL from "../shared/sql.js";
+import version from "../shared/version.js";
+import {writeFileSync} from "fs";
+import bash from "../shared/bash.js";
+import {join} from "path";
+import {loadData} from "../shared/buffer";
+import {URL} from "url";
 
-module.exports = class MySQL extends SQL {
+const dirname = new URL(".", import.meta.url).pathname;
+
+export default class MySQL extends SQL {
 
 	nameDel = "`";
 	commonUser = ["mysql", "maria", "mariadb"];
@@ -43,7 +46,7 @@ module.exports = class MySQL extends SQL {
 	}
 
 	async dump(database, exportType = "sql", tables, options = "") {
-		const path = join(__dirname, `../../static/dump/${database}.${exportType}`);
+		const path = join(dirname, `../../static/dump/${database}.${exportType}`);
 		const total = await this.runCommand(`SELECT COUNT(DISTINCT TABLE_NAME) as total FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '${database}'`);
 
 		if (exportType === "sql") {
@@ -58,7 +61,7 @@ module.exports = class MySQL extends SQL {
 		if (exportType === "json") {
 			const results = {};
 			for (const table of tables) {
-				results[table] = buffer.loadData(await this.runCommand(`SELECT * FROM ${table}`, database));
+				results[table] = loadData(await this.runCommand(`SELECT * FROM ${table}`, database));
 			}
 
 			writeFileSync(path, JSON.stringify({

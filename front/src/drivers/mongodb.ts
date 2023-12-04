@@ -135,7 +135,7 @@ export class MongoDB implements Driver {
 		"find": (table: Table) => {
 			return `/*
 const db = (await new MongoClient()).db("${Database.getSelected().name}");
-const bson = require("bson");
+const bson from "bson");
 */
 
 db.collection("${table.name}").find({
@@ -170,7 +170,7 @@ db.collection("${table.name}").find({
 		"aggregate": (table: Table) => {
 			return `/*
 const db = (await new MongoClient()).db("${Database.getSelected().name}");
-const bson = require("bson");
+const bson from "bson");
 */
 db.collection("${table.name}").aggregate([
 	{

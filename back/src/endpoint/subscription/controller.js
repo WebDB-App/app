@@ -1,12 +1,15 @@
-const fs = require("fs");
-const {join} = require("path");
-const NodeRSA = require("node-rsa");
-const CryptoJS = require("crypto-js");
+import fs from "fs";
+import {join} from "path";
+import NodeRSA from "node-rsa";
+import CryptoJS from "crypto-js";
+import {URL} from "url";
+
+const dirname = new URL(".", import.meta.url).pathname;
 
 class Controller {
 
 	constructor() {
-		const pub = fs.readFileSync(join(__dirname, "./public_key.pub"), "utf8");
+		const pub = fs.readFileSync(join(dirname, "./public_key.pub"), "utf8");
 		this.key = new NodeRSA(pub);
 	}
 
@@ -84,6 +87,6 @@ class Controller {
 	 */
 }
 
-module.exports = new Controller();
+export default new Controller();
 
 

@@ -1,9 +1,9 @@
-const express = require("express");
-const processCtrl = require("./controller.js");
+import express from "express";
+import processCtrl from "./controller.js";
 
 const router = express.Router();
 
 router.post("/list", processCtrl.list);
 router.post("/kill", processCtrl.kill);
 
-module.exports = router;
+export default router;

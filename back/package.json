@@ -3,12 +3,11 @@
 	"scripts": {
 		"dev:back": "node --watch src/index.js",
 		"dev:docker": "docker build -t dev_back . && docker rm -f $(docker ps -a -q --filter ancestor=webdb/app) webdb && docker run --name webdb --network landing -e ADD_HOSTS=\"demo-maria,demo-cockroach,demo-mongo,demo-postgre\" -it -p 127.0.0.1:22070:22071 dev_back",
-		"lint": "eslint . --fix",
-		"compile": "bytenode --compile --compress ./src/**/**/*.js ./src/**/*.js ./src/*.js -l %.js"
+		"lint": "eslint . --fix"
 	},
+	"type": "module",
 	"dependencies": {
 		"@sentry/node": "latest",
-		"bytenode": "latest",
 		"compression": "latest",
 		"cors": "latest",
 		"crypto-js": "latest",

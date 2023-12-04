@@ -1,5 +1,5 @@
-const http = require("../../shared/http.js");
-const version = require("../../shared/version.js");
+import http from "../../shared/http.js";
+import version from "../../shared/version.js";
 
 class Controller {
 
@@ -26,4 +26,4 @@ class Controller {
 	}
 }
 
-module.exports = new Controller();
+export default new Controller();

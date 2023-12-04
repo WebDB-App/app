@@ -12,7 +12,6 @@ RUN npm install --prod --frozen-lockfile
 
 COPY . .
 
-RUN npm run compile
 RUN cp .env.production .env
 
 RUN apk del --purge python3 make g++

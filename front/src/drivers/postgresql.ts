@@ -283,7 +283,7 @@ export class PostgreSQL extends SQL {
 
 		this.nodeLib = (query: QueryParams) => {
 			return `//with pg lib
-const { Pool, Client } = require('pg')
+const { Pool, Client } from 'pg')
 
 const pool = new Pool({
 	user: '${Server.getSelected().user}',

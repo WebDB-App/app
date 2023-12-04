@@ -1,7 +1,10 @@
-const {readdirSync, statSync, unlink} = require("fs");
-const {join} = require("path");
-const bash = require("../../shared/bash");
-const frontPath = join(__dirname, "../../../static/");
+import {readdirSync, statSync, unlink} from "fs";
+import {join} from "path";
+import bash from "../../shared/bash";
+import {URL} from "url";
+
+const dirname = new URL(".", import.meta.url).pathname;
+const frontPath = join(dirname, "../../../static/");
 
 class FileCleanup {
 	constructor(folderPath, maxSizeInBytes, maxFilesToDelete) {

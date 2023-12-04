@@ -1,6 +1,9 @@
-const http = require("../../shared/http.js");
-const {unlinkSync} = require("fs");
-const {join} = require("path");
+import http from "../../shared/http.js";
+import {unlinkSync} from "fs";
+import {join} from "path";
+import {URL} from "url";
+
+const dirname = new URL(".", import.meta.url).pathname;
 
 class Controller {
 
@@ -104,7 +107,7 @@ Don't make presumption, use only provided data. Respond in "${req.body.language}
 		}
 
 		const path = await driver.dump(database, undefined, false);
-		const p = join(__dirname, "../../../static/", path.path);
+		const p = join(dirname, "../../../static/", path.path);
 
 		await new Promise(resolve => setTimeout(resolve, 1000));
 
@@ -115,4 +118,4 @@ Don't make presumption, use only provided data. Respond in "${req.body.language}
 	}
 }
 
-module.exports = new Controller();
+export default new Controller();

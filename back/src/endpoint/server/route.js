@@ -1,7 +1,7 @@
-const express = require("express");
-const serverCtrl = require("./controller.js");
-const multer = require("multer");
-const {mkdirSync} = require("fs");
+import express from "express";
+import serverCtrl from "./controller.js";
+import multer from "multer";
+import {mkdirSync} from "fs";
 
 const storage = multer.diskStorage({
 	destination: (req, file, cb) => {
@@ -24,4 +24,4 @@ router.post("/dump", serverCtrl.dump);
 router.post("/connect", serverCtrl.connect);
 router.post("/structure", serverCtrl.getStructure.bind(serverCtrl));
 
-module.exports = router;
+export default router;

@@ -1,5 +1,5 @@
-const express = require("express");
-const databaseCtrl = require("./controller.js");
+import express from "express";
+import databaseCtrl from "./controller.js";
 
 const router = express.Router();
 
@@ -12,4 +12,4 @@ router.post("/sample", databaseCtrl.sample);
 router.post("/availableCollations", databaseCtrl.getAvailableCollations);
 router.post("/setCollations", databaseCtrl.setCollation);
 
-module.exports = router;
+export default router;

@@ -1,4 +1,4 @@
-const express = require("express");
-require("./controller.js");
+import express from "express";
+import "./controller.js";
 
-module.exports = express.Router();
+export default express.Router();

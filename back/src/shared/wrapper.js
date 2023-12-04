@@ -1,6 +1,9 @@
-const fsp = require("fs").promises;
-const Tunnel = require("../endpoint/tunnel/controller.js");
-const {join} = require("path");
+import {promises as fsp} from "fs";
+import Tunnel from "../endpoint/tunnel/controller.js";
+import {join} from "path";
+import {URL} from "url";
+
+const dirname = new URL(".", import.meta.url).pathname;
 
 class Wrapper {
 
@@ -9,7 +12,7 @@ class Wrapper {
 	async getWrappers() {
 		if (this.wrappers === undefined) {
 			this.wrappers = (async () => {
-				const wrapperPath = join(__dirname, "../wrapper/");
+				const wrapperPath = join(dirname, "../wrapper/");
 				const files = await fsp.readdir(wrapperPath);
 
 				const wrappers = [];
@@ -67,4 +70,4 @@ class Wrapper {
 	}
 }
 
-module.exports = new Wrapper();
+export default new Wrapper();

@@ -1,4 +1,4 @@
-const wrapperModel = require("./wrapper.js");
+import wrapperModel from "./wrapper.js";
 
 class Http {
 
@@ -10,4 +10,4 @@ class Http {
 	}
 }
 
-module.exports = new Http();
+export default new Http();

@@ -1,13 +1,15 @@
-const dotenv = require("dotenv");
-const express = require("express");
-const cors = require("cors");
-const fsp = require("fs").promises;
-const bash = require("./shared/bash.js");
-const {join} = require("path");
-const Sentry = require("@sentry/node");
-const compression = require("compression");
+import dotenv from "dotenv";
+import {URL} from "url";
+import express from "express";
+import cors from "cors";
+import {promises as fsp} from "fs";
+import bash from "./shared/bash.js";
+import {join} from "path";
+import Sentry from "@sentry/node";
+import compression from "compression";
 
-dotenv.config({path: join(__dirname, "../.env")});
+const dirname = new URL(".", import.meta.url).pathname;
+dotenv.config({path: dirname + "/../.env"});
 
 const app = express();
 const port = Number(process.env.API_PORT);
@@ -35,10 +37,10 @@ if (process.env.NODE_ENV === "production") {
 app.use(compression());
 app.use(cors({origin: "*"}));
 app.use(express.json());
-app.use(express.static(join(__dirname, "../static/")));
+app.use(express.static(join(dirname, "../static/")));
 
 (async () => {
-	const endpointPath = join(__dirname, "./endpoint/");
+	const endpointPath = join(dirname, "./endpoint/");
 	const entries = await fsp.readdir(endpointPath);
 	for (const entry of entries) {
 		const router = await require(`${endpointPath}/${entry}/route.js`);

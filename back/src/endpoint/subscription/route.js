@@ -1,8 +1,8 @@
-const express = require("express");
-const subscriptionCtrl = require("./controller.js");
+import express from "express";
+import subscriptionCtrl from "./controller.js";
 
 const router = express.Router();
 
 router.post("/parse", subscriptionCtrl.parseFromApi.bind(subscriptionCtrl));
 
-module.exports = router;
+export default router;
