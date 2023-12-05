@@ -106,6 +106,3 @@ e2e:
     artifacts:
         paths:
             - ./tests/report.xml
-            - ./tests/app.xml
-        reports:
-            junit: ./tests/app.xml

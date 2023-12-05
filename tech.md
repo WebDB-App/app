@@ -5,11 +5,16 @@
 
 ----------------------------------------------------------
 
-modules payant : ml + new feature
+
+# modules payant
+- ml + new feature
+- system de téléchargement de code depuis la landing avec le mail
+- récupérer la licence directemnt depuis la landing + enlever l'endpoint
 
 # IA
+- https://huggingface.co/TheBloke/zephyr-7B-alpha-GGUF/blob/main/README.md
 - [Chrome bookmarks]
-- zephyr, codellama
+- codellama
 - ml pruning
 - https://huggingface.co/datasets/b-mc2/sql-create-context/viewer/default/train?p=1
 - https://horde.koboldai.net/ https://github.com/bigscience-workshop/petals https://blog.cloudflare.com/fr-fr/workers-ai-fr-fr/

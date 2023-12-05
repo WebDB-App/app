@@ -5,7 +5,7 @@
 	"scripts": {
 		"launch:webdb": "docker rm -f webdb; docker pull webdb/app; docker run --name webdb -d --restart=always --add-host=\"host.docker.internal:host-gateway\" -p 22070:22071 webdb/app",
 		"prod:database": "node --test-reporter=spec --test-reporter=junit --test-reporter-destination=stdout --test-reporter-destination=./report.xml index.js",
-		"prod:app": "node --test-reporter=junit --test-reporter-destination=./app.xml app.js",
+		"prod:app": "node --test-reporter=spec --test-reporter-destination=stdout app.js",
 		"dev:database": "node --test --watch index.js"
 	},
 	"dependencies": {

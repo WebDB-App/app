@@ -26,7 +26,7 @@ async function run(config) {
 
 	//--------------------------------------------
 
-	duplicate
+	/*duplicate
 
 	rename
 
@@ -36,7 +36,7 @@ async function run(config) {
 
 	dropView
 
-	truncate
+	truncate*/
 }
 
 export default run;
