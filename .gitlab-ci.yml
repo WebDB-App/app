@@ -2,7 +2,7 @@ stages:
     - test
     - prepare
     - release
-    - e2e
+    - compatibility
 
 include:
     - template: Security/Secret-Detection.gitlab-ci.yml
@@ -89,15 +89,15 @@ docker:
 #-----------------------------------------
 
 
-e2e:
+compatibility:
     <<: *common
-    stage: e2e
+    stage: compatibility
     image: docker:latest
     before_script:
         - docker container prune -f > /dev/null
         - docker volume prune --all -f > /dev/null
     script:
-        - cd tests
+        - cd compatibility
         - npm install --prod --frozen-lockfile
         - npm run launch:webdb
         - sleep 3
