@@ -13,11 +13,9 @@ async function run(config) {
 	}
 
 	/*
-	router.post("/query", databaseCtrl.query);
-router.post("/querySize", databaseCtrl.querySize);
-router.post("/duplicate", databaseCtrl.duplicate);
-router.post("/sample", databaseCtrl.sample);
-router.post("/availableCollations", databaseCtrl.getAvailableCollations);
+		query + querySize + sample: simpleSelect: simpleSelect.sql,
+
+		duplicate
 	 */
 }
 

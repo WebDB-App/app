@@ -105,4 +105,4 @@ compatibility:
         - npm run prod:database || echo
     artifacts:
         paths:
-            - ./tests/report.xml
+            - ./compatibility/report.xml
