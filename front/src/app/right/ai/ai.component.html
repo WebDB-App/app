@@ -260,6 +260,36 @@
 								edit
 							</span>
 						</button>
+
+						<ng-container *ngIf="ch.user === Role.Assistant">
+							<button
+								(click)="sendMessage('The response ```' + ch.txt + '``` was wrong. Please retry');"
+								color="accent"
+								matTooltip="Wrong reponse"
+								mat-icon-button>
+								<span class="material-symbols-outlined notranslate">
+									chat_error
+								</span>
+							</button>
+							<button
+								(click)="sendMessage('Please summarize the response ```' + ch.txt + '```');"
+								color="accent"
+								matTooltip="Summarize"
+								mat-icon-button>
+								<span class="material-symbols-outlined notranslate">
+									summarize
+								</span>
+							</button>
+							<button
+								(click)="sendMessage('Can you please give me more details about the response: ```' + ch.txt + '```');"
+								color="accent"
+								matTooltip="More details"
+								mat-icon-button>
+								<span class="material-symbols-outlined notranslate">
+									more
+								</span>
+							</button>
+						</ng-container>
 					</div>
 					<div [innerHTML]="mrk.html"></div>
 				</div>
