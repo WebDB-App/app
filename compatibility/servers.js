@@ -13,7 +13,7 @@ const columns01 = {
 	]
 }
 
-const simpleSelect = {
+const select20relational = {
 	sql: "select * from table qui contient n fixed elements",
 	mongodb: "db.query..."
 }
@@ -23,7 +23,7 @@ export default {
 		internal_port: 3306,
 		external_port: 3307,
 		columns: columns01.sql,
-		simpleSelect: simpleSelect.sql,
+		simpleSelect: select20relational.sql,
 		docker: {
 			name: "library/mysql",
 			env: ["MYSQL_ROOT_PASSWORD=notSecureChangeMe"],
@@ -41,7 +41,7 @@ export default {
 		internal_port: 3306,
 		external_port: 3308,
 		columns: columns01.sql,
-		simpleSelect: simpleSelect.sql,
+		simpleSelect: select20relational.sql,
 		docker: {
 			name: "library/mariadb",
 			env: ["MYSQL_ROOT_PASSWORD=notSecureChangeMe"],
@@ -58,7 +58,7 @@ export default {
 		internal_port: 3306,
 		external_port: 3309,
 		columns: columns01.sql,
-		simpleSelect: simpleSelect.sql,
+		simpleSelect: select20relational.sql,
 		docker: {
 			exclusions: ["psmdb-"],
 			name: "library/percona",
@@ -76,7 +76,7 @@ export default {
 		internal_port: 27017,
 		external_port: 27017,
 		columns: columns01.nosql,
-		simpleSelect: simpleSelect.mongodb,
+		simpleSelect: select20relational.mongodb,
 		docker: {
 			exclusions: ["windowsservercore", "nanoserver"],
 			name: "library/mongo",
@@ -92,7 +92,7 @@ export default {
 		internal_port: 5432,
 		external_port: 5432,
 		columns: columns01.sql,
-		simpleSelect: simpleSelect.sql,
+		simpleSelect: select20relational.sql,
 		wrapper: "PostgreSQL",
 		docker: {
 			name: "library/postgres",
@@ -103,7 +103,7 @@ export default {
 		internal_port: 26257,
 		external_port: 26257,
 		columns: columns01.sql,
-		simpleSelect: simpleSelect.sql,
+		simpleSelect: select20relational.sql,
 		wrapper: "PostgreSQL",
 		docker: {
 			name: "cockroachdb/cockroach",

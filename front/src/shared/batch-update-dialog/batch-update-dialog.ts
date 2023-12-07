@@ -76,4 +76,13 @@ export class BatchUpdateDialog {
 		this.snackBar.open(`${nb} row(s) updated`, "╳", {duration: 3000});
 		this.dialogRef.close(true);
 	}
+
+	strError() {
+		try {
+			JSON.parse(this.str);
+		} catch (e) {
+			return e;
+		}
+		return null;
+	}
 }

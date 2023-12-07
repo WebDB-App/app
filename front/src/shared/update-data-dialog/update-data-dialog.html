@@ -37,11 +37,16 @@
 	></ngx-monaco-editor>
 </div>
 <mat-dialog-actions>
-	<button (click)="update()"
-			[disabled]="!isTouched()"
-			cdkFocusInitial
-			color="primary"
-			mat-flat-button>
+	<mat-error *ngIf="strError() !== null">
+		<div [innerHtml]="strError()"></div>
+	</mat-error>
+	<button
+		*ngIf="strError() === null"
+		(click)="update()"
+		[disabled]="!isTouched()"
+		cdkFocusInitial
+		color="primary"
+		mat-flat-button>
 		<span class="material-symbols-outlined notranslate">
 			edit
 		</span>

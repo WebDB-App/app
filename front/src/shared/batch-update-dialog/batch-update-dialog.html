@@ -32,9 +32,12 @@
 	</ngx-monaco-editor>
 </div>
 <mat-dialog-actions>
+	<mat-error *ngIf="strError() !== null">
+		<div [innerHtml]="strError()"></div>
+	</mat-error>
 	<button
 		(click)="update()"
-		*ngIf="loading >= 100"
+		*ngIf="loading >= 100 && strError() === null"
 		cdkFocusInitial
 		color="primary"
 		mat-stroked-button>

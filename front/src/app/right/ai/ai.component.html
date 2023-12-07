@@ -117,6 +117,7 @@
 				</div>
 
 				<button
+					*ngIf="chat.length >= 1"
 					(click)="chat = []; saveChat()"
 					mat-stroked-button>
 					Clear chat
