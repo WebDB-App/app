@@ -13,8 +13,8 @@ const columns01 = {
 	]
 }
 
-const select20relational = {
-	sql: "select * from table qui contient n fixed elements",
+const select20Relational = {
+	sql: "SELECT city.city_id, city.city, city.country_id, city.last_update FROM city JOIN country ON country.country_id = city.country_id GROUP BY city.city_id, city.city, city.country_id, city.last_update LIMIT 0, 20",
 	mongodb: "db.query..."
 }
 
@@ -23,7 +23,7 @@ export default {
 		internal_port: 3306,
 		external_port: 3307,
 		columns: columns01.sql,
-		simpleSelect: select20relational.sql,
+		select20Relational: select20Relational.sql,
 		docker: {
 			name: "library/mysql",
 			env: ["MYSQL_ROOT_PASSWORD=notSecureChangeMe"],
@@ -41,7 +41,7 @@ export default {
 		internal_port: 3306,
 		external_port: 3308,
 		columns: columns01.sql,
-		simpleSelect: select20relational.sql,
+		select20Relational: select20Relational.sql,
 		docker: {
 			name: "library/mariadb",
 			env: ["MYSQL_ROOT_PASSWORD=notSecureChangeMe"],
@@ -58,7 +58,7 @@ export default {
 		internal_port: 3306,
 		external_port: 3309,
 		columns: columns01.sql,
-		simpleSelect: select20relational.sql,
+		select20Relational: select20Relational.sql,
 		docker: {
 			exclusions: ["psmdb-"],
 			name: "library/percona",
@@ -76,7 +76,7 @@ export default {
 		internal_port: 27017,
 		external_port: 27017,
 		columns: columns01.nosql,
-		simpleSelect: select20relational.mongodb,
+		select20Relational: select20Relational.mongodb,
 		docker: {
 			exclusions: ["windowsservercore", "nanoserver"],
 			name: "library/mongo",
@@ -92,7 +92,7 @@ export default {
 		internal_port: 5432,
 		external_port: 5432,
 		columns: columns01.sql,
-		simpleSelect: select20relational.sql,
+		select20Relational: select20Relational.sql,
 		wrapper: "PostgreSQL",
 		docker: {
 			name: "library/postgres",
@@ -103,7 +103,7 @@ export default {
 		internal_port: 26257,
 		external_port: 26257,
 		columns: columns01.sql,
-		simpleSelect: select20relational.sql,
+		select20Relational: select20Relational.sql,
 		wrapper: "PostgreSQL",
 		docker: {
 			name: "cockroachdb/cockroach",

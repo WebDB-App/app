@@ -9,6 +9,7 @@
 		"dev:database": "node --test --watch index.js"
 	},
 	"dependencies": {
-		"axios": "latest"
+		"axios": "latest",
+		"form-data": "latest"
 	}
 }

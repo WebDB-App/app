@@ -20,23 +20,26 @@ async function run(config) {
 
 	const structure = await axios.post(`${config.api}server/structure?full=1&size=50`, config.credentials);
 	test('[table] Created is present in structure', () => {
-		const db = structure.data.dbs.find(db => db.name === config.database);
+		const db = structure.data.dbs.find(db => db.name.startsWith(config.database));
 		assert.ok(db.tables.find(table => table.name === config.table));
 	});
 
 	//--------------------------------------------
 
-	/*duplicate
+	//rename
 
-	rename
+	//--------------------------------------------
 
-	drop
+	//drop
 
-	createView
+	//--------------------------------------------
 
-	dropView
+	//truncate
 
-	truncate*/
+	//--------------------------------------------
+
+	//sakila -> View
+	//dropView
 }
 
 export default run;

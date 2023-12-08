@@ -15,7 +15,7 @@ async function drop(config) {
 
 	const structure = await axios.post(`${config.api}server/structure?full=1&size=50`, config.credentials);
 	test('[column] Created are not present in structure', () => {
-		const table = structure.data.dbs.find(db => db.name === config.database).tables.find(table => table.name === config.table);
+		const table = structure.data.dbs.find(db => db.name.startsWith(config.database)).tables.find(table => table.name === config.table);
 
 		assert.ok(table.columns.find(column => column.name === name) === undefined);
 	});
@@ -38,7 +38,7 @@ async function add(config) {
 
 	const structure = await axios.post(`${config.api}server/structure?full=1&size=50`, config.credentials);
 	test('[column] Created are present in structure', () => {
-		const table = structure.data.dbs.find(db => db.name === config.database).tables.find(table => table.name === config.table);
+		const table = structure.data.dbs.find(db => db.name.startsWith(config.database)).tables.find(table => table.name === config.table);
 
 		assert.ok(table.columns[1].name === columns[0].name);
 		assert.ok(table.columns[2].name === columns[1].name);
@@ -107,7 +107,7 @@ async function update(config) {
 
 	const structure = await axios.post(`${config.api}server/structure?full=1&size=50`, config.credentials);
 	test('[column] Updated correspond to structure\'s one', () => {
-		const table = structure.data.dbs.find(db => db.name === config.database).tables.find(table => table.name === config.table);
+		const table = structure.data.dbs.find(db => db.name.startsWith(config.database)).tables.find(table => table.name === config.table);
 
 		assert.ok(JSON.stringify(table.columns[1]) === JSON.stringify(updated));
 	});

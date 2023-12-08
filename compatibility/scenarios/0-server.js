@@ -1,8 +1,6 @@
 import assert from 'node:assert';
 import {test} from "node:test";
 import axios from "axios";
-import * as fs from "fs";
-import {iterateDir} from "../helper.js";
 
 async function run(config) {
 
@@ -78,31 +76,11 @@ async function run(config) {
 	if (!result_full) {
 		throw new Error();
 	}
-
-	//--------------------------------------------
-
-	/*const files = await iterateDir(`../dataset/${config.wrapper.toLowerCase()}/test/`);
-	const form_data = new FormData();
-	for (const file of files) {
-		form_data.append("files[]", fs.createReadStream(file), file);
-	}
-
-	const loaded = await axios.post(`${config.api}server/load`, form_data, {
-		headers: { "Content-Type": "multipart/form-data" },
-		data: form_data
-	});
-	test('[server] Load pagila dataset works', () => {
-		assert.ok(result_load);
-	});*/
-
-	/*
-	load json et native (avec complex dedans)
-
-	dump
-	 */
 }
 
-//import {changeServer} from "../config.js";
-//await run(await changeServer("percona", "8"));
-
+/*
+import {changeServer} from "../config.js";
+import servers from "../servers.js";
+await run(await changeServer(servers.mysql, "latest"));
+*/
 export default run;

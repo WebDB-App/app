@@ -33,7 +33,7 @@ export async function changeServer(server, tag) {
 	conf.name = "";
 	conf.credentials = {
 		wrapper: conf.wrapper,
-		host: process.env.CI ? "host.docker.internal" : "localhost",
+		host: process.env.CI ? "host.docker.internal" : "127.0.0.1",
 		port: conf.external_port,
 		params: conf.params || {},
 		user: "root",
