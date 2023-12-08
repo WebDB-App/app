@@ -7,12 +7,6 @@ import FormData from 'form-data';
 
 async function run(config) {
 
-	const sakilaName = "sakila";
-	const oldDb = axios.defaults.headers.common['Database'];
-	axios.defaults.headers.common['Database'] = sakilaName;
-
-	await axios.post(`${config.api}database/create`, {name: sakilaName});
-
 	const files = await iterateDir(`./sakila/${config.wrapper.toLowerCase()}/`);
 	const form_data = new FormData();
 	for (const file of files) {
@@ -32,7 +26,7 @@ async function run(config) {
 
 	const structure = await axios.post(`${config.api}server/structure?full=0&size=50`, config.credentials);
 	test('[file] Sakila database is present in structure', () => {
-		assert.ok(structure.data.dbs.find(db => db.name.startsWith(sakilaName)));
+		assert.ok(structure.data.dbs.find(db => db.name.startsWith(config.database)));
 	});
 
 
@@ -49,9 +43,6 @@ async function run(config) {
 
 
 	//--------------------------------------------
-
-
-	axios.defaults.headers.common['Database'] = oldDb;
 }
 
 /*

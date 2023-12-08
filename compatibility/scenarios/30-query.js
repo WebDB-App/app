@@ -9,12 +9,10 @@ async function run(config) {
 		pageSize: 100,
 	});
 	const result_query = query.status === 200 && !query.data.error && query.data.length === 20;
-	test('[database] Select 20 elements', () => {
+	test('[query] Select 20 linked elements', () => {
 		assert.ok(result_query);
 	});
 
-
-	//match les sakila
 
 	//--------------------------------------------
 
@@ -23,10 +21,11 @@ async function run(config) {
 		query: config.select20Relational,
 	});
 	const result_querySize = querySize.status === 200 && querySize.data === 20;
-	test('[database] Query size return good number', () => {
+	test('[query] Good size result', () => {
 		assert.ok(result_querySize);
 	});
 }
+
 /*
 import {changeServer} from "../config.js";
 import servers from "../servers.js";

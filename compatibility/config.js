@@ -28,7 +28,7 @@ async function runDocker(database, tag) {
 
 export async function changeServer(server, tag) {
 	const conf = {...basicConf, ...server};
-	conf.database = "dbTest01";
+	conf.database = "sakila";
 	conf.table = "tableTest01";
 	conf.name = "";
 	conf.credentials = {
