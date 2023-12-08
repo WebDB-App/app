@@ -23,7 +23,7 @@ async function run(config) {
 		headers: { "Content-Type": "multipart/form-data" }
 	});
 	const result_loaded = loaded.status === 200 && loaded.data.ok;
-	test('[file] Load sakila dataset works', async () => {
+	test('[file] Load sakila dataset', async () => {
 		assert.ok(result_loaded);
 	});
 	if (!result_loaded) {

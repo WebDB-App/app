@@ -6,7 +6,7 @@ async function drop(config) {
 	const name = config.columns[2].name;
 
 	const dropped = await axios.post(`${config.api}column/drop`, {column: name});
-	test('[column] Drop works', () => {
+	test('[column] Drop ok', () => {
 		assert.equal(dropped.status, 200);
 		assert.ok(!dropped.data.error);
 	});
@@ -25,7 +25,7 @@ async function add(config) {
 	const columns = config.columns.slice(1);
 
 	const created = await axios.post(`${config.api}column/add`, {columns});
-	test('[column] Creation works', () => {
+	test('[column] Creation ok', () => {
 		assert.equal(created.status, 200);
 		assert.ok(!created.data.error);
 	});
@@ -55,7 +55,7 @@ async function update(config) {
 		old: updated,
 		columns: [{...updated, name: changedName}]
 	});
-	test('[column] Rename works', () => {
+	test('[column] Rename ok', () => {
 		assert.equal(updatedName.status, 200);
 		assert.ok(updatedName.data);
 	});
@@ -70,7 +70,7 @@ async function update(config) {
 		old: updated,
 		columns: [{...updated, type: config.columns[2].type}]
 	});
-	test('[column] Cast works', () => {
+	test('[column] Cast type ok', () => {
 		assert.equal(updatedType.status, 200);
 		assert.ok(updatedType.data);
 	});
@@ -85,7 +85,7 @@ async function update(config) {
 		old: updated,
 		columns: [{...updated, nullable: !updated.nullable}]
 	});
-	test('[column] Null alteration works', () => {
+	test('[column] Alter to null', () => {
 		assert.equal(updatedNullable.status, 200);
 		assert.ok(updatedNullable.data);
 	});
@@ -97,7 +97,7 @@ async function update(config) {
 		old: updated,
 		columns: [{...updated, defaut: null}]
 	});
-	test('[column] Default alteration works', () => {
+	test('[column] Alter default', () => {
 		assert.equal(updatedDefault.status, 200);
 		assert.ok(updatedDefault.data);
 	});
@@ -118,3 +118,9 @@ export default async (config) => {
 	await update(config);
 	await drop(config);
 };
+
+/*
+import {changeServer} from "../config.js";
+import servers from "../servers.js";
+await add(await changeServer(servers.mysql, "latest"));
+*/

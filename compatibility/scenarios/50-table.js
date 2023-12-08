@@ -8,7 +8,7 @@ async function run(config) {
 	};
 
 	const created = await axios.post(`${config.api}table/create`, table);
-	test('[table] Creation works', () => {
+	test('[table] Creation ok', () => {
 		assert.equal(created.status, 200);
 		assert.ok(!created.data.error);
 	});

@@ -17,7 +17,7 @@ async function run(config) {
 
 	const goodConnect = await axios.post(`${config.api}server/connect`, config.credentials);
 	const result_goodConnect = goodConnect.data.user && goodConnect.data.password;
-	await test('[server] Connect with hard coded credentials works', () => {
+	await test('[server] Connect with hard coded credentials', () => {
 		assert.ok(result_goodConnect);
 	});
 	if (!result_goodConnect) {
@@ -42,7 +42,7 @@ async function run(config) {
 		//--------------------------------------------
 
 		const connect = await axios.post(`${config.api}server/connect`, guess.data[0]);
-		test('[server] Connect with guessed credentials works', () => {
+		test('[server] Connect with guessed credentials', () => {
 			assert.ok(connect.data.user);
 			assert.ok(connect.data.password);
 		});
@@ -59,7 +59,7 @@ async function run(config) {
 
 	const preview = await axios.post(`${config.api}server/structure?full=0&size=50`, config.credentials);
 	const result_preview = preview.data.dbs.length >= 1;
-	await test('[server] Peview structure works', () => {
+	await test('[server] Peview structure', () => {
 		assert.ok(result_preview);
 	});
 	if (!result_preview) {
@@ -70,7 +70,7 @@ async function run(config) {
 
 	const full = await axios.post(`${config.api}server/structure?full=1&size=50`, config.credentials);
 	const result_full = full.data.dbs.length >= 1 && full.data.indexes.length >= 0 && full.data.relations.length >= 0;
-	await test('[server] Full structure works', () => {
+	await test('[server] Full structure', () => {
 		assert.ok(result_full);
 	});
 	if (!result_full) {

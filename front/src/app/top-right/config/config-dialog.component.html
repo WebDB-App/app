@@ -35,7 +35,7 @@
 							<ng-container *ngIf="!licence?.error">
 								<span *ngIf="licence?.email">{{licence?.email}}</span>
 								<span *ngIf="licence?.expire! > 0">
-									Expire : {{licence?.expire! * 1000 | date: 'mediumDate'}}
+									Expire: {{licence?.expire! * 1000 | date: 'mediumDate'}}
 								</span>
 							</ng-container>
 
