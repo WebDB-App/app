@@ -6,7 +6,7 @@ async function drop(config) {
 	const name = config.columns[2].name;
 
 	const dropped = await axios.post(`${config.api}column/drop`, {column: name});
-	test('[column] Drop ok', () => {
+	await test('[column] Drop ok', () => {
 		assert.equal(dropped.status, 200);
 		assert.ok(!dropped.data.error);
 	});
@@ -14,7 +14,7 @@ async function drop(config) {
 	//--------------------------------------------
 
 	const structure = await axios.post(`${config.api}server/structure?full=1&size=50`, config.credentials);
-	test('[column] Created are not present in structure', () => {
+	await test('[column] Created are not present in structure', () => {
 		const table = structure.data.dbs.find(db => db.name.startsWith(config.database)).tables.find(table => table.name === config.table);
 
 		assert.ok(table.columns.find(column => column.name === name) === undefined);
@@ -25,7 +25,7 @@ async function add(config) {
 	const columns = config.columns.slice(1);
 
 	const created = await axios.post(`${config.api}column/add`, {columns});
-	test('[column] Creation ok', () => {
+	await test('[column] Creation ok', () => {
 		assert.equal(created.status, 200);
 		assert.ok(!created.data.error);
 	});
@@ -37,7 +37,7 @@ async function add(config) {
 	//--------------------------------------------
 
 	const structure = await axios.post(`${config.api}server/structure?full=1&size=50`, config.credentials);
-	test('[column] Created are present in structure', () => {
+	await test('[column] Created are present in structure', () => {
 		const table = structure.data.dbs.find(db => db.name.startsWith(config.database)).tables.find(table => table.name === config.table);
 
 		assert.ok(table.columns[1].name === columns[0].name);
@@ -55,7 +55,7 @@ async function update(config) {
 		old: updated,
 		columns: [{...updated, name: changedName}]
 	});
-	test('[column] Rename ok', () => {
+	await test('[column] Rename ok', () => {
 		assert.equal(updatedName.status, 200);
 		assert.ok(updatedName.data);
 	});
@@ -70,7 +70,7 @@ async function update(config) {
 		old: updated,
 		columns: [{...updated, type: config.columns[2].type}]
 	});
-	test('[column] Cast type ok', () => {
+	await test('[column] Cast type ok', () => {
 		assert.equal(updatedType.status, 200);
 		assert.ok(updatedType.data);
 	});
@@ -85,7 +85,7 @@ async function update(config) {
 		old: updated,
 		columns: [{...updated, nullable: !updated.nullable}]
 	});
-	test('[column] Alter to null', () => {
+	await test('[column] Alter to null', () => {
 		assert.equal(updatedNullable.status, 200);
 		assert.ok(updatedNullable.data);
 	});
@@ -97,7 +97,7 @@ async function update(config) {
 		old: updated,
 		columns: [{...updated, defaut: null}]
 	});
-	test('[column] Alter default', () => {
+	await test('[column] Alter default', () => {
 		assert.equal(updatedDefault.status, 200);
 		assert.ok(updatedDefault.data);
 	});
@@ -106,7 +106,7 @@ async function update(config) {
 	//--------------------------------------------
 
 	const structure = await axios.post(`${config.api}server/structure?full=1&size=50`, config.credentials);
-	test('[column] Updated correspond to structure\'s one', () => {
+	await test('[column] Updated correspond to structure\'s one', () => {
 		const table = structure.data.dbs.find(db => db.name.startsWith(config.database)).tables.find(table => table.name === config.table);
 
 		assert.ok(JSON.stringify(table.columns[1]) === JSON.stringify(updated));

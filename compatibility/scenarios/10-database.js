@@ -5,7 +5,7 @@ import {test} from "node:test";
 async function run(config) {
 	const created = await axios.post(`${config.api}database/create`, {name: config.database});
 	const result_created = created.status === 200 && !created.data.error;
-	test('[database] Creation ok', () => {
+	await test('[database] Creation ok', () => {
 		assert.ok(result_created);
 	});
 	if (!result_created) {
@@ -14,7 +14,7 @@ async function run(config) {
 
 	const structure = await axios.post(`${config.api}server/structure?full=0&size=50`, config.credentials);
 	const result_structure = structure.data.dbs.find(db => db.name.startsWith(config.database));
-	test('[database] Created is present in structure', () => {
+	await test('[database] Created is present in structure', () => {
 		assert.ok(result_structure);
 	});
 	if (!result_structure) {

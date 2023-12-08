@@ -17,7 +17,7 @@ async function run(config) {
 		headers: { "Content-Type": "multipart/form-data" }
 	});
 	const result_loaded = loaded.status === 200 && loaded.data.ok;
-	test('[file] Load sakila dataset', async () => {
+	await test('[file] Load sakila dataset', async () => {
 		assert.ok(result_loaded);
 	});
 	if (!result_loaded) {
@@ -25,7 +25,7 @@ async function run(config) {
 	}
 
 	const structure = await axios.post(`${config.api}server/structure?full=0&size=50`, config.credentials);
-	test('[file] Sakila database is present in structure', () => {
+	await test('[file] Sakila database is present in structure', () => {
 		assert.ok(structure.data.dbs.find(db => db.name.startsWith(config.database)));
 	});
 

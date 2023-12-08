@@ -42,7 +42,7 @@ async function run(config) {
 		//--------------------------------------------
 
 		const connect = await axios.post(`${config.api}server/connect`, guess.data[0]);
-		test('[server] Connect with guessed credentials', () => {
+		await test('[server] Connect with guessed credentials', () => {
 			assert.ok(connect.data.user);
 			assert.ok(connect.data.password);
 		});
@@ -51,7 +51,7 @@ async function run(config) {
 	//--------------------------------------------
 
 	const badConnect = await axios.post(`${config.api}server/connect`, currentWithoutCreds);
-	test('[server] Empty connect does not works', () => {
+	await test('[server] Empty connect does not works', () => {
 		assert.ok(badConnect.data.error);
 	});
 

@@ -9,7 +9,7 @@ await describe('webdb:app', async () => {
 	});
 	const keysPresent = request.data.hasOwnProperty("expire") && request.data.hasOwnProperty("plan") && request.data.hasOwnProperty("dbLimit") && request.data.hasOwnProperty("versions");
 
-	test('[licence] Parse succeed', async () => {
+	await test('[licence] Parse succeed', async () => {
 		assert.ok(keysPresent);
 	});
 });

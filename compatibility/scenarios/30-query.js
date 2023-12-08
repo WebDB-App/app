@@ -9,7 +9,7 @@ async function run(config) {
 		pageSize: 100,
 	});
 	const result_query = query.status === 200 && !query.data.error && query.data.length === 20;
-	test('[query] Select 20 linked elements', () => {
+	await test('[query] Select 20 linked elements', () => {
 		assert.ok(result_query);
 	});
 
@@ -21,7 +21,7 @@ async function run(config) {
 		query: config.select20Relational,
 	});
 	const result_querySize = querySize.status === 200 && querySize.data === 20;
-	test('[query] Good size result', () => {
+	await test('[query] Good size result', () => {
 		assert.ok(result_querySize);
 	});
 }

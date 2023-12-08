@@ -8,7 +8,7 @@ async function run(config) {
 	};
 
 	const created = await axios.post(`${config.api}table/create`, table);
-	test('[table] Creation ok', () => {
+	await test('[table] Creation ok', () => {
 		assert.equal(created.status, 200);
 		assert.ok(!created.data.error);
 	});
@@ -19,7 +19,7 @@ async function run(config) {
 	//--------------------------------------------
 
 	const structure = await axios.post(`${config.api}server/structure?full=1&size=50`, config.credentials);
-	test('[table] Created is present in structure', () => {
+	await test('[table] Created is present in structure', () => {
 		const db = structure.data.dbs.find(db => db.name.startsWith(config.database));
 		assert.ok(db.tables.find(table => table.name === config.table));
 	});
