@@ -34,7 +34,7 @@ async function runScenarios(server) {
 	}
 }
 
-//await runScenarios(list.mongo);
+//await runScenarios(list.mariadb);
 //process.exit();
 
 for (const server of Object.values(list)) {

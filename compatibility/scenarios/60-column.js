@@ -70,7 +70,7 @@ async function update(config) {
 		old: updated,
 		columns: [{...updated, type: config.columns[2].type}]
 	});
-	await test('[column] Cast type ok', () => {
+	await test(`[column] Cast from ${updated.type} to ${config.columns[2].type} ok`, () => {
 		assert.equal(updatedType.status, 200);
 		assert.ok(updatedType.data);
 	});
@@ -85,7 +85,7 @@ async function update(config) {
 		old: updated,
 		columns: [{...updated, nullable: !updated.nullable}]
 	});
-	await test('[column] Alter to null', () => {
+	await test('[column] Became nullable', () => {
 		assert.equal(updatedNullable.status, 200);
 		assert.ok(updatedNullable.data);
 	});
@@ -95,13 +95,13 @@ async function update(config) {
 
 	const updatedDefault = await axios.post(`${config.api}column/modify`, {
 		old: updated,
-		columns: [{...updated, defaut: null}]
+		columns: [{...updated, defaut: "Example"}]
 	});
-	await test('[column] Alter default', () => {
+	await test('[column] Default to "Example"', () => {
 		assert.equal(updatedDefault.status, 200);
 		assert.ok(updatedDefault.data);
 	});
-	updated.defaut = null;
+	updated.defaut = "Example";
 
 	//--------------------------------------------
 

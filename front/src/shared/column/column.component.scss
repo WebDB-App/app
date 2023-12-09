@@ -9,9 +9,24 @@
 	min-width: 450px;
 
 	.mat-card-content {
+
+		.default {
+			margin-bottom: 18px;
+
+			::ng-deep .mat-button-toggle-label-content {
+				line-height: 24px;
+			}
+
+			::ng-deep .special {
+				font-size: 12px;
+				font-family: monospace;
+			}
+		}
+
 		> div:not(.actions) {
 			display: flex;
 			align-items: center;
+			justify-content: space-around;
 			gap: 12px;
 
 			.mat-form-field {
@@ -26,19 +41,6 @@
 			.mat-select.hide {
 				width: 0;
 				visibility: hidden;
-			}
-
-			::ng-deep .special {
-				&:first-child {
-					.mat-button-toggle-label-content {
-						line-height: 20px;
-					}
-				}
-
-				.mat-button-toggle-label-content {
-					font-size: 12px;
-					font-family: monospace;
-				}
 			}
 		}
 	}
