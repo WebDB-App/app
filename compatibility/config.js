@@ -16,17 +16,7 @@ export function runBash(cmd) {
 	}
 }
 
-async function runDocker(database, tag) {
-	runBash(`docker rm -f $(docker container ls --format="{{.ID}}\t{{.Ports}}" | grep ${database.credentials.port} | awk '{print $1}') 2> /dev/null || echo`)
-	runBash(`docker pull ${database.docker.name}:${tag} --quiet`);
-	const id = runBash(`docker run -d -p ${database.credentials.port}:${database.internal_port} ${database.docker.env.map(env => ` -e ${env}`).join(' ')} ${database.docker.name}:${tag} ${database.docker.cmd || ''}`);
-	await new Promise(resolve => {
-		setTimeout(resolve, 15_000);
-	});
-	return id;
-}
-
-export async function changeServer(server, tag) {
+export async function loadConfig(server) {
 	const conf = {...basicConf, ...server};
 	conf.database = "sakila";
 	conf.table = "tableTest01";
@@ -39,11 +29,6 @@ export async function changeServer(server, tag) {
 		user: "root",
 		password: "notSecureChangeMe",
 	};
-
-	conf.docker.cname = await runDocker(conf, tag);
-	if (!conf.docker.cname) {
-		return false;
-	}
 
 	axios.defaults.headers.common['Server'] = JSON.stringify(conf.credentials);
 	axios.defaults.headers.common['Database'] = conf.database;

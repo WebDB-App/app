@@ -189,4 +189,11 @@ export class StatsDialogComponent implements OnDestroy {
 	ngOnDestroy() {
 		clearInterval(this.interval);
 	}
+
+	switchAll() {
+		this.chart.chart!.data.datasets.forEach(function(ds) {
+			ds.hidden = !ds.hidden;
+		});
+		this.chart.chart!.update();
+	}
 }
