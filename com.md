@@ -35,7 +35,6 @@
 - Afficher logo chez cockroac, vitesse, ti, monaco/faker (voir mail)
 - partenariat écoles/région
 - Com bugbounty : un clés offerte au dessus de severity medium en ctf
-- TODO/roadmap/kanban public
 - Aide alternant market/dev
 - 2ans de ultimate pour 1k premier inscrits
 - gitlab doc subdomain
