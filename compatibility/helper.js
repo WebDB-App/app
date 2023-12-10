@@ -2,6 +2,20 @@ import {join} from "path";
 import {promises as fsp} from "fs";
 import {URL} from 'url';
 
+export function getDatabase(dbs, dbName) {
+	let found = dbs.find(db => db.name === dbName + ", public");
+	if (found) {
+		return found;
+	}
+
+	found = dbs.find(db => db.name === dbName);
+	if (found) {
+		return found;
+	}
+
+	return false;
+}
+
 export async function iterateDir(dir) {
 	const dirname = new URL('.', import.meta.url).pathname;
 	const endpointPath = join(dirname, dir);

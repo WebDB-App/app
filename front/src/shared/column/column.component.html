@@ -126,7 +126,7 @@
 					<mat-button-toggle-group>
 						<mat-button-toggle
 							(click)="column.get('nullable')!.patchValue(false)"
-							*ngIf="isSQL()"
+							*ngIf="isSQL(selectedServer)"
 							[checked]="!column.get('nullable')?.value">
 							Required
 						</mat-button-toggle>

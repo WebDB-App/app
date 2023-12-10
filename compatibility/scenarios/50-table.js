@@ -1,6 +1,7 @@
 import assert from 'node:assert';
 import axios from "axios";
 import {test} from "node:test";
+import {getDatabase} from "../helper.js";
 
 async function run(config) {
 	const table = {
@@ -20,7 +21,7 @@ async function run(config) {
 
 	const structure = await axios.post(`${config.api}server/structure?full=1&size=50`, config.credentials);
 	await test('[table] Created is present in structure', () => {
-		const db = structure.data.dbs.find(db => db.name.startsWith(config.database));
+		const db = getDatabase(structure.data.dbs, config.database);
 		assert.ok(db.tables.find(table => table.name === config.table));
 	});
 

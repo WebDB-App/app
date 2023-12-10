@@ -2,7 +2,7 @@ import assert from 'node:assert';
 import {test} from "node:test";
 import axios from "axios";
 import * as fs from "fs";
-import {iterateDir} from "../helper.js";
+import {getDatabase, iterateDir} from "../helper.js";
 import FormData from 'form-data';
 
 async function run(config) {
@@ -26,7 +26,7 @@ async function run(config) {
 
 	const structure = await axios.post(`${config.api}server/structure?full=0&size=50`, config.credentials);
 	await test('[file] Sakila database is present in structure', () => {
-		assert.ok(structure.data.dbs.find(db => db.name.startsWith(config.database)));
+		assert.ok(getDatabase(structure.data.dbs, config.database));
 	});
 
 

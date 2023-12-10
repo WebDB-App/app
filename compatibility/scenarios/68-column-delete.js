@@ -1,6 +1,7 @@
 import assert from 'node:assert';
 import axios from "axios";
 import {test} from "node:test";
+import {getDatabase} from "../helper.js";
 
 async function run(config) {
 	const name = config.columns[2].name;
@@ -15,7 +16,8 @@ async function run(config) {
 
 	const structure = await axios.post(`${config.api}server/structure?full=1&size=50`, config.credentials);
 	await test('[column] Created are not present in structure', () => {
-		const table = structure.data.dbs.find(db => db.name.startsWith(config.database)).tables.find(table => table.name === config.table);
+		const db = getDatabase(structure.data.dbs, config.database);
+		const table = db.tables.find(table => table.name === config.table);
 
 		assert.ok(table.columns.find(column => column.name === name) === undefined);
 	});
