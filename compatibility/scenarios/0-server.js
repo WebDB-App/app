@@ -79,8 +79,8 @@ async function run(config) {
 }
 
 /*
-import {changeServer} from "../config.js";
+import {loadConfig} from "../config.js";
 import servers from "../servers.js";
-await run(await changeServer(servers.mysql, "latest"));
+await run(await loadConfig(servers.mysql));
 */
 export default run;

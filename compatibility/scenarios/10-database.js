@@ -23,8 +23,8 @@ async function run(config) {
 	}
 }
 /*
-import {changeServer} from "../config.js";
+import {loadConfig} from "../config.js";
 import servers from "../servers.js";
-await run(await changeServer(servers.postgres, "latest"));
+await run(await loadConfig(servers.postgres));
 */
 export default run;

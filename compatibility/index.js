@@ -24,7 +24,7 @@ async function runScenarios(server) {
 			continue;
 		}
 
-		const cname = await runDocker(config, tag[0]);
+		const cname = await runDocker(config, tags[0]);
 		if (!cname) {
 			continue;
 		}
