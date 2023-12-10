@@ -1,11 +1,8 @@
 # WebDB – Open Source and Efficient Database IDE
 
-## Links
-- [🌍 Website](https://webdb.app/)
-- [🐛 Issue Tracker / Proposal](https://gitlab.com/web-db/app/-/issues)
-- [📙 Wiki](https://gitlab.com/web-db/-/app/home)
-- [🐳 Docker Hub](https://hub.docker.com/r/webdb/app/)
-- [💼 LinkedIn](https://www.linkedin.com/company/web-db)
+| 🌍 | 🐛 | 📙 | 🐳 | 💼 |
+|--|--|--|--|--|
+| [Website](https://webdb.app/) | [Issue Tracker / Proposal](https://gitlab.com/web-db/app/-/issues) | [Wiki](https://gitlab.com/web-db/-/app/home) | [Docker Hub](https://hub.docker.com/r/webdb/app/) | [LinkedIn](https://www.linkedin.com/company/web-db) |
 
 ## Development
 
@@ -41,5 +38,6 @@ If you found good datasets for testing, don't hesite to propose them also
 
 ## TODO
 
-- [💻 Technical](tech.md)
-- [💬 Communication](com.md)
+[💻 Technical](tech.md)
+
+[💬 Communication](com.md)
