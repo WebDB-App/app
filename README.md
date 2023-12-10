@@ -27,5 +27,5 @@ Once done, you can pick up in dataset folder.<br>
 If you found good datasets for testing, don't hesite to propose them also
 
 ##### Merge request
-- Please make a merge request for contribution between your branch and dev
+- Please make a merge request for contribution between your branch and main
 - Git log is used to generate changelog so please use gitmoji or explicit commit message.
