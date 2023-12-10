@@ -34,9 +34,11 @@ async function runScenarios(server) {
 	}
 }
 
-//await runScenarios(list.mariadb);
-//process.exit();
-
-for (const server of Object.values(list)) {
-	await runScenarios(server);
+if (process.env.CI) {
+	for (const server of Object.values(list)) {
+		await runScenarios(server);
+	}
+} else {
+	await runScenarios(list.mysql);
+	process.exit();
 }

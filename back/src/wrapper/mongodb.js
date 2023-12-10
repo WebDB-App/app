@@ -113,7 +113,6 @@ export default class MongoDB extends Driver {
 			{Variable_name: "Oper deletes", "Value": stats.opcounters.delete},
 			{Variable_name: "Oper inserts", "Value": stats.opcounters.insert},
 			{Variable_name: "Oper queries", "Value": stats.opcounters.query},
-			{Variable_name: "Trans aborted", "Value": stats.transactions.totalAborted},
 			{Variable_name: "Trans committed", "Value": stats.transactions.totalCommitted},
 		];
 	}

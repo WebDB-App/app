@@ -7,6 +7,10 @@ stages:
 include:
     - template: Security/Secret-Detection.gitlab-ci.yml
 
+
+#-----------------------------------------
+
+
 .common: &common
     tags:
         - shell
@@ -18,6 +22,8 @@ include:
         - if: $CI_COMMIT_BRANCH == "dev"
           when: on_success
     interruptible: true
+
+.make_links: &make_links
     before_script:
         - export TAG=$(date '+%Y.%m.%d')
         - printenv
@@ -44,12 +50,22 @@ eslint:
         - cd back
         - eslint --color .
 
+clean:
+    <<: *common
+    stage: test
+    image: docker:latest
+    script:
+        - docker stop $(docker ps -a -q)
+        - docker container prune -f > /dev/null
+        - docker volume prune --all -f > /dev/null
+
 
 #-----------------------------------------
 
 
 prepare:
     <<: *common
+    <<: *make_links
     stage: prepare
     image: node:alpine
     script:
@@ -67,6 +83,7 @@ prepare:
 
 docker:
     <<: *common
+    <<: *make_links
     dependencies:
         - prepare
     stage: release
@@ -93,16 +110,13 @@ compatibility:
     <<: *common
     stage: compatibility
     image: docker:latest
-    before_script:
-        - docker container prune -f > /dev/null
-        - docker volume prune --all -f > /dev/null
     script:
         - cd compatibility
         - npm install --prod --frozen-lockfile
         - npm run launch:webdb
         - sleep 3
-        - npm run prod:app
-        - npm run prod:database || echo
+        - npm run test:app
+        - npm run test:servers || echo
     artifacts:
         paths:
             - ./compatibility/report.xml
