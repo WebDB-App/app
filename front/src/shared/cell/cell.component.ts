@@ -3,7 +3,7 @@ import { Table } from "../../classes/table";
 import { Relation } from "../../classes/relation";
 import { Server } from "../../classes/server";
 import { Database } from "../../classes/database";
-import helper from "../common-helper.cjs";
+import commonHelper from "../common-helper.cjs";
 import { Params } from "@angular/router";
 import { saveAs } from "file-saver-es";
 import { Column } from "../../classes/column";
@@ -50,7 +50,7 @@ export class CellComponent implements OnInit {
 		this.selectedServer = Server.getSelected();
 
 		this.value = JSON.parse(JSON.stringify(this.value));
-		this.nested = helper.isNested(this.value);
+		this.nested = commonHelper.isNested(this.value);
 		if (this.nested) {
 			if (JSON.stringify(this.value).length > 70) {
 				this.expand = false;
