@@ -95,6 +95,18 @@ export class MySQL extends SQL {
 						{
 							id: "varbinary(size!)",
 							description: 'Where size is the number of characters to store. Variable-length string'
+						},
+						{
+							id: "uuid",
+							description: "MariaDB only. The UUID data type is intended for the storage of 128-bit UUID (Universally Unique Identifier) data"
+						},
+						{
+							id: "inet4",
+							description: "MariaDB only. INET4 is a data type to store IPv4 addresses, as 4-byte binary strings."
+						},
+						{
+							id: "inet6",
+							description: "MariaDB only. The INET6 data type is intended for storage of IPv6 addresses, as well as IPv4 addresses assuming conventional mapping of IPv4 addresses into IPv6 addresses"
 						}
 					]
 				}, {
@@ -186,8 +198,6 @@ export class MySQL extends SQL {
 							description: "Very small integer value.\nValues range from 0 to 255."
 						}
 					]
-
-
 				}, {
 					name: Group.Date,
 					list: [
@@ -240,7 +250,7 @@ export class MySQL extends SQL {
 						{
 							id: "enum('a', 'b', 'c')",
 							bold: true,
-							description: " An enumeration, which is a fancy term for list. When defining an ENUM, you are creating a list of items from which the value must be selected (or it can be NULL). For example, if you wanted your field to contain \"A\" or \"B\" or \"C\", you would define your ENUM as ENUM ('A', 'B', 'C') and only those values (or NULL) could ever populate that field."
+							description: "An enumeration, which is a fancy term for list. When defining an ENUM, you are creating a list of items from which the value must be selected (or it can be NULL). For example, if you wanted your field to contain \"A\" or \"B\" or \"C\", you would define your ENUM as ENUM ('A', 'B', 'C') and only those values (or NULL) could ever populate that field."
 						},
 						{
 							id: "json",
