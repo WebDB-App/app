@@ -1,7 +1,7 @@
 import { Index } from "./index";
 import { Relation } from "./relation";
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from "@angular/forms";
-import helper from "../shared/common-helper.mjs";
+import { commonHelper } from "../shared/common-helper.mjs";
 import { uniqueValidator } from "../shared/unique.validator";
 import { Table } from "./table";
 import { Server } from "./server";
@@ -64,7 +64,7 @@ export class Column {
 
 		const typeUnknown = () => {
 			return (control: AbstractControl): ValidationErrors | null => {
-				if (!control.value || helper.isNested(control.value)) {
+				if (!control.value || commonHelper.isNested(control.value)) {
 					return null;
 				}
 				const val = control.value.split("(")[0].trim().toLowerCase();
@@ -77,7 +77,7 @@ export class Column {
 			}
 		}
 
-		const nameValidators = [Validators.required, Validators.pattern(helper.validName)];
+		const nameValidators = [Validators.required, Validators.pattern(commonHelper.validName)];
 		if (table) {
 			nameValidators.push(uniqueValidator('name', table.columns.filter(col => col.name !== from?.name).map(col => col.name)));
 		}

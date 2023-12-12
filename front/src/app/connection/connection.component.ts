@@ -9,7 +9,7 @@ import { LoadingStatus, RequestService } from "../../shared/request.service";
 import * as drivers from '../../drivers/index';
 import { DomSanitizer, Title } from "@angular/platform-browser";
 import { MatIconRegistry } from "@angular/material/icon";
-import helper from "../../shared/common-helper.mjs";
+import { commonHelper } from "../../shared/common-helper.mjs";
 import { ProcessDialogComponent } from "../process/process-dialog.component";
 import { StatsDialogComponent } from "../stats/stats-dialog.component";
 
@@ -230,7 +230,7 @@ export class CreateDatabaseDialog {
 	}
 
 	nameValid(value: string) {
-		if (!value.match(helper.validName)) {
+		if (!value.match(commonHelper.validName)) {
 			return false;
 		}
 		return !this.server.dbs.find(db => db.name === value);

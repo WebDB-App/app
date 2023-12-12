@@ -7,7 +7,7 @@ import { HistoryService } from "../shared/history.service";
 import { Relation } from "../classes/relation";
 import { Configuration } from "../classes/configuration";
 import { HttpClient } from "@angular/common/http";
-import commonHelper from "../shared/common-helper.mjs";
+import { commonHelper } from "../shared/common-helper.mjs";
 
 //import * as monaco from 'monaco-editor'
 declare var monaco: any;

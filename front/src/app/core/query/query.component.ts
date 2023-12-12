@@ -16,7 +16,7 @@ import { ExportResultDialog } from "../../../shared/export-result-dialog/export-
 import { MatPaginatorIntl } from "@angular/material/paginator";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import helper from "../../../shared/common-helper.mjs";
+import { commonHelper } from "../../../shared/common-helper.mjs";
 import { saveAs } from "file-saver-es";
 
 declare var monaco: any;
@@ -224,7 +224,7 @@ export class QueryComponent implements OnInit, OnDestroy {
 
 	exportQuery() {
 		this.dialog.open(ExportQueryDialog, {
-			data: helper.removeComment(this.query),
+			data: commonHelper.removeComment(this.query),
 			hasBackdrop: false
 		});
 	}
@@ -248,12 +248,12 @@ export class QueryComponent implements OnInit, OnDestroy {
 	addView() {
 		this.dialog.open(CreateViewDialog, {
 			hasBackdrop: false,
-			data: this.selectedServer?.driver.extractForView(helper.removeComment(this.query))
+			data: this.selectedServer?.driver.extractForView(commonHelper.removeComment(this.query))
 		});
 	}
 
 	isQuerySelect() {
-		return this.selectedServer?.driver.extractForView(helper.removeComment(this.query));
+		return this.selectedServer?.driver.extractForView(commonHelper.removeComment(this.query));
 	}
 
 	async inputChange(fileInputEvent: any) {
@@ -356,7 +356,7 @@ export class CreateViewDialog {
 		@Inject(MAT_DIALOG_DATA) public code: string
 	) {
 		this.form = this.fb.group({
-			name: [null, [Validators.required, Validators.pattern(helper.validName)]],
+			name: [null, [Validators.required, Validators.pattern(commonHelper.validName)]],
 			code: [code]
 		});
 	}

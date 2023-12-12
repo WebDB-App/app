@@ -3,7 +3,7 @@ import Driver from "../shared/driver.js";
 import bash from "../shared/bash.js";
 import {writeFileSync} from "fs";
 import {join} from "path";
-import helper from "../shared/common-helper.mjs";
+import { commonHelper } from "../shared/common-helper.mjs";
 import {loadData} from "../shared/buffer.js";
 import version from "../shared/version.js";
 import {URL} from "url";
@@ -309,7 +309,7 @@ export default class MongoDB extends Driver {
 					name: options.validator.$jsonSchema.description,
 					database: database.name,
 					table: collection.name,
-					type: helper.complex.VALIDATOR
+					type: commonHelper.complex.VALIDATOR
 				});
 			});
 		}
@@ -434,7 +434,7 @@ export default class MongoDB extends Driver {
 		let db = this.connection;
 		let lgth = -1;
 
-		command = helper.removeComment(command);
+		command = commonHelper.removeComment(command);
 		if (!command.trim().startsWith("return")) {
 			command = `return ${command}`;
 		}
@@ -505,7 +505,7 @@ export default class MongoDB extends Driver {
 		}
 
 		if (query.indexOf(".aggregate(") >= 0) {
-			query = helper.mongo_injectAggregate(query, {"$group": {"_id": null, "count": {"$sum": 1}}});
+			query = commonHelper.mongo_injectAggregate(query, {"$group": {"_id": null, "count": {"$sum": 1}}});
 			let result = await this.runCommand(query, database);
 			if (result.error) {
 				return "0";
@@ -533,8 +533,8 @@ export default class MongoDB extends Driver {
 			query.indexOf("limit") < 0) {
 
 			if (query.indexOf(".aggregate(") >= 0) {
-				query = helper.mongo_injectAggregate(query, {"$limit": pageSize});
-				query = helper.mongo_injectAggregate(query, {"$skip": page});
+				query = commonHelper.mongo_injectAggregate(query, {"$limit": pageSize});
+				query = commonHelper.mongo_injectAggregate(query, {"$skip": page});
 			} else if (query.indexOf(".toArray(") >= 0) {
 				query = query.replace(".toArray()", `.skip(${page * pageSize}).limit(${pageSize}).toArray()`);
 			}

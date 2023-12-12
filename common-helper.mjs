@@ -1,4 +1,4 @@
-const obj = {
+const helper = {
 	validName: /^[a-zA-Z0-9-_]{2,50}$/,
 	parentheses: /\((?:[^)(]|\((?:[^)(]|\((?:[^)(]|\([^)(]*\))*\))*\))*\)/g,
 	complex: {
@@ -29,7 +29,7 @@ const obj = {
 	},
 	sql_isSelect: (query) => {
 		query = query.trim().toLowerCase();
-		query = query.replaceAll(obj.parentheses, "").trim();
+		query = query.replaceAll(helper.parentheses, "").trim();
 		return query.indexOf("select ") >= 0;
 	},
 	singleLine: (code, keepLength = false) => {
@@ -47,4 +47,4 @@ const obj = {
 	}
 };
 
-export default obj;
+export const commonHelper = helper;

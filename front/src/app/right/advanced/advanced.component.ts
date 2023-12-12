@@ -5,7 +5,7 @@ import { Server } from "../../../classes/server";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { RequestService } from "../../../shared/request.service";
 import { Router } from "@angular/router";
-import helper from "../../../shared/common-helper.mjs";
+import { commonHelper } from "../../../shared/common-helper.mjs";
 import { DrawerService } from "../../../shared/drawer.service";
 
 @Component({
@@ -100,7 +100,7 @@ export class AdvancedComponent {
 	}
 
 	nameValid(name: string) {
-		if (!name.match(helper.validName)) {
+		if (!name.match(commonHelper.validName)) {
 			return false;
 		}
 		return name.length > 1 && !this.selectedServer?.dbs?.find(db => db.name.split(', ')[0] === name);

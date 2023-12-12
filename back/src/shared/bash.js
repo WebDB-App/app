@@ -1,5 +1,5 @@
 import {execSync} from "child_process";
-import helper from "./common-helper.mjs";
+import { commonHelper } from "./common-helper.mjs";
 import {writeFileSync, appendFileSync} from "fs";
 import {randomUUID} from "crypto";
 import {join} from "path";
@@ -19,7 +19,7 @@ class Bash {
 		const cid = randomUUID();
 
 		database = database ? `\x1B[36m${database.padStart(20, " ")}\x1b[0m` : " ".padStart(20, " ");
-		command = helper.singleLine(command).trim();
+		command = commonHelper.singleLine(command).trim();
 		port = `\x1b[33m${port.toString().padStart(5, " ")}\x1b[0m`;
 
 		this.commands[cid] = {
