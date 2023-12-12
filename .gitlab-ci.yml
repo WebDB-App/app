@@ -55,7 +55,7 @@ clean:
     stage: test
     image: docker:latest
     script:
-        - docker stop $(docker ps -a -q)
+        - docker stop $(docker ps -a -q) || echo
         - docker container prune -f > /dev/null
         - docker volume prune --all -f > /dev/null
 
