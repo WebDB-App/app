@@ -1,5 +1,5 @@
 import Driver from "./driver.js";
-import { commonHelper } from "./common-helper.mjs";
+import commonHelper from "./common-helper.mjs";
 
 export default class SQL extends Driver {
 

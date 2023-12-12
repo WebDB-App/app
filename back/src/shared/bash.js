@@ -1,5 +1,5 @@
 import {execSync} from "child_process";
-import { commonHelper } from "./common-helper.mjs";
+import commonHelper from "./common-helper.mjs";
 import {writeFileSync, appendFileSync} from "fs";
 import {randomUUID} from "crypto";
 import {join} from "path";

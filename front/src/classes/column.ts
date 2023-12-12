@@ -1,7 +1,7 @@
 import { Index } from "./index";
 import { Relation } from "./relation";
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from "@angular/forms";
-import { commonHelper } from "../shared/common-helper.mjs";
+import commonHelper from  "../shared/common-helper.mjs";
 import { uniqueValidator } from "../shared/unique.validator";
 import { Table } from "./table";
 import { Server } from "./server";

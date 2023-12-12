@@ -11,6 +11,17 @@ include:
 #-----------------------------------------
 
 
+clean:
+    stage: .pre
+    image: docker:latest
+    rules:
+        -   if: ($CI_PIPELINE_SOURCE == "schedule") && ($CLEAN == "true")
+            when: always
+    script:
+        - docker stop $(docker ps -a -q) || echo
+        - docker container prune -f > /dev/null
+        - docker volume prune --all -f > /dev/null
+
 .common: &common
     tags:
         - shell
@@ -49,15 +60,6 @@ eslint:
     script:
         - cd back
         - eslint --color .
-
-clean:
-    <<: *common
-    stage: test
-    image: docker:latest
-    script:
-        - docker stop $(docker ps -a -q) || echo
-        - docker container prune -f > /dev/null
-        - docker volume prune --all -f > /dev/null
 
 
 #-----------------------------------------

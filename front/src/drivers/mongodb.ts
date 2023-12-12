@@ -7,7 +7,7 @@ import { Database } from "../classes/database";
 import { loadLibAsset } from "../shared/helper";
 import { Server } from "../classes/server";
 import { Configuration } from "../classes/configuration";
-import { commonHelper } from "../shared/common-helper.mjs";
+import commonHelper from  "../shared/common-helper.mjs";
 import * as bson from "bson";
 
 declare var monaco: any;
