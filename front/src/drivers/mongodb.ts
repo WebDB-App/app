@@ -7,7 +7,7 @@ import { Database } from "../classes/database";
 import { loadLibAsset } from "../shared/helper";
 import { Server } from "../classes/server";
 import { Configuration } from "../classes/configuration";
-import * as helper from "../shared/common-helper.cjs";
+import commonHelper from "../shared/common-helper.mjs";
 import * as bson from "bson";
 
 declare var monaco: any;
@@ -259,7 +259,7 @@ async function main() {
 		if (query.indexOf(".aggregate(") >= 0) {
 			const s: any = {$sort: {}};
 			s.$sort[field] = direction === "asc" ? 1 : -1;
-			query = helper.mongo_injectAggregate(query, s);
+			query = commonHelper.mongo_injectAggregate(query, s);
 		}
 
 		if (query.indexOf(".find(") > 0) {

@@ -1,4 +1,4 @@
-module.exports = {
+const obj = {
 	validName: /^[a-zA-Z0-9-_]{2,50}$/,
 	parentheses: /\((?:[^)(]|\((?:[^)(]|\((?:[^)(]|\([^)(]*\))*\))*\))*\)/g,
 	complex: {
@@ -29,7 +29,7 @@ module.exports = {
 	},
 	sql_isSelect: (query) => {
 		query = query.trim().toLowerCase();
-		query = query.replaceAll(this.parentheses, "").trim();
+		query = query.replaceAll(obj.parentheses, "").trim();
 		return query.indexOf("select ") >= 0;
 	},
 	singleLine: (code, keepLength = false) => {
@@ -46,3 +46,5 @@ module.exports = {
 		return query.replace(/\/\*[\s\S]*?\*\/|(?<=[^:])\/\/.*|^\/\/.*/g, "").trim();
 	}
 };
+
+export default obj;
