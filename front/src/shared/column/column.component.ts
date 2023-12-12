@@ -3,11 +3,11 @@ import { Column } from "../../classes/column";
 import { Server } from "../../classes/server";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { FormArray, FormGroup } from "@angular/forms";
-import { isSQL } from "../helper";
+import { isNested, isSQL } from "../helper";
 import { Table } from "../../classes/table";
 import { Group, TypeData, TypeGroup } from "../../classes/driver";
 import { Database } from "../../classes/database";
-import commonHelper from  "../common-helper.mjs";
+
 
 @Component({
 	selector: 'app-column',
@@ -24,7 +24,6 @@ export class ColumnComponent implements OnInit {
 	selectedTable?: Table;
 	typeGroups!: TypeGroup[];
 	protected readonly isSQL = isSQL;
-	protected readonly commonHelper = commonHelper;
 
 	constructor(
 		public snackBar: MatSnackBar
@@ -62,4 +61,6 @@ export class ColumnComponent implements OnInit {
 	copyColumn(column: Column) {
 		this.formColumn.push(Column.getFormGroup(this.selectedTable!, column));
 	}
+
+	protected readonly isNested = isNested;
 }

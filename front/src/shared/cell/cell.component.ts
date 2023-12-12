@@ -3,11 +3,11 @@ import { Table } from "../../classes/table";
 import { Relation } from "../../classes/relation";
 import { Server } from "../../classes/server";
 import { Database } from "../../classes/database";
-import commonHelper from  "../common-helper.mjs";
 import { Params } from "@angular/router";
 import { saveAs } from "file-saver-es";
 import { Column } from "../../classes/column";
 import { Group } from "../../classes/driver";
+import { isNested } from "../helper";
 
 @Component({
 	selector: 'app-cell',
@@ -50,7 +50,7 @@ export class CellComponent implements OnInit {
 		this.selectedServer = Server.getSelected();
 
 		this.value = JSON.parse(JSON.stringify(this.value));
-		this.nested = commonHelper.isNested(this.value);
+		this.nested = isNested(this.value);
 		if (this.nested) {
 			if (JSON.stringify(this.value).length > 70) {
 				this.expand = false;

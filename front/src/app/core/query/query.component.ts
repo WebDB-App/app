@@ -11,12 +11,11 @@ import { RequestService } from "../../../shared/request.service";
 import { Relation } from "../../../classes/relation";
 import { Configuration } from "../../../classes/configuration";
 import { HistoryService, Query } from "../../../shared/history.service";
-import { addMonacoError, initBaseEditor, REMOVED_LABELS } from "../../../shared/helper";
+import { addMonacoError, initBaseEditor, removeComment, REMOVED_LABELS, validName } from "../../../shared/helper";
 import { ExportResultDialog } from "../../../shared/export-result-dialog/export-result-dialog";
 import { MatPaginatorIntl } from "@angular/material/paginator";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import commonHelper from  "../../../shared/common-helper.mjs";
 import { saveAs } from "file-saver-es";
 
 declare var monaco: any;
@@ -224,7 +223,7 @@ export class QueryComponent implements OnInit, OnDestroy {
 
 	exportQuery() {
 		this.dialog.open(ExportQueryDialog, {
-			data: commonHelper.removeComment(this.query),
+			data: removeComment(this.query),
 			hasBackdrop: false
 		});
 	}
@@ -248,12 +247,12 @@ export class QueryComponent implements OnInit, OnDestroy {
 	addView() {
 		this.dialog.open(CreateViewDialog, {
 			hasBackdrop: false,
-			data: this.selectedServer?.driver.extractForView(commonHelper.removeComment(this.query))
+			data: this.selectedServer?.driver.extractForView(removeComment(this.query))
 		});
 	}
 
 	isQuerySelect() {
-		return this.selectedServer?.driver.extractForView(commonHelper.removeComment(this.query));
+		return this.selectedServer?.driver.extractForView(removeComment(this.query));
 	}
 
 	async inputChange(fileInputEvent: any) {
@@ -356,7 +355,7 @@ export class CreateViewDialog {
 		@Inject(MAT_DIALOG_DATA) public code: string
 	) {
 		this.form = this.fb.group({
-			name: [null, [Validators.required, Validators.pattern(commonHelper.validName)]],
+			name: [null, [Validators.required, Validators.pattern(validName)]],
 			code: [code]
 		});
 	}

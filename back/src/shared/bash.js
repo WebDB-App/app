@@ -1,9 +1,9 @@
 import {execSync} from "child_process";
-import commonHelper from "./common-helper.mjs";
 import {writeFileSync, appendFileSync} from "fs";
 import {randomUUID} from "crypto";
 import {join} from "path";
 import {URL} from "url";
+import {singleLine} from "./helper.js";
 
 const dirname = new URL(".", import.meta.url).pathname;
 const finished = join(dirname, "../../static/logs/finished.log");
@@ -19,7 +19,7 @@ class Bash {
 		const cid = randomUUID();
 
 		database = database ? `\x1B[36m${database.padStart(20, " ")}\x1b[0m` : " ".padStart(20, " ");
-		command = commonHelper.singleLine(command).trim();
+		command = singleLine(command).trim();
 		port = `\x1b[33m${port.toString().padStart(5, " ")}\x1b[0m`;
 
 		this.commands[cid] = {

@@ -1,5 +1,6 @@
 import Driver from "./driver.js";
-import commonHelper from "./common-helper.mjs";
+import {singleLine, sql_isSelect} from "./helper.js";
+
 
 export default class SQL extends Driver {
 
@@ -172,12 +173,12 @@ export default class SQL extends Driver {
 	}
 
 	cleanQuery(query, keepLength = false) {
-		query = commonHelper.singleLine(query, keepLength);
+		query = singleLine(query, keepLength);
 		return query.trim().endsWith(";") ? query.trim().slice(0, -1) : query;
 	}
 
 	async querySize(query, database) {
-		if (!commonHelper.sql_isSelect(query)) {
+		if (!sql_isSelect(query)) {
 			return "1";
 		}
 
@@ -188,7 +189,7 @@ export default class SQL extends Driver {
 	async runPagedQuery(query, page, pageSize, database) {
 		query = this.cleanQuery(query, true);
 
-		if (commonHelper.sql_isSelect(query)
+		if (sql_isSelect(query)
 			&& query.toLowerCase().indexOf(" offset ") < 0
 			&& query.toLowerCase().indexOf(" limit ") < 0) {
 			query = `${query} LIMIT ${pageSize} OFFSET ${page * pageSize}`;

@@ -5,8 +5,8 @@ import { Server } from "../../../classes/server";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { RequestService } from "../../../shared/request.service";
 import { Router } from "@angular/router";
-import commonHelper from  "../../../shared/common-helper.mjs";
 import { DrawerService } from "../../../shared/drawer.service";
+import { validName } from "../../../shared/helper";
 
 @Component({
 	selector: 'app-advanced',
@@ -100,7 +100,7 @@ export class AdvancedComponent {
 	}
 
 	nameValid(name: string) {
-		if (!name.match(commonHelper.validName)) {
+		if (!name.match(validName)) {
 			return false;
 		}
 		return name.length > 1 && !this.selectedServer?.dbs?.find(db => db.name.split(', ')[0] === name);

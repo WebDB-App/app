@@ -1,11 +1,10 @@
 import { Index } from "./index";
 import { Relation } from "./relation";
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from "@angular/forms";
-import commonHelper from  "../shared/common-helper.mjs";
 import { uniqueValidator } from "../shared/unique.validator";
 import { Table } from "./table";
 import { Server } from "./server";
-import { isSQL } from "../shared/helper";
+import { isNested, isSQL, validName } from "../shared/helper";
 import { Driver } from "./driver";
 
 export class Column {
@@ -64,7 +63,7 @@ export class Column {
 
 		const typeUnknown = () => {
 			return (control: AbstractControl): ValidationErrors | null => {
-				if (!control.value || commonHelper.isNested(control.value)) {
+				if (!control.value || isNested(control.value)) {
 					return null;
 				}
 				const val = control.value.split("(")[0].trim().toLowerCase();
@@ -77,7 +76,7 @@ export class Column {
 			}
 		}
 
-		const nameValidators = [Validators.required, Validators.pattern(commonHelper.validName)];
+		const nameValidators = [Validators.required, Validators.pattern(validName)];
 		if (table) {
 			nameValidators.push(uniqueValidator('name', table.columns.filter(col => col.name !== from?.name).map(col => col.name)));
 		}

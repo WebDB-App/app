@@ -7,7 +7,8 @@ import { HistoryService } from "../shared/history.service";
 import { Relation } from "../classes/relation";
 import { Configuration } from "../classes/configuration";
 import { HttpClient } from "@angular/common/http";
-import commonHelper from  "../shared/common-helper.mjs";
+import { singleLine, sql_isSelect } from "../shared/helper";
+
 
 //import * as monaco from 'monaco-editor'
 declare var monaco: any;
@@ -248,7 +249,7 @@ export class SQL implements Driver {
 	}
 
 	extractForView(query: string) {
-		if (!commonHelper.sql_isSelect(query)) {
+		if (!sql_isSelect(query)) {
 			return false;
 		}
 		return query;
@@ -296,7 +297,7 @@ export class SQL implements Driver {
 
 	extractConditionParams(query: string): QueryParams {
 		const result = <QueryParams>{
-			query: commonHelper.singleLine(query.toLowerCase()),
+			query: singleLine(query.toLowerCase()),
 			params: []
 		};
 		if (result.query.indexOf("where") < 0) {
@@ -395,7 +396,7 @@ export class SQL implements Driver {
 			suggestions.push({
 				label: complex.name,
 				// @ts-ignore
-				kind: monaco.languages.CompletionItemKind[commonHelper.complex[complex.type]],
+				kind: monaco.languages.CompletionItemKind[complex[complex.type]],
 				insertText: complex.name
 			});
 		});
