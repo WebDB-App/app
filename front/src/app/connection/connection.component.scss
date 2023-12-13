@@ -73,11 +73,9 @@
 			justify-content: center;
 
 			img {
-				width: 120px;
-				height: 40px;
-				border-radius: 4px;
-				padding: 2px 2px;
-				background: rgb(134 134 134);
+				max-width: 120px;
+				height: 50px;
+				padding: 2px 4px;
 			}
 		}
 	}

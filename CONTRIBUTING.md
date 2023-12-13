@@ -33,4 +33,4 @@ If you found good datasets for testing, don't hesitate to propose them also
 
 ### Commit strategy
 - Please make a merge request for contribution between your branch and main
-- Git log is used to generate changelog so please use gitmoji and explicit commit message
+- Git log is used to generate changelog so please use exhaustive and simple commit message (LLM are your friend)
