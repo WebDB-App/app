@@ -7,14 +7,14 @@
 ```
 git clone git@gitlab.com:web-db/app.git && cd app
 
-cd back && npm i && cd ....
-cd front && pnpm i && cd ....
+cd back && npm i && cd ..
+cd front && pnpm i && cd ..
 ```
 
 ##### Run App
 ```
-cd back && npm run dev:back && cd ..
-cd front && npm run dev:front && cd ..
+cd back && npm run dev:back & && cd ..
+cd front && npm run dev:front & && cd ..
 ```
 
 ##### Databases Server

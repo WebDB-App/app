@@ -1,0 +1,12 @@
+[submodule "static/postgresDBSamples"]
+	path = static/postgresDBSamples
+	url = https://github.com/morenoh149/postgresDBSamples.git
+[submodule "static/mongodb-sample-dataset"]
+	path = static/mongodb-sample-dataset
+	url = https://github.com/neelabalan/mongodb-sample-dataset.git
+[submodule "static/mysql-samples"]
+	path = static/mysql-samples
+	url = https://github.com/enzinier/mysql-samples.git
+[submodule "static/employee-sample-database"]
+	path = static/employee-sample-database
+	url = https://github.com/bytebase/employee-sample-database
