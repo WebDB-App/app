@@ -63,4 +63,4 @@
 
 ##### Other
 - sql function doc (generate from web scrap)
-
+- virtual columns

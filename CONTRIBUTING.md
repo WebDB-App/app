@@ -19,7 +19,7 @@ cd front && npm run dev:front && cd ..
 
 ##### Databases Server
 ```
-cd composes && docker compose up -d
+cd static && docker compose up -d
 ```
 
 - Open http://localhost:4200
