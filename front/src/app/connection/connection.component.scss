@@ -70,21 +70,14 @@
 
 		.logo {
 			display: flex;
-			align-items: center;
-			justify-content: space-around;
-			font-size: 16px;
+			justify-content: center;
 
 			img {
+				width: 120px;
+				height: 40px;
 				border-radius: 4px;
-				padding: 2px 4px;
-				width: 100px;
-				height: 36px;
-				background: rgb(240, 240, 240);
-				vertical-align: middle;
-			}
-
-			span {
-				vertical-align: bottom;
+				padding: 2px 2px;
+				background: rgb(134 134 134);
 			}
 		}
 	}
