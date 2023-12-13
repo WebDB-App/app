@@ -22,10 +22,11 @@ async function run(config) {
 	await test('[column] Created are present in structure', () => {
 		const db = getDatabase(structure.data.dbs, config.database);
 		const table = db.tables.find(table => table.name === config.table);
+		const cols = table.columns.filter(col => !col.name.startsWith('_id'));
 
-		assert.ok(table.columns[1].name === columns[0].name);
-		assert.ok(table.columns[2].name === columns[1].name);
-		assert.ok(table.columns[3].name === columns[2].name);
+		assert.ok(cols[1].name === columns[0].name);
+		assert.ok(cols[2].name === columns[1].name);
+		assert.ok(cols[3].name === columns[2].name);
 	});
 }
 

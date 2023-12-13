@@ -53,7 +53,8 @@ export default class MongoDB extends Driver {
 	async load(files, database) {
 		const folder = files.find(file => file.originalname.endsWith(".metadata.json"));
 		if (folder) {
-			return bash.runBash(`mongorestore --uri="${this.makeUri()}" --db="${database}" ${files[0].destination}`);
+			bash.runBash(`mongorestore --uri="${this.makeUri()}" --db="${database}" ${files[0].destination}`);
+			return {ok: true};
 		}
 
 		for (const file of files) {
@@ -65,7 +66,6 @@ export default class MongoDB extends Driver {
 				bash.runBash(`mongorestore --uri="${this.makeUri()}" --nsFrom="*" --nsTo="${database}.*" --gzip --archive="${file.path}"`);
 			}
 		}
-
 		return {ok: true};
 	}
 
