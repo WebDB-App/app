@@ -6,7 +6,7 @@ import {mkdirSync} from "fs";
 const storage = multer.diskStorage({
 	destination: (req, file, cb) => {
 		const path = `/tmp/${req.startTime}/`;
-		mkdirSync(path, { recursive: true });
+		mkdirSync(path, {recursive: true});
 		return cb(null, path);
 	},
 	filename: function (req, file, callback) {

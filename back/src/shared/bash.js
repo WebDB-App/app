@@ -1,5 +1,5 @@
 import {execSync} from "child_process";
-import {writeFileSync, appendFileSync} from "fs";
+import {appendFileSync, writeFileSync} from "fs";
 import {randomUUID} from "crypto";
 import {join} from "path";
 import {URL} from "url";

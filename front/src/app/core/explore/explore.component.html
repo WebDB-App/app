@@ -7,7 +7,8 @@
 				</mat-label>
 				<mat-select (selectionChange)="changePage($event.value); refreshData()" [value]="params.page">
 					<mat-option *ngFor="let item of [].constructor(Math.floor(querySize / pageSize) + 1); let i = index"
-								[value]="i">{{i}}</mat-option>
+								[value]="i">{{ i }}
+					</mat-option>
 				</mat-select>
 			</mat-form-field>
 			<mat-paginator
@@ -28,13 +29,13 @@
 					(removed)="removeChips(chips)"
 					color="primary"
 					selected>
-					{{chips}}
+					{{ chips }}
 					<button matChipRemove>
 						<mat-icon>cancel</mat-icon>
 					</button>
 				</mat-chip>
 				<ng-container *ngIf="i < (params.chips.split(';').length - 2)">
-					{{configuration.getByName("operand")?.value}}
+					{{ configuration.getByName("operand")?.value }}
 				</ng-container>
 			</ng-container>
 		</ng-container>
@@ -50,7 +51,7 @@
 					<mat-option
 						*ngIf="column !== actionColum"
 						[value]="column">
-						{{column}}
+						{{ column }}
 					</mat-option>
 				</ng-container>
 			</mat-select>
@@ -70,7 +71,7 @@
 			matTooltip="Reload data periodically"
 			matTooltipPosition="left">
 			<span class="material-symbols-outlined notranslate">
-				{{autoUp ? 'repeat_one_on' : 'repeat_one'}}
+				{{ autoUp ? 'repeat_one_on' : 'repeat_one' }}
 			</span>
 		</button>
 	</div>
@@ -91,7 +92,7 @@
 
 				<ng-container *ngIf="column !== actionColum">
 					<mat-form-field appearance="legacy">
-						<mat-label>{{column}}</mat-label>
+						<mat-label>{{ column }}</mat-label>
 						<input (matChipInputTokenEnd)="addChips(column, $event)"
 							   [(ngModel)]="filter[column]"
 							   [matAutocomplete]="autoGroup"
@@ -103,7 +104,7 @@
 								*ngFor="let comp of selectedServer!.driver.language.comparators"
 								[matTooltip]="comp.definition"
 								matTooltipPosition="right">
-								{{comp.symbol}}
+								{{ comp.symbol }}
 							</mat-option>
 						</mat-autocomplete>
 					</mat-form-field>
@@ -127,7 +128,7 @@
 					<span *ngIf="selection.selected.length > 0"
 						  style="font-size: 12px">
 						<br>
-						{{selection.selected.length}} Selected
+						{{ selection.selected.length }} Selected
 					</span>
 				</ng-container>
 

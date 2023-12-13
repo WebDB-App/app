@@ -102,7 +102,7 @@
 									<span
 										[matTooltip]="type.description ? type.description : ''"
 										matTooltipPosition="left">
-										{{type.id}}
+										{{ type.id }}
 									</span>
 								</mat-option>
 							</mat-optgroup>
@@ -131,8 +131,8 @@
 							Required
 						</mat-button-toggle>
 						<mat-button-toggle
-								(click)="column.get('nullable')!.patchValue(true); column.get('defaut')!.patchValue(null)"
-								[checked]="column.get('defaut')?.value === null">
+							(click)="column.get('nullable')!.patchValue(true); column.get('defaut')!.patchValue(null)"
+							[checked]="column.get('defaut')?.value === null">
 							On default:<br>
 							<span class="special">null</span>
 						</mat-button-toggle>
@@ -156,7 +156,7 @@
 								class="hide">
 								<mat-option (click)="column.get('defaut')?.patchValue(fct)"
 											*ngFor="let fct of selectedServer!.driver.language.fctAsDefault">
-									{{fct}}
+									{{ fct }}
 								</mat-option>
 							</mat-select>
 							<span class="material-symbols-outlined notranslate">
@@ -165,7 +165,9 @@
 						</mat-button-toggle>
 					</mat-button-toggle-group>
 
-					<mat-form-field [hidden]="column.get('nullable')?.value === false || column.get('defaut')?.value === null" style="margin-bottom: -1.25em">
+					<mat-form-field
+						[hidden]="column.get('nullable')?.value === false || column.get('defaut')?.value === null"
+						style="margin-bottom: -1.25em">
 						<textarea
 							cdkTextareaAutosize
 							formControlName="defaut"
@@ -182,7 +184,7 @@
 							<mat-option
 								*ngFor="let ext of extraAttributes"
 								[value]="ext">
-								{{ext}}
+								{{ ext }}
 							</mat-option>
 						</mat-select>
 					</mat-form-field>

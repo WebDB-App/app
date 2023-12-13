@@ -2,7 +2,7 @@
 	 cdkDragRootElement=".cdk-overlay-pane"
 	 mat-dialog-title>
 	<div>
-		<h3>Add index on `{{table.name}}`</h3>
+		<h3>Add index on `{{ table.name }}`</h3>
 	</div>
 
 	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
@@ -21,7 +21,7 @@
 					[checked]="i === 0"
 					[hidden]="!isSQL() && symbol.key === 'PRIMARY'"
 					[value]="symbol.key">
-					{{symbol.key}} {{symbol.value}}
+					{{ symbol.key }} {{ symbol.value }}
 				</mat-button-toggle>
 			</mat-button-toggle-group>
 		</div>
@@ -29,7 +29,7 @@
 			<mat-label>Column</mat-label>
 			<mat-select #columns multiple>
 				<mat-option *ngFor="let column of table.columns" [value]="column.name">
-					{{column.name}}
+					{{ column.name }}
 				</mat-option>
 			</mat-select>
 		</mat-form-field>

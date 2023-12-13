@@ -14,7 +14,7 @@ async function run(config) {
 	}
 
 	const loaded = await axios.post(`${config.api}server/load`, form_data, {
-		headers: { "Content-Type": "multipart/form-data" }
+		headers: {"Content-Type": "multipart/form-data"}
 	});
 	const result_loaded = loaded.status === 200 && loaded.data.ok;
 	await test('[file] Load sakila dataset', async () => {

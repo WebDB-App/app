@@ -1,10 +1,9 @@
 import wrapperModel from "../../shared/wrapper.js";
 import {commonPass, commonUser} from "../../shared/guess.js";
 import http from "../../shared/http.js";
-import fs from "fs";
+import fs, {unlinkSync} from "fs";
 import Tunnel from "../tunnel/controller.js";
 import {join} from "path";
-import {unlinkSync} from "fs";
 import version from "../../shared/version.js";
 import {URL} from "url";
 
@@ -82,7 +81,7 @@ class Controller {
 
 		const result = await driver.load(req.files, req.get("Database"));
 
-		fs.rmSync(req.files[0].destination, { recursive: true, force: true });
+		fs.rmSync(req.files[0].destination, {recursive: true, force: true});
 		res.send(result);
 	}
 

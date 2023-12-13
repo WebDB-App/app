@@ -2,7 +2,7 @@
 	 cdkDragRootElement=".cdk-overlay-pane"
 	 mat-dialog-title>
 	<h4>
-		Stats of {{server.name}}
+		Stats of {{ server.name }}
 	</h4>
 
 	<mat-button-toggle-group
@@ -25,12 +25,12 @@
 		<button (click)="pause = !pause"
 				mat-icon-button>
 			<span class="material-symbols-outlined notranslate">
-				{{pause ? 'play_circle' : 'pause_circle'}}
+				{{ pause ? 'play_circle' : 'pause_circle' }}
 			</span>
 		</button>
 		<button
-			*ngIf="chart.chart.getZoomLevel() > 1"
 			(click)="chart.chart.resetZoom()"
+			*ngIf="chart.chart.getZoomLevel() > 1"
 			mat-icon-button>
 			<span class="material-symbols-outlined">
 				zoom_out

@@ -61,7 +61,7 @@
 
 				<div class="infos">
 					<h2 style="color: #2196f3; text-align: center; overflow: auto; max-height: 120px; width: 260px;">
-						{{JSON.stringify(random.column.type).replaceAll('"', " ")}}
+						{{ JSON.stringify(random.column.type).replaceAll('"', " ") }}
 						<mat-divider></mat-divider>
 					</h2>
 
@@ -145,7 +145,7 @@
 			</div>
 
 			<ng-container>
-				<mat-error>{{random.error}}</mat-error>
+				<mat-error>{{ random.error }}</mat-error>
 			</ng-container>
 		</mat-tab>
 	</mat-tab-group>
@@ -231,7 +231,7 @@
 				</ng-container>
 				<ng-container *ngIf="column !== actionColum">
 					<th *matHeaderCellDef mat-header-cell>
-						{{column}}
+						{{ column }}
 					</th>
 					<td *matCellDef="let row"
 						[class.selected]="selection.isSelected(row)"

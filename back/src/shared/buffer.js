@@ -1,4 +1,4 @@
-export function loadData (rows) {
+export function loadData(rows) {
 	return rows.map(row => {
 		for (const [key, col] of Object.entries(row)) {
 			if (Buffer.isBuffer(col)) {

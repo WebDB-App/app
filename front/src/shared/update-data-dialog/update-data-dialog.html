@@ -13,7 +13,7 @@
 		 style="display: flex; justify-content: space-between; padding: 12px 12px 0px 12px;">
 		<div *ngFor="let column of updateSuggestions | keyvalue">
 			<mat-form-field appearance="fill">
-				<mat-label>{{column.key}}</mat-label>
+				<mat-label>{{ column.key }}</mat-label>
 				<input
 					#filter
 					[matAutocomplete]="auto"
@@ -24,7 +24,7 @@
 							(click)="setValue(column.key, suggestion)"
 							*ngIf="suggestion.toString().indexOf(filter.value) >= 0"
 							[value]="suggestion">
-							{{suggestion}}
+							{{ suggestion }}
 						</mat-option>
 					</ng-container>
 				</mat-autocomplete>
@@ -41,8 +41,8 @@
 		<div [innerHtml]="strError()"></div>
 	</mat-error>
 	<button
-		*ngIf="strError() === null"
 		(click)="update()"
+		*ngIf="strError() === null"
 		[disabled]="!isTouched()"
 		cdkFocusInitial
 		color="primary"

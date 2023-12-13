@@ -7,18 +7,19 @@
 
 		<ng-container matColumnDef="pid">
 			<th *matHeaderCellDef mat-header-cell style="min-width: 50px"> PID</th>
-			<td *matCellDef="let element" mat-cell> {{element.pid}} </td>
+			<td *matCellDef="let element" mat-cell> {{ element.pid }}</td>
 		</ng-container>
 
 		<ng-container matColumnDef="db">
 			<th *matHeaderCellDef mat-header-cell style="min-width: 50px"> DB</th>
-			<td *matCellDef="let element" mat-cell> {{element.db}} </td>
+			<td *matCellDef="let element" mat-cell> {{ element.db }}</td>
 		</ng-container>
 
 		<ng-container matColumnDef="duration">
 			<th *matHeaderCellDef mat-header-cell style="min-width: 60px"> Duration</th>
 			<td *matCellDef="let element"
-				mat-cell> {{(element.duration / 1000) - (element.duration / 1000) % 1 | number}} </td>
+				mat-cell> {{ (element.duration / 1000) - (element.duration / 1000) % 1 | number }}
+			</td>
 		</ng-container>
 
 		<ng-container matColumnDef="query">
@@ -40,7 +41,7 @@
 					</button>
 				</mat-form-field>
 			</th>
-			<td *matCellDef="let element" mat-cell> {{element.query}} </td>
+			<td *matCellDef="let element" mat-cell> {{ element.query }}</td>
 		</ng-container>
 
 		<ng-container matColumnDef="kill">

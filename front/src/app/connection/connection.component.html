@@ -56,7 +56,7 @@
 
 			<mat-card *ngIf="getServerByStatus(status).length < 1">
 				<h3 style="height: 100%; display: flex; justify-content: center; align-items: center;">
-					No {{status}} server
+					No {{ status }} server
 				</h3>
 			</mat-card>
 
@@ -74,19 +74,19 @@
 							<span class="material-symbols-outlined notranslate">
 								numbers
 							</span>
-							{{server.port}}
+							{{ server.port }}
 						</h3>
 						<h3 *ngIf="server.user">
 							<span class="material-symbols-outlined notranslate">
 								person
 							</span>
-							{{server.user}}
+							{{ server.user }}
 						</h3>
 						<h3>
 							<span class="material-symbols-outlined notranslate">
 								signpost
 							</span>
-							{{server.host}}
+							{{ server.host }}
 						</h3>
 						<h3 *ngIf="server.ssh && server.ssh.host">
 							<span
@@ -108,11 +108,11 @@
 								[hidden]="database.hide"
 								[style.opacity]="database.system ? '0.5' : 1"
 								routerLink="/{{server.name}}/{{database.name}}">
-								{{database.name}}
+								{{ database.name }}
 								<span matTooltip="Tables"
 									  matTooltipPosition="right"
 									  style="position: absolute; right: 20px">
-									{{database.tables?.length}}
+									{{ database.tables?.length }}
 								</span>
 							</mat-list-option>
 							<mat-list-option>
@@ -194,7 +194,8 @@
 										   type="{{!showPassword ? 'password' : 'text'}}">
 									<mat-icon (click)="showPassword = !showPassword" matSuffix
 											  style="cursor: pointer;">
-										{{!showPassword ? 'visibility' : 'visibility_off'}}</mat-icon>
+										{{ !showPassword ? 'visibility' : 'visibility_off' }}
+									</mat-icon>
 								</mat-form-field>
 							</div>
 							<div>
@@ -232,7 +233,7 @@
 				<span class="material-symbols-outlined notranslate">
 					edit
 				</span>
-				Edit {{editServer.name}}
+				Edit {{ editServer.name }}
 			</ng-template>
 			<mat-card>
 				<mat-card-content>

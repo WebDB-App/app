@@ -93,12 +93,12 @@ export class UpdateDataDialog {
 		this.str = JSON.stringify(row, null, "\t");
 	}
 
-    strError() {
+	strError() {
 		try {
 			JSON.parse(this.str);
 		} catch (e) {
 			return e;
 		}
 		return null;
-    }
+	}
 }

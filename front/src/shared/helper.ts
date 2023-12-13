@@ -55,17 +55,17 @@ export const parentheses = /\((?:[^)(]|\((?:[^)(]|\((?:[^)(]|\([^)(]*\))*\))*\))
 
 export const complex = {
 	"FUNCTION": "Method",
-		"PROCEDURE": "Method",
-		"DOMAIN": "Module",
-		"CUSTOM_TYPE": "Property",
-		"SEQUENCE": "Constant",
-		"ENUM": "Enum",
-		"TRIGGER": "Event",
-		"CHECK": "Interface",
-		"VALIDATOR": "VALIDATOR"
+	"PROCEDURE": "Method",
+	"DOMAIN": "Module",
+	"CUSTOM_TYPE": "Property",
+	"SEQUENCE": "Constant",
+	"ENUM": "Enum",
+	"TRIGGER": "Event",
+	"CHECK": "Interface",
+	"VALIDATOR": "VALIDATOR"
 };
 
-export function mongo_injectAggregate(query: string, toInject: any)  {
+export function mongo_injectAggregate(query: string, toInject: any) {
 	const reg = /\.aggregate\((?:[^)(]|\((?:[^)(]|\((?:[^)(]|\([^)(]*\))*\))*\))*\)/g;
 	let agg = query.match(reg)![0];
 	agg = agg.slice(".aggregate(".length, -1).trim();
@@ -86,7 +86,7 @@ export function sql_isSelect(query: string) {
 	return query.indexOf("select ") >= 0;
 }
 
-export function singleLine (code: string, keepLength = false) {
+export function singleLine(code: string, keepLength = false) {
 	code = code.replaceAll(/(\r|\n|\t)/gm, " ");
 	if (!keepLength) {
 		code = code.replaceAll(/  +/gm, " ");

@@ -21,7 +21,7 @@
 			<mat-label>Column to Update</mat-label>
 			<mat-select (selectionChange)="show($event.value)" multiple>
 				<mat-option *ngFor="let column of columns" [value]="column">
-					{{column}}
+					{{ column }}
 				</mat-option>
 			</mat-select>
 		</mat-form-field>
@@ -41,6 +41,6 @@
 		cdkFocusInitial
 		color="primary"
 		mat-stroked-button>
-		Update {{data.length}} Rows
+		Update {{ data.length }} Rows
 	</button>
 </mat-dialog-actions>

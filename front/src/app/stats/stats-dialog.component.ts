@@ -142,7 +142,7 @@ export class StatsDialogComponent implements OnDestroy {
 			return;
 		}
 
-		newVals.push({ Variable_name: `Ping ${this.server.wrapper} (ms)`, Value: ping });
+		newVals.push({Variable_name: `Ping ${this.server.wrapper} (ms)`, Value: ping});
 
 		newVals.map((newVal: { Variable_name: any; Value: any; }) => {
 			if (!this.times[newVal.Variable_name]) {
@@ -191,7 +191,7 @@ export class StatsDialogComponent implements OnDestroy {
 	}
 
 	switchAll() {
-		this.chart.chart!.data.datasets.forEach(function(ds) {
+		this.chart.chart!.data.datasets.forEach(function (ds) {
 			ds.hidden = !ds.hidden;
 		});
 		this.chart.chart!.update();

@@ -6,7 +6,7 @@
 
 		<div>
 			<span style="vertical-align: middle;">
-				Database: {{selectedDatabase!.name}}
+				Database: {{ selectedDatabase!.name }}
 			</span>
 		</div>
 
@@ -34,8 +34,8 @@
 			<mat-divider></mat-divider>
 
 			<div *ngIf="stats" fxLayout="row" fxLayoutAlign="space-between center">
-				<span>Total Index Size : {{+stats.index_length | round}} Mb</span>
-				<span>Total Data Size : {{+stats.data_length | round}} Mb</span>
+				<span>Total Index Size : {{ +stats.index_length | round }} Mb</span>
+				<span>Total Data Size : {{ +stats.data_length | round }} Mb</span>
 			</div>
 
 			<ng-container *ngIf="selectedServer?.wrapper === 'MySQL'">
@@ -46,7 +46,8 @@
 						<mat-label>Collation</mat-label>
 						<mat-select #collation [value]="selectedDatabase!.collation" disableOptionCentering>
 							<mat-option *ngFor="let collation of collations"
-										[value]="collation">{{collation}}</mat-option>
+										[value]="collation">{{ collation }}
+							</mat-option>
 						</mat-select>
 					</mat-form-field>
 

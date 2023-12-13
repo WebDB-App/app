@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Database } from "../classes/database";
-import {singleLine} from "./helper";
+import { singleLine } from "./helper";
 
 const maxHistory = 100;
 

@@ -24,6 +24,7 @@ export class ColumnComponent implements OnInit {
 	selectedTable?: Table;
 	typeGroups!: TypeGroup[];
 	protected readonly isSQL = isSQL;
+	protected readonly isNested = isNested;
 
 	constructor(
 		public snackBar: MatSnackBar
@@ -61,6 +62,4 @@ export class ColumnComponent implements OnInit {
 	copyColumn(column: Column) {
 		this.formColumn.push(Column.getFormGroup(this.selectedTable!, column));
 	}
-
-	protected readonly isNested = isNested;
 }

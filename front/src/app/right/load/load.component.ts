@@ -37,6 +37,7 @@ export class LoadComponent {
 	acceptedExt!: string[];
 
 	@HostBinding('class.blur') blur = false;
+	protected readonly isSQL = isSQL;
 
 	constructor(
 		private request: RequestService,
@@ -121,6 +122,4 @@ export class LoadComponent {
 		arr.splice(fromIndex, 1);
 		arr.splice(toIndex, 0, element);
 	}
-
-	protected readonly isSQL = isSQL;
 }

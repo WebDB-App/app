@@ -25,7 +25,7 @@
 				matColumnDef="{{column}}"
 			>
 				<th *matHeaderCellDef mat-header-cell>
-					{{column === actionColum ? '' : column.replaceAll('_', ' ') | titlecase}}
+					{{ column === actionColum ? '' : column.replaceAll('_', ' ') | titlecase }}
 				</th>
 				<td *matCellDef="let row; let i = index" mat-cell>
 					<ng-container *ngIf="column === actionColum">
@@ -33,18 +33,18 @@
 						(click)="expanded.indexOf(row.name) >= 0 ? expanded.splice(expanded.indexOf(row.name)) : expanded.push(row.name)"
 						class="material-symbols-outlined notranslate"
 						style="cursor: pointer;">
-						{{expanded.indexOf(row.name) >= 0 ? 'expand_less' : 'expand_more'}}
+						{{ expanded.indexOf(row.name) >= 0 ? 'expand_less' : 'expand_more' }}
 					</span>
 					</ng-container>
 
 					<ng-container *ngIf="column !== actionColum">
 						<ng-container *ngIf="column.startsWith('table_')">
 							<a [routerLink]="['/' + selectedServer!.name, selectedDatabase!.name, row[column]]">
-								{{row[column]}}
+								{{ row[column] }}
 							</a>
 						</ng-container>
 						<ng-container *ngIf="!column.startsWith('table_')">
-							{{row[column]}}
+							{{ row[column] }}
 						</ng-container>
 					</ng-container>
 				</td>
@@ -53,7 +53,7 @@
 			<ng-container matColumnDef="details">
 				<td *matCellDef="let row" [attr.colspan]="displayedColumns.length" mat-cell>
 					<div style="display: flex; justify-content: space-between">
-						<h3 style="margin: 0px; align-self: center;">{{row.name}}</h3>
+						<h3 style="margin: 0px; align-self: center;">{{ row.name }}</h3>
 
 						<button
 							(click)="delete(row)"
@@ -67,8 +67,8 @@
 					</div>
 
 					<div style="display: flex; justify-content: space-evenly">
-						<span>on update : {{row.update_rule}}</span>
-						<span>on delete : {{row.delete_rule}}</span>
+						<span>on update : {{ row.update_rule }}</span>
+						<span>on delete : {{ row.delete_rule }}</span>
 					</div>
 				</td>
 			</ng-container>
@@ -99,7 +99,7 @@
 						<mat-select #sourceTable
 									[compareWith]="tableComparison">
 							<mat-option *ngFor="let table of selectedDatabase?.tables" [value]="table">
-								{{table.name}}
+								{{ table.name }}
 							</mat-option>
 						</mat-select>
 					</mat-form-field>
@@ -110,7 +110,7 @@
 						<mat-select #sourceColumn>
 							<ng-container *ngIf="sourceTable.value">
 								<mat-option *ngFor="let column of sourceTable.value.columns" [value]="column.name">
-									{{column.name}}
+									{{ column.name }}
 								</mat-option>
 							</ng-container>
 						</mat-select>
@@ -138,7 +138,7 @@
 									[compareWith]="tableComparison">
 							<mat-option *ngFor="let table of selectedDatabase?.tables"
 										[value]="table">
-								{{table.name}}
+								{{ table.name }}
 							</mat-option>
 						</mat-select>
 					</mat-form-field>
@@ -150,7 +150,7 @@
 							<ng-container *ngIf="destTable.value">
 								<mat-option *ngFor="let column of destTable.value.columns"
 											[value]="column.name">
-									{{column.name}}
+									{{ column.name }}
 								</mat-option>
 							</ng-container>
 						</mat-select>
@@ -165,7 +165,7 @@
 						<mat-label>Delete</mat-label>
 						<mat-select #delete_row [value]="constraints![0]">
 							<mat-option *ngFor="let constraint of constraints" [value]="constraint">
-								{{constraint}}
+								{{ constraint }}
 							</mat-option>
 						</mat-select>
 					</mat-form-field>
@@ -175,7 +175,7 @@
 						<mat-label>Update</mat-label>
 						<mat-select #update_rule [value]="constraints![0]">
 							<mat-option *ngFor="let constraint of constraints" [value]="constraint">
-								{{constraint}}
+								{{ constraint }}
 							</mat-option>
 						</mat-select>
 					</mat-form-field>

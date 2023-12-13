@@ -57,7 +57,6 @@ async function run(config) {
 	before.nullable = after.nullable;
 
 
-
 	//--------------------------------------------
 
 

@@ -15,8 +15,8 @@
 
 				<div *ngIf="selectedServer && selectedDatabase" id="server">
 					<div>
-						<span>{{selectedServer.host}}</span>:<span>{{selectedServer.port}}</span>
-						<span style="color: #1de9b6;">{{selectedDatabase.name}}</span>
+						<span>{{ selectedServer.host }}</span>:<span>{{ selectedServer.port }}</span>
+						<span style="color: #1de9b6;">{{ selectedDatabase.name }}</span>
 					</div>
 				</div>
 			</div>
@@ -34,7 +34,7 @@
 					   [routerLink]="[{outlets: {right: [panel.link]}}]"
 					   mat-tab-link>
 						<span class="material-symbols-outlined notranslate">
-							{{panel.icon}}
+							{{ panel.icon }}
 						</span>
 					</a>
 				</nav>
@@ -52,7 +52,7 @@
 						color="accent"
 						mode="indeterminate"
 						style="margin: 0px auto;"></mat-spinner>
-					<h2 style="color: #1de9b6">Loading {{activatedRoute.snapshot.paramMap.get('database')}}</h2>
+					<h2 style="color: #1de9b6">Loading {{ activatedRoute.snapshot.paramMap.get('database') }}</h2>
 				</ng-container>
 
 				<app-unreachable

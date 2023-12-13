@@ -47,7 +47,7 @@
 								mat-icon-button
 								style="zoom: 0.8">
 								<span class="material-symbols-outlined notranslate">
-									{{tooltips[table.name] ? 'expand_less' : 'expand_more'}}
+									{{ tooltips[table.name] ? 'expand_less' : 'expand_more' }}
 								</span>
 							</button>
 						</div>
@@ -55,7 +55,7 @@
 							[class.mat-list-single-selected-option]="selectedTable?.name === table.name"
 							[style.font-style]="table.view ? 'italic' : 'normal' "
 							[value]="table.name">
-							{{table.name}}
+							{{ table.name }}
 						</mat-list-option>
 					</div>
 					<div *ngIf="tooltips[table.name]"
@@ -92,7 +92,7 @@
 			   [routerLink]="[tab]"
 			   mat-tab-link
 			   style="width: 100%">
-				{{tab | titlecase}}
+				{{ tab | titlecase }}
 			</a>
 		</nav>
 		<mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>

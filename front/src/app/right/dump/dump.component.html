@@ -6,7 +6,7 @@
 				<ng-container *ngFor="let fileT of selectedServer!.driver.connection.fileTypes; let i = index">
 					<mat-button-toggle
 						[value]="fileT">
-						{{fileT.name}}
+						{{ fileT.name }}
 					</mat-button-toggle>
 				</ng-container>
 			</mat-button-toggle-group>
@@ -76,21 +76,21 @@
 						  [checked]="checklistSelection.isSelected(node)"
 						  class="checklist-leaf-node"
 						  color="accent">
-				{{node.name}}
+				{{ node.name }}
 			</mat-checkbox>
 		</mat-tree-node>
 		<mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
 			<div class="mat-tree-node">
 				<button mat-icon-button matTreeNodeToggle>
 					<mat-icon class="mat-icon-rtl-mirror">
-						{{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+						{{ treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
 					</mat-icon>
 				</button>
 				<mat-checkbox (change)="itemSelectionToggle(node)"
 							  [checked]="descendantsAllSelected(node)"
 							  [indeterminate]="descendantsPartiallySelected(node)"
 							  color="accent">
-					{{node.name}}
+					{{ node.name }}
 				</mat-checkbox>
 			</div>
 			<div [class.example-tree-invisible]="!treeControl.isExpanded(node)"

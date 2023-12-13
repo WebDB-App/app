@@ -48,7 +48,7 @@
 					<mat-option
 						*ngFor="let table of selectedDatabase?.tables"
 						[value]="table.name">
-						{{table.name}}
+						{{ table.name }}
 					</mat-option>
 				</mat-select>
 			</mat-form-field>
@@ -87,7 +87,7 @@
 				<div class="slider">
 					<div>
 						<span>Rows count</span>
-						<span>{{preSent.count}}</span>
+						<span>{{ preSent.count }}</span>
 					</div>
 					<mat-slider
 						(change)="preSentChange()"
@@ -103,7 +103,7 @@
 				<div class="slider">
 					<div>
 						<span>Deep level</span>
-						<span>{{preSent.deep}}</span>
+						<span>{{ preSent.deep }}</span>
 					</div>
 					<mat-slider
 						(change)="preSentChange()"
@@ -117,8 +117,8 @@
 				</div>
 
 				<button
-					*ngIf="chat.length >= 1"
 					(click)="chat = []; saveChat()"
+					*ngIf="chat.length >= 1"
 					mat-stroked-button>
 					Clear chat
 				</button>
@@ -149,7 +149,7 @@
 						<span matTooltip="Higher values will make the output more random
 					Lower values will make it more focused and deterministic"
 							  matTooltipPosition="left">Temperature</span>
-						<span>{{config.temperature}}</span>
+						<span>{{ config.temperature }}</span>
 					</div>
 					<mat-slider
 						(change)="configChange()"
@@ -180,7 +180,7 @@
 				<mat-expansion-panel>
 					<mat-expansion-panel-header>
 						<mat-panel-description>
-							Customise prompt – {{sample.split(' ').length}} tokens
+							Customise prompt – {{ sample.split(' ').length }} tokens
 						</mat-panel-description>
 					</mat-expansion-panel-header>
 					<ngx-monaco-editor
@@ -212,7 +212,7 @@
 					*ngFor="let example of examples"
 					[disabled]="!config.openAI"
 					mat-stroked-button>
-				{{example}}
+				{{ example }}
 			</button>
 		</div>
 	</div>
@@ -265,8 +265,8 @@
 							<button
 								(click)="sendMessage('The response ```' + ch.txt + '``` was wrong. Please retry');"
 								color="accent"
-								matTooltip="Wrong reponse"
-								mat-icon-button>
+								mat-icon-button
+								matTooltip="Wrong reponse">
 								<span class="material-symbols-outlined notranslate">
 									chat_error
 								</span>
@@ -274,8 +274,8 @@
 							<button
 								(click)="sendMessage('Please summarize the response ```' + ch.txt + '```');"
 								color="accent"
-								matTooltip="Summarize"
-								mat-icon-button>
+								mat-icon-button
+								matTooltip="Summarize">
 								<span class="material-symbols-outlined notranslate">
 									summarize
 								</span>
@@ -283,8 +283,8 @@
 							<button
 								(click)="sendMessage('Can you please give me more details about the response: ```' + ch.txt + '```');"
 								color="accent"
-								matTooltip="More details"
-								mat-icon-button>
+								mat-icon-button
+								matTooltip="More details">
 								<span class="material-symbols-outlined notranslate">
 									more
 								</span>
@@ -330,7 +330,7 @@
 		<mat-form-field appearance="fill"
 						class="sendMessage"
 						color="accent">
-			<mat-label>Ask anything about `{{selectedDatabase?.name}}`</mat-label>
+			<mat-label>Ask anything about `{{ selectedDatabase?.name }}`</mat-label>
 			<textarea
 				#message
 				(keydown.enter)="sendMessage(message.value); message.value = ''"

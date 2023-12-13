@@ -85,7 +85,8 @@
 						   type="{{!showPassword ? 'password' : 'text'}}">
 					<mat-icon (click)="showPassword = !showPassword" matSuffix
 							  style="cursor: pointer; position: absolute; right: 0px; top: -22px">
-						{{!showPassword ? 'visibility' : 'visibility_off'}}</mat-icon>
+						{{ !showPassword ? 'visibility' : 'visibility_off' }}
+					</mat-icon>
 				</mat-form-field>
 
 				<div style="display: flex;">
@@ -133,7 +134,8 @@
 							   type="{{!showPassword ? 'password' : 'text'}}">
 						<mat-icon (click)="showPassword = !showPassword" matSuffix
 								  style="cursor: pointer; position: absolute; right: 0px; top: -22px">
-							{{!showPassword ? 'visibility' : 'visibility_off'}}</mat-icon>
+							{{ !showPassword ? 'visibility' : 'visibility_off' }}
+						</mat-icon>
 					</mat-form-field>
 				</div>
 			</div>
@@ -159,7 +161,7 @@
 						<span class="material-symbols-outlined notranslate">
 							developer_guide
 						</span>
-						{{server.wrapper}} driver references
+						{{ server.wrapper }} driver references
 					</a>
 				</div>
 

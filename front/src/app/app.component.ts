@@ -8,7 +8,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 @Component({
 	selector: 'app-root',
 	template: `
-		<router-outlet></router-outlet>`
+        <router-outlet></router-outlet>`
 })
 export class AppComponent {
 

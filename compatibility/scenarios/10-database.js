@@ -22,6 +22,7 @@ async function run(config) {
 		throw new Error();
 	}
 }
+
 /*
 import {loadConfig} from "../config.js";
 import servers from "../servers.js";

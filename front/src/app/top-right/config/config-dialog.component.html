@@ -3,7 +3,7 @@
 		<mat-tab label="Parameters">
 			<table style="padding: 20px">
 				<tr *ngFor="let config of configuration.configs">
-					<td>{{config.description}}</td>
+					<td>{{ config.description }}</td>
 					<td>
 						<mat-button-toggle-group
 							(change)="update(config.name, $event.value)"
@@ -11,7 +11,7 @@
 							<mat-button-toggle
 								*ngFor="let value of config.values"
 								[value]="value">
-								{{value}}
+								{{ value }}
 							</mat-button-toggle>
 						</mat-button-toggle-group>
 					</td>
@@ -24,7 +24,7 @@
 					<mat-card>
 						<mat-card-header>
 							<mat-card-subtitle fxLayout="row" fxLayoutAlign="space-between center">
-								<h3>{{licence?.plan}}</h3>
+								<h3>{{ licence?.plan }}</h3>
 								<div>
 									<mat-icon *ngIf="licence?.valid" color="primary">check_circle</mat-icon>
 									<mat-icon *ngIf="!licence?.valid" color="warn">cancel</mat-icon>
@@ -33,14 +33,14 @@
 						</mat-card-header>
 						<mat-card-content fxLayout="row" fxLayoutAlign="space-evenly center">
 							<ng-container *ngIf="!licence?.error">
-								<span *ngIf="licence?.email">{{licence?.email}}</span>
+								<span *ngIf="licence?.email">{{ licence?.email }}</span>
 								<span *ngIf="licence?.expire! > 0">
-									Expire: {{licence?.expire! * 1000 | date: 'mediumDate'}}
+									Expire: {{ licence?.expire! * 1000 | date: 'mediumDate' }}
 								</span>
 							</ng-container>
 
 							<mat-error *ngIf="licence?.error">
-								{{licence?.error}}
+								{{ licence?.error }}
 							</mat-error>
 						</mat-card-content>
 					</mat-card>
@@ -87,7 +87,7 @@
 				</div>
 
 				<h3 style="text-align: center; margin-bottom: 20px">
-					Version {{packageJson.version}}
+					Version {{ packageJson.version }}
 
 					<a color="accent"
 					   href="https://webdb.app/page/install"
@@ -95,9 +95,9 @@
 					   style="margin-left: 20px"
 					   target="_blank">
 						<span class="material-symbols-outlined">
-							{{upToDate ? 'check_circle' : 'release_alert'}}
+							{{ upToDate ? 'check_circle' : 'release_alert' }}
 						</span>
-						{{upToDate ? 'Up to date' : 'New version available'}}
+						{{ upToDate ? 'Up to date' : 'New version available' }}
 					</a>
 				</h3>
 
@@ -142,7 +142,7 @@
 				<mat-divider></mat-divider>
 
 				<div class="mat-dialog-actions">
-					Copyright © {{currentYear}} WebDB
+					Copyright © {{ currentYear }} WebDB
 				</div>
 			</div>
 		</mat-tab>

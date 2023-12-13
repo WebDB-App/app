@@ -8,7 +8,7 @@
 			style="padding: 20px">
 
 			<span>
-				{{selectedTable.view ? "View" : "Table"}}: {{selectedTable.name}}
+				{{ selectedTable.view ? "View" : "Table" }}: {{ selectedTable.name }}
 			</span>
 
 			<button (click)="truncate()" *ngIf="!selectedTable.view" color="warn" mat-stroked-button>
@@ -33,23 +33,23 @@
 				<mat-expansion-panel [expanded]="(checks.length + triggers.length + validators.length) > 0">
 					<mat-expansion-panel-header>
 						<mat-panel-description>
-							{{checks.length + triggers.length + validators.length}} Complex Elements
+							{{ checks.length + triggers.length + validators.length }} Complex Elements
 						</mat-panel-description>
 					</mat-expansion-panel-header>
 
 					<h4>Checks</h4>
 					<ul *ngFor="let complex of checks">
-						<li>{{complex.name}}</li>
+						<li>{{ complex.name }}</li>
 					</ul>
 
 					<h4>Triggers</h4>
 					<ul *ngFor="let complex of triggers">
-						<li>{{complex.name}}</li>
+						<li>{{ complex.name }}</li>
 					</ul>
 
 					<h4>Validators</h4>
 					<ul *ngFor="let complex of validators">
-						<li>{{complex.name}}</li>
+						<li>{{ complex.name }}</li>
 					</ul>
 				</mat-expansion-panel>
 			</mat-accordion>
@@ -59,8 +59,8 @@
 			<ng-container *ngIf="!selectedTable.view">
 
 				<div *ngIf="stats" fxLayout="row" fxLayoutAlign="space-between center">
-					<span>Index Size : {{+stats.index_length  | round}} Mb</span>
-					<span>Data Size : {{+stats.data_length  | round}} Mb</span>
+					<span>Index Size : {{ +stats.index_length  | round }} Mb</span>
+					<span>Data Size : {{ +stats.data_length  | round }} Mb</span>
 				</div>
 
 				<mat-divider></mat-divider>
