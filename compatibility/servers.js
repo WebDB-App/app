@@ -110,6 +110,18 @@ export default {
 			env: ["COCKROACH_USER=root", "COCKROACH_PASSWORD=notSecureChangeMe"],
 			cmd: "start-single-node --insecure"
 		}
+	},
+	yugabyte: {
+		internal_port: 5433,
+		external_port: 5433,
+		columns: columns01.sql,
+		select20Relational: select20Relational.sql,
+		wrapper: "PostgreSQL",
+		docker: {
+			name: "yugabytedb/yugabyte",
+			env: ["POSTGRES_USER=root", "POSTGRES_PASSWORD=notSecureChangeMe"],
+			cmd: "bin/yugabyted start --daemon=false"
+		}
 	}
 }
 

@@ -79,8 +79,9 @@ async function run(config) {
 	await test("[column] Updated correspond to structure's one", () => {
 		const db = getDatabase(structure.data.dbs, config.database);
 		const table = db.tables.find(table => table.name === config.table);
+		const cols = table.columns.filter(col => !col.name.startsWith('_id'));
 
-		assert.ok(JSON.stringify(table.columns[0]) === JSON.stringify(after));
+		assert.ok(JSON.stringify(cols[0]) === JSON.stringify(after));
 	});
 }
 
