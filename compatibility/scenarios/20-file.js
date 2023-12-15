@@ -16,11 +16,10 @@ async function run(config) {
 	const loaded = await axios.post(`${config.api}server/load`, form_data, {
 		headers: {"Content-Type": "multipart/form-data"}
 	});
-	const result_loaded = loaded.status === 200 && loaded.data.ok;
 	await test('[file] Load sakila dataset', async () => {
-		assert.ok(result_loaded);
+		assert.equal(loaded.data, {ok: ""});
 	});
-	if (!result_loaded) {
+	if (!loaded.data.ok) {
 		throw new Error();
 	}
 

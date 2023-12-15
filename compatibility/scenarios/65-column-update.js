@@ -32,7 +32,7 @@ async function run(config) {
 		old: before,
 		columns: [after]
 	});
-	await test(`[column] Cast from ${after.type} to ${config.columns[1].type} ok`, () => {
+	await test(`[column] Cast from ${before.type} to ${after.type} ok`, () => {
 		assert.equal(updatedType.status, 200);
 		assert.ok(updatedType.data);
 	});

@@ -73,7 +73,7 @@
 			justify-content: center;
 
 			img {
-				max-width: 120px;
+				max-width: 104px;
 				height: 44px;
 				padding: 2px 4px;
 			}
@@ -114,7 +114,7 @@
 }
 
 @media (max-width: 1200px) {
-	.right-actions {
+	.right-actions, .right-divider {
 		display: none !important;
 	}
 
