@@ -41,7 +41,7 @@ export async function getScenarios() {
 }
 
 export async function getTags(docker) {
-	const tags = await (await fetch(`https://registry.hub.docker.com/v2/repositories/${docker.name}/tags?page_size=30`)).json();
+	const tags = await (await fetch(`https://registry.hub.docker.com/v2/repositories/${docker.name}/tags?page_size=150`)).json();
 	let digests = [];
 	tags.results.map(tag => {
 		if (docker.exclusions && docker.exclusions.find(exclusion => tag.name.indexOf(exclusion) >= 0)) {

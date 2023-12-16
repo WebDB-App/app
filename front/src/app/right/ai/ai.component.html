@@ -25,7 +25,7 @@
 					(keyup)="filterChanged(filter.value)"
 					autocomplete="off"
 					matInput
-					placeholder="Search message">
+					placeholder="Search in chat">
 				<button
 					(click)="filter.value=''; filterChanged(filter.value)"
 					*ngIf="filter.value"
@@ -115,13 +115,6 @@
 						step="1">
 					</mat-slider>
 				</div>
-
-				<button
-					(click)="chat = []; saveChat()"
-					*ngIf="chat.length >= 1"
-					mat-stroked-button>
-					Clear chat
-				</button>
 			</div>
 
 			<mat-divider></mat-divider>
@@ -195,13 +188,20 @@
 						Bad key format
 					</mat-error>
 				</div>
+
+				<button
+					(click)="chat = []; saveChat()"
+					*ngIf="chat.length >= 1"
+					mat-stroked-button>
+					Clear chat
+				</button>
 			</div>
 
 			<mat-accordion>
 				<mat-expansion-panel>
 					<mat-expansion-panel-header>
 						<mat-panel-title>
-							Customise prompt
+							Context prompt
 						</mat-panel-title>
 						<mat-panel-description>
 							≈ {{ Math.floor(sample.split('').length / 3.4) }} tokens

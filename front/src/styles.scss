@@ -317,9 +317,14 @@ pre {
 		position: absolute;
 		right: 5px;
 		top: 4px;
-		background-color: rgba(30, 30, 30, 0.8);
+		background-color: rgba(30, 30, 30, 0.6);
+		border: 1px solid #1de9b6;
 		flex-direction: column;
 		border-radius: 20px;
+
+		.material-symbols-outlined {
+			font-size: 20px;
+		}
 	}
 }
 
@@ -329,6 +334,7 @@ pre {
 }
 
 code, .hljs {
+	font-size: 12px;
 	white-space: pre-wrap;
 	tab-size: 34px;
 	border-radius: 4px;
