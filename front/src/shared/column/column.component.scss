@@ -47,11 +47,6 @@
 }
 
 ::ng-deep .types {
-	.mat-optgroup-label {
-		text-align: center !important;
-		border-top: 1px solid grey;
-	}
-
 	.mat-option:not(.bold) {
 		color: grey;
 	}

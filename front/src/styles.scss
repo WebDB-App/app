@@ -32,7 +32,7 @@ body {
 
 .mat-tooltip, .mat-select-panel, .mat-menu-panel {
 	white-space: pre-line !important;
-	background-color: rgba(30, 30, 30, 0.9);
+	background-color: rgba(30, 30, 30, 0.93);
 	border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
@@ -321,6 +321,11 @@ pre {
 		flex-direction: column;
 		border-radius: 20px;
 	}
+}
+
+.mat-optgroup-label {
+	text-align: center !important;
+	border-top: 1px solid grey;
 }
 
 code, .hljs {

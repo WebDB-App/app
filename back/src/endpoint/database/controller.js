@@ -31,18 +31,20 @@ There is a database called "${database}" on a ${wrapper.constructor.name} server
 
 		const tables = await wrapper.sampleDatabase(database, req.body.preSent);
 		for (const table of tables) {
-			if (req.body.preSent.anonymize !== 0) {
-				const indexes = Object.keys(table.data);
-				for (const [index, row] of Object.entries(table.data)) {
+
+			const indexes = Object.keys(table.data);
+			for (const [index, row] of Object.entries(table.data)) {
+				for (const [key, value] of Object.entries(row)) {
+
+					if (Buffer.isBuffer(value)) {
+						delete table.data[index][key];
+						continue;
+					}
 					if (req.body.preSent.anonymize === 1) {
-						for (const [key, value] of Object.entries(row)) {
-							table.data[indexes[Math.floor(Math.random() * indexes.length)]][key] = value;
-						}
+						table.data[indexes[Math.floor(Math.random() * indexes.length)]][key] = value;
 					}
 					if (req.body.preSent.anonymize === 2) {
-						for (const [key, value] of Object.entries(row)) {
-							table.data[index][key] = value === null ? "null" : value.constructor.name;
-						}
+						table.data[index][key] = value === null ? "null" : value.constructor.name;
 					}
 				}
 			}

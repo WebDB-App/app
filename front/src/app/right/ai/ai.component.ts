@@ -58,6 +58,7 @@ export class AiComponent implements OnInit {
 	licence?: Licence;
 	configuration: Configuration = new Configuration();
 	initialized = false
+	models: {[key: string]: string[]} = {};
 	Role = Role;
 	examples = [
 		'Adapt this query to retrieve "registering_date" : `SELECT email, password FROM users WHERE email LIKE ?`',
@@ -82,7 +83,8 @@ export class AiComponent implements OnInit {
 	config = {
 		model: "gpt-3.5-turbo-16k",
 		openAI: '',
-		temperature: 1
+		temperature: 1,
+		top_p: 1
 	};
 	preSent = {
 		tables: [""],
@@ -92,6 +94,8 @@ export class AiComponent implements OnInit {
 	}
 	stream?: string;
 	abort = false;
+
+	protected readonly Object = Object;
 	protected readonly isSQL = isSQL;
 	@ViewChild('scrollContainer') private scrollContainer!: ElementRef;
 	@ViewChild('settings') private settings!: ElementRef;
@@ -147,10 +151,17 @@ export class AiComponent implements OnInit {
 
 	async configChange(snack = true) {
 		localStorage.setItem(localKeyConfig, JSON.stringify(this.config));
+		this.models = {};
+
 		this.openai = new OpenAI({
 			apiKey: this.config.openAI,
 			dangerouslyAllowBrowser: true
 		});
+		if (this.openai) {
+			this.openai.models.list().then(response => {
+				this.models["OpenAI"] = response.data.map(model => model.id).sort();
+			});
+		}
 
 		if (snack) {
 			this.snackBar.open("Settings saved", "╳", {duration: 3000});
@@ -196,7 +207,8 @@ export class AiComponent implements OnInit {
 				}))
 			],
 			stream: true,
-			temperature: this.config.temperature
+			temperature: this.config.temperature,
+			top_p: this.config.top_p
 		});
 
 		this.chat.push(await new Promise<Msg>(resolve => {
@@ -249,7 +261,7 @@ export class AiComponent implements OnInit {
 		}
 	}
 
-	goodKey() {
+	goodOpenAIKey() {
 		if (!this.config.openAI) {
 			return true;
 		}
@@ -273,4 +285,6 @@ export class AiComponent implements OnInit {
 	alternative() {
 		this.sendMessage(this.chat.reverse().find(chat => chat.user === Role.User)!.txt);
 	}
+
+	protected readonly Math = Math;
 }

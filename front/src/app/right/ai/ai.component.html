@@ -132,15 +132,11 @@
 					<mat-select
 						(selectionChange)="configChange()"
 						[(ngModel)]="config.model">
-						<mat-option value='gpt-3.5-turbo-16k'>
-							gpt-3.5-turbo-16k
-						</mat-option>
-						<mat-option value="gpt-4">
-							gpt-4
-						</mat-option>
-						<mat-option value="gpt-4-32k">
-							gpt-4-32k
-						</mat-option>
+						<mat-optgroup *ngFor="let provider of Object.keys(models)" [label]="provider">
+							<mat-option [value]="model" *ngFor="let model of models[provider]">
+								{{ model }}
+							</mat-option>
+						</mat-optgroup>
 					</mat-select>
 				</mat-form-field>
 
@@ -162,15 +158,40 @@
 					</mat-slider>
 				</div>
 
+				<div class="slider">
+					<div>
+						<span matTooltip="If you set Top-p to 0.9, the LLM will only generate words that have a probability of at least 0.9"
+							  matTooltipPosition="left">Top P</span>
+						<span>{{ config.top_p }}</span>
+					</div>
+					<mat-slider
+						(change)="configChange()"
+						(input)="config.top_p = $event.value!.valueOf()"
+						[value]="config.top_p"
+						color="accent"
+						max="2"
+						min="0"
+						step="0.1">
+					</mat-slider>
+				</div>
+			</div>
+
+			<div>
 				<div>
+					<a href="https://platform.openai.com/account"
+					   mat-button
+					   target="_blank">
+						<mat-icon svgIcon="chatgpt"></mat-icon>
+					</a>
+
 					<mat-form-field appearance="outline" style="margin-bottom: -1.25em">
 						<mat-label>OpenAI Key</mat-label>
 						<input
-							(change)="goodKey() ? configChange() : undefined"
+							(change)="goodOpenAIKey() ? configChange() : undefined"
 							[(ngModel)]="config.openAI"
 							matInput>
 					</mat-form-field>
-					<mat-error *ngIf="!goodKey()">
+					<mat-error *ngIf="!goodOpenAIKey()">
 						Bad key format
 					</mat-error>
 				</div>
@@ -179,8 +200,11 @@
 			<mat-accordion>
 				<mat-expansion-panel>
 					<mat-expansion-panel-header>
+						<mat-panel-title>
+							Customise prompt
+						</mat-panel-title>
 						<mat-panel-description>
-							Customise prompt – {{ sample.split(' ').length }} tokens
+							≈ {{ Math.floor(sample.split('').length / 3.4) }} tokens
 						</mat-panel-description>
 					</mat-expansion-panel-header>
 					<ngx-monaco-editor
@@ -197,11 +221,7 @@
 
 	<div *ngIf="!config.openAI" style="margin-bottom: 30vh">
 		<h3 style="text-align: center; border-bottom: 1px dashed grey">
-			Enter a
-			<a href="https://platform.openai.com/account/api-keys" target="_blank">
-				OpenAI
-			</a>
-			key to use assistant
+			Enter a key to use assistant
 		</h3>
 	</div>
 

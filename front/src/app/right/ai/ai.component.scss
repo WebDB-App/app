@@ -1,5 +1,5 @@
 :host > div {
-	max-width: 750px;
+	width: 40vw !important;
 }
 
 #examples {
@@ -16,8 +16,11 @@
 }
 
 #settings {
-	padding: 8px;
 	font-size: 14px;
+	gap: 10px;
+	padding: 16px 0px 8px;
+	display: flex;
+	flex-direction: column;
 
 	::ng-deep .mat-expansion-panel-body {
 		padding: 1px 1px;
@@ -27,7 +30,7 @@
 		gap: 20px;
 		display: flex;
 		justify-content: space-between;
-		padding: 12px 0px;
+		padding: 0px 8px;
 		align-items: center;
 
 		.slider {
