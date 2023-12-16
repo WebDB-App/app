@@ -16,7 +16,7 @@ async function run(config) {
 	});
 	await test('[column] Rename ok', () => {
 		assert.equal(updatedName.status, 200);
-		assert.ok(updatedName.data);
+		assert.ok(!updatedName.data.error);
 	});
 	if (updatedName.status !== 200 || !updatedName.data) {
 		return;
@@ -34,7 +34,7 @@ async function run(config) {
 	});
 	await test(`[column] Cast from ${before.type} to ${after.type} ok`, () => {
 		assert.equal(updatedType.status, 200);
-		assert.ok(updatedType.data);
+		assert.ok(!updatedType.data.error);
 	});
 	if (updatedType.status !== 200 || !updatedType.data) {
 		return;
@@ -52,7 +52,7 @@ async function run(config) {
 	});
 	await test('[column] Became nullable', () => {
 		assert.equal(updatedNullable.status, 200);
-		assert.ok(updatedNullable.data);
+		assert.ok(!updatedNullable.data.error);
 	});
 	before.nullable = after.nullable;
 
@@ -67,7 +67,7 @@ async function run(config) {
 	});
 	await test('[column] Default to "Example"', () => {
 		assert.equal(updatedDefault.status, 200);
-		assert.ok(updatedDefault.data);
+		assert.ok(!updatedDefault.data.error);
 	});
 	before.defaut = after.defaut;
 
@@ -80,6 +80,8 @@ async function run(config) {
 		const db = getDatabase(structure.data.dbs, config.database);
 		const table = db.tables.find(table => table.name === config.table);
 		const cols = table.columns.filter(col => !col.name.startsWith('_id'));
+
+		after.type = after.type.replace('character varying', 'varchar');
 
 		assert.ok(JSON.stringify(cols[0]) === JSON.stringify(after));
 	});

@@ -119,7 +119,7 @@ export default {
 		wrapper: "PostgreSQL",
 		docker: {
 			name: "yugabytedb/yugabyte",
-			env: ["POSTGRES_USER=root", "POSTGRES_PASSWORD=notSecureChangeMe"],
+			env: ["YSQL_USER=root", "YSQL_PASSWORD=notSecureChangeMe"],
 			cmd: "bin/yugabyted start --daemon=false"
 		}
 	}

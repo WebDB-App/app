@@ -5,10 +5,11 @@ import {getDatabase} from "../helper.js";
 
 async function run(config) {
 	const created = await axios.post(`${config.api}database/create`, {name: config.database});
+	const check_created = created.status === 200 && !created.data.error;
 	await test('[database] Creation ok', () => {
-		assert.notEqual(created.data, {error: ""});
+		assert.ok(check_created);
 	});
-	if (created.status !== 200 || created.data.error) {
+	if (!check_created) {
 		throw new Error();
 	}
 
