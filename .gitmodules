@@ -7,6 +7,3 @@
 [submodule "static/mysql-samples"]
 	path = static/mysql-samples
 	url = https://github.com/enzinier/mysql-samples.git
-[submodule "static/employee-sample-database"]
-	path = static/employee-sample-database
-	url = https://github.com/bytebase/employee-sample-database

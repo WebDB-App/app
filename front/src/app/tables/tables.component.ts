@@ -34,7 +34,6 @@ export class TablesComponent implements OnInit {
 		private titleService: Title,
 		private snackBar: MatSnackBar,
 		private dialog: MatDialog,
-		private request: RequestService,
 		private activatedRoute: ActivatedRoute
 	) {
 	}
@@ -123,13 +122,7 @@ export class TablesComponent implements OnInit {
 	}
 
 	async changeTable(name: string) {
-		let url = this.router.url.replace(`${this.selectedTable!.name}/`, `${name}/`);
-
-		const explore = url.indexOf(`/explore?`);
-		if (explore >= 0) {
-			url = url.substring(0, explore) + '/explore';
-		}
-
+		const url = this.router.url.replace(`${this.selectedDatabase!.name}/${this.selectedTable!.name}/`, `${this.selectedDatabase!.name}/${name}/`);
 		await this.router.navigateByUrl(url);
 	}
 

@@ -332,8 +332,8 @@ export default class PostgreSQL extends SQL {
 
 		let error = "Database deletion is not supported for the driver.\n";
 		error += "First, close all connection to this database, so restart WebDB and other possibly connected app\n";
-		error += "Finally, run: \n";
-		error += `# psql ${this.makeUri()} -c 'DROP DATABASE ${this.nameDel + name + this.nameDel}'`;
+		error += "Finally, inside the WebDB docker container, run: \n";
+		error += `psql ${this.makeUri()} -c 'DROP DATABASE ${this.nameDel + name + this.nameDel}'`;
 		return {error};
 	}
 

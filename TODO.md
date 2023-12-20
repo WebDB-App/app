@@ -1,5 +1,6 @@
-- sakila en bdd de demo
+- employee en bdd de demo
 - ERD [Chrome bookmarks]
+- versionning
 
 
 
@@ -7,10 +8,6 @@
 
 
 
-
-
-- refaire capture feature
-- gemini + ajouter dans feature
 
 
 # modules payant
@@ -44,6 +41,8 @@
 
 
 # Other
+- refaire capture feature
+- gemini + ajouter dans feature
 - sql function doc (generate from web scrap)
 - virtual columns
 - model garden
