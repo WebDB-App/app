@@ -2,7 +2,12 @@ import axios from "axios";
 import {execSync} from "child_process";
 
 export const basicConf = {
-	api: "http://127.0.0.1:22070/api/"
+	front: "http://127.0.0.1:" + (process.env.CI ? 22070 : 4200),
+	api: "http://127.0.0.1:22070/api/",
+	credentials: {
+		user: "root",
+		password: "notSecureChangeMe"
+	}
 }
 
 export function runBash(cmd) {
@@ -21,14 +26,10 @@ export async function loadConfig(server) {
 	conf.database = "sakila";
 	conf.table = "tableTest01";
 	conf.name = "";
-	conf.credentials = {
-		wrapper: conf.wrapper,
-		host: process.env.CI ? "host.docker.internal" : "127.0.0.1",
-		port: conf.external_port,
-		params: conf.params || {},
-		user: "root",
-		password: "notSecureChangeMe",
-	};
+	conf.credentials.wrapper = conf.wrapper;
+	conf.credentials.host = process.env.CI ? "host.docker.internal" : "127.0.0.1";
+	conf.credentials.port = conf.external_port;
+	conf.credentials.params = conf.params || {};
 
 	axios.defaults.headers.common['Server'] = JSON.stringify(conf.credentials);
 	axios.defaults.headers.common['Database'] = conf.database;

@@ -1,5 +1,5 @@
 <div cdkFocusInitial mat-dialog-content>
-	<mat-tab-group #tabs (selectedTabChange)="$event.index === 3 ? dialogRef.close() : undefined">
+	<mat-tab-group (selectedTabChange)="$event.index === 3 ? dialogRef.close() : undefined">
 		<mat-tab label="Parameters">
 			<table style="padding: 20px">
 				<tr *ngFor="let config of configuration.configs">
@@ -26,7 +26,7 @@
 							<mat-card-subtitle fxLayout="row" fxLayoutAlign="space-between center">
 								<h3>{{ licence?.plan }}</h3>
 								<div>
-									<mat-icon *ngIf="licence?.valid" color="primary">check_circle</mat-icon>
+									<mat-icon *ngIf="licence?.valid" color="primary" tid="validLicence">check_circle</mat-icon>
 									<mat-icon *ngIf="!licence?.valid" color="warn">cancel</mat-icon>
 								</div>
 							</mat-card-subtitle>

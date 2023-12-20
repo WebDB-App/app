@@ -103,6 +103,7 @@
 					<ng-container *ngIf="server.connected">
 						<mat-selection-list [multiple]="false">
 							<mat-list-option
+								tid="database"
 								*ngFor="let database of server.dbs"
 								[disabled]="database.tables === undefined"
 								[hidden]="database.hide"
@@ -184,13 +185,14 @@
 							<div>
 								<mat-form-field appearance="outline" style="margin-bottom: -1.75em;">
 									<mat-label>User</mat-label>
-									<input #user matInput>
+									<input #user matInput tid="user">
 								</mat-form-field>
 								<mat-form-field appearance="outline">
 									<mat-label>Password</mat-label>
 									<input #password
 										   autocomplete="off"
 										   matInput
+										   tid="password"
 										   type="{{!showPassword ? 'password' : 'text'}}">
 									<mat-icon (click)="showPassword = !showPassword" matSuffix
 											  style="cursor: pointer;">
@@ -201,6 +203,7 @@
 							<div>
 								<button
 									#loginBtn
+									tid="connect"
 									(click)="login(server, user.value, password.value)"
 									color="primary"
 									mat-stroked-button>

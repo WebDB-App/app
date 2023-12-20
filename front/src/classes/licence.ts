@@ -28,8 +28,6 @@ async function download(email: string) {
 }
 
 export class Licence {
-	dbLimit: number
-	versions: number
 	valid: boolean
 	expire: number
 	email: string
@@ -38,16 +36,12 @@ export class Licence {
 	error?: string;
 
 	constructor(
-		dbLimit: number,
-		patchLimit: number,
 		expire: number,
 		email: string,
 		plan: string,
 		privateKey: string,
 		error?: string) {
 
-		this.dbLimit = dbLimit === 0 ? Infinity : dbLimit;
-		this.versions = patchLimit;
 		this.valid = expire === 0 || expire * 1000 >= Date.now();
 		this.expire = expire;
 		this.email = email;
@@ -57,7 +51,7 @@ export class Licence {
 	}
 
 	static set(licence: Licence, privateKey: string) {
-		selected = new Licence(licence.dbLimit, licence.versions, licence.expire, licence.email, licence.plan, privateKey, licence.error);
+		selected = new Licence(licence.expire, licence.email, licence.plan, privateKey, licence.error);
 	}
 
 	static async getCached(): Promise<Licence> {
