@@ -33,7 +33,7 @@ async function run(config) {
 	//--------------------------------------------
 
 
-	//dump -> file size ~ equivalent
+	//TODO dump -> file size ~ equivalent
 
 
 	//--------------------------------------------

@@ -8,9 +8,10 @@ async function run(config) {
 		page: 0,
 		pageSize: 100,
 	});
-	const check_query = query.status === 200 && !query.data.error && query.data.length === 20;
 	await test('[query] Select 20 linked elements', () => {
-		assert.ok(check_query);
+		assert.equal(query.status, 200);
+		assert.ok(!query.data.error);
+		assert.ok(query.data.length === 20);
 	});
 
 
@@ -20,9 +21,9 @@ async function run(config) {
 	const querySize = await axios.post(`${config.api}database/querySize`, {
 		query: config.select20Relational,
 	});
-	const check_querySize = querySize.status === 200 && querySize.data === 20;
 	await test('[query] Good size result', () => {
-		assert.ok(check_querySize);
+		assert.equal(querySize.status, 200);
+		assert.ok(querySize.data === 20);
 	});
 }
 
