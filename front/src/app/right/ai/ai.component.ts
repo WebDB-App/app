@@ -12,6 +12,11 @@ import { isSQL } from "../../../shared/helper";
 
 const localKeyConfig = 'ia-config';
 
+enum Provider {
+	openai = "OpenAI",
+	gcloud = "Google Cloud",
+}
+
 enum Role {
 	System = 'system',
 	User = 'user',
@@ -58,7 +63,7 @@ export class AiComponent implements OnInit {
 	licence?: Licence;
 	configuration: Configuration = new Configuration();
 	initialized = false
-	models: {[key: string]: string[]} = {};
+	models: {[key: string]: { name: string; bold?: boolean }[]} = {};
 	Role = Role;
 	examples = [
 		'Adapt this query to retrieve "registering_date" : `SELECT email, password FROM users WHERE email LIKE ?`',
@@ -159,9 +164,16 @@ export class AiComponent implements OnInit {
 		});
 		if (this.openai) {
 			this.openai.models.list().then(response => {
-				this.models["OpenAI"] = response.data.map(model => model.id).sort();
+				this.models[Provider.openai] = response.data.map(model => model.id).sort().map(model => {return {name: model, bold: model.startsWith("gpt-")}});
 			});
 		}
+
+		/*if (this.config.gcloud_PID && this.config.gcloud_AC) {
+			this.models[Provider.gcloud] = [
+				{name: "gemini-pro", bold: true},
+				{name: "gemini-ultra", bold: true},
+			];
+		}*/
 
 		if (snack) {
 			this.snackBar.open("Settings saved", "╳", {duration: 3000});
@@ -198,38 +210,49 @@ export class AiComponent implements OnInit {
 		this.chat.push(new Msg(txt, Role.User));
 		this.scrollToBottom();
 
-		const stream = this.openai!.chat.completions.create({
-			model: this.config.model,
-			messages: [
-				{role: Role.System, content: this.sample},
-				...(this.chat.map(ch => {
-					return {role: ch.user, content: ch.txt}
-				}))
-			],
-			stream: true,
-			temperature: this.config.temperature,
-			top_p: this.config.top_p
-		});
+		let provider = "";
+		for (const [pro, models] of Object.entries(this.models)) {
+			if (models.map(model => model.name).indexOf(this.config.model) >= 0) {
+				provider = pro;
+				break;
+			}
+		}
 
-		this.chat.push(await new Promise<Msg>(resolve => {
-			stream.then(async str => {
-				this.stream = "";
-
-				for await (const part of str) {
-					if (this.abort) {
-						this.abort = false;
-						str.controller.abort();
-					}
-
-					this.stream += part.choices[0]?.delta?.content || '';
-					this.scrollToBottom();
-				}
-				resolve(new Msg(this.stream, Role.Assistant));
-				this.stream = undefined;
-			}).catch(error => {
-				resolve(new Msg(error.message || 'An error occurred during OpenAI request: ' + error, Role.Assistant, true))
+		if (provider === Provider.openai) {
+			const stream = this.openai!.chat.completions.create({
+				model: this.config.model,
+				messages: [
+					{role: Role.System, content: this.sample},
+					...(this.chat.map(ch => {
+						return {role: ch.user, content: ch.txt}
+					}))
+				],
+				stream: true,
+				temperature: this.config.temperature,
+				top_p: this.config.top_p
 			});
-		}));
+
+			this.chat.push(await new Promise<Msg>(resolve => {
+				stream.then(async str => {
+					this.stream = "";
+
+					for await (const part of str) {
+						if (this.abort) {
+							this.abort = false;
+							str.controller.abort();
+						}
+
+						this.stream += part.choices[0]?.delta?.content || '';
+						this.scrollToBottom();
+					}
+					resolve(new Msg(this.stream, Role.Assistant));
+					this.stream = undefined;
+				}).catch(error => {
+					resolve(new Msg(error.message || 'An error occurred during OpenAI request: ' + error, Role.Assistant, true))
+				});
+			}));
+		} else if (provider === Provider.gcloud) {
+		}
 
 		this.scrollToBottom();
 		this.saveChat();

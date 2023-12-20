@@ -125,9 +125,15 @@
 					<mat-select
 						(selectionChange)="configChange()"
 						[(ngModel)]="config.model">
-						<mat-optgroup *ngFor="let provider of Object.keys(models)" [label]="provider">
-							<mat-option [value]="model" *ngFor="let model of models[provider]">
-								{{ model }}
+						<mat-optgroup
+							class="hasBold"
+							*ngFor="let provider of Object.keys(models)"
+							[label]="provider">
+							<mat-option
+								[value]="model.name"
+								[class.bold]="model.bold"
+								*ngFor="let model of models[provider]">
+								{{ model.name }}
 							</mat-option>
 						</mat-optgroup>
 					</mat-select>
@@ -170,6 +176,33 @@
 			</div>
 
 			<div>
+				<!--<div>
+					<a href="https://gitlab.com/web-db/app/-/wikis/Google-Cloud-Credentials"
+					   mat-button
+					   target="_blank">
+						<mat-icon svgIcon="google"></mat-icon>
+					</a>
+
+					<mat-form-field appearance="outline" style="margin-bottom: -1.25em; width: 100px;">
+						<mat-label>Project ID</mat-label>
+						<input
+							(change)="configChange()"
+							[(ngModel)]="config.gcloud_PID"
+							matInput>
+					</mat-form-field>
+
+					<mat-form-field appearance="outline" style="margin-bottom: -1.25em; width: 130px;">
+						<mat-label>Access Token</mat-label>
+						<input
+							(change)="goodGCloud() ? configChange() : undefined"
+							[(ngModel)]="config.gcloud_AC"
+							matInput>
+					</mat-form-field>
+					<mat-error *ngIf="!goodGCloud()">
+						Bad access token format
+					</mat-error>
+				</div>-->
+
 				<div>
 					<a href="https://platform.openai.com/account"
 					   mat-button
@@ -178,7 +211,7 @@
 					</a>
 
 					<mat-form-field appearance="outline" style="margin-bottom: -1.25em">
-						<mat-label>OpenAI Key</mat-label>
+						<mat-label>Key</mat-label>
 						<input
 							(change)="goodOpenAIKey() ? configChange() : undefined"
 							[(ngModel)]="config.openAI"

@@ -79,16 +79,6 @@ body {
 	.mat-cell {
 		border-left: 1px solid #1e1e1e;
 		border-bottom: none;
-
-		.material-symbols-outlined {
-			font-size: 20px;
-		}
-
-		.mat-icon-button {
-			width: 36px;
-			height: 36px;
-			line-height: 36px;
-		}
 	}
 
 	.mat-checkbox {
@@ -315,12 +305,21 @@ pre {
 	.actions {
 		display: none;
 		position: absolute;
-		right: 5px;
-		top: 4px;
-		background-color: rgba(30, 30, 30, 0.6);
+		right: 8px;
+		top: 7px;
+		background-color: rgba(30, 30, 30, 0.9);
 		border: 1px solid #1de9b6;
 		flex-direction: column;
 		border-radius: 20px;
+	}
+}
+
+.mat-cell, .mat-card .actions {
+
+	.mat-icon-button {
+		width: 36px;
+		height: 36px;
+		line-height: 36px;
 
 		.material-symbols-outlined {
 			font-size: 20px;
@@ -334,6 +333,7 @@ pre {
 }
 
 code, .hljs {
+	min-height: 28px;
 	font-size: 12px;
 	white-space: pre-wrap;
 	tab-size: 34px;
@@ -401,4 +401,8 @@ ngx-monaco-editor {
 	}
 }
 
-//https://stackoverflow.com/questions/45089178/how-to-get-primary-or-accent-color-of-currently-applied-theme-in-angular-materia
+.hasBold {
+	.mat-option:not(.bold) {
+		color: grey;
+	}
+}
