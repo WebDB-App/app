@@ -122,7 +122,13 @@ export class TablesComponent implements OnInit {
 	}
 
 	async changeTable(name: string) {
-		const url = this.router.url.replace(`${this.selectedDatabase!.name}/${this.selectedTable!.name}/`, `${this.selectedDatabase!.name}/${name}/`);
+		let url = this.router.url;
+		if (url.indexOf(`/(${this.selectedTable!.name}/`) >= 0) {
+			url = url.replace(`/(${this.selectedTable!.name}/`, `/(${name}/`);
+		} else {
+			url = url.replace(`/${this.selectedTable!.name}/`, `/${name}/`);
+		}
+
 		await this.router.navigateByUrl(url);
 	}
 
@@ -153,7 +159,7 @@ export class CreateTableDialog {
 		this.selectedServer = Server.getSelected();
 		this.selectedDatabase = Database.getSelected();
 
-		this.form = fb.group({
+		this.form = this.fb.group({
 			name: [null, [Validators.required, Validators.pattern(validName), uniqueValidator('name', Database.getSelected().tables!.map(table => table.name))]],
 			columns: fb.array([
 				Column.getFormGroup(),

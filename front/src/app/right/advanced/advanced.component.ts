@@ -7,6 +7,7 @@ import { RequestService } from "../../../shared/request.service";
 import { Router } from "@angular/router";
 import { DrawerService } from "../../../shared/drawer.service";
 import { validName } from "../../../shared/helper";
+import { Stats } from "../../../classes/stats";
 
 @Component({
 	selector: 'app-advanced',
@@ -20,10 +21,7 @@ export class AdvancedComponent {
 
 	duplicateLoading = false;
 	collations: string[] = [];
-	stats?: {
-		index_length: number,
-		data_length: number
-	};
+	stats?: Stats;
 	str = "";
 	editorOptions = {
 		language: 'json',

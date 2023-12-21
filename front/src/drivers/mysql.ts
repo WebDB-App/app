@@ -294,7 +294,7 @@ export class MySQL extends SQL {
 
 		this.nodeLib = (query: QueryParams) => {
 			return `//with mysql2 lib
-import mysql from "mysql2";
+import mysql from "mysql2/promise.js";
 
 async function main() {
 	const connection = await mysql.createConnection({

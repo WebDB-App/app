@@ -296,13 +296,17 @@ export class SQL implements Driver {
 	}
 
 	extractConditionParams(query: string): QueryParams {
+		if (query.indexOf("where") < 0) {
+			return <QueryParams>{
+				query,
+				params: []
+			};
+		}
+
 		const result = <QueryParams>{
 			query: singleLine(query.toLowerCase()),
 			params: []
 		};
-		if (result.query.indexOf("where") < 0) {
-			return result;
-		}
 
 		const availableComparator = this.language.comparators.map(comp => comp.symbol.toLowerCase()).sort((a, b) => b.length - a.length)
 		let condition = result.query.substring(result.query.indexOf("where") + "where".length).trim();

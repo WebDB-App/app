@@ -8,6 +8,7 @@ import { isSQL } from "../../../shared/helper";
 import { Server } from "../../../classes/server";
 import { Database } from "../../../classes/database";
 import { Complex } from "../../../classes/complex";
+import { Stats } from "../../../classes/stats";
 
 @Component({
 	selector: 'app-table-advanced',
@@ -24,10 +25,7 @@ export class TableAdvancedComponent implements OnDestroy {
 	validators!: Complex[];
 	triggers!: Complex[];
 	interval?: NodeJS.Timer;
-	stats?: {
-		index_length: number,
-		data_length: number
-	};
+	stats?: Stats;
 	protected readonly isSQL = isSQL;
 
 	constructor(

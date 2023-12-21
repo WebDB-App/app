@@ -5,10 +5,24 @@
 				<mat-label>
 					Page
 				</mat-label>
-				<mat-select (selectionChange)="changePage($event.value); refreshData()" [value]="params.page">
-					<mat-option *ngFor="let item of [].constructor(Math.floor(querySize / pageSize) + 1); let i = index"
-								[value]="i">{{ i }}
-					</mat-option>
+				<input
+					matInput
+					*ngIf="querySize >= 100000"
+					type="number"
+					min="0"
+					[max]="querySize"
+					[value]="params.page"
+					#page
+					(change)="changePage(page.value); refreshData()">
+				<mat-select
+					*ngIf="querySize < 100000"
+					(selectionChange)="changePage($event.value); refreshData()"
+					[value]="params.page">
+					<ng-container *ngFor="let item of [].constructor(Math.floor(querySize / pageSize) + 1); let i = index">
+						<mat-option [value]="i">
+							{{ i }}
+						</mat-option>
+					</ng-container>
 				</mat-select>
 			</mat-form-field>
 			<mat-paginator
