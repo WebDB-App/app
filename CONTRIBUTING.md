@@ -33,10 +33,14 @@ cd static && docker compose up -d
 
 #### Dataset
 
-You can then create your database or import from submodules with
-``` git submodule update --init --recursive ```.<br>
-Once done, you can pick up in dataset folder.<br>
-If you found good datasets for testing, don't hesitate to propose them also
+You can found the world dataset sample on the [demo](https://demo.webdb.app) or [here](./static/world)
+
+Here is other sample dataset
+- https://github.com/morenoh149/postgresDBSamples.git
+- https://github.com/neelabalan/mongodb-sample-dataset.git
+- https://github.com/enzinier/mysql-samples.git
+
+If you found good one for testing, don't hesitate to propose them
 
 ### Commit strategy
 
