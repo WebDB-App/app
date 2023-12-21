@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnDestroy } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
 import { Database } from "../../../classes/database";
 import { Server } from "../../../classes/server";
@@ -8,17 +8,19 @@ import { Router } from "@angular/router";
 import { DrawerService } from "../../../shared/drawer.service";
 import { validName } from "../../../shared/helper";
 import { Stats } from "../../../classes/stats";
+import { Subscription } from "rxjs";
 
 @Component({
 	selector: 'app-advanced',
 	templateUrl: './advanced.component.html',
 	styleUrls: ['./advanced.component.scss']
 })
-export class AdvancedComponent {
+export class AdvancedComponent implements OnDestroy {
 
 	selectedServer?: Server;
 	selectedDatabase?: Database;
 
+	drawerObs!: Subscription;
 	duplicateLoading = false;
 	collations: string[] = [];
 	stats?: Stats;
@@ -35,9 +37,16 @@ export class AdvancedComponent {
 		private drawer: DrawerService,
 		private router: Router) {
 
-		this.drawer.drawer.openedChange.subscribe(async (state) => {
+		this.drawerObs = this.drawer.drawer.openedChange.subscribe(async (state) => {
+			if (!state) {
+				return;
+			}
 			await this.refreshData();
 		});
+	}
+
+	ngOnDestroy() {
+		this.drawerObs.unsubscribe();
 	}
 
 	async refreshData() {

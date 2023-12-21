@@ -82,8 +82,10 @@ export class RequestService {
 		return server;
 	}
 
-	async loadServers(servers: Server[], full: boolean) {
-		this.loadingSubject.next(LoadingStatus.LOADING);
+	async loadServers(servers: Server[], full: boolean, signal = true) {
+		if (signal) {
+			this.loadingSubject.next(LoadingStatus.LOADING);
+		}
 		const headers = await this.getLicenceHeader();
 
 		const load = (server: Server) => {
@@ -113,12 +115,14 @@ export class RequestService {
 		}
 		servers = <Server[]>(await Promise.all(promises));
 
-		this.loadingSubject.next(LoadingStatus.DONE);
+		if (signal) {
+			this.loadingSubject.next(LoadingStatus.DONE);
+		}
 		return servers;
 	}
 
-	async reloadServer(server = Server.getSelected()) {
-		server = (await this.loadServers([server], true))[0];
+	async reloadServer(server = Server.getSelected(), signal = true) {
+		server = (await this.loadServers([server], true, signal))[0];
 		if (server.name !== Server.getSelected()?.name) {
 			return server;
 		}

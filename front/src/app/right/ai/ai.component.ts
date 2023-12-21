@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Database } from "../../../classes/database";
 import { Server } from "../../../classes/server";
 import { Licence } from "../../../classes/licence";
@@ -9,6 +9,7 @@ import { marked } from 'marked';
 import { DrawerService } from "../../../shared/drawer.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { isSQL } from "../../../shared/helper";
+import { Subscription } from "rxjs";
 
 const localKeyConfig = 'ia-config';
 
@@ -56,8 +57,9 @@ class Msg {
 	templateUrl: './ai.component.html',
 	styleUrls: ['./ai.component.scss']
 })
-export class AiComponent implements OnInit {
+export class AiComponent implements OnInit, OnDestroy {
 
+	drawerObs!: Subscription
 	selectedServer?: Server;
 	selectedDatabase?: Database;
 	licence?: Licence;
@@ -120,7 +122,7 @@ export class AiComponent implements OnInit {
 		this.selectedDatabase = Database.getSelected();
 		this.selectedServer = Server.getSelected();
 
-		this.drawer.drawer.openedChange.subscribe(async (state: boolean) => {
+		this.drawerObs = this.drawer.drawer.openedChange.subscribe(async (state: boolean) => {
 			if (state && !this.initialized) {
 				this.initialized = true;
 				this.scrollToBottom();
@@ -152,6 +154,10 @@ export class AiComponent implements OnInit {
 		if (this.config.openAI) {
 			this.settings.nativeElement.setAttribute('hidden', true);
 		}
+	}
+
+	ngOnDestroy() {
+		this.drawerObs.unsubscribe();
 	}
 
 	async configChange(snack = true) {

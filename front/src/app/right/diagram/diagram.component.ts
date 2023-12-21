@@ -9,6 +9,7 @@ import { Entity, Field, RelationType } from "./types";
 import { Column } from "../../../classes/column";
 import { DrawerService } from "../../../shared/drawer.service";
 import { HoverService } from "../../../shared/hover.service";
+import { Subscription } from "rxjs";
 
 @Component({
 	selector: 'app-diagram',
@@ -22,6 +23,7 @@ export class DiagramComponent implements OnDestroy {
 	@ViewChild('fullScreen') fullScreen!: ElementRef;
 
 	interval?: NodeJS.Timer;
+	drawerObs!: Subscription;
 
 	selectedServer!: Server;
 	selectedDatabase!: Database;
@@ -41,7 +43,7 @@ export class DiagramComponent implements OnDestroy {
 		this.selectedServer = Server.getSelected();
 		this.relations = this.selectedServer.relations.filter(relation => relation.database === this.selectedDatabase.name);
 
-		this.drawer.drawer.openedChange.subscribe((state) => {
+		this.drawerObs = this.drawer.drawer.openedChange.subscribe((state) => {
 			if (state && !this.initialized) {
 				this.initialized = true
 				this.prepareTables();
@@ -50,6 +52,7 @@ export class DiagramComponent implements OnDestroy {
 	}
 
 	ngOnDestroy(): void {
+		this.drawerObs.unsubscribe();
 		clearInterval(this.interval);
 	}
 

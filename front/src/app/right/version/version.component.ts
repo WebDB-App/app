@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Server } from "../../../classes/server";
 import { Database } from "../../../classes/database";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { RequestService } from "../../../shared/request.service";
 import { DrawerService } from "../../../shared/drawer.service";
+import { Subscription } from "rxjs";
 
 class Patch {
 	diff!: string;
@@ -19,11 +20,12 @@ declare var monaco: any;
 	templateUrl: './version.component.html',
 	styleUrls: ['./version.component.scss']
 })
-export class VersionComponent {
+export class VersionComponent implements OnDestroy {
 
 	selectedServer?: Server;
 	selectedDatabase?: Database;
 
+	drawerObs!: Subscription;
 	filter = "";
 	isLoading = false;
 	patches: Patch[] = [];
@@ -37,9 +39,16 @@ export class VersionComponent {
 		private drawer: DrawerService,
 		public snackBar: MatSnackBar
 	) {
-		this.drawer.drawer.openedChange.subscribe(async (state) => {
+		this.drawerObs = this.drawer.drawer.openedChange.subscribe(async (state) => {
+			if (!state) {
+				return;
+			}
 			await this.refreshData();
 		});
+	}
+
+	ngOnDestroy() {
+		this.drawerObs.unsubscribe();
 	}
 
 	date(unix: string) {

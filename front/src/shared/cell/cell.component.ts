@@ -3,7 +3,6 @@ import { Table } from "../../classes/table";
 import { Relation } from "../../classes/relation";
 import { Server } from "../../classes/server";
 import { Database } from "../../classes/database";
-import { Params } from "@angular/router";
 import { saveAs } from "file-saver-es";
 import { Column } from "../../classes/column";
 import { Group } from "../../classes/driver";
@@ -24,8 +23,7 @@ export class CellComponent implements OnInit {
 	relations?: Relation[];
 	nested = false;
 	expand = true;
-	fkLink?: string[];
-	fkParams?: Params;
+	fkLink?: string;
 	blob = false;
 
 	constructor(
@@ -60,7 +58,7 @@ export class CellComponent implements OnInit {
 		}
 
 		const relation = this.relations?.find(relation => relation.column_source === this.column);
-		this.fkLink = !relation ? undefined : ['/', Server.getSelected().name, Database.getSelected().name, relation.table_dest, 'explore'];
+		this.fkLink = !relation ? undefined : ('/#/' + Server.getSelected().name + '/' + Database.getSelected().name + '/' + relation.table_dest + '/explore');
 		if (relation) {
 			const col = Database.getSelected().tables!.find(tab => tab.name === relation.table_dest)!.columns.find(col => col.name === relation.column_dest)!;
 
@@ -71,7 +69,8 @@ export class CellComponent implements OnInit {
 				if (ref.startsWith("\"") && ref.endsWith("\"")) {
 					ref = ref.slice(1, -1);
 				}
-				this.fkParams = {chips: this.selectedServer?.driver.quickSearch(this.selectedServer?.driver, col, ref) + ';'}
+				const chips = this.selectedServer?.driver.quickSearch(this.selectedServer?.driver, col, ref);
+				this.fkLink += `;chips=${encodeURIComponent(chips + ';')};`;
 			}
 		}
 	}

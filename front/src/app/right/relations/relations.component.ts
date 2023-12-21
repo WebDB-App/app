@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Server } from "../../../classes/server";
 import { Database } from "../../../classes/database";
 import { MatTableDataSource } from "@angular/material/table";
@@ -8,18 +8,20 @@ import { RequestService } from "../../../shared/request.service";
 import { Table } from "../../../classes/table";
 import { isSQL } from "../../../shared/helper";
 import { DrawerService } from "../../../shared/drawer.service";
+import { Subscription } from "rxjs";
 
 @Component({
 	selector: 'app-relations',
 	templateUrl: './relations.component.html',
 	styleUrls: ['./relations.component.scss'],
 })
-export class RelationsComponent {
+export class RelationsComponent implements OnDestroy {
 
 	selectedServer?: Server;
 	selectedDatabase?: Database;
 	relations?: Relation[];
 
+	drawerObs!: Subscription;
 	constraints?: string[];
 	actionColum = "##ACTION##";
 	displayedColumns: string[] = [];
@@ -33,9 +35,16 @@ export class RelationsComponent {
 		private request: RequestService,
 		private snackBar: MatSnackBar) {
 
-		this.drawer.drawer.openedChange.subscribe(async (state) => {
+		this.drawerObs = this.drawer.drawer.openedChange.subscribe(async (state) => {
+			if (!state) {
+				return;
+			}
 			await this.refreshData();
 		});
+	}
+
+	ngOnDestroy() {
+		this.drawerObs.unsubscribe();
 	}
 
 	async refreshData() {
@@ -61,8 +70,9 @@ export class RelationsComponent {
 
 	async delete(relation: Relation) {
 		await this.request.post('relation/drop', {relation});
-		await this.request.reloadServer();
 		this.snackBar.open(`Dropped ${relation.name}`, "╳", {duration: 3000});
+		await this.request.reloadServer(Server.getSelected(), false);
+		await this.refreshData();
 	}
 
 	async add(sourceTable: Table, sourceColumn: string, destTable: Table, destColumn: string, update_rule: string, delete_rule: string) {
@@ -78,7 +88,8 @@ export class RelationsComponent {
 		};
 
 		await this.request.post('relation/add', {relation});
-		await this.request.reloadServer();
 		this.snackBar.open(`Added relation ${relation.name}`, "╳", {duration: 3000});
+		await this.request.reloadServer(Server.getSelected(), false);
+		await this.refreshData();
 	}
 }

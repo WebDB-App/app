@@ -71,7 +71,6 @@ export class ExploreComponent implements OnInit, OnDestroy {
 				this.params.field = "";
 				this.params.direction = "";
 				this.params.chips = "";
-
 			} else {
 				const params = this.activatedRoute.snapshot.paramMap;
 				this.params.page = +(params.get("page") || 0);

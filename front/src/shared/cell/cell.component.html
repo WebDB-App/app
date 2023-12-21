@@ -17,8 +17,7 @@
 </ng-container>
 <ng-container *ngIf="!blob">
 	<ng-container *ngIf="fkLink">
-		<a [queryParams]="fkParams"
-		   [routerLink]="fkLink">
+		<a [href]="fkLink">
 			{{ value }}
 		</a>
 	</ng-container>

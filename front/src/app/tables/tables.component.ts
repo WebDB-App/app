@@ -129,6 +129,11 @@ export class TablesComponent implements OnInit {
 			url = url.replace(`/${this.selectedTable!.name}/`, `/${name}/`);
 		}
 
+		const explore = url.indexOf(`/explore;`);
+		if (explore >= 0) {
+			url = url.substring(0, explore) + '/explore';
+		}
+
 		await this.router.navigateByUrl(url);
 	}
 

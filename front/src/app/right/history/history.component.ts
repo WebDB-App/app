@@ -1,4 +1,4 @@
-import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
+import { Component, OnDestroy, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { Server } from "../../../classes/server";
 import { HistoryService, Query } from "../../../shared/history.service";
 import { Configuration } from "../../../classes/configuration";
@@ -7,14 +7,16 @@ import { DrawerService } from "../../../shared/drawer.service";
 import { Router } from "@angular/router";
 import { Table } from "../../../classes/table";
 import { Database } from "../../../classes/database";
+import { Subscription } from "rxjs";
 
 @Component({
 	selector: 'app-history',
 	templateUrl: './history.component.html',
 	styleUrls: ['./history.component.scss']
 })
-export class HistoryComponent implements OnInit {
+export class HistoryComponent implements OnInit, OnDestroy {
 
+	drawerObs!: Subscription;
 	configuration: Configuration = new Configuration();
 	selectedServer!: Server;
 	queryHistory: Query[] = [];
@@ -27,9 +29,16 @@ export class HistoryComponent implements OnInit {
 		private drawer: DrawerService,
 		private router: Router,
 	) {
-		this.drawer.drawer.openedChange.subscribe((state) => {
+		this.drawerObs = this.drawer.drawer.openedChange.subscribe((state) => {
+			if (!state) {
+				return;
+			}
 			this.queryHistory = this.history.getLocal();
 		});
+	}
+
+	ngOnDestroy() {
+		this.drawerObs.unsubscribe();
 	}
 
 	ngOnInit() {

@@ -1,6 +1,7 @@
-- employee en bdd de demo
+- world en bdd de demo
 - ERD [Chrome bookmarks]
 - versionning
+- reorder columns
 
 
 
