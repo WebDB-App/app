@@ -1,0 +1,8 @@
+{
+	"name": "world",
+	"type": "module",
+	"dependencies": {
+		"mysql2": "latest",
+		"pg2": "latest"
+	}
+}
