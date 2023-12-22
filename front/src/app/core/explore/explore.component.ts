@@ -26,6 +26,8 @@ export class ExploreComponent implements OnInit, OnDestroy {
 	configuration: Configuration = new Configuration();
 	selectedTable?: Table;
 	selectedServer?: Server;
+	interval!: NodeJS.Timer;
+
 	querySize = 0;
 	pageSize = 50;
 	params = {
@@ -56,6 +58,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnDestroy(): void {
+		clearInterval(this.interval);
 		if (this.autoUp && typeof this.autoUp === "number") {
 			clearInterval(this.autoUp);
 			this.autoUp = false
@@ -84,7 +87,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 			await this.refreshData();
 		});
 
-		setInterval(() => {
+		this.interval = setInterval(() => {
 			this.router.navigate([this.params], {
 				relativeTo: this.activatedRoute,
 			});
