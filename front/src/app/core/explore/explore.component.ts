@@ -68,14 +68,13 @@ export class ExploreComponent implements OnInit, OnDestroy {
 	async ngOnInit() {
 		this.selectedServer = Server.getSelected();
 
-		this.activatedRoute.parent?.paramMap!.subscribe(async () => {
+		this.activatedRoute?.paramMap!.subscribe(async (params) => {
 			if (this.selectedTable && this.selectedTable?.name !== Table.getSelected().name) {
 				this.changePage(0);
 				this.params.field = "";
 				this.params.direction = "";
-				this.params.chips = "";
+				this.params.chips = params.get("chips") || "";
 			} else {
-				const params = this.activatedRoute.snapshot.paramMap;
 				this.params.page = +(params.get("page") || 0);
 				this.params.field = params.get("field") || "";
 				this.params.direction = params.get("direction") || "";
@@ -84,7 +83,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 
 			this.selectedTable = Table.getSelected();
 			this.selection.clear();
-			await this.refreshData();
+			await this.refreshData(true);
 		});
 
 		this.interval = setInterval(() => {
@@ -108,9 +107,14 @@ export class ExploreComponent implements OnInit, OnDestroy {
 		return event;
 	}
 
-	async refreshData() {
+	async refreshData(cache = false) {
+		const newQuery = this.filterToWhere();
+		if (cache && newQuery === this.query) {
+			return;
+		}
+
 		this.isLoading = true;
-		this.query = this.filterToWhere();
+		this.query = newQuery;
 
 		try {
 			await Promise.all([this.getQueryData(), this.getQuerySize()]);
