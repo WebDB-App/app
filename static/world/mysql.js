@@ -63,17 +63,20 @@ async function populate_countries() {
 }
 
 async function populate_cities() {
+	const [countriesDB] = await connection.execute(`SELECT * FROM country`);
+	const [regionsDB] = await connection.execute(`SELECT * FROM region`);
+	const to_insert = [];
 
 	for (const city of Object.values(cities)) {
+
 		const regionCode = city.admin1 && city.admin2 ? city.country + '.' + city.admin1 + '.' + city.admin2 : null;
-
-		let [rowCountry] = await connection.execute(`SELECT id FROM country WHERE name = ?`, [countries[city.country].name]);
-
-		let [rowCity] = await connection.execute(`SELECT name FROM city WHERE name = ?`, [city.name]);
-		if (rowCity.length < 1) {
-			await connection.execute(`INSERT INTO city (name, lat, lng, country_id, region_code) VALUES (?, ?, ?, ?, ?)`, [city.name, city.lat, city.lng, rowCountry[0]['id'], regionCode]);
-		}
+		const region = regionCode ? regionsDB.find(region => region.code === regionCode) : null;
+		const country = countriesDB.find(country => country['name'] === countries[city.country].name);
+		to_insert.push([city.name, city.lat, city.lng, country.id, region ? region.code : null]);
 	}
+
+	const query = connection.format(`INSERT INTO city (name, lat, lng, country_id, region_code) VALUES ?`, [to_insert]);
+	await connection.execute(query);
 }
 
 await populate_cities();

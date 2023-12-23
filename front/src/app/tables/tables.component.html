@@ -32,9 +32,8 @@
 				No table
 			</mat-list-item>
 
-			<mat-selection-list #tables
-								(selectionChange)="changeTable(tables.selectedOptions.selected[0].value)"
-								[multiple]="false">
+			<mat-selection-list
+				[multiple]="false">
 				<div *ngFor="let table of selectedDatabase?.tables"
 					 [hidden]="table.hide"
 					 [style.border-right]="selectedTable?.name === table.name ? '2px solid #2196f3' : undefined"
@@ -54,6 +53,7 @@
 						<mat-list-option
 							[class.mat-list-single-selected-option]="selectedTable?.name === table.name"
 							[style.font-style]="table.view ? 'italic' : 'normal' "
+							[routerLink]="['..', table.name]"
 							[value]="table.name">
 							{{ table.name }}
 						</mat-list-option>
