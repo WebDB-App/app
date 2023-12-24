@@ -1,7 +1,4 @@
 import pg from "pg";
-import countries from './countries.js';
-import cities from './cities.json' assert { type: 'json' };
-import regions from './admin2.json' assert { type: 'json' };
 
 const pool = new pg.Pool({
 	user: 'root',

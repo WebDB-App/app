@@ -282,10 +282,18 @@ export class PostgreSQL extends SQL {
 		};
 
 		this.nodeLib = (query: QueryParams) => {
-			return `//with pg lib
-const { Pool, Client } from 'pg'
+			let prepared = query.query;
+			let inc = 0;
 
-const pool = new Pool({
+			prepared = prepared.replace(/\?/g, () => {
+				return "$" + ++inc;
+			});
+
+
+			return `//with pg lib
+import pg from "pg";
+
+const pool = new pg.Pool({
 	user: '${Server.getSelected().user}',
 	host: '${Server.getSelected().host}',
 	password: '${Server.getSelected().password}',
@@ -294,7 +302,10 @@ const pool = new Pool({
 })
 
 async function main() {
-	const {rows} = await pool.query(\`${query.query}\`, [${query.params.join(', ')}])
+	const [rows] = await pool.query({
+	  text: \`${prepared}\`,
+	  values: [${query.params.join(', ')}],
+	});
 }`;
 		};
 

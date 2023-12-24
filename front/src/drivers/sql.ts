@@ -296,7 +296,7 @@ export class SQL implements Driver {
 	}
 
 	extractConditionParams(query: string): QueryParams {
-		if (query.indexOf("where") < 0) {
+		if (query.toLowerCase().indexOf("where") < 0) {
 			return <QueryParams>{
 				query,
 				params: []
@@ -332,7 +332,9 @@ export class SQL implements Driver {
 			});
 		});
 
-		result.query = result.query.substring(0, result.query.indexOf("where")) + " WHERE " + condition;
+		result.query = result.query.substring(0, result.query.indexOf("where"));
+		result.query = result.query.replaceAll('`', '');
+		result.query += " WHERE " + condition
 		result.query = "\n" + this.format(result.query);
 		result.params = Object.values(result.params);
 		return result;
