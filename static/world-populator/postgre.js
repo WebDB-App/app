@@ -1,6 +1,7 @@
 import pg from "pg";
 import countries from './countries.js';
 import cities from './cities.json' assert { type: 'json' };
+import regions from './admin2.json' assert { type: 'json' };
 
 const pool = new pg.Pool({
 	user: 'root',
@@ -83,6 +84,23 @@ async function populate_countries() {
 	}
 }
 
+async function populate_regions() {
+	const client = await pool.connect();
+	try {
+		const to_insert = [];
+		for (const region of regions) {
+			to_insert.push(client.query({
+				text: 'INSERT INTO region (code, name) VALUES ($1, $2)',
+				values: [region.code, region.name],
+			}));
+		}
+
+		await Promise.all(to_insert);
+	} finally {
+		client.release();
+	}
+}
+
 async function populate_cities() {
 	const client = await pool.connect();
 	try {
@@ -109,7 +127,8 @@ async function populate_cities() {
 }
 
 try {
-	//await populate_countries();
+	await populate_countries();
+	await populate_regions();
 	await populate_cities();
 } finally {
 	await pool.end();
