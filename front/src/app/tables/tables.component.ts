@@ -30,7 +30,7 @@ export class TablesComponent implements OnInit {
 	tabs!: string[];
 
 	constructor(
-		public router: Router,
+		private router: Router,
 		private titleService: Title,
 		private snackBar: MatSnackBar,
 		private dialog: MatDialog,
@@ -119,6 +119,22 @@ export class TablesComponent implements OnInit {
 		this.dialog.open(CreateTableDialog, {
 			hasBackdrop: false
 		});
+	}
+
+	async changeTable(name: string) {
+		let url = this.router.url;
+		if (url.indexOf(`/(${this.selectedTable!.name}/`) >= 0) {
+			url = url.replace(`/(${this.selectedTable!.name}/`, `/(${name}/`);
+		} else {
+			url = url.replace(`/${this.selectedTable!.name}/`, `/${name}/`);
+		}
+
+		const explore = url.indexOf(`/explore;`);
+		if (explore >= 0) {
+			url = url.substring(0, explore) + '/explore';
+		}
+
+		await this.router.navigateByUrl(url);
 	}
 
 	saveWidth(width: number) {

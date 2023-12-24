@@ -18,11 +18,11 @@
 			<mat-button-toggle-group
 				(change)="iframe = $event.value ? sanitizer.bypassSecurityTrustResourceUrl($event.value) : undefined">
 				<mat-button-toggle value='https://ngneat.github.io/falso/docs/getting-started'>
-					<img style="height: 32px; width: 32px;" src="/assets/falso.png"/>
+					<img style="height: 30px; width: 30px;" src="/assets/falso.png"/>
 					Falso
 				</mat-button-toggle>
 				<mat-button-toggle value='https://v7.fakerjs.dev/api/'>
-					<mat-icon style="height: 32px; width: 32px;" svgIcon="faker"></mat-icon>
+					<mat-icon style="height: 30px; width: 30px;" svgIcon="faker"></mat-icon>
 					FakerJS
 				</mat-button-toggle>
 				<mat-button-toggle value=''>

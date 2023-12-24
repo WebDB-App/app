@@ -20,21 +20,7 @@
 				flex-direction: column;
 
 				.mat-list-item {
-
-					::ng-deep .mat-list-item-content {
-						padding: 0px;
-
-						.mat-list-text {
-							padding: 0px;
-						}
-
-						a {
-							margin: 0px 12px;
-							text-decoration: none;
-							color: inherit;
-							font-size: 15px;
-						}
-					}
+					font-size: 15px;
 				}
 
 				::ng-deep .table td:nth-child(2) {

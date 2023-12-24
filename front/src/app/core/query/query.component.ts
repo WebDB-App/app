@@ -169,6 +169,12 @@ export class QueryComponent implements OnInit, OnDestroy {
 			return;
 		}
 
+		if ((this.page * this.pageSize) > this.querySize) {
+			this.page = 0;
+			await this._runSingle();
+			return;
+		}
+
 		if (this.querySize === 0) {
 			result.push({" ": "No Data"});
 		} else {

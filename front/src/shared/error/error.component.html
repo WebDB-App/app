@@ -3,21 +3,17 @@
 		{{ data.error.error }}
 	</div>
 
-	<div>
+	<div style="margin-right: -12px;">
 		<a href="https://google.com/search?q={{data.error.error}}"
 		   mat-icon-button
-		   matTooltip="Search on web"
 		   target="_blank">
-			<span class="material-symbols-outlined notranslate">
-				travel_explore
-			</span>
+			<mat-icon style="height: 18px; width: 18px;" svgIcon="google"></mat-icon>
 		</a>
 
 		<button
 			(click)="assistant()"
-			mat-icon-button
-			matTooltip="Ask AI for help">
-			<span class="material-symbols-outlined notranslate">
+			mat-icon-button>
+			<span class="material-symbols-outlined notranslate" style="font-size: 18px">
 				support_agent
 			</span>
 		</button>
@@ -25,7 +21,7 @@
 		<button
 			(click)="bottomSheetRef.dismiss()"
 			mat-icon-button>
-			<span class="material-symbols-outlined notranslate">
+			<span class="material-symbols-outlined notranslate" style="font-size: 18px">
 				close
 			</span>
 		</button>
