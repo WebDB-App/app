@@ -53,17 +53,19 @@
 				::ng-deep .mat-list-item-content {
 
 					.mat-list-text {
-						display: block;
+						display: flex;
+						flex-direction: row;
+						padding: 0px;
+						gap: 10px;
 					}
 
 					.tableCount {
 						width: 28px;
-						display: inline-flex;
-						justify-content: flex-end;
-						padding-right: 10px;
+						text-align: right;
 					}
 
 					a {
+						flex: 1;
 						text-decoration: none;
 						color: inherit;
 						font-size: 15px;

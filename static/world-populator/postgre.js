@@ -1,84 +1,116 @@
-import mysql from "mysql2/promise.js";
-import countries from "./countries.js";
-import cities from "./cities.json" assert { type: "json" };
+import pg from "pg";
+import countries from './countries.js';
+import cities from './cities.json' assert { type: 'json' };
 
-const connection = await mysql.createConnection({
+const pool = new pg.Pool({
 	user: 'root',
-	host: '127.0.0.1',
+	host: 'localhost',
+	database: 'world',
 	password: 'notSecureChangeMe',
-	port: '3307',
-	database: 'world'
+	port: 5432,
 });
 
 async function populate_countries() {
-	for (const country of Object.values(countries)) {
+	const client = await pool.connect();
+	try {
+		for (const country of Object.values(countries)) {
+			let res = await client.query('SELECT id FROM continent WHERE name = $1', [country.continent]);
+			let rowContinent = res.rows[0];
 
-		let [rowContinent] = await connection.execute(`SELECT id FROM continent WHERE name = ?`, [country.continent]);
-		if (rowContinent.length < 1) {
-			await connection.execute(`INSERT INTO continent (name) VALUES (?)`, [country.continent]);
-			[rowContinent] = await connection.execute(`SELECT id FROM continent WHERE name = ?`, [country.continent]);
-		}
-		const continentId = rowContinent[0]['id'];
-
-
-		let [rowCountry] = await connection.execute(`SELECT id FROM country WHERE name = ?`, [country.name]);
-		if (rowCountry.length < 1) {
-			await connection.execute(`INSERT INTO country (name, native, phone, continent_id, capital) VALUES ( ?, ?, ?, ?, ? )`, [country.name, country.native, country.phone[0], continentId, country.capital]);
-			[rowCountry] = await connection.execute(`SELECT id FROM continent WHERE name = ?`, [country.continent]);
-		}
-		const countryId = rowCountry[0]['id'];
-
-
-
-		for (const currency of country.currency) {
-			let [rowCurrency] = await connection.execute(`SELECT id FROM currency WHERE name = ?`, [currency]);
-			if (rowCurrency.length < 1) {
-				await connection.execute(`INSERT INTO currency (name) VALUES (?)`, [currency]);
-				[rowCurrency] = await connection.execute(`SELECT id FROM currency WHERE name = ?`, [currency]);
+			if (!rowContinent) {
+				await client.query('INSERT INTO continent (name) VALUES ($1)', [country.continent]);
+				res = await client.query('SELECT id FROM continent WHERE name = $1', [country.continent]);
+				rowContinent = res.rows[0];
 			}
-			const currencyId = rowCurrency[0]['id'];
+			const continentId = rowContinent.id;
 
+			res = await client.query('SELECT id FROM country WHERE name = $1', [country.name]);
+			let rowCountry = res.rows[0];
 
-			let [rowCurrencyCountry] = await connection.execute(`SELECT * FROM currency_country WHERE id_currency = ? and id_country = ?`, [currencyId, countryId]);
-			if (rowCurrencyCountry.length < 1) {
-				await connection.execute(`INSERT INTO currency_country (id_currency, id_country) VALUES (?, ?)`, [currencyId, countryId]);
+			if (!rowCountry) {
+				await client.query('INSERT INTO country (name, native, phone, continent_id, capital) VALUES ($1, $2, $3, $4, $5)', [
+					country.name,
+					country.native,
+					country.phone[0],
+					continentId,
+					country.capital,
+				]);
+				res = await client.query('SELECT id FROM country WHERE name = $1', [country.name]);
+				rowCountry = res.rows[0];
+			}
+			const countryId = rowCountry.id;
+
+			for (const currency of country.currency) {
+				res = await client.query('SELECT id FROM currency WHERE name = $1', [currency]);
+				let rowCurrency = res.rows[0];
+
+				if (!rowCurrency) {
+					await client.query('INSERT INTO currency (name) VALUES ($1)', [currency]);
+					res = await client.query('SELECT id FROM currency WHERE name = $1', [currency]);
+					rowCurrency = res.rows[0];
+				}
+				const currencyId = rowCurrency.id;
+
+				res = await client.query('SELECT * FROM currency_country WHERE id_currency = $1 and id_country = $2', [currencyId, countryId]);
+				let rowCurrencyCountry = res.rows[0];
+
+				if (!rowCurrencyCountry) {
+					await client.query('INSERT INTO currency_country (id_currency, id_country) VALUES ($1, $2)', [currencyId, countryId]);
+				}
+			}
+
+			for (const language of country.languages) {
+				res = await client.query('SELECT id FROM language WHERE name = $1', [language]);
+				let rowLanguage = res.rows[0];
+
+				if (!rowLanguage) {
+					await client.query('INSERT INTO language (name) VALUES ($1)', [language]);
+					res = await client.query('SELECT id FROM language WHERE name = $1', [language]);
+					rowLanguage = res.rows[0];
+				}
+				const languageId = rowLanguage.id;
+
+				res = await client.query('SELECT * FROM language_country WHERE id_language = $1 and id_country = $2', [languageId, countryId]);
+				let rowLanguageCountry = res.rows[0];
+
+				if (!rowLanguageCountry) {
+					await client.query('INSERT INTO language_country (id_language, id_country) VALUES ($1, $2)', [languageId, countryId]);
+				}
 			}
 		}
-
-		for (const language of country.languages) {
-			let [rowLanguage] = await connection.execute(`SELECT id FROM language WHERE name = ?`, [language]);
-			if (rowLanguage.length < 1) {
-				await connection.execute(`INSERT INTO language (name) VALUES (?)`, [language]);
-				[rowLanguage] = await connection.execute(`SELECT id FROM language WHERE name = ?`, [language]);
-			}
-			const languageId = rowLanguage[0]['id'];
-
-
-			let [rowLanguageCountry] = await connection.execute(`SELECT * FROM language_country WHERE id_language = ? and id_country = ?`, [languageId, countryId]);
-			if (rowLanguageCountry.length < 1) {
-				await connection.execute(`INSERT INTO language_country (id_language, id_country) VALUES (?, ?)`, [languageId, countryId]);
-			}
-		}
+	} finally {
+		client.release();
 	}
 }
 
 async function populate_cities() {
-	const [countriesDB] = await connection.execute(`SELECT * FROM country`);
-	const [regionsDB] = await connection.execute(`SELECT * FROM region`);
-	const to_insert = [];
+	const client = await pool.connect();
+	try {
+		const resCountries = await client.query('SELECT * FROM country');
+		const resRegions = await client.query('SELECT * FROM region');
+		const countriesDB = resCountries.rows;
+		const regionsDB = resRegions.rows;
+		const to_insert = [];
 
-	for (const city of Object.values(cities)) {
+		for (const city of Object.values(cities)) {
+			const regionCode = city.admin1 && city.admin2 ? city.country + '.' + city.admin1 + '.' + city.admin2 : null;
+			const region = regionCode ? regionsDB.find(region => region.code === regionCode) : null;
+			const country = countriesDB.find(country => country.name === countries[city.country].name);
+			to_insert.push(client.query({
+				text: 'INSERT INTO city (name, lat, lng, country_id, region_code) VALUES ($1, $2, $3, $4, $5)',
+				values: [city.name, city.lat, city.lng, country.id, region ? region.code : null],
+			}));
+		}
 
-		const regionCode = city.admin1 && city.admin2 ? city.country + '.' + city.admin1 + '.' + city.admin2 : null;
-		const region = regionCode ? regionsDB.find(region => region.code === regionCode) : null;
-		const country = countriesDB.find(country => country['name'] === countries[city.country].name);
-		to_insert.push([city.name, city.lat, city.lng, country.id, region ? region.code : null]);
+		await Promise.all(to_insert);
+	} finally {
+		client.release();
 	}
-
-	const query = connection.format(`INSERT INTO city (name, lat, lng, country_id, region_code) VALUES ?`, [to_insert]);
-	await connection.execute(query);
 }
 
-await populate_cities();
-
-await connection.end();
+try {
+	//await populate_countries();
+	await populate_cities();
+} finally {
+	await pool.end();
+}

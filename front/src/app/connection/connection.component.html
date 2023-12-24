@@ -108,8 +108,8 @@
 								[style.opacity]="database.system ? '0.5' : 1">
 								<span
 									class="tableCount"
-									matTooltip="Tables"
-									matTooltipPosition="right">
+									matTooltip="Table(s)"
+									matTooltipPosition="left">
 									{{ database.tables?.length }}
 								</span>
 
@@ -119,7 +119,7 @@
 							</mat-list-option>
 							<mat-list-option>
 								<div (click)="addDatabase(server)"
-									 style="text-align: center;">
+									 style="margin: 0px auto;">
 									<span
 										class="material-symbols-outlined notranslate"
 										style="vertical-align: middle">

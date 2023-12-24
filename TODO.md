@@ -1,7 +1,7 @@
-- world en bdd de demo
+- wget world en bdd de demo
 - ERD [Chrome bookmarks]
 - versionning
-- reorder columns
+
 
 
 
@@ -10,11 +10,16 @@
 
 
 
-
 # modules payant
 - new feature
 - system de téléchargement de code depuis la landing avec le mail
 - récupérer la licence directemnt depuis la landing + enlever l'endpoint
+
+- reorder columns
+- sql function doc (generate from web scrap)
+- virtual columns
+
+
 
 
 # Advanced auth 
@@ -41,9 +46,8 @@
 - harmonizer obj > 2
 
 
-# Other
 - refaire capture feature
+
+# Free
 - gemini + ajouter dans feature
-- sql function doc (generate from web scrap)
-- virtual columns
 - model garden
