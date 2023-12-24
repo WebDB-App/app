@@ -121,22 +121,6 @@ export class TablesComponent implements OnInit {
 		});
 	}
 
-	async changeTable(name: string) {
-		let url = this.router.url;
-		if (url.indexOf(`/(${this.selectedTable!.name}/`) >= 0) {
-			url = url.replace(`/(${this.selectedTable!.name}/`, `/(${name}/`);
-		} else {
-			url = url.replace(`/${this.selectedTable!.name}/`, `/${name}/`);
-		}
-
-		const explore = url.indexOf(`/explore;`);
-		if (explore >= 0) {
-			url = url.substring(0, explore) + '/explore';
-		}
-
-		await this.router.navigateByUrl(url);
-	}
-
 	saveWidth(width: number) {
 		const widths = JSON.parse(localStorage.getItem(localStorageTableWidthKey) || "{}");
 		widths[this.selectedDatabase!.name] = width;

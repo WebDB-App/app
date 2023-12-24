@@ -29,7 +29,7 @@
 					</mat-form-field>
 				</div>
 				<div *ngIf="extraAttributes.length">
-					<mat-form-field appearance="outline">
+					<mat-form-field appearance="outline" style="margin-bottom: -1.25em">
 						<mat-label>Extras</mat-label>
 						<mat-select formControlName="extra" multiple></mat-select>
 					</mat-form-field>
@@ -177,8 +177,11 @@
 					</mat-form-field>
 				</div>
 
-				<div *ngIf="extraAttributes.length">
-					<mat-form-field appearance="outline">
+				<div>
+					<mat-form-field
+						*ngIf="extraAttributes.length"
+						appearance="outline"
+						style="margin-bottom: -1.25em">
 						<mat-label>Extras</mat-label>
 						<mat-select formControlName="extra" multiple>
 							<mat-option

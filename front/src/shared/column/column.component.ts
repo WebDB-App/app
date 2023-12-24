@@ -8,7 +8,6 @@ import { Table } from "../../classes/table";
 import { Group, TypeData, TypeGroup } from "../../classes/driver";
 import { Database } from "../../classes/database";
 
-
 @Component({
 	selector: 'app-column',
 	templateUrl: './column.component.html',
