@@ -50,13 +50,29 @@
 				flex-wrap: wrap;
 				flex: 1;
 
-				::ng-deep .mat-list-text {
-					padding-right: 40px;
+				::ng-deep .mat-list-item-content {
+
+					.mat-list-text {
+						display: block;
+					}
+
+					.tableCount {
+						width: 28px;
+						display: inline-flex;
+						justify-content: flex-end;
+						padding-right: 10px;
+					}
+
+					a {
+						text-decoration: none;
+						color: inherit;
+						font-size: 15px;
+					}
 				}
 			}
 
 			.mat-list-option {
-				max-width: 420px;
+				max-width: 375px;
 				margin: 0px auto;
 			}
 

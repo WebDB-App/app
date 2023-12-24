@@ -104,16 +104,18 @@
 						<mat-selection-list [multiple]="false">
 							<mat-list-option
 								*ngFor="let database of server.dbs"
-								[disabled]="database.tables === undefined"
 								[hidden]="database.hide"
-								[style.opacity]="database.system ? '0.5' : 1"
-								routerLink="/{{server.name}}/{{database.name}}">
-								{{ database.name }}
-								<span matTooltip="Tables"
-									  matTooltipPosition="right"
-									  style="position: absolute; right: 20px">
+								[style.opacity]="database.system ? '0.5' : 1">
+								<span
+									class="tableCount"
+									matTooltip="Tables"
+									matTooltipPosition="right">
 									{{ database.tables?.length }}
 								</span>
+
+								<a [href]="'/#/' + server.name + '/' + database.name">
+									{{ database.name }}
+								</a>
 							</mat-list-option>
 							<mat-list-option>
 								<div (click)="addDatabase(server)"

@@ -53,9 +53,10 @@
 						<mat-list-option
 							[class.mat-list-single-selected-option]="selectedTable?.name === table.name"
 							[style.font-style]="table.view ? 'italic' : 'normal' "
-							[routerLink]="['..', table.name]"
 							[value]="table.name">
-							{{ table.name }}
+							<a [href]="'/#/' + selectedServer?.name + '/' + selectedDatabase?.name + '/' + table.name">
+								{{ table.name }}
+							</a>
 						</mat-list-option>
 					</div>
 					<div *ngIf="tooltips[table.name]"

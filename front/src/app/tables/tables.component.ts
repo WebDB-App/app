@@ -30,7 +30,7 @@ export class TablesComponent implements OnInit {
 	tabs!: string[];
 
 	constructor(
-		private router: Router,
+		public router: Router,
 		private titleService: Title,
 		private snackBar: MatSnackBar,
 		private dialog: MatDialog,
