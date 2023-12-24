@@ -70,7 +70,7 @@ export class TableAdvancedComponent implements OnDestroy {
 			if (!result) {
 				return;
 			}
-			this.snackBar.open(`Dropped ${this.selectedTable?.name}`, "╳", {duration: 3000});
+			this.snackBar.open(`Dropped ${this.selectedTable?.name}`, "⨉", {duration: 3000});
 			await this.router.navigate([
 				'/',
 				this.selectedServer?.name,
@@ -86,19 +86,19 @@ export class TableAdvancedComponent implements OnDestroy {
 			if (!result) {
 				return;
 			}
-			this.snackBar.open(`Table ${this.selectedTable?.name} truncated`, "╳", {duration: 3000});
+			this.snackBar.open(`Table ${this.selectedTable?.name} truncated`, "⨉", {duration: 3000});
 		});
 	}
 
 	async rename(new_name: string) {
 		await this.request.post('table/rename', {new_name});
-		this.snackBar.open(`Table ${this.selectedTable?.name} renamed to ${new_name}`, "╳", {duration: 3000});
+		this.snackBar.open(`Table ${this.selectedTable?.name} renamed to ${new_name}`, "⨉", {duration: 3000});
 		await this.goToNew(new_name);
 	}
 
 	async duplicate(new_name: string) {
 		await this.request.post('table/duplicate', {new_name});
-		this.snackBar.open(`Table ${this.selectedTable?.name} duplicated to ${new_name}`, "╳", {duration: 3000});
+		this.snackBar.open(`Table ${this.selectedTable?.name} duplicated to ${new_name}`, "⨉", {duration: 3000});
 		await this.goToNew(new_name);
 	}
 

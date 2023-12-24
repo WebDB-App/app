@@ -376,7 +376,7 @@ export class CreateViewDialog {
 			this.form.get('name')?.value,
 			'structure']);
 
-		this.snackBar.open(`View ${this.form.get('name')?.value} created`, "╳", {duration: 3000});
+		this.snackBar.open(`View ${this.form.get('name')?.value} created`, "⨉", {duration: 3000});
 		this.dialogRef.close(true);
 	}
 }

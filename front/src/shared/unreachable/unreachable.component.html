@@ -57,7 +57,7 @@
 	<div>
 
 		<button
-			(click)="snackBar.open('Code copied', '╳', {duration: 3000})"
+			(click)="snackBar.open('Code copied', '⨉', {duration: 3000})"
 			[cdkCopyToClipboard]="'docker logs $(docker ps -a -q --filter ancestor=webdb/app)'"
 			color="primary"
 			mat-stroked-button>
@@ -66,7 +66,7 @@
 		</button>
 
 		<button
-			(click)="snackBar.open('Code copied', '╳', {duration: 3000})"
+			(click)="snackBar.open('Code copied', '⨉', {duration: 3000})"
 			[cdkCopyToClipboard]="'docker restart $(docker ps -a -q --filter ancestor=webdb/app)'"
 			color="primary"
 			mat-stroked-button>

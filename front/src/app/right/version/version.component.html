@@ -24,7 +24,7 @@
 	-->
 
 	<button
-		(click)="snackBar.open('Git remote copied', '╳', {duration: 3000})"
+		(click)="snackBar.open('Git remote copied', '⨉', {duration: 3000})"
 		[cdkCopyToClipboard]="'TODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODO'"
 		mat-icon-button>
 		<span class="material-symbols-outlined notranslate">
@@ -70,7 +70,7 @@
 				</span>
 
 				<button
-					(click)="snackBar.open('Hash copied', '╳', {duration: 3000})"
+					(click)="snackBar.open('Hash copied', '⨉', {duration: 3000})"
 					[cdkCopyToClipboard]="patch.sha1"
 					mat-button>
 					<span class="material-symbols-outlined notranslate">

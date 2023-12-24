@@ -47,14 +47,14 @@
 				<div>
 					<div>
 						<button
-							(click)="snackBar.open('Code copied', '╳', {duration: 3000})"
+							(click)="snackBar.open('Code copied', '⨉', {duration: 3000})"
 							[cdkCopyToClipboard]="'cat ~/.ssh/id_rsa'"
 							mat-button
 							style="width: 160px">
 							cat ~/.ssh/id_rsa
 						</button>
 						<button
-							(click)="snackBar.open('Code copied', '╳', {duration: 3000})"
+							(click)="snackBar.open('Code copied', '⨉', {duration: 3000})"
 							[cdkCopyToClipboard]='"ssh-keygen -t rsa -N \"\" -f ~/.ssh/id_rsa"'
 							mat-button
 							style="width: 160px">

@@ -182,7 +182,7 @@ export class AiComponent implements OnInit, OnDestroy {
 		}*/
 
 		if (snack) {
-			this.snackBar.open("Settings saved", "╳", {duration: 3000});
+			this.snackBar.open("Settings saved", "⨉", {duration: 3000});
 		}
 	}
 

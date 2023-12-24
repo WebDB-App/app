@@ -183,7 +183,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 		});
 		this.selection.clear();
 
-		this.snackBar.open(`${nb} rows deleted`, "╳", {duration: 3000});
+		this.snackBar.open(`${nb} rows deleted`, "⨉", {duration: 3000});
 	}
 
 	editRow(i: number, row: any) {

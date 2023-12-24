@@ -73,7 +73,7 @@ export class BatchUpdateDialog {
 			}, this.selectedTable, this.selectedDatabase, this.selectedServer);
 		}
 
-		this.snackBar.open(`${nb} row(s) updated`, "╳", {duration: 3000});
+		this.snackBar.open(`${nb} row(s) updated`, "⨉", {duration: 3000});
 		this.dialogRef.close(true);
 	}
 

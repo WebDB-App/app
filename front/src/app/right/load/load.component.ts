@@ -90,7 +90,7 @@ export class LoadComponent {
 			return;
 		}
 
-		this.snackBar.open("Import succeed", "╳", {duration: 3000})
+		this.snackBar.open("Import succeed", "⨉", {duration: 3000})
 		await this.request.reloadServer();
 		this.isLoading = false;
 	}
@@ -101,7 +101,7 @@ export class LoadComponent {
 				return file.name.toLowerCase().endsWith(name);
 			});
 			if (!end) {
-				this.snackBar.open("File format not supported", "╳", {panelClass: 'snack-error'})
+				this.snackBar.open("File format not supported", "⨉", {panelClass: 'snack-error'})
 				return false;
 			}
 			return file;

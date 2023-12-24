@@ -143,7 +143,7 @@ export class StructureComponent implements OnInit, AfterViewChecked {
 	async deleteIndex(row: any) {
 		await this.request.post('index/drop', {name: row.name});
 
-		this.snackBar.open(`Dropped index ${row.name}`, "╳", {duration: 3000})
+		this.snackBar.open(`Dropped index ${row.name}`, "⨉", {duration: 3000})
 		await this.refreshData();
 	}
 
@@ -210,7 +210,7 @@ export class AddIndexDialog {
 			columns
 		}, this.table, this.selectedDatabase, this.selectedServer);
 
-		this.snackBar.open(`Added index ${name}`, "╳", {duration: 3000})
+		this.snackBar.open(`Added index ${name}`, "⨉", {duration: 3000})
 		this.dialogRef.close(true);
 	}
 }
@@ -231,7 +231,7 @@ export class DropColumnDialog {
 	async dropColumn() {
 		await this.request.post('column/drop', {column: this.column.name});
 
-		this.snackBar.open(`Dropped column ${this.column.name}`, "╳", {duration: 3000})
+		this.snackBar.open(`Dropped column ${this.column.name}`, "⨉", {duration: 3000})
 		this.dialogRef.close(true);
 	}
 }
@@ -262,7 +262,7 @@ export class AddColumnDialog {
 
 	async apply() {
 		await this.request.post('column/add', this.form.value);
-		this.snackBar.open(`Columns added`, "╳", {duration: 3000});
+		this.snackBar.open(`Columns added`, "⨉", {duration: 3000});
 		this.dialogRef.close(true);
 	}
 
@@ -309,7 +309,7 @@ export class UpdateColumnDialog {
 
 		try {
 			await this.request.post('column/modify', this.form.getRawValue());
-			this.snackBar.open(`Columns altered`, "╳", {duration: 3000});
+			this.snackBar.open(`Columns altered`, "⨉", {duration: 3000});
 			await this.request.reloadServer();
 		} catch (e) {
 		}

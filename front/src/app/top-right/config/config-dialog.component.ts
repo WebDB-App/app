@@ -55,14 +55,14 @@ export class ConfigDialog implements OnInit {
 	async save(email: string) {
 		try {
 			await Licence.renew(email);
-			this.snackBar.open(`Account successfully registered `, "╳", {duration: 3000});
+			this.snackBar.open(`Account successfully registered `, "⨉", {duration: 3000});
 			await this.loadLicence();
 
 			if (Server.getSelected()) {
 				await this.request.reloadServer();
 			}
 		} catch (err: any) {
-			this.snackBar.open(err + ". Contact us at: main.webdb@gmail.com", "╳", {panelClass: 'snack-error'});
+			this.snackBar.open(err + ". Contact us at: main.webdb@gmail.com", "⨉", {panelClass: 'snack-error'});
 		}
 	}
 
