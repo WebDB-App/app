@@ -2,6 +2,7 @@
 	"name": "world",
 	"type": "module",
 	"dependencies": {
+		"mongodb": "latest",
 		"mysql2": "latest",
 		"pg": "latest"
 	}

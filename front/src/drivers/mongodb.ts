@@ -195,7 +195,7 @@ async function main() {
 		"mongodb://${Server.getSelected().user}:${Server.getSelected().password}@${Server.getSelected().host}:${Server.getSelected().port}}/"
 	)).db("${Database.getSelected().name}");
 
-	${query.query}
+	await ${query.query}
 }`;
 	};
 

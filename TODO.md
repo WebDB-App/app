@@ -1,6 +1,5 @@
-- wget world en bdd de demo
-- ERD [Chrome bookmarks]
 - versionning
+- ERD [Chrome bookmarks]
 
 
 

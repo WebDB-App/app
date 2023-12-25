@@ -1,135 +1,127 @@
-import pg from "pg";
+import { MongoClient } from 'mongodb';
 import countries from './countries.js';
-import cities from './cities.json' assert { type: 'json' };
-import regions from './admin2.json' assert { type: 'json' };
+import cities from "./cities.json" assert { type: "json" };
 
-const pool = new pg.Pool({
-	user: 'root',
-	host: 'localhost',
-	database: 'world',
-	password: 'notSecureChangeMe',
-	port: 5432,
-});
+const client = new MongoClient("mongodb://root:notSecureChangeMe@127.0.0.1:27017/?serverSelectionTimeoutMS=2000&authSource=admin", { useNewUrlParser: true, useUnifiedTopology: true });
+const dbName = 'world';
 
-async function populate_countries() {
-	const client = await pool.connect();
-	try {
-		for (const country of Object.values(countries)) {
-			let res = await client.query('SELECT id FROM continent WHERE name = $1', [country.continent]);
-			let rowContinent = res.rows[0];
+await client.connect();
 
-			if (!rowContinent) {
-				await client.query('INSERT INTO continent (name) VALUES ($1)', [country.continent]);
-				res = await client.query('SELECT id FROM continent WHERE name = $1', [country.continent]);
-				rowContinent = res.rows[0];
-			}
-			const continentId = rowContinent.id;
+async function populateCountries() {
+	const db = client.db(dbName);
+	const continentCollection = db.collection('continent');
+	const countryCollection = db.collection('country');
+	const currencyCollection = db.collection('currency');
+	const currencyCountryCollection = db.collection('currency_country');
+	const languageCollection = db.collection('language');
+	const languageCountryCollection = db.collection('language_country');
 
-			res = await client.query('SELECT id FROM country WHERE name = $1', [country.name]);
-			let rowCountry = res.rows[0];
+	for (const country of Object.values(countries)) {
+		let rowContinent = await continentCollection.findOne({ name: country.continent });
 
-			if (!rowCountry) {
-				await client.query('INSERT INTO country (name, native, phone, continent_id, capital) VALUES ($1, $2, $3, $4, $5)', [
-					country.name,
-					country.native,
-					country.phone[0],
-					continentId,
-					country.capital,
-				]);
-				res = await client.query('SELECT id FROM country WHERE name = $1', [country.name]);
-				rowCountry = res.rows[0];
-			}
-			const countryId = rowCountry.id;
+		if (!rowContinent) {
+			rowContinent = await continentCollection.insertOne({ name: country.continent });
+			rowContinent = { id: rowContinent.insertedId };
+		} else {
+			rowContinent.id = rowContinent._id;
+		}
 
-			for (const currency of country.currency) {
-				res = await client.query('SELECT id FROM currency WHERE name = $1', [currency]);
-				let rowCurrency = res.rows[0];
+		const continentId = rowContinent.id;
 
-				if (!rowCurrency) {
-					await client.query('INSERT INTO currency (name) VALUES ($1)', [currency]);
-					res = await client.query('SELECT id FROM currency WHERE name = $1', [currency]);
-					rowCurrency = res.rows[0];
-				}
-				const currencyId = rowCurrency.id;
+		let rowCountry = await countryCollection.findOne({ name: country.name });
 
-				res = await client.query('SELECT * FROM currency_country WHERE id_currency = $1 and id_country = $2', [currencyId, countryId]);
-				let rowCurrencyCountry = res.rows[0];
+		if (!rowCountry) {
+			rowCountry = await countryCollection.insertOne({
+				name: country.name,
+				native: country.native,
+				phone: country.phone,
+				continent_id: continentId,
+				capital: country.capital,
+			});
+			rowCountry = { id: rowCountry.insertedId };
+		} else {
+			rowCountry.id = rowCountry._id;
+		}
 
-				if (!rowCurrencyCountry) {
-					await client.query('INSERT INTO currency_country (id_currency, id_country) VALUES ($1, $2)', [currencyId, countryId]);
-				}
+		const countryId = rowCountry.id;
+
+		for (const currency of country.currency) {
+			let rowCurrency = await currencyCollection.findOne({ name: currency });
+
+			if (!rowCurrency) {
+				rowCurrency = await currencyCollection.insertOne({ name: currency });
+				rowCurrency = { id: rowCurrency.insertedId };
+			} else {
+				rowCurrency.id = rowCurrency._id;
 			}
 
-			for (const language of country.languages) {
-				res = await client.query('SELECT id FROM language WHERE name = $1', [language]);
-				let rowLanguage = res.rows[0];
+			const currencyId = rowCurrency.id;
 
-				if (!rowLanguage) {
-					await client.query('INSERT INTO language (name) VALUES ($1)', [language]);
-					res = await client.query('SELECT id FROM language WHERE name = $1', [language]);
-					rowLanguage = res.rows[0];
-				}
-				const languageId = rowLanguage.id;
+			let rowCurrencyCountry = await currencyCountryCollection.findOne({
+				id_currency: currencyId,
+				id_country: countryId,
+			});
 
-				res = await client.query('SELECT * FROM language_country WHERE id_language = $1 and id_country = $2', [languageId, countryId]);
-				let rowLanguageCountry = res.rows[0];
-
-				if (!rowLanguageCountry) {
-					await client.query('INSERT INTO language_country (id_language, id_country) VALUES ($1, $2)', [languageId, countryId]);
-				}
+			if (!rowCurrencyCountry) {
+				await currencyCountryCollection.insertOne({ id_currency: currencyId, id_country: countryId });
 			}
 		}
-	} finally {
-		client.release();
+
+		for (const language of country.languages) {
+			let rowLanguage = await languageCollection.findOne({ name: language });
+
+			if (!rowLanguage) {
+				rowLanguage = await languageCollection.insertOne({ name: language });
+				rowLanguage = { id: rowLanguage.insertedId };
+			} else {
+				rowLanguage.id = rowLanguage._id;
+			}
+
+			const languageId = rowLanguage.id;
+
+			let rowLanguageCountry = await languageCountryCollection.findOne({
+				id_language: languageId,
+				id_country: countryId,
+			});
+
+			if (!rowLanguageCountry) {
+				await languageCountryCollection.insertOne({ id_language: languageId, id_country: countryId });
+			}
+		}
 	}
 }
 
-async function populate_regions() {
-	const client = await pool.connect();
-	try {
-		const to_insert = [];
-		for (const region of regions) {
-			to_insert.push(client.query({
-				text: 'INSERT INTO region (code, name) VALUES ($1, $2)',
-				values: [region.code, region.name],
-			}));
-		}
+async function populateCities() {
+	const db = client.db(dbName);
+	const countryCollection = db.collection('country');
+	const regionCollection = db.collection('region');
+	const cityCollection = db.collection('city');
+	const countriesDB = await countryCollection.find({}).toArray();
+	const regionsDB = await regionCollection.find({}).toArray();
 
-		await Promise.all(to_insert);
-	} finally {
-		client.release();
+	const toInsert = [];
+
+	for (const city of Object.values(cities)) {
+		const regionCode = city.admin1 && city.admin2 ? `${city.country}.${city.admin1}.${city.admin2}` : null;
+		const region = regionCode ? regionsDB.find((region) => region.code === regionCode) : null;
+		const country = countriesDB.find((country) => country.name === countries[city.country].name);
+		toInsert.push({
+			name: city.name,
+			lat: city.lat,
+			lng: city.lng,
+			country_id: country._id,
+			region_code: region ? region.code : null,
+		});
 	}
+
+	await cityCollection.insertMany(toInsert);
 }
 
-async function populate_cities() {
-	const client = await pool.connect();
+(async () => {
 	try {
-		const resCountries = await client.query('SELECT * FROM country');
-		const resRegions = await client.query('SELECT * FROM region');
-		const countriesDB = resCountries.rows;
-		const regionsDB = resRegions.rows;
-		const to_insert = [];
-
-		for (const city of Object.values(cities)) {
-			const regionCode = city.admin1 && city.admin2 ? city.country + '.' + city.admin1 + '.' + city.admin2 : null;
-			const region = regionCode ? regionsDB.find(region => region.code === regionCode) : null;
-			const country = countriesDB.find(country => country.name === countries[city.country].name);
-			to_insert.push(client.query({
-				text: 'INSERT INTO city (name, lat, lng, country_id, region_code) VALUES ($1, $2, $3, $4, $5)',
-				values: [city.name, city.lat, city.lng, country.id, region ? region.code : null],
-			}));
-		}
-
-		await Promise.all(to_insert);
+		//await populateCountries();
+		await populateCities();
 	} finally {
-		client.release();
+		await client.close();
 	}
-}
-
-try {
-	await populate_countries();
-	await populate_regions();
-	await populate_cities();
-} finally {
-	await pool.end();
-}
+})();

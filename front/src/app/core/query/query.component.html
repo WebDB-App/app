@@ -51,7 +51,7 @@
 
 		<button
 			(click)="exportResult()"
-			[disabled]="!dataSource || dataSource.data.length < 1"
+			[disabled]="!dataSource || dataSource.data.length < 2"
 			mat-icon-button
 			matTooltip="Export all results">
 			<span class="material-symbols-outlined notranslate">export_notes</span>

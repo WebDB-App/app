@@ -1,6 +1,16 @@
 mat-drawer {
 	min-width: 33vw;
 	max-width: 83vw;
+	resize: horizontal;
+	direction: rtl;
+
+	&::-webkit-resizer {
+		border-color: rgba(255, 255, 255, 0) rgba(255, 255, 255, 0) rgba(255, 255, 255, 0.5) rgba(255, 255, 255, 0.5) !important;
+	}
+
+	::ng-deep .mat-drawer-inner-container {
+		direction: ltr;
+	}
 }
 
 #server {

@@ -186,10 +186,12 @@ export default class MongoDB extends Driver {
 	}
 
 	async statsTable(database, table) {
-		const stats = await this.connection.db(database).collection(table).stats();
+		const query = await this.runCommand(`db.collection("${table}").aggregate([{ $collStats: { storageStats: {} } }]).toArray()`, database);
+		const stats = BSON.EJSON.parse(query)[0].storageStats;
+
 		return {
-			data_length: stats.size,
-			index_length: stats.totalIndexSize
+			data_length: stats.storageSize,
+			index_length: stats.indexSizes._id_
 		};
 	}
 
