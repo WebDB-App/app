@@ -21,8 +21,12 @@ export default class MongoDB extends Driver {
 
 	async dump(database, exportType = "bson", tables, options = "") {
 		let path = join(dirname, `../../static/dump/${database}`);
+		let frontPath = `dump/${database}`;
+
 		if (exportType === "json") {
 			path = `${path}.json`;
+			frontPath += ".json";
+
 			const results = {};
 			for (const table of tables) {
 				try {
@@ -38,12 +42,14 @@ export default class MongoDB extends Driver {
 		}
 		if (exportType === "bson") {
 			path = `${path}.gz`;
+			frontPath += ".gz";
+
 			const result = bash.runBash(`mongodump --uri="${this.makeUri()}" --db=${database} --archive=${path} ${options}`);
 			if (result.error) {
 				return result;
 			}
 		}
-		return {path: `dump/${database}.${exportType}`};
+		return {path: frontPath};
 	}
 
 	async saveState(path, database) {
@@ -661,6 +667,7 @@ export default class MongoDB extends Driver {
 			let types = Object.keys(type)
 				.map(ty => JSON.parse(ty))
 				.filter(ty => Array.isArray(ty) ? ty.length > 0 : ty);
+			const nullable = types.length !== Object.keys(type).length;
 
 			if (types.length === 1 && typeof types[0] === "string") {
 				types = types[0];
@@ -669,7 +676,7 @@ export default class MongoDB extends Driver {
 			final.push({
 				name,
 				type: types,
-				nullable: types.length !== Object.keys(type).length
+				nullable
 			});
 		}
 
