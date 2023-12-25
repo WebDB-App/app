@@ -11,6 +11,7 @@ const dirname = new URL(".", import.meta.url).pathname;
 
 export default class MySQL extends SQL {
 
+	stringEscape = "\"";
 	nameDel = "`";
 	commonUser = ["mysql", "maria", "mariadb"];
 	commonPass = ["mysql", "my-secret-pw", "maria", "mariadb", "mypass"];

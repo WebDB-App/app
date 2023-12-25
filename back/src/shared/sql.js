@@ -33,7 +33,11 @@ export default class SQL extends Driver {
 	objectToSql(data, comparator = "=") {
 		let sql = [];
 		for (const [col, value] of Object.entries(data)) {
-			sql.push(`${col} ${comparator} '${value}'`);
+			if (typeof value === "string") {
+				sql.push(`${col} ${comparator} ${this.stringEscape + value + this.stringEscape}`);
+			} else {
+				sql.push(`${col} ${comparator} '${value}'`);
+			}
 		}
 
 		return sql;
