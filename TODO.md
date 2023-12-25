@@ -45,8 +45,7 @@
 - harmonizer obj > 2
 
 
-- refaire capture feature
-
 # Free
 - gemini + ajouter dans feature
 - model garden
+- refaire capture feature

@@ -73,6 +73,10 @@ class Controller {
 	}
 
 	async load(req, res) {
+		if (process.env.PROTECTED_MODE === "true") {
+			return {error: "Load is disable by backend configuration"};
+		}
+
 		const [driver, , , server] = await http.getLoggedDriver(req);
 		if (server.ssh) {
 			fs.unlinkSync(req.file.path);
@@ -116,6 +120,10 @@ class Controller {
 	}
 
 	async guess(req, res) {
+		if (process.env.PROTECTED_MODE === "true") {
+			return {error: "Guess is disable by backend configuration"};
+		}
+
 		let scanned = [];
 		const driverClass = await wrapperModel.getDriverClass(req.body.wrapper);
 		const driverInstance = new driverClass();
