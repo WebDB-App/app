@@ -1,7 +1,6 @@
 - wget world en bdd de demo
 - ERD [Chrome bookmarks]
 - versionning
-- insert json problem sur Postgre
 
 
 

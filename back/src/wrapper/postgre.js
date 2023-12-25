@@ -12,6 +12,7 @@ const dirname = new URL(".", import.meta.url).pathname;
 
 export default class PostgreSQL extends SQL {
 
+	stringEscape_start = "$$";
 	commonUser = ["postgres", "postgre"];
 	commonPass = ["postgres", "postgre", "mysecretpassword"];
 	systemDbs = ["information_schema", "pg_catalog", "pg_toast", "pg_temp"];
@@ -170,7 +171,7 @@ export default class PostgreSQL extends SQL {
 					row[index] = `'{${JSON.stringify(obj).slice(1, -1)}}'`;
 				}
 				if (typeof obj === "string") {
-					row[index] = `'${obj}'`;
+					row[index] = this.stringEscape_start + obj + this.stringEscape_end;
 				}
 			}
 			return row;

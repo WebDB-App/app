@@ -278,7 +278,7 @@
 
 				<div *ngFor="let mrk of ch.marked" class="marked">
 
-					<div *ngIf="mrk.code" class="responseCode">
+					<div *ngIf="mrk.code && !ch.error" class="responseCode">
 						<div class="actions">
 							<button
 								(click)="runQuery(mrk.code);"
@@ -303,7 +303,7 @@
 						<pre><code [highlight]="mrk.code" [lineNumbers]="true"></code></pre>
 					</div>
 
-					<div *ngIf="mrk.html" class="actions">
+					<div *ngIf="mrk.html && !ch.error" class="actions">
 						<button
 							(click)="message.value = ch.txt"
 							*ngIf="ch.user === Role.User"
@@ -344,6 +344,7 @@
 							</button>
 						</ng-container>
 					</div>
+
 					<div [innerHTML]="mrk.html"></div>
 				</div>
 
