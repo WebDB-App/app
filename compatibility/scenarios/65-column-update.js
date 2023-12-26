@@ -81,7 +81,7 @@ async function run(config) {
 		const table = db.tables.find(table => table.name === config.table);
 		const cols = table.columns.filter(col => !col.name.startsWith('_id'));
 
-		//after.type = after.type.replace('character varying', 'varchar');
+		after.type = after.type.replace('character varying', 'varchar');
 
 		assert.equal(cols[0].name, after.name);
 		assert.equal(cols[0].type, after.type);

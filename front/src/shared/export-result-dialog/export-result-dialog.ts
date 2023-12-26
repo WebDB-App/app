@@ -5,6 +5,7 @@ import { Table } from "../../classes/table";
 import { Column } from "../../classes/column";
 import { Server } from "../../classes/server";
 import { Group } from "../../classes/driver";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
 	templateUrl: './export-result-dialog.html',
@@ -22,10 +23,15 @@ export class ExportResultDialog {
 	isLoading = true;
 
 	constructor(
+		public snackBar: MatSnackBar,
 		@Inject(MAT_DIALOG_DATA) public data: any[],
 	) {
 		this.columns = Object.keys(this.data[0]).filter(col => {
-			return !Column.isOfGroups(Server.getSelected().driver, Table.getSelected().columns.find(c => c.name === col)!, [Group.Blob]);
+			const column = Table.getSelected().columns.find(c => c.name === col);
+			if (column) {
+				return !Column.isOfGroups(Server.getSelected().driver, column, [Group.Blob]);
+			}
+			return true;
 		});
 		this.show(this.columns);
 	}

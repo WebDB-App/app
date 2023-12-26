@@ -31,10 +31,12 @@
 		<mat-button-toggle value="CSV">CSV</mat-button-toggle>
 		<mat-button-toggle value="JSON">JSON</mat-button-toggle>
 	</mat-button-toggle-group>
-	<button [cdkCopyToClipboard]="str"
-			cdkFocusInitial
-			color="primary"
-			mat-stroked-button>
+	<button
+		[cdkCopyToClipboard]="str"
+		(click)="snackBar.open('Rows copied', '⨉', {duration: 3000})"
+		cdkFocusInitial
+		color="primary"
+		mat-stroked-button>
 		Copy
 	</button>
 	<button (click)="download()" color="primary" mat-flat-button>

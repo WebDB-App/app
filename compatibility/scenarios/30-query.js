@@ -1,18 +1,48 @@
 import assert from 'node:assert';
 import axios from "axios";
 import {test} from "node:test";
-import {mostPopularCurrencyPerContinent} from "../servers.js";
+import {currencyPerContinent} from "../servers.js";
+
+const results = [
+	{
+		continent: 'AF',
+		nbCurrencies: '69'
+	},
+	{
+		continent: 'AN',
+		nbCurrencies: '4'
+	},
+	{
+		continent: 'AS',
+		nbCurrencies: '54'
+	},
+	{
+		continent: 'EU',
+		nbCurrencies: '54'
+	},
+	{
+		continent: 'NA',
+		nbCurrencies: '47'
+	},
+	{
+		continent: 'OC',
+		nbCurrencies: '27'
+	},
+	{
+		continent: 'SA',
+		nbCurrencies: '17'
+	}
+];
 
 async function run(config) {
 	const query = await axios.post(`${config.api}database/query`, {
-		query: mostPopularCurrencyPerContinent[config.wrapper],
+		query: currencyPerContinent[config.wrapper],
 		page: 0,
 		pageSize: 100,
 	});
-	await test('[query] Select 20 linked elements', () => {
+	await test('[query] Run currencyPerContinent', () => {
 		assert.equal(query.status, 200);
-		assert.ok(!query.data.error);
-		assert.ok(query.data.length === 7);
+		assert.equal(JSON.stringify(query.data), JSON.stringify(results));
 	});
 
 
@@ -20,11 +50,11 @@ async function run(config) {
 
 
 	const querySize = await axios.post(`${config.api}database/querySize`, {
-		query: mostPopularCurrencyPerContinent[config.wrapper],
+		query: currencyPerContinent[config.wrapper],
 	});
 	await test('[query] Good size result', () => {
 		assert.equal(querySize.status, 200);
-		assert.ok(querySize.data === 7);
+		assert.equal(querySize.data, results.length);
 	});
 }
 
