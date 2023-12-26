@@ -70,6 +70,15 @@ export default class MongoDB extends Driver {
 				bash.runBash(`mongoimport --uri="${this.makeUri()}" --db="${database}" --file "${file.path}" --collection ${file.originalname.split(".")[0]}`);
 			} else {
 				bash.runBash(`mongorestore --uri="${this.makeUri()}" --nsFrom="*" --nsTo="${database}.*" --gzip --archive="${file.path}"`);
+
+				const tables = (await this.getDatabases(false, 0))[database].tables;
+				for (const table of Object.values(tables)) {
+					if (table.name.indexOf(".") < 0) {
+						continue;
+					}
+
+					await this.renameTable(database, table.name, table.name.split(".")[1]);
+				}
 			}
 		}
 		return {ok: true};

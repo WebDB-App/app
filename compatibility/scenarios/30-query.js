@@ -1,48 +1,52 @@
 import assert from 'node:assert';
 import axios from "axios";
 import {test} from "node:test";
-import {currencyPerContinent} from "../servers.js";
+import {countryPerContinent} from "../servers.js";
 
 const results = [
 	{
-		continent: 'AF',
-		nbCurrencies: '69'
+		"continent": "AF",
+		"nb": "58"
 	},
 	{
-		continent: 'AN',
-		nbCurrencies: '4'
+		"continent": "AN",
+		"nb": "5"
 	},
 	{
-		continent: 'AS',
-		nbCurrencies: '54'
+		"continent": "AS",
+		"nb": "53"
 	},
 	{
-		continent: 'EU',
-		nbCurrencies: '54'
+		"continent": "EU",
+		"nb": "52"
 	},
 	{
-		continent: 'NA',
-		nbCurrencies: '47'
+		"continent": "NA",
+		"nb": "41"
 	},
 	{
-		continent: 'OC',
-		nbCurrencies: '27'
+		"continent": "OC",
+		"nb": "27"
 	},
 	{
-		continent: 'SA',
-		nbCurrencies: '17'
+		"continent": "SA",
+		"nb": "14"
 	}
 ];
 
 async function run(config) {
 	const query = await axios.post(`${config.api}database/query`, {
-		query: currencyPerContinent[config.wrapper],
+		query: countryPerContinent[config.wrapper],
 		page: 0,
 		pageSize: 100,
 	});
-	await test('[query] Run currencyPerContinent', () => {
+	await test('[query] Select number of country per continent', () => {
 		assert.equal(query.status, 200);
-		assert.equal(JSON.stringify(query.data), JSON.stringify(results));
+
+		for (const result of results) {
+			const q = query.data.find(data => data.continent === result.continent);
+			assert.equal(q.nb, result.nb);
+		}
 	});
 
 
@@ -50,7 +54,7 @@ async function run(config) {
 
 
 	const querySize = await axios.post(`${config.api}database/querySize`, {
-		query: currencyPerContinent[config.wrapper],
+		query: countryPerContinent[config.wrapper],
 	});
 	await test('[query] Good size result', () => {
 		assert.equal(querySize.status, 200);

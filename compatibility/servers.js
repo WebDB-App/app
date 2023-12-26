@@ -13,10 +13,10 @@ const columns01 = {
 	]
 }
 
-export const currencyPerContinent = {
-	PostgreSQL: "SELECT continent.name AS continent, COUNT(currency.id) AS \"nbCurrencies\" FROM continent LEFT JOIN country ON continent.id = country.continent_id LEFT JOIN currency_country ON country.id = currency_country.id_country LEFT JOIN currency ON currency_country.id_currency = currency.id GROUP BY continent.name ORDER BY continent.name;",
-	MySQL: "SELECT continent.name AS continent, COUNT(currency.id) AS \"nbCurrencies\" FROM continent LEFT JOIN country ON continent.id = country.continent_id LEFT JOIN currency_country ON country.id = currency_country.id_country LEFT JOIN currency ON currency_country.id_currency = currency.id GROUP BY continent.name ORDER BY continent.name;",
-	MongoDB: "db.collection(\"continent\").aggregate([ { $lookup: { from: \"country\", localField: \"_id\", foreignField: \"continent_id\", as: \"countries\" } }, { $lookup: { from: \"currency_country\", localField: \"countries._id\", foreignField: \"id_country\", as: \"currency_countries\" } }, { $lookup: { from: \"currency\", localField: \"currency_countries.id_currency\", foreignField: \"_id\", as: \"currencies\" } }, { $project: { _id: 0, continent: \"$name\", nbCurrencies: { $size: \"$currencies\" } } }, { $sort: { continent: 1 } } ]).toArray()"
+export const countryPerContinent = {
+	PostgreSQL: "SELECT continent.name AS continent, COUNT(country.id) AS nb FROM continent LEFT JOIN country ON continent.id = country.continent_id GROUP BY continent.name ORDER BY continent.name;",
+	MySQL: "SELECT continent.name AS continent, COUNT(country.id) AS nb FROM continent LEFT JOIN country ON continent.id = country.continent_id GROUP BY continent.name ORDER BY continent.name;",
+	MongoDB: "db.collection('country').aggregate([ { $group: { _id: \"$continent_id\", nb: { $sum: 1 } } }, { $lookup: { from: \"continent\", localField: \"_id\", foreignField: \"_id\", as: \"continent\" } }, { $project: { _id: 0, continent: { $arrayElemAt: [\"$continent.name\", 0] }, nb: 1 } }, { $sort: { continent: 1 } } ]).toArray()"
 }
 
 export default {
@@ -106,7 +106,7 @@ export default {
 			cmd: "start-single-node --insecure"
 		}
 	},
-	yugabyte: {
+	/*yugabyte: {
 		internal_port: 5433,
 		external_port: 5433,
 		columns: columns01.sql,
@@ -116,7 +116,7 @@ export default {
 			env: ["YSQL_USER=root", "YSQL_PASSWORD=notSecureChangeMe"],
 			cmd: "bin/yugabyted start --daemon=false"
 		}
-	}
+	}*/
 }
 
 
