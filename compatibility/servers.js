@@ -13,9 +13,10 @@ const columns01 = {
 	]
 }
 
-const select20Relational = {
-	sql: "SELECT city.city_id, city.city, city.country_id, city.last_update FROM city JOIN country ON country.country_id = city.country_id GROUP BY city.city_id, city.city, city.country_id, city.last_update LIMIT 20",
-	mongodb: "db.query..."
+export const select20Relational = {
+	postgre: "SELECT c.name AS continent, STRING_AGG(subquery.currency, ', ') AS top_currencies FROM continent AS c JOIN ( SELECT co.continent_id, cu.name AS currency, COUNT(*) AS COUNT, ROW_NUMBER() OVER ( PARTITION BY co.continent_id ORDER BY COUNT(*) DESC ) AS RANK FROM country AS co JOIN currency_country AS cc ON co.id = cc.id_country JOIN currency AS cu ON cc.id_currency = cu.id GROUP BY co.continent_id, cu.name ) AS subquery ON c.id = subquery.continent_id WHERE subquery.rank <= 3 GROUP BY c.id, c.name",
+	mysql: "SELECT c.name AS continent, ( SELECT GROUP_CONCAT(subquery.currency ORDER BY subquery.count DESC SEPARATOR ', ') FROM ( SELECT cu.name AS currency, COUNT(*) AS count FROM country AS co JOIN currency_country AS cc ON co.id = cc.id_country JOIN currency AS cu ON cc.id_currency = cu.id WHERE co.continent_id = c.id GROUP BY cu.name ORDER BY COUNT(*) DESC LIMIT 3 ) AS subquery ) AS top_currencies FROM continent AS c",
+	mongodb: "db.collection(\"continent\").aggregate([ { $lookup: { from: \"country\", localField: \"_id\", foreignField: \"continent_id\", as: \"countries\" } }, { $unwind: \"$countries\" }, { $lookup: { from: \"currency_country\", localField: \"countries._id\", foreignField: \"id_country\", as: \"currency_countries\" } }, { $lookup: { from: \"currency\", localField: \"currency_countries.id_currency\", foreignField: \"_id\", as: \"currencies\" } }, { $unwind: \"$currencies\" }, { $group: { _id: \"$_id\", continent: { $first: \"$name\" }, currency: { $addToSet: \"$currencies.name\" }, count: { $sum: 1 } } }, { $project: { _id: 0, continent: \"$continent\", top_currencies: { $slice: [\"$currency\", 3] } } } ]).toArray()"
 }
 
 export default {
@@ -23,7 +24,6 @@ export default {
 		internal_port: 3306,
 		external_port: 3307,
 		columns: columns01.sql,
-		select20Relational: select20Relational.sql,
 		docker: {
 			name: "library/mysql",
 			env: ["MYSQL_ROOT_PASSWORD=notSecureChangeMe"],
@@ -41,7 +41,6 @@ export default {
 		internal_port: 3306,
 		external_port: 3308,
 		columns: columns01.sql,
-		select20Relational: select20Relational.sql,
 		docker: {
 			name: "library/mariadb",
 			env: ["MYSQL_ROOT_PASSWORD=notSecureChangeMe"],
@@ -58,7 +57,6 @@ export default {
 		internal_port: 3306,
 		external_port: 3309,
 		columns: columns01.sql,
-		select20Relational: select20Relational.sql,
 		docker: {
 			exclusions: ["psmdb-"],
 			name: "library/percona",
@@ -76,7 +74,6 @@ export default {
 		internal_port: 27017,
 		external_port: 27017,
 		columns: columns01.nosql,
-		select20Relational: select20Relational.mongodb,
 		docker: {
 			exclusions: ["windowsservercore", "nanoserver"],
 			name: "library/mongo",
@@ -92,7 +89,6 @@ export default {
 		internal_port: 5432,
 		external_port: 5432,
 		columns: columns01.sql,
-		select20Relational: select20Relational.sql,
 		wrapper: "PostgreSQL",
 		docker: {
 			name: "library/postgres",
@@ -103,7 +99,6 @@ export default {
 		internal_port: 26257,
 		external_port: 26257,
 		columns: columns01.sql,
-		select20Relational: select20Relational.sql,
 		wrapper: "PostgreSQL",
 		docker: {
 			name: "cockroachdb/cockroach",
@@ -115,7 +110,6 @@ export default {
 		internal_port: 5433,
 		external_port: 5433,
 		columns: columns01.sql,
-		select20Relational: select20Relational.sql,
 		wrapper: "PostgreSQL",
 		docker: {
 			name: "yugabytedb/yugabyte",

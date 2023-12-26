@@ -17,6 +17,14 @@ table {
 		min-width: 0px;
 	}
 
+	.mat-tab-labels {
+		justify-content: space-between;
+	}
+
+	.mat-tab-body-wrapper {
+		max-height: 65vh;
+	}
+
 	.mat-card-header-text {
 		width: 100%;
 	}

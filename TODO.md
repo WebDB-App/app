@@ -48,4 +48,8 @@
 # Free
 - gemini + ajouter dans feature
 - model garden
+
+
+# Autre
+- Angular 17 avec material icône dans stackblitz
 - refaire capture feature

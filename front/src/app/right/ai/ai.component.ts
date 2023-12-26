@@ -10,6 +10,8 @@ import { DrawerService } from "../../../shared/drawer.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { isSQL } from "../../../shared/helper";
 import { Subscription } from "rxjs";
+import { Table } from "../../../classes/table";
+import { Router } from "@angular/router";
 
 const localKeyConfig = 'ia-config';
 
@@ -110,6 +112,7 @@ export class AiComponent implements OnInit, OnDestroy {
 	constructor(
 		private request: RequestService,
 		private drawer: DrawerService,
+		private router: Router,
 		public snackBar: MatSnackBar
 	) {
 		const local = localStorage.getItem(localKeyConfig);
@@ -134,8 +137,8 @@ export class AiComponent implements OnInit, OnDestroy {
 			}
 		});
 
-		this.localKeyChatHistory = 'chat-' + this.selectedDatabase.name;
-		this.localKeyPreSent = 'preSent-' + this.selectedDatabase.name;
+		this.localKeyChatHistory = 'chat-' + this.selectedDatabase.name.split(', ')[0];
+		this.localKeyPreSent = 'preSent-' + this.selectedDatabase.name.split(', ')[0];
 
 		const msgs = JSON.parse(localStorage.getItem(this.localKeyChatHistory) || '[]');
 		this.chat = msgs.map((msg: Msg) => new Msg(msg.txt, msg.user, msg.error));
@@ -288,6 +291,11 @@ export class AiComponent implements OnInit, OnDestroy {
 		} finally {
 			this.isLoading = false;
 		}
+	}
+
+	goToQuery(query: string) {
+		this.router.navigate([Server.getSelected().name, Database.getSelected().name, Table.getSelected().name, 'query', query]);
+		this.drawer.close();
 	}
 
 	goodOpenAIKey() {

@@ -411,23 +411,29 @@ export class SQL implements Driver {
 	}
 
 	dotSuggestions(textUntilPosition: string) {
-		textUntilPosition = textUntilPosition.trim();
-
-		const space = textUntilPosition.lastIndexOf(' ');
-		const tab = textUntilPosition.lastIndexOf('\t');
-		const previousToken = textUntilPosition.slice(Math.max(space, tab) + 1).slice(0, -1);
 		const suggestions: any[] = [];
 
+		textUntilPosition = textUntilPosition.trim();
+		const lastEscaped = Math.max(
+			textUntilPosition.lastIndexOf(' '),
+			textUntilPosition.lastIndexOf('\t'),
+			textUntilPosition.lastIndexOf('`'),
+			textUntilPosition.lastIndexOf('"'),
+			textUntilPosition.slice(0, -1).lastIndexOf('.')
+		);
+		const previousToken = textUntilPosition.slice(lastEscaped + 1).slice(0, -1);
+
 		Server.getSelected().dbs.map(db => {
-			if (previousToken === db.name.toLowerCase()) {
-				db.tables?.map(table => {
-					suggestions.push({
-						label: `${table.name}`,
-						kind: monaco.languages.CompletionItemKind.Struct,
-						insertText: `${table.name} `
-					});
-				});
+			if (previousToken !== db.name.toLowerCase()) {
+				return;
 			}
+			db.tables?.map(table => {
+				suggestions.push({
+					label: `${table.name}`,
+					kind: monaco.languages.CompletionItemKind.Struct,
+					insertText: `${table.name} `
+				});
+			});
 		});
 
 		if (suggestions.length) {
@@ -435,6 +441,10 @@ export class SQL implements Driver {
 		}
 
 		Database.getSelected()?.tables?.map(table => {
+			if (previousToken !== table.name.toLowerCase()) {
+				return;
+			}
+
 			const indexes = Table.getIndexes(table).filter(index => index.table === table.name);
 			table.columns.map(column => {
 				suggestions.push({

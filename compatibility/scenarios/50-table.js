@@ -39,7 +39,7 @@ async function run(config) {
 
 	//--------------------------------------------
 
-	//sakila -> View
+	//world -> View
 	//dropView
 }
 

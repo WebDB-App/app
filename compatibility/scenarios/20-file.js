@@ -7,7 +7,7 @@ import FormData from 'form-data';
 
 async function run(config) {
 
-	const files = await iterateDir(`./sakila/${config.wrapper.toLowerCase()}/`);
+	const files = await iterateDir(`../static/world-${config.wrapper.toLowerCase()}/`);
 	const form_data = new FormData();
 	for (const file of files) {
 		form_data.append("files[]", fs.createReadStream(file)/*, file.split('/').pop()*/);
@@ -17,7 +17,7 @@ async function run(config) {
 		headers: {"Content-Type": "multipart/form-data"}
 	});
 	const check_loaded = loaded.status === 200 && loaded.data.ok;
-	await test('[file] Load sakila dataset', async () => {
+	await test('[file] Load world dataset', async () => {
 		assert.ok(check_loaded);
 	});
 	if (!check_loaded) {
@@ -25,7 +25,7 @@ async function run(config) {
 	}
 
 	const structure = await axios.post(`${config.api}server/structure?full=0&size=50`, config.credentials);
-	await test('[file] Sakila database is present in structure', () => {
+	await test('[file] World database is present in structure', () => {
 		assert.ok(getDatabase(structure.data.dbs, config.database));
 	});
 

@@ -36,6 +36,10 @@ export class Configuration {
 			name: 'statsRefreshRate',
 			description: 'Refresh rate of statistics, in seconds',
 			values: ['1', '5', '30']
+		}, {
+			name: 'autoCloseError',
+			description: 'Dismiss error when new query succeed',
+			values: [true, false]
 		}
 	];
 

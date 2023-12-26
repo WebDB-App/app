@@ -37,7 +37,7 @@
 	</mat-button-toggle-group>
 </mat-toolbar>
 
-<div style="height: calc(100vh - 56px); overflow: auto; max-width: 50vw;">
+<div style="height: calc(100vh - 56px); overflow: auto;">
 	<mat-card *ngIf="queryHistory.length < 1">
 		<mat-card-header>
 			<mat-card-title>
@@ -98,12 +98,13 @@
 				{{ his.nbResult }} rows
 			</h4>
 
-			<h4>
+			<h4 matTooltip="First run"
+				matTooltipPosition="right">
 				{{ his.date | date: 'HH:mm dd/MM' }}
 			</h4>
 
 			<h4>
-				{{ his.occurrence }} runs
+				{{ his.occurrence }} run(s)
 			</h4>
 		</mat-card-actions>
 	</mat-card>

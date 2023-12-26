@@ -6,7 +6,7 @@ import { Database } from "../classes/database";
 import { Server } from "../classes/server";
 import { Table } from "../classes/table";
 import * as drivers from "../drivers/index";
-import { MatBottomSheet } from "@angular/material/bottom-sheet";
+import { MatBottomSheet, MatBottomSheetRef } from "@angular/material/bottom-sheet";
 import { ErrorComponent } from "./error/error.component";
 import { Configuration } from "../classes/configuration";
 import { Licence } from "../classes/licence";
@@ -23,6 +23,7 @@ export enum LoadingStatus {
 export class RequestService {
 
 	configuration: Configuration = new Configuration();
+	lastError?: MatBottomSheetRef;
 
 	private loadingSubject = new BehaviorSubject(LoadingStatus.LOADING);
 	loadingServer = this.loadingSubject.asObservable();
@@ -59,12 +60,16 @@ export class RequestService {
 		const result = await firstValueFrom(this.http.post<any>(
 			environment.apiRootUrl + url, data, {headers}
 		));
-		if (snackError && result?.error) {
-			this.bottomSheet.open(ErrorComponent, {
-				data: {error: result, context: data},
-				hasBackdrop: false
-			});
-			throw new HttpErrorResponse({error: result});
+		if (snackError) {
+			if (result?.error) {
+				this.lastError = this.bottomSheet.open(ErrorComponent, {
+					data: {error: result, context: data},
+					hasBackdrop: false
+				});
+				throw new HttpErrorResponse({error: result});
+			} else if (this.configuration.getByName('autoCloseError')?.value) {
+				this.lastError?.dismiss();
+			}
 		}
 
 		return result;

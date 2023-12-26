@@ -18,7 +18,7 @@
 
 		<div fxLayout="row"
 			 fxLayoutAlign="space-between center"
-			 style="gap: 10px;">
+			 style="gap: 10px; height: 58px">
 			<mat-form-field appearance="legacy" style="width: 200px; margin-bottom: -1.25em">
 				<input
 					#filter
@@ -37,9 +37,9 @@
 			</mat-form-field>
 
 			<mat-form-field
-				appearance="fill"
+				appearance="legacy"
 				color="accent"
-				style="margin-bottom: -1.25em; width: 60%">
+				style="margin-bottom: -1.25em; width: 300px;">
 				<mat-label>Tables</mat-label>
 				<mat-select
 					(selectionChange)="preSentChange()"
@@ -291,6 +291,14 @@
 								</span>
 							</button>
 							<button
+								(click)="goToQuery(mrk.code);"
+								color="accent"
+								mat-icon-button>
+								<span class="material-symbols-outlined notranslate">
+									send
+								</span>
+							</button>
+							<button
 								(click)="snackBar.open('Code copied', '⨉', {duration: 3000})"
 								[cdkCopyToClipboard]="mrk.code"
 								color="accent"
@@ -303,7 +311,7 @@
 						<pre><code [highlight]="mrk.code" [lineNumbers]="true"></code></pre>
 					</div>
 
-					<div *ngIf="mrk.html && !ch.error" class="actions">
+					<div *ngIf="mrk.html && !ch.error" class="actions" style="bottom: 8px; top: inherit;">
 						<button
 							(click)="message.value = ch.txt"
 							*ngIf="ch.user === Role.User"
@@ -318,28 +326,25 @@
 							<button
 								(click)="sendMessage('The response ```' + ch.txt + '``` was wrong. Please retry');"
 								color="accent"
-								mat-icon-button
-								matTooltip="Wrong reponse">
+								mat-icon-button>
 								<span class="material-symbols-outlined notranslate">
-									chat_error
+									replay
 								</span>
 							</button>
 							<button
 								(click)="sendMessage('Please summarize the response ```' + ch.txt + '```');"
 								color="accent"
-								mat-icon-button
-								matTooltip="Summarize">
+								mat-icon-button>
 								<span class="material-symbols-outlined notranslate">
-									summarize
+									short_text
 								</span>
 							</button>
 							<button
 								(click)="sendMessage('Can you please give me more details about the response: ```' + ch.txt + '```');"
 								color="accent"
-								mat-icon-button
-								matTooltip="More details">
+								mat-icon-button>
 								<span class="material-symbols-outlined notranslate">
-									more
+									subject
 								</span>
 							</button>
 						</ng-container>
@@ -381,9 +386,10 @@
 	<mat-progress-bar *ngIf="isLoading" color="accent" mode="indeterminate" style="z-index: 100;"></mat-progress-bar>
 
 	<div [hidden]="!config.openAI" style="box-shadow: 0px -10px 16px 1px #363636; position: relative;">
-		<mat-form-field appearance="fill"
-						class="sendMessage"
-						color="accent">
+		<mat-form-field
+			appearance="fill"
+			class="sendMessage"
+			color="accent">
 			<mat-label>Ask anything about `{{ selectedDatabase?.name }}`</mat-label>
 			<textarea
 				#message

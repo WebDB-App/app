@@ -23,7 +23,7 @@ export function runBash(cmd) {
 
 export async function loadConfig(server) {
 	const conf = {...basicConf, ...server};
-	conf.database = "sakila";
+	conf.database = "world";
 	conf.table = "tableTest01";
 	conf.name = "";
 	conf.credentials.wrapper = conf.wrapper;
