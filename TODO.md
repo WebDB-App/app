@@ -16,8 +16,12 @@
 
 - reorder columns
 - sql function doc (generate from web scrap)
-- virtual columns
 
+
+# Autre
+- tests
+- Angular 17 avec material icône dans stackblitz
+- refaire capture feature
 
 
 
@@ -48,8 +52,3 @@
 # Free
 - gemini + ajouter dans feature
 - model garden
-
-
-# Autre
-- Angular 17 avec material icône dans stackblitz
-- refaire capture feature
