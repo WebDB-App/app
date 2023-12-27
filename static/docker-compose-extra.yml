@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+    percona:
+        image: percona
+        restart: always
+        ports:
+            - '3317:3306'
+        environment:
+            MYSQL_ROOT_PASSWORD: notSecureChangeMe
+
+    cockroach:
+        image: cockroachdb/cockroach
+        command: start-single-node --insecure
+        ports:
+            - 26257:26257
+        environment:
+            COCKROACH_USER: 'root'
+            COCKROACH_PASSWORD: 'notSecureChangeMe'
+
+    mariadb:
+        image: mariadb
+        ports:
+            - 3308:3306
+        environment:
+            MYSQL_ROOT_PASSWORD: notSecureChangeMe
+
+
+    yugabyte:
+        image: yugabytedb/yugabyte
+        command: bin/yugabyted start --daemon=false
+        ports:
+            - 5434:5432
+        environment:
+            YSQL_USER: root
+            YSQL_PASSWORD: notSecureChangeMe

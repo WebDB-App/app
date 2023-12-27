@@ -273,7 +273,7 @@
 	<div #scrollContainer *ngIf="config.openAI && chat.length" id="container">
 		<mat-card *ngFor="let ch of chat"
 				  [hidden]="ch.hide"
-				  [style.background-color]="ch.error ? '#f44336' : ch.user === Role.Assistant ? '#1e1e1e' : undefined">
+				  [style.background-color]="ch.error ? '#f44336' : ch.user === Role.Assistant ? undefined : '#1e1e1e'">
 			<mat-card-content>
 
 				<div *ngFor="let mrk of ch.marked" class="marked">
@@ -385,10 +385,9 @@
 
 	<mat-progress-bar *ngIf="isLoading" color="accent" mode="indeterminate" style="z-index: 100;"></mat-progress-bar>
 
-	<div [hidden]="!config.openAI" style="box-shadow: 0px -10px 16px 1px #363636; position: relative;">
+	<div [hidden]="!config.openAI" class="sendMessage">
 		<mat-form-field
 			appearance="fill"
-			class="sendMessage"
 			color="accent">
 			<mat-label>Ask anything about `{{ selectedDatabase?.name }}`</mat-label>
 			<textarea

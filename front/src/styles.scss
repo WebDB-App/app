@@ -309,6 +309,7 @@ pre {
 	.actions {
 		display: none;
 		position: absolute;
+		z-index: 10000;
 		right: 8px;
 		top: 7px;
 		background-color: rgba(30, 30, 30, 0.9);

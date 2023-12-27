@@ -61,13 +61,21 @@
 }
 
 .sendMessage {
-	width: 100%;
+	box-shadow: 0px -10px 16px 1px #363636; position: relative;
 
-	::ng-deep .mat-form-field-wrapper {
-		padding-bottom: 0px !important;
+	.mat-form-field {
+		width: 100%;
 
-		.mat-form-field-underline {
-			bottom: 0px !important;
+		::ng-deep .mat-form-field-wrapper {
+			padding-bottom: 0px !important;
+
+			.mat-form-field-flex {
+				background-color: #1e1e1e;
+			}
+
+			.mat-form-field-underline {
+				bottom: 0px !important;
+			}
 		}
 	}
 }

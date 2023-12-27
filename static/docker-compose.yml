@@ -1,14 +1,6 @@
 version: '3.8'
 
 services:
-    percona:
-        image: percona
-        restart: always
-        ports:
-            - '3317:3306'
-        environment:
-            MYSQL_ROOT_PASSWORD: notSecureChangeMe
-
     mysql:
         image: mysql
         command: mysqld --default-authentication-plugin=mysql_native_password
@@ -32,12 +24,3 @@ services:
         environment:
             MONGO_INITDB_ROOT_USERNAME: root
             MONGO_INITDB_ROOT_PASSWORD: notSecureChangeMe
-
-    cockroach:
-        image: cockroachdb/cockroach
-        command: start-single-node --insecure
-        ports:
-            - 26257:26257
-        environment:
-            COCKROACH_USER: 'root'
-            COCKROACH_PASSWORD: 'notSecureChangeMe'
