@@ -82,7 +82,7 @@ docker:
     script:
         - cp -fr ./front/dist/webdb/* ./back/static/
         - cd back
-        - docker login -u 'webdb' -p $DOCKER_PASS
+        - docker login -u 'aleluff' -p $DOCKER_PASS
         - docker buildx create --use
         - >
             if [ "$CI_COMMIT_REF_NAME" == "main" ]; then

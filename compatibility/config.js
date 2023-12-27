@@ -2,7 +2,6 @@ import axios from "axios";
 import {execSync} from "child_process";
 
 export const basicConf = {
-	front: "http://127.0.0.1:" + (process.env.CI ? 22070 : 4200),
 	api: "http://127.0.0.1:22070/api/",
 	credentials: {
 		user: "root",
