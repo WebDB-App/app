@@ -54,6 +54,6 @@ if (process.env.CI) {
 		await runScenarios(server);
 	}
 } else {
-	await runScenarios(list.mongo);
+	await runScenarios(list.cockroachdb);
 	process.exit();
 }

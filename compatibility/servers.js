@@ -20,7 +20,7 @@ export const countryPerContinent = {
 }
 
 export default {
-	mysql: {
+	/*mysql: {
 		internal_port: 3306,
 		external_port: 3307,
 		columns: columns01.sql,
@@ -105,8 +105,8 @@ export default {
 			env: ["COCKROACH_USER=root", "COCKROACH_PASSWORD=notSecureChangeMe"],
 			cmd: "start-single-node --insecure"
 		}
-	},
-	/*yugabyte: {
+	},*/
+	yugabyte: {
 		internal_port: 5433,
 		external_port: 5433,
 		columns: columns01.sql,
@@ -116,7 +116,7 @@ export default {
 			env: ["YSQL_USER=root", "YSQL_PASSWORD=notSecureChangeMe"],
 			cmd: "bin/yugabyted start --daemon=false"
 		}
-	}*/
+	}
 }
 
 
