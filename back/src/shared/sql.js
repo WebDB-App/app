@@ -166,7 +166,7 @@ export default class SQL extends Driver {
 			}
 		}
 		if (Object.keys(to_update).length < 1) {
-			return {};
+			return {untouched: 1};
 		}
 
 		const update = this.objectToSql(to_update);

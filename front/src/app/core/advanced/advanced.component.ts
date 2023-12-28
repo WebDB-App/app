@@ -130,7 +130,7 @@ export class DropTableDialog {
 
 	async remove() {
 		if (this.table.view) {
-			await this.request.post('table/dropView', undefined);
+			await this.request.post('view/drop', undefined);
 		} else {
 			await this.request.post('table/drop', undefined);
 		}

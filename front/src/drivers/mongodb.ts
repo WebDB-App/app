@@ -274,7 +274,7 @@ async function main() {
 			return false;
 		}
 		const r = /\.aggregate\(([^)]+)\)/.exec(query);
-		return r ? r[0] : "[]";
+		return r ? r[1] : "[]";
 	}
 
 	extractEnum(col: Column): string[] | false {

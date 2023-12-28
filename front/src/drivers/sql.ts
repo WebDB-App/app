@@ -143,6 +143,7 @@ export class SQL implements Driver {
 			'DEGREES': '(number)',
 			'DIV': '(number) DIV (number)',
 			'EXP': null,
+			'EXPLAIN ANALYZE': null,
 			'FLOOR': '(number)',
 			'GREATEST': '(arg1, arg2, arg3, ...)',
 			'LEAST': '(number)',

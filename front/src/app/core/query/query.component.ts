@@ -166,7 +166,12 @@ export class QueryComponent implements OnInit, OnDestroy {
 		} catch (result: any) {
 			addMonacoError(this.query, this.editors[0], result.error);
 			this.dataSource = new MatTableDataSource();
+			this.querySize = -1;
 			return;
+		}
+
+		if (this.querySize < 1 && Object.values(result).length) {
+			this.querySize = 1;
 		}
 
 		if ((this.page * this.pageSize) > this.querySize) {
@@ -180,6 +185,7 @@ export class QueryComponent implements OnInit, OnDestroy {
 		} else {
 			this.history.addLocal(new Query(this.query, this.querySize));
 		}
+
 		if (!Array.isArray(result)) {
 			result = [result];
 		}
@@ -271,6 +277,15 @@ export class QueryComponent implements OnInit, OnDestroy {
 	saveToDisk() {
 		const ext = this.selectedServer?.driver.language.extension;
 		saveAs(new File([this.query], this.selectedTable?.name + '.' + ext, {type: `text/${ext};charset=utf-8`}));
+	}
+
+	async editView() {
+		const result = await this.request.post('view/getCode', {});
+
+		this.query = result.code;
+		if (this.autoFormat) {
+			setTimeout(() => this.editors.map(editor => editor.trigger("editor", "editor.action.formatDocument")), 1);
+		}
 	}
 }
 
@@ -367,7 +382,7 @@ export class CreateViewDialog {
 	}
 
 	async create() {
-		await this.request.post('table/createView', this.form.value);
+		await this.request.post('view/create', this.form.value);
 		await this.request.reloadServer();
 
 		await this.router.navigate([

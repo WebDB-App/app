@@ -38,7 +38,7 @@ export async function loadConfig(server) {
 }
 
 if (process.env.CI) {
-	axios.defaults.timeout = 100000;
+	axios.defaults.timeout = 60000;
 }
 axios.interceptors.request.use(request => {
 	if (!process.env.CI) {

@@ -19,6 +19,17 @@ export default class MongoDB extends Driver {
 		return super.scan(this.host, 27010, 27030);
 	}
 
+	async getViewCode(database, view) {
+		const colls = await this.connection.db(database).listCollections().toArray();
+		const options = colls.find(coll => coll.name === view).options;
+
+		return {code: `db.command({
+	collMod: "${view}",
+	viewOn: "${options.viewOn}",
+	pipeline: ${JSON.stringify(options.pipeline)}
+});`};
+	}
+
 	async dump(database, exportType = "bson", tables, options = "") {
 		let path = join(dirname, `../../static/dump/${database}`);
 		let frontPath = `dump/${database}`;
@@ -86,10 +97,14 @@ export default class MongoDB extends Driver {
 
 	async createView(database, view, code, table) {
 		try {
-			return await this.connection.db(database).createCollection(view, {
+			const fct = new Function(`return ${code}`);
+			const res = await fct();
+
+			await this.connection.db(database).createCollection(view, {
 				viewOn: table,
-				pipeline: BSON.EJSON.parse(code)
+				pipeline: res
 			});
+			return {ok: 1};
 		} catch (e) {
 			return {error: e.message};
 		}
@@ -174,7 +189,7 @@ export default class MongoDB extends Driver {
 	async renameTable(database, old_name, new_name) {
 		const db = this.connection.db(database);
 		await db.renameCollection(old_name, new_name);
-		return {};
+		return {ok: 1};
 	}
 
 	async createDatabase(name) {
@@ -408,7 +423,7 @@ export default class MongoDB extends Driver {
 		} catch (e) {
 			return {error: e.message};
 		}
-		return {};
+		return {ok: 1};
 	}
 
 	async dropIndex(database, table, name) {
@@ -417,7 +432,7 @@ export default class MongoDB extends Driver {
 		} catch (e) {
 			return {error: e.message};
 		}
-		return {};
+		return {ok: 1};
 	}
 
 	async getIndexes() {

@@ -21,6 +21,13 @@ export default class PostgreSQL extends SQL {
 		return super.scan(this.host, 5430, 5450);
 	}
 
+	async getViewCode(database, view) {
+		const def = await this.runCommand(`SELECT pg_get_viewdef('${view}', TRUE)`, database);
+
+		return {code: `CREATE OR REPLACE VIEW ${view} AS
+${def[0]["pg_get_viewdef"]}`};
+	}
+
 	async sampleDatabase(name, {count, tables}) {
 		const [database, schema] = name.split(this.dbToSchemaDelimiter);
 		const getSample = async (table) => {

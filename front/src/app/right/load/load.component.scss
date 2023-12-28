@@ -9,12 +9,14 @@
 }
 
 .mat-card {
+	width: 100%;
 	padding: 0px;
 	margin: 24px 0px 0px 0px;
 	display: flex;
 
 	.mat-card-content {
 		margin-bottom: 0px;
+		width: 100%;
 	}
 
 	.mat-card-actions {

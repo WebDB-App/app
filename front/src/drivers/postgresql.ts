@@ -314,7 +314,10 @@ async function main() {
 				code = format(code, {
 					language: 'postgresql',
 					useTabs: true,
-					keywordCase: "upper"
+					identifierCase: this.configuration.getByName('identifierCase')?.value,
+					keywordCase: this.configuration.getByName('keywordCase')?.value,
+					functionCase: this.configuration.getByName('functionCase')?.value,
+					dataTypeCase: this.configuration.getByName('dataTypeCase')?.value,
 				});
 
 				return code.replace(/\n/g, " \n");

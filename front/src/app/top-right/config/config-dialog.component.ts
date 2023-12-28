@@ -72,4 +72,6 @@ export class ConfigDialog implements OnInit {
 			await this.request.reloadServer();
 		}
 	}
+
+	protected readonly Object = Object;
 }

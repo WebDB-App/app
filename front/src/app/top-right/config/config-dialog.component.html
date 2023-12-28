@@ -2,20 +2,33 @@
 	<mat-tab-group #tabs (selectedTabChange)="$event.index === 3 ? dialogRef.close() : undefined">
 		<mat-tab label="Parameters">
 			<table style="padding: 20px">
-				<tr *ngFor="let config of configuration.configs">
-					<td>{{ config.description }}</td>
-					<td>
-						<mat-button-toggle-group
-							(change)="update(config.name, $event.value)"
-							[value]="configuration.getByName(config.name)?.value">
-							<mat-button-toggle
-								*ngFor="let value of config.values"
-								[value]="value">
-								{{ value }}
-							</mat-button-toggle>
-						</mat-button-toggle-group>
-					</td>
-				</tr>
+
+				<ng-container *ngFor="let cat of Object.keys(configuration.configs)">
+					<tr *ngIf="cat.length">
+						<td colspan="100%">
+							<div style="display: flex; width: 100%; align-items: center;">
+								<mat-divider style="flex: 1;"></mat-divider>
+								<h4 style="margin: 12px;">{{ cat }}</h4>
+								<mat-divider style="flex: 1;"></mat-divider>
+							</div>
+						</td>
+					</tr>
+
+					<tr *ngFor="let config of configuration.configs[cat]">
+						<td>{{ config.description }}</td>
+						<td>
+							<mat-button-toggle-group
+								(change)="update(config.name, $event.value)"
+								[value]="configuration.getByName(config.name)?.value">
+								<mat-button-toggle
+									*ngFor="let value of config.values"
+									[value]="value">
+									{{ value }}
+								</mat-button-toggle>
+							</mat-button-toggle-group>
+						</td>
+					</tr>
+				</ng-container>
 			</table>
 		</mat-tab>
 		<mat-tab label="Subscription">

@@ -30,6 +30,7 @@
 
 		<button
 			[matMenuTriggerFor]="templatesMenu"
+			matTooltip="Prebuilds queries"
 			mat-icon-button>
 			<span class="material-symbols-outlined notranslate">grid_guides</span>
 		</button>
@@ -72,6 +73,14 @@
 			<span class="material-symbols-outlined notranslate">
 				repeat_one
 			</span>
+		</button>
+
+		<button
+			(click)="editView()"
+			*ngIf="selectedTable?.view"
+			mat-icon-button
+			matTooltip="Edit view">
+			<span class="material-symbols-outlined notranslate">table_view</span>
 		</button>
 	</div>
 
@@ -120,7 +129,7 @@
 		<mat-menu #advanced="matMenu" xPosition="before">
 			<button (click)="inputFile.click()" mat-menu-item>Load query from file</button>
 			<button (click)="saveToDisk()" mat-menu-item>Save query to file</button>
-			<button (click)="addView()" [disabled]="!isQuerySelect()" mat-menu-item>Create view from query</button>
+			<button (click)="addView()" [disabled]="!isQuerySelect()" *ngIf="!selectedTable?.view" mat-menu-item>Create view from query</button>
 			<button (click)="exportQuery()" [disabled]="query.length < 1" mat-menu-item>Export query</button>
 			<button [matMenuTriggerFor]="shortcuts" mat-menu-item>Shortcuts</button>
 			<button [matMenuTriggerFor]="disclaimer" mat-menu-item>Disclaimer</button>

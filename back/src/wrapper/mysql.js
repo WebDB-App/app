@@ -21,6 +21,13 @@ export default class MySQL extends SQL {
 		return super.scan(this.host, 3300, 3320);
 	}
 
+	async getViewCode(database, view) {
+		const def = await this.runCommand(`SELECT view_definition FROM information_schema.views WHERE table_schema = '${database}' AND table_name = '${view}';`);
+
+		return {code: `ALTER VIEW ${view} AS
+${def[0]["VIEW_DEFINITION"]}`};
+	}
+
 	async sampleDatabase(name, {count, tables}) {
 		const getSample = async (table) => {
 			let create = await this.runCommand(`SHOW CREATE TABLE \`${table}\``, name);

@@ -39,7 +39,7 @@ class Version {
 		//const r = bash.runBash(`cd ${dir} && git reset --hard ${sha1}`);
 		//delete db
 		//import file
-		return {};
+		return {ok: 1};
 	}
 
 	async listPatch(database, driver) {

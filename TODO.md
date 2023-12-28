@@ -14,15 +14,21 @@
 - system de téléchargement de code depuis la landing avec le mail
 - récupérer la licence directemnt depuis la landing + enlever l'endpoint
 
-- reorder columns
-- sql function doc (generate from web scrap)
+
+# reorder columns
 
 
-# Autre
-- tests
-- Angular 17 avec material icône dans stackblitz
-- refaire capture feature
+# sql function doc (generate from web scrap)
 
+
+# Profiling
+- https://www.postgresql.org/docs/9.2/using-explain.html
+- https://www.mongodb.com/docs/manual/reference/command/explain/
+- https://www.mongodb.com/docs/manual/tutorial/manage-the-database-profiler/
+- https://easyengine.io/tutorials/mysql/query-profiling/
+- https://dev.mysql.com/doc/refman/8.0/en/explain.html
+- https://www.postgresql.org/docs/current/sql-explain.html
+- https://mariadb.com/kb/en/explain-format-json/
 
 
 # Advanced auth 
@@ -49,6 +55,22 @@
 - harmonizer obj > 2
 
 
+# features dans gitlab/issues
+
+
+
+
+
+
+----------------------------------------------------------
+
+
+
+- finir tests
+- Angular 17 avec material icône dans stackblitz
+- refaire capture feature
+
+
 # Free
-- gemini + ajouter dans feature
+- gemini + ajouter dans landing/feature
 - model garden
