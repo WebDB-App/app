@@ -37,7 +37,10 @@
 	</mat-button-toggle-group>
 </mat-toolbar>
 
-<div style="height: calc(100vh - 56px); overflow: auto;">
+<mat-progress-bar *ngIf="isLoading" color="accent" mode="indeterminate"></mat-progress-bar>
+
+<div style="height: calc(100vh - 56px); overflow: auto;" *ngIf="!isLoading">
+
 	<mat-card *ngIf="queryHistory.length < 1">
 		<mat-card-header>
 			<mat-card-title>
@@ -108,4 +111,5 @@
 			</h4>
 		</mat-card-actions>
 	</mat-card>
+
 </div>

@@ -84,7 +84,7 @@ export class AiComponent implements OnInit, OnDestroy {
 	localKeyPreSent!: string;
 	chat: Msg[] = [];
 	openai?: OpenAI;
-	isLoading = false;
+	isLoading = true;
 	editorOptions = {
 		language: "plaintext"
 	};
@@ -154,8 +154,10 @@ export class AiComponent implements OnInit, OnDestroy {
 			this.preSentChange(),
 		]);
 
+		this.isLoading = false;
+
 		if (this.config.openAI) {
-			this.settings.nativeElement.setAttribute('hidden', true);
+			setTimeout(() => {this.settings.nativeElement.setAttribute('hidden', true)}, 1);
 		}
 	}
 
@@ -190,7 +192,6 @@ export class AiComponent implements OnInit, OnDestroy {
 	}
 
 	async preSentChange() {
-		this.isLoading = true;
 		localStorage.setItem(this.localKeyPreSent, JSON.stringify(this.preSent));
 		if (this.preSent.tables[0] === "") {
 			this.preSent.tables = this.selectedDatabase?.tables?.map(table => table.name)!;
@@ -199,7 +200,6 @@ export class AiComponent implements OnInit, OnDestroy {
 			preSent: this.preSent,
 			language: navigator.language
 		}, undefined)).txt;
-		this.isLoading = false;
 	}
 
 	saveChat() {
@@ -277,8 +277,6 @@ export class AiComponent implements OnInit, OnDestroy {
 	}
 
 	async runQuery(query: string) {
-		this.isLoading = true;
-
 		try {
 			const result = await this.request.post('database/query', {
 				query: query,
@@ -288,8 +286,6 @@ export class AiComponent implements OnInit, OnDestroy {
 			await this.sendMessage("Here is the result of the query `" + query + "` : " + JSON.stringify(result));
 		} catch (err: any) {
 			await this.sendMessage("There is an error : " + err.error);
-		} finally {
-			this.isLoading = false;
 		}
 	}
 

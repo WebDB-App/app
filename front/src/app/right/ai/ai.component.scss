@@ -61,7 +61,9 @@
 }
 
 .sendMessage {
-	box-shadow: 0px -6px 10px 1px #1e1e1e; position: relative;
+	box-shadow: 0px -2px 6px 0px #212121;
+	z-index: 1000000;
+	position: relative;
 
 	.mat-form-field {
 		width: 100%;
@@ -70,7 +72,7 @@
 			padding-bottom: 0px !important;
 
 			.mat-form-field-flex {
-				background-color: #1e1e1e;
+				background-color: transparent;
 			}
 
 			.mat-form-field-underline {

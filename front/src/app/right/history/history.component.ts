@@ -20,6 +20,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
 	configuration: Configuration = new Configuration();
 	selectedServer!: Server;
 	queryHistory: Query[] = [];
+	isLoading = true;
 	filter = "";
 	order: 'time' | 'occurrence' = 'time';
 
@@ -34,6 +35,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
 				return;
 			}
 			this.queryHistory = this.history.getLocal();
+			this.isLoading = false;
 		});
 	}
 
