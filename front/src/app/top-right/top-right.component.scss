@@ -2,6 +2,15 @@
 	margin: 0px 6px;
 }
 
+::ng-deep #backendLogs {
+	overflow: auto;
+	height: 30vh;
+	width: 50vw;
+	resize: both;
+	box-shadow: #000000 0 6px 6px -6px inset;
+	display: block;
+}
+
 @media (max-width: 1200px) {
 	:host {
 		display: none;
