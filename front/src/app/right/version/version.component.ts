@@ -7,9 +7,10 @@ import { DrawerService } from "../../../shared/drawer.service";
 import { Subscription } from "rxjs";
 
 class Patch {
-	diff!: string;
-	sha1!: string;
+	diff?: string;
+	hash!: string;
 	time!: string;
+	isLoading = false;
 	hide = false;
 }
 
@@ -27,7 +28,7 @@ export class VersionComponent implements OnDestroy {
 
 	drawerObs!: Subscription;
 	filter = "";
-	isLoading = false;
+	isLoading = true;
 	patches: Patch[] = [];
 	editorOptions = {
 		language: 'text',
@@ -56,7 +57,7 @@ export class VersionComponent implements OnDestroy {
 	}
 
 	identify(index: any, patch: Patch) {
-		return patch.sha1;
+		return patch.hash;
 	}
 
 	async refreshData() {
@@ -64,9 +65,19 @@ export class VersionComponent implements OnDestroy {
 			if (!this.drawer.drawer.opened || !Database.getSelected()) {
 				return;
 			}
-			this.patches = await this.request.post('version/list', undefined);
+			this.isLoading = true;
+
+			const patches: Patch[] = await this.request.post('version/list', undefined);
+			for (const patch of patches) {
+				if (!this.patches.find(pa => pa.hash === patch.hash)) {
+					this.patches.push(patch);
+				}
+			}
+			this.patches.sort((a, b) => +b.time - +a.time);
+
 			this.filterChanged();
-			setTimeout(() => loop(), 2000);
+			setTimeout(() => loop(), 5000);
+			this.isLoading = false;
 		};
 
 		this.selectedDatabase = Database.getSelected();
@@ -78,6 +89,9 @@ export class VersionComponent implements OnDestroy {
 	filterChanged() {
 		const value = this.filter.toLowerCase();
 		for (const [index, patch] of this.patches.entries()) {
+			if (!patch.diff) {
+				continue;
+			}
 			this.patches[index].hide = patch.diff.indexOf(value) < 0;
 		}
 	}
@@ -101,4 +115,29 @@ export class VersionComponent implements OnDestroy {
 		})
 		setTimeout(() => editor.createDecorationsCollection(decos), 100);
 	}
+
+	reset(patch: Patch) {
+		patch.isLoading = true;
+
+		patch.isLoading = false;
+	}
+
+	async loadDiff(patch: Patch) {
+		patch.isLoading = true;
+		const res = await this.request.post('version/diff', patch);
+		patch.diff = res.diff;
+		patch.isLoading = false;
+	}
+
+	async load10() {
+		for (const patch of this.patches.slice(0, 10)) {
+			await this.loadDiff(patch);
+		}
+	}
 }
+
+/*
+for remote, construct url from front
+attetion si url accessible publiquement
+tester avec docker image
+ */

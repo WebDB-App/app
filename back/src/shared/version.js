@@ -2,6 +2,7 @@ import {join} from "path";
 import {existsSync} from "fs";
 import bash from "./bash.js";
 import {URL} from "url";
+import { simpleGit } from "simple-git";
 
 const dirname = new URL(".", import.meta.url).pathname;
 const rootPath = join(dirname, "../../static/version/");
@@ -28,7 +29,7 @@ class Version {
 	}
 
 	// eslint-disable-next-line no-unused-vars
-	async resetTo(database, driver, sha1) {
+	async resetTo(database, driver, hash) {
 		const dir = this.getPath(database, driver);
 		if (!existsSync(dir)) {
 			return {error: "Directory does not exist"};
@@ -36,37 +37,41 @@ class Version {
 
 		//tester fuctions/procedure/complex dans le patch
 
-		//const r = bash.runBash(`cd ${dir} && git reset --hard ${sha1}`);
+		//const r = bash.runBash(`cd ${dir} && git reset --hard ${hash}`);
 		//delete db
 		//import file
 		return {ok: 1};
 	}
 
-	async listPatch(database, driver) {
+	async diff(database, driver, hash) {
+		const dir = this.getPath(database, driver);
+		const git = simpleGit(dir);
+
+		let diff = await git.diff(["--no-prefix", hash]);
+		if (diff) {
+			diff = diff.split("\n+++ " + database)[1].trim();
+		} else {
+			diff = "[Empty diff]";
+		}
+
+		return {diff};
+	}
+
+	async list(database, driver) {
 		const dir = this.getPath(database, driver);
 		if (!existsSync(dir)) {
 			return [];
 		}
 
-		const r = bash.runBash(`cd ${dir} && git format-patch --stdout -100`);
-		let tmp = Object.entries(r.result.split(/(From [a-zA-Z0-9]{40})/g));
+		const git = simpleGit(dir);
 
-		const patches = [];
-		for (const [index, patch] of tmp) {
-			if (!patch || patch.startsWith("From ")) {
-				continue;
-			}
-			let diff = "@@ " + patch.split("\n@@ ")[1];
-			diff = diff.length > 100000 ? diff.slice(0, 100000) + "\n\n\n### DIFF SHORTEN ###" : diff;
-
-			const obj = {
-				time: patch.split("] ")[1].split("\n\n---")[0],
-				sha1: tmp[index - 1][1].split("From ")[1],
-				diff
+		const commits = await git.log(["--max-count=200"]);
+		return commits.all.map(commit => {
+			return {
+				time: commit.message,
+				hash: commit.hash,
 			};
-			patches.push(obj);
-		}
-		return patches.reverse();
+		});
 	}
 
 	async saveChanges(database, driver) {
@@ -103,13 +108,13 @@ class Version {
 			"deleteone", "deletemany", "delete ",
 			"insertone", "insertmany", "insert ",
 			"drop", "alter ", "add ", "create", "rename", "replace"].some(v => command.toLowerCase().includes(v.toLowerCase()))) {
-			//TODO
+			return;
 		}
-		/*
+
 		this.changes[database] = {
 			done: false,
 			driver
-		};*/
+		};
 	}
 }
 

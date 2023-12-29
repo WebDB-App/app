@@ -30,7 +30,6 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { ErrorComponent } from './error/error.component';
 import { MatBottomSheetModule } from "@angular/material/bottom-sheet";
 import { MatDividerModule } from "@angular/material/divider";
-import { TimeAgoPipe } from "./time-ago.pipe";
 import { UnreachableComponent } from './unreachable/unreachable.component';
 
 @NgModule({
@@ -41,7 +40,6 @@ import { UnreachableComponent } from './unreachable/unreachable.component';
 		ExportResultDialog,
 		BatchUpdateDialog,
 		ColumnComponent,
-		TimeAgoPipe,
 		ErrorComponent,
 		UnreachableComponent
 	],
@@ -52,7 +50,6 @@ import { UnreachableComponent } from './unreachable/unreachable.component';
 		ExportResultDialog,
 		BatchUpdateDialog,
 		ColumnComponent,
-		TimeAgoPipe,
 		UnreachableComponent
 	],
 	imports: [

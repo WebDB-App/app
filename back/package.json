@@ -19,6 +19,7 @@
 		"node-port-scanner": "latest",
 		"node-rsa": "latest",
 		"pg": "latest",
+		"simple-git": "latest",
 		"ssh2": "latest"
 	},
 	"devDependencies": {

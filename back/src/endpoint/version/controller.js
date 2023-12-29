@@ -7,7 +7,18 @@ class Controller {
 		const [driver, database] = await http.getLoggedDriver(req);
 
 		try {
-			res.send(await version.listPatch(database, driver));
+			res.send(await version.list(database, driver, req.body.page));
+		} catch (e) {
+			console.error(e);
+			res.send(e);
+		}
+	}
+
+	async diff(req, res) {
+		const [driver, database] = await http.getLoggedDriver(req);
+
+		try {
+			res.send(await version.diff(database, driver, req.body.hash));
 		} catch (e) {
 			console.error(e);
 			res.send(e);
@@ -18,7 +29,7 @@ class Controller {
 		const [driver, database] = await http.getLoggedDriver(req);
 
 		try {
-			res.send(await version.resetTo(database, driver, req.body.sha1));
+			res.send(await version.resetTo(database, driver, req.body.hash));
 		} catch (e) {
 			console.error(e);
 			res.send(e);

@@ -1,7 +1,7 @@
 <mat-toolbar
 	fxLayout="row"
 	fxLayoutAlign="space-between center">
-	<mat-form-field appearance="legacy" style="width: 100%; margin-bottom: -1.25em">
+	<mat-form-field appearance="legacy" style="width: 250px; margin-bottom: -1.25em">
 		<input (keyup)="filterChanged()"
 			   [(ngModel)]="filter"
 			   autocomplete="off"
@@ -15,38 +15,46 @@
 		</button>
 	</mat-form-field>
 
-	<!--
-	for remote, construct url from front
-	attetion si url accessible publiquement
-	tester avec docker image
+	<div style="display: flex; gap: 10px">
+		<button
+			(click)="load10()"
+			mat-flat-button>
+			Load 10 first
+		</button>
 
-	tester DISABLE_WATCHER
-	-->
-
-	<button
-		(click)="snackBar.open('Git remote copied', '⨉', {duration: 3000})"
-		[cdkCopyToClipboard]="'TODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODO'"
-		mat-icon-button>
-		<span class="material-symbols-outlined notranslate">
-			tv_remote
-		</span>
-	</button>
+		<button
+			(click)="snackBar.open('Git remote copied', '⨉', {duration: 3000})"
+			[cdkCopyToClipboard]="''"
+			mat-flat-button
+			mat-icon-button>
+			<span class="material-symbols-outlined notranslate">
+				tv_remote
+			</span>
+		</button>
+	</div>
 </mat-toolbar>
+
+<mat-progress-bar
+	*ngIf="isLoading"
+	style="position: absolute; left: 0px; right: 0px; z-index: 10000000"
+	color="accent"
+	mode="indeterminate">
+</mat-progress-bar>
 
 <div style="height: calc(100vh - 56px); overflow: auto;">
 
-	<mat-card *ngIf="selectedDatabase?.system">
+	<mat-card *ngIf="selectedDatabase?.system || selectedServer?.name === 'CockroachDB'">
 		<mat-card-header>
 			<mat-card-subtitle>
 				<mat-error>
 					<br>
-					Database Versioning is not available for system databases
+					Database Versioning is not available for this databases
 				</mat-error>
 			</mat-card-subtitle>
 		</mat-card-header>
 	</mat-card>
 
-	<ng-container *ngIf="!selectedDatabase?.system">
+	<ng-container *ngIf="!selectedDatabase?.system && selectedServer?.name !== 'CockroachDB'">
 
 		<mat-card
 			*ngIf="patches.length < 1">
@@ -58,52 +66,69 @@
 			</mat-card-header>
 		</mat-card>
 
-		<mat-card *ngFor="let patch of patches; trackBy:identify"
-				  [hidden]="patch.hide">
+		<mat-card
+			*ngFor="let patch of patches; trackBy:identify"
+			[hidden]="patch.hide">
 
 			<mat-card-actions>
 
-				<span
-					[matTooltip]="date(patch.time)"
-					matTooltipPosition="right">
-					{{ patch.time | timeAgo }}
-				</span>
-
-				<button
-					(click)="snackBar.open('Hash copied', '⨉', {duration: 3000})"
-					[cdkCopyToClipboard]="patch.sha1"
-					mat-button>
-					<span class="material-symbols-outlined notranslate">
-						tag
+				<ng-container *ngIf="!patch.isLoading">
+					<span>
+						{{ patch.time | date:'MM-dd HH:mm:ss' }}
 					</span>
-					{{ patch.sha1 | slice:0:6 }}
-				</button>
 
-				<button
-					[disabled]="isLoading"
+					<button
+						(click)="snackBar.open('Hash copied', '⨉', {duration: 3000})"
+						[cdkCopyToClipboard]="patch.hash"
+						mat-button>
+						<span class="material-symbols-outlined notranslate">
+							tag
+						</span>
+						{{ patch.hash | slice:0:6 }}
+					</button>
+
+					<button
+						(click)="reset(patch)"
+						*ngIf="patch.diff"
+						color="accent"
+						mat-button>
+						<span class="material-symbols-outlined notranslate">
+							restart_alt
+						</span>
+						Reset
+					</button>
+				</ng-container>
+
+				<mat-progress-spinner
+					*ngIf="patch.isLoading"
+					[diameter]="60"
+					style="margin: auto;"
 					color="accent"
-					mat-stroked-button>
-					<span class="material-symbols-outlined notranslate">
-						restart_alt
-					</span>
-					Reset
-				</button>
+					mode="indeterminate">
+				</mat-progress-spinner>
 			</mat-card-actions>
 
-			<mat-card-content>
+			<mat-card-content style="display: flex; flex: 1; justify-content: center; align-items: center;">
+				<button
+					(click)="loadDiff(patch)"
+					*ngIf="!patch.diff"
+					color="accent"
+					mat-flat-button>
+					<span class="material-symbols-outlined notranslate">
+						difference
+					</span>
+					Load diff
+				</button>
+
 				<ngx-monaco-editor
+					style="width: 100%; min-width: 500px; resize: none"
+					*ngIf="patch.diff"
 					(onInit)="initEditor($event, patch.diff)"
 					[(ngModel)]="patch.diff"
-					[options]="editorOptions"
-					style="min-height: 200px; resize: vertical">
+					[options]="editorOptions">
 				</ngx-monaco-editor>
 			</mat-card-content>
 		</mat-card>
 
 	</ng-container>
 </div>
-
-<!--
-btn pour en acheter a la fin
-quid de cockroachdb ?
--->

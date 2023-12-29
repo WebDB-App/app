@@ -36,7 +36,7 @@ if (process.env.NODE_ENV === "production") {
 
 app.use(compression());
 app.use(cors({origin: "*"}));
-app.use(express.json({limit: '50mb'}));
+app.use(express.json({limit: "50mb"}));
 app.use(express.static(join(dirname, "../static/")));
 
 (async () => {
