@@ -60,8 +60,6 @@
 
 
 
-
-
 ----------------------------------------------------------
 
 
@@ -71,6 +69,7 @@
 - refaire capture feature
 
 
-# Free
-- gemini + ajouter dans landing/feature
-- model garden
+# Free Assisstant
+- perplexity
+- gemini / model garden
+- ajouter dans landing/feature

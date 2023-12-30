@@ -17,7 +17,6 @@ const localKeyConfig = 'ia-config';
 
 enum Provider {
 	openai = "OpenAI",
-	gcloud = "Google Cloud",
 }
 
 enum Role {
@@ -179,13 +178,6 @@ export class AiComponent implements OnInit, OnDestroy {
 			});
 		}
 
-		/*if (this.config.gcloud_PID && this.config.gcloud_AC) {
-			this.models[Provider.gcloud] = [
-				{name: "gemini-pro", bold: true},
-				{name: "gemini-ultra", bold: true},
-			];
-		}*/
-
 		if (snack) {
 			this.snackBar.open("Settings saved", "⨉", {duration: 3000});
 		}
@@ -260,7 +252,6 @@ export class AiComponent implements OnInit, OnDestroy {
 					resolve(new Msg(error.message || 'An error occurred during OpenAI request: ' + error, Role.Assistant, true))
 				});
 			}));
-		} else if (provider === Provider.gcloud) {
 		}
 
 		this.scrollToBottom();
