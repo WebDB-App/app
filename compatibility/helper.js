@@ -47,6 +47,9 @@ export async function getTags(docker) {
 		if (docker.exclusions && docker.exclusions.find(exclusion => tag.name.indexOf(exclusion) >= 0)) {
 			return;
 		}
+		if (!tag.images.find(image => image.architecture === "amd64")) {
+			return;
+		}
 		if (!digests[tag.digest]) {
 			digests[tag.digest] = [];
 		}

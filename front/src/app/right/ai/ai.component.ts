@@ -192,7 +192,7 @@ export class AiComponent implements OnInit, OnDestroy {
 			this.models[Provider.perplexity] = [
 				{name: "pplx-7b-chat", bold: false},
 				{name: "pplx-70b-chat", bold: true},
-				{name: "llama-2-70b-chat", bold: false},
+				{name: "llama-2-70b-chat", bold: true},
 				{name: "codellama-34b-instruct", bold: true},
 				{name: "mistral-7b-instruct", bold: false},
 				{name: "mixtral-8x7b-instruct", bold: true},
