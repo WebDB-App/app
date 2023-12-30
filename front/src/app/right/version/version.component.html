@@ -21,16 +21,6 @@
 			mat-flat-button>
 			Load 10 first
 		</button>
-
-		<button
-			(click)="snackBar.open('Git remote copied', '⨉', {duration: 3000})"
-			[cdkCopyToClipboard]="''"
-			mat-flat-button
-			mat-icon-button>
-			<span class="material-symbols-outlined notranslate">
-				tv_remote
-			</span>
-		</button>
 	</div>
 </mat-toolbar>
 
@@ -89,6 +79,7 @@
 
 					<button
 						(click)="reset(patch)"
+						[disabled]="isResetting"
 						*ngIf="patch.diff"
 						color="accent"
 						mat-button>

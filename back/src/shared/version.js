@@ -28,8 +28,7 @@ class Version {
 		return join(rootPath, driver.port.toString(), database);
 	}
 
-	// eslint-disable-next-line no-unused-vars
-	async resetTo(database, driver, hash) {
+	async reset(database, driver, hash) {
 		const dir = this.getPath(database, driver);
 		if (!existsSync(dir)) {
 			return {error: "Directory does not exist"};
@@ -37,9 +36,15 @@ class Version {
 
 		//tester fuctions/procedure/complex dans le patch
 
-		//const r = bash.runBash(`cd ${dir} && git reset --hard ${hash}`);
-		//delete db
-		//import file
+		const r = bash.runBash(`cd ${dir} && git reset --hard ${hash}`);
+		if (r.error) {
+			return r;
+		}
+		await driver.dropDatabase(database);
+		await driver.createDatabase(database);
+		await driver.load([{path: `${dir}/${database}`}], database);
+
+		this.saveChanges(database, driver);
 		return {ok: 1};
 	}
 
@@ -66,7 +71,7 @@ class Version {
 		const git = simpleGit(dir);
 
 		const commits = await git.log(["--max-count=200"]);
-		return commits.all.map(commit => {
+		return commits.all.slice(1).map(commit => {
 			return {
 				time: commit.message,
 				hash: commit.hash,
@@ -120,10 +125,4 @@ class Version {
 
 export default new Version();
 
-/*
-- Checksum par table
-- https://stackoverflow.com/questions/17177914/is-there-a-more-elegant-way-to-detect-changes-in-a-large-sql-table-without-alter#comment24874308_17178078
-- https://www.tutorialspoint.com/mysql/mysql_checksum_table_statement.htm
-- https://www.google.com/search?q=mongo+watch+databasr&oq=mongo+watch+databasr&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIJCAEQIRgKGKAB0gEJMTM3MDVqMGo0qAIAsAIA&client=ms-android-google&sourceid=chrome-mobile&ie=UTF-8
-- https://github.com/debezium/debezium
- */
+
