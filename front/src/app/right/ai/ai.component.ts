@@ -12,11 +12,15 @@ import { isSQL } from "../../../shared/helper";
 import { Subscription } from "rxjs";
 import { Table } from "../../../classes/table";
 import { Router } from "@angular/router";
+import { ChatCompletionCreateParamsBase } from "openai/resources/chat/completions";
+import { ChatCompletionCreateParamsStreaming } from "openai/src/resources/chat/completions";
+import { environment } from "../../../environments/environment";
 
 const localKeyConfig = 'ia-config';
 
 enum Provider {
 	openai = "OpenAI",
+	perplexity = "Perplexity",
 }
 
 enum Role {
@@ -91,6 +95,7 @@ export class AiComponent implements OnInit, OnDestroy {
 	config = {
 		model: "gpt-3.5-turbo-16k",
 		openAI: '',
+		perplexity: '',
 		temperature: 1,
 		top_p: 1
 	};
@@ -173,9 +178,25 @@ export class AiComponent implements OnInit, OnDestroy {
 			dangerouslyAllowBrowser: true
 		});
 		if (this.openai) {
-			this.openai.models.list().then(response => {
-				this.models[Provider.openai] = response.data.map(model => model.id).sort().map(model => {return {name: model, bold: model.startsWith("gpt-")}});
-			});
+			this.models[Provider.openai] = [
+				{name: "gpt-4", bold: true},
+				{name: "gpt-4-1106-preview", bold: false},
+				{name: "gpt-4-vision-preview", bold: false},
+				{name: "gpt-4-32k", bold: true},
+				{name: "gpt-3.5-turbo", bold: false},
+				{name: "gpt-3.5-turbo-16k", bold: true},
+			];
+		}
+
+		if (this.config.perplexity) {
+			this.models[Provider.perplexity] = [
+				{name: "pplx-7b-chat", bold: false},
+				{name: "pplx-70b-chat", bold: true},
+				{name: "llama-2-70b-chat", bold: false},
+				{name: "codellama-34b-instruct", bold: true},
+				{name: "mistral-7b-instruct", bold: false},
+				{name: "mixtral-8x7b-instruct", bold: true},
+			];
 		}
 
 		if (snack) {
@@ -219,19 +240,21 @@ export class AiComponent implements OnInit, OnDestroy {
 			}
 		}
 
+		const rBody = {
+			model: this.config.model,
+			messages: [
+				{role: Role.System, content: this.sample},
+				...(this.chat.map(ch => {
+					return {role: ch.user, content: ch.txt}
+				}))
+			],
+			stream: true,
+			temperature: this.config.temperature,
+			top_p: this.config.top_p
+		};
+
 		if (provider === Provider.openai) {
-			const stream = this.openai!.chat.completions.create({
-				model: this.config.model,
-				messages: [
-					{role: Role.System, content: this.sample},
-					...(this.chat.map(ch => {
-						return {role: ch.user, content: ch.txt}
-					}))
-				],
-				stream: true,
-				temperature: this.config.temperature,
-				top_p: this.config.top_p
-			});
+			const stream = this.openai!.chat.completions.create(<ChatCompletionCreateParamsStreaming>rBody);
 
 			this.chat.push(await new Promise<Msg>(resolve => {
 				stream.then(async str => {
@@ -249,7 +272,48 @@ export class AiComponent implements OnInit, OnDestroy {
 					resolve(new Msg(this.stream, Role.Assistant));
 					this.stream = undefined;
 				}).catch(error => {
-					resolve(new Msg(error.message || 'An error occurred during OpenAI request: ' + error, Role.Assistant, true))
+					resolve(new Msg(error.message || `An error occurred during OpenAI request: ` + error, Role.Assistant, true))
+				});
+			}));
+		} else if (provider === Provider.perplexity) {
+			const options = {
+				method: 'POST',
+				headers: {
+					'content-type': 'application/json',
+					authorization: 'Bearer ' + this.config.perplexity
+				},
+				body: JSON.stringify(rBody)
+			};
+			const stream = fetch('https://try.readme.io/https://api.perplexity.ai/chat/completions', options);
+
+			this.chat.push(await new Promise<Msg>(resolve => {
+				stream.then(async str => {
+					this.stream = "";
+					const reader = str.body!.getReader();
+
+					let reading = true;
+					do {
+						reading = await new Promise(resolve => {
+							reader.read().then(({ done, value }) => {
+								try {
+									const data = new TextDecoder().decode(value);
+									console.log(data);
+									const part = JSON.parse(data.split('data: ')[1]);
+
+									this.stream = part.choices[0]?.message?.content || '';
+									this.scrollToBottom();
+								} catch (e) {
+									console.log(e);
+								}
+								resolve(!done);
+							});
+						});
+					} while (reading && !this.abort);
+
+					resolve(new Msg(this.stream, Role.Assistant));
+					this.stream = undefined;
+				}).catch(error => {
+					resolve(new Msg(error.error.message || `An error occurred during Perplexity request: ` + error, Role.Assistant, true))
 				});
 			}));
 		}
@@ -311,4 +375,12 @@ export class AiComponent implements OnInit, OnDestroy {
 	}
 
 	protected readonly Math = Math;
+
+	goodPerplexity() {
+		if (!this.config.perplexity) {
+			return true;
+		}
+
+		return !!this.config.perplexity.match(/^pplx-[a-zA-Z0-9]{48,}$/);
+	}
 }

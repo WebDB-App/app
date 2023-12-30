@@ -40,9 +40,9 @@ class Version {
 		if (r.error) {
 			return r;
 		}
-		await driver.dropDatabase(database);
-		await driver.createDatabase(database);
-		await driver.load([{path: `${dir}/${database}`}], database);
+		//await driver.dropDatabase(database);
+		//await driver.createDatabase(database);
+		//await driver.load([{path: `${dir}/${database}`}], database);
 
 		this.saveChanges(database, driver);
 		return {ok: 1};
@@ -116,10 +116,11 @@ class Version {
 			return;
 		}
 
+		/*
 		this.changes[database] = {
 			done: false,
 			driver
-		};
+		};*/
 	}
 }
 

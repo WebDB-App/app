@@ -1,417 +1,399 @@
-<mat-progress-spinner
-	*ngIf="isLoading"
-	color="accent"
-	mode="indeterminate"
-	style="margin: 100px auto;">
-</mat-progress-spinner>
+<ng-container *ngIf="licence?.plan === 'Free'">
+	You must get a plan to access this feature
 
-<ng-container *ngIf="!isLoading">
-
-	<ng-container *ngIf="licence?.plan === 'Free'">
-		You must get a plan to access this feature
-
-		<a href="https://webdb.app/page/price" mat-stroked-button target="_blank">
+	<a href="https://webdb.app/page/price" mat-stroked-button target="_blank">
 		<span class="material-symbols-outlined notranslate">
 			subscriptions
 		</span>
-			Plans
-		</a>
-	</ng-container>
+		Plans
+	</a>
+</ng-container>
 
-	<div [hidden]="licence?.plan === 'Free'"
-		 fxFlexFill
-		 fxLayout="column"
-		 fxLayoutAlign="space-between none">
+<div [hidden]="licence?.plan === 'Free'"
+	 fxFlexFill
+	 fxLayout="column"
+	 fxLayoutAlign="space-between none">
 
-		<mat-toolbar style="display: inline-table; padding: 2px 12px; z-index: 100">
+	<mat-toolbar style="display: inline-table; padding: 2px 12px; z-index: 100">
 
-			<div fxLayout="row"
-				 fxLayoutAlign="space-between center"
-				 style="gap: 10px; height: 52px">
-				<mat-form-field appearance="legacy" style="width: 200px; margin-bottom: -1.25em">
-					<input
-						#filter
-						(keyup)="filterChanged(filter.value)"
-						autocomplete="off"
-						matInput
-						placeholder="Search in chat">
-					<button
-						(click)="filter.value=''; filterChanged(filter.value)"
-						*ngIf="filter.value"
-						aria-label="Clear"
-						mat-icon-button
-						matSuffix>
-						<mat-icon>close</mat-icon>
-					</button>
-				</mat-form-field>
-
-				<mat-form-field
-					appearance="legacy"
-					color="accent"
-					style="margin-bottom: -1.25em; width: 300px;">
-					<mat-label>Tables</mat-label>
-					<mat-select
-						(selectionChange)="preSentChange()"
-						[(ngModel)]="preSent.tables"
-						multiple>
-						<mat-option
-							*ngFor="let table of selectedDatabase?.tables"
-							[value]="table.name">
-							{{ table.name }}
-						</mat-option>
-					</mat-select>
-				</mat-form-field>
-
+		<div fxLayout="row"
+			 fxLayoutAlign="space-between center"
+			 style="gap: 10px; height: 52px">
+			<mat-form-field appearance="legacy" style="width: 200px; margin-bottom: -1.25em">
+				<input
+					#filter
+					(keyup)="filterChanged(filter.value)"
+					autocomplete="off"
+					matInput
+					placeholder="Search in chat">
 				<button
-					(click)="settings.toggleAttribute('hidden')"
-					mat-flat-button>
+					(click)="filter.value=''; filterChanged(filter.value)"
+					*ngIf="filter.value"
+					aria-label="Clear"
+					mat-icon-button
+					matSuffix>
+					<mat-icon>close</mat-icon>
+				</button>
+			</mat-form-field>
+
+			<mat-form-field
+				appearance="legacy"
+				color="accent"
+				style="margin-bottom: -1.25em; width: 300px;">
+				<mat-label>Tables</mat-label>
+				<mat-select
+					(selectionChange)="preSentChange()"
+					[(ngModel)]="preSent.tables"
+					multiple>
+					<mat-option
+						*ngFor="let table of selectedDatabase?.tables"
+						[value]="table.name">
+						{{ table.name }}
+					</mat-option>
+				</mat-select>
+			</mat-form-field>
+
+			<button
+				(click)="settings.toggleAttribute('hidden')"
+				mat-flat-button>
 				<span class="material-symbols-outlined notranslate">
 					page_info
 				</span>
-				</button>
-			</div>
+			</button>
+		</div>
 
-			<div #settings id="settings">
+		<div #settings id="settings">
 
+			<div>
 				<div>
-					<div>
-						<mat-form-field appearance="outline" color="accent" style="margin-bottom: -1.25em">
-							<mat-label>Anonymize</mat-label>
-							<mat-select
-								(selectionChange)="preSentChange()"
-								[(ngModel)]="preSent.anonymize">
-								<mat-option [value]="0">
-									Raw
-								</mat-option>
-								<mat-option [value]="1">
-									Swapped data
-								</mat-option>
-								<mat-option [value]="2">
-									Fake data
-								</mat-option>
-							</mat-select>
-						</mat-form-field>
-					</div>
-
-					<div class="slider">
-						<div>
-							<span>Rows count</span>
-							<span>{{ preSent.count }}</span>
-						</div>
-						<mat-slider
-							(change)="preSentChange()"
-							(input)="preSent.count = $event.value!.valueOf()"
-							[value]="preSent.count"
-							color="accent"
-							max="200"
-							min="5"
-							step="1">
-						</mat-slider>
-					</div>
-
-					<div class="slider">
-						<div>
-							<span>Deep level</span>
-							<span>{{ preSent.deep }}</span>
-						</div>
-						<mat-slider
-							(change)="preSentChange()"
-							(input)="preSent.deep = $event.value!.valueOf()"
-							[value]="preSent.deep"
-							color="accent"
-							max="15"
-							min="0"
-							step="1">
-						</mat-slider>
-					</div>
-				</div>
-
-				<mat-divider></mat-divider>
-
-				<div *ngIf="config.openAI">
-					<mat-form-field appearance="standard" color="accent">
-						<mat-label>Model</mat-label>
+					<mat-form-field appearance="outline" color="accent" style="margin-bottom: -1.25em">
+						<mat-label>Anonymize</mat-label>
 						<mat-select
-							(selectionChange)="configChange()"
-							[(ngModel)]="config.model">
-							<mat-optgroup
-								*ngFor="let provider of Object.keys(models)"
-								[label]="provider"
-								class="hasBold">
-								<mat-option
-									*ngFor="let model of models[provider]"
-									[class.bold]="model.bold"
-									[value]="model.name">
-									{{ model.name }}
-								</mat-option>
-							</mat-optgroup>
+							(selectionChange)="preSentChange()"
+							[(ngModel)]="preSent.anonymize">
+							<mat-option [value]="0">
+								Raw
+							</mat-option>
+							<mat-option [value]="1">
+								Swapped data
+							</mat-option>
+							<mat-option [value]="2">
+								Fake data
+							</mat-option>
 						</mat-select>
 					</mat-form-field>
+				</div>
 
-					<div class="slider">
-						<div>
+				<div class="slider">
+					<div>
+						<span>Rows count</span>
+						<span>{{ preSent.count }}</span>
+					</div>
+					<mat-slider
+						(change)="preSentChange()"
+						(input)="preSent.count = $event.value!.valueOf()"
+						[value]="preSent.count"
+						color="accent"
+						max="200"
+						min="5"
+						step="1">
+					</mat-slider>
+				</div>
+
+				<div class="slider">
+					<div>
+						<span>Deep level</span>
+						<span>{{ preSent.deep }}</span>
+					</div>
+					<mat-slider
+						(change)="preSentChange()"
+						(input)="preSent.deep = $event.value!.valueOf()"
+						[value]="preSent.deep"
+						color="accent"
+						max="15"
+						min="0"
+						step="1">
+					</mat-slider>
+				</div>
+			</div>
+
+			<mat-divider></mat-divider>
+
+			<div *ngIf="config.openAI">
+				<mat-form-field appearance="standard" color="accent">
+					<mat-label>Model</mat-label>
+					<mat-select
+						(selectionChange)="configChange()"
+						[(ngModel)]="config.model">
+						<mat-optgroup
+							*ngFor="let provider of Object.keys(models)"
+							[label]="provider"
+							class="hasBold">
+							<mat-option
+								*ngFor="let model of models[provider]"
+								[class.bold]="model.bold"
+								[value]="model.name">
+								{{ model.name }}
+							</mat-option>
+						</mat-optgroup>
+					</mat-select>
+				</mat-form-field>
+
+				<div class="slider">
+					<div>
 						<span matTooltip="Higher values will make the output more random
 					Lower values will make it more focused and deterministic"
 							  matTooltipPosition="left">Temperature</span>
-							<span>{{ config.temperature }}</span>
-						</div>
-						<mat-slider
-							(change)="configChange()"
-							(input)="config.temperature = $event.value!.valueOf()"
-							[value]="config.temperature"
-							color="accent"
-							max="2"
-							min="0"
-							step="0.1">
-						</mat-slider>
+						<span>{{ config.temperature }}</span>
 					</div>
+					<mat-slider
+						(change)="configChange()"
+						(input)="config.temperature = $event.value!.valueOf()"
+						[value]="config.temperature"
+						color="accent"
+						max="2"
+						min="0"
+						step="0.1">
+					</mat-slider>
+				</div>
 
-					<div class="slider">
-						<div>
+				<div class="slider">
+					<div>
 						<span
 							matTooltip="If you set Top-p to 0.9, the LLM will only generate words that have a probability of at least 0.9"
 							matTooltipPosition="left">Top P</span>
-							<span>{{ config.top_p }}</span>
-						</div>
-						<mat-slider
-							(change)="configChange()"
-							(input)="config.top_p = $event.value!.valueOf()"
-							[value]="config.top_p"
-							color="accent"
-							max="2"
-							min="0"
-							step="0.1">
-						</mat-slider>
+						<span>{{ config.top_p }}</span>
 					</div>
+					<mat-slider
+						(change)="configChange()"
+						(input)="config.top_p = $event.value!.valueOf()"
+						[value]="config.top_p"
+						color="accent"
+						max="2"
+						min="0"
+						step="0.1">
+					</mat-slider>
+				</div>
+			</div>
+
+			<div>
+				<div>
+					<a href="https://gitlab.com/web-db/app/-/wikis/Google-Cloud-Credentials"
+					   mat-button
+					   target="_blank">
+						<mat-icon svgIcon="perplexity"></mat-icon>
+					</a>
+
+					<mat-form-field appearance="outline" style="margin-bottom: -1.25em;">
+						<mat-label>Access Token</mat-label>
+						<input
+							(change)="goodPerplexity() ? configChange() : undefined"
+							[(ngModel)]="config.perplexity"
+							matInput>
+					</mat-form-field>
+					<mat-error *ngIf="!goodPerplexity()">
+						Bad access token format
+					</mat-error>
 				</div>
 
 				<div>
-					<!--<div>
-						<a href="https://gitlab.com/web-db/app/-/wikis/Google-Cloud-Credentials"
-						   mat-button
-						   target="_blank">
-							<mat-icon svgIcon="google"></mat-icon>
-						</a>
+					<a href="https://platform.openai.com/account"
+					   mat-button
+					   target="_blank">
+						<mat-icon svgIcon="chatgpt"></mat-icon>
+					</a>
 
-						<mat-form-field appearance="outline" style="margin-bottom: -1.25em; width: 100px;">
-							<mat-label>Project ID</mat-label>
-							<input
-								(change)="configChange()"
-								[(ngModel)]="config.gcloud_PID"
-								matInput>
-						</mat-form-field>
-
-						<mat-form-field appearance="outline" style="margin-bottom: -1.25em; width: 130px;">
-							<mat-label>Access Token</mat-label>
-							<input
-								(change)="goodGCloud() ? configChange() : undefined"
-								[(ngModel)]="config.gcloud_AC"
-								matInput>
-						</mat-form-field>
-						<mat-error *ngIf="!goodGCloud()">
-							Bad access token format
-						</mat-error>
-					</div>-->
-
-					<div>
-						<a href="https://platform.openai.com/account"
-						   mat-button
-						   target="_blank">
-							<mat-icon svgIcon="chatgpt"></mat-icon>
-						</a>
-
-						<mat-form-field appearance="outline" style="margin-bottom: -1.25em">
-							<mat-label>Key</mat-label>
-							<input
-								(change)="goodOpenAIKey() ? configChange() : undefined"
-								[(ngModel)]="config.openAI"
-								matInput>
-						</mat-form-field>
-						<mat-error *ngIf="!goodOpenAIKey()">
-							Bad key format
-						</mat-error>
-					</div>
-
-					<button
-						(click)="chat = []; saveChat()"
-						*ngIf="chat.length >= 1"
-						mat-stroked-button>
-						Clear chat
-					</button>
+					<mat-form-field appearance="outline" style="margin-bottom: -1.25em">
+						<mat-label>Key</mat-label>
+						<input
+							(change)="goodOpenAIKey() ? configChange() : undefined"
+							[(ngModel)]="config.openAI"
+							matInput>
+					</mat-form-field>
+					<mat-error *ngIf="!goodOpenAIKey()">
+						Bad key format
+					</mat-error>
 				</div>
 
-				<mat-accordion>
-					<mat-expansion-panel>
-						<mat-expansion-panel-header>
-							<mat-panel-title>
-								Context prompt
-							</mat-panel-title>
-							<mat-panel-description>
-								≈ {{ Math.floor(sample.split('').length / 3.4) }} tokens
-							</mat-panel-description>
-						</mat-expansion-panel-header>
-						<ngx-monaco-editor
-							[(ngModel)]="sample"
-							[options]="editorOptions"
-							style="width: 100% !important; resize: none"
-						></ngx-monaco-editor>
-					</mat-expansion-panel>
-				</mat-accordion>
-
-				<mat-divider style="margin-top: 20px"></mat-divider>
-			</div>
-		</mat-toolbar>
-
-		<div *ngIf="!config.openAI" style="margin-bottom: 30vh">
-			<h3 style="text-align: center; border-bottom: 1px dashed grey">
-				Enter a key to use assistant
-			</h3>
-		</div>
-
-		<div *ngIf="!chat.length && config.openAI">
-			<h3 style="text-align: center; border-bottom: 1px dashed grey">Some examples</h3>
-			<div id="examples">
-				<button (click)="sendMessage(example);"
-						*ngFor="let example of examples"
-						[disabled]="!config.openAI"
-						mat-stroked-button>
-					{{ example }}
+				<button
+					(click)="chat = []; saveChat()"
+					*ngIf="chat.length >= 1"
+					mat-stroked-button>
+					Clear chat
 				</button>
 			</div>
+
+			<mat-accordion>
+				<mat-expansion-panel>
+					<mat-expansion-panel-header>
+						<mat-panel-title>
+							Context prompt
+						</mat-panel-title>
+						<mat-panel-description>
+							≈ {{ Math.floor(sample.split('').length / 3.4) }} tokens
+						</mat-panel-description>
+					</mat-expansion-panel-header>
+					<ngx-monaco-editor
+						[(ngModel)]="sample"
+						[options]="editorOptions"
+						style="width: 100% !important; resize: none"
+					></ngx-monaco-editor>
+				</mat-expansion-panel>
+			</mat-accordion>
+
+			<mat-divider style="margin-top: 20px"></mat-divider>
 		</div>
+	</mat-toolbar>
 
-		<div #scrollContainer *ngIf="config.openAI && chat.length" id="container">
-			<mat-card
-				style="box-shadow: none"
-				*ngFor="let ch of chat"
-				[hidden]="ch.hide"
-				[style.background-color]="ch.error ? '#f44336' : ch.user === Role.Assistant ? undefined : 'transparent'">
-				<mat-card-content>
+	<div *ngIf="!config.openAI" style="margin-bottom: 30vh">
+		<h3 style="text-align: center; border-bottom: 1px dashed grey">
+			Enter a key to use assistant
+		</h3>
+	</div>
 
-					<button
-						(click)="message.value = ch.txt"
-						*ngIf="ch.user === Role.User"
-						style="float: left; top: -10px; margin-right: 10px;"
-						color="accent"
-						mat-flat-button
-						mat-icon-button>
+	<div *ngIf="!chat.length && config.openAI">
+		<h3 style="text-align: center; border-bottom: 1px dashed grey">Some examples</h3>
+		<div id="examples">
+			<button (click)="sendMessage(example);"
+					*ngFor="let example of examples"
+					[disabled]="!config.openAI"
+					mat-stroked-button>
+				{{ example }}
+			</button>
+		</div>
+	</div>
+
+	<div #scrollContainer *ngIf="config.openAI && chat.length" id="container">
+		<mat-card
+			style="box-shadow: none"
+			*ngFor="let ch of chat"
+			[hidden]="ch.hide"
+			[style.background-color]="ch.error ? '#f44336' : ch.user === Role.Assistant ? undefined : 'transparent'">
+			<mat-card-content>
+
+				<button
+					(click)="message.value = ch.txt"
+					*ngIf="ch.user === Role.User"
+					style="float: left; top: -10px; margin-right: 10px;"
+					color="accent"
+					mat-flat-button
+					mat-icon-button>
 					<span class="material-symbols-outlined notranslate">
 						edit
 					</span>
-					</button>
+				</button>
 
-					<div *ngIf="!ch.error && ch.user === Role.Assistant" class="actions" style="bottom: 8px; top: inherit;">
-						<button
-							(click)="sendMessage('The response ```' + ch.txt + '``` was wrong. Please retry');"
-							color="accent"
-							mat-icon-button>
+				<div *ngIf="!ch.error && ch.user === Role.Assistant" class="actions" style="bottom: 8px; top: inherit;">
+					<button
+						(click)="sendMessage('The response ```' + ch.txt + '``` was wrong. Please retry');"
+						color="accent"
+						mat-icon-button>
 						<span class="material-symbols-outlined notranslate">
 							replay
 						</span>
-						</button>
-						<button
-							(click)="sendMessage('Please summarize the response ```' + ch.txt + '```');"
-							color="accent"
-							mat-icon-button>
+					</button>
+					<button
+						(click)="sendMessage('Please summarize the response ```' + ch.txt + '```');"
+						color="accent"
+						mat-icon-button>
 						<span class="material-symbols-outlined notranslate">
 							short_text
 						</span>
-						</button>
-						<button
-							(click)="sendMessage('Can you please give me more details about the response: ```' + ch.txt + '```');"
-							color="accent"
-							mat-icon-button>
+					</button>
+					<button
+						(click)="sendMessage('Can you please give me more details about the response: ```' + ch.txt + '```');"
+						color="accent"
+						mat-icon-button>
 						<span class="material-symbols-outlined notranslate">
 							subject
 						</span>
-						</button>
-					</div>
+					</button>
+				</div>
 
-					<div *ngFor="let mrk of ch.marked" class="marked">
-						<div *ngIf="mrk.code && !ch.error" class="responseCode">
-							<div class="actions">
-								<button
-									(click)="runQuery(mrk.code);"
-									color="accent"
-									mat-icon-button
-									matTooltip="Run and send result to IA"
-									matTooltipPosition="left">
+				<div *ngFor="let mrk of ch.marked" class="marked">
+					<div *ngIf="mrk.code && !ch.error" class="responseCode">
+						<div class="actions">
+							<button
+								(click)="runQuery(mrk.code);"
+								color="accent"
+								mat-icon-button
+								matTooltip="Run and send result to IA"
+								matTooltipPosition="left">
 								<span class="material-symbols-outlined notranslate">
 									fast_forward
 								</span>
-								</button>
-								<button
-									(click)="goToQuery(mrk.code);"
-									color="accent"
-									mat-icon-button>
+							</button>
+							<button
+								(click)="goToQuery(mrk.code);"
+								color="accent"
+								mat-icon-button>
 								<span class="material-symbols-outlined notranslate">
 									send
 								</span>
-								</button>
-								<button
-									(click)="snackBar.open('Code copied', '⨉', {duration: 3000})"
-									[cdkCopyToClipboard]="mrk.code"
-									color="accent"
-									mat-icon-button>
+							</button>
+							<button
+								(click)="snackBar.open('Code copied', '⨉', {duration: 3000})"
+								[cdkCopyToClipboard]="mrk.code"
+								color="accent"
+								mat-icon-button>
 								<span class="material-symbols-outlined notranslate">
 									content_paste
 								</span>
-								</button>
-							</div>
-							<pre><code [highlight]="mrk.code" [lineNumbers]="true"></code></pre>
+							</button>
 						</div>
-
-						<div [innerHTML]="mrk.html"></div>
+						<pre><code [highlight]="mrk.code" [lineNumbers]="true"></code></pre>
 					</div>
 
-				</mat-card-content>
-			</mat-card>
-			<mat-card *ngIf="stream !== undefined">
-				<mat-card-content>
-					<div [innerHTML]="stream"></div>
-				</mat-card-content>
-				<mat-card-actions style="display: flex; justify-content: space-evenly;">
-					<button
-						(click)="abort = true; alternative()"
-						color="accent"
-						mat-stroked-button>
+					<div [innerHTML]="mrk.html"></div>
+				</div>
+
+			</mat-card-content>
+		</mat-card>
+		<mat-card *ngIf="stream !== undefined">
+			<mat-card-content>
+				<div [innerHTML]="stream"></div>
+			</mat-card-content>
+			<mat-card-actions style="display: flex; justify-content: space-evenly;">
+				<button
+					(click)="abort = true; alternative()"
+					color="accent"
+					mat-stroked-button>
 						<span class="material-symbols-outlined notranslate">
 							change_circle
 						</span>
-						Alternative
-					</button>
-					<button
-						(click)="abort = true"
-						color="warn"
-						mat-button>
+					Alternative
+				</button>
+				<button
+					(click)="abort = true"
+					color="warn"
+					mat-button>
 						<span class="material-symbols-outlined notranslate">
 							stop_circle
 						</span>
-						Abort
-					</button>
-				</mat-card-actions>
-			</mat-card>
-		</div>
-
-		<div [hidden]="!config.openAI" class="sendMessage">
-			<mat-form-field
-				appearance="fill"
-				color="accent">
-				<mat-label>Ask anything about `{{ selectedDatabase?.name }}`</mat-label>
-				<textarea
-					#message
-					(keydown.enter)="sendMessage(message.value); message.value = ''"
-					cdkFocusInitial
-					cdkTextareaAutosize
-					matInput
-					style="max-height: 60vh;"></textarea>
-				<button (click)="sendMessage(message.value); message.value = ''"
-						[disabled]="!message.value"
-						mat-icon-button
-						matSuffix>
-					<mat-icon>send</mat-icon>
+					Abort
 				</button>
-			</mat-form-field>
-		</div>
+			</mat-card-actions>
+		</mat-card>
 	</div>
-</ng-container>
+
+	<div [hidden]="!config.openAI" class="sendMessage">
+		<mat-form-field
+			appearance="fill"
+			color="accent">
+			<mat-label>Ask anything about `{{ selectedDatabase?.name }}`</mat-label>
+			<textarea
+				#message
+				(keydown.enter)="sendMessage(message.value); message.value = ''"
+				cdkFocusInitial
+				cdkTextareaAutosize
+				matInput
+				style="max-height: 60vh;"></textarea>
+			<button (click)="sendMessage(message.value); message.value = ''"
+					[disabled]="!message.value"
+					mat-icon-button
+					matSuffix>
+				<mat-icon>send</mat-icon>
+			</button>
+		</mat-form-field>
+	</div>
+</div>
