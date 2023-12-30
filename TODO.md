@@ -1,15 +1,6 @@
 - ERD [Chrome bookmarks]
 
 
-mysql/etc gui -> stackoverflow
-cockroachdb gui -> reddit + stackoverflow
-
-
-post discord + reddit de perplexity
-refaire capture feature
-ajouter dans landing/feature
-
-
 
 ----------------------------------------------------------
 

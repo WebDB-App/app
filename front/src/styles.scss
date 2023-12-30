@@ -33,6 +33,7 @@ body {
 .mat-tooltip, .mat-select-panel, .mat-menu-panel {
 	white-space: pre-line !important;
 	background-color: rgba(30, 30, 30, 0.93);
+	backdrop-filter: blur(1px);
 	border: 1px solid rgba(255, 255, 255, 0.12);
 }
 

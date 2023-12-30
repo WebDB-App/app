@@ -19,7 +19,7 @@
 		<div fxLayout="row"
 			 fxLayoutAlign="space-between center"
 			 style="gap: 10px; height: 52px">
-			<mat-form-field appearance="legacy" style="width: 200px; margin-bottom: -1.25em">
+			<mat-form-field appearance="legacy" style="margin-bottom: -1.25em">
 				<input
 					#filter
 					(keyup)="filterChanged(filter.value)"
@@ -39,7 +39,7 @@
 			<mat-form-field
 				appearance="legacy"
 				color="accent"
-				style="margin-bottom: -1.25em; width: 300px;">
+				style="margin-bottom: -1.25em;">
 				<mat-label>Tables</mat-label>
 				<mat-select
 					(selectionChange)="preSentChange()"
@@ -53,13 +53,23 @@
 				</mat-select>
 			</mat-form-field>
 
-			<button
-				(click)="settings.toggleAttribute('hidden')"
-				mat-flat-button>
-				<span class="material-symbols-outlined notranslate">
-					page_info
-				</span>
-			</button>
+			<div>
+				<button
+					(click)="chat = []; saveChat()"
+					*ngIf="chat.length >= 1"
+					mat-icon-button>
+					<span class="material-symbols-outlined notranslate">
+						clear_all
+					</span>
+				</button>
+				<button
+					(click)="settings.toggleAttribute('hidden')"
+					mat-stroked-button>
+					<span class="material-symbols-outlined notranslate">
+						page_info
+					</span>
+				</button>
+			</div>
 		</div>
 
 		<div #settings id="settings">
@@ -214,13 +224,6 @@
 						Bad key format
 					</mat-error>
 				</div>
-
-				<button
-					(click)="chat = []; saveChat()"
-					*ngIf="chat.length >= 1"
-					mat-stroked-button>
-					Clear chat
-				</button>
 			</div>
 
 			<mat-accordion>
@@ -236,7 +239,7 @@
 					<ngx-monaco-editor
 						[(ngModel)]="sample"
 						[options]="editorOptions"
-						style="width: 100% !important; resize: none"
+						style="resize: none; min-width: inherit; width: 100%"
 					></ngx-monaco-editor>
 				</mat-expansion-panel>
 			</mat-accordion>
