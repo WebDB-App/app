@@ -276,45 +276,47 @@ export class AiComponent implements OnInit, OnDestroy {
 				});
 			}));
 		} else if (provider === Provider.perplexity) {
-			const options = {
-				method: 'POST',
-				headers: {
-					'content-type': 'application/json',
-					authorization: 'Bearer ' + this.config.perplexity
-				},
-				body: JSON.stringify(rBody)
-			};
-			const stream = fetch('https://try.readme.io/https://api.perplexity.ai/chat/completions', options);
 
-			this.chat.push(await new Promise<Msg>(resolve => {
-				stream.then(async str => {
-					this.stream = "";
-					const reader = str.body!.getReader();
+			this.chat.push(await new Promise<Msg>(async resolve => {
 
-					let reading = true;
+				this.stream = "";
+				const decoder = new TextDecoder();
+				const options = {
+					method: 'POST',
+					headers: {
+						'content-type': 'application/json',
+						authorization: 'Bearer ' + this.config.perplexity
+					},
+					body: JSON.stringify(rBody)
+				};
+
+				try {
+					const stream = await fetch('https://try.readme.io/https://api.perplexity.ai/chat/completions', options);
+					if (!stream.ok) {
+						throw new Error(`code: ${stream.status}`);
+					}
+
+					const reader = stream.body!.getReader();
+					let result;
 					do {
-						reading = await new Promise(resolve => {
-							reader.read().then(({ done, value }) => {
-								try {
-									const data = new TextDecoder().decode(value);
-									console.log(data);
-									const part = JSON.parse(data.split('data: ')[1]);
+						if (this.abort) {
+							this.abort = false;
+							break;
+						}
+						result = await reader.read();
+						const text = decoder.decode(result.value).split('data: ')[1];
+						if (!text) {
+							break;
+						}
+						this.stream = JSON.parse(text).choices[0]?.message?.content || '';
+						this.scrollToBottom();
+					} while (!result.done);
 
-									this.stream = part.choices[0]?.message?.content || '';
-									this.scrollToBottom();
-								} catch (e) {
-									console.log(e);
-								}
-								resolve(!done);
-							});
-						});
-					} while (reading && !this.abort);
-
-					resolve(new Msg(this.stream, Role.Assistant));
+					resolve(new Msg(this.stream!, Role.Assistant));
 					this.stream = undefined;
-				}).catch(error => {
-					resolve(new Msg(error.error.message || `An error occurred during Perplexity request: ` + error, Role.Assistant, true))
-				});
+				} catch (error: any) {
+					resolve(new Msg(error.error?.message || `An error occurred during Perplexity request: ` + error, Role.Assistant, true))
+				}
 			}));
 		}
 
