@@ -186,46 +186,6 @@
 				</div>
 			</div>
 
-			<div>
-				<div>
-					<a href="https://gitlab.com/web-db/app/-/wikis/Google-Cloud-Credentials"
-					   mat-button
-					   target="_blank">
-						<mat-icon svgIcon="perplexity"></mat-icon>
-					</a>
-
-					<mat-form-field appearance="outline" style="margin-bottom: -1.25em;">
-						<mat-label>Access Token</mat-label>
-						<input
-							(change)="goodPerplexity() ? configChange() : undefined"
-							[(ngModel)]="config.perplexity"
-							matInput>
-					</mat-form-field>
-					<mat-error *ngIf="!goodPerplexity()">
-						Bad access token format
-					</mat-error>
-				</div>
-
-				<div>
-					<a href="https://platform.openai.com/account"
-					   mat-button
-					   target="_blank">
-						<mat-icon svgIcon="chatgpt"></mat-icon>
-					</a>
-
-					<mat-form-field appearance="outline" style="margin-bottom: -1.25em">
-						<mat-label>Key</mat-label>
-						<input
-							(change)="goodOpenAIKey() ? configChange() : undefined"
-							[(ngModel)]="config.openAI"
-							matInput>
-					</mat-form-field>
-					<mat-error *ngIf="!goodOpenAIKey()">
-						Bad key format
-					</mat-error>
-				</div>
-			</div>
-
 			<mat-accordion>
 				<mat-expansion-panel>
 					<mat-expansion-panel-header>
@@ -244,7 +204,68 @@
 				</mat-expansion-panel>
 			</mat-accordion>
 
-			<mat-divider style="margin-top: 20px"></mat-divider>
+			<mat-divider></mat-divider>
+
+			<div id="tokens">
+
+				<div hidden>
+					<a href="https://makersuite.google.com/app/apikey"
+					   mat-icon-button
+					   target="_blank">
+						<mat-icon svgIcon="gemini"></mat-icon>
+					</a>
+
+					<mat-form-field appearance="outline">
+						<mat-label>Key</mat-label>
+						<input
+							(change)="goodGemini() ? configChange() : undefined"
+							[(ngModel)]="config.gemini"
+							matInput>
+					</mat-form-field>
+					<mat-error *ngIf="!goodGemini()">
+						Bad key format
+					</mat-error>
+				</div>
+
+				<div>
+					<a href="https://www.perplexity.ai/settings/api"
+					   mat-icon-button
+					   target="_blank">
+						<mat-icon svgIcon="perplexity"></mat-icon>
+					</a>
+
+					<mat-form-field appearance="outline">
+						<mat-label>Bearer</mat-label>
+						<input
+							(change)="goodPerplexity() ? configChange() : undefined"
+							[(ngModel)]="config.perplexity"
+							matInput>
+					</mat-form-field>
+					<mat-error *ngIf="!goodPerplexity()">
+						Bad bearer format
+					</mat-error>
+				</div>
+
+				<div>
+					<a href="https://platform.openai.com/account"
+					   mat-icon-button
+					   target="_blank">
+						<mat-icon svgIcon="chatgpt"></mat-icon>
+					</a>
+
+					<mat-form-field appearance="outline">
+						<mat-label>Key</mat-label>
+						<input
+							(change)="goodOpenAIKey() ? configChange() : undefined"
+							[(ngModel)]="config.openAI"
+							matInput>
+					</mat-form-field>
+					<mat-error *ngIf="!goodOpenAIKey()">
+						Bad key format
+					</mat-error>
+				</div>
+			</div>
+
 		</div>
 	</mat-toolbar>
 

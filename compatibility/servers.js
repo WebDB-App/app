@@ -70,6 +70,17 @@ export default {
 			bigNumberStrings: true
 		}
 	},
+	/*yugabyte: {
+		internal_port: 5433,
+		external_port: 5433,
+		columns: columns01.sql,
+		wrapper: "PostgreSQL",
+		docker: {
+			name: "yugabytedb/yugabyte",
+			env: ["YSQL_USER=root", "YSQL_PASSWORD=notSecureChangeMe"],
+			cmd: "bin/yugabyted start --daemon=false"
+		}
+	},*/
 	mongo: {
 		internal_port: 27017,
 		external_port: 27017,
@@ -104,17 +115,6 @@ export default {
 			name: "cockroachdb/cockroach",
 			env: ["COCKROACH_USER=root", "COCKROACH_PASSWORD=notSecureChangeMe"],
 			cmd: "start-single-node --insecure"
-		}
-	},
-	yugabyte: {
-		internal_port: 5433,
-		external_port: 5433,
-		columns: columns01.sql,
-		wrapper: "PostgreSQL",
-		docker: {
-			name: "yugabytedb/yugabyte",
-			env: ["YSQL_USER=root", "YSQL_PASSWORD=notSecureChangeMe"],
-			cmd: "bin/yugabyted start"
 		}
 	}
 }

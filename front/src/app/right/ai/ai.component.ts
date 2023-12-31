@@ -12,14 +12,13 @@ import { isSQL } from "../../../shared/helper";
 import { Subscription } from "rxjs";
 import { Table } from "../../../classes/table";
 import { Router } from "@angular/router";
-import { ChatCompletionCreateParamsBase } from "openai/resources/chat/completions";
 import { ChatCompletionCreateParamsStreaming } from "openai/src/resources/chat/completions";
-import { environment } from "../../../environments/environment";
 
 const localKeyConfig = 'ia-config';
 
 enum Provider {
 	openai = "OpenAI",
+	gemini = "Gemini",
 	perplexity = "Perplexity",
 }
 
@@ -95,6 +94,7 @@ export class AiComponent implements OnInit, OnDestroy {
 	config = {
 		model: "gpt-3.5-turbo-16k",
 		openAI: '',
+		gemini: '',
 		perplexity: '',
 		temperature: 1,
 		top_p: 1
@@ -108,6 +108,7 @@ export class AiComponent implements OnInit, OnDestroy {
 	stream?: string;
 	abort = false;
 
+	protected readonly Math = Math;
 	protected readonly Object = Object;
 	protected readonly isSQL = isSQL;
 	@ViewChild('scrollContainer') private scrollContainer!: ElementRef;
@@ -169,6 +170,15 @@ export class AiComponent implements OnInit, OnDestroy {
 		this.drawerObs.unsubscribe();
 	}
 
+	scrollToBottom() {
+		setTimeout(() => {
+			if (!this.scrollContainer) {
+				return;
+			}
+			this.scrollContainer.nativeElement.scrollTop = this.scrollContainer.nativeElement.scrollHeight
+		}, 10);
+	}
+
 	async configChange(snack = true) {
 		localStorage.setItem(localKeyConfig, JSON.stringify(this.config));
 		this.models = {};
@@ -191,11 +201,20 @@ export class AiComponent implements OnInit, OnDestroy {
 		if (this.config.perplexity) {
 			this.models[Provider.perplexity] = [
 				{name: "pplx-7b-chat", bold: false},
+				{name: "pplx-7b-online", bold: false},
 				{name: "pplx-70b-chat", bold: true},
+				{name: "pplx-70b-online", bold: false},
 				{name: "llama-2-70b-chat", bold: true},
 				{name: "codellama-34b-instruct", bold: true},
 				{name: "mistral-7b-instruct", bold: false},
 				{name: "mixtral-8x7b-instruct", bold: true},
+			];
+		}
+
+		if (this.config.gemini) {
+			this.models[Provider.gemini] = [
+				{name: "gemini-pro", bold: true},
+				{name: "gemini-ultra", bold: true},
 			];
 		}
 
@@ -318,19 +337,11 @@ export class AiComponent implements OnInit, OnDestroy {
 					resolve(new Msg(error.error?.message || `An error occurred during Perplexity request: ` + error, Role.Assistant, true))
 				}
 			}));
+		} else if (provider === Provider.gemini) {
 		}
 
 		this.scrollToBottom();
 		this.saveChat();
-	}
-
-	scrollToBottom() {
-		setTimeout(() => {
-			if (!this.scrollContainer) {
-				return;
-			}
-			this.scrollContainer.nativeElement.scrollTop = this.scrollContainer.nativeElement.scrollHeight
-		}, 10);
 	}
 
 	async runQuery(query: string) {
@@ -351,13 +362,6 @@ export class AiComponent implements OnInit, OnDestroy {
 		this.drawer.close();
 	}
 
-	goodOpenAIKey() {
-		if (!this.config.openAI) {
-			return true;
-		}
-		return !!this.config.openAI.match(/^sk-[a-zA-Z0-9]{32,}$/);
-	}
-
 	filterChanged(_value = '') {
 		const value = _value.toLowerCase();
 		for (const [index, msg] of this.chat.entries()) {
@@ -376,7 +380,12 @@ export class AiComponent implements OnInit, OnDestroy {
 		this.sendMessage(this.chat.reverse().find(chat => chat.user === Role.User)!.txt);
 	}
 
-	protected readonly Math = Math;
+	goodOpenAIKey() {
+		if (!this.config.openAI) {
+			return true;
+		}
+		return !!this.config.openAI.match(/^sk-[a-zA-Z0-9]{32,}$/);
+	}
 
 	goodPerplexity() {
 		if (!this.config.perplexity) {
@@ -384,5 +393,13 @@ export class AiComponent implements OnInit, OnDestroy {
 		}
 
 		return !!this.config.perplexity.match(/^pplx-[a-zA-Z0-9]{48,}$/);
+	}
+
+	goodGemini() {
+		if (!this.config.gemini) {
+			return true;
+		}
+
+		return !!this.config.gemini.match(/^[a-zA-Z0-9-_]{39,}$/);
 	}
 }
