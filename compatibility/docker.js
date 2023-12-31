@@ -24,10 +24,6 @@ async function runScenarios(server) {
 			continue;
 		}
 
-		/*if (tags[0] !== "2.18.5.0-b93") {
-			continue;
-		}*/
-
 		const cname = await runDocker(config, tags[0]);
 		if (!cname) {
 			continue;

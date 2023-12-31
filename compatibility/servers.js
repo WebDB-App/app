@@ -114,7 +114,7 @@ export default {
 		docker: {
 			name: "yugabytedb/yugabyte",
 			env: ["YSQL_USER=root", "YSQL_PASSWORD=notSecureChangeMe"],
-			cmd: "bin/yugabyted start --daemon=false"
+			cmd: "bin/yugabyted start"
 		}
 	}
 }
