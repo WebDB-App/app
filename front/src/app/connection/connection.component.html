@@ -186,14 +186,19 @@
 							<div>
 								<mat-form-field appearance="outline" style="margin-bottom: -1.75em;">
 									<mat-label>User</mat-label>
-									<input #user matInput>
+									<input
+										[value]="defaultUser"
+										#user
+										matInput>
 								</mat-form-field>
 								<mat-form-field appearance="outline">
 									<mat-label>Password</mat-label>
-									<input #password
-										   autocomplete="off"
-										   matInput
-										   type="{{!showPassword ? 'password' : 'text'}}">
+									<input
+										[value]="defaultPass"
+										#password
+										autocomplete="off"
+										matInput
+										type="{{!showPassword ? 'password' : 'text'}}">
 									<mat-icon (click)="showPassword = !showPassword" matSuffix
 											  style="cursor: pointer;">
 										{{ !showPassword ? 'visibility' : 'visibility_off' }}

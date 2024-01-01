@@ -123,8 +123,15 @@ export class VersionComponent implements OnInit {
 	}
 
 	async load10() {
-		for (const patch of this.patches.slice(0, 10)) {
+		let count = 0;
+		for (const patch of this.patches) {
+			if (patch.diff) {
+				continue;
+			}
 			await this.loadDiff(patch);
+			if (++count >= 10) {
+				break;
+			}
 		}
 	}
 }

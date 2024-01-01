@@ -33,6 +33,8 @@ export class ConnectionComponent implements OnInit {
 	newServer = new Server();
 	editServer?: Server;
 	selectedIndex = 0;
+	defaultPass = "";
+	defaultUser = "";
 
 	protected readonly Status = ServerStatus;
 	protected readonly Object = Object;
@@ -47,6 +49,11 @@ export class ConnectionComponent implements OnInit {
 		private matIconRegistry: MatIconRegistry,
 		private titleService: Title,
 		private dialog: MatDialog) {
+
+		if (window.location.hostname === "demo.webdb.app") {
+			this.defaultUser = "root";
+			this.defaultPass = "notSecureChangeMe";
+		}
 
 		for (const driver of Object.keys(drivers)) {
 			this.matIconRegistry.addSvgIcon(
