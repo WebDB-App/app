@@ -74,7 +74,7 @@ class Controller {
 
 	async load(req, res) {
 		if (process.env.PROTECTED_MODE === "true") {
-			return {error: "Load is disable by backend configuration"};
+			return res.send({error: "Load is disable by backend configuration"});
 		}
 
 		const [driver, , , server] = await http.getLoggedDriver(req);
@@ -91,7 +91,7 @@ class Controller {
 
 	async dump(req, res) {
 		if (process.env.PROTECTED_MODE === "true") {
-			return {error: "Dump is disable by backend configuration"};
+			return res.send({error: "Dump is disable by backend configuration"});
 		}
 
 		const [driver, database, , server] = await http.getLoggedDriver(req);
@@ -121,7 +121,7 @@ class Controller {
 
 	async guess(req, res) {
 		if (process.env.PROTECTED_MODE === "true") {
-			return {error: "Guess is disable by backend configuration"};
+			return res.send({error: "Guess is disable by backend configuration"});
 		}
 
 		let scanned = [];
@@ -144,7 +144,6 @@ class Controller {
 
 				promise.push(new Promise(async resolve => {
 					const driver = await wrapperModel.getDriver(connection, true);
-					console.log(driver.connection);
 					if (!driver.connection.error) {
 						resolve(connection);
 					}
