@@ -132,6 +132,14 @@
 }
 
 @media (max-width: 1200px) {
+	.mat-card {
+		margin: 14px 8px;
+	}
+
+	#container {
+		padding: 0px;
+	}
+
 	.right-actions, .right-divider {
 		display: none !important;
 	}

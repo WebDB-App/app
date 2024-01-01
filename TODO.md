@@ -2,6 +2,8 @@
 
 
 
+
+
 ----------------------------------------------------------
 
 
@@ -64,4 +66,4 @@
 
 - finir tests
 - Angular 17 avec material icône dans stackblitz
-- gemini / model garden
+- gemini / model garden +  post linked + attention region

@@ -144,6 +144,7 @@ class Controller {
 
 				promise.push(new Promise(async resolve => {
 					const driver = await wrapperModel.getDriver(connection, true);
+					console.log(driver.connection);
 					if (!driver.connection.error) {
 						resolve(connection);
 					}
