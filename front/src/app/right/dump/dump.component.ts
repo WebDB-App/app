@@ -9,6 +9,7 @@ import { environment } from "../../../environments/environment";
 import { saveAs } from "file-saver-es";
 import { isSQL } from "../../../shared/helper";
 import { FileType } from "../../../classes/driver";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 export class ItemTree {
 	name?: string;
@@ -38,7 +39,8 @@ export class DumpComponent {
 	protected readonly isSQL = isSQL;
 
 	constructor(
-		private request: RequestService
+		private request: RequestService,
+		private snackBar: MatSnackBar
 	) {
 		this.selectedDatabase = Database.getSelected();
 		this.selectedServer = Server.getSelected();
@@ -87,7 +89,12 @@ export class DumpComponent {
 				tables: this.checklistSelection.selected.filter(select => !select.children).map(select => select.name),
 				options: this.cliOptions
 			});
-			saveAs(environment.rootUrl + result.path, result.path.split('/')[1]);
+
+			if (result.error) {
+				this.snackBar.open(result.error, "⨉", {panelClass: 'snack-error'})
+			} else {
+				saveAs(environment.rootUrl + result.path, result.path.split('/')[1]);
+			}
 		} catch (e) {
 		}
 		this.isLoading = false;

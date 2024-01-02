@@ -126,14 +126,16 @@ export class ConnectionComponent implements OnInit {
 		this.servers[indexServer].isLoading = true;
 		const server = <Server>{...this.servers[indexServer], user, password};
 
-		const guessed = await firstValueFrom(this.http.post<Server[]>(environment.apiRootUrl + 'server/guess', Server.getShallow(server)))
-
-		if (guessed.length) {
-			this.snackBar.open("Credentials found: " + guessed.map(guess => `${guess.user} | ${guess.password}`).join(', '), "⨉", {duration: 3000})
+		const guessed: any = await firstValueFrom(this.http.post(environment.apiRootUrl + 'server/guess', Server.getShallow(server)))
+		if (guessed.error) {
+			this.snackBar.open(guessed.error, "⨉", {panelClass: 'snack-error'})
+		} else if (guessed.length) {
+			this.snackBar.open("Credentials found: " + guessed.map((guess: Server) => `${guess.user} | ${guess.password}`).join(', '), "⨉", {duration: 3000})
 			await this.postLogged(server, guessed[0]);
 		} else {
-			this.snackBar.open("Guess failed", "⨉", {duration: 3000})
+			this.snackBar.open("Guess failed", "⨉", {duration: 3000});
 		}
+
 		this.servers[indexServer].isLoading = false;
 	}
 

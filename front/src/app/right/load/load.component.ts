@@ -84,14 +84,18 @@ export class LoadComponent {
 		}
 
 		try {
-			await this.request.post('server/load', formData, undefined, <Database>{name: database});
+			const response = await this.request.post('server/load', formData, undefined, <Database>{name: database});
+			if (response.error) {
+				this.snackBar.open(response.error, "⨉", {panelClass: 'snack-error'})
+			} else {
+				this.snackBar.open("Import succeed", "⨉", {duration: 3000})
+				await this.request.reloadServer();
+			}
 		} catch (err: unknown) {
 			this.isLoading = false;
 			return;
 		}
 
-		this.snackBar.open("Import succeed", "⨉", {duration: 3000})
-		await this.request.reloadServer();
 		this.isLoading = false;
 	}
 
