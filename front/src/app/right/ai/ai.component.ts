@@ -13,6 +13,7 @@ import { Subscription } from "rxjs";
 import { Table } from "../../../classes/table";
 import { Router } from "@angular/router";
 import { ChatCompletionCreateParamsStreaming } from "openai/src/resources/chat/completions";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const localKeyConfig = 'ia-config';
 
@@ -86,6 +87,7 @@ export class AiComponent implements OnInit, OnDestroy {
 	localKeyPreSent!: string;
 	chat: Msg[] = [];
 	openai?: OpenAI;
+	gemini?: GoogleGenerativeAI;
 	isLoading = true;
 	editorOptions = {
 		language: "plaintext"
@@ -211,10 +213,11 @@ export class AiComponent implements OnInit, OnDestroy {
 			];
 		}
 
-		if (this.config.gemini) {
+		this.gemini = new GoogleGenerativeAI(this.config.gemini);
+		if (this.gemini) {
 			this.models[Provider.gemini] = [
 				{name: "gemini-pro", bold: true},
-				{name: "gemini-ultra", bold: true},
+				{name: "gemini-ultra", bold: false},
 			];
 		}
 
@@ -295,9 +298,7 @@ export class AiComponent implements OnInit, OnDestroy {
 				});
 			}));
 		} else if (provider === Provider.perplexity) {
-
 			this.chat.push(await new Promise<Msg>(async resolve => {
-
 				this.stream = "";
 				const decoder = new TextDecoder();
 				const options = {
@@ -338,6 +339,40 @@ export class AiComponent implements OnInit, OnDestroy {
 				}
 			}));
 		} else if (provider === Provider.gemini) {
+			const model = this.gemini!.getGenerativeModel({
+				model: this.config.model,
+				generationConfig: {
+					topP: this.config.top_p,
+					temperature: this.config.temperature,
+				}
+			});
+
+			this.chat.push(await new Promise<Msg>(async resolve => {
+				this.stream = "";
+
+				try {
+					const result = await model.generateContentStream([
+						this.sample,
+						...(this.chat.map(ch => {
+							return ch.txt;
+						}))
+					]);
+
+					for await (const chunk of result.stream) {
+						if (this.abort) {
+							this.abort = false;
+							break;
+						}
+						this.stream += chunk.text();
+					}
+
+					resolve(new Msg(this.stream!, Role.Assistant));
+					this.stream = undefined;
+				} catch (error: any) {
+					resolve(new Msg(error.error?.message || `An error occurred during Google request: ` + error, Role.Assistant, true))
+				}
+			}));
+
 		}
 
 		this.scrollToBottom();

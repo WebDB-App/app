@@ -56,6 +56,9 @@ dependencies:
   '@faker-js/faker':
     specifier: 7.6.0
     version: 7.6.0
+  '@google/generative-ai':
+    specifier: latest
+    version: 0.1.3
   '@ngneat/falso':
     specifier: ^6.4.0
     version: 6.4.0
@@ -1999,6 +2002,11 @@ packages:
 
   /@gar/promisify@1.1.3:
     resolution: {integrity: sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw==}
+    dev: false
+
+  /@google/generative-ai@0.1.3:
+    resolution: {integrity: sha512-Cm4uJX1sKarpm1mje/MiOIinM7zdUUrQp/5/qGPAgznbdd/B9zup5ehT6c1qGqycFcSopTA1J1HpqHS5kJR8hQ==}
+    engines: {node: '>=18.0.0'}
     dev: false
 
   /@isaacs/cliui@8.0.2:
