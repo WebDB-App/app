@@ -117,9 +117,8 @@
 									{{ database.name }}
 								</a>
 							</mat-list-option>
-							<mat-list-option>
-								<div (click)="addDatabase(server)"
-									 style="margin: 0px auto;">
+							<mat-list-option (click)="addDatabase(server)">
+								<div style="margin: 0px auto;">
 									<span
 										class="material-symbols-outlined notranslate"
 										style="vertical-align: middle">
