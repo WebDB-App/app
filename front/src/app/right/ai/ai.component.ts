@@ -262,6 +262,7 @@ export class AiComponent implements OnInit, OnDestroy {
 			}
 		}
 
+		this.stream = "";
 		const rBody = {
 			model: this.config.model,
 			messages: [
@@ -280,8 +281,6 @@ export class AiComponent implements OnInit, OnDestroy {
 
 			this.chat.push(await new Promise<Msg>(resolve => {
 				stream.then(async str => {
-					this.stream = "";
-
 					for await (const part of str) {
 						if (this.abort) {
 							this.abort = false;
@@ -291,8 +290,7 @@ export class AiComponent implements OnInit, OnDestroy {
 						this.stream += part.choices[0]?.delta?.content || '';
 						this.scrollToBottom();
 					}
-					resolve(new Msg(this.stream, Role.Assistant));
-					this.stream = undefined;
+					resolve(new Msg(this.stream!, Role.Assistant));
 				}).catch(error => {
 					resolve(new Msg(error.message || `An error occurred during OpenAI request: ` + error, Role.Assistant, true))
 				});
@@ -315,7 +313,6 @@ export class AiComponent implements OnInit, OnDestroy {
 					if (!stream.ok) {
 						throw new Error(`code: ${stream.status}`);
 					}
-
 					const reader = stream.body!.getReader();
 					let result;
 					do {
@@ -333,7 +330,6 @@ export class AiComponent implements OnInit, OnDestroy {
 					} while (!result.done);
 
 					resolve(new Msg(this.stream!, Role.Assistant));
-					this.stream = undefined;
 				} catch (error: any) {
 					resolve(new Msg(error.error?.message || `An error occurred during Perplexity request: ` + error, Role.Assistant, true))
 				}
@@ -348,8 +344,6 @@ export class AiComponent implements OnInit, OnDestroy {
 			});
 
 			this.chat.push(await new Promise<Msg>(async resolve => {
-				this.stream = "";
-
 				try {
 					const result = await model.generateContentStream([
 						this.sample,
@@ -357,24 +351,22 @@ export class AiComponent implements OnInit, OnDestroy {
 							return ch.txt;
 						}))
 					]);
-
 					for await (const chunk of result.stream) {
 						if (this.abort) {
 							this.abort = false;
 							break;
 						}
 						this.stream += chunk.text();
+						this.scrollToBottom();
 					}
-
 					resolve(new Msg(this.stream!, Role.Assistant));
-					this.stream = undefined;
 				} catch (error: any) {
 					resolve(new Msg(error.error?.message || `An error occurred during Google request: ` + error, Role.Assistant, true))
 				}
 			}));
-
 		}
 
+		this.stream = undefined;
 		this.scrollToBottom();
 		this.saveChat();
 	}
