@@ -47,91 +47,90 @@
 
 	<div #settings id="settings" hidden>
 
-		<div>
-			<mat-selection-list
-				(selectionChange)="preSentChange()"
-				[(ngModel)]="preSent.tables"
-				style="height: 250px; overflow: auto;"
-				dense
-				multiple>
-				<mat-list-option
-					*ngFor="let table of selectedDatabase?.tables"
-					[value]="table.name">
-					{{ table.name }}
-				</mat-list-option>
-			</mat-selection-list>
+		<mat-card style="display: flex; flex-direction: column; padding: 12px 0px 0px 0px">
+			<div style="display: flex;">
+				<mat-selection-list
+					(selectionChange)="preSentChange()"
+					[(ngModel)]="preSent.tables"
+					style="height: 250px; width: 45%; overflow: auto;"
+					dense
+					multiple>
+					<mat-list-option
+						*ngFor="let table of selectedDatabase?.tables"
+						[value]="table.name">
+						{{ table.name }}
+					</mat-list-option>
+				</mat-selection-list>
 
-			<div style="height: 250px; display: flex; flex-direction: column; justify-content: space-around; margin: 0px auto;">
-				<div>
-					<mat-form-field appearance="outline" color="accent" style="margin-bottom: -1.25em">
-						<mat-label>Anonymize</mat-label>
-						<mat-select
-							(selectionChange)="preSentChange()"
-							[(ngModel)]="preSent.anonymize">
-							<mat-option [value]="0">
-								Raw
-							</mat-option>
-							<mat-option [value]="1">
-								Swapped data
-							</mat-option>
-							<mat-option [value]="2">
-								Fake data
-							</mat-option>
-						</mat-select>
-					</mat-form-field>
-				</div>
-
-				<div class="slider">
+				<div style="height: 250px; display: flex; flex-direction: column; justify-content: space-around; margin: 0px auto;">
 					<div>
-						<span>Rows count</span>
-						<span>{{ preSent.count }}</span>
+						<mat-form-field appearance="outline" color="accent" style="margin-bottom: -1.25em">
+							<mat-label>Anonymize</mat-label>
+							<mat-select
+								(selectionChange)="preSentChange()"
+								[(ngModel)]="preSent.anonymize">
+								<mat-option [value]="0">
+									Raw
+								</mat-option>
+								<mat-option [value]="1">
+									Swapped data
+								</mat-option>
+								<mat-option [value]="2">
+									Fake data
+								</mat-option>
+							</mat-select>
+						</mat-form-field>
 					</div>
-					<mat-slider
-						(change)="preSentChange()"
-						(input)="preSent.count = $event.value!.valueOf()"
-						[value]="preSent.count"
-						color="accent"
-						max="200"
-						min="5"
-						step="1">
-					</mat-slider>
-				</div>
 
-				<div class="slider">
+					<div class="slider">
+						<div>
+							<span>Rows count</span>
+							<span>{{ preSent.count }}</span>
+						</div>
+						<mat-slider
+							(change)="preSentChange()"
+							(input)="preSent.count = $event.value!.valueOf()"
+							[value]="preSent.count"
+							color="accent"
+							max="200"
+							min="5"
+							step="1">
+						</mat-slider>
+					</div>
+
+					<div class="slider">
+						<div>
+							<span>Deep level</span>
+							<span>{{ preSent.deep }}</span>
+						</div>
+						<mat-slider
+							(change)="preSentChange()"
+							(input)="preSent.deep = $event.value!.valueOf()"
+							[value]="preSent.deep"
+							color="accent"
+							max="15"
+							min="0"
+							step="1">
+						</mat-slider>
+					</div>
+
 					<div>
-						<span>Deep level</span>
-						<span>{{ preSent.deep }}</span>
+						Context prompt ≈ {{ Math.floor(sample.split('').length / 3.4) }} tokens
 					</div>
-					<mat-slider
-						(change)="preSentChange()"
-						(input)="preSent.deep = $event.value!.valueOf()"
-						[value]="preSent.deep"
-						color="accent"
-						max="15"
-						min="0"
-						step="1">
-					</mat-slider>
-				</div>
-
-				<div>
-					Context prompt ≈ {{ Math.floor(sample.split('').length / 3.4) }} tokens
 				</div>
 			</div>
-		</div>
 
-		<div style="position: relative; padding: 0px">
-			<ngx-monaco-editor
-				[(ngModel)]="sample"
-				[options]="editorOptions"
-				style="min-width: inherit; flex: 1; min-height: 200px"
-			></ngx-monaco-editor>
-		</div>
+			<div style="position: relative; padding: 0px;">
+				<ngx-monaco-editor
+					[(ngModel)]="sample"
+					[options]="editorOptions"
+					style="min-width: inherit; flex: 1; min-height: 200px"
+				></ngx-monaco-editor>
+			</div>
+		</mat-card>
 
-		<mat-divider></mat-divider>
-
-		<div style="padding: 8px 20px;">
-
-			<div id="tokens" class="centered">
+		<mat-card style="padding: 10px 0px; display: flex;">
+			<div id="tokens">
 				<div>
 					<a href="https://makersuite.google.com/app/apikey"
 					   mat-button
@@ -252,7 +251,7 @@
 					</mat-slider>
 				</div>
 			</div>
-		</div>
+		</mat-card>
 	</div>
 
 	<div></div>
