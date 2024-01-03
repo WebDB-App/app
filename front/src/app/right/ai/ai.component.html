@@ -47,7 +47,7 @@
 
 	<div #settings id="settings" hidden>
 
-		<mat-card style="display: flex; flex-direction: column; padding: 12px 0px 0px 0px">
+		<mat-card style="display: flex; flex-direction: column; padding: 0px">
 			<div style="display: flex;">
 				<mat-selection-list
 					(selectionChange)="preSentChange()"
@@ -124,10 +124,12 @@
 				<ngx-monaco-editor
 					[(ngModel)]="sample"
 					[options]="editorOptions"
-					style="min-width: inherit; flex: 1; min-height: 200px"
+					style="min-width: inherit; flex: 1; min-height: 250px"
 				></ngx-monaco-editor>
 			</div>
 		</mat-card>
+
+		<mat-divider></mat-divider>
 
 		<mat-card style="padding: 10px 0px; display: flex;">
 			<div id="tokens">
