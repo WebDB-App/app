@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Server } from "../../../classes/server";
 import { Database } from "../../../classes/database";
 import { MatSnackBar } from "@angular/material/snack-bar";
@@ -19,7 +19,7 @@ declare var monaco: any;
 	templateUrl: './version.component.html',
 	styleUrls: ['./version.component.scss']
 })
-export class VersionComponent implements OnInit {
+export class VersionComponent implements OnInit, OnDestroy {
 
 	selectedServer?: Server;
 	selectedDatabase?: Database;
@@ -27,6 +27,7 @@ export class VersionComponent implements OnInit {
 	filter = "";
 	isLoading = true;
 	isResetting = false;
+	isDestroyed = false;
 	patches: Patch[] = [];
 	editorOptions = {
 		language: 'text',
@@ -40,6 +41,9 @@ export class VersionComponent implements OnInit {
 
 	async ngOnInit() {
 		const loop = async () => {
+			if (this.isDestroyed) {
+				return;
+			}
 			this.isLoading = true;
 
 			try {
@@ -63,6 +67,9 @@ export class VersionComponent implements OnInit {
 		this.selectedServer = Server.getSelected();
 
 		loop();
+	}
+	ngOnDestroy() {
+		this.isDestroyed = true;
 	}
 
 	date(unix: string) {

@@ -394,6 +394,15 @@ ngx-monaco-editor {
 }
 
 #right {
+	ngx-monaco-editor {
+		resize: none;
+		width: 100%;
+	}
+
+	.monaco-editor {
+		position: absolute !important;
+	}
+
 	.table {
 		.mat-header-cell {
 			color: mat.get-color-from-palette($angular-accent, default);

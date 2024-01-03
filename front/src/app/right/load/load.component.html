@@ -21,12 +21,11 @@
 
 	<mat-card *ngFor="let file of files; let i = index">
 
-		<mat-card-content>
+		<mat-card-content style="min-width: 500px;">
 			<ngx-monaco-editor
 				*ngIf="files[i].text.length < 10000000"
 				[(ngModel)]="files[i].text"
-				[options]="files[i].editorOptions"
-				style="resize: none; width: 100%;">
+				[options]="files[i].editorOptions">
 			</ngx-monaco-editor>
 		</mat-card-content>
 

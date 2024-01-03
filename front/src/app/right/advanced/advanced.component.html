@@ -28,7 +28,6 @@
 				[(ngModel)]="str"
 				[options]="editorOptions"
 				cdkFocusInitial
-				style="width: 100%; resize: vertical"
 			></ngx-monaco-editor>
 
 			<mat-divider></mat-divider>
@@ -99,7 +98,7 @@
 
 		</div>
 
-		<mat-accordion>
+		<mat-accordion style="padding: 20px; display: block;">
 			<mat-expansion-panel>
 				<mat-expansion-panel-header>
 					<mat-panel-title>
@@ -138,7 +137,7 @@
 				<br>
 				• Do regular backup of your database to an external provider
 				<br>
-				• Follow RGPD rules (personal data encryption, strong password encryption with salt, etc)
+				• Follow the data rules apply (personal data encryption, strong password encryption with salt, etc)
 				<br>
 			</mat-expansion-panel>
 		</mat-accordion>

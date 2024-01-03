@@ -112,7 +112,7 @@
 				</button>
 
 				<ngx-monaco-editor
-					style="width: 100%; min-width: 500px; resize: none"
+					style="min-width: 500px;"
 					*ngIf="patch.diff"
 					(onInit)="initEditor($event, patch.diff)"
 					[(ngModel)]="patch.diff"
