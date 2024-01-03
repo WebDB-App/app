@@ -1,16 +1,4 @@
-<ng-container *ngIf="licence?.plan === 'Free'">
-	You must get a plan to access this feature
-
-	<a href="https://webdb.app/page/price" mat-stroked-button target="_blank">
-		<span class="material-symbols-outlined notranslate">
-			subscriptions
-		</span>
-		Plans
-	</a>
-</ng-container>
-
-<div [hidden]="licence?.plan === 'Free'"
-	 fxFlexFill
+<div fxFlexFill
 	 fxLayout="column"
 	 fxLayoutAlign="space-between none">
 
@@ -64,6 +52,7 @@
 				(selectionChange)="preSentChange()"
 				[(ngModel)]="preSent.tables"
 				style="max-height: 375px; overflow: auto;"
+				dense
 				multiple>
 				<mat-list-option
 					*ngFor="let table of selectedDatabase?.tables"
@@ -210,7 +199,6 @@
 		<mat-divider></mat-divider>
 
 		<div id="tokens">
-
 			<div>
 				<a href="https://makersuite.google.com/app/apikey"
 				   mat-button
@@ -230,7 +218,6 @@
 					Bad key format
 				</mat-error>
 			</div>
-			<br>
 			<div>
 				<a href="https://www.perplexity.ai/settings/api"
 				   mat-button
@@ -250,7 +237,6 @@
 					Bad bearer format
 				</mat-error>
 			</div>
-			<br>
 			<div>
 				<a href="https://platform.openai.com/account"
 				   mat-button

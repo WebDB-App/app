@@ -1,5 +1,5 @@
 :host > div {
-	width: 40vw !important;
+	width: 35vw !important;
 }
 
 #examples {
@@ -61,11 +61,11 @@
 
 #tokens {
 	padding: 8px 20px;
-	flex-direction: column;
+	flex-wrap: wrap;
+	gap: 12px;
 
 	.mat-button {
 		width: 120px;
-		margin-right: 12px;
 	}
 
 	.mat-form-field {
