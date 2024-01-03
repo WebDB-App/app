@@ -113,8 +113,7 @@ export class AiComponent implements OnInit, OnDestroy {
 	protected readonly Math = Math;
 	protected readonly Object = Object;
 	protected readonly isSQL = isSQL;
-	@ViewChild('scrollContainer') private scrollContainer!: ElementRef;
-	@ViewChild('settings') private settings!: ElementRef;
+	@ViewChild('scrollContainer') public scrollContainer!: ElementRef;
 
 	constructor(
 		private request: RequestService,
@@ -162,10 +161,6 @@ export class AiComponent implements OnInit, OnDestroy {
 		]);
 
 		this.isLoading = false;
-
-		if (this.config.openAI) {
-			setTimeout(() => {this.settings.nativeElement.setAttribute('hidden', true)}, 1);
-		}
 	}
 
 	ngOnDestroy() {
@@ -185,11 +180,11 @@ export class AiComponent implements OnInit, OnDestroy {
 		localStorage.setItem(localKeyConfig, JSON.stringify(this.config));
 		this.models = {};
 
-		this.openai = new OpenAI({
-			apiKey: this.config.openAI,
-			dangerouslyAllowBrowser: true
-		});
-		if (this.openai) {
+		if (this.config.openAI) {
+			this.openai = new OpenAI({
+				apiKey: this.config.openAI,
+				dangerouslyAllowBrowser: true
+			});
 			this.models[Provider.openai] = [
 				{name: "gpt-4", bold: true},
 				{name: "gpt-4-1106-preview", bold: false},
@@ -213,8 +208,8 @@ export class AiComponent implements OnInit, OnDestroy {
 			];
 		}
 
-		this.gemini = new GoogleGenerativeAI(this.config.gemini);
-		if (this.gemini) {
+		if (this.config.gemini) {
+			this.gemini = new GoogleGenerativeAI(this.config.gemini);
 			this.models[Provider.gemini] = [
 				{name: "gemini-pro", bold: true},
 				{name: "gemini-ultra", bold: false},

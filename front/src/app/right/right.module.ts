@@ -37,6 +37,7 @@ import { ClipboardModule } from "@angular/cdk/clipboard";
 import { HighlightModule } from 'ngx-highlightjs';
 import { HistoryComponent, SortPipe } from "./history/history.component";
 import { VersionComponent } from './version/version.component';
+import { MatListModule } from "@angular/material/list";
 
 
 @NgModule({
@@ -90,7 +91,8 @@ import { VersionComponent } from './version/version.component';
 		SharedModule,
 		MatExpansionModule,
 		MatProgressSpinnerModule,
-		ClipboardModule
+		ClipboardModule,
+		MatListModule
 	],
 	providers: [
 		CdkColumnDef,
