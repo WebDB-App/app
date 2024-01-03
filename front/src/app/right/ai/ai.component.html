@@ -51,7 +51,7 @@
 			<mat-selection-list
 				(selectionChange)="preSentChange()"
 				[(ngModel)]="preSent.tables"
-				style="max-height: 375px; overflow: auto;"
+				style="height: 250px; overflow: auto;"
 				dense
 				multiple>
 				<mat-list-option
@@ -61,200 +61,196 @@
 				</mat-list-option>
 			</mat-selection-list>
 
-			<mat-card style="flex: 1; padding: 0px; margin: 4px;">
-				<mat-card-header>
-					<mat-card-subtitle style="margin-top: 16px;">
-						Context prompt ≈ {{ Math.floor(sample.split('').length / 3.4) }} tokens
-					</mat-card-subtitle>
-				</mat-card-header>
-				<mat-card-content>
-					<ngx-monaco-editor
-						[(ngModel)]="sample"
-						[options]="editorOptions"
-						style="min-width: inherit;"
-					></ngx-monaco-editor>
-				</mat-card-content>
-			</mat-card>
+			<div style="height: 250px; display: flex; flex-direction: column; justify-content: space-around; margin: 0px auto;">
+				<div>
+					<mat-form-field appearance="outline" color="accent" style="margin-bottom: -1.25em">
+						<mat-label>Anonymize</mat-label>
+						<mat-select
+							(selectionChange)="preSentChange()"
+							[(ngModel)]="preSent.anonymize">
+							<mat-option [value]="0">
+								Raw
+							</mat-option>
+							<mat-option [value]="1">
+								Swapped data
+							</mat-option>
+							<mat-option [value]="2">
+								Fake data
+							</mat-option>
+						</mat-select>
+					</mat-form-field>
+				</div>
+
+				<div class="slider">
+					<div>
+						<span>Rows count</span>
+						<span>{{ preSent.count }}</span>
+					</div>
+					<mat-slider
+						(change)="preSentChange()"
+						(input)="preSent.count = $event.value!.valueOf()"
+						[value]="preSent.count"
+						color="accent"
+						max="200"
+						min="5"
+						step="1">
+					</mat-slider>
+				</div>
+
+				<div class="slider">
+					<div>
+						<span>Deep level</span>
+						<span>{{ preSent.deep }}</span>
+					</div>
+					<mat-slider
+						(change)="preSentChange()"
+						(input)="preSent.deep = $event.value!.valueOf()"
+						[value]="preSent.deep"
+						color="accent"
+						max="15"
+						min="0"
+						step="1">
+					</mat-slider>
+				</div>
+
+				<div>
+					Context prompt ≈ {{ Math.floor(sample.split('').length / 3.4) }} tokens
+				</div>
+			</div>
+		</div>
+
+		<div style="position: relative; padding: 0px">
+			<ngx-monaco-editor
+				[(ngModel)]="sample"
+				[options]="editorOptions"
+				style="min-width: inherit; flex: 1; min-height: 200px"
+			></ngx-monaco-editor>
 		</div>
 
 		<mat-divider></mat-divider>
 
 		<div style="padding: 8px 20px;">
-			<div>
-				<mat-form-field appearance="outline" color="accent" style="margin-bottom: -1.25em">
-					<mat-label>Anonymize</mat-label>
+
+			<div id="tokens" class="centered">
+				<div>
+					<a href="https://makersuite.google.com/app/apikey"
+					   mat-button
+					   target="_blank">
+						<mat-icon svgIcon="gemini"></mat-icon>
+						Google AI
+					</a>
+
+					<mat-form-field appearance="standard">
+						<mat-label>Key</mat-label>
+						<input
+							(change)="goodGemini() ? configChange() : undefined"
+							[(ngModel)]="config.gemini"
+							matInput>
+					</mat-form-field>
+					<mat-error *ngIf="!goodGemini()">
+						Bad key format
+					</mat-error>
+				</div>
+				<div>
+					<a href="https://www.perplexity.ai/settings/api"
+					   mat-button
+					   target="_blank">
+						<mat-icon svgIcon="perplexity"></mat-icon>
+						Perplexity
+					</a>
+
+					<mat-form-field appearance="standard">
+						<mat-label>Bearer</mat-label>
+						<input
+							(change)="goodPerplexity() ? configChange() : undefined"
+							[(ngModel)]="config.perplexity"
+							matInput>
+					</mat-form-field>
+					<mat-error *ngIf="!goodPerplexity()">
+						Bad bearer format
+					</mat-error>
+				</div>
+				<div>
+					<a href="https://platform.openai.com/account"
+					   mat-button
+					   target="_blank">
+						<mat-icon svgIcon="chatgpt"></mat-icon>
+						OpenAI
+					</a>
+
+					<mat-form-field appearance="standard">
+						<mat-label>Key</mat-label>
+						<input
+							(change)="goodOpenAIKey() ? configChange() : undefined"
+							[(ngModel)]="config.openAI"
+							matInput>
+					</mat-form-field>
+					<mat-error *ngIf="!goodOpenAIKey()">
+						Bad key format
+					</mat-error>
+				</div>
+			</div>
+
+			<div class="centered">
+				<mat-form-field
+					style="margin-bottom: -1.25em;"
+					appearance="outline"
+					color="accent">
+					<mat-label>Model</mat-label>
 					<mat-select
-						(selectionChange)="preSentChange()"
-						[(ngModel)]="preSent.anonymize">
-						<mat-option [value]="0">
-							Raw
-						</mat-option>
-						<mat-option [value]="1">
-							Swapped data
-						</mat-option>
-						<mat-option [value]="2">
-							Fake data
-						</mat-option>
+						disableOptionCentering
+						(selectionChange)="configChange()"
+						[(ngModel)]="config.model">
+						<mat-optgroup
+							*ngFor="let provider of Object.keys(models)"
+							[label]="provider"
+							class="hasBold">
+							<mat-option
+								*ngFor="let model of models[provider]"
+								[class.bold]="model.bold"
+								[value]="model.name">
+								{{ model.name }}
+							</mat-option>
+						</mat-optgroup>
 					</mat-select>
 				</mat-form-field>
-			</div>
 
-			<div class="slider">
-				<div>
-					<span>Rows count</span>
-					<span>{{ preSent.count }}</span>
+				<div class="slider">
+					<div>
+						<span matTooltip="Higher values will make the output more random
+					Lower values will make it more focused and deterministic"
+							  matTooltipPosition="left">Temperature</span>
+						<span>{{ config.temperature }}</span>
+					</div>
+					<mat-slider
+						(change)="configChange()"
+						(input)="config.temperature = $event.value!.valueOf()"
+						[value]="config.temperature"
+						color="accent"
+						max="2"
+						min="0"
+						step="0.1">
+					</mat-slider>
 				</div>
-				<mat-slider
-					(change)="preSentChange()"
-					(input)="preSent.count = $event.value!.valueOf()"
-					[value]="preSent.count"
-					color="accent"
-					max="200"
-					min="5"
-					step="1">
-				</mat-slider>
-			</div>
 
-			<div class="slider">
-				<div>
-					<span>Deep level</span>
-					<span>{{ preSent.deep }}</span>
+				<div class="slider">
+					<div>
+						<span
+							matTooltip="If you set Top-p to 0.9, the LLM will only generate words that have a probability of at least 0.9"
+							matTooltipPosition="left">Top P
+						</span>
+						<span>{{ config.top_p }}</span>
+					</div>
+					<mat-slider
+						(change)="configChange()"
+						(input)="config.top_p = $event.value!.valueOf()"
+						[value]="config.top_p"
+						color="accent"
+						max="2"
+						min="0"
+						step="0.1">
+					</mat-slider>
 				</div>
-				<mat-slider
-					(change)="preSentChange()"
-					(input)="preSent.deep = $event.value!.valueOf()"
-					[value]="preSent.deep"
-					color="accent"
-					max="15"
-					min="0"
-					step="1">
-				</mat-slider>
-			</div>
-		</div>
-
-		<mat-divider></mat-divider>
-
-		<div style="padding: 8px 20px;">
-			<mat-form-field
-				style="margin-bottom: -1.25em;"
-				appearance="outline"
-				color="accent">
-				<mat-label>Model</mat-label>
-				<mat-select
-					disableOptionCentering
-					(selectionChange)="configChange()"
-					[(ngModel)]="config.model">
-					<mat-optgroup
-						*ngFor="let provider of Object.keys(models)"
-						[label]="provider"
-						class="hasBold">
-						<mat-option
-							*ngFor="let model of models[provider]"
-							[class.bold]="model.bold"
-							[value]="model.name">
-							{{ model.name }}
-						</mat-option>
-					</mat-optgroup>
-				</mat-select>
-			</mat-form-field>
-
-			<div class="slider">
-				<div>
-					<span matTooltip="Higher values will make the output more random
-				Lower values will make it more focused and deterministic"
-						  matTooltipPosition="left">Temperature</span>
-					<span>{{ config.temperature }}</span>
-				</div>
-				<mat-slider
-					(change)="configChange()"
-					(input)="config.temperature = $event.value!.valueOf()"
-					[value]="config.temperature"
-					color="accent"
-					max="2"
-					min="0"
-					step="0.1">
-				</mat-slider>
-			</div>
-
-			<div class="slider">
-				<div>
-					<span
-						matTooltip="If you set Top-p to 0.9, the LLM will only generate words that have a probability of at least 0.9"
-						matTooltipPosition="left">Top P
-					</span>
-					<span>{{ config.top_p }}</span>
-				</div>
-				<mat-slider
-					(change)="configChange()"
-					(input)="config.top_p = $event.value!.valueOf()"
-					[value]="config.top_p"
-					color="accent"
-					max="2"
-					min="0"
-					step="0.1">
-				</mat-slider>
-			</div>
-		</div>
-
-		<mat-divider></mat-divider>
-
-		<div id="tokens">
-			<div>
-				<a href="https://makersuite.google.com/app/apikey"
-				   mat-button
-				   target="_blank">
-					<mat-icon svgIcon="gemini"></mat-icon>
-					Google AI
-				</a>
-
-				<mat-form-field appearance="standard">
-					<mat-label>Key</mat-label>
-					<input
-						(change)="goodGemini() ? configChange() : undefined"
-						[(ngModel)]="config.gemini"
-						matInput>
-				</mat-form-field>
-				<mat-error *ngIf="!goodGemini()">
-					Bad key format
-				</mat-error>
-			</div>
-			<div>
-				<a href="https://www.perplexity.ai/settings/api"
-				   mat-button
-				   target="_blank">
-					<mat-icon svgIcon="perplexity"></mat-icon>
-					Perplexity
-				</a>
-
-				<mat-form-field appearance="standard">
-					<mat-label>Bearer</mat-label>
-					<input
-						(change)="goodPerplexity() ? configChange() : undefined"
-						[(ngModel)]="config.perplexity"
-						matInput>
-				</mat-form-field>
-				<mat-error *ngIf="!goodPerplexity()">
-					Bad bearer format
-				</mat-error>
-			</div>
-			<div>
-				<a href="https://platform.openai.com/account"
-				   mat-button
-				   target="_blank">
-					<mat-icon svgIcon="chatgpt"></mat-icon>
-					OpenAI
-				</a>
-
-				<mat-form-field appearance="standard">
-					<mat-label>Key</mat-label>
-					<input
-						(change)="goodOpenAIKey() ? configChange() : undefined"
-						[(ngModel)]="config.openAI"
-						matInput>
-				</mat-form-field>
-				<mat-error *ngIf="!goodOpenAIKey()">
-					Bad key format
-				</mat-error>
 			</div>
 		</div>
 	</div>
