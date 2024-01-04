@@ -1,6 +1,5 @@
 import {readdirSync, statSync, unlink} from "fs";
 import {join} from "path";
-import bash from "../../shared/bash.js";
 import {URL} from "url";
 
 const dirname = new URL(".", import.meta.url).pathname;
@@ -54,7 +53,6 @@ class FileCleanup {
 }
 
 setInterval(() => {
-	const cid = bash.startCommand("file(s) cleaned", "", "");
 	let cleaned = 0;
 
 	const logs = new FileCleanup(join(frontPath, "logs"), 100_000_000, 1);
@@ -62,5 +60,7 @@ setInterval(() => {
 	cleaned += logs.checkAndCleanup();
 	cleaned += dumps.checkAndCleanup();
 
-	bash.endCommand(cid, cleaned);
+	if (cleaned > 0) {
+		console.log(cleaned + " file(s) cleaned");
+	}
 }, 5 * 60 * 1000);

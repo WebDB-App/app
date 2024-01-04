@@ -30,13 +30,15 @@ export default class SQL extends Driver {
 		return cmd;
 	}
 
-	objectToSql(data, comparator = "=") {
+	objectToSql(data, where = true) {
 		let sql = [];
 		for (const [col, value] of Object.entries(data)) {
 			if (typeof value === "string") {
-				sql.push(`${col} ${comparator} ${this.stringEscape + value + this.stringEscape}`);
+				sql.push(`${col} = ${this.stringEscape + value + this.stringEscape}`);
+			} else if (value === null) {
+				sql.push(`${col} ${where ? "IS" : "="} ${value}`);
 			} else {
-				sql.push(`${col} ${comparator} '${value}'`);
+				sql.push(`${col} = '${value}'`);
 			}
 		}
 
@@ -169,7 +171,7 @@ export default class SQL extends Driver {
 			return {untouched: 1};
 		}
 
-		const update = this.objectToSql(to_update);
+		const update = this.objectToSql(to_update, false);
 		const where = this.objectToSql(this.pkToObject(pks, old_data));
 
 		const res = await this.nbChangment(`UPDATE ${this.nameDel + table + this.nameDel} SET ${update.join(", ")} WHERE ${where.join(" AND ")}`, db);

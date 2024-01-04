@@ -30,6 +30,7 @@ export class VersionComponent implements OnInit, OnDestroy {
 	isDestroyed = false;
 	patches: Patch[] = [];
 	editorOptions = {
+		readOnly: true,
 		language: 'text',
 		glyphMargin: true
 	};
@@ -41,7 +42,7 @@ export class VersionComponent implements OnInit, OnDestroy {
 
 	async ngOnInit() {
 		const loop = async () => {
-			if (this.isDestroyed) {
+			if (this.isDestroyed || this.isResetting) {
 				return;
 			}
 			this.isLoading = true;
