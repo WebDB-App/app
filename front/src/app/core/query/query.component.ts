@@ -11,7 +11,14 @@ import { RequestService } from "../../../shared/request.service";
 import { Relation } from "../../../classes/relation";
 import { Configuration } from "../../../classes/configuration";
 import { HistoryService, Query } from "../../../shared/history.service";
-import { addMonacoError, initBaseEditor, removeComment, REMOVED_LABELS, validName } from "../../../shared/helper";
+import {
+	addMonacoError,
+	alterStructure,
+	initBaseEditor,
+	removeComment,
+	REMOVED_LABELS,
+	validName
+} from "../../../shared/helper";
 import { ExportResultDialog } from "../../../shared/export-result-dialog/export-result-dialog";
 import { MatPaginatorIntl } from "@angular/material/paginator";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
@@ -50,6 +57,7 @@ export class QueryComponent implements OnInit, OnDestroy {
 	};
 	query = '';
 	query2 = '';
+	reloadDb = false
 	diff = false;
 	pageSize = 50;
 	page = 0;
@@ -64,7 +72,7 @@ export class QueryComponent implements OnInit, OnDestroy {
 	protected readonly Math = Math;
 
 	constructor(
-		private request: RequestService,
+		public request: RequestService,
 		private dialog: MatDialog,
 		private http: HttpClient,
 		private history: HistoryService,
@@ -172,8 +180,7 @@ export class QueryComponent implements OnInit, OnDestroy {
 
 		if (this.querySize === null) {
 			this.querySize = Object.values(result).length;
-		}
-		if (this.querySize < 1 && Object.values(result).length) {
+		} else if (this.querySize < 1 && Object.values(result).length) {
 			this.querySize = 1;
 		}
 
@@ -195,6 +202,7 @@ export class QueryComponent implements OnInit, OnDestroy {
 
 		this.displayedColumns = [...new Set(result.flatMap(res => Object.keys(res)))];
 		this.dataSource = new MatTableDataSource(result);
+		this.reloadDb = alterStructure(this.query.toLowerCase());
 	}
 
 	async _runCompare() {

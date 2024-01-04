@@ -3,6 +3,7 @@ import {existsSync} from "fs";
 import bash from "./bash.js";
 import {URL} from "url";
 import { simpleGit } from "simple-git";
+import {alterStructure} from "./helper.js";
 
 const dirname = new URL(".", import.meta.url).pathname;
 const rootPath = join(dirname, "../../static/version/");
@@ -112,11 +113,7 @@ class Version {
 				process.env.DISABLE_WATCHER.indexOf(database) >= 0)) {
 			return;
 		}
-		if (![
-			"updateone", "updatemany", "update ",
-			"deleteone", "deletemany", "delete ",
-			"insertone", "insertmany", "insert ",
-			"drop", "alter ", "add ", "create", "rename", "replace"].some(v => command.includes(v))) {
+		if (!alterStructure(command)) {
 			return;
 		}
 		/*

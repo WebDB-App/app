@@ -82,6 +82,17 @@
 			matTooltip="Edit view">
 			<span class="material-symbols-outlined notranslate">table_view</span>
 		</button>
+
+		<a (click)="request.reloadServer()"
+		   *ngIf="reloadDb"
+		   color="primary"
+		   matTooltip="Reload Database"
+		   mat-stroked-button
+		   mat-icon-button>
+			<span class="material-symbols-outlined notranslate">
+				frame_reload
+			</span>
+		</a>
 	</div>
 
 	<div style="display: flex; align-items: center">

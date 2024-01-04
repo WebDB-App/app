@@ -224,7 +224,7 @@ export class SQL implements Driver {
 		},
 		"insert": (table: Table) => {
 			const cols = this.getColForSelect(table.columns).join(', ');
-			const values = this.getColForWhere(table.columns).join(', ');
+			const values = this.getColForInsert(table.columns).join(', ');
 			return `INSERT INTO ${this.wrapStructure(table.name)} (${cols}) VALUES (${values})`;
 		},
 		"update": (table: Table) => {
@@ -600,5 +600,9 @@ export class SQL implements Driver {
 
 	getColForWhere(columns: Column[]) {
 		return columns.map(column => `${this.wrapStructure(column.name)} = '${column.type.replaceAll("'", '"')}'`);
+	}
+
+	getColForInsert(columns: Column[]) {
+		return columns.map(column => `'${column.type.replaceAll("'", '"')}'`);
 	}
 }

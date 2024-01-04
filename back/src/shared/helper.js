@@ -49,3 +49,13 @@ export function singleLine(code, keepLength = false) {
 export function removeComment(query) {
 	return query.replace(/\/\*[\s\S]*?\*\/|(?<=[^:])\/\/.*|^\/\/.*/g, "").trim();
 }
+
+export function alterStructure(command) {
+	return [
+		"updateone", "updatemany", "update ",
+		"deleteone", "deletemany", "delete ",
+		"insertone", "insertmany", "insert ",
+		"drop", "alter ", "add ", "create", "rename", "replace"].some(v => command.includes(v));
+}
+
+
