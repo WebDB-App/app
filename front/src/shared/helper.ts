@@ -83,6 +83,11 @@ export function mongo_injectAggregate(query: string, toInject: any) {
 export function sql_isSelect(query: string) {
 	query = query.trim().toLowerCase();
 	query = query.replaceAll(parentheses, "").trim();
+
+	if ([" procedure ", " event ", " function "].some(v => query.includes(v))) {
+		return false;
+	}
+
 	return query.indexOf("select ") >= 0;
 }
 

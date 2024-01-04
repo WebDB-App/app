@@ -34,17 +34,16 @@ class Version {
 			return {error: "Directory does not exist"};
 		}
 
-		//tester fuctions/procedure/complex dans le patch
+		//tester fuctions/procedure/complex pour chaque server
 
 		const r = bash.runBash(`cd ${dir} && git reset --hard ${hash}`);
 		if (r.error) {
 			return r;
 		}
-		//await driver.dropDatabase(database);
-		//await driver.createDatabase(database);
-		//await driver.load([{path: `${dir}/${database}`}], database);
+		await driver.dropDatabase(database);
+		await driver.createDatabase(database);
+		await driver.load([{path: `${dir}/${database}`}], database);
 
-		this.saveChanges(database, driver);
 		return {ok: 1};
 	}
 
@@ -56,7 +55,7 @@ class Version {
 		if (diff) {
 			diff = diff.split("\n+++ " + database)[1].trim();
 		} else {
-			diff = "[Empty diff]";
+			diff = "⸻ Empty diff ⸻";
 		}
 
 		return {diff};
@@ -87,16 +86,20 @@ class Version {
 
 		const result = await driver.saveState(join(dir, database), database);
 		if (result.error) {
+			console.error(r.error);
 			return;
 		}
-		const r = bash.runBash(`cd ${dir} && git add --all && git commit -m '${(new Date()).getTime()}'`);
+		const r = bash.runBash(`cd ${dir} && git add --all && (git commit -m '${(new Date()).getTime()}' || echo)`);
 		if (r.error) {
+			console.error(r.error);
 			return;
 		}
 		return r;
 	}
 
 	commandFinished(driver, command, database) {
+		command = command.toLowerCase();
+
 		if (!database) {
 			return;
 		}
@@ -112,15 +115,14 @@ class Version {
 			"updateone", "updatemany", "update ",
 			"deleteone", "deletemany", "delete ",
 			"insertone", "insertmany", "insert ",
-			"drop", "alter ", "add ", "create", "rename", "replace"].some(v => command.toLowerCase().includes(v.toLowerCase()))) {
+			"drop", "alter ", "add ", "create", "rename", "replace"].some(v => command.includes(v))) {
 			return;
 		}
 
-		/*
 		this.changes[database] = {
 			done: false,
 			driver
-		};*/
+		};
 	}
 }
 
