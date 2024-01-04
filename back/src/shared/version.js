@@ -81,6 +81,12 @@ class Version {
 	}
 
 	async saveChanges(database, driver) {
+		const limit = process.env.WATCHER_LIMIT || (5 * 1024 * 1024 * 1024);
+		const stats = await driver.statsDatabase(database);
+		if (stats.data_length && stats.data_length > limit) {
+			return ;
+		}
+
 		const dir = this.getPath(database, driver);
 		if (!existsSync(dir)) {
 			bash.runBash(`mkdir -p ${dir} && cd ${dir} && git init --initial-branch=main`);
@@ -100,20 +106,18 @@ class Version {
 	}
 
 	commandFinished(driver, command, database) {
-		command = command.toLowerCase();
-
 		if (!database) {
 			return;
 		}
 		if (driver.isSystemDbs(database)) {
 			return;
 		}
-		if (process.env.DISABLE_WATCHER &&
-			(process.env.DISABLE_WATCHER === "true" ||
-				process.env.DISABLE_WATCHER.indexOf(database) >= 0)) {
+		if (process.env.WATCHER_EXCLUDE &&
+			(process.env.WATCHER_EXCLUDE === "true" ||
+				process.env.WATCHER_EXCLUDE.indexOf(database) >= 0)) {
 			return;
 		}
-		if (!alterStructure(command)) {
+		if (!alterStructure(command.toLowerCase())) {
 			return;
 		}
 		/*
