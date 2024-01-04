@@ -35,6 +35,7 @@ class Version {
 		}
 
 		//tester fuctions/procedure/complex pour chaque server
+		//database.split(", ")[0]
 
 		const r = bash.runBash(`cd ${dir} && git reset --hard ${hash}`);
 		if (r.error) {
@@ -118,11 +119,11 @@ class Version {
 			"drop", "alter ", "add ", "create", "rename", "replace"].some(v => command.includes(v))) {
 			return;
 		}
-
+		/*
 		this.changes[database] = {
 			done: false,
 			driver
-		};
+		};*/
 	}
 }
 
