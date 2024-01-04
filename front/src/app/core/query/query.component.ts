@@ -170,6 +170,9 @@ export class QueryComponent implements OnInit, OnDestroy {
 			return;
 		}
 
+		if (this.querySize === null) {
+			this.querySize = Object.values(result).length;
+		}
 		if (this.querySize < 1 && Object.values(result).length) {
 			this.querySize = 1;
 		}
