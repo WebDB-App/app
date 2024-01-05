@@ -110,7 +110,7 @@ export class AdvancedComponent implements OnDestroy {
 		if (!name.match(validName)) {
 			return false;
 		}
-		return name.length > 1 && !this.selectedServer?.dbs?.find(db => db.name.split(', ')[0] === name);
+		return name.length > 1 && !this.selectedServer?.dbs?.find(db => db.name.split(' ¦ ')[0] === name);
 	}
 }
 

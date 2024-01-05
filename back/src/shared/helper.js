@@ -55,7 +55,7 @@ export function alterStructure(command) {
 		"updateone", "updatemany", "update ",
 		"deleteone", "deletemany", "delete ",
 		"insertone", "insertmany", "insert ",
-		"drop", "alter ", "add ", "create", "rename", "replace"].some(v => command.includes(v));
+		"drop", "alter ", "add ", "create", "rename", "replace", "truncate"].some(v => command.includes(v));
 }
 
 

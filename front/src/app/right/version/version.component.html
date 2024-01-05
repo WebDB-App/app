@@ -33,18 +33,18 @@
 
 <div style="height: calc(100vh - 56px); overflow: auto;">
 
-	<mat-card *ngIf="selectedDatabase?.system || selectedServer?.name === 'CockroachDB'">
+	<mat-card *ngIf="selectedDatabase?.system || selectedServer?.wrapper === 'CockroachDB'">
 		<mat-card-header>
 			<mat-card-subtitle>
 				<mat-error>
 					<br>
-					Database Versioning is not available for this databases
+					Database Versioning is not available for {{ selectedServer?.wrapper }}
 				</mat-error>
 			</mat-card-subtitle>
 		</mat-card-header>
 	</mat-card>
 
-	<ng-container *ngIf="!selectedDatabase?.system && selectedServer?.name !== 'CockroachDB'">
+	<ng-container *ngIf="!selectedDatabase?.system && selectedServer?.wrapper !== 'CockroachDB'">
 
 		<mat-card
 			*ngIf="patches.length < 1">
@@ -112,7 +112,7 @@
 				</button>
 
 				<ngx-monaco-editor
-					style="min-width: 500px;"
+					style="min-width: 500px; min-height: 300px"
 					*ngIf="patch.diff"
 					(onInit)="initEditor($event, patch.diff)"
 					[(ngModel)]="patch.diff"

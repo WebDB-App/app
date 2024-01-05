@@ -143,8 +143,8 @@ export class AiComponent implements OnInit, OnDestroy {
 			}
 		});
 
-		this.localKeyChatHistory = 'chat-' + this.selectedDatabase.name.split(', ')[0];
-		this.localKeyPreSent = 'preSent-' + this.selectedDatabase.name.split(', ')[0];
+		this.localKeyChatHistory = 'chat-' + this.selectedDatabase.name.split(' ¦ ')[0];
+		this.localKeyPreSent = 'preSent-' + this.selectedDatabase.name.split(' ¦ ')[0];
 
 		const msgs = JSON.parse(localStorage.getItem(this.localKeyChatHistory) || '[]');
 		this.chat = msgs.map((msg: Msg) => new Msg(msg.txt, msg.user, msg.error));

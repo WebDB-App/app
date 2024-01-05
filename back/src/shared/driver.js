@@ -2,7 +2,7 @@ import nodePortScanner from "node-port-scanner";
 
 export default class Driver {
 
-	dbToSchemaDelimiter = ", ";
+	dbToSchemaDelimiter = " ¦ ";
 	nameDel = "\"";
 	stringEscape = "'";
 
@@ -57,5 +57,12 @@ export default class Driver {
 			structure: {},
 			data: []
 		}];
+	}
+
+	readDiff(database, diff) {
+		if (diff.indexOf("\n+++ " + database) >= 0) {
+			diff = diff.split("\n+++ " + database)[1].trim();
+		}
+		return diff;
 	}
 }

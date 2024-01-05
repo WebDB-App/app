@@ -64,7 +64,12 @@ export default class MongoDB extends Driver {
 	}
 
 	async saveState(path, database) {
-		return bash.runBash(`mongodump --uri="${this.makeUri()}" --db=${database} --archive=${path}`);
+		return bash.runBash(`mongodump --uri="${this.makeUri()}" --db=${database} --out=${path}`);
+	}
+
+	readDiff(database, diff) {
+		diff = diff.replaceAll("\\ No newline at end of file", "");
+		return diff;
 	}
 
 	async load(files, database) {
@@ -104,6 +109,7 @@ export default class MongoDB extends Driver {
 				viewOn: table,
 				pipeline: res
 			});
+			version.commandFinished(this, "", database, true);
 			return {ok: 1};
 		} catch (e) {
 			return {error: e.message};
@@ -111,6 +117,7 @@ export default class MongoDB extends Driver {
 	}
 
 	async dropView(database, table) {
+		version.commandFinished(this, "", database, true);
 		return await this.connection.db(database).dropCollection(table);
 	}
 
@@ -150,6 +157,7 @@ export default class MongoDB extends Driver {
 	async insert(db, table, datas) {
 		try {
 			const res = await this.connection.db(db).collection(table).insertMany(BSON.EJSON.deserialize(datas));
+			version.commandFinished(this, "", db, true);
 			return res.insertedCount.toString();
 		} catch (e) {
 			return {error: e.message};
@@ -166,6 +174,7 @@ export default class MongoDB extends Driver {
 				return {error: e.message};
 			}
 		}
+		version.commandFinished(this, "", db, true);
 		return nbT.toString();
 	}
 
@@ -175,6 +184,7 @@ export default class MongoDB extends Driver {
 			new_data = BSON.EJSON.deserialize(new_data);
 
 			const res = await this.connection.db(db).collection(table).updateOne(old_data, {$set: new_data});
+			version.commandFinished(this, "", db, true);
 			return res.modifiedCount.toString();
 		} catch (e) {
 			return {error: e.message};
@@ -183,12 +193,14 @@ export default class MongoDB extends Driver {
 
 	async duplicateTable(database, old_table, new_name) {
 		const db = this.connection.db(database);
+		version.commandFinished(this, "", database, true);
 		return await db.collection(old_table).aggregate([{$out: new_name}]).toArray();
 	}
 
 	async renameTable(database, old_name, new_name) {
 		const db = this.connection.db(database);
 		await db.renameCollection(old_name, new_name);
+		version.commandFinished(this, "", database, true);
 		return {ok: 1};
 	}
 
@@ -232,6 +244,7 @@ export default class MongoDB extends Driver {
 	async createTable(database, table) {
 		const db = await this.connection.db(database);
 		const coll = await db.createCollection(table.name);
+		version.commandFinished(this, "", database, true);
 
 		const row = {_id: new ObjectId()};
 		table.columns.map(column => {
@@ -241,11 +254,15 @@ export default class MongoDB extends Driver {
 	}
 
 	async dropTable(database, table) {
-		return await this.connection.db(database).dropCollection(table);
+		const result = await this.connection.db(database).dropCollection(table);
+		version.commandFinished(this, "", database, true);
+		return result;
 	}
 
 	async truncateTable(database, table) {
-		return await this.connection.db(database).collection(table).deleteMany();
+		const result = await this.connection.db(database).collection(table).deleteMany();
+		version.commandFinished(this, "", database, true);
+		return result;
 	}
 
 	async getAvailableCollations() {
@@ -290,7 +307,9 @@ export default class MongoDB extends Driver {
 	async dropColumn(database, table, column) {
 		const rem = {$unset: {}};
 		rem["$unset"][column] = 1;
-		return await this.connection.db(database).collection(table).updateMany({}, rem);
+		const result = await this.connection.db(database).collection(table).updateMany({}, rem);
+		version.commandFinished(this, "", database, true);
+		return result;
 	}
 
 	async modifyColumn(database, table, old, column) {
@@ -313,6 +332,7 @@ export default class MongoDB extends Driver {
 				return this.connection.db(database).collection(table).updateOne(row, updates);
 			}));
 		}
+		version.commandFinished(this, "", database, true);
 		return true;
 	}
 
@@ -423,6 +443,7 @@ export default class MongoDB extends Driver {
 		} catch (e) {
 			return {error: e.message};
 		}
+		version.commandFinished(this, "", database, true);
 		return {ok: 1};
 	}
 
@@ -432,6 +453,7 @@ export default class MongoDB extends Driver {
 		} catch (e) {
 			return {error: e.message};
 		}
+		version.commandFinished(this, "", database, true);
 		return {ok: 1};
 	}
 

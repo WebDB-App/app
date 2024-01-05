@@ -29,7 +29,7 @@ export class HistoryService {
 	}
 
 	getLocal(database = Database.getSelected()): Query[] {
-		const queries: Query[] = JSON.parse(localStorage.getItem("queries-" + database.name.split(', ')[0]) || "[]");
+		const queries: Query[] = JSON.parse(localStorage.getItem("queries-" + database.name.split(' ¦ ')[0]) || "[]");
 		return queries.sort((q1, q2) => q1.star ? -1 : 1);
 	}
 

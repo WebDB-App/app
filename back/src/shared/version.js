@@ -35,9 +35,6 @@ class Version {
 			return {error: "Directory does not exist"};
 		}
 
-		//tester fuctions/procedure/complex pour chaque server
-		//database.split(", ")[0]
-
 		const r = bash.runBash(`cd ${dir} && git reset --hard ${hash}`);
 		if (r.error) {
 			return r;
@@ -53,11 +50,11 @@ class Version {
 		const dir = this.getPath(database, driver);
 		const git = simpleGit(dir);
 
-		let diff = await git.diff(["--no-prefix", hash]);
-		if (diff) {
-			diff = diff.split("\n+++ " + database)[1].trim();
-		} else {
+		let diff = await git.diff(["--no-prefix", "--text", hash]);
+		if (!diff) {
 			diff = "⸻ Empty diff ⸻";
+		} else {
+			diff = driver.readDiff(database, diff);
 		}
 
 		return {diff};
@@ -81,10 +78,10 @@ class Version {
 	}
 
 	async saveChanges(database, driver) {
-		const limit = process.env.WATCHER_LIMIT || (5 * 1024 * 1024 * 1024);
+		const limit = +process.env.WATCHER_LIMIT || 1_000_000_000;
 		const stats = await driver.statsDatabase(database);
 		if (stats.data_length && stats.data_length > limit) {
-			return ;
+			return;
 		}
 
 		const dir = this.getPath(database, driver);
@@ -105,10 +102,11 @@ class Version {
 		return r;
 	}
 
-	commandFinished(driver, command, database) {
+	commandFinished(driver, command, database, force = false) {
 		if (!database) {
 			return;
 		}
+		database = database.split(" ¦ ")[0];
 		if (driver.isSystemDbs(database)) {
 			return;
 		}
@@ -117,14 +115,14 @@ class Version {
 				process.env.WATCHER_EXCLUDE.indexOf(database) >= 0)) {
 			return;
 		}
-		if (!alterStructure(command.toLowerCase())) {
+		if (!force && !alterStructure(command.toLowerCase())) {
 			return;
 		}
-		/*
+
 		this.changes[database] = {
 			done: false,
 			driver
-		};*/
+		};
 	}
 }
 
