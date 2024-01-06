@@ -1,6 +1,5 @@
 # WebDB – Open Source and Efficient Database IDE
 
-
 ### Regular installation
 
 [🐳 Standalone](https://webdb.app/page/install/standalone)
@@ -14,7 +13,6 @@
 [📝 Planned features](TODO.md)
 
 [💡 Proposal](https://gitlab.com/web-db/app/-/issues/?search=Proposal)
-
 
 ### Links
 

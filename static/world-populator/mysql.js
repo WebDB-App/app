@@ -1,6 +1,6 @@
 import mysql from "mysql2/promise.js";
 import countries from "./countries.js";
-import cities from "./cities.json" assert { type: "json" };
+import cities from "./cities.json" assert {type: "json"};
 
 const connection = await mysql.createConnection({
 	user: 'root',
@@ -27,7 +27,6 @@ async function populate_countries() {
 			[rowCountry] = await connection.execute(`SELECT id FROM continent WHERE name = ?`, [country.continent]);
 		}
 		const countryId = rowCountry[0]['id'];
-
 
 
 		for (const currency of country.currency) {

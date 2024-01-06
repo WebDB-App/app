@@ -52,9 +52,9 @@
 				<mat-selection-list
 					(selectionChange)="preSentChange()"
 					[(ngModel)]="preSent.tables"
-					style="height: 250px; width: 45%; overflow: auto;"
 					dense
-					multiple>
+					multiple
+					style="height: 250px; width: 45%; overflow: auto;">
 					<mat-list-option
 						*ngFor="let table of selectedDatabase?.tables"
 						[value]="table.name">
@@ -62,7 +62,8 @@
 					</mat-list-option>
 				</mat-selection-list>
 
-				<div style="height: 250px; display: flex; flex-direction: column; justify-content: space-around; margin: 0px auto;">
+				<div
+					style="height: 250px; display: flex; flex-direction: column; justify-content: space-around; margin: 0px auto;">
 					<div>
 						<mat-form-field appearance="outline" color="accent" style="margin-bottom: -1.25em">
 							<mat-label>Anonymize</mat-label>
@@ -192,14 +193,14 @@
 
 			<div class="centered">
 				<mat-form-field
-					style="margin-bottom: -1.25em;"
 					appearance="outline"
-					color="accent">
+					color="accent"
+					style="margin-bottom: -1.25em;">
 					<mat-label>Model</mat-label>
 					<mat-select
-						disableOptionCentering
 						(selectionChange)="configChange()"
-						[(ngModel)]="config.model">
+						[(ngModel)]="config.model"
+						disableOptionCentering>
 						<mat-optgroup
 							*ngFor="let provider of Object.keys(models)"
 							[label]="provider"
@@ -280,25 +281,26 @@
 
 		<ng-container *ngIf="chat.length">
 			<mat-card
-				style="box-shadow: none"
 				*ngFor="let ch of chat"
 				[hidden]="ch.hide"
-				[style.background-color]="ch.error ? '#f44336' : ch.user === Role.Assistant ? undefined : 'transparent'">
+				[style.background-color]="ch.error ? '#f44336' : ch.user === Role.Assistant ? undefined : 'transparent'"
+				style="box-shadow: none">
 				<mat-card-content>
 
 					<button
 						(click)="message.value = ch.txt"
 						*ngIf="ch.user === Role.User"
-						style="float: left; top: -10px; margin-right: 10px;"
 						color="accent"
 						mat-flat-button
-						mat-icon-button>
+						mat-icon-button
+						style="float: left; top: -10px; margin-right: 10px;">
 						<span class="material-symbols-outlined notranslate">
 							edit
 						</span>
 					</button>
 
-					<div *ngIf="!ch.error && ch.user === Role.Assistant" class="actions" style="bottom: 8px; top: inherit;">
+					<div *ngIf="!ch.error && ch.user === Role.Assistant" class="actions"
+						 style="bottom: 8px; top: inherit;">
 						<button
 							(click)="sendMessage('The response ```' + ch.txt + '``` was wrong. Please retry');"
 							color="accent"

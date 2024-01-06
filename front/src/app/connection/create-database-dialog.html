@@ -5,9 +5,9 @@
 	</button>
 </div>
 <div
+	(keyup.enter)="(name.value && nameValid(name.value)) ? createDb(name.value) : undefined"
 	mat-dialog-content
-	style="display: flex; flex-direction: column; text-align: center;"
-	(keyup.enter)="(name.value && nameValid(name.value)) ? createDb(name.value) : undefined">
+	style="display: flex; flex-direction: column; text-align: center;">
 	<mat-form-field appearance="fill" style="padding: 20px 20px 0px 20px; flex: 1">
 		<mat-label>Database Name</mat-label>
 		<input #name

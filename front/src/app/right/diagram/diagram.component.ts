@@ -34,6 +34,7 @@ export class DiagramComponent implements OnDestroy {
 	diagramController?: DiagramController;
 	zoom = 1;
 	full = false;
+	protected readonly Math = Math;
 
 	constructor(
 		private hoverService: HoverService,
@@ -49,11 +50,6 @@ export class DiagramComponent implements OnDestroy {
 				this.prepareTables();
 			}
 		})
-	}
-
-	ngOnDestroy(): void {
-		this.drawerObs.unsubscribe();
-		clearInterval(this.interval);
 	}
 
 	/*
@@ -75,6 +71,11 @@ export class DiagramComponent implements OnDestroy {
 	 uml + hover PK multi FK : relations must be multiple
 	 right click to change relation type ?
 	*/
+
+	ngOnDestroy(): void {
+		this.drawerObs.unsubscribe();
+		clearInterval(this.interval);
+	}
 
 	prepareTables() {
 		const positions = JSON.parse(localStorage.getItem('diagram-' + this.selectedDatabase.name) || '[]');
@@ -196,6 +197,4 @@ export class DiagramComponent implements OnDestroy {
 		const blob = await htmlToImage.toSvg(this.container.nativeElement);
 		saveAs(blob!, this.selectedDatabase.name + '.svg');
 	}
-
-	protected readonly Math = Math;
 }

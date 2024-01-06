@@ -23,11 +23,13 @@ export default class MongoDB extends Driver {
 		const colls = await this.connection.db(database).listCollections().toArray();
 		const options = colls.find(coll => coll.name === view).options;
 
-		return {code: `db.command({
+		return {
+			code: `db.command({
 	collMod: "${view}",
 	viewOn: "${options.viewOn}",
 	pipeline: ${JSON.stringify(options.pipeline)}
-});`};
+});`
+		};
 	}
 
 	async dump(database, exportType = "bson", tables, options = "") {

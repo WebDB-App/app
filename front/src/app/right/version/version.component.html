@@ -26,9 +26,9 @@
 
 <mat-progress-bar
 	*ngIf="isLoading"
-	style="position: absolute; left: 0px; right: 0px; z-index: 10000000"
 	color="accent"
-	mode="indeterminate">
+	mode="indeterminate"
+	style="position: absolute; left: 0px; right: 0px; z-index: 10000000">
 </mat-progress-bar>
 
 <div style="height: calc(100vh - 56px); overflow: auto;">
@@ -79,8 +79,8 @@
 
 					<button
 						(click)="reset(patch)"
-						[disabled]="isResetting"
 						*ngIf="patch.diff"
+						[disabled]="isResetting"
 						color="accent"
 						mat-button>
 						<span class="material-symbols-outlined notranslate">
@@ -93,9 +93,9 @@
 				<mat-progress-spinner
 					*ngIf="patch.isLoading"
 					[diameter]="60"
-					style="margin: auto;"
 					color="accent"
-					mode="indeterminate">
+					mode="indeterminate"
+					style="margin: auto;">
 				</mat-progress-spinner>
 			</mat-card-actions>
 
@@ -112,11 +112,11 @@
 				</button>
 
 				<ngx-monaco-editor
-					style="min-width: 500px; min-height: 300px"
-					*ngIf="patch.diff"
 					(onInit)="initEditor($event, patch.diff)"
+					*ngIf="patch.diff"
 					[(ngModel)]="patch.diff"
-					[options]="editorOptions">
+					[options]="editorOptions"
+					style="min-width: 500px; min-height: 300px">
 				</ngx-monaco-editor>
 			</mat-card-content>
 		</mat-card>

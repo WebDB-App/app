@@ -1,11 +1,11 @@
 version: '3.8'
 
 services:
-#    webdb:
-#        image: webdb/app
-#        ports:
-#            - 22071:22071
-#
+    #    webdb:
+    #        image: webdb/app
+    #        ports:
+    #            - 22071:22071
+    #
     cloudbeaver:
         image: dbeaver/cloudbeaver
         restart: always

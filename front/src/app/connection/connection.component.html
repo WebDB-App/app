@@ -129,7 +129,7 @@
 							</mat-list-option>
 						</mat-selection-list>
 
-						<mat-divider style="margin: -16px 20px;" vertical class="right-divider"></mat-divider>
+						<mat-divider class="right-divider" style="margin: -16px 20px;" vertical></mat-divider>
 
 						<div class="right-actions">
 							<button
@@ -186,15 +186,15 @@
 								<mat-form-field appearance="outline" style="margin-bottom: -1.75em;">
 									<mat-label>User</mat-label>
 									<input
-										[value]="defaultUser"
 										#user
+										[value]="defaultUser"
 										matInput>
 								</mat-form-field>
 								<mat-form-field appearance="outline">
 									<mat-label>Password</mat-label>
 									<input
-										[value]="defaultPass"
 										#password
+										[value]="defaultPass"
 										autocomplete="off"
 										matInput
 										type="{{!showPassword ? 'password' : 'text'}}">

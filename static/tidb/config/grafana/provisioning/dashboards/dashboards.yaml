@@ -2,9 +2,9 @@
 apiVersion: 1
 
 providers:
-- name: 'default'
-  orgId: 1
-  folder: ''
-  type: file
-  options:
-    path: /tmp/dashboards
+    -   name: 'default'
+        orgId: 1
+        folder: ''
+        type: file
+        options:
+            path: /tmp/dashboards

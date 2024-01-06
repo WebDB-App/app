@@ -70,7 +70,7 @@ export class AiComponent implements OnInit, OnDestroy {
 	licence?: Licence;
 	configuration: Configuration = new Configuration();
 	initialized = false
-	models: {[key: string]: { name: string; bold?: boolean }[]} = {};
+	models: { [key: string]: { name: string; bold?: boolean }[] } = {};
 	Role = Role;
 	examples = [
 		'Adapt this query to retrieve "registering_date" : `SELECT email, password FROM users WHERE email LIKE ?`',
@@ -109,11 +109,10 @@ export class AiComponent implements OnInit, OnDestroy {
 	}
 	stream?: string;
 	abort = false;
-
+	@ViewChild('scrollContainer') public scrollContainer!: ElementRef;
 	protected readonly Math = Math;
 	protected readonly Object = Object;
 	protected readonly isSQL = isSQL;
-	@ViewChild('scrollContainer') public scrollContainer!: ElementRef;
 
 	constructor(
 		private request: RequestService,

@@ -2,7 +2,7 @@ import {join} from "path";
 import {existsSync} from "fs";
 import bash from "./bash.js";
 import {URL} from "url";
-import { simpleGit } from "simple-git";
+import {simpleGit} from "simple-git";
 import {alterStructure} from "./helper.js";
 
 const dirname = new URL(".", import.meta.url).pathname;

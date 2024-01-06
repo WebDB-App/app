@@ -38,7 +38,8 @@ export class VersionComponent implements OnInit, OnDestroy {
 	constructor(
 		private request: RequestService,
 		public snackBar: MatSnackBar
-	) {}
+	) {
+	}
 
 	async ngOnInit() {
 		const loop = async () => {
@@ -69,6 +70,7 @@ export class VersionComponent implements OnInit, OnDestroy {
 
 		loop();
 	}
+
 	ngOnDestroy() {
 		this.isDestroyed = true;
 	}

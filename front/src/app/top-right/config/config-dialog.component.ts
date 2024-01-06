@@ -24,6 +24,7 @@ export class ConfigDialog implements OnInit {
 	env = environment
 	currentYear = new Date().getFullYear();
 	protected readonly packageJson = packageJson;
+	protected readonly Object = Object;
 
 	constructor(
 		public dialogRef: MatDialogRef<ConfigDialog>,
@@ -72,6 +73,4 @@ export class ConfigDialog implements OnInit {
 			await this.request.reloadServer();
 		}
 	}
-
-	protected readonly Object = Object;
 }

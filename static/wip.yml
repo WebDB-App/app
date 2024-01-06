@@ -2,9 +2,9 @@ version: '3.8'
 
 services:
 
-#    neo4j
-#
-#    elasticsearch
+    #    neo4j
+    #
+    #    elasticsearch
 
     crate:
         image: crate/crate

@@ -24,8 +24,10 @@ export default class PostgreSQL extends SQL {
 	async getViewCode(database, view) {
 		const def = await this.runCommand(`SELECT pg_get_viewdef('${view}', TRUE)`, database);
 
-		return {code: `CREATE OR REPLACE VIEW ${view} AS
-${def[0]["pg_get_viewdef"]}`};
+		return {
+			code: `CREATE OR REPLACE VIEW ${view} AS
+${def[0]["pg_get_viewdef"]}`
+		};
 	}
 
 	async sampleDatabase(name, {count, tables}) {

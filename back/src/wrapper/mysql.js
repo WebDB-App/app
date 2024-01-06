@@ -24,8 +24,10 @@ export default class MySQL extends SQL {
 	async getViewCode(database, view) {
 		const def = await this.runCommand(`SELECT view_definition FROM information_schema.views WHERE table_schema = '${database}' AND table_name = '${view}';`);
 
-		return {code: `ALTER VIEW ${view} AS
-${def[0]["VIEW_DEFINITION"]}`};
+		return {
+			code: `ALTER VIEW ${view} AS
+${def[0]["VIEW_DEFINITION"]}`
+		};
 	}
 
 	async sampleDatabase(name, {count, tables}) {
@@ -125,7 +127,7 @@ ${def[0]["VIEW_DEFINITION"]}`};
 	async duplicateTable(database, old_table, new_name) {
 		return await this.runCommand(`CREATE TABLE \`${new_name}\` LIKE \`${old_table}\`;
 			INSERT INTO \`${new_name}\` SELECT * FROM \`${old_table}\`;`,
-		database);
+			database);
 	}
 
 	async createDatabase(name) {

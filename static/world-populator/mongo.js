@@ -1,8 +1,11 @@
-import { MongoClient } from 'mongodb';
+import {MongoClient} from 'mongodb';
 import countries from './countries.js';
-import cities from "./cities.json" assert { type: "json" };
+import cities from "./cities.json" assert {type: "json"};
 
-const client = new MongoClient("mongodb://root:notSecureChangeMe@127.0.0.1:27017/?serverSelectionTimeoutMS=2000&authSource=admin", { useNewUrlParser: true, useUnifiedTopology: true });
+const client = new MongoClient("mongodb://root:notSecureChangeMe@127.0.0.1:27017/?serverSelectionTimeoutMS=2000&authSource=admin", {
+	useNewUrlParser: true,
+	useUnifiedTopology: true
+});
 const dbName = 'world';
 
 await client.connect();
@@ -17,18 +20,18 @@ async function populateCountries() {
 	const languageCountryCollection = db.collection('language_country');
 
 	for (const country of Object.values(countries)) {
-		let rowContinent = await continentCollection.findOne({ name: country.continent });
+		let rowContinent = await continentCollection.findOne({name: country.continent});
 
 		if (!rowContinent) {
-			rowContinent = await continentCollection.insertOne({ name: country.continent });
-			rowContinent = { id: rowContinent.insertedId };
+			rowContinent = await continentCollection.insertOne({name: country.continent});
+			rowContinent = {id: rowContinent.insertedId};
 		} else {
 			rowContinent.id = rowContinent._id;
 		}
 
 		const continentId = rowContinent.id;
 
-		let rowCountry = await countryCollection.findOne({ name: country.name });
+		let rowCountry = await countryCollection.findOne({name: country.name});
 
 		if (!rowCountry) {
 			rowCountry = await countryCollection.insertOne({
@@ -38,7 +41,7 @@ async function populateCountries() {
 				continent_id: continentId,
 				capital: country.capital,
 			});
-			rowCountry = { id: rowCountry.insertedId };
+			rowCountry = {id: rowCountry.insertedId};
 		} else {
 			rowCountry.id = rowCountry._id;
 		}
@@ -46,11 +49,11 @@ async function populateCountries() {
 		const countryId = rowCountry.id;
 
 		for (const currency of country.currency) {
-			let rowCurrency = await currencyCollection.findOne({ name: currency });
+			let rowCurrency = await currencyCollection.findOne({name: currency});
 
 			if (!rowCurrency) {
-				rowCurrency = await currencyCollection.insertOne({ name: currency });
-				rowCurrency = { id: rowCurrency.insertedId };
+				rowCurrency = await currencyCollection.insertOne({name: currency});
+				rowCurrency = {id: rowCurrency.insertedId};
 			} else {
 				rowCurrency.id = rowCurrency._id;
 			}
@@ -63,16 +66,16 @@ async function populateCountries() {
 			});
 
 			if (!rowCurrencyCountry) {
-				await currencyCountryCollection.insertOne({ id_currency: currencyId, id_country: countryId });
+				await currencyCountryCollection.insertOne({id_currency: currencyId, id_country: countryId});
 			}
 		}
 
 		for (const language of country.languages) {
-			let rowLanguage = await languageCollection.findOne({ name: language });
+			let rowLanguage = await languageCollection.findOne({name: language});
 
 			if (!rowLanguage) {
-				rowLanguage = await languageCollection.insertOne({ name: language });
-				rowLanguage = { id: rowLanguage.insertedId };
+				rowLanguage = await languageCollection.insertOne({name: language});
+				rowLanguage = {id: rowLanguage.insertedId};
 			} else {
 				rowLanguage.id = rowLanguage._id;
 			}
@@ -85,7 +88,7 @@ async function populateCountries() {
 			});
 
 			if (!rowLanguageCountry) {
-				await languageCountryCollection.insertOne({ id_language: languageId, id_country: countryId });
+				await languageCountryCollection.insertOne({id_language: languageId, id_country: countryId});
 			}
 		}
 	}

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2 32 40">
-  <defs>
-    <style>
-      .cls-1 {
-        fill: none;
-        stroke: #20808d;
-        stroke-miterlimit: 10;
-      }
-    </style>
-  </defs>
-  <path class="cls-1" d="m23.566,1.398l-9.495,9.504h9.495V1.398v2.602V1.398Zm-9.496,9.504L4.574,1.398v9.504h9.496Zm-.021-10.902v36m9.517-15.596l-9.495-9.504v13.625l9.495,9.504v-13.625Zm-18.991,0l9.496-9.504v13.625l-9.496,9.504v-13.625ZM.5,10.9v13.57h4.074v-4.066l9.496-9.504H.5Zm13.57,0l9.495,9.504v4.066h4.075v-13.57h-13.57Z"/>
+<svg data-name="Layer 1" id="Layer_1" viewBox="-2 -2 32 40" xmlns="http://www.w3.org/2000/svg">
+	<defs>
+		<style>
+			.cls-1 {
+				fill: none;
+				stroke: #20808d;
+				stroke-miterlimit: 10;
+			}
+		</style>
+	</defs>
+	<path class="cls-1"
+		  d="m23.566,1.398l-9.495,9.504h9.495V1.398v2.602V1.398Zm-9.496,9.504L4.574,1.398v9.504h9.496Zm-.021-10.902v36m9.517-15.596l-9.495-9.504v13.625l9.495,9.504v-13.625Zm-18.991,0l9.496-9.504v13.625l-9.496,9.504v-13.625ZM.5,10.9v13.57h4.074v-4.066l9.496-9.504H.5Zm13.57,0l9.495,9.504v4.066h4.075v-13.57h-13.57Z"/>
 </svg>
