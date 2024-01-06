@@ -545,7 +545,7 @@ class LineController {
 		const path = document.createElementNS('http://www.w3.org/2000/svg', 'path')
 		path.classList.add(this.relation.name);
 
-		path.setAttributeNS(null, 'stroke', '#1de9b6')
+		path.setAttributeNS(null, 'stroke', '#1DE9B698')
 		path.setAttributeNS(null, 'stroke-width', '1.5')
 		path.setAttributeNS(null, 'fill', 'none')
 		this.svg.appendChild(path)

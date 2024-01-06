@@ -56,12 +56,36 @@ export class DiagramComponent implements OnDestroy {
 		clearInterval(this.interval);
 	}
 
+	/*
+	Legend: Put real icon and SQL equivalent
+	 */
+
+	/*
+	https://loopback.io/doc/en/lb4/HasManyThrough-relation.html
+
+	 test if FK can be null, etc
+	 create all relation possible :
+
+	 FK non null -> PK
+	 FK null -> PK
+	 PK multi -> PK
+	 FK to index
+
+
+	 uml + hover PK multi FK : relations must be multiple
+	 right click to change relation type ?
+	*/
+
 	prepareTables() {
 		const positions = JSON.parse(localStorage.getItem('diagram-' + this.selectedDatabase.name) || '[]');
 		const entities: Entity[] = [];
 		const db_indexes = this.selectedServer.indexes.filter(index => index.database === this.selectedDatabase.name);
 
 		for (const table of this.selectedDatabase.tables!) {
+			if (!table.columns) {
+				continue;
+			}
+
 			const indexes = db_indexes.filter(index => index.table === table.name);
 			const entity = <Entity>{
 				name: table.name,
@@ -74,13 +98,8 @@ export class DiagramComponent implements OnDestroy {
 				entity.position = {x: position.x, y: position.y}
 			}
 
-			if (!table.columns) {
-				continue;
-			}
-
 			for (const col of table.columns) {
 				const relation = this.relations.find(relation => relation.table_source === table.name && relation.column_source === col.name);
-
 				const ent = <Field>{
 					name: col.name,
 					type: col.type,
@@ -88,22 +107,6 @@ export class DiagramComponent implements OnDestroy {
 				}
 
 				if (relation) {
-					/*
-					https://loopback.io/doc/en/lb4/HasManyThrough-relation.html
-
-					 test if FK can be null, etc
-					 create all relation possible :
-
-					 FK non null -> PK
-					 FK null -> PK
-					 PK multi -> PK
-					 FK to index
-
-
-					 uml + hover PK multi FK : relations must be multiple
-					 right click to change relation type ?
-					*/
-
 					let relationType: RelationType = ">-";
 					const dest_col = this.selectedDatabase.tables!.find(table => relation.table_dest === table.name)!.columns.find(column => column.name === relation.column_dest)!;
 					const dest_indexes = db_indexes.filter(index => index.table === relation.table_dest && index.columns.indexOf(dest_col.name) >= 0);
@@ -193,4 +196,6 @@ export class DiagramComponent implements OnDestroy {
 		const blob = await htmlToImage.toSvg(this.container.nativeElement);
 		saveAs(blob!, this.selectedDatabase.name + '.svg');
 	}
+
+	protected readonly Math = Math;
 }

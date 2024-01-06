@@ -6,17 +6,9 @@ services:
 #
 #    elasticsearch
 
-    sqldata:
-        image: mcr.microsoft.com/mssql/server:2017-latest
-        environment:
-            - SA_PASSWORD=Pass@word
-            - ACCEPT_EULA=Y
-        ports:
-            - "1433:1433"
-
     crate:
         image: crate/crate
         ports:
             - "4200:4200"
 
-#SQLite, Oracle, db2, vitess, yugabyte, surrealdb
+#SQLite, Oracle, db2, vitess, surrealdb

@@ -416,6 +416,20 @@ ngx-monaco-editor {
 	}
 }
 
+.slider {
+	display: flex;
+	flex-direction: column;
+
+	> div {
+		display: flex;
+		justify-content: space-around;
+	}
+
+	.mat-slider {
+		margin: -16px 0px;
+	}
+}
+
 .hasBold {
 	.mat-option:not(.bold) {
 		color: grey;

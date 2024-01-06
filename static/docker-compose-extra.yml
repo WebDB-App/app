@@ -13,7 +13,7 @@ services:
         image: cockroachdb/cockroach
         command: start-single-node --insecure
         ports:
-            - 26257:26257
+            - "26257:26257"
         environment:
             COCKROACH_USER: 'root'
             COCKROACH_PASSWORD: 'notSecureChangeMe'
@@ -21,7 +21,7 @@ services:
     mariadb:
         image: mariadb
         ports:
-            - 3308:3306
+            - "3308:3306"
         environment:
             MYSQL_ROOT_PASSWORD: notSecureChangeMe
 
@@ -30,7 +30,7 @@ services:
         image: yugabytedb/yugabyte
         command: bin/yugabyted start --daemon=false
         ports:
-            - 5434:5432
+            - "5434:5432"
         environment:
             YSQL_USER: root
             YSQL_PASSWORD: notSecureChangeMe

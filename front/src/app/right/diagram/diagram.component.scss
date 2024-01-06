@@ -11,7 +11,8 @@
 mat-toolbar {
 	position: absolute;
 	z-index: 100;
-	top: 0px
+	top: 0px;
+	font-size: 14px;
 }
 
 :host ::ng-deep #containerDiagram {
@@ -94,7 +95,20 @@ mat-toolbar {
 	}
 
 	::ng-deep .hoverClass {
-		background-color: rgba(29, 233, 182, 0.8) !important;
-		stroke: rgba(29, 233, 182, 0.8) !important;
+		background-color: rgba(29, 233, 182, 0.45) !important;
+		stroke: #1de9b6 !important;
+	}
+}
+
+::ng-deep .legend .mat-menu-content {
+	> span {
+		display: flex;
+		padding-left: 0px;
+
+		> span {
+			width: 60px;
+			font-family: monospace;
+			text-align: center;
+		}
 	}
 }
