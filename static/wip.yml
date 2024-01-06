@@ -1,14 +1,9 @@
 version: '3.8'
 
 services:
-
-    #    neo4j
-    #
-    #    elasticsearch
-
     crate:
         image: crate/crate
         ports:
             - "4200:4200"
 
-#SQLite, Oracle, db2, vitess, surrealdb
+#SQLite, snowflake, Oracle, db2, vitess, surrealdb

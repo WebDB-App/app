@@ -2,6 +2,9 @@ import {describe, test} from "node:test"
 import {basicConf} from "./config.js";
 import axios from "axios";
 import assert from "node:assert";
+import {runWebDB} from "./helper.js";
+
+runWebDB();
 
 await describe('webdb:app', async () => {
 	const request = await axios.post(`${basicConf.api}subscription/parse`, {

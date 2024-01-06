@@ -42,6 +42,7 @@ async function run(config) {
 	});
 	await test('[query] Select number of country per continent', () => {
 		assert.equal(query.status, 200);
+		assert.notEqual(!query.data.error, 200);
 
 		for (const result of results) {
 			const q = query.data.find(data => data.continent === result.continent);

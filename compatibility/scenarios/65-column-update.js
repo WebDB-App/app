@@ -95,5 +95,5 @@ export default run;
 /*
 import {loadConfig} from "../config.js";
 import servers from "../servers.js";
-await add(await loadConfig(servers.mysql));
+await add(await loadConfig(servers.cockroachdb));
 */

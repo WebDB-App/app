@@ -2,7 +2,6 @@
 	"name": "compatibility",
 	"type": "module",
 	"scripts": {
-		"launch:webdb": "docker rm -f webdb; docker pull webdb/app; docker run --name webdb -d --restart=always --add-host=\"host.docker.internal:host-gateway\" -p 22070:22071 webdb/app",
 		"test:docker": "node --test-reporter=spec --test-reporter=junit --test-reporter-destination=stdout --test-reporter-destination=./report.xml docker.js",
 		"test:app": "node --test-reporter=spec --test-reporter-destination=stdout app.js",
 		"test:dev": "node --test-reporter=spec --test-reporter-destination=stdout --watch docker.js"

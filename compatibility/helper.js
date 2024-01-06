@@ -1,6 +1,15 @@
 import {join} from "path";
 import {promises as fsp} from "fs";
 import {URL} from 'url';
+import {runBash} from "./config.js";
+
+export function runWebDB() {
+	if (!process.env.CI) {
+		return;
+	}
+	runBash(`docker rm -f webdb; docker pull webdb/app; docker run --name webdb -d --restart=always --add-host=\"host.docker.internal:host-gateway\" -p 22070:22071 webdb/app`);
+	runBash(`sleep 3`);
+}
 
 export function getDatabase(dbs, dbName) {
 	let found = dbs.find(db => db.name === dbName + " ¦ public");
