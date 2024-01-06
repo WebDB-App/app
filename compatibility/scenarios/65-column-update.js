@@ -79,9 +79,11 @@ async function run(config) {
 	await test("[column] Updated correspond to structure's one", () => {
 		const db = getDatabase(structure.data.dbs, config.database);
 		const table = db.tables.find(table => table.name === config.table);
-		const cols = table.columns.filter(col => !col.name.startsWith('_id'));
+		const cols = table.columns.filter(col => col.name !== '_id' && col.name !== "rowid");
 
 		after.type = after.type.replace('character varying', 'varchar');
+
+		//find index by name ??
 
 		assert.equal(cols[0].name, after.name);
 		assert.equal(cols[0].type, after.type);
@@ -95,5 +97,5 @@ export default run;
 /*
 import {loadConfig} from "../config.js";
 import servers from "../servers.js";
-await add(await loadConfig(servers.cockroachdb));
+await run(await loadConfig(servers.cockroachdb));
 */

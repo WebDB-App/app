@@ -1,7 +1,7 @@
 const columns01 = {
 	sql: [
 		{name: "cId", type: "int", nullable: false, defaut: null, extra: []},
-		{name: "cName", type: "varchar(200)", nullable: false, defaut: "name", extra: []},
+		{name: "cName", type: "text", nullable: false, defaut: "name", extra: []},
 		{name: "cDate", type: "date", nullable: false, defaut: null, extra: []},
 		{name: "cBinary", type: "json", nullable: false, defaut: null, extra: []}
 	],

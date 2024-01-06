@@ -17,7 +17,7 @@ async function run(config) {
 		headers: {"Content-Type": "multipart/form-data"}
 	});
 	const check_loaded = loaded.status === 200 && loaded.data.ok;
-	await test('[file] Load world dataset', async () => {
+	await test('[load] Load world dataset', async () => {
 		assert.ok(check_loaded);
 	});
 	if (!check_loaded) {
@@ -25,7 +25,7 @@ async function run(config) {
 	}
 
 	const structure = await axios.post(`${config.api}server/structure?full=0&size=50`, config.credentials);
-	await test('[file] World database is present in structure', () => {
+	await test('[load] World database is present in structure', () => {
 		assert.ok(getDatabase(structure.data.dbs, config.database));
 	});
 
@@ -34,15 +34,6 @@ async function run(config) {
 
 
 	//TODO dump -> file size ~ equivalent
-
-
-	//--------------------------------------------
-
-
-	//TODO load+dump json
-
-
-	//--------------------------------------------
 }
 
 /*
