@@ -14,14 +14,14 @@
 		"dotenv": "latest",
 		"express": "latest",
 		"mongodb": "latest",
-		"mssql": "latest",
 		"multer": "latest",
 		"mysql2": "latest",
 		"node-port-scanner": "latest",
 		"node-rsa": "latest",
 		"pg": "latest",
 		"simple-git": "latest",
-		"ssh2": "latest"
+		"ssh2": "latest",
+		"tedious": "latest"
 	},
 	"devDependencies": {
 		"eslint": "latest"

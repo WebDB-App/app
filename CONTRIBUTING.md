@@ -33,7 +33,7 @@ cd static && docker compose up -d
 
 #### Dataset
 
-You can found the world dataset sample on the [demo](https://demo.webdb.app) or [here](./static/world)
+You can found the world dataset sample on the [demo](https://demo.webdb.app) or [here](./static/)
 
 Here is other sample dataset
 - https://github.com/morenoh149/postgresDBSamples.git

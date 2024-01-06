@@ -1,4 +1,3 @@
-import pg from "pg";
 import SQL from "../shared/sql.js";
 import {writeFileSync} from "fs";
 import bash from "../shared/bash.js";
@@ -6,19 +5,19 @@ import {loadData} from "../shared/buffer.js";
 import {join} from "path";
 import version from "../shared/version.js";
 import {URL} from "url";
+import {Connection} from "tedious";
 
-const Pool = pg.Pool;
 const dirname = new URL(".", import.meta.url).pathname;
 
-export default class PostgreSQL extends SQL {
+export default class SQLServer extends SQL {
 
-	stringEscape = "$$";
-	commonUser = ["postgres", "postgre"];
-	commonPass = ["postgres", "postgre", "mysecretpassword"];
-	systemDbs = ["information_schema", "pg_catalog", "pg_toast", "pg_temp"];
+	stringEscape = "'";
+	commonUser = ["sa"];
+	commonPass = ["yourStrong(!)Password", "password_01", "<YourNewStrong!Passw0rd>"];
+	systemDbs = [];
 
 	async scan() {
-		return super.scan(this.host, 5430, 5450);
+		return super.scan(this.host, 1433, 1453);
 	}
 
 	async getViewCode(database, view) {
@@ -338,9 +337,9 @@ ${def[0]["pg_get_viewdef"]}`};
 	async dropDatabase(name) {
 		name = name.split(this.dbToSchemaDelimiter)[0];
 
-		let error = "Database deletion is not supported for this driver.\n";
+		let error = "Database deletion is not supported for the driver.\n";
 		error += "First, close all connection to this database, so restart WebDB and other possibly connected app\n";
-		error += "From your host or inside WebDB container, run: \n";
+		error += "Finally, inside the WebDB docker container, run: \n";
 		error += `psql ${this.makeUri()} -c 'DROP DATABASE ${this.nameDel + name + this.nameDel}'`;
 		return {error};
 	}
@@ -453,18 +452,27 @@ ${def[0]["pg_get_viewdef"]}`};
 		}
 	}
 
-	async establish(database = false) {
+	async establish() {
 		try {
 			const creds = {
-				host: this.host,
-				port: this.port,
-				user: this.user,
-				password: this.password,
-				database: database || "postgres",
-				...this.params
+				server: this.host,
+				authentication: {
+					type: "default",
+					options: {
+						userName: this.user,
+						password: this.password
+					}
+				},
+				options: {
+					database: "master",
+					port: this.port,
+					trustServerCertificate: true,
+					encrypt: true,
+					...this.params
+				}
 			};
 
-			const pool = new Pool(creds);
+			const pool = await new Connection(creds);
 			const connection = await pool.connect();
 			connection.release();
 

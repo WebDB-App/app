@@ -11,8 +11,8 @@ export class SQLServer extends SQL {
 
 		this.docs = {
 			driver: "https://github.com/brianc/node-postgres/blob/master/packages/pg/lib/defaults.js",
-			types: "https://www.postgresql.org/docs/current/datatype.html",
-			language: "https://www.postgresql.org/docs/current/sql-commands.html",
+			types: "https://learn.microsoft.com/en-us/sql/t-sql/data-types/data-types-transact-sql",
+			language: "https://learn.microsoft.com/sql/t-sql/language-reference",
 			dump: "https://www.postgresql.org/docs/current/app-pgdump.html"
 		}
 		this.language = {
@@ -312,7 +312,7 @@ async function main() {
 		this.format = (code: string) => {
 			try {
 				code = format(code, {
-					language: 'postgresql',
+					language: 'transactsql',
 					useTabs: true,
 					identifierCase: this.configuration.getByName('identifierCase')?.value,
 					keywordCase: this.configuration.getByName('keywordCase')?.value,
