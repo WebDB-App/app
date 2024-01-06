@@ -3,7 +3,7 @@ import {promises as fsp} from "fs";
 import {URL} from 'url';
 
 export function getDatabase(dbs, dbName) {
-	let found = dbs.find(db => db.name === dbName + ", public");
+	let found = dbs.find(db => db.name === dbName + " ¦ public");
 	if (found) {
 		return found;
 	}
