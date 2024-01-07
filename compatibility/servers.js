@@ -1,11 +1,17 @@
 const columns01 = {
-	sql: [
+	mysql: [
 		{name: "cId", type: "int", nullable: false, defaut: null, extra: []},
-		{name: "cName", type: "text", nullable: false, defaut: "name", extra: []},
+		{name: "cName", type: "varchar(200)", nullable: false, defaut: "name", extra: []},
 		{name: "cDate", type: "date", nullable: false, defaut: null, extra: []},
 		{name: "cBinary", type: "json", nullable: false, defaut: null, extra: []}
 	],
-	nosql: [
+	postgre: [
+		{name: "cId", type: "int", nullable: false, defaut: null, extra: []},
+		{name: "cName", type: "character varying(200)", nullable: false, defaut: "name", extra: []},
+		{name: "cDate", type: "date", nullable: false, defaut: null, extra: []},
+		{name: "cBinary", type: "json", nullable: false, defaut: null, extra: []}
+	],
+	mongo: [
 		{name: "cId", type: "Number", nullable: false, defaut: null, extra: []},
 		{name: "cName", type: "String", nullable: false, defaut: "name", extra: []},
 		{name: "cDate", type: "Date", nullable: false, defaut: null, extra: []},
@@ -23,7 +29,7 @@ export default {
 	mysql: {
 		internal_port: 3306,
 		external_port: 3307,
-		columns: columns01.sql,
+		columns: columns01.mysql,
 		docker: {
 			name: "library/mysql",
 			env: ["MYSQL_ROOT_PASSWORD=notSecureChangeMe"],
@@ -40,7 +46,7 @@ export default {
 	mariadb: {
 		internal_port: 3306,
 		external_port: 3308,
-		columns: columns01.sql,
+		columns: columns01.mysql,
 		docker: {
 			name: "library/mariadb",
 			env: ["MYSQL_ROOT_PASSWORD=notSecureChangeMe"],
@@ -56,7 +62,7 @@ export default {
 	percona: {
 		internal_port: 3306,
 		external_port: 3309,
-		columns: columns01.sql,
+		columns: columns01.mysql,
 		docker: {
 			exclusions: ["psmdb-"],
 			name: "library/percona",
@@ -84,7 +90,7 @@ export default {
 	mongo: {
 		internal_port: 27017,
 		external_port: 27017,
-		columns: columns01.nosql,
+		columns: columns01.mongo,
 		docker: {
 			exclusions: ["windowsservercore", "nanoserver"],
 			name: "library/mongo",
@@ -99,7 +105,7 @@ export default {
 	postgres: {
 		internal_port: 5432,
 		external_port: 5432,
-		columns: columns01.sql,
+		columns: columns01.postgre,
 		wrapper: "PostgreSQL",
 		docker: {
 			name: "library/postgres",
@@ -109,7 +115,7 @@ export default {
 	cockroachdb: {
 		internal_port: 26257,
 		external_port: 26257,
-		columns: columns01.sql,
+		columns: columns01.postgre,
 		wrapper: "PostgreSQL",
 		docker: {
 			name: "cockroachdb/cockroach",

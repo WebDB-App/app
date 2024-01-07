@@ -50,7 +50,7 @@ async function run(config) {
 		old: before,
 		columns: [after]
 	});
-	await test('[column] Became nullable', () => {
+	await test('[column] Set nullable', () => {
 		assert.equal(updatedNullable.status, 200);
 		assert.ok(!updatedNullable.data.error);
 	});
@@ -65,7 +65,7 @@ async function run(config) {
 		old: before,
 		columns: [after]
 	});
-	await test('[column] Default to "Example"', () => {
+	await test('[column] Set default to "Example"', () => {
 		assert.equal(updatedDefault.status, 200);
 		assert.ok(!updatedDefault.data.error);
 	});

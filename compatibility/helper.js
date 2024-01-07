@@ -16,12 +16,10 @@ export function getDatabase(dbs, dbName) {
 	if (found) {
 		return found;
 	}
-
 	found = dbs.find(db => db.name === dbName);
 	if (found) {
 		return found;
 	}
-
 	return false;
 }
 
