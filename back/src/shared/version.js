@@ -61,6 +61,12 @@ class Version {
 	}
 
 	async list(database, driver) {
+		if (process.env.WATCHER_EXCLUDE &&
+			(process.env.WATCHER_EXCLUDE === "true" ||
+				process.env.WATCHER_EXCLUDE.indexOf(database) >= 0)) {
+			return {error: "Feature disabled by backend"};
+		}
+
 		const dir = this.getPath(database, driver);
 		if (!existsSync(dir)) {
 			return [];

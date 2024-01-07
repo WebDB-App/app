@@ -1,5 +1,7 @@
 - ERD [Chrome bookmarks]
-
+- mysql/etc gui -> stackoverflow
+- lookup chrome history: stackoverflow+reddit+github (aleluff + webdb): filter mongo/mysql etc
+- finir tests
 
 
 
@@ -64,5 +66,4 @@
 
 
 
-- finir tests
 - Angular 17 avec material icône dans stackblitz

@@ -1,6 +1,6 @@
+/*
 import SQL from "../shared/sql.js";
 import {Connection} from "tedious";
-/*
 import {writeFileSync} from "fs";
 import bash from "../shared/bash.js";
 import {loadData} from "../shared/buffer.js";
@@ -9,7 +9,7 @@ import version from "../shared/version.js";
 import {URL} from "url";
 
 
-const dirname = new URL(".", import.meta.url).pathname;*/
+const dirname = new URL(".", import.meta.url).pathname
 
 export default class SQLServer extends SQL {
 
@@ -52,3 +52,4 @@ export default class SQLServer extends SQL {
 		}
 	}
 }
+*/
