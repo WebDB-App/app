@@ -73,6 +73,11 @@ ${def[0]["pg_get_viewdef"]}`
 			}
 		}
 		if (old.defaut !== column.defaut) {
+			if (column.defaut !== "" && !column.defaut.endsWith(")")
+				&& !["'", "\"", "`"].find(quote => column.defaut.startsWith(quote))) {
+				column.defaut = this.stringEscape + column.defaut + this.stringEscape;
+			}
+
 			const r = await this.runCommand(`ALTER TABLE ${this.nameDel + table + this.nameDel} ALTER COLUMN ${this.nameDel + column.name + this.nameDel} SET DEFAULT ${column.defaut || "NULL"}`, database);
 			if (r.error) {
 				return r;
