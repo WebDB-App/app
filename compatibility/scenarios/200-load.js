@@ -1,32 +1,28 @@
 import assert from 'node:assert';
 import {test} from "node:test";
-import axios from "axios";
-import * as fs from "fs";
+import {readFile} from "node:fs/promises";
 import {getDatabase, iterateDir} from "../helper.js";
-import FormData from 'form-data';
+import {multipart, post} from "../config.js";
 
 async function run(config) {
 
 	const files = await iterateDir(`../static/world-${config.wrapper.toLowerCase()}/`);
 	const form_data = new FormData();
 	for (const file of files) {
-		form_data.append("files[]", fs.createReadStream(file)/*, file.split('/').pop()*/);
+		form_data.append("files[]", new Blob([await readFile(file)]));
 	}
 
-	const loaded = await axios.post(`${config.api}server/load`, form_data, {
-		headers: {"Content-Type": "multipart/form-data"}
-	});
-	const check_loaded = loaded.status === 200 && loaded.data.ok;
+	const loaded = await multipart(`server/load`, form_data);
 	await test('[load] Load world dataset', async () => {
-		assert.ok(check_loaded);
+		assert.ok(loaded.ok);
 	});
-	if (!check_loaded) {
+	if (!loaded.ok) {
 		throw new Error();
 	}
 
-	const structure = await axios.post(`${config.api}server/structure?full=0&size=50`, config.credentials);
+	const structure = await post(`server/structure?full=0&size=50`, config.credentials);
 	await test('[load] World database is present in structure', () => {
-		assert.ok(getDatabase(structure.data.dbs, config.database));
+		assert.ok(getDatabase(structure.dbs, config.database));
 	});
 
 

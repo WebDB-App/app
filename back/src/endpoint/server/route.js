@@ -19,7 +19,7 @@ const upload = multer({storage});
 
 router.get("/scan", serverCtrl.scan);
 router.post("/guess", serverCtrl.guess);
-router.post("/load", upload.array("files[]", 30), serverCtrl.load);
+router.post("/load", upload.array("files[]", 100), serverCtrl.load);
 router.post("/dump", serverCtrl.dump);
 router.post("/connect", serverCtrl.connect);
 router.post("/structure", serverCtrl.getStructure.bind(serverCtrl));

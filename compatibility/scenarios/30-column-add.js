@@ -1,26 +1,25 @@
 import assert from 'node:assert';
-import axios from "axios";
 import {test} from "node:test";
 import {getDatabase} from "../helper.js";
+import {post} from "../config.js";
 
 async function run(config) {
 	const columns = config.columns.slice(1);
 
-	const created = await axios.post(`${config.api}column/add`, {columns});
+	const created = await post(`column/add`, {columns});
 	await test('[column] Creation ok', () => {
-		assert.equal(created.status, 200);
-		assert.ok(!created.data.error);
+		assert.ok(!created.error);
 	});
 
-	if (created.status !== 200 || created.data.error) {
+	if (created.error) {
 		throw new Error();
 	}
 
 	//--------------------------------------------
 
-	const structure = await axios.post(`${config.api}server/structure?full=1&size=50`, config.credentials);
+	const structure = await post(`server/structure?full=1&size=50`, config.credentials);
 	await test('[column] Created are present in structure', () => {
-		const db = getDatabase(structure.data.dbs, config.database);
+		const db = getDatabase(structure.dbs, config.database);
 		const table = db.tables.find(table => table.name === config.table);
 		const cols = table.columns.filter(col => col.name !== '_id' && col.name !== "rowid");
 

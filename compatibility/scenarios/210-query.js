@@ -1,7 +1,7 @@
 import assert from 'node:assert';
-import axios from "axios";
 import {test} from "node:test";
 import {countryPerContinent} from "../servers.js";
+import {post} from "../config.js";
 
 const results = [
 	{
@@ -35,17 +35,14 @@ const results = [
 ];
 
 async function run(config) {
-	const query = await axios.post(`${config.api}database/query`, {
+	const query = await post(`database/query`, {
 		query: countryPerContinent[config.wrapper],
 		page: 0,
 		pageSize: 100,
 	});
 	await test('[query] Select number of country per continent', () => {
-		assert.equal(query.status, 200);
-		assert.notEqual(!query.data.error, 200);
-
 		for (const result of results) {
-			const q = query.data.find(data => data.continent === result.continent);
+			const q = query.find(data => data.continent === result.continent);
 			assert.equal(q.nb, result.nb);
 		}
 	});
@@ -54,12 +51,11 @@ async function run(config) {
 	//--------------------------------------------
 
 
-	const querySize = await axios.post(`${config.api}database/querySize`, {
+	const querySize = await post(`database/querySize`, {
 		query: countryPerContinent[config.wrapper],
 	});
 	await test('[query] Good size result', () => {
-		assert.equal(querySize.status, 200);
-		assert.equal(querySize.data, results.length);
+		assert.equal(querySize, results.length);
 	});
 }
 

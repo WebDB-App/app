@@ -1,11 +1,11 @@
 import assert from 'node:assert';
 import {test} from "node:test";
-import axios from "axios";
+import {get, post} from "../config.js";
 
 async function run(config) {
 
-	const scan = await axios.get(`${config.api}server/scan`);
-	const check_scan = scan.data.find(sc => sc.port === config.credentials.port);
+	const scan = await get(`server/scan`);
+	const check_scan = scan.find(sc => sc.port === config.credentials.port);
 	await test('[server] Scan found docker port', () => {
 		assert.ok(check_scan);
 	});
@@ -15,8 +15,8 @@ async function run(config) {
 
 	//--------------------------------------------
 
-	const goodConnect = await axios.post(`${config.api}server/connect`, config.credentials);
-	const check_goodConnect = goodConnect.data.user && goodConnect.data.password;
+	const goodConnect = await post(`server/connect`, config.credentials);
+	const check_goodConnect = goodConnect.user && goodConnect.password;
 	await test('[server] Connect with hard coded credentials', () => {
 		assert.ok(check_goodConnect);
 	});
@@ -32,8 +32,8 @@ async function run(config) {
 
 	//--------------------------------------------
 
-	const guess = await axios.post(`${config.api}server/guess`, currentWithoutCreds);
-	const check_guess = guess.data.length >= 1;
+	const guess = await post(`server/guess`, currentWithoutCreds);
+	const check_guess = guess.length >= 1;
 	await test('[server] Guessed credentials', () => {
 		assert.ok(check_guess);
 	});
@@ -41,24 +41,24 @@ async function run(config) {
 
 		//--------------------------------------------
 
-		const connect = await axios.post(`${config.api}server/connect`, guess.data[0]);
+		const connect = await post(`server/connect`, guess[0]);
 		await test('[server] Connect with guessed credentials', () => {
-			assert.ok(connect.data.user);
-			assert.ok(connect.data.password);
+			assert.ok(connect.user);
+			assert.ok(connect.password);
 		});
 	}
 
 	//--------------------------------------------
 
-	const badConnect = await axios.post(`${config.api}server/connect`, currentWithoutCreds);
+	const badConnect = await post(`server/connect`, currentWithoutCreds);
 	await test('[server] Empty connect does not works', () => {
-		assert.ok(badConnect.data.error);
+		assert.ok(badConnect.error);
 	});
 
 	//--------------------------------------------
 
-	const preview = await axios.post(`${config.api}server/structure?full=0&size=50`, config.credentials);
-	const check_preview = preview.data.dbs.length >= 1;
+	const preview = await post(`server/structure?full=0&size=50`, config.credentials);
+	const check_preview = preview.dbs.length >= 1;
 	await test('[server] Peview structure', () => {
 		assert.ok(check_preview);
 	});
@@ -68,8 +68,8 @@ async function run(config) {
 
 	//--------------------------------------------
 
-	const full = await axios.post(`${config.api}server/structure?full=1&size=50`, config.credentials);
-	const check_full = full.data.dbs.length >= 1 && full.data.indexes.length >= 0 && full.data.relations.length >= 0;
+	const full = await post(`server/structure?full=1&size=50`, config.credentials);
+	const check_full = full.dbs.length >= 1 && full.indexes.length >= 0 && full.relations.length >= 0;
 	await test('[server] Full structure', () => {
 		assert.ok(check_full);
 	});

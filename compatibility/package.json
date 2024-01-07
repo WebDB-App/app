@@ -6,8 +6,5 @@
 		"test:app": "node --test-reporter=spec --test-reporter-destination=stdout app.js",
 		"test:dev": "node --test-reporter=spec --test-reporter-destination=stdout --watch docker.js"
 	},
-	"dependencies": {
-		"axios": "latest",
-		"form-data": "latest"
-	}
+	"dependencies": {}
 }

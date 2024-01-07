@@ -39,7 +39,7 @@ async function runScenarios(server) {
 						await scenario(config);
 						resolve(true);
 					} catch (e) {
-						console.error(e.message);
+						console.error(e);
 						resolve(false);
 					}
 				});
@@ -57,6 +57,6 @@ if (process.env.CI) {
 		await runScenarios(server);
 	}
 } else {
-	await runScenarios(list.postgres);
+	await runScenarios(list.mysql);
 	process.exit();
 }

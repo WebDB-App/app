@@ -1,7 +1,7 @@
 import assert from 'node:assert';
-import axios from "axios";
 import {test} from "node:test";
 import {getDatabase} from "../helper.js";
+import {post} from "../config.js";
 
 async function run(config) {
 	const before = {...config.columns[0]};
@@ -10,15 +10,14 @@ async function run(config) {
 	//--------------------------------------------
 
 	after.name = "changedName";
-	const updatedName = await axios.post(`${config.api}column/modify`, {
+	const updatedName = await post(`column/modify`, {
 		old: before,
 		columns: [after]
 	});
 	await test('[column] Rename ok', () => {
-		assert.equal(updatedName.status, 200);
-		assert.ok(!updatedName.data.error);
+		assert.ok(!updatedName.error);
 	});
-	if (updatedName.status !== 200 || !updatedName.data) {
+	if (updatedName.error) {
 		return;
 	}
 	before.name = after.name;
@@ -28,15 +27,14 @@ async function run(config) {
 
 
 	after.type = config.columns[1].type;
-	const updatedType = await axios.post(`${config.api}column/modify`, {
+	const updatedType = await post(`column/modify`, {
 		old: before,
 		columns: [after]
 	});
 	await test(`[column] Cast from ${before.type} to ${after.type} ok`, () => {
-		assert.equal(updatedType.status, 200);
-		assert.ok(!updatedType.data.error);
+		assert.ok(!updatedType.error);
 	});
-	if (updatedType.status !== 200 || !updatedType.data) {
+	if (updatedType.error) {
 		return;
 	}
 	before.type = after.type;
@@ -46,13 +44,12 @@ async function run(config) {
 
 
 	after.nullable = !after.nullable;
-	const updatedNullable = await axios.post(`${config.api}column/modify`, {
+	const updatedNullable = await post(`column/modify`, {
 		old: before,
 		columns: [after]
 	});
 	await test('[column] Set nullable', () => {
-		assert.equal(updatedNullable.status, 200);
-		assert.ok(!updatedNullable.data.error);
+		assert.ok(!updatedNullable.error);
 	});
 	before.nullable = after.nullable;
 
@@ -61,13 +58,12 @@ async function run(config) {
 
 
 	after.defaut = "Example";
-	const updatedDefault = await axios.post(`${config.api}column/modify`, {
+	const updatedDefault = await post(`column/modify`, {
 		old: before,
 		columns: [after]
 	});
 	await test('[column] Set default to "Example"', () => {
-		assert.equal(updatedDefault.status, 200);
-		assert.ok(!updatedDefault.data.error);
+		assert.ok(!updatedDefault.error);
 	});
 	before.defaut = after.defaut;
 
@@ -75,9 +71,9 @@ async function run(config) {
 	//--------------------------------------------
 
 
-	const structure = await axios.post(`${config.api}server/structure?full=1&size=50`, config.credentials);
+	const structure = await post(`server/structure?full=1&size=50`, config.credentials);
 	await test("[column] Updated correspond to structure's one", () => {
-		const db = getDatabase(structure.data.dbs, config.database);
+		const db = getDatabase(structure.dbs, config.database);
 		const table = db.tables.find(table => table.name === config.table);
 		const cols = table.columns.filter(col => col.name !== '_id' && col.name !== "rowid");
 
