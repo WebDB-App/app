@@ -10,7 +10,9 @@ async function runDocker(database, tag) {
 	runBash(`docker rm -f $(docker container ls --format="{{.ID}}\t{{.Ports}}" | grep ${database.credentials.port} | awk '{print $1}') 2> /dev/null || echo`)
 	runBash(`docker pull ${database.docker.name}:${tag} --quiet`);
 	const id = runBash(`docker run -d -p ${database.credentials.port}:${database.internal_port} ${database.docker.env.map(env => ` -e ${env}`).join(' ')} ${database.docker.name}:${tag} ${database.docker.cmd || ''}`);
-	runBash(`sleep 15`);
+	await new Promise(resolve => {
+		setTimeout(resolve, 15_000);
+	});
 	return id;
 }
 
@@ -39,7 +41,7 @@ async function runScenarios(server) {
 						await scenario(config);
 						resolve(true);
 					} catch (e) {
-						console.error(e);
+						console.error(e.message);
 						resolve(false);
 					}
 				});

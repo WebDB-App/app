@@ -100,17 +100,17 @@ class Version {
 			bash.runBash(`mkdir -p ${dir} && cd ${dir} && git init --initial-branch=main`);
 		}
 
-		const result = await driver.saveState(join(dir, database), database);
-		if (result.error) {
-			console.error(r.error);
+		const state = await driver.saveState(join(dir, database), database);
+		if (state.error) {
+			console.error(state.error);
 			return;
 		}
-		const r = bash.runBash(`cd ${dir} && git add --all && (git commit -m '${(new Date()).getTime()}' || echo)`);
-		if (r.error) {
-			console.error(r.error);
+		const commit = bash.runBash(`cd ${dir} && git add --all && (git commit -m '${(new Date()).getTime()}' || echo)`);
+		if (commit.error) {
+			console.error(commit.error);
 			return;
 		}
-		return r;
+		return commit;
 	}
 
 	commandFinished(driver, command, database, force = false) {
