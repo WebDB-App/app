@@ -79,8 +79,13 @@ class Version {
 
 	async saveChanges(database, driver) {
 		const limit = +process.env.WATCHER_LIMIT || 1_000_000_000;
-		const stats = await driver.statsDatabase(database);
-		if (stats.data_length && stats.data_length > limit) {
+		try {
+			const stats = await driver.statsDatabase(database);
+			if (stats.data_length && stats.data_length > limit) {
+				return;
+			}
+		} catch (e) {
+			console.error(e);
 			return;
 		}
 

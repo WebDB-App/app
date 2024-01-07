@@ -81,10 +81,6 @@ async function run(config) {
 		const table = db.tables.find(table => table.name === config.table);
 		const cols = table.columns.filter(col => col.name !== '_id' && col.name !== "rowid");
 
-		after.type = after.type.replace('character varying', 'varchar');
-
-		//find index by name ??
-
 		assert.equal(cols[0].name, after.name);
 		assert.equal(cols[0].type, after.type);
 		assert.equal(cols[0].defaut.replaceAll("'", ""), after.defaut);

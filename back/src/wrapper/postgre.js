@@ -55,11 +55,11 @@ ${def[0]["pg_get_viewdef"]}`
 			}
 		}
 		if (old.type !== column.type) {
-			let r = await this.runCommand(`ALTER TABLE ${this.nameDel + table + this.nameDel} ALTER COLUMN ${this.nameDel + column.name + this.nameDel} TYPE ${this.nameDel + column.type + this.nameDel}`, database);
+			let r = await this.runCommand(`ALTER TABLE ${this.nameDel + table + this.nameDel} ALTER COLUMN ${this.nameDel + column.name + this.nameDel} TYPE ${column.type}`, database);
 			if (r.error) {
 				const match = /"(USING .*)"/.exec(r.error);
 				if (match?.length > 0) {
-					r = await this.runCommand(`ALTER TABLE ${this.nameDel + table + this.nameDel} ALTER COLUMN ${this.nameDel + column.name + this.nameDel} TYPE ${this.nameDel + column.type + this.nameDel} ${match[1]}`, database);
+					r = await this.runCommand(`ALTER TABLE ${this.nameDel + table + this.nameDel} ALTER COLUMN ${this.nameDel + column.name + this.nameDel} TYPE ${column.type} ${match[1]}`, database);
 				}
 				if (r.error) {
 					return r;
