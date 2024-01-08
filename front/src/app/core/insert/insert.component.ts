@@ -298,8 +298,7 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 				row,
 				updateInPlace: false
 			},
-			id: (this.paginator.pageIndex * this.paginator.pageSize + i).toString(),
-			hasBackdrop: false
+			hasBackdrop: true
 		});
 
 		dialogRef.afterClosed().subscribe(async result => {

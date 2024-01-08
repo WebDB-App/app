@@ -1,4 +1,5 @@
 import {execSync} from "child_process";
+import { fetchToCurl } from 'fetch-to-curl';
 
 export const basicConf = {
 	credentials: {
@@ -40,56 +41,52 @@ export async function loadConfig(server) {
 	return conf;
 }
 
-export async function get(url) {
+async function runFetch(url, init) {
+	url = apiAddr + url;
 	if (!process.env.CI) {
-		console.log(url);
+		console.log(fetchToCurl(url, init));
 	}
-	const response = await fetch(apiAddr + url, {
-		headers: globalHeaders,
-		method: 'GET'
-	});
+	const response = await fetch(url, init);
 	return await response.json();
 }
 
-export async function post(url, body, _headers) {
-	if (!process.env.CI) {
-		console.log(url);
-	}
+export async function get(url) {
+	return await runFetch(url, {
+		headers: globalHeaders,
+		method: 'GET'
+	});
+}
 
+export async function post(url, body, _headers) {
 	const controller = new AbortController();
 	const id = setTimeout(() => controller.abort(), process.env.CI ? 60_000 : 600_000);
 	const headers = {...globalHeaders, ..._headers};
 
-	const response = await fetch(apiAddr + url, {
+	const r = await runFetch(url, {
 		body: JSON.stringify(body),
 		headers,
 		method: 'POST',
 		signal: controller.signal
 	});
 	clearTimeout(id);
-
-	return await response.json();
+	return r;
 }
 
 export async function multipart(url, body, _headers) {
-	if (!process.env.CI) {
-		console.log(url);
-	}
-
 	const controller = new AbortController();
 	const id = setTimeout(() => controller.abort(), process.env.CI ? 60_000 : 600_000);
 
 	const headers = {...globalHeaders, ..._headers};
 	delete headers["Content-Type"];
 
-	const response = await fetch(apiAddr + url, {
+	const r = await runFetch(url, {
 		body,
 		headers,
 		method: 'POST',
 		signal: controller.signal
 	});
 	clearTimeout(id);
-	return await response.json();
+	return r;
 }
 
 

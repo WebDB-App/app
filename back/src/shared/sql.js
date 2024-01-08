@@ -134,7 +134,7 @@ export default class SQL extends Driver {
 	async insert(db, table, datas) {
 		const values = [];
 		for (const data of datas) {
-			values.push(`(${Object.values(data).join(", ")})`);
+			values.push(`(${Object.values(data).map(d => d === null ? "NULL" : d).join(", ")})`);
 		}
 
 		const res = await this.nbChangment(`INSERT INTO ${this.nameDel + table + this.nameDel} (${Object.keys(datas[0]).join(",")}) VALUES ${values.join(", ")}`, db);
@@ -184,11 +184,13 @@ export default class SQL extends Driver {
 	}
 
 	async querySize(query, database) {
+		query = this.cleanQuery(query);
+
 		if (!sql_isSelect(query)) {
 			return null;
 		}
 
-		const result = await this.runCommand(`SELECT COUNT(*) AS querysize FROM (${this.cleanQuery(query)}) AS query`, database);
+		const result = await this.runCommand(`SELECT COUNT(*) AS querysize FROM (${query}) AS query`, database);
 		return result.error ? "0" : result[0]["querysize"];
 	}
 

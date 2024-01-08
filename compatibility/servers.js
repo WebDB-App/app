@@ -19,10 +19,65 @@ const columns01 = {
 	]
 }
 
-export const countryPerContinent = {
-	PostgreSQL: "SELECT continent.name AS continent, COUNT(country.id) AS nb FROM continent LEFT JOIN country ON continent.id = country.continent_id GROUP BY continent.name ORDER BY continent.name;",
-	MySQL: "SELECT continent.name AS continent, COUNT(country.id) AS nb FROM continent LEFT JOIN country ON continent.id = country.continent_id GROUP BY continent.name ORDER BY continent.name;",
-	MongoDB: "db.collection('country').aggregate([ { $group: { _id: \"$continent_id\", nb: { $sum: 1 } } }, { $lookup: { from: \"continent\", localField: \"_id\", foreignField: \"_id\", as: \"continent\" } }, { $project: { _id: 0, continent: { $arrayElemAt: [\"$continent.name\", 0] }, nb: 1 } }, { $sort: { continent: 1 } } ]).toArray()"
+export const citiesPerContinent = {
+	PostgreSQL: `SELECT
+	c.name AS continent_name,
+	COUNT(ct.name) AS city_count
+FROM
+	continent c
+	LEFT JOIN country cn ON c.id = cn.continent_id
+	LEFT JOIN city ct ON cn.id = ct.country_id
+GROUP BY
+	continent_name
+ORDER BY
+	continent_name;`,
+	MySQL: `SELECT
+	c.name AS continent_name,
+	COUNT(ct.name) AS city_count
+FROM
+	continent c
+	LEFT JOIN country cn ON c.id = cn.continent_id
+	LEFT JOIN city ct ON cn.id = ct.country_id
+GROUP BY
+	continent_name
+ORDER BY
+	continent_name;`,
+	MongoDB: `db.collection("city").aggregate([
+    {
+        $lookup: {
+            from: "country",
+            localField: "country_id",
+            foreignField: "_id",
+            as: "country"
+        }
+    },
+    {
+        $lookup: {
+            from: "continent",
+            localField: "country.continent_id",
+            foreignField: "_id",
+            as: "continent"
+        }
+    },
+    {
+        $group: {
+            _id: "$continent.name",
+            city_count: { $sum: 1 }
+        }
+    },
+    {
+        $project: {
+            continent_name: { $arrayElemAt: ["$_id", 0] },
+            city_count: 1,
+            _id: 0
+        }
+    },
+    {
+        $sort: {
+            continent_name: 1
+        }
+    }
+]).toArray()`
 }
 
 export default {
