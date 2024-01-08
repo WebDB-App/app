@@ -20,7 +20,6 @@ const localKeyConfig = 'ia-config';
 enum Provider {
 	openai = "OpenAI",
 	gemini = "Gemini",
-	perplexity = "Perplexity",
 }
 
 enum Role {
@@ -97,7 +96,6 @@ export class AiComponent implements OnInit, OnDestroy {
 		model: "gpt-3.5-turbo-16k",
 		openAI: '',
 		gemini: '',
-		perplexity: '',
 		temperature: 1,
 		top_p: 1
 	};
@@ -109,6 +107,8 @@ export class AiComponent implements OnInit, OnDestroy {
 	}
 	stream?: string;
 	abort = false;
+	showPrompt = false;
+
 	@ViewChild('scrollContainer') public scrollContainer!: ElementRef;
 	protected readonly Math = Math;
 	protected readonly Object = Object;
@@ -194,19 +194,6 @@ export class AiComponent implements OnInit, OnDestroy {
 			];
 		}
 
-		if (this.config.perplexity) {
-			this.models[Provider.perplexity] = [
-				{name: "pplx-7b-chat", bold: false},
-				{name: "pplx-7b-online", bold: false},
-				{name: "pplx-70b-chat", bold: true},
-				{name: "pplx-70b-online", bold: false},
-				{name: "llama-2-70b-chat", bold: true},
-				{name: "codellama-34b-instruct", bold: true},
-				{name: "mistral-7b-instruct", bold: false},
-				{name: "mixtral-8x7b-instruct", bold: true},
-			];
-		}
-
 		if (this.config.gemini) {
 			this.gemini = new GoogleGenerativeAI(this.config.gemini);
 			this.models[Provider.gemini] = [
@@ -256,7 +243,7 @@ export class AiComponent implements OnInit, OnDestroy {
 			}
 		}
 
-		this.stream = "";
+		this.stream = "Sending prompt ...";
 		const rBody = {
 			model: this.config.model,
 			messages: [
@@ -275,6 +262,7 @@ export class AiComponent implements OnInit, OnDestroy {
 
 			this.chat.push(await new Promise<Msg>(resolve => {
 				stream.then(async str => {
+					this.stream = "";
 					for await (const part of str) {
 						if (this.abort) {
 							this.abort = false;
@@ -288,45 +276,6 @@ export class AiComponent implements OnInit, OnDestroy {
 				}).catch(error => {
 					resolve(new Msg(error.message || `An error occurred during OpenAI request: ` + error, Role.Assistant, true))
 				});
-			}));
-		} else if (provider === Provider.perplexity) {
-			this.chat.push(await new Promise<Msg>(async resolve => {
-				this.stream = "";
-				const decoder = new TextDecoder();
-				const options = {
-					method: 'POST',
-					headers: {
-						'content-type': 'application/json',
-						authorization: 'Bearer ' + this.config.perplexity
-					},
-					body: JSON.stringify(rBody)
-				};
-
-				try {
-					const stream = await fetch('https://try.readme.io/https://api.perplexity.ai/chat/completions', options);
-					if (!stream.ok) {
-						throw new Error(`code: ${stream.status}`);
-					}
-					const reader = stream.body!.getReader();
-					let result;
-					do {
-						if (this.abort) {
-							this.abort = false;
-							break;
-						}
-						result = await reader.read();
-						const text = decoder.decode(result.value).split('data: ')[1];
-						if (!text) {
-							break;
-						}
-						this.stream = JSON.parse(text).choices[0]?.message?.content || '';
-						this.scrollToBottom();
-					} while (!result.done);
-
-					resolve(new Msg(this.stream!, Role.Assistant));
-				} catch (error: any) {
-					resolve(new Msg(error.error?.message || `An error occurred during Perplexity request: ` + error, Role.Assistant, true))
-				}
 			}));
 		} else if (provider === Provider.gemini) {
 			const model = this.gemini!.getGenerativeModel({
@@ -345,6 +294,7 @@ export class AiComponent implements OnInit, OnDestroy {
 							return ch.txt;
 						}))
 					]);
+					this.stream = "";
 					for await (const chunk of result.stream) {
 						if (this.abort) {
 							this.abort = false;
@@ -406,14 +356,6 @@ export class AiComponent implements OnInit, OnDestroy {
 			return true;
 		}
 		return !!this.config.openAI.match(/^sk-[a-zA-Z0-9]{32,}$/);
-	}
-
-	goodPerplexity() {
-		if (!this.config.perplexity) {
-			return true;
-		}
-
-		return !!this.config.perplexity.match(/^pplx-[a-zA-Z0-9]{48,}$/);
 	}
 
 	goodGemini() {

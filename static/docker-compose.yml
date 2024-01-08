@@ -25,10 +25,10 @@ services:
             MONGO_INITDB_ROOT_USERNAME: root
             MONGO_INITDB_ROOT_PASSWORD: notSecureChangeMe
 
-    sqldata:
-        image: mcr.microsoft.com/mssql/server:2022-latest
-        environment:
-            - MSSQL_SA_PASSWORD=yourStrong(!)Password
-            - ACCEPT_EULA=Y
-        ports:
-            - "1433:1433"
+#    sqldata:
+#        image: mcr.microsoft.com/mssql/server:2022-latest
+#        environment:
+#            - MSSQL_SA_PASSWORD=yourStrong(!)Password
+#            - ACCEPT_EULA=Y
+#        ports:
+#            - "1433:1433"

@@ -24,6 +24,29 @@
 				</button>
 			</mat-form-field>
 
+			<mat-form-field
+				appearance="legacy"
+				color="accent"
+				style="margin-bottom: -1.25em;">
+				<mat-label>Model</mat-label>
+				<mat-select
+					(selectionChange)="configChange()"
+					[(ngModel)]="config.model"
+					disableOptionCentering>
+					<mat-optgroup
+						*ngFor="let provider of Object.keys(models)"
+						[label]="provider"
+						class="hasBold">
+						<mat-option
+							*ngFor="let model of models[provider]"
+							[class.bold]="model.bold"
+							[value]="model.name">
+							{{ model.name }}
+						</mat-option>
+					</mat-optgroup>
+				</mat-select>
+			</mat-form-field>
+
 			<div>
 				<button
 					(click)="chat = []; saveChat()"
@@ -121,11 +144,20 @@
 				</div>
 			</div>
 
+			<button
+				(click)="showPrompt = true"
+				*ngIf="showPrompt === false"
+				color="accent"
+				mat-button>
+				Show Prompt
+			</button>
+
 			<div style="position: relative; padding: 0px;">
 				<ngx-monaco-editor
+					[hidden]="!showPrompt"
 					[(ngModel)]="sample"
 					[options]="editorOptions"
-					style="min-width: inherit; flex: 1; min-height: 200px"
+					style="min-width: inherit; flex: 1; min-height: 300px"
 				></ngx-monaco-editor>
 			</div>
 		</mat-card>
@@ -152,25 +184,6 @@
 					</mat-error>
 				</div>
 				<div>
-					<a href="https://www.perplexity.ai/settings/api"
-					   mat-button
-					   target="_blank">
-						<mat-icon svgIcon="perplexity"></mat-icon>
-						Perplexity
-					</a>
-
-					<mat-form-field appearance="standard">
-						<mat-label>Bearer</mat-label>
-						<input
-							(change)="goodPerplexity() ? configChange() : undefined"
-							[(ngModel)]="config.perplexity"
-							matInput>
-					</mat-form-field>
-					<mat-error *ngIf="!goodPerplexity()">
-						Bad bearer format
-					</mat-error>
-				</div>
-				<div>
 					<a href="https://platform.openai.com/account"
 					   mat-button
 					   target="_blank">
@@ -191,30 +204,7 @@
 				</div>
 			</div>
 
-			<div class="centered">
-				<mat-form-field
-					appearance="outline"
-					color="accent"
-					style="margin-bottom: -1.25em;">
-					<mat-label>Model</mat-label>
-					<mat-select
-						(selectionChange)="configChange()"
-						[(ngModel)]="config.model"
-						disableOptionCentering>
-						<mat-optgroup
-							*ngFor="let provider of Object.keys(models)"
-							[label]="provider"
-							class="hasBold">
-							<mat-option
-								*ngFor="let model of models[provider]"
-								[class.bold]="model.bold"
-								[value]="model.name">
-								{{ model.name }}
-							</mat-option>
-						</mat-optgroup>
-					</mat-select>
-				</mat-form-field>
-
+			<div class="centered" style="min-width: 150px;">
 				<div class="slider">
 					<div>
 						<span matTooltip="Higher values will make the output more random
@@ -259,14 +249,14 @@
 
 	<div #scrollContainer id="container">
 
-		<div *ngIf="!config.openAI && !config.gemini && !config.perplexity" style="margin-bottom: 30vh">
+		<div *ngIf="!config.openAI && !config.gemini" style="margin-bottom: 30vh">
 			<br><br>
 			<h3 style="text-align: center; border-bottom: 1px dashed grey">
 				Enter a key to use assistant ↗
 			</h3>
 		</div>
 
-		<div *ngIf="!chat.length && (config.openAI || config.gemini || config.perplexity)">
+		<div *ngIf="!chat.length && (config.openAI || config.gemini)">
 			<br><br>
 			<h3 style="text-align: center; border-bottom: 1px dashed grey">Some examples</h3>
 			<div id="examples">
