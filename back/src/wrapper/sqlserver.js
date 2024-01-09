@@ -13,7 +13,6 @@ const dirname = new URL(".", import.meta.url).pathname
 
 export default class SQLServer extends SQL {
 
-	stringEscape = "'";
 	commonUser = ["sa"];
 	commonPass = ["yourStrong(!)Password", "password_01", "<YourNewStrong!Passw0rd>"];
 	systemDbs = [];

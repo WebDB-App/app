@@ -4,7 +4,6 @@ export default class Driver {
 
 	dbToSchemaDelimiter = " ¦ ";
 	nameDel = "\"";
-	stringEscape = "'";
 
 	connection;
 	port;

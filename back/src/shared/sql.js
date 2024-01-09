@@ -4,12 +4,20 @@ import {singleLine, sql_isSelect} from "./helper.js";
 
 export default class SQL extends Driver {
 
+	escapeValue(value) {
+		return value;
+	}
+
+	escapeId(id) {
+		return id;
+	}
+
 	columnToSQL(column) {
 		if (!column.name || !column.type) {
 			return;
 		}
 
-		let cmd = `${this.nameDel + column.name + this.nameDel} ${column.type} `;
+		let cmd = `${this.escapeId(column.name)} ${column.type} `;
 
 		if (!column.nullable) {
 			cmd += "NOT NULL ";
@@ -23,7 +31,7 @@ export default class SQL extends Driver {
 		if (Object.keys(column).indexOf("defaut") >= 0) {
 			if (column.defaut && column.defaut !== "" && !column.defaut.endsWith(")")
 				&& !["'", "\"", "`"].find(quote => column.defaut.startsWith(quote))) {
-				column.defaut = this.stringEscape + column.defaut + this.stringEscape;
+				column.defaut = this.escapeValue(column.defaut);
 			}
 			cmd += `DEFAULT ${column.defaut || "NULL"} `;
 		}
@@ -34,7 +42,7 @@ export default class SQL extends Driver {
 		let sql = [];
 		for (const [col, value] of Object.entries(data)) {
 			if (typeof value === "string") {
-				sql.push(`${col} = ${this.stringEscape + value + this.stringEscape}`);
+				sql.push(`${col} = ${this.escapeValue(value)}`);
 			} else if (value === null) {
 				sql.push(`${col} ${where ? "IS" : "="} ${value}`);
 			} else {
@@ -46,61 +54,61 @@ export default class SQL extends Driver {
 	}
 
 	async createDatabase(name) {
-		return await this.runCommand(`CREATE DATABASE ${this.nameDel + name + this.nameDel}`);
+		return await this.runCommand(`CREATE DATABASE ${this.escapeId(name)}`);
 	}
 
 	async addRelation(relation) {
 		return await this.runCommand(`ALTER TABLE
-    		${this.nameDel + relation.table_source + this.nameDel}
-    		ADD CONSTRAINT ${this.nameDel + relation.name + this.nameDel}
-    		FOREIGN KEY (${this.nameDel + relation.column_source + this.nameDel})
-    		REFERENCES ${this.nameDel + relation.table_dest + this.nameDel} (${this.nameDel + relation.column_dest + this.nameDel})
+    		${this.escapeId(relation.table_source)}
+    		ADD CONSTRAINT ${this.escapeId(relation.name)}
+    		FOREIGN KEY (${this.escapeId(relation.column_source)})
+    		REFERENCES ${this.escapeId(relation.table_dest)} (${this.escapeId(relation.column_dest)})
 			ON DELETE ${relation.delete_rule}
 			ON UPDATE ${relation.update_rule}`,
 		relation.database);
 	}
 
 	async dropRelation(relation) {
-		return await this.runCommand(`ALTER TABLE ${this.nameDel + relation.table_source + this.nameDel} DROP CONSTRAINT ${this.nameDel + relation.name + this.nameDel}`, relation.database);
+		return await this.runCommand(`ALTER TABLE ${this.escapeId(relation.table_source)} DROP CONSTRAINT ${this.escapeId(relation.name)}`, relation.database);
 	}
 
 	async exampleData(database, table, column, limit) {
-		const examples = await this.runCommand(`SELECT DISTINCT ${this.nameDel + column + this.nameDel} as example FROM ${this.nameDel + table + this.nameDel} ORDER BY example ASC LIMIT ${limit}`, database);
+		const examples = await this.runCommand(`SELECT DISTINCT ${this.escapeId(column)} as example FROM ${this.escapeId(table)} ORDER BY example ASC LIMIT ${limit}`, database);
 		return examples.map(example => example.example);
 	}
 
 	async dropDatabase(name) {
-		return await this.runCommand(`DROP DATABASE ${this.nameDel + name + this.nameDel}`);
+		return await this.runCommand(`DROP DATABASE ${this.escapeId(name)}`);
 	}
 
 	async createTable(database, table) {
 		const cols = table.columns.map(column => this.columnToSQL(column)).filter(col => col).join(", ");
-		return await this.runCommand(`CREATE TABLE ${this.nameDel + table.name + this.nameDel} (${cols})`, database);
+		return await this.runCommand(`CREATE TABLE ${this.escapeId(table.name)} (${cols})`, database);
 	}
 
 	async createView(database, view, code) {
-		return await this.runCommand(`CREATE VIEW ${this.nameDel + view + this.nameDel} AS ${code}`, database);
+		return await this.runCommand(`CREATE VIEW ${this.escapeId(view)} AS ${code}`, database);
 	}
 
 	async dropTable(database, table) {
-		return await this.runCommand(`DROP TABLE ${this.nameDel + table + this.nameDel};`, database);
+		return await this.runCommand(`DROP TABLE ${this.escapeId(table)};`, database);
 	}
 
 	async truncateTable(database, table) {
-		return await this.runCommand(`TRUNCATE TABLE ${this.nameDel + table + this.nameDel};`, database);
+		return await this.runCommand(`TRUNCATE TABLE ${this.escapeId(table)};`, database);
 	}
 
 	async dropView(database, table) {
-		return await this.runCommand(`DROP VIEW ${this.nameDel + table + this.nameDel};`, database);
+		return await this.runCommand(`DROP VIEW ${this.escapeId(table)};`, database);
 	}
 
 	async renameTable(database, old_name, new_name) {
-		return await this.runCommand(`ALTER TABLE ${this.nameDel + old_name + this.nameDel} RENAME TO ${this.nameDel + new_name + this.nameDel}`, database);
+		return await this.runCommand(`ALTER TABLE ${this.escapeId(old_name)} RENAME TO ${this.escapeId(new_name)}`, database);
 	}
 
 	async addColumns(database, table, columns) {
 		for (const column of columns) {
-			const result = await this.runCommand(`ALTER TABLE ${this.nameDel + table + this.nameDel} ADD COLUMN ${this.columnToSQL(column)}`, database);
+			const result = await this.runCommand(`ALTER TABLE ${this.escapeId(table)} ADD COLUMN ${this.columnToSQL(column)}`, database);
 			if (result.error) {
 				return result;
 			}
@@ -110,7 +118,7 @@ export default class SQL extends Driver {
 	}
 
 	async dropColumn(database, table, column) {
-		return await this.runCommand(`ALTER TABLE ${this.nameDel + table + this.nameDel} DROP COLUMN ${this.nameDel + column + this.nameDel}`, database);
+		return await this.runCommand(`ALTER TABLE ${this.escapeId(table)} DROP COLUMN ${this.escapeId(column)}`, database);
 	}
 
 	pkToObject(indexes, row) {
@@ -137,7 +145,7 @@ export default class SQL extends Driver {
 			values.push(`(${Object.values(data).map(d => d === null ? "NULL" : d).join(", ")})`);
 		}
 
-		const res = await this.nbChangment(`INSERT INTO ${this.nameDel + table + this.nameDel} (${Object.keys(datas[0]).join(",")}) VALUES ${values.join(", ")}`, db);
+		const res = await this.nbChangment(`INSERT INTO ${this.escapeId(table)} (${Object.keys(datas[0]).join(",")}) VALUES ${values.join(", ")}`, db);
 		return res.error ? res : res.toString();
 	}
 
@@ -147,7 +155,7 @@ export default class SQL extends Driver {
 
 		for (const row of rows) {
 			const where = this.objectToSql(this.pkToObject(pks, row)).join(" AND ");
-			const res = (await this.nbChangment(`DELETE FROM ${this.nameDel + table + this.nameDel} WHERE ${where}`, db));
+			const res = (await this.nbChangment(`DELETE FROM ${this.escapeId(table)} WHERE ${where}`, db));
 			if (res.error) {
 				return res;
 			}
@@ -174,7 +182,7 @@ export default class SQL extends Driver {
 		const update = this.objectToSql(to_update, false);
 		const where = this.objectToSql(this.pkToObject(pks, old_data));
 
-		const res = await this.nbChangment(`UPDATE ${this.nameDel + table + this.nameDel} SET ${update.join(", ")} WHERE ${where.join(" AND ")}`, db);
+		const res = await this.nbChangment(`UPDATE ${this.escapeId(table)} SET ${update.join(", ")} WHERE ${where.join(" AND ")}`, db);
 		return res.error ? res : res.toString();
 	}
 

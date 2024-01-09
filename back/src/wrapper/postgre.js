@@ -12,10 +12,17 @@ const dirname = new URL(".", import.meta.url).pathname;
 
 export default class PostgreSQL extends SQL {
 
-	stringEscape = "$$";
 	commonUser = ["postgres", "postgre"];
 	commonPass = ["postgres", "postgre", "mysecretpassword"];
 	systemDbs = ["information_schema", "pg_catalog", "pg_toast", "pg_temp"];
+
+	escapeValue(value) {
+		return pg.escapeLiteral(value);
+	}
+
+	escapeId(id) {
+		return pg.escapeIdentifier(id);
+	}
 
 	async scan() {
 		return super.scan(this.host, 5430, 5450);
@@ -35,7 +42,7 @@ ${def[0]["pg_get_viewdef"]}`
 		const getSample = async (table) => {
 			return {
 				structure: (bash.runBash(`pg_dump ${this.makeUri(database)} -t '${schema}.${table}' --schema-only`)).result,
-				data: await this.runCommand(`SELECT * FROM ${this.nameDel + table + this.nameDel} LIMIT ${count}`, name)
+				data: await this.runCommand(`SELECT * FROM ${this.escapeId(table)} LIMIT ${count}`, name)
 			};
 		};
 
@@ -49,17 +56,17 @@ ${def[0]["pg_get_viewdef"]}`
 
 	async modifyColumn(database, table, old, column) {
 		if (old.name !== column.name) {
-			const r = await this.runCommand(`ALTER TABLE ${this.nameDel + table + this.nameDel} RENAME COLUMN ${this.nameDel + old.name + this.nameDel} TO ${this.nameDel + column.name + this.nameDel}`, database);
+			const r = await this.runCommand(`ALTER TABLE ${this.escapeId(table)} RENAME COLUMN ${this.escapeId(old.name)} TO ${this.escapeId(column.name)}`, database);
 			if (r.error) {
 				return r;
 			}
 		}
 		if (old.type !== column.type) {
-			let r = await this.runCommand(`ALTER TABLE ${this.nameDel + table + this.nameDel} ALTER COLUMN ${this.nameDel + column.name + this.nameDel} TYPE ${column.type}`, database);
+			let r = await this.runCommand(`ALTER TABLE ${this.escapeId(table)} ALTER COLUMN ${this.escapeId(column.name)} TYPE ${column.type}`, database);
 			if (r.error) {
 				const match = /"(USING .*)"/.exec(r.error);
 				if (match?.length > 0) {
-					r = await this.runCommand(`ALTER TABLE ${this.nameDel + table + this.nameDel} ALTER COLUMN ${this.nameDel + column.name + this.nameDel} TYPE ${column.type} ${match[1]}`, database);
+					r = await this.runCommand(`ALTER TABLE ${this.escapeId(table)} ALTER COLUMN ${this.escapeId(column.name)} TYPE ${column.type} ${match[1]}`, database);
 				}
 				if (r.error) {
 					return r;
@@ -67,7 +74,7 @@ ${def[0]["pg_get_viewdef"]}`
 			}
 		}
 		if (old.nullable !== column.nullable) {
-			const r = await this.runCommand(`ALTER TABLE ${this.nameDel + table + this.nameDel} ALTER COLUMN ${this.nameDel + column.name + this.nameDel} ${column.nullable ? "DROP NOT NULL" : "SET NOT NULL"}`, database);
+			const r = await this.runCommand(`ALTER TABLE ${this.escapeId(table)} ALTER COLUMN ${this.escapeId(column.name)} ${column.nullable ? "DROP NOT NULL" : "SET NOT NULL"}`, database);
 			if (r.error) {
 				return r;
 			}
@@ -75,10 +82,10 @@ ${def[0]["pg_get_viewdef"]}`
 		if (old.defaut !== column.defaut) {
 			if (column.defaut !== "" && !column.defaut.endsWith(")")
 				&& !["'", "\"", "`"].find(quote => column.defaut.startsWith(quote))) {
-				column.defaut = this.stringEscape + column.defaut + this.stringEscape;
+				column.defaut = this.escapeValue(column.defaut);
 			}
 
-			const r = await this.runCommand(`ALTER TABLE ${this.nameDel + table + this.nameDel} ALTER COLUMN ${this.nameDel + column.name + this.nameDel} SET DEFAULT ${column.defaut || "NULL"}`, database);
+			const r = await this.runCommand(`ALTER TABLE ${this.escapeId(table)} ALTER COLUMN ${this.escapeId(column.name)} SET DEFAULT ${column.defaut || "NULL"}`, database);
 			if (r.error) {
 				return r;
 			}
@@ -185,7 +192,7 @@ ${def[0]["pg_get_viewdef"]}`
 					row[index] = `'{${JSON.stringify(obj).slice(1, -1)}}'`;
 				}
 				if (typeof obj === "string") {
-					row[index] = this.stringEscape + obj + this.stringEscape;
+					row[index] = this.escapeValue(obj);
 				}
 			}
 			return row;
@@ -348,7 +355,7 @@ ${def[0]["pg_get_viewdef"]}`
 		let error = "Database deletion is not supported for this driver.\n";
 		error += "First, close all connection to this database, so restart WebDB and other possibly connected app\n";
 		error += "From your host or inside WebDB container, run: \n";
-		error += `psql ${this.makeUri()} -c 'DROP DATABASE ${this.nameDel + name + this.nameDel}'`;
+		error += `psql ${this.makeUri()} -c 'DROP DATABASE ${this.escapeId(name)}'`;
 		return {error};
 	}
 

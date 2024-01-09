@@ -11,11 +11,17 @@ const dirname = new URL(".", import.meta.url).pathname;
 
 export default class MySQL extends SQL {
 
-	stringEscape = "\"";
-	nameDel = "`";
 	commonUser = ["mysql", "maria", "mariadb"];
 	commonPass = ["mysql", "my-secret-pw", "maria", "mariadb", "mypass"];
 	systemDbs = ["information_schema", "mysql", "performance_schema", "sys"];
+
+	escapeValue(value) {
+		return mysql.escape(value);
+	}
+
+	escapeId(id) {
+		return mysql.escapeId(id);
+	}
 
 	async scan() {
 		return super.scan(this.host, 3300, 3320);
@@ -113,7 +119,7 @@ ${def[0]["VIEW_DEFINITION"]}`
 		for (const [key, data] of Object.entries(datas)) {
 			for (const [index, da] of Object.entries(data)) {
 				if (typeof da === "string") {
-					datas[key][index] = `"${da}"`;
+					datas[key][index] = this.escapeValue(da);
 				}
 			}
 		}
