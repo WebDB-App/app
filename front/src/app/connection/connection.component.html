@@ -52,7 +52,7 @@
 	<mat-tab-group #tabGroup [(selectedIndex)]="selectedIndex">
 		<mat-tab
 			*ngFor="let status of Object.values(Status)"
-			[label]="status">
+			[label]="status + ' (' + getServerByStatus(status).length + ')'">
 
 			<mat-card *ngIf="getServerByStatus(status).length < 1">
 				<h3 style="height: 100%; display: flex; justify-content: center; align-items: center;">

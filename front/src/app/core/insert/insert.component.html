@@ -146,9 +146,7 @@
 				</div>
 			</div>
 
-			<ng-container>
-				<mat-error>{{ random.error }}</mat-error>
-			</ng-container>
+			<mat-error *ngIf="random.error" style="padding: 10px">{{ random.error }}</mat-error>
 		</mat-tab>
 	</mat-tab-group>
 </div>

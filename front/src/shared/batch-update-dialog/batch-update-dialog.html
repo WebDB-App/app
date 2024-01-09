@@ -27,12 +27,15 @@
 		</mat-form-field>
 	</div>
 	<ngx-monaco-editor
+		style="width: 450px"
 		[(ngModel)]="str"
 		[options]="editorOptions">
 	</ngx-monaco-editor>
 </div>
 <mat-dialog-actions>
-	<mat-error *ngIf="strError() !== null">
+	<mat-error
+		*ngIf="strError() !== null"
+		style="width: 420px">
 		<div [innerHtml]="strError()"></div>
 	</mat-error>
 	<button

@@ -3,7 +3,7 @@
 	fxLayoutAlign="space-between center"
 	style="padding: 10px 20px;">
 
-	<div style="display: flex;">
+	<div style="display: flex; align-items: center;">
 		<button (click)="runQuery()"
 				*ngIf="!diff"
 				[disabled]="!query || query.trim().length < 1"
