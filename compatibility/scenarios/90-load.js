@@ -2,7 +2,7 @@ import assert from 'node:assert';
 import {test} from "node:test";
 import {readFile} from "node:fs/promises";
 import {getDatabase, iterateDir} from "../helper.js";
-import {multipart, post} from "../config.js";
+import {multipart, post} from "../api.js";
 
 async function run(config) {
 
@@ -24,12 +24,6 @@ async function run(config) {
 	await test('[load] World database is present in structure', () => {
 		assert.ok(getDatabase(structure.dbs, config.database));
 	});
-
-
-	//--------------------------------------------
-
-
-	//TODO dump -> file size ~ equivalent
 }
 
 /*

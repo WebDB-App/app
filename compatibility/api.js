@@ -27,7 +27,6 @@ const globalHeaders = {
 export async function loadConfig(server) {
 	const conf = {...basicConf, ...server};
 	conf.database = "world";
-	conf.table = "tableTest01";
 	conf.name = "";
 	conf.credentials.wrapper = conf.wrapper;
 	conf.credentials.host = process.env.CI ? "host.docker.internal" : "127.0.0.1";
@@ -36,7 +35,6 @@ export async function loadConfig(server) {
 
 	globalHeaders['Server'] = JSON.stringify(conf.credentials);
 	globalHeaders['Database'] = conf.database;
-	globalHeaders['Table'] = conf.table;
 
 	return conf;
 }

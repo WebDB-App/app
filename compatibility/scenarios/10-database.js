@@ -1,7 +1,7 @@
 import assert from 'node:assert';
 import {test} from "node:test";
 import {getDatabase} from "../helper.js";
-import {post} from "../config.js";
+import {post} from "../api.js";
 
 async function run(config) {
 	const created = await post(`database/create`, {name: config.database});

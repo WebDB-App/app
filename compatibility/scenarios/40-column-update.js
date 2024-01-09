@@ -1,11 +1,12 @@
 import assert from 'node:assert';
 import {test} from "node:test";
 import {getDatabase} from "../helper.js";
-import {post} from "../config.js";
+import {post} from "../api.js";
+import {columnsForTests, tableForStruct} from "../base.js";
 
 async function run(config) {
-	const before = {...config.columns[0]};
-	const after = {...config.columns[0]};
+	const before = {...columnsForTests[config.wrapper][0]};
+	const after = {...columnsForTests[config.wrapper][0]};
 
 	//--------------------------------------------
 
@@ -13,7 +14,7 @@ async function run(config) {
 	const updatedName = await post(`column/modify`, {
 		old: before,
 		columns: [after]
-	});
+	}, tableForStruct);
 	await test('[column] Rename ok', () => {
 		assert.ok(!updatedName.error);
 	});
@@ -26,11 +27,11 @@ async function run(config) {
 	//--------------------------------------------
 
 
-	after.type = config.columns[1].type;
+	after.type = columnsForTests[config.wrapper][1].type;
 	const updatedType = await post(`column/modify`, {
 		old: before,
 		columns: [after]
-	});
+	}, tableForStruct);
 	await test(`[column] Cast from ${before.type} to ${after.type} ok`, () => {
 		assert.ok(!updatedType.error);
 	});
@@ -47,7 +48,7 @@ async function run(config) {
 	const updatedNullable = await post(`column/modify`, {
 		old: before,
 		columns: [after]
-	});
+	}, tableForStruct);
 	await test('[column] Set nullable', () => {
 		assert.ok(!updatedNullable.error);
 	});
@@ -61,7 +62,7 @@ async function run(config) {
 	const updatedDefault = await post(`column/modify`, {
 		old: before,
 		columns: [after]
-	});
+	}, tableForStruct);
 	await test('[column] Set default to "Example"', () => {
 		assert.ok(!updatedDefault.error);
 	});
@@ -71,17 +72,19 @@ async function run(config) {
 	//--------------------------------------------
 
 
-	const structure = await post(`server/structure?full=1&size=50`, config.credentials);
+	const structure = await post(`server/structure?full=1&size=50`, config.credentials, tableForStruct);
 	await test("[column] Updated correspond to structure's one", () => {
 		const db = getDatabase(structure.dbs, config.database);
-		const table = db.tables.find(table => table.name === config.table);
+		const table = db.tables.find(table => table.name === tableForStruct.Table);
 		const cols = table.columns.filter(col => col.name !== '_id' && col.name !== "rowid");
 
-		cols[0].defaut = cols[0].defaut.replaceAll("'", "").replace('::character varying', '');
+		if (config.wrapper !== "MongoDB") {
+			cols[0].defaut = cols[0].defaut.replaceAll("'", "").replace('::character varying', '');
+			assert.equal(cols[0].defaut, after.defaut);
+		}
 
 		assert.equal(cols[0].name, after.name);
 		assert.equal(cols[0].type, after.type);
-		assert.equal(cols[0].defaut, after.defaut);
 		assert.equal(cols[0].nullable, after.nullable);
 	});
 }

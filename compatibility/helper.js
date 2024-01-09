@@ -1,7 +1,7 @@
 import {join} from "path";
 import {promises as fsp} from "fs";
 import {URL} from 'url';
-import {runBash} from "./config.js";
+import {runBash} from "./api.js";
 
 export function runWebDB() {
 	if (!process.env.CI) {

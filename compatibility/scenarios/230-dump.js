@@ -1,6 +1,8 @@
 async function run(config) {
 
 	//TODO load+dump json
+
+	//file size ~ equivalent a world.sql
 }
 
 /*

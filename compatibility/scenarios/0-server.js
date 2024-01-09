@@ -1,6 +1,6 @@
 import assert from 'node:assert';
 import {test} from "node:test";
-import {get, post} from "../config.js";
+import {get, post} from "../api.js";
 
 async function run(config) {
 

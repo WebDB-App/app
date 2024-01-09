@@ -1,7 +1,7 @@
 import assert from 'node:assert';
 import {test} from "node:test";
-import {citiesPerContinent} from "../servers.js";
-import {post} from "../config.js";
+import {post} from "../api.js";
+import {selectCitiesNumber} from "../base.js";
 
 const results = [
 	{
@@ -36,14 +36,14 @@ const results = [
 
 async function run(config) {
 	const query = await post(`database/query`, {
-		query: citiesPerContinent[config.wrapper],
+		query: selectCitiesNumber[config.wrapper],
 		page: 0,
 		pageSize: 100,
 	});
 	await test('[data] Select number of country per continent', () => {
 		for (const result of results) {
-			const q = query.find(data => data.continent === result.continent);
-			assert.equal(q.nb, result.nb);
+			const q = query.find(data => data.continent_name === result.continent_name);
+			assert.equal(q.city_count, result.city_count);
 		}
 	});
 
@@ -52,7 +52,7 @@ async function run(config) {
 
 
 	const querySize = await post(`database/querySize`, {
-		query: citiesPerContinent[config.wrapper],
+		query: selectCitiesNumber[config.wrapper],
 	});
 	await test('[data] Good size result', () => {
 		assert.equal(querySize, results.length);
