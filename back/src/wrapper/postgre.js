@@ -201,7 +201,7 @@ ${def[0]["pg_get_viewdef"]}`
 	}
 
 	async duplicateTable(database, old_table, new_name) {
-		return await this.runCommand(`CREATE TABLE ${new_name} AS ${old_table};`, database);
+		return await this.runCommand(`CREATE TABLE ${this.escapeId(new_name)} AS SELECT * FROM ${this.escapeId(old_table)};`, database);
 	}
 
 	async statsDatabase(name) {

@@ -20,10 +20,14 @@ async function run(config) {
 	//--------------------------------------------
 
 	const structure = await post(`server/structure?full=1&size=50`, config.credentials);
+	const db = getDatabase(structure.dbs, config.database);
+	const founded = db.tables.find(table => table.name === tableForStruct.Table);
 	await test('[table] Created is present in structure', () => {
-		const db = getDatabase(structure.dbs, config.database);
-		assert.ok(db.tables.find(table => table.name === tableForStruct.Table));
+		assert.ok(founded);
 	});
+	if (!founded) {
+		return;
+	}
 
 	//--------------------------------------------
 
@@ -32,6 +36,9 @@ async function run(config) {
 	await test('[table] Duplication ok', () => {
 		assert.ok(!duplicate.error);
 	});
+	if (duplicate.error) {
+		return;
+	}
 
 	//--------------------------------------------
 
@@ -40,6 +47,9 @@ async function run(config) {
 	await test('[table] Rename ok', () => {
 		assert.ok(!renamed.error);
 	});
+	if (renamed.error) {
+		return;
+	}
 
 	//--------------------------------------------
 
@@ -48,6 +58,9 @@ async function run(config) {
 	await test('[table] Truncate ok', () => {
 		assert.ok(!truncated.error);
 	});
+	if (truncated.error) {
+		return;
+	}
 
 	//--------------------------------------------
 

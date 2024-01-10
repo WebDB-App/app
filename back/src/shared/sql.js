@@ -1,7 +1,6 @@
 import Driver from "./driver.js";
 import {singleLine, sql_isSelect} from "./helper.js";
 
-
 export default class SQL extends Driver {
 
 	escapeValue(value) {

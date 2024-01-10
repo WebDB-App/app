@@ -114,7 +114,7 @@ class Version {
 	}
 
 	commandFinished(driver, command, database, force = false) {
-		if (!database) {
+		if (!database || driver.constructor.name === "CockroachDB") {
 			return;
 		}
 		database = database.split(" ¦ ")[0];

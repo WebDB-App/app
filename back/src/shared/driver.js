@@ -3,7 +3,6 @@ import nodePortScanner from "node-port-scanner";
 export default class Driver {
 
 	dbToSchemaDelimiter = " ¦ ";
-	nameDel = "\"";
 
 	connection;
 	port;
