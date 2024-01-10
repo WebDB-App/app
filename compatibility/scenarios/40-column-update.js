@@ -78,14 +78,15 @@ async function run(config) {
 		const table = db.tables.find(table => table.name === tableForStruct.Table);
 		const cols = table.columns.filter(col => col.name !== '_id' && col.name !== "rowid");
 
-		if (config.wrapper !== "MongoDB") {
-			cols[0].defaut = cols[0].defaut.replaceAll("'", "").replace('::character varying', '');
-			assert.equal(cols[0].defaut, after.defaut);
-		}
+		const final = cols.find(col => col.name === after.name);
+		assert.ok(final);
+		assert.equal(final.type, after.type);
 
-		assert.equal(cols[0].name, after.name);
-		assert.equal(cols[0].type, after.type);
-		assert.equal(cols[0].nullable, after.nullable);
+		if (config.wrapper !== "MongoDB") {
+			assert.equal(final.nullable, after.nullable);
+			final.defaut = final.defaut.replaceAll("'", "").replace('::character varying', '');
+			assert.equal(final.defaut, after.defaut);
+		}
 	});
 }
 
