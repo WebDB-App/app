@@ -20,7 +20,7 @@ class Version {
 					this.changes[database].done = true;
 				}
 			}
-			setTimeout(() => loop(), 20 * 1000);
+			setTimeout(() => loop(), 15 * 1000);
 		};
 		loop();
 	}
@@ -87,6 +87,9 @@ class Version {
 		const limit = +process.env.WATCHER_LIMIT || 1_000_000_000;
 		try {
 			const stats = await driver.statsDatabase(database);
+			if (!stats) {
+				return;
+			}
 			if (stats.data_length && stats.data_length > limit) {
 				return;
 			}
@@ -114,7 +117,7 @@ class Version {
 	}
 
 	commandFinished(driver, command, database, force = false) {
-		if (!database || driver.constructor.name === "CockroachDB") {
+		if (!database) {
 			return;
 		}
 		database = database.split(" ¦ ")[0];

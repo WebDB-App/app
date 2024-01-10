@@ -34,7 +34,6 @@
 
 			<mat-selection-list
 				#tables
-				(selectionChange)="changeTable(tables.selectedOptions.selected[0].value)"
 				[multiple]="false">
 				<div *ngFor="let table of selectedDatabase?.tables"
 					 [hidden]="table.hide"
@@ -56,7 +55,9 @@
 							[class.mat-list-single-selected-option]="selectedTable?.name === table.name"
 							[style.font-style]="table.view ? 'italic' : 'normal' "
 							[value]="table.name">
-							{{ table.name }}
+							<a href="{{changeTable(table.name)}}">
+								{{ table.name }}
+							</a>
 						</mat-list-option>
 					</div>
 					<div *ngIf="tooltips[table.name]"
