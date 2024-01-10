@@ -90,15 +90,19 @@ ORDER BY
 ]).toArray()`
 }
 
-export const cityNumber = {
-	AF: 5541,
-	AN: 3,
-	AS: 30205,
-	EU: 64779,
-	NA: 29785,
-	OC: 4714,
-	SA: 6737
-};
+export let cityNumber = {};
+
+export function initCityNumber() {
+	cityNumber = {
+		AF: 5541,
+		AN: 3,
+		AS: 30205,
+		EU: 64779,
+		NA: 29785,
+		OC: 4714,
+		SA: 6737
+	}
+}
 
 export async function checkCityNumber(config) {
 	const query = await post(`database/query`, {
@@ -108,7 +112,6 @@ export async function checkCityNumber(config) {
 	});
 	for (const [continent, nb] of Object.entries(cityNumber)) {
 		const q = query.find(data => data.continent_name === continent);
-		console.log(+q.city_count, nb);
 		if (+q.city_count !== nb) {
 			return false;
 		}

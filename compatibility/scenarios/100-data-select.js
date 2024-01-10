@@ -1,10 +1,11 @@
 import assert from 'node:assert';
 import {test} from "node:test";
 import {post} from "../api.js";
-import {checkCityNumber, cityNumber, selectCitiesNumber} from "../base.js";
-
+import {checkCityNumber, cityNumber, initCityNumber, selectCitiesNumber} from "../base.js";
 
 async function run(config) {
+	initCityNumber();
+
 	const ok = await checkCityNumber(config);
 	await test('[data] Select number of country per continent', () => {
 		assert.ok(ok);
