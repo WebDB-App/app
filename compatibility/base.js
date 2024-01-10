@@ -108,7 +108,7 @@ export async function checkCityNumber(config) {
 	});
 	for (const [continent, nb] of Object.entries(cityNumber)) {
 		const q = query.find(data => data.continent_name === continent);
-		console.assert(+q.city_count, nb);
+		console.log(+q.city_count, nb);
 		if (+q.city_count !== nb) {
 			return false;
 		}
