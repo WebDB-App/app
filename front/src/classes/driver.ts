@@ -68,7 +68,8 @@ export interface Driver {
 		typeGroups: TypeGroup[],
 		extraAttributes: string[],
 		arrayType: boolean,
-		fctAsDefault: string[]
+		fctAsDefault: string[],
+		extendedJSONDoc: string
 	}
 
 	nodeLib: (queryParams: QueryParams) => string;

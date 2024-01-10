@@ -46,8 +46,10 @@ export class SQL implements Driver {
 		typeGroups: TypeGroup[],
 		extraAttributes: string[],
 		arrayType: boolean,
-		fctAsDefault: string[]
+		fctAsDefault: string[],
+		extendedJSONDoc: string
 	} = {
+		extendedJSONDoc: "",
 		comparators: [
 			{symbol: '>', example: "", definition: "More than"},
 			{symbol: '<', example: "", definition: "Less than"},

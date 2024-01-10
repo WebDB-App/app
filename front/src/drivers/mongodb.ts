@@ -36,6 +36,7 @@ export class MongoDB implements Driver {
 	}
 
 	language = {
+		extendedJSONDoc: "https://www.mongodb.com/docs/manual/reference/mongodb-extended-json/#examples",
 		comparators: [
 			{symbol: '$gt', example: "", definition: "More than"},
 			{symbol: '$lt', example: "", definition: "Less than"},

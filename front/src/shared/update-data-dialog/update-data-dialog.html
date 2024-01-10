@@ -22,9 +22,9 @@
 					<ng-container *ngFor="let suggestion of column.value">
 						<mat-option
 							(click)="setValue(column.key, suggestion)"
-							*ngIf="suggestion.toString().indexOf(filter.value) >= 0"
-							[value]="suggestion">
-							{{ suggestion }}
+							*ngIf="JSON.stringify(suggestion).indexOf(filter.value) >= 0"
+							[value]="JSON.stringify(suggestion)">
+							{{ suggestion | json }}
 						</mat-option>
 					</ng-container>
 				</mat-autocomplete>
@@ -38,6 +38,17 @@
 	></ngx-monaco-editor>
 </div>
 <mat-dialog-actions>
+
+	<a	[href]="selectedServer?.driver!.language.extendedJSONDoc"
+		target="_blank"
+		*ngIf="selectedServer?.driver!.language.extendedJSONDoc"
+		mat-button>
+		<span class="material-symbols-outlined notranslate">
+			info
+		</span>
+		JSON Doc
+	</a>
+
 	<mat-error
 		*ngIf="strError() !== null"
 		style="width: 420px">

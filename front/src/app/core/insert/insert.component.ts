@@ -124,7 +124,7 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 					limit: this.limit
 				});
 				if (fks) {
-					random.model = `return (() => { const fk = [${fks.map((data: string) => `${this.selectedServer?.driver.wrapValue(random.column.type, data)}`).join(",")}]; return fk[Math.floor(Math.random() * (fk.length))]; })()`;
+					random.model = `return (() => { const fk = [${fks.map((data: string) => JSON.stringify(data)).join(",")}]; return fk[Math.floor(Math.random() * (fk.length))]; })()`;
 				}
 			}
 		}

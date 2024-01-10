@@ -18,7 +18,7 @@ export class UpdateDataDialog {
 	selectedDatabase?: Database;
 	selectedTable?: Table;
 
-	updateSuggestions: { [key: string]: string[] } = {};
+	updateSuggestions: { [key: string]: any[] } = {};
 	str = "";
 	editorOptions = {
 		language: 'json'
@@ -101,4 +101,6 @@ export class UpdateDataDialog {
 		}
 		return null;
 	}
+
+	protected readonly JSON = JSON;
 }
