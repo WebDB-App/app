@@ -59,6 +59,6 @@ if (process.env.CI) {
 		await runScenarios(server);
 	}
 } else {
-	await runScenarios(list.postgres);
+	await runScenarios(list.percona);
 	process.exit();
 }

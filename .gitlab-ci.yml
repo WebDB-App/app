@@ -14,6 +14,9 @@ include:
 .common: &common
     tags:
         - shell
+    interruptible: true
+
+.make_app: &make_app
     rules:
         -   if: $CI_COMMIT_TAG
             when: on_success
@@ -21,9 +24,10 @@ include:
             when: on_success
         -   if: $CI_COMMIT_BRANCH == "dev"
             when: on_success
-    interruptible: true
-
-.make_links: &make_links
+        -   changes:
+                - front/*
+                - back/*
+            when: on_success
     before_script:
         - export TAG=$(date '+%Y.%m.%d')
         - printenv
@@ -54,7 +58,7 @@ eslint:
 
 prepare:
     <<: *common
-    <<: *make_links
+    <<: *make_app
     stage: prepare
     image: node:alpine
     script:
@@ -72,7 +76,7 @@ prepare:
 
 docker:
     <<: *common
-    <<: *make_links
+    <<: *make_app
     dependencies:
         - prepare
     stage: release
@@ -99,6 +103,13 @@ compatibility:
     <<: *common
     stage: compatibility
     image: docker:latest
+    rules:
+        -   if: $CI_COMMIT_TAG
+            when: on_success
+        -   if: $CI_COMMIT_BRANCH == "main"
+            when: on_success
+        -   if: $CI_COMMIT_BRANCH == "dev"
+            when: on_success
     script:
         - cd compatibility
         - npm install --prod --frozen-lockfile
