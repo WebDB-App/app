@@ -7,7 +7,7 @@ export function runWebDB() {
 	if (!process.env.CI) {
 		return;
 	}
-	runBash(`docker rm -f webdb; docker pull webdb/app; docker run --name webdb -d --restart=always -e WATCHER_EXCLUDE='true' --add-host=\"host.docker.internal:host-gateway\" -p 22070:22071 webdb/app`);
+	runBash(`docker rm -f webdb; docker pull webdb/app; docker run --name webdb -d --restart=always --add-host=\"host.docker.internal:host-gateway\" -p 22070:22071 webdb/app`);
 	runBash(`sleep 3`);
 }
 

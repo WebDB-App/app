@@ -1,2 +1,0 @@
-//stats database
-//stats table
