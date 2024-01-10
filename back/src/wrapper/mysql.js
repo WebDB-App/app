@@ -28,17 +28,17 @@ export default class MySQL extends SQL {
 	}
 
 	async getViewCode(database, view) {
-		const def = await this.runCommand(`SELECT view_definition FROM information_schema.views WHERE table_schema = '${database}' AND table_name = '${view}';`);
+		const def = await this.runCommand(`SELECT view_definition FROM information_schema.views WHERE table_schema = ${this.escapeValue(database)} AND table_name = ${this.escapeValue(view)};`);
 
 		return {
-			code: `ALTER VIEW ${view} AS
+			code: `ALTER VIEW ${this.escapeId(view)} AS
 ${def[0]["VIEW_DEFINITION"]}`
 		};
 	}
 
 	async sampleDatabase(name, {count, tables}) {
 		const getSample = async (table) => {
-			let create = await this.runCommand(`SHOW CREATE TABLE \`${table}\``, name);
+			let create = await this.runCommand(`SHOW CREATE TABLE ${this.escapeId(table)}`, name);
 			create = create[0];
 
 			if (create["Create View"]) {
@@ -49,7 +49,7 @@ ${def[0]["VIEW_DEFINITION"]}`
 			}
 			return {
 				structure: create["Create Table"],
-				data: await this.runCommand(`SELECT * FROM \`${table}\` LIMIT ${count}`, name)
+				data: await this.runCommand(`SELECT * FROM ${this.escapeId(table)} LIMIT ${count}`, name)
 			};
 		};
 
@@ -63,7 +63,7 @@ ${def[0]["VIEW_DEFINITION"]}`
 
 	async dump(database, exportType = "sql", tables, options = "") {
 		const path = join(dirname, `../../static/dump/${database}.${exportType}`);
-		const total = await this.runCommand(`SELECT COUNT(DISTINCT TABLE_NAME) as total FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '${database}'`);
+		const total = await this.runCommand(`SELECT COUNT(DISTINCT TABLE_NAME) as total FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = ${this.escapeValue(database)}`);
 
 		if (exportType === "sql") {
 			const cmd = `mysqldump --user='${this.user}' --port=${this.port} --password='${this.password}' --host='${this.host}' ${database} `;
@@ -127,17 +127,17 @@ ${def[0]["VIEW_DEFINITION"]}`
 	}
 
 	async modifyColumn(database, table, old, column) {
-		return await this.runCommand(`ALTER TABLE \`${table}\` CHANGE \`${old.name}\` ${this.columnToSQL(column)}`, database);
+		return await this.runCommand(`ALTER TABLE ${this.escapeId(table)} CHANGE ${this.escapeId(old.name)} ${this.columnToSQL(column)}`, database);
 	}
 
 	async duplicateTable(database, old_table, new_name) {
-		return await this.runCommand(`CREATE TABLE \`${new_name}\` LIKE \`${old_table}\`;
-			INSERT INTO \`${new_name}\` SELECT * FROM \`${old_table}\`;`,
+		return await this.runCommand(`CREATE TABLE ${this.escapeId(new_name)} LIKE ${this.escapeId(old_table)};
+			INSERT INTO ${this.escapeId(new_name)} SELECT * FROM ${this.escapeId(old_table)};`,
 		database);
 	}
 
 	async createDatabase(name) {
-		return await this.runCommand(`CREATE DATABASE \`${name}\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`);
+		return await this.runCommand(`CREATE DATABASE ${this.escapeId(name)} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`);
 	}
 
 	async statsDatabase(name) {
@@ -185,7 +185,7 @@ ${def[0]["VIEW_DEFINITION"]}`
 		const colls = await this.getAvailableCollations();
 		const character = colls.find(coll => coll.Collation === collate).Charset;
 
-		const r = await this.runCommand(`ALTER DATABASE \`${database}\` CHARACTER SET ${character} COLLATE ${collate};`);
+		const r = await this.runCommand(`ALTER DATABASE ${this.escapeId(database)} CHARACTER SET ${character} COLLATE ${collate};`);
 		if (r.error) {
 			return r;
 		}
@@ -220,19 +220,19 @@ ${def[0]["VIEW_DEFINITION"]}`
 
 	async addIndex(database, table, name, type, columns) {
 		if (type === "PRIMARY") {
-			return await this.runCommand(`ALTER TABLE \`${table}\` ADD PRIMARY KEY (${columns.map(c => `\`${c}\``).join(",")})`, database);
+			return await this.runCommand(`ALTER TABLE ${this.escapeId(table)} ADD PRIMARY KEY (${columns.map(c => this.escapeId(c)).join(",")})`, database);
 		} else if (type === "INDEX") {
-			return await this.runCommand(`CREATE INDEX \`${name}\` ON  \`${table}\` (${columns.map(c => `\`${c}\``).join(",")})`, database);
+			return await this.runCommand(`CREATE INDEX ${this.escapeId(name)} ON ${this.escapeId(table)} (${columns.map(c => this.escapeId(c)).join(",")})`, database);
 		} else if (type === "UNIQUE") {
-			return await this.runCommand(`CREATE UNIQUE INDEX \`${name}\` ON  \`${table}\` (${columns.map(c => `\`${c}\``).join(",")})`, database);
+			return await this.runCommand(`CREATE UNIQUE INDEX ${this.escapeId(name)} ON ${this.escapeId(table)} (${columns.map(c => this.escapeId(c)).join(",")})`, database);
 		}
 	}
 
 	async dropIndex(database, table, name) {
 		if (name === "PRIMARY") {
-			return await this.runCommand(`ALTER TABLE \`${table}\` DROP PRIMARY KEY;`, database);
+			return await this.runCommand(`ALTER TABLE ${this.escapeId(table)} DROP PRIMARY KEY;`, database);
 		} else {
-			return await this.runCommand(`DROP INDEX \`${name}\` ON \`${table}\``, database);
+			return await this.runCommand(`DROP INDEX ${this.escapeId(name)} ON ${this.escapeId(table)}`, database);
 		}
 	}
 
@@ -311,7 +311,7 @@ ${def[0]["VIEW_DEFINITION"]}`
 
 		try {
 			if (database) {
-				await connection.query(`USE \`${database}\``);
+				await connection.query(`USE ${this.escapeId(database)}`);
 			}
 			const [res] = await connection.query(command);
 			lgth = res.length;

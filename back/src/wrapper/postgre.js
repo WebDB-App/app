@@ -29,10 +29,10 @@ export default class PostgreSQL extends SQL {
 	}
 
 	async getViewCode(database, view) {
-		const def = await this.runCommand(`SELECT pg_get_viewdef('${view}', TRUE)`, database);
+		const def = await this.runCommand(`SELECT pg_get_viewdef(${this.escapeValue(view)}, TRUE)`, database);
 
 		return {
-			code: `CREATE OR REPLACE VIEW ${view} AS
+			code: `CREATE OR REPLACE VIEW ${this.escapeId(view)} AS
 ${def[0]["pg_get_viewdef"]}`
 		};
 	}
@@ -97,7 +97,7 @@ ${def[0]["pg_get_viewdef"]}`
 		const [database, schema] = dbSchema.split(this.dbToSchemaDelimiter);
 
 		const path = join(dirname, `../../static/dump/${database}.${exportType}`);
-		const total = await this.runCommand(`SELECT COUNT(DISTINCT TABLE_NAME) as total FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '${schema}'`, database);
+		const total = await this.runCommand(`SELECT COUNT(DISTINCT TABLE_NAME) as total FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = ${this.escapeValue(schema)}`, database);
 
 		if (exportType === "sql") {
 			const cmd = `pg_dump ${this.makeUri(database)}`;
@@ -213,7 +213,7 @@ ${def[0]["pg_get_viewdef"]}`
 	}
 
 	async statsTable(database, table) {
-		return (await this.runCommand(`SELECT pg_indexes_size (relid) AS "index_length", pg_table_size (relid) AS "data_length" FROM pg_catalog.pg_statio_user_tables WHERE relname = '${table}'`, database.split(this.dbToSchemaDelimiter)[0]))[0];
+		return (await this.runCommand(`SELECT pg_indexes_size (relid) AS "index_length", pg_table_size (relid) AS "data_length" FROM pg_catalog.pg_statio_user_tables WHERE relname = ${this.escapeValue(table)}`, database.split(this.dbToSchemaDelimiter)[0]))[0];
 	}
 
 	async getAvailableCollations() {
@@ -452,7 +452,7 @@ ${def[0]["pg_get_viewdef"]}`
 		const cid = bash.startCommand(command, (database || "") + (schema ? `,${schema}` : ""), this.port);
 		try {
 			if (schema) {
-				await connection.query(`SET search_path TO ${schema};`);
+				await connection.query(`SET search_path TO ${this.escapeId(schema)};`);
 			}
 			let res = await connection.query(command);
 			res = res.command === "SELECT" ? res.rows : res;
