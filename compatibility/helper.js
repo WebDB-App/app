@@ -26,7 +26,7 @@ export function getDatabase(dbs, dbName) {
 export async function iterateDir(dir) {
 	const dirname = new URL('.', import.meta.url).pathname;
 	const endpointPath = join(dirname, dir);
-	const entries = await fsp.readdir(endpointPath);
+	const entries = (await fsp.readdir(endpointPath)).filter(entry => !entry.startsWith("."));
 	entries.sort((a, b) => {
 		return +a.split('-')[0] - +b.split('-')[0];
 	});

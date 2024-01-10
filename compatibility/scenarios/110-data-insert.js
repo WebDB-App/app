@@ -1,7 +1,7 @@
 import assert from 'node:assert';
 import {test} from "node:test";
 import {post} from "../api.js";
-import {selectCitiesNumber, tableCity} from "../base.js";
+import {checkCityNumber, cityNumber, tableCity} from "../base.js";
 import {wrapper} from "../docker.js";
 
 const insertCity = {
@@ -23,39 +23,28 @@ const insertCity = {
 		"name": "WebDB and spé'cial\"s ch`@°r$ctữer㍐الْأَ",
 		"lat": 42.42,
 		"lng": 13.37,
-		"country_id": 9,
+		"country_id": {
+			"$oid": "6589d44d3eaad6405f1aee08"
+		},
 		"region_code": null
 	}]
 };
 
-//TODO ObjectID en country_id
-
 async function run(config) {
 
-	const dropped = await post(`data/insert`, insertCity[config.wrapper], tableCity);
+	const insert = await post(`data/insert`, insertCity[config.wrapper], tableCity);
 	await test('[data] Insert ok', () => {
-		assert.ok(!dropped.error);
+		assert.ok(!insert.error);
 	});
 
 
 	//--------------------------------------------
 
-
-	const query = await post(`database/query`, {
-		query: selectCitiesNumber[config.wrapper],
-		page: 0,
-		pageSize: 100,
-	});
+	cityNumber.AN++;
+	const ok = await checkCityNumber(config);
 	await test('[data] Inserted are calculated', () => {
-		const q = query.find(data => data.continent === "AN");
-		assert.equal(q.city_count, 4);
+		assert.ok(ok);
 	});
 }
 
 export default run;
-
-/*
-import {loadConfig} from "../config.js";
-import servers from "../servers.js";
-await add(await loadConfig(servers.mysql));
-*/

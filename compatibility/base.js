@@ -1,13 +1,11 @@
 import {wrapper} from "./docker.js";
+import {post} from "./api.js";
 
 export const tableForStruct = {
 	Table: "tableTest01"
 }
 export const tableCity = {
 	Table: "city"
-}
-export const tableCountry = {
-	Table: "country"
 }
 
 export const columnsForTests = {
@@ -90,4 +88,29 @@ ORDER BY
         }
     }
 ]).toArray()`
+}
+
+export const cityNumber = {
+	AF: 5541,
+	AN: 3,
+	AS: 30205,
+	EU: 64779,
+	NA: 29785,
+	OC: 4714,
+	SA: 6737
+};
+
+export async function checkCityNumber(config) {
+	const query = await post(`database/query`, {
+		query: selectCitiesNumber[config.wrapper],
+		page: 0,
+		pageSize: 100,
+	});
+	for (const [continent, nb] of Object.entries(cityNumber)) {
+		const q = query.find(data => data.continent_name === continent);
+		if (+q.city_count !== nb) {
+			return false;
+		}
+	}
+	return true;
 }

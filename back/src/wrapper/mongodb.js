@@ -343,7 +343,7 @@ export default class MongoDB extends Driver {
 		cols[column] = 1;
 		const res = await this.connection.db(database).collection(table).find({}, cols).limit(limit).toArray();
 
-		return res.map(r => r[column]);
+		return BSON.EJSON.stringify(res.map(r => r[column]));
 	}
 
 	async getComplexes() {
