@@ -19,8 +19,8 @@ include:
 .make_app: &make_app
     rules:
         -   changes:
-                - front/*
-                - back/*
+                - front/**/*
+                - back/**/*
             when: on_success
     before_script:
         - export TAG=$(date '+%Y.%m.%d')

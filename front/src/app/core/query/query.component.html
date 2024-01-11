@@ -77,12 +77,6 @@
 			<span class="material-symbols-outlined notranslate">table_view</span>
 		</button>
 
-		<a (click)="request.reloadServer()"
-		   *ngIf="reloadDb"
-		   mat-stroked-button>
-			Reload database
-		</a>
-
 		<input #inputFile (change)="inputChange($event)" accept=".{{selectedServer!.driver.language.extension}}"
 			   hidden="true"
 			   onclick="this.value=null" type="file"/>
@@ -111,6 +105,12 @@
 				style="color: white; padding: 0px 10px">Only most keyword/function <br>are proposed in autocomplete</pre>
 		</mat-menu>
 	</div>
+
+	<a (click)="request.reloadServer()"
+	   *ngIf="reloadDb"
+	   mat-flat-button>
+		Reload database
+	</a>
 
 	<div style="display: flex; align-items: center">
 		<mat-form-field *ngIf="querySize >= 1" appearance="outline" class="goToPage">
