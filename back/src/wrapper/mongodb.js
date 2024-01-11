@@ -360,7 +360,7 @@ export default class MongoDB extends Driver {
 					return;
 				}
 				complexes.push({
-					name: options.validator.$jsonSchema.description,
+					name: JSON.stringify(options.validator).slice(0, 50) + "...",
 					database: database.name,
 					table: collection.name,
 					type: complex.VALIDATOR

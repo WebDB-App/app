@@ -22,8 +22,12 @@
 	<mat-card *ngFor="let file of files; let i = index">
 
 		<mat-card-content style="min-width: 500px;">
+			<div *ngIf="files[i].text.length > 20000000" style="height: 100%; display: flex; justify-content: center; align-items: center;">
+				Preview not available
+			</div>
+
 			<ngx-monaco-editor
-				*ngIf="files[i].text.length < 10000000"
+				*ngIf="files[i].text.length < 20000000"
 				[(ngModel)]="files[i].text"
 				[options]="files[i].editorOptions">
 			</ngx-monaco-editor>

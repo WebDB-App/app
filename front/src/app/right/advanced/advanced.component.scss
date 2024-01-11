@@ -1,3 +1,9 @@
-.mat-divider {
-	margin: 20px;
+#content {
+	overflow: auto;
+	height: calc(100vh - 56px);
+	position: relative;
+
+	> div {
+		padding: 20px;
+	}
 }
