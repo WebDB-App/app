@@ -8,6 +8,7 @@ import { DiagramComponent } from "./diagram/diagram.component";
 import { AiComponent } from "./ai/ai.component";
 import { HistoryComponent } from "./history/history.component";
 import { VersionComponent } from "./version/version.component";
+import { ComplexComponent } from "./complex/complex.component";
 
 const routes: Routes = [
 	{
@@ -31,6 +32,9 @@ const routes: Routes = [
 	}, {
 		path: 'dump',
 		component: DumpComponent
+	}, {
+		path: 'complex',
+		component: ComplexComponent
 	}, {
 		path: 'advanced',
 		component: AdvancedComponent

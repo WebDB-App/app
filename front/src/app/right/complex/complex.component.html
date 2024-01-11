@@ -1,0 +1,40 @@
+<mat-toolbar
+	fxLayout="row"
+	fxLayoutAlign="space-between center">
+	<mat-form-field appearance="legacy" style="width: 250px; margin-bottom: -1.25em">
+		<input (keyup)="filterChanged(filter.value)"
+			   autocomplete="off"
+			   matInput
+			   #filter
+			   placeholder="Search complex or table">
+		<button (click)="filterChanged('')"
+				*ngIf="filter.value"
+				aria-label="Clear" mat-icon-button
+				matSuffix>
+			<mat-icon>close</mat-icon>
+		</button>
+	</mat-form-field>
+</mat-toolbar>
+
+<mat-card *ngFor="let group of Object.keys(complex)">
+	<mat-card-header>
+		<mat-card-subtitle>
+			{{group | titlecase}}
+		</mat-card-subtitle>
+	</mat-card-header>
+	<mat-card-content>
+		<ul>
+			<ng-container *ngFor="let complex of complexes">
+				<li *ngIf="complex.type === group"
+					[hidden]="complex.hide">
+					<ng-container *ngIf="complex.table">
+						{{ complex.name }} — {{complex.table}}
+					</ng-container>
+					<ng-container *ngIf="!complex.table">
+						{{ complex.name }}
+					</ng-container>
+				</li>
+			</ng-container>
+		</ul>
+	</mat-card-content>
+</mat-card>

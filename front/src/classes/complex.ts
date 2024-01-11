@@ -3,4 +3,5 @@ export class Complex {
 	database!: string
 	table?: string
 	type!: string;
+	hide?: boolean;
 }

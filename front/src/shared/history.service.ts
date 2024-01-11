@@ -35,7 +35,7 @@ export class HistoryService {
 
 	saveLocal(queries: Query[], database = Database.getSelected()) {
 		queries = queries.slice(0, maxHistory);
-		localStorage.setItem("queries-" + database.name, JSON.stringify(queries))
+		localStorage.setItem("queries-" + database.name.split(' ¦ ')[0], JSON.stringify(queries))
 	}
 
 	addLocal(query: Query) {
