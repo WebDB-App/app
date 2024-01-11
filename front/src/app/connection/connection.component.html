@@ -136,16 +136,6 @@
 									{{ database.name }}
 								</a>
 							</mat-list-option>
-							<mat-list-option (click)="addDatabase(server)">
-								<div style="margin: 0px auto;">
-									<span
-										class="material-symbols-outlined notranslate"
-										style="vertical-align: middle">
-										database
-									</span>
-									Create
-								</div>
-							</mat-list-option>
 						</mat-selection-list>
 
 						<mat-divider class="right-divider" style="margin: -16px 20px;" vertical></mat-divider>
@@ -177,6 +167,15 @@
 									timeline
 								</span>
 								Stats
+							</button>
+							<button
+								(click)="addDatabase(server)"
+								mat-button
+								style="justify-self: center">
+								<span class="material-symbols-outlined notranslate">
+									database
+								</span>
+								Create
 							</button>
 						</div>
 					</ng-container>

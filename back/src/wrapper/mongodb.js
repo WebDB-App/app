@@ -95,7 +95,11 @@ export default class MongoDB extends Driver {
 						continue;
 					}
 
-					await this.renameTable(database, table.name, table.name.split(".")[1]);
+					try {
+						await this.renameTable(database, table.name, table.name.split(".")[1]);
+					} catch (e) {
+						console.error(e);
+					}
 				}
 			}
 		}

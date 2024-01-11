@@ -78,12 +78,11 @@ class Controller {
 		}
 
 		const [driver, , , server] = await http.getLoggedDriver(req);
-		if (server.ssh) {
-			fs.unlinkSync(req.file.path);
-			return res.send({error: "While tunneling, native import is not available with WebDB"});
-		}
+		let result = {error: "While tunneling, native import is not available with WebDB"};
 
-		const result = await driver.load(req.files, req.get("Database"));
+		if (!server.ssh) {
+			result = await driver.load(req.files, req.get("Database"));
+		}
 
 		fs.rmSync(req.files[0].destination, {recursive: true, force: true});
 		res.send(result);
