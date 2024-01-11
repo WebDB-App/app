@@ -5,12 +5,14 @@ import {tableCity} from "../base.js";
 
 async function run(config) {
 
-	const table = await post(`stats/tableSize`, {}, tableCity);
-	await test('[monitoring] Table stats ok', () => {
-		assert.ok(!table.error);
-		assert.ok(table.data_length > 0);
-		assert.ok(table.index_length > 0);
-	});
+	if (config.wrapper !== "PostgreSQL") {
+		const table = await post(`stats/tableSize`, {}, tableCity);
+		await test('[monitoring] Table stats ok', () => {
+			assert.ok(!table.error);
+			assert.ok(table.data_length > 0);
+			assert.ok(table.index_length > 0);
+		});
+	}
 
 
 	//--------------------------------------------

@@ -12,8 +12,8 @@ async function run(config) {
 		language: "fr-FR"}, tableCity);
 	await test(`[sample] Found ${tableCity.Table} table and is long enough`, () => {
 		assert.ok(!sample.error);
-		assert.ok(sample.length > 100);
-		assert.ok(sample.indexOf(tableCity.Table) > 0);
+		assert.ok(sample.txt.length > 100);
+		assert.ok(sample.txt.indexOf(tableCity.Table) > 0);
 	});
 }
 

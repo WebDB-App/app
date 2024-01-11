@@ -201,6 +201,10 @@ ${def[0]["VIEW_DEFINITION"]}`
 		return true;
 	}
 
+	async dropRelation(relation) {
+		return await this.runCommand(`ALTER TABLE ${this.escapeId(relation.table_source)} DROP FOREIGN KEY ${this.escapeId(relation.name)}`, relation.database);
+	}
+
 	async getRelations() {
 		return await this.runCommand(`
 			SELECT

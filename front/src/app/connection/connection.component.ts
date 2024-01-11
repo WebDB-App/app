@@ -35,6 +35,7 @@ export class ConnectionComponent implements OnInit {
 	selectedIndex = 0;
 	defaultPass = "";
 	defaultUser = "";
+	demo = window.location.hostname === "demo.webdb.app";
 
 	protected readonly Status = ServerStatus;
 	protected readonly Object = Object;
@@ -50,7 +51,7 @@ export class ConnectionComponent implements OnInit {
 		private titleService: Title,
 		private dialog: MatDialog) {
 
-		if (window.location.hostname === "demo.webdb.app") {
+		if (this.demo) {
 			this.defaultUser = "root";
 			this.defaultPass = "notSecureChangeMe";
 		}

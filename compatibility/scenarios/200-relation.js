@@ -16,7 +16,7 @@ async function getCountryRelation(config) {
 async function run(config) {
 
 	const countryRelation = await getCountryRelation(config);
-	await test('[relation] Country->Continent relation found in structure', () => {
+	await test('[relation] country->continent found in structure', () => {
 		assert.ok(countryRelation.column_source, "continent_id");
 		assert.ok(countryRelation.table_dest, "continent");
 	});

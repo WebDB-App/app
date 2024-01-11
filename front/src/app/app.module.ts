@@ -47,6 +47,7 @@ import { MatTableModule } from "@angular/material/table";
 import { NgChartsModule } from 'ng2-charts';
 import { StatsDialogComponent } from "./stats/stats-dialog.component";
 import { ProcessDialogComponent } from "./process/process-dialog.component";
+import { MatChipsModule } from "@angular/material/chips";
 
 const providers: Provider[] = [
 	{
@@ -163,7 +164,8 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 		}),
 		MatCheckboxModule,
 		MatTableModule,
-		NgChartsModule
+		NgChartsModule,
+		MatChipsModule
 	],
 	providers,
 	bootstrap: [AppComponent]

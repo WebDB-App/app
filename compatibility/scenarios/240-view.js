@@ -1,2 +1,2 @@
-//world -> View
+//addView
 //dropView
