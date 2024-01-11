@@ -52,23 +52,28 @@
 
 			<ng-container matColumnDef="details">
 				<td *matCellDef="let row" [attr.colspan]="displayedColumns.length" mat-cell>
-					<div style="display: flex; justify-content: space-between">
-						<h3 style="margin: 0px; align-self: center;">{{ row.name }}</h3>
-
-						<button
-							(click)="delete(row)"
-							color="warn"
-							mat-button>
-							<span class="material-symbols-outlined notranslate">
-								delete_forever
-							</span>
-							Remove
-						</button>
-					</div>
-
-					<div style="display: flex; justify-content: space-evenly">
-						<span>on update : {{ row.update_rule }}</span>
-						<span>on delete : {{ row.delete_rule }}</span>
+					<div>
+						<div>
+							<span>Name</span><br>
+							<span>On update</span><br>
+							<span>On delete</span><br>
+						</div>
+						<div style="flex: 1;">
+							<span>{{ row.name }}</span><br>
+							<span>{{ row.update_rule }}</span><br>
+							<span>{{ row.delete_rule }}</span><br>
+						</div>
+						<div>
+							<button
+								(click)="delete(row)"
+								color="warn"
+								mat-button>
+								<span class="material-symbols-outlined notranslate">
+									delete_forever
+								</span>
+								Remove
+							</button>
+						</div>
 					</div>
 				</td>
 			</ng-container>
@@ -110,7 +115,7 @@
 						<mat-select #sourceColumn>
 							<ng-container *ngIf="sourceTable.value">
 								<mat-option *ngFor="let column of sourceTable.value.columns" [value]="column.name">
-									{{ column.name }}
+									{{ column.name }} — {{ column.type }}
 								</mat-option>
 							</ng-container>
 						</mat-select>
@@ -150,7 +155,7 @@
 							<ng-container *ngIf="destTable.value">
 								<mat-option *ngFor="let column of destTable.value.columns"
 											[value]="column.name">
-									{{ column.name }}
+									{{ column.name }} — {{ column.type }}
 								</mat-option>
 							</ng-container>
 						</mat-select>

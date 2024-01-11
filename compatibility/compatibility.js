@@ -4,7 +4,6 @@ import list from "./docker.js";
 import {getScenarios, getTags, runWebDB} from "./helper.js"
 
 const scenarios = await getScenarios();
-runWebDB();
 
 async function runDocker(database, tag) {
 	runBash(`docker rm -f $(docker container ls --format="{{.ID}}\t{{.Ports}}" | grep ${database.credentials.port} | awk '{print $1}') 2> /dev/null || echo`)
@@ -20,6 +19,8 @@ async function runScenarios(server) {
 	const digests = await getTags(server.docker);
 
 	for (const tags of digests) {
+		runWebDB();
+
 		const config = await loadConfig(server);
 		if (!config) {
 			continue;
@@ -59,6 +60,6 @@ if (process.env.CI) {
 		await runScenarios(server);
 	}
 } else {
-	await runScenarios(list.mongo);
+	await runScenarios(list.postgres);
 	process.exit();
 }

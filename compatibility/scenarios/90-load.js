@@ -13,7 +13,7 @@ async function run(config) {
 	}
 
 	const loaded = await multipart(`server/load`, form_data);
-	await test('[load] Load world dataset', async () => {
+	await test('[load] Load native dataset', async () => {
 		assert.ok(loaded.ok);
 	});
 	if (!loaded.ok) {
@@ -21,14 +21,14 @@ async function run(config) {
 	}
 
 	const structure = await post(`server/structure?full=0&size=50`, config.credentials);
-	await test('[load] World database is present in structure', () => {
+	await test('[load] Loaded dataset is present in structure', () => {
 		assert.ok(getDatabase(structure.dbs, config.database));
 	});
 }
 
 /*
-import {loadConfig} from "../config.js";
-import servers from "../servers.js";
+import {loadConfig} from "../api.js";
+import servers from "../docker.js";
 await run(await loadConfig(servers.percona));
 */
 export default run;

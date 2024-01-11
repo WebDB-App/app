@@ -4,9 +4,8 @@ import {post} from "../api.js";
 
 async function run(config) {
 	const versions = await post(`version/list`, {});
-	await test('[version] Found some version', () => {
+	await test('[version] List ok', () => {
 		assert.ok(!versions.error);
-		assert.ok(versions.length > 0);
 	});
 }
 

@@ -93,7 +93,7 @@ async function run(config) {
 export default run;
 
 /*
-import {loadConfig} from "../config.js";
-import servers from "../servers.js";
+import {loadConfig} from "../api.js";
+import servers from "../docker.js";
 await run(await loadConfig(servers.cockroachdb));
 */

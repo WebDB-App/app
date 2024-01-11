@@ -1,7 +1,6 @@
 - ERD [Chrome bookmarks]
 - mysql/etc gui -> stackoverflow
 - lookup chrome history: stackoverflow+reddit+github (aleluff + webdb): filter mongo/mysql etc
-- finir tests
 
 
 

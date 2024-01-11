@@ -12,7 +12,10 @@ table {
 		height: 0px;
 
 		> td > div {
+			display: flex;
 			padding: 14px;
+			gap: 28px;
+			align-items: center;
 		}
 	}
 
