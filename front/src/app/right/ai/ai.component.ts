@@ -14,12 +14,14 @@ import { Table } from "../../../classes/table";
 import { Router } from "@angular/router";
 import { ChatCompletionCreateParamsStreaming } from "openai/src/resources/chat/completions";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { Readable } from "stream";
 
 const localKeyConfig = 'ia-config';
 
 enum Provider {
 	openai = "OpenAI",
 	gemini = "Gemini",
+	together = "TogetherAI",
 }
 
 enum Role {
@@ -96,6 +98,7 @@ export class AiComponent implements OnInit, OnDestroy {
 		model: "gpt-3.5-turbo-16k",
 		openAI: '',
 		gemini: '',
+		together: '',
 		temperature: 1,
 		top_p: 1
 	};
@@ -194,6 +197,43 @@ export class AiComponent implements OnInit, OnDestroy {
 			];
 		}
 
+		if (this.config.together) {
+			this.models[Provider.together] = [
+				{name: "Austism/chronos-hermes-13b", bold: false},
+				{name: "DiscoResearch/DiscoLM-mixtral-8x7b-v2", bold: false},
+				{name: "Gryphe/MythoMax-L2-13b", bold: false},
+				{name: "HuggingFaceH4/zephyr-7b-beta", bold: false},
+				{name: "lmsys/vicuna-13b-v1.5", bold: false},
+				{name: "lmsys/vicuna-13b-v1.5-16k", bold: false},
+				{name: "lmsys/vicuna-7b-v1.5", bold: false},
+				{name: "mistralai/Mistral-7B-Instruct-v0.1", bold: false},
+				{name: "mistralai/Mistral-7B-Instruct-v0.2", bold: false},
+				{name: "mistralai/Mixtral-8x7B-Instruct-v0.1", bold: false},
+				{name: "NousResearch/Nous-Hermes-llama-2-7b", bold: false},
+				{name: "NousResearch/Nous-Hermes-Llama2-13b", bold: false},
+				{name: "NousResearch/Nous-Hermes-Llama2-70b", bold: false},
+				{name: "Open-Orca/Mistral-7B-OpenOrca", bold: false},
+				{name: "openchat/openchat-3.5-1210", bold: false},
+				{name: "Phind/Phind-CodeLlama-34B-v2", bold: false},
+				{name: "teknium/OpenHermes-2-Mistral-7B", bold: false},
+				{name: "teknium/OpenHermes-2p5-Mistral-7B", bold: false},
+				{name: "togethercomputer/CodeLlama-13b", bold: false},
+				{name: "togethercomputer/CodeLlama-13b-Instruct", bold: false},
+				{name: "togethercomputer/CodeLlama-34b", bold: false},
+				{name: "togethercomputer/CodeLlama-34b-Instruct", bold: false},
+				{name: "togethercomputer/llama-2-13b-chat", bold: false},
+				{name: "togethercomputer/llama-2-70b-chat", bold: false},
+				{name: "togethercomputer/Llama-2-7B-32K-Instruct", bold: false},
+				{name: "togethercomputer/llama-2-7b-chat", bold: false},
+				{name: "togethercomputer/Qwen-7B-Chat", bold: false},
+				{name: "togethercomputer/StripedHyena-Nous-7B", bold: false},
+				{name: "upstage/SOLAR-0-70b-16bit", bold: false},
+				{name: "WizardLM/WizardCoder-15B-V1.0", bold: false},
+				{name: "WizardLM/WizardLM-13B-V1.2", bold: false},
+				{name: "zero-one-ai/Yi-34B-Chat", bold: false},
+			];
+		}
+
 		if (this.config.gemini) {
 			this.gemini = new GoogleGenerativeAI(this.config.gemini);
 			this.models[Provider.gemini] = [
@@ -226,6 +266,18 @@ export class AiComponent implements OnInit, OnDestroy {
 		})));
 	}
 
+	readChunks(reader: ReadableStreamDefaultReader) {
+		return {
+			async* [Symbol.asyncIterator]() {
+				let readResult = await reader.read();
+				while (!readResult.done) {
+					yield readResult.value;
+					readResult = await reader.read();
+				}
+			},
+		};
+	}
+
 	async sendMessage(txt: string) {
 		txt = txt.trim();
 		if (!txt) {
@@ -248,8 +300,7 @@ export class AiComponent implements OnInit, OnDestroy {
 			model: this.config.model,
 			messages: [
 				{role: Role.System, content: this.sample},
-				...(this.chat.map(ch => {
-					return {role: ch.user, content: ch.txt}
+				...(this.chat.map(ch => { return {role: ch.user, content: ch.txt}
 				}))
 			],
 			stream: true,
@@ -274,8 +325,47 @@ export class AiComponent implements OnInit, OnDestroy {
 					}
 					resolve(new Msg(this.stream!, Role.Assistant));
 				}).catch(error => {
-					resolve(new Msg(error.message || `An error occurred during OpenAI request: ` + error, Role.Assistant, true))
+					resolve(new Msg(error.message || `An error occurred during OpenAI request: ` + error, Role.Assistant, true));
 				});
+			}));
+		} else if (provider === Provider.together) {
+			this.chat.push(await new Promise<Msg>(async resolve => {
+				const decoder = new TextDecoder();
+				const options = {
+					method: 'POST',
+					headers: {
+						'content-type': 'application/json',
+						authorization: 'Bearer ' + this.config.together
+					},
+					body: JSON.stringify(rBody)
+				};
+
+				try {
+					const stream = await fetch('https://api.together.xyz/api/inference', options);
+					const reader = stream.body!.getReader();
+					if (!stream.ok) {
+						throw decoder.decode((await reader.read()).value);
+					}
+
+					this.stream = "";
+					for await (let chunks of this.readChunks(reader)) {
+						for (let chunk of decoder.decode(chunks).split('data: ')) {
+							try {
+								const msg = JSON.parse(chunk);
+								this.stream += msg.choices[0]?.text || '';
+								this.scrollToBottom();
+							} catch (e) {}
+						}
+						if (this.abort) {
+							this.abort = false;
+							break;
+						}
+					}
+
+					resolve(new Msg(this.stream!, Role.Assistant));
+				} catch (error: any) {
+					resolve(new Msg(error.error || `An error occurred during Together request: ` + error, Role.Assistant, true));
+				}
 			}));
 		} else if (provider === Provider.gemini) {
 			const model = this.gemini!.getGenerativeModel({
@@ -305,7 +395,7 @@ export class AiComponent implements OnInit, OnDestroy {
 					}
 					resolve(new Msg(this.stream!, Role.Assistant));
 				} catch (error: any) {
-					resolve(new Msg(error.error?.message || `An error occurred during Google request: ` + error, Role.Assistant, true))
+					resolve(new Msg(error.error?.message || `An error occurred during Google request: ` + error, Role.Assistant, true));
 				}
 			}));
 		}
@@ -362,7 +452,13 @@ export class AiComponent implements OnInit, OnDestroy {
 		if (!this.config.gemini) {
 			return true;
 		}
-
 		return !!this.config.gemini.match(/^[a-zA-Z0-9-_]{39,}$/);
+	}
+
+	goodTogetherKey() {
+		if (!this.config.together) {
+			return true;
+		}
+		return !!this.config.together.match(/^[a-zA-Z0-9]{64,}$/);
 	}
 }

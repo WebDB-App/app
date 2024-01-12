@@ -39,7 +39,7 @@
 						class="hasBold">
 						<mat-option
 							*ngFor="let model of models[provider]"
-							[class.bold]="model.bold"
+							[class.bold]="true"
 							[value]="model.name">
 							{{ model.name }}
 						</mat-option>
@@ -168,8 +168,7 @@
 					<a href="https://makersuite.google.com/app/apikey"
 					   mat-button
 					   target="_blank">
-						<mat-icon svgIcon="gemini"></mat-icon>
-						Google AI
+						<mat-icon svgIcon="gemini" style="width: 70px"></mat-icon>
 					</a>
 
 					<mat-form-field appearance="standard">
@@ -187,8 +186,7 @@
 					<a href="https://platform.openai.com/account"
 					   mat-button
 					   target="_blank">
-						<mat-icon svgIcon="chatgpt"></mat-icon>
-						OpenAI
+						<mat-icon svgIcon="openai" style="width: 70px"></mat-icon>
 					</a>
 
 					<mat-form-field appearance="standard">
@@ -199,6 +197,24 @@
 							matInput>
 					</mat-form-field>
 					<mat-error *ngIf="!goodOpenAIKey()">
+						Bad key format
+					</mat-error>
+				</div>
+				<div>
+					<a href="https://api.together.xyz/settings/api-keys"
+					   mat-button
+					   target="_blank">
+						<mat-icon svgIcon="together" style="width: 70px"></mat-icon>
+					</a>
+
+					<mat-form-field appearance="standard">
+						<mat-label>Key</mat-label>
+						<input
+							(change)="goodTogetherKey() ? configChange() : undefined"
+							[(ngModel)]="config.together"
+							matInput>
+					</mat-form-field>
+					<mat-error *ngIf="!goodTogetherKey()">
 						Bad key format
 					</mat-error>
 				</div>
