@@ -36,13 +36,22 @@ class Msg {
 	marked?: { code?: string, html?: string }[];
 	txt!: string;
 	hide?: boolean;
+	config?: {};
 
-	constructor(txt: string, user: Role, error = false, hide = false) {
+	constructor(txt: string, user: Role, error = false, config: any = {}) {
 		this.txt = txt;
 		this.user = user;
 		this.error = error;
 		this.marked = [];
-		this.hide = hide;
+		this.hide = false;
+
+		if (config) {
+			this.config = {
+				model: config.model,
+				temperature: config.temperature,
+				top_p: config.top_p,
+			};
+		}
 
 		const parser = new DOMParser();
 		const mark = marked(txt, {mangle: false, headerIds: false});
@@ -296,7 +305,7 @@ export class AiComponent implements OnInit, OnDestroy {
 		}
 
 		this.stream = "Sending prompt ...";
-		const rBody = {
+		const body = {
 			model: this.config.model,
 			messages: [
 				{role: Role.System, content: this.sample},
@@ -308,12 +317,24 @@ export class AiComponent implements OnInit, OnDestroy {
 			top_p: this.config.top_p
 		};
 
+		await this.askLLM(provider, body);
+
+		this.stream = undefined;
+		this.scrollToBottom();
+		this.saveChat();
+	}
+
+	async askLLM(provider: string, body: any) {
+		const streamReady = () => {
+			return this.stream = '';
+		}
+
 		if (provider === Provider.openai) {
-			const stream = this.openai!.chat.completions.create(<ChatCompletionCreateParamsStreaming>rBody);
+			const stream = this.openai!.chat.completions.create(<ChatCompletionCreateParamsStreaming>body);
 
 			this.chat.push(await new Promise<Msg>(resolve => {
 				stream.then(async str => {
-					this.stream = "";
+					streamReady();
 					for await (const part of str) {
 						if (this.abort) {
 							this.abort = false;
@@ -323,7 +344,7 @@ export class AiComponent implements OnInit, OnDestroy {
 						this.stream += part.choices[0]?.delta?.content || '';
 						this.scrollToBottom();
 					}
-					resolve(new Msg(this.stream!, Role.Assistant));
+					resolve(new Msg(this.stream!, Role.Assistant, false, body));
 				}).catch(error => {
 					resolve(new Msg(error.message || `An error occurred during OpenAI request: ` + error, Role.Assistant, true));
 				});
@@ -337,7 +358,7 @@ export class AiComponent implements OnInit, OnDestroy {
 						'content-type': 'application/json',
 						authorization: 'Bearer ' + this.config.together
 					},
-					body: JSON.stringify(rBody)
+					body: JSON.stringify(body)
 				};
 
 				try {
@@ -347,14 +368,15 @@ export class AiComponent implements OnInit, OnDestroy {
 						throw decoder.decode((await reader.read()).value);
 					}
 
-					this.stream = "";
+					streamReady();
 					for await (let chunks of this.readChunks(reader)) {
 						for (let chunk of decoder.decode(chunks).split('data: ')) {
 							try {
 								const msg = JSON.parse(chunk);
 								this.stream += msg.choices[0]?.text || '';
 								this.scrollToBottom();
-							} catch (e) {}
+							} catch (e) {
+							}
 						}
 						if (this.abort) {
 							this.abort = false;
@@ -362,7 +384,7 @@ export class AiComponent implements OnInit, OnDestroy {
 						}
 					}
 
-					resolve(new Msg(this.stream!, Role.Assistant));
+					resolve(new Msg(this.stream!, Role.Assistant, false, body));
 				} catch (error: any) {
 					resolve(new Msg(error.error || `An error occurred during Together request: ` + error, Role.Assistant, true));
 				}
@@ -384,7 +406,7 @@ export class AiComponent implements OnInit, OnDestroy {
 							return ch.txt;
 						}))
 					]);
-					this.stream = "";
+					streamReady();
 					for await (const chunk of result.stream) {
 						if (this.abort) {
 							this.abort = false;
@@ -393,16 +415,12 @@ export class AiComponent implements OnInit, OnDestroy {
 						this.stream += chunk.text();
 						this.scrollToBottom();
 					}
-					resolve(new Msg(this.stream!, Role.Assistant));
+					resolve(new Msg(this.stream!, Role.Assistant, false, body));
 				} catch (error: any) {
 					resolve(new Msg(error.error?.message || `An error occurred during Google request: ` + error, Role.Assistant, true));
 				}
 			}));
 		}
-
-		this.stream = undefined;
-		this.scrollToBottom();
-		this.saveChat();
 	}
 
 	async runQuery(query: string) {
@@ -461,4 +479,6 @@ export class AiComponent implements OnInit, OnDestroy {
 		}
 		return !!this.config.together.match(/^[a-zA-Z0-9]{64,}$/);
 	}
+
+	protected readonly JSON = JSON;
 }

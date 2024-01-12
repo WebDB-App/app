@@ -308,6 +308,14 @@
 					<div *ngIf="!ch.error && ch.user === Role.Assistant" class="actions"
 						 style="bottom: 8px; top: inherit;">
 						<button
+							[matTooltip]="JSON.stringify(ch.config)"
+							color="accent"
+							mat-icon-button>
+							<span class="material-symbols-outlined notranslate">
+								info
+							</span>
+						</button>
+						<button
 							(click)="sendMessage('The response ```' + ch.txt + '``` was wrong. Please retry');"
 							color="accent"
 							mat-icon-button>

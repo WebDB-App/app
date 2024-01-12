@@ -11,15 +11,10 @@
 
 
 # modules payant
-- new feature
 - system de téléchargement de code depuis la landing avec le mail
 - récupérer la licence directemnt depuis la landing + enlever l'endpoint
-
-
-# reorder columns
-
-
-# sql function doc (generate from web scrap)
+- reorder columns
+- sql function doc (generate from web scrap)
 
 
 # Profiling
@@ -65,4 +60,4 @@
 
 
 
-- Angular 17 avec material icône dans stackblitz
+- tester Angular 17 avec material icône dans stackblitz
