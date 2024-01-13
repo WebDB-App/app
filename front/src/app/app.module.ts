@@ -13,7 +13,7 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatMenuModule } from "@angular/material/menu";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatSidenavModule } from "@angular/material/sidenav";
-import { ConnectionComponent, CreateDatabaseDialog } from "./connection/connection.component";
+import { ConnectionComponent, CreateDatabaseDialog, FirstVisitDialog } from "./connection/connection.component";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
@@ -116,6 +116,7 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 		ConfigDialog,
 		LogsDialog,
 		CreateDatabaseDialog,
+		FirstVisitDialog,
 		TablesComponent,
 		CreateTableDialog,
 		TopRightComponent,

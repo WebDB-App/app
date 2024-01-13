@@ -54,6 +54,11 @@ export class ConnectionComponent implements OnInit {
 		if (this.demo) {
 			this.defaultUser = "root";
 			this.defaultPass = "notSecureChangeMe";
+
+			if (!localStorage.getItem("firstVisit")) {
+				localStorage.setItem("firstVisit", "true");
+				this.dialog.open(FirstVisitDialog);
+			}
 		}
 
 		for (const driver of Object.keys(drivers)) {
@@ -244,5 +249,15 @@ export class CreateDatabaseDialog {
 			return false;
 		}
 		return !this.server.dbs.find(db => db.name === value);
+	}
+}
+
+
+@Component({
+	templateUrl: 'first-visit-dialog.html',
+})
+export class FirstVisitDialog {
+
+	constructor() {
 	}
 }
