@@ -90,7 +90,7 @@ ${def[0]["VIEW_DEFINITION"]}`
 	}
 
 	async saveState(path, database) {
-		return bash.runBash(`mysqldump --single-transaction --skip-comments --column-statistics=0 --routines --events --user='${this.user}' --port=${this.port} --password='${this.password}' --host='${this.host}' ${database} > ${path}`);
+		return bash.runBash(`mysqldump --single-transaction --skip-comments --column-statistics=0 --routines --events --user='${this.user}' --port=${this.port} --password='${this.password}' --host='${this.host}' ${database} > ${join(path, database)}`);
 	}
 
 	async load(files, database) {

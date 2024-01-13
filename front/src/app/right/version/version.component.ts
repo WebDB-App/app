@@ -3,6 +3,7 @@ import { Server } from "../../../classes/server";
 import { Database } from "../../../classes/database";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { RequestService } from "../../../shared/request.service";
+import { Router } from "@angular/router";
 
 class Patch {
 	diff?: string;
@@ -37,6 +38,7 @@ export class VersionComponent implements OnInit, OnDestroy {
 
 	constructor(
 		private request: RequestService,
+		private router: Router,
 		public snackBar: MatSnackBar
 	) {
 	}
@@ -118,6 +120,11 @@ export class VersionComponent implements OnInit, OnDestroy {
 
 		await this.request.post('version/reset', patch);
 		await this.request.reloadServer();
+		await this.router.navigate([
+			'/',
+			this.selectedServer?.name,
+			this.selectedDatabase?.name
+		]);
 		this.snackBar.open(`Database reset to ${patch.hash}`, '⨉', {duration: 3000});
 
 		patch.isLoading = this.isResetting = false;

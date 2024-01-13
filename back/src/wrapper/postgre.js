@@ -125,7 +125,7 @@ ${def[0]["pg_get_viewdef"]}`
 
 	async saveState(path, dbSchema) {
 		const [database] = dbSchema.split(this.dbToSchemaDelimiter);
-		return bash.runBash(`pg_dump ${this.makeUri(database)} > ${path}`);
+		return bash.runBash(`pg_dump ${this.makeUri(database)} > ${join(path, database)}`);
 	}
 
 	makeUri(database = false) {
@@ -350,13 +350,10 @@ ${def[0]["pg_get_viewdef"]}`
 	}
 
 	async dropDatabase(name) {
-		name = name.split(this.dbToSchemaDelimiter)[0];
+		const schema = name.split(this.dbToSchemaDelimiter)[1];
 
-		let error = "Database deletion is not supported for this driver.\n";
-		error += "First, close all connection to this database, so restart WebDB and other possibly connected app\n";
-		error += "From your host or inside WebDB container, run: \n";
-		error += `psql ${this.makeUri()} -c 'DROP DATABASE ${this.escapeId(name)}'`;
-		return {error};
+		await this.runCommand(`DROP SCHEMA ${this.escapeId(schema)} CASCADE`);
+		return await this.runCommand(`CREATE SCHEMA ${this.escapeId(schema)}`);
 	}
 
 	getDbs() {

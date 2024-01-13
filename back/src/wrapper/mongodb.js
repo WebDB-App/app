@@ -66,7 +66,7 @@ export default class MongoDB extends Driver {
 	}
 
 	async saveState(path, database) {
-		return bash.runBash(`mongodump --uri="${this.makeUri()}" --db=${database} --out=${path}`);
+		return bash.runBash(`mongodump --uri="${this.makeUri()}" --db=${database} --out=${path.slice(0, path.lastIndexOf("/"))}`);
 	}
 
 	readDiff(database, diff) {

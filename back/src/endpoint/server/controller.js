@@ -84,8 +84,10 @@ class Controller {
 			result = await driver.load(req.files, req.get("Database"));
 		}
 
-		fs.rmSync(req.files[0].destination, {recursive: true, force: true});
 		res.send(result);
+
+		version.commandFinished(driver, "", req.get("Database"), true);
+		fs.rmSync(req.files[0].destination, {recursive: true, force: true});
 	}
 
 	async dump(req, res) {

@@ -29,7 +29,7 @@ class Controller {
 		const [driver, database] = await http.getLoggedDriver(req);
 
 		try {
-			res.send(await version.reset(database.split(driver.dbToSchemaDelimiter)[0], driver, req.body.hash));
+			res.send(await version.reset(database, driver, req.body.hash));
 		} catch (e) {
 			console.error(e);
 			res.send(e);

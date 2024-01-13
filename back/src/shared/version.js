@@ -1,9 +1,11 @@
 import {join} from "path";
-import {existsSync} from "fs";
+import {existsSync, readdirSync} from "fs";
 import bash from "./bash.js";
 import {URL} from "url";
 import {simpleGit} from "simple-git";
 import {alterStructure} from "./helper.js";
+import Driver from "./driver.js";
+import {BSON} from "mongodb";
 
 const dirname = new URL(".", import.meta.url).pathname;
 const rootPath = join(dirname, "../../static/version/");
@@ -30,6 +32,7 @@ class Version {
 	}
 
 	async reset(database, driver, hash) {
+		const db = database.split(" ¦ ")[0];
 		const dir = this.getPath(database, driver);
 		if (!existsSync(dir)) {
 			return {error: "Directory does not exist"};
@@ -39,9 +42,15 @@ class Version {
 		if (r.error) {
 			return r;
 		}
+		const files = readdirSync(dir).filter(f => !f.startsWith(".")).map(f => {return {
+			originalname: f,
+			path: join(dir, f),
+			destination: dir};
+		});
+
 		await driver.dropDatabase(database);
-		await driver.createDatabase(database);
-		await driver.load([{path: `${dir}/${database}`}], database);
+		await driver.createDatabase(db);
+		await driver.load(files, db);
 
 		return {ok: 1};
 	}
@@ -54,7 +63,11 @@ class Version {
 		if (!diff) {
 			diff = "⸻ Empty diff ⸻";
 		} else {
-			diff = driver.readDiff(database, diff);
+			diff = driver.readDiff(database, diff).slice(0, 2000000);
+			// eslint-disable-next-line no-control-regex
+			diff = diff.replace(/[\x00-\x09\x0B-\x0C\x0E-\x1F]/g, " ");
+			diff = diff.replaceAll("�", " ");
+			diff = diff.replace(/ +(?= )/g,"");
 		}
 
 		return {diff};
@@ -103,7 +116,7 @@ class Version {
 			bash.runBash(`mkdir -p ${dir} && cd ${dir} && git init --initial-branch=main`);
 		}
 
-		const state = await driver.saveState(join(dir, database), database);
+		const state = await driver.saveState(dir, database);
 		if (state.error) {
 			console.error(state.error);
 			return;
