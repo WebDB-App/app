@@ -91,7 +91,7 @@ export class VersionComponent implements OnInit, OnDestroy {
 			if (!patch.diff) {
 				continue;
 			}
-			this.patches[index].hide = patch.diff.indexOf(value) < 0;
+			this.patches[index].hide = patch.diff.toLowerCase().indexOf(value) < 0;
 		}
 	}
 

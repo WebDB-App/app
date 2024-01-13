@@ -31,9 +31,9 @@ class Version {
 		return join(rootPath, driver.port.toString(), database);
 	}
 
-	async reset(database, driver, hash) {
-		const db = database.split(" ¦ ")[0];
-		const dir = this.getPath(database, driver);
+	async reset(dbSchema, driver, hash) {
+		const db = dbSchema.split(" ¦ ")[0];
+		const dir = this.getPath(db, driver);
 		if (!existsSync(dir)) {
 			return {error: "Directory does not exist"};
 		}
@@ -48,7 +48,7 @@ class Version {
 			destination: dir};
 		});
 
-		await driver.dropDatabase(database);
+		await driver.dropDatabase(dbSchema);
 		await driver.createDatabase(db);
 		await driver.load(files, db);
 
