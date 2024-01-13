@@ -4,8 +4,6 @@ import bash from "./bash.js";
 import {URL} from "url";
 import {simpleGit} from "simple-git";
 import {alterStructure} from "./helper.js";
-import Driver from "./driver.js";
-import {BSON} from "mongodb";
 
 const dirname = new URL(".", import.meta.url).pathname;
 const rootPath = join(dirname, "../../static/version/");
