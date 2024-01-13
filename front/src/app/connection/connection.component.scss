@@ -83,6 +83,11 @@
 				flex-direction: column;
 				width: 145px;
 				justify-content: space-evenly;
+
+				> button {
+					flex: 1;
+					text-align: left;
+				}
 			}
 		}
 
