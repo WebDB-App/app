@@ -41,7 +41,7 @@ ${def[0]["VIEW_DEFINITION"]}`
 			let create = await this.runCommand(`SHOW CREATE TABLE ${this.escapeId(table)}`, name);
 			create = create[0];
 
-			if (create["Create View"]) {
+			if (create && create["Create View"]) {
 				return {
 					structure: create["Create View"],
 					data: []
