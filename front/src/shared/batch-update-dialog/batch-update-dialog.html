@@ -33,6 +33,16 @@
 	</ngx-monaco-editor>
 </div>
 <mat-dialog-actions>
+	<a	[href]="selectedServer?.driver!.language.extendedJSONDoc"
+		  target="_blank"
+		  *ngIf="selectedServer?.driver!.language.extendedJSONDoc"
+		  mat-button>
+		<span class="material-symbols-outlined notranslate">
+			info
+		</span>
+		JSON Doc
+	</a>
+
 	<mat-error
 		*ngIf="strError() !== null"
 		style="width: 420px">
