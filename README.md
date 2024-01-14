@@ -1,4 +1,4 @@
-# WebDB – Open Source and Efficient Database IDE
+# WebDB – Efficient Database IDE
 
 ### Regular installation
 
@@ -12,13 +12,11 @@
 
 [📝 Planned features](TODO.md)
 
-[💡 Proposal](https://gitlab.com/web-db/app/-/issues/?search=Proposal)
-
 ### Links
 
 [🌍 Website](https://webdb.app/)
 
-[🐛 Issues](https://gitlab.com/web-db/app/-/issues)
+[🐛 Issues](https://github.com/WebDB-App/app)
 
 [📙 Wiki](https://gitlab.com/web-db/-/app/home)
 

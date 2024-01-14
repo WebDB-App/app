@@ -17,7 +17,7 @@ export class AppComponent {
 		private matIconRegistry: MatIconRegistry,
 		private snackBar: MatSnackBar) {
 
-		for (const icon of ['gitlab', 'linkedin', 'webdb', 'openai', 'google', 'gemini', 'together', 'docker', 'faker', 'falso']) {
+		for (const icon of ['github', 'linkedin', 'webdb', 'openai', 'google', 'gemini', 'together', 'docker', 'faker', 'falso']) {
 			this.matIconRegistry.addSvgIcon(
 				icon,
 				this.domSanitizer.bypassSecurityTrustResourceUrl(`/assets/${icon}.svg`)

@@ -7,7 +7,7 @@
 ##### Setup
 
 ```
-git clone git@gitlab.com:web-db/app.git && cd app
+git clone git@github.com:WebDB-App/app.git && cd app
 
 cd back && npm i && cd ..
 cd front && pnpm i && cd ..

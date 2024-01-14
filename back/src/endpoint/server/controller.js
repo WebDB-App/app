@@ -13,8 +13,8 @@ class Controller {
 
 	async scan(req, res) {
 		let hosts = ["127.0.0.1", "host.docker.internal"];
-		if (process.env.ADD_HOSTS) {
-			hosts = hosts.concat(process.env.ADD_HOSTS.split(","));
+		if (process.env.SCAN_HOSTS) {
+			hosts = hosts.concat(process.env.SCAN_HOSTS.split(","));
 		}
 
 		const wrappers = await wrapperModel.getWrappers();
