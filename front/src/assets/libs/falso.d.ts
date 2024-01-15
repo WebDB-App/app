@@ -3,11 +3,12 @@
 export interface FakeOptions {
 	length?: number;
 	locale?: any | string[];
+	maxCharCount?: number;
 }
-export declare type markRequired<Type, Key extends keyof Type> = Type & {
+export type markRequired<Type, Key extends keyof Type> = Type & {
 	[Property in Key]-?: Type[Property];
 };
-export declare type Return<T, O extends FakeOptions> = [
+export type Return<T, O extends FakeOptions> = [
 	O
 ] extends [
 	never
@@ -31,7 +32,7 @@ export interface RandomInRangeOptions {
  * randAbbreviation({ length: 10 })
  *
  */
-export declare function randAbbreviation<O extends FakeOptions = never>(options?: O): Return<string, O>;
+export declare function randAbbreviation<Options extends FakeOptions = never>(options?: Options): Return<string, Options>;
 /**
  * Generate a random accessory.
  *
@@ -320,11 +321,29 @@ export interface BetweenOptions extends FakeOptions {
  *
  */
 export declare function randBetweenDate<Options extends BetweenOptions = never>(options: Options): Return<Date, Options>;
+export type AZ = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H" | "I" | "J" | "K" | "L" | "M" | "N" | "O" | "P" | "Q" | "R" | "S" | "T" | "U" | "V" | "W" | "X" | "Y" | "Z";
+export type Digit = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
+export type AZ09 = AZ | Digit;
+/**
+ * Generate a random country code.
+ *
+ * @category address
+ *
+ * @example
+ *
+ * randCountryCode()
+ *
+ * @example
+ *
+ * randCountryCode({ length: 10 })
+ *
+ */
+export declare function randCountryCode<Options extends FakeOptions = never>(options?: Options): Return<"MS" | "TW" | "LR" | "HU" | "PK" | "GQ" | "GG" | "SZ" | "MQ" | "AS" | "WS" | "BJ" | "NR" | "FJ" | "ZM" | "CR" | "BO" | "AW" | "AI" | "GW" | "PF" | "MO" | "PE" | "UZ" | "JM" | "KH" | "RW" | "GN" | "IN" | "MR" | "MC" | "KG" | "SA" | "SV" | "TZ" | "ME" | "BB" | "IE" | "LY" | "TM" | "SN" | "MA" | "BN" | "ML" | "LV" | "SM" | "HT" | "NF" | "TD" | "UA" | "FM" | "KM" | "CN" | "GF" | "MT" | "RO" | "PA" | "FI" | "BG" | "KZ" | "PN" | "BL" | "NO" | "IM" | "AQ" | "MV" | "LA" | "NU" | "LS" | "CW" | "CF" | "GT" | "TL" | "RU" | "BQ" | "GB" | "BV" | "TC" | "EC" | "NG" | "AD" | "RE" | "SL" | "CL" | "ER" | "AA" | "AB" | "AC" | "AE" | "AF" | "AG" | "AH" | "AJ" | "AK" | "AL" | "AM" | "AN" | "AO" | "AP" | "AR" | "AT" | "AU" | "AV" | "AX" | "AY" | "AZ" | "BA" | "BC" | "BD" | "BE" | "BF" | "BH" | "BI" | "BK" | "BM" | "BP" | "BR" | "BS" | "BT" | "BU" | "BW" | "BX" | "BY" | "BZ" | "CA" | "CB" | "CC" | "CD" | "CE" | "CG" | "CH" | "CI" | "CJ" | "CK" | "CM" | "CO" | "CP" | "CQ" | "CS" | "CT" | "CU" | "CV" | "CX" | "CY" | "CZ" | "DA" | "DB" | "DC" | "DD" | "DE" | "DF" | "DG" | "DH" | "DI" | "DJ" | "DK" | "DL" | "DM" | "DN" | "DO" | "DP" | "DQ" | "DR" | "DS" | "DT" | "DU" | "DV" | "DW" | "DX" | "DY" | "DZ" | "EA" | "EB" | "ED" | "EE" | "EF" | "EG" | "EH" | "EI" | "EJ" | "EK" | "EL" | "EM" | "EN" | "EO" | "EP" | "EQ" | "ES" | "ET" | "EU" | "EV" | "EW" | "EX" | "EY" | "EZ" | "FA" | "FB" | "FC" | "FD" | "FE" | "FF" | "FG" | "FH" | "FK" | "FL" | "FN" | "FO" | "FP" | "FQ" | "FR" | "FS" | "FT" | "FU" | "FV" | "FW" | "FX" | "FY" | "FZ" | "GA" | "GC" | "GD" | "GE" | "GH" | "GI" | "GJ" | "GK" | "GL" | "GM" | "GO" | "GP" | "GR" | "GS" | "GU" | "GV" | "GX" | "GY" | "GZ" | "HA" | "HB" | "HC" | "HD" | "HE" | "HF" | "HG" | "HH" | "HI" | "HJ" | "HK" | "HL" | "HM" | "HN" | "HO" | "HP" | "HQ" | "HR" | "HS" | "HV" | "HW" | "HX" | "HY" | "HZ" | "IA" | "IB" | "IC" | "ID" | "IF" | "IG" | "IH" | "II" | "IJ" | "IK" | "IL" | "IO" | "IP" | "IQ" | "IR" | "IS" | "IT" | "IU" | "IV" | "IW" | "IX" | "IY" | "IZ" | "JA" | "JB" | "JC" | "JD" | "JE" | "JF" | "JG" | "JH" | "JI" | "JJ" | "JK" | "JL" | "JN" | "JO" | "JP" | "JQ" | "JR" | "JS" | "JT" | "JU" | "JV" | "JW" | "JX" | "JY" | "JZ" | "KA" | "KB" | "KC" | "KD" | "KE" | "KF" | "KI" | "KJ" | "KK" | "KL" | "KN" | "KO" | "KP" | "KQ" | "KR" | "KS" | "KT" | "KU" | "KV" | "KW" | "KX" | "KY" | "LB" | "LC" | "LD" | "LE" | "LF" | "LG" | "LH" | "LI" | "LJ" | "LK" | "LL" | "LM" | "LN" | "LO" | "LP" | "LQ" | "LT" | "LU" | "LW" | "LX" | "LZ" | "MB" | "MD" | "MF" | "MG" | "MH" | "MI" | "MJ" | "MK" | "MM" | "MN" | "MP" | "MU" | "MW" | "MX" | "MY" | "MZ" | "NA" | "NB" | "NC" | "ND" | "NE" | "NH" | "NI" | "NJ" | "NK" | "NL" | "NM" | "NN" | "NP" | "NQ" | "NS" | "NT" | "NV" | "NW" | "NX" | "NY" | "NZ" | "OA" | "OB" | "OC" | "OD" | "OE" | "OF" | "OG" | "OH" | "OI" | "OJ" | "OK" | "OL" | "OM" | "ON" | "OO" | "OP" | "OQ" | "OR" | "OS" | "OT" | "OU" | "OV" | "OW" | "OX" | "OY" | "OZ" | "PB" | "PC" | "PD" | "PG" | "PH" | "PI" | "PJ" | "PL" | "PM" | "PO" | "PP" | "PQ" | "PR" | "PS" | "PT" | "PU" | "PV" | "PW" | "PX" | "PY" | "PZ" | "QA" | "QB" | "QC" | "QD" | "QE" | "QF" | "QG" | "QH" | "QI" | "QJ" | "QK" | "QL" | "QM" | "QN" | "QO" | "QP" | "QQ" | "QR" | "QS" | "QT" | "QU" | "QV" | "QW" | "QX" | "QY" | "QZ" | "RA" | "RB" | "RC" | "RD" | "RF" | "RG" | "RH" | "RI" | "RJ" | "RK" | "RL" | "RM" | "RN" | "RP" | "RQ" | "RR" | "RS" | "RT" | "RV" | "RX" | "RY" | "RZ" | "SB" | "SC" | "SD" | "SE" | "SF" | "SG" | "SH" | "SI" | "SJ" | "SK" | "SO" | "SP" | "SQ" | "SR" | "SS" | "ST" | "SU" | "SW" | "SX" | "SY" | "TA" | "TB" | "TE" | "TF" | "TG" | "TH" | "TI" | "TJ" | "TK" | "TN" | "TO" | "TP" | "TQ" | "TR" | "TS" | "TT" | "TU" | "TV" | "TX" | "TY" | "UB" | "UC" | "UD" | "UE" | "UF" | "UG" | "UH" | "UI" | "UJ" | "UK" | "UL" | "UM" | "UN" | "UO" | "UP" | "UQ" | "UR" | "US" | "UT" | "UU" | "UV" | "UW" | "UX" | "UY" | "VA" | "VB" | "VC" | "VD" | "VE" | "VF" | "VG" | "VH" | "VI" | "VJ" | "VK" | "VL" | "VM" | "VN" | "VO" | "VP" | "VQ" | "VR" | "VS" | "VT" | "VU" | "VV" | "VW" | "VX" | "VY" | "VZ" | "WA" | "WB" | "WC" | "WD" | "WE" | "WF" | "WG" | "WH" | "WI" | "WJ" | "WK" | "WL" | "WM" | "WN" | "WO" | "WP" | "WQ" | "WR" | "WT" | "WU" | "WV" | "WW" | "WX" | "WY" | "WZ" | "XA" | "XB" | "XC" | "XD" | "XE" | "XF" | "XG" | "XH" | "XI" | "XJ" | "XK" | "XL" | "XM" | "XN" | "XO" | "XP" | "XQ" | "XR" | "XS" | "XT" | "XU" | "XV" | "XW" | "XX" | "XY" | "XZ" | "YA" | "YB" | "YC" | "YD" | "YE" | "YF" | "YG" | "YH" | "YI" | "YJ" | "YK" | "YL" | "YM" | "YN" | "YO" | "YP" | "YQ" | "YR" | "YS" | "YT" | "YU" | "YV" | "YW" | "YX" | "YY" | "YZ" | "ZA" | "ZB" | "ZC" | "ZD" | "ZE" | "ZF" | "ZG" | "ZH" | "ZI" | "ZJ" | "ZK" | "ZL" | "ZN" | "ZO" | "ZP" | "ZQ" | "ZR" | "ZS" | "ZT" | "ZU" | "ZV" | "ZW" | "ZX" | "ZY" | "ZZ", Options>;
 export interface SwiftOptions extends FakeOptions {
 	bankCode?: string;
-	countryCode?: string;
-	locationCode?: string;
-	branchCode?: string;
+	countryCode?: CountryCode;
+	locationCode?: `${AZ09}${AZ09}`;
+	branchCode?: `${AZ09}${AZ09}${AZ09}`;
 	fillBranchCode?: boolean;
 }
 /**
@@ -650,21 +669,6 @@ export declare function randCompanyName<Options extends FakeOptions = never>(opt
  */
 export declare function randCountry<Options extends FakeOptions = never>(options?: Options): Return<string, Options>;
 /**
- * Generate a random country code.
- *
- * @category address
- *
- * @example
- *
- * randCountryCode()
- *
- * @example
- *
- * randCountryCode({ length: 10 })
- *
- */
-export declare function randCountryCode<Options extends FakeOptions = never>(options?: Options): Return<string, Options>;
-/**
  * Generate a random county.
  *
  * @category Address
@@ -727,7 +731,7 @@ export declare function randCreditCardBrand<Options extends FakeOptions = never>
 export interface CreditCardNumberOptions extends FakeOptions {
 	brand?: Brand;
 }
-export declare type Brand = "American Express" | "UnionPay" | "Diners Club" | "Discover Card" | "RuPay" | "JCB" | "Maestro" | "Dankort" | "Mastercard" | "Visa" | "Visa Electron" | "UATP";
+export type Brand = "American Express" | "UnionPay" | "Diners Club" | "Discover Card" | "RuPay" | "JCB" | "Maestro" | "Dankort" | "Mastercard" | "Visa" | "Visa Electron" | "UATP";
 /**
  * Generate a random credit card number.
  *
@@ -994,7 +998,7 @@ export interface EmailOptions extends FakeOptions {
 	suffix?: string;
 	nameSeparator?: NameSeparators;
 }
-export declare type NameSeparators = "." | "-" | "_" | "+" | "none";
+export type NameSeparators = "." | "-" | "_" | "+" | "none";
 /**
  * Generate a random email.
  *
@@ -1091,6 +1095,9 @@ export declare function randEthereumAddress<Options extends FakeOptions = never>
  *
  */
 export declare function randFileExt<Options extends FakeOptions = never>(options?: Options): Return<string, Options>;
+export interface FileNameOptions extends FakeOptions {
+	extension?: string;
+}
 /**
  * Generate a random file name.
  *
@@ -1105,9 +1112,7 @@ export declare function randFileExt<Options extends FakeOptions = never>(options
  * randFileName({ length: 10 })
  *
  */
-export declare function randFileName<Options extends FakeOptions & {
-	extension?: string;
-} = never>(options?: Options): Return<string, Options>;
+export declare function randFileName<Options extends FileNameOptions = never>(options?: Options): Return<string, Options>;
 /**
  * Generate a random file path.
  *
@@ -1242,7 +1247,7 @@ export declare function randFloat<Options extends RandomFloatOptions = never>(op
  *
  */
 export declare function randFontFamily<Options extends FakeOptions = never>(options?: Options): Return<string, Options>;
-export declare type FontSizeSuffix = "px" | "cm" | "em" | "rem" | "vw" | "vh" | "vmin" | "vmax" | "%";
+export type FontSizeSuffix = "px" | "cm" | "em" | "rem" | "vw" | "vh" | "vmin" | "vmax" | "%";
 export interface FontSizeOptions extends FakeOptions {
 	suffix?: FontSizeSuffix;
 }
@@ -1261,7 +1266,7 @@ export interface FontSizeOptions extends FakeOptions {
  *
  */
 export declare function randFontSize<Options extends FontSizeOptions = never>(options?: Options): Return<string, Options>;
-export declare type FoodOrigin = "china" | "italy" | "india" | "mexico" | "japan" | "france" | "lebanon" | "thailand" | "greece" | "turkey" | "spain" | "venezuela" | "chile" | "argentina" | "colombia" | "ecuador" | "peru" | "el salvador" | "romania";
+export type FoodOrigin = "china" | "italy" | "india" | "mexico" | "japan" | "france" | "lebanon" | "thailand" | "greece" | "turkey" | "spain" | "venezuela" | "chile" | "argentina" | "colombia" | "ecuador" | "peru" | "el salvador" | "romania";
 export interface FoodOptions extends FakeOptions {
 	origin?: FoodOrigin;
 }
@@ -1516,7 +1521,7 @@ export declare function randHsl<Options extends HSLOptions = never>(options?: Op
  */
 export declare function randHttpMethod<Options extends FakeOptions = never>(options?: Options): Return<string, Options>;
 export interface IbanOptions extends FakeOptions {
-	countryCode?: string;
+	countryCode?: CountryCode;
 }
 /**
  * Generate a random IBAN number.
@@ -1552,6 +1557,11 @@ export declare function randIban<Options extends IbanOptions = never>(options?: 
  *
  */
 export declare function randIceHockeyTeam<Options extends FakeOptions = never>(options?: Options): Return<string, Options>;
+export interface ImgOptions extends FakeOptions {
+	width?: number;
+	height?: number;
+	grayscale?: boolean;
+}
 /**
  * Generate a random img.
  *
@@ -1565,12 +1575,20 @@ export declare function randIceHockeyTeam<Options extends FakeOptions = never>(o
  *
  * randImg({ length: 10 })
  *
+ * @example
+ *
+ * randImg({ width: 300 }) // default is "height" or 500 (if not set either)
+ *
+ * @example
+ *
+ * randImg({ height: 200 }) // default is "width" or 500 (if not set either)
+ *
+ * @example
+ *
+ * randImg({ grayscale: true }) // return a grayscale image (default is false)
+ *
  */
-export declare function randImg<Options extends FakeOptions & {
-	width?: number;
-	height?: number;
-	category?: Category;
-} = never>(options?: Options): Return<string, Options>;
+export declare function randImg<Options extends ImgOptions = never>(options?: Options): Return<string, Options>;
 /**
  * Generate a random integration.
  *
@@ -1825,6 +1843,11 @@ export declare function randLongitude<Options extends FakeOptions = never>(optio
  *
  */
 export declare function randMac<Options extends FakeOptions = never>(options?: Options): Return<string, Options>;
+export interface MaskOptions extends FakeOptions {
+	mask?: string;
+	char?: string;
+	digit?: string;
+}
 /**
  * Generate a random mask.
  *
@@ -1843,11 +1866,7 @@ export declare function randMac<Options extends FakeOptions = never>(options?: O
  * randMask({ length: 10 })
  *
  */
-export declare function randMask<Options extends FakeOptions & {
-	mask?: string;
-	char?: string;
-	digit?: string;
-} = never>(options?: Options): Return<string, Options>;
+export declare function randMask<Options extends MaskOptions = never>(options?: Options): Return<string, Options>;
 /**
  * Generate a random mime type.
  *
@@ -1887,6 +1906,22 @@ export interface MonthOptions extends FakeOptions {
  */
 export declare function randMonth<Options extends MonthOptions = never>(options?: Options): Return<string, Options>;
 /**
+ * Generate a random motorcycle manufacturer.
+ *
+ * @category motorcycle
+ *
+ * @example
+ *
+ * randMotorcycleManufacturer()
+ *
+ * @example
+ *
+ * randMotorcycleManufacturer({ length: 10 })
+ *
+ */
+export declare function randMotorcycleManufacturer<Options extends FakeOptions = never>(options?: Options): Return<string, Options>;
+/**
+ * @deprecated there is a typo in the function name, use randMotorcycleManufacturer;
  * Generate a random motorcylce manufacturer.
  *
  * @category motorcycle
@@ -2139,7 +2174,10 @@ export declare function randPermission<Options extends PermissionOptions = never
  *
  */
 export declare function randPersonTitle<Options extends FakeOptions = never>(options?: Options): Return<string, Options>;
-export declare type CountryCode = "AC" | "AD" | "AE" | "AF" | "AG" | "AI" | "AL" | "AM" | "AN" | "AO" | "AQ" | "AR" | "AS" | "AT" | "AU" | "AW" | "AZ" | "BA" | "BB" | "BD" | "BE" | "BF" | "BG" | "BH" | "BI" | "BJ" | "BM" | "BN" | "BO" | "BR" | "BS" | "BT" | "BW" | "BY" | "BZ" | "CD" | "CF" | "CG" | "CH" | "CI" | "CK" | "CL" | "CM" | "CN" | "CO" | "CR" | "CU" | "CV" | "CW" | "CY" | "CZ" | "DE" | "DJ" | "DK" | "DM" | "DO" | "DZ" | "EC" | "EE" | "EG" | "ER" | "ES" | "ET" | "FI" | "FJ" | "FK" | "FM" | "FO" | "FR" | "GA" | "GD" | "GE" | "GF" | "GH" | "GI" | "GL" | "GM" | "GN" | "GQ" | "GR" | "GT" | "GU" | "GW" | "GY" | "HK" | "HN" | "HR" | "HT" | "HU" | "ID" | "IE" | "IL" | "IN" | "IO" | "IQ" | "IR" | "IS" | "IT" | "JM" | "JO" | "JP" | "KE" | "KG" | "KH" | "KI" | "KM" | "KN" | "KP" | "KR" | "KW" | "KY" | "KZ" | "LA" | "LB" | "LC" | "LI" | "LK" | "LR" | "LS" | "LT" | "LU" | "LV" | "LY" | "MA" | "MC" | "MD" | "ME" | "MG" | "MH" | "MK" | "ML" | "MM" | "MN" | "MO" | "MP" | "MQ" | "MR" | "MS" | "MT" | "MU" | "MV" | "MW" | "MX" | "MY" | "MZ" | "NA" | "NC" | "NE" | "NF" | "NG" | "NI" | "NL" | "NO" | "NP" | "NR" | "NU" | "NZ" | "OM" | "PA" | "PE" | "PF" | "PG" | "PH" | "PK" | "PL" | "PS" | "PT" | "PW" | "PY" | "QA" | "RE" | "RO" | "RS" | "RU" | "RW" | "SA" | "SB" | "SC" | "SD" | "SE" | "SG" | "SH" | "SI" | "SK" | "SL" | "SM" | "SN" | "SO" | "SR" | "SS" | "ST" | "SV" | "SX" | "SY" | "SZ" | "TC" | "TD" | "TG" | "TH" | "TJ" | "TK" | "TL" | "TM" | "TN" | "TO" | "TR" | "TT" | "TV" | "TW" | "TZ" | "UA" | "UG" | "GB" | "UY" | "UZ" | "VA" | "VC" | "VE" | "VG" | "VI" | "VN" | "VU" | "WF" | "WS" | "YE" | "ZA" | "ZM" | "ZW" | "US" | "CA" | "UK";
+export interface PhoneNumberOptions extends FakeOptions {
+	countryCode?: CountryCode;
+}
+export type CountryCode = "AC" | "AD" | "AE" | "AF" | "AG" | "AI" | "AL" | "AM" | "AN" | "AO" | "AQ" | "AR" | "AS" | "AT" | "AU" | "AW" | "AZ" | "BA" | "BB" | "BD" | "BE" | "BF" | "BG" | "BH" | "BI" | "BJ" | "BM" | "BN" | "BO" | "BR" | "BS" | "BT" | "BW" | "BY" | "BZ" | "CD" | "CF" | "CG" | "CH" | "CI" | "CK" | "CL" | "CM" | "CN" | "CO" | "CR" | "CU" | "CV" | "CW" | "CY" | "CZ" | "DE" | "DJ" | "DK" | "DM" | "DO" | "DZ" | "EC" | "EE" | "EG" | "ER" | "ES" | "ET" | "FI" | "FJ" | "FK" | "FM" | "FO" | "FR" | "GA" | "GD" | "GE" | "GF" | "GH" | "GI" | "GL" | "GM" | "GN" | "GQ" | "GR" | "GT" | "GU" | "GW" | "GY" | "HK" | "HN" | "HR" | "HT" | "HU" | "ID" | "IE" | "IL" | "IN" | "IO" | "IQ" | "IR" | "IS" | "IT" | "JM" | "JO" | "JP" | "KE" | "KG" | "KH" | "KI" | "KM" | "KN" | "KP" | "KR" | "KW" | "KY" | "KZ" | "LA" | "LB" | "LC" | "LI" | "LK" | "LR" | "LS" | "LT" | "LU" | "LV" | "LY" | "MA" | "MC" | "MD" | "ME" | "MG" | "MH" | "MK" | "ML" | "MM" | "MN" | "MO" | "MP" | "MQ" | "MR" | "MS" | "MT" | "MU" | "MV" | "MW" | "MX" | "MY" | "MZ" | "NA" | "NC" | "NE" | "NF" | "NG" | "NI" | "NL" | "NO" | "NP" | "NR" | "NU" | "NZ" | "OM" | "PA" | "PE" | "PF" | "PG" | "PH" | "PK" | "PL" | "PS" | "PT" | "PW" | "PY" | "QA" | "RE" | "RO" | "RS" | "RU" | "RW" | "SA" | "SB" | "SC" | "SD" | "SE" | "SG" | "SH" | "SI" | "SK" | "SL" | "SM" | "SN" | "SO" | "SR" | "SS" | "ST" | "SV" | "SX" | "SY" | "SZ" | "TC" | "TD" | "TG" | "TH" | "TJ" | "TK" | "TL" | "TM" | "TN" | "TO" | "TR" | "TT" | "TV" | "TW" | "TZ" | "UA" | "UG" | "GB" | "UY" | "UZ" | "VA" | "VC" | "VE" | "VG" | "VI" | "VN" | "VU" | "WF" | "WS" | "YE" | "ZA" | "ZM" | "ZW" | "US" | "CA" | "UK";
 /**
  * Generate a random phone number.
  *
@@ -2158,9 +2196,7 @@ export declare type CountryCode = "AC" | "AD" | "AE" | "AF" | "AG" | "AI" | "AL"
  * randPhoneNumber({ length: 10 })
  *
  */
-export declare function randPhoneNumber<Options extends FakeOptions & {
-	countryCode?: CountryCode;
-} = never>(options?: Options): Return<string, Options>;
+export declare function randPhoneNumber<Options extends PhoneNumberOptions = never>(options?: Options): Return<string, Options>;
 /**
  * Generate a random phrase.
  *
@@ -2602,11 +2638,11 @@ export declare function randSemver<Options extends SemverOptions = never>(option
  *
  */
 export declare function randSentence<Options extends FakeOptions = never>(options?: Options): Return<string, Options>;
-export declare type RandomSequenceOptions = {
+export type RandomSequenceOptions = {
 	size?: number;
 	chars?: string;
 } & FakeOptions;
-export declare type RandomSequenceOptions2 = {
+export type RandomSequenceOptions2 = {
 	size?: number;
 	charType?: "numeric" | "alpha" | "alphaNumeric" | "special";
 } & FakeOptions;
@@ -2739,7 +2775,7 @@ export interface SoonOptions extends FakeOptions {
  *
  */
 export declare function randSoonDate<Options extends SoonOptions = never>(options?: Options): Return<Date, Options>;
-export declare type Category = "olympic" | "winterOlympic" | "outdoor";
+export type Category = "olympic" | "winterOlympic" | "outdoor";
 export interface SportCategories extends FakeOptions {
 	category?: Category;
 }
@@ -2807,7 +2843,10 @@ export declare function randState<Options extends FakeOptions = never>(options?:
  *
  */
 export declare function randStateAbbr<Options extends FakeOptions = never>(options?: Options): Return<string, Options>;
-export declare type Type = "Project" | "User Story" | "Task";
+export type Type = "Project" | "User Story" | "Task";
+export interface StatusOptions extends FakeOptions {
+	type?: Type;
+}
 /**
  * Generate a random status.
  *
@@ -2826,9 +2865,7 @@ export declare type Type = "Project" | "User Story" | "Task";
  * randStatus({ length: 10 })
  *
  */
-export declare function randStatus<Options extends FakeOptions & {
-	type?: Type;
-} = never>(options?: Options): Return<string, Options>;
+export declare function randStatus<Options extends StatusOptions = never>(options?: Options): Return<string, Options>;
 /**
  * Generate a random street address.
  *
@@ -2874,7 +2911,7 @@ export declare function randStreetName<Options extends FakeOptions = never>(opti
  *
  */
 export declare function randSubscriptionPlan<Options extends FakeOptions = never>(options?: Options): Return<string, Options>;
-export declare type ComicBookCompany = "Marvel" | "DC";
+export type ComicBookCompany = "Marvel" | "DC";
 export interface SuperheroOptions extends FakeOptions {
 	company?: ComicBookCompany;
 }
@@ -3044,6 +3081,7 @@ export declare function randUserAgent<Options extends FakeOptions = never>(optio
 export interface UserNameOptions extends FakeOptions {
 	firstName?: string;
 	lastName?: string;
+	withAccents?: boolean;
 }
 /**
  * Generate a random user name.
@@ -3065,6 +3103,10 @@ export interface UserNameOptions extends FakeOptions {
  * @example
  *
  * randUserName({ lastName: 'Smee' })
+ *
+ * @example
+ *
+ * randUserName({ withAccents: false }) // return username without special symbols like â, î or ô and etc
  *
  */
 export declare function randUserName<Options extends UserNameOptions = never>(options?: Options): Return<string, Options>;
@@ -3352,7 +3394,7 @@ declare const CODE_SNIPPET_LANGUAGES: readonly [
 	"sql",
 	"swift"
 ];
-export declare type CodeSnippetLang = typeof CODE_SNIPPET_LANGUAGES[number];
+export type CodeSnippetLang = typeof CODE_SNIPPET_LANGUAGES[number];
 export interface CodeSnippetOptions extends FakeOptions {
 	lang?: CodeSnippetLang;
 }
@@ -3394,7 +3436,7 @@ export interface TextRangeOptions extends FakeOptions {
  *
  */
 export declare function randTextRange<Options extends TextRangeOptions = never>(options: Options): Return<string, Options>;
-export declare type Airline = "RyanAir" | "British Airways" | "Iberia" | "EasyJet" | "Jet2" | "Emirates" | "American Airlines" | "JetBlue" | "Air Europa" | "Delta Air Lines" | "United Airlines" | "Thai Airways" | "Qatar Airways" | "Virgin Atlantic";
+export type Airline = "RyanAir" | "British Airways" | "Iberia" | "EasyJet" | "Jet2" | "Emirates" | "American Airlines" | "JetBlue" | "Air Europa" | "Delta Air Lines" | "United Airlines" | "Thai Airways" | "Qatar Airways" | "Virgin Atlantic";
 export interface FlightNumberOptions extends FakeOptions {
 	airline?: Airline;
 }
@@ -3635,7 +3677,7 @@ export interface RandomAggregationOptions extends RandomInRangeOptions, FakeOpti
 	totalValue?: number;
 	noZeros?: boolean;
 }
-export declare type Tuple<V, N extends number, T extends V[] = [
+export type Tuple<V, N extends number, T extends V[] = [
 ]> = N extends T["length"] ? T : Tuple<V, N, [
 	...T,
 	V
