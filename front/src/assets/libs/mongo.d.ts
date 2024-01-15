@@ -724,7 +724,6 @@ export declare const BatchType: Readonly<{
 }>;
 /** @public */
 export declare type BatchType = (typeof BatchType)[keyof typeof BatchType];
-/* Excluded from this release type: BinMsg */
 /** @public */
 export declare type BitwiseFilter = number /** numeric bit mask */ | Binary /** BinData bit mask */ | ReadonlyArray<number>;
 /**
@@ -3852,9 +3851,15 @@ export declare interface GridFSBucketWriteStreamOptions extends WriteConcernOpti
 	id?: ObjectId;
 	/** Object to store in the file document's `metadata` field */
 	metadata?: Document;
-	/** String to store in the file document's `contentType` field */
+	/**
+	 * String to store in the file document's `contentType` field.
+	 * @deprecated Will be removed in the next major version. Add a contentType field to the metadata document instead.
+	 */
 	contentType?: string;
-	/** Array of strings to store in the file document's `aliases` field */
+	/**
+	 * Array of strings to store in the file document's `aliases` field.
+	 * @deprecated Will be removed in the next major version. Add an aliases field to the metadata document instead.
+	 */
 	aliases?: string[];
 }
 /** @public */
@@ -3870,10 +3875,12 @@ export declare interface GridFSFile {
 	length: number;
 	chunkSize: number;
 	filename: string;
-	contentType?: string;
-	aliases?: string[];
 	metadata?: Document;
 	uploadDate: Date;
+	/** @deprecated Will be removed in the next major version. */
+	contentType?: string;
+	/** @deprecated Will be removed in the next major version. */
+	aliases?: string[];
 }
 /** @public */
 export declare const GSSAPICanonicalizationValue: Readonly<{
@@ -4045,7 +4052,6 @@ export declare type KeysOfOtherType<TSchema, Type> = {
 /* Excluded from this release type: kMetrics */
 /* Excluded from this release type: kMinPoolSizeTimer */
 /* Excluded from this release type: kMode */
-/* Excluded from this release type: kMonitor */
 /* Excluded from this release type: kMonitorId */
 /**
  * @public
@@ -4156,7 +4162,6 @@ export declare interface KMSProviders {
 /* Excluded from this release type: kProcessingWaitQueue */
 /* Excluded from this release type: kQueue */
 /* Excluded from this release type: kRoundTripTime */
-/* Excluded from this release type: kRTTPinger */
 /* Excluded from this release type: kServer */
 /* Excluded from this release type: kServer_2 */
 /* Excluded from this release type: kServer_3 */
@@ -4258,6 +4263,7 @@ export declare class ListSearchIndexesCursor extends AggregationCursor<{
 export declare type ListSearchIndexesOptions = AggregateOptions;
 /** @public */
 export declare type MatchKeysAndValues<TSchema> = Readonly<Partial<TSchema>> & Record<string, any>;
+/* Excluded from this release type: ModernConnection */
 /** @public */
 export declare interface ModifyResult<TSchema = Document> {
 	value: WithId<TSchema> | null;
@@ -4477,6 +4483,7 @@ export declare class MongoClient extends TypedEventEmitter<MongoClientEvents> {
 	/* Excluded from this release type: connectionLock */
 	/* Excluded from this release type: [kOptions] */
 	constructor(url: string, options?: MongoClientOptions);
+	/* Excluded from this release type: checkForNonGenuineHosts */
 	/** @see MongoOptions */
 	get options(): Readonly<MongoOptions>;
 	get serverApi(): Readonly<ServerApi | undefined>;
@@ -4703,6 +4710,8 @@ export declare interface MongoClientOptions extends BSONSerializeOptions, Suppor
 	proxyUsername?: string;
 	/** Configures a Socks5 proxy password when the proxy in proxyHost requires username/password authentication. */
 	proxyPassword?: string;
+	/** Instructs the driver monitors to use a specific monitoring mode */
+	serverMonitoringMode?: ServerMonitoringMode;
 }
 /* Excluded from this release type: MongoClientPrivate */
 /**
@@ -5046,6 +5055,7 @@ export declare const MongoErrorLabel: Readonly<{
 	readonly ResumableChangeStreamError: "ResumableChangeStreamError";
 	readonly HandshakeError: "HandshakeError";
 	readonly ResetPool: "ResetPool";
+	readonly PoolRequstedRetry: "PoolRequstedRetry";
 	readonly InterruptInUseConnections: "InterruptInUseConnections";
 	readonly NoWritesPerformed: "NoWritesPerformed";
 }>;
@@ -5320,6 +5330,7 @@ export declare interface MongoOptions extends Required<Pick<MongoClientOptions, 
 	proxyPort?: number;
 	proxyUsername?: string;
 	proxyPassword?: string;
+	serverMonitoringMode: ServerMonitoringMode;
 	/* Excluded from this release type: connectionType */
 	/* Excluded from this release type: encrypter */
 	/* Excluded from this release type: userSpecifiedAuthSource */
@@ -5636,9 +5647,9 @@ export declare interface MonitorOptions extends Omit<ConnectionOptions, "id" | "
 	connectTimeoutMS: number;
 	heartbeatFrequencyMS: number;
 	minHeartbeatFrequencyMS: number;
+	serverMonitoringMode: ServerMonitoringMode;
 }
 /* Excluded from this release type: MonitorPrivate */
-/* Excluded from this release type: Msg */
 /**
  * @public
  * returns tuple of strings (keys to be joined on '.') that represent every path into a schema
@@ -5737,6 +5748,7 @@ export declare type OIDCRequestFunction = (info: IdPServerInfo, context: OIDCCal
 export declare type OneOrMore<T> = T | ReadonlyArray<T>;
 /** @public */
 export declare type OnlyFieldsOfType<TSchema, FieldType = any, AssignableType = FieldType> = IsAny<TSchema[keyof TSchema], Record<string, FieldType>, AcceptedFields<TSchema, FieldType, AssignableType> & NotAcceptedFields<TSchema, FieldType> & Record<string, AssignableType>>;
+/* Excluded from this release type: OpCompressedRequest */
 /* Excluded from this release type: OperationDescription */
 /** @public */
 export declare interface OperationOptions extends BSONSerializeOptions {
@@ -5756,7 +5768,11 @@ export declare interface OperationOptions extends BSONSerializeOptions {
  */
 export declare type OperationTime = Timestamp;
 /* Excluded from this release type: OpMsgOptions */
+/* Excluded from this release type: OpMsgRequest */
+/* Excluded from this release type: OpMsgResponse */
 /* Excluded from this release type: OpQueryOptions */
+/* Excluded from this release type: OpQueryRequest */
+/* Excluded from this release type: OpQueryResponse */
 /* Excluded from this release type: OpResponseOptions */
 /**
  * Add an optional _id field to an object shaped type
@@ -5826,7 +5842,6 @@ export declare type PushOperator<TSchema> = ({
 } & NotAcceptedFields<TSchema, ReadonlyArray<any>>) & {
 	readonly [key: string]: ArrayOperator<any> | any;
 };
-/* Excluded from this release type: Query */
 /**
  * @public
  * RangeOptions specifies index options for a Queryable Encryption field supporting "rangePreview" queries.
@@ -5839,6 +5854,7 @@ export declare interface RangeOptions {
 	sparsity: Long;
 	precision?: number;
 }
+/* Excluded from this release type: read */
 /**
  * The MongoDB ReadConcern, which allows for control of the consistency and isolation properties
  * of the data read from replica sets and replica set shards.
@@ -5879,6 +5895,7 @@ export declare type ReadConcernLevel = (typeof ReadConcernLevel)[keyof typeof Re
 export declare type ReadConcernLike = ReadConcern | {
 	level: ReadConcernLevel;
 } | ReadConcernLevel;
+/* Excluded from this release type: readMany */
 /**
  * The **ReadPreference** class is a class that represents a MongoDB ReadPreference and is
  * used to construct connections.
@@ -6017,7 +6034,6 @@ export declare interface ReplaceOptions extends CommandOperationOptions {
 	/** Map of parameter names and values that can be accessed using $$var (requires MongoDB 5.0). */
 	let?: Document;
 }
-/* Excluded from this release type: Response */
 /**
  * @public
  * @deprecated Please use the ChangeStreamCursorOptions type instead.
@@ -6281,6 +6297,14 @@ export declare class ServerHeartbeatSucceededEvent {
 	/** Is true when using the streaming protocol. */
 	awaited: boolean;
 }
+/** @public */
+export declare const ServerMonitoringMode: Readonly<{
+	readonly auto: "auto";
+	readonly poll: "poll";
+	readonly stream: "stream";
+}>;
+/** @public */
+export declare type ServerMonitoringMode = (typeof ServerMonitoringMode)[keyof typeof ServerMonitoringMode];
 /**
  * Emitted when server is initialized.
  * @public
@@ -6823,6 +6847,7 @@ export declare type WithoutId<TSchema> = Omit<TSchema, "_id">;
 export declare type WithSessionCallback<T = unknown> = (session: ClientSession) => Promise<T>;
 /** @public */
 export declare type WithTransactionCallback<T = any> = (session: ClientSession) => Promise<T>;
+/* Excluded from this release type: writeCommand */
 /**
  * A MongoDB WriteConcern, which describes the level of acknowledgement
  * requested from MongoDB for write operations.
