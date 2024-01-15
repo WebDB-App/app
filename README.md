@@ -2,9 +2,9 @@
 
 ### Regular installation
 
-[🐳 Standalone](https://webdb.app/page/install/standalone)
+[🐳 Standalone](https://docs.webdb.app/installation/standalone)
 
-[🐳 Compose](https://webdb.app/page/install/compose)
+[🐳 Compose](https://docs.webdb.app/installation/compose)
 
 ### Development
 

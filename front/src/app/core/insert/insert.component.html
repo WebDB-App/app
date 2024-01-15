@@ -31,7 +31,7 @@
 			</mat-button-toggle-group>
 		</div>
 
-		<a href="https://gitlab.com/web-db/app/-/wikis/Intelligent-Generator"
+		<a href="https://docs.webdb.app/smart-data-generator"
 		   mat-button
 		   target="_blank">
 				<span class="material-symbols-outlined notranslate">
@@ -131,6 +131,10 @@
 						<button (click)="random.model = 'return faker.address.streetAddress(true)'"
 								mat-menu-item>
 							Address
+						</button>
+						<button (click)="random.model = 'if (Math.random() < 0.3) {\n\treturn undefined;\n} else {\n\treturn \'70% probability\';\n}'"
+								mat-menu-item>
+							30% Null
 						</button>
 						<button
 							(click)="random.model = 'return {\n\tfirst_name: faker.name.firstName(),\n\tlast_name: faker.name.lastName(),\n\tsex: faker.name.sex()\n}'"
