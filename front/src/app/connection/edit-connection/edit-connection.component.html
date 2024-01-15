@@ -2,7 +2,7 @@
 	<mat-stepper
 		[selectedIndex]="newConnection && !server.ssh.host ? 0 : 1"
 		orientation="vertical"
-		style="width: 85%;">
+		style="flex: 1">
 		<mat-step *ngIf="newConnection">
 			<ng-template matStepLabel>Driver</ng-template>
 
@@ -140,6 +140,12 @@
 			<ng-template matStepLabel>Driver Parameters</ng-template>
 
 			<div style="display: flex;">
+				<ngx-monaco-editor
+					[(ngModel)]="params"
+					[options]="editorOptions"
+					style="width: 100%; resize: none;">
+				</ngx-monaco-editor>
+
 				<div style="display: flex; flex-direction: column; gap: 20px; padding: 16px;">
 					<button (click)="useDefault()"
 							color="primary"
@@ -160,21 +166,13 @@
 						{{ server.wrapper }} driver references
 					</a>
 				</div>
-
-				<div style="flex: 1;">
-					<ngx-monaco-editor
-						[(ngModel)]="params"
-						[options]="editorOptions"
-						style="width: 100%; resize: vertical">
-					</ngx-monaco-editor>
-				</div>
 			</div>
 		</mat-step>
 	</mat-stepper>
 
-	<mat-divider vertical></mat-divider>
+	<mat-divider vertical style="margin: -16px 18px;"></mat-divider>
 
-	<div style="width: 15%; display: flex; flex-direction: column; justify-content: space-evenly; padding: 20px;">
+	<div style="width: 200px; display: flex; flex-direction: column; justify-content: space-evenly;">
 		<button
 			(click)="forget()"
 			*ngIf="!newConnection"

@@ -261,10 +261,7 @@ export class AiComponent implements OnInit, OnDestroy {
 		if (this.preSent.tables[0] === "") {
 			this.preSent.tables = this.selectedDatabase?.tables?.map(table => table.name)!;
 		}
-		this.sample = (await this.request.post('database/sample', {
-			preSent: this.preSent,
-			language: navigator.language
-		}, undefined)).txt;
+		this.sample = (await this.request.post('database/sample', {preSent: this.preSent}, undefined)).txt;
 	}
 
 	saveChat() {

@@ -14,12 +14,24 @@
 	padding: 24px !important;
 }
 
+:host ::ng-deep .monaco-editor {
+	position: absolute !important;
+}
+
 .login {
 	gap: 20px;
 	display: flex;
 	align-items: center;
 
 	.mat-form-field, button {
-		width: 30%;
+		width: 250px;
+	}
+}
+
+@media (max-width: 1200px) {
+	.login {
+		.mat-form-field, button {
+			width: 170px !important;
+		}
 	}
 }

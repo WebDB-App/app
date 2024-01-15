@@ -8,8 +8,7 @@ async function run(config) {
 			tables: [tableCity.Table],
 			deep: 2,
 			count: 5,
-			anonymize: 0},
-		language: "fr-FR"}, tableCity);
+			anonymize: 0}}, tableCity);
 	await test(`[sample] Found ${tableCity.Table} table and is long enough`, () => {
 		assert.ok(!sample.error);
 		assert.ok(sample.txt.length > 100);

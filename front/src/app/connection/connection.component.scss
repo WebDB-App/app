@@ -8,8 +8,8 @@
 			display: flex;
 			width: 100%;
 
-			.login {
-				width: 100%;
+			.body {
+				flex: 1;
 				display: flex;
 				flex-direction: column;
 				height: 100%;
@@ -21,19 +21,19 @@
 					display: flex;
 
 					.mat-form-field, button {
-						width: 230px;
+						width: 250px;
 					}
 				}
 			}
 
 			.infos {
-				width: 200px;
+				width: 160px;
 				display: flex;
 				flex-direction: column;
 				justify-content: space-around;
 
-				h3 {
-					margin: 0px;
+				h4 {
+					margin: 14px 0px 0px 6px;
 
 					span {
 						vertical-align: middle;
@@ -137,10 +137,6 @@
 }
 
 @media (max-width: 1200px) {
-	.mat-divider {
-		display: none;
-	}
-
 	.mat-card {
 		margin: 14px 8px;
 	}
@@ -149,7 +145,7 @@
 		padding: 0px;
 	}
 
-	.right-actions, .right-divider {
+	.hideOnMobile {
 		display: none !important;
 	}
 
@@ -158,6 +154,12 @@
 
 		> div {
 			flex-direction: column;
+		}
+	}
+
+	.body {
+		.mat-form-field, button {
+			width: 170px !important;
 		}
 	}
 }

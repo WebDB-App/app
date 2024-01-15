@@ -70,32 +70,32 @@
 						<div class="logo">
 							<img src="/assets/drivers/{{server.wrapper.toLowerCase()}}.svg"/>
 						</div>
-						<h3>
+						<h4>
 							<span class="material-symbols-outlined notranslate">
 								numbers
 							</span>
 							{{ server.port }}
-						</h3>
-						<h3 *ngIf="server.user">
+						</h4>
+						<h4 *ngIf="server.user">
 							<span class="material-symbols-outlined notranslate">
 								person
 							</span>
 							{{ server.user }}
-						</h3>
-						<h3>
+						</h4>
+						<h4>
 							<span class="material-symbols-outlined notranslate">
 								signpost
 							</span>
 							{{ server.host }}
-						</h3>
-						<h3 *ngIf="server.ssh && server.ssh.host">
+						</h4>
+						<h4 *ngIf="server.ssh && server.ssh.host">
 							<span
 								[matTooltip]="server.ssh | json"
 								class="material-symbols-outlined notranslate">
 								subway
 							</span>
 							SSH
-						</h3>
+						</h4>
 					</div>
 
 					<mat-divider style="margin: -16px 20px;" vertical></mat-divider>
@@ -119,9 +119,9 @@
 							</mat-list-option>
 						</mat-selection-list>
 
-						<mat-divider class="right-divider" style="margin: -16px 20px;" vertical></mat-divider>
+						<mat-divider class="right-divider hideOnMobile" style="margin: -16px 20px;" vertical></mat-divider>
 
-						<div class="right-actions">
+						<div class="right-actions hideOnMobile">
 							<button
 								(click)="editServer = server; tabGroup.selectedIndex = 3"
 								mat-button
@@ -160,27 +160,33 @@
 							</button>
 						</div>
 					</ng-container>
-					<div *ngIf="!server.connected" class="body">
+
+					<ng-container *ngIf="!server.connected">
 						<ng-container *ngIf="!server.scanned">
-							<br>
-							<mat-error>
-								Unreachable or bad credentials
-							</mat-error>
-							<br>
-							<br>
-							<button
-								(click)="editServer = server; tabGroup.selectedIndex = 3"
-								mat-button
-								style="justify-self: center">
-								<span class="material-symbols-outlined notranslate">
-									network_manage
-								</span>
-								Edit
-							</button>
+							<div class="body">
+								<mat-error>
+									Unreachable or bad credentials
+								</mat-error>
+							</div>
+
+							<mat-divider class="right-divider" style="margin: -16px 20px;" vertical></mat-divider>
+
+							<div class="right-actions">
+								<button
+									(click)="editServer = server; tabGroup.selectedIndex = 3"
+									mat-button
+									style="justify-self: center">
+									<span class="material-symbols-outlined notranslate">
+										network_manage
+									</span>
+									Edit
+								</button>
+							</div>
 						</ng-container>
+
 						<div (keyup.enter)="loginBtn._elementRef.nativeElement.click()"
 							 *ngIf="server.scanned"
-							 class="login">
+							 class="body">
 							<div>
 								<mat-form-field appearance="outline" style="margin-bottom: -1.75em;">
 									<mat-label>User</mat-label>
@@ -229,7 +235,7 @@
 								</button>
 							</div>
 						</div>
-					</div>
+					</ng-container>
 				</mat-card-content>
 			</mat-card>
 		</mat-tab>

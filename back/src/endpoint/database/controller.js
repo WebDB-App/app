@@ -57,7 +57,7 @@ There is a database called "${database}" on a ${wrapper.constructor.name} server
 
 		txt += `So you are an expert in database and IT science. Your goal is to provide the most personalize answers.
 Ask as many questions as need to provide the most accurate answer possible.
-Don't make presumption, use only provided data. Respond in "${req.body.language}".`;
+Don't make presumption, use only provided data.`;
 
 		res.send({txt});
 	}
