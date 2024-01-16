@@ -8,6 +8,8 @@
 
 ### Development
 
+[🏗️ CI/CD](hhttps://gitlab.com/web-db/app/-/pipelines)
+
 [👨‍💻 Contributing](CONTRIBUTING.md)
 
 [📝 Planned features](TODO.md)
@@ -16,9 +18,9 @@
 
 [🌍 Website](https://webdb.app/)
 
-[🐛 Issues](https://github.com/WebDB-App/app)
+[🐛 Issues](https://github.com/WebDB-App/app/issues)
 
-[📙 Wiki](https://gitlab.com/web-db/-/app/home)
+[📙 Docs](https://docs.webdb.app/)
 
 [🐳 Hub](https://hub.docker.com/r/webdb/app/)
 

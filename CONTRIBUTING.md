@@ -1,3 +1,10 @@
+## Preamble
+
+I currently use GitLab for git related stuff and GitHub for community feature<br>
+The problem is GitLab is not such community friendly and GitHub pipeline is too basic for WebDB.
+
+Anyway, if you planned to push changement, I would prefer that you use GitLab's repo instead of GitHub please
+
 ### Requirements
 
 - node >= 16
@@ -7,7 +14,7 @@
 ##### Setup
 
 ```
-git clone git@github.com:WebDB-App/app.git && cd app
+git clone git@gitlab.com:web-db/app.git && cd app
 
 cd back && npm i && cd ..
 cd front && pnpm i && cd ..
