@@ -1,3 +1,9 @@
+- bug debug http 
+- mongo [object]
+- blob
+- postgre enum auto found on insertion
+- column
+
 - ERD [Chrome bookmarks]
 - mysql/etc gui -> stackoverflow
 - lookup chrome history: stackoverflow+reddit+github (aleluff + webdb): filter mongo/mysql etc

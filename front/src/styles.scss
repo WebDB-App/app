@@ -364,6 +364,11 @@ code, .hljs {
 	padding-left: 20px !important;
 }
 
+.mat-list-single-selected-option, .mat-list-single-selected-option:hover, .mat-list-single-selected-option:focus {
+	background-color: #212121;
+	opacity: 1 !important;
+}
+
 ngx-monaco-editor {
 	min-height: 330px;
 	min-width: 350px;

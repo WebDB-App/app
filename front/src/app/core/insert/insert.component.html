@@ -112,13 +112,23 @@
 						Example
 					</button>
 					<mat-menu #example="matMenu" xPosition="before">
-						<button (click)="random.model = 'return faker.datatype.string()'"
+						<button (click)="random.model = 'if (Math.random() < 0.3) {\n\treturn undefined;\n} else {\n\treturn \'70% probability\';\n}'"
 								mat-menu-item>
-							String
+							30% Null
 						</button>
-						<button (click)="random.model = 'return faker.datatype.number()'"
+						<button (click)="random.model = 'return faker.address.streetAddress(true)'"
 								mat-menu-item>
-							Number
+							Address
+						</button>
+						<button
+							(click)="random.model = 'return allFakers.ar.person.firstName()'"
+							mat-menu-item>
+							Arabic Name
+						</button>
+						<button
+							(click)="random.model = 'return Array(6).fill(null).map(() => faker.datatype.number())'"
+							mat-menu-item>
+							Array
 						</button>
 						<button (click)="random.model = 'return faker.datatype.datetime()'"
 								mat-menu-item>
@@ -128,23 +138,18 @@
 								mat-menu-item>
 							Mail
 						</button>
-						<button (click)="random.model = 'return faker.address.streetAddress(true)'"
+						<button (click)="random.model = 'return faker.datatype.number()'"
 								mat-menu-item>
-							Address
-						</button>
-						<button (click)="random.model = 'if (Math.random() < 0.3) {\n\treturn undefined;\n} else {\n\treturn \'70% probability\';\n}'"
-								mat-menu-item>
-							30% Null
+							Number
 						</button>
 						<button
 							(click)="random.model = 'return {\n\tfirst_name: faker.name.firstName(),\n\tlast_name: faker.name.lastName(),\n\tsex: faker.name.sex()\n}'"
 							mat-menu-item>
 							Object
 						</button>
-						<button
-							(click)="random.model = 'return Array(6).fill(null).map(() => faker.datatype.number())'"
-							mat-menu-item>
-							Array
+						<button (click)="random.model = 'return faker.datatype.string()'"
+								mat-menu-item>
+							String
 						</button>
 					</mat-menu>
 				</div>

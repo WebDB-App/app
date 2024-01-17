@@ -94,6 +94,9 @@ export class Column {
 		const parenthese = column.type.indexOf('(');
 		const columnType = parenthese >= 0 ? column.type.substring(0, parenthese) : column.type;
 
+		//Works with nosql ??
+		//	type!: string | Object | Array<any>;
+
 		for (const group of groups) {
 			const typeDatas = driver.language.typeGroups.find(type => type.name === group)!.list!;
 			if (typeDatas.map(type => type.id.replace(/\([^)]*\)/g, "")).indexOf(columnType) >= 0) {

@@ -89,7 +89,10 @@ export class TablesComponent implements OnInit {
 
 		for (const [index, table] of this.selectedDatabase.tables!.entries()) {
 			let match = table.name.toLowerCase().indexOf(value) > -1;
-			match = match || (table.columns.findIndex(col => col.name.toLowerCase().indexOf(value) > -1 || col.type.toLowerCase().indexOf(value) > -1) > -1);
+
+			if (!match) {
+				match = (table.columns.findIndex(col => col.name.toLowerCase().indexOf(value) > -1 || JSON.stringify(col.type).toLowerCase().indexOf(value) > -1) > -1);
+			}
 
 			this.selectedDatabase.tables![index].hide = !match;
 		}
