@@ -144,13 +144,14 @@ export class QueryComponent implements OnInit, OnDestroy {
 		this.editors.map(editor => monaco.editor.setModelMarkers(editor.getModel(), "owner", []));
 
 		try {
+			if (this.autoFormat) {
+				this.query = Server.getSelected().driver.format!(this.query);
+				this.query2 = Server.getSelected().driver.format!(this.query2);
+			}
 			if (this.diff) {
 				await this._runCompare();
 			} else {
 				await this._runSingle();
-			}
-			if (this.autoFormat) {
-				setTimeout(() => this.editors.map(editor => editor.trigger("editor", "editor.action.formatDocument")), 1);
 			}
 		} catch (e) {
 		} finally {

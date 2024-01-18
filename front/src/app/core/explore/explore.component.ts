@@ -29,12 +29,12 @@ export class ExploreComponent implements OnInit, OnDestroy {
 	interval!: NodeJS.Timer;
 
 	querySize = 0;
-	pageSize = 50;
 	params = {
 		chips: "",
 		field: "",
 		direction: "",
-		page: 0
+		page: 0,
+		pageSize: 50
 	}
 	filter: { [key: string]: string } = {};
 	autoUp: boolean | NodeJS.Timer = false;
@@ -76,6 +76,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 				this.params.chips = params.get("chips") || "";
 			} else {
 				this.params.page = +(params.get("page") || 0);
+				this.params.pageSize = +(params.get("pageSize") || 50);
 				this.params.field = params.get("field") || "";
 				this.params.direction = params.get("direction") || "";
 				this.params.chips = params.get("chips") || "";
@@ -97,12 +98,13 @@ export class ExploreComponent implements OnInit, OnDestroy {
 		return JSON.stringify(rom);
 	}
 
-	changePage(page: any) {
+	changePage(page: any, pageSize: number = 50) {
 		page = +page;
-		if ((page * this.pageSize) > this.querySize) {
+		if ((page * pageSize) > this.querySize) {
 			page = 0;
 		}
 
+		this.params.pageSize = pageSize;
 		this.params.page = +page;
 		return event;
 	}
@@ -133,7 +135,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 
 		const result = await this.request.post('database/query', {
 			query,
-			pageSize: this.pageSize,
+			pageSize: this.params.pageSize,
 			page: this.params.page
 		});
 
@@ -192,7 +194,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 				row,
 				updateInPlace: true
 			},
-			id: (this.pageSize * this.params.page + i).toString(),
+			id: (this.params.pageSize * this.params.page + i).toString(),
 			hasBackdrop: false
 		});
 

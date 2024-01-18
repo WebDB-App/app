@@ -364,10 +364,11 @@ export default class MongoDB extends Driver {
 					return;
 				}
 				complexes.push({
-					name: JSON.stringify(options.validator).slice(0, 50) + "...",
+					name: JSON.stringify(options.validator).slice(0, 25) + "...",
 					database: database.name,
 					table: collection.name,
-					type: complex.VALIDATOR
+					type: complex.VALIDATOR,
+					value: JSON.stringify(options.validator, null, "\t")
 				});
 			});
 		}

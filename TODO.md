@@ -1,15 +1,23 @@
+- circular ejson: https://www.mongodb.com/docs/v5.0/core/schema-validation/#json-schema
 - postgre enum auto found on insertion
 - afficher detail complex ? (retrieve code from git log)
-
+- sql autocomplete: table alias ('as', ' '), error dans quote
 - mongo: compatibility relation
+
+
+
 - ERD [Chrome bookmarks]
+
+
+
+
+----------------------------------------------------------
+
 
 - mysql/etc gui -> stackoverflow
 - lookup chrome history: stackoverflow+reddit+github (aleluff + webdb): filter mongo/mysql etc
 - dBeaver + datagrip: This is a user robbery, don't anyone oppose resistance and everything gonna be alright. Those who think DBeaver is too complicate come with me, the rest you just give feedback. Everyone stay calm. Process now
 - report issue: debug http
-----------------------------------------------------------
-
 
 
 

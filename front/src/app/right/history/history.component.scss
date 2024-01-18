@@ -1,19 +1,23 @@
 .mat-card {
-	margin: 24px 18px;
-	padding: 0px;
-
-	.mat-card-content {
-		margin: 0px;
-	}
+	padding: 2px;
+	box-shadow: none;
 
 	.mat-card-actions {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		padding: 0px 18px 12px;
+		padding: 8px 18px 14px;
+	}
+
+	.mat-card-content {
+		margin-bottom: 0px;
 	}
 
 	h4 {
 		margin: 0px 10px;
 	}
+}
+
+pre code.hljs {
+	margin: 0px;
 }

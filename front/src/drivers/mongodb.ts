@@ -8,6 +8,7 @@ import { loadLibAsset, mongo_injectAggregate } from "../shared/helper";
 import { Server } from "../classes/server";
 import { Configuration } from "../classes/configuration";
 import * as bson from "bson";
+import jsbeautifier from "js-beautify";
 
 declare var monaco: any;
 
@@ -32,7 +33,7 @@ export class MongoDB implements Driver {
 		driver: "https://www.mongodb.com/docs/drivers/node/current/fundamentals/connection/connection-options/",
 		types: "https://www.mongodb.com/docs/manual/reference/bson-types/",
 		language: "https://www.mongodb.com/docs/drivers/node/current/quick-reference/",
-		dump: "https://www.mongodb.com/docs/v4.0/reference/program/mongodump/#options"
+		dump: "https://www.mongodb.com/docs/database-tools/mongodump/#options"
 	}
 
 	language = {
@@ -294,5 +295,9 @@ async function main() {
 			cols.push(col);
 		}
 		return cols;
+	}
+
+	format = (code: string) => {
+		return jsbeautifier.js_beautify(code);
 	}
 }

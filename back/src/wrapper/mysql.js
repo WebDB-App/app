@@ -29,6 +29,9 @@ export default class MySQL extends SQL {
 
 	async getViewCode(database, view) {
 		const def = await this.runCommand(`SELECT view_definition FROM information_schema.views WHERE table_schema = ${this.escapeValue(database)} AND table_name = ${this.escapeValue(view)};`);
+		if (def.length < 1) {
+			return {error: "View definition is not available"};
+		}
 
 		return {
 			code: `ALTER VIEW ${this.escapeId(view)} AS
@@ -175,9 +178,9 @@ ${def[0]["VIEW_DEFINITION"]}`
 
 	async getComplexes() {
 		return [
-			...(await this.runCommand("SELECT routine_name as name, routine_type as type, routine_schema as 'database' FROM information_schema.routines WHERE routine_schema != 'sys' ORDER BY routine_name;")),
-			...(await this.runCommand("SELECT trigger_name as name, 'TRIGGER' as type, trigger_schema as 'database', EVENT_OBJECT_TABLE as 'table' FROM information_schema.triggers WHERE trigger_schema != 'sys'")),
-			...(await this.runCommand("SELECT CONSTRAINT_SCHEMA as 'database', CONSTRAINT_NAME as name, 'CHECK' as type, TABLE_NAME as 'table' FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS WHERE CONSTRAINT_TYPE = 'CHECK' AND CONSTRAINT_SCHEMA != 'sys'"))
+			...(await this.runCommand("SELECT routine_name as name, routine_type as type, routine_schema as 'database', ROUTINE_DEFINITION as 'value' FROM information_schema.routines WHERE routine_schema != 'sys' ORDER BY routine_name;")),
+			...(await this.runCommand("SELECT trigger_name as name, 'TRIGGER' as type, trigger_schema as 'database', EVENT_OBJECT_TABLE as 'table', ACTION_STATEMENT as 'value' FROM information_schema.triggers WHERE trigger_schema != 'sys'")),
+			...(await this.runCommand("SELECT CHECK_CONSTRAINTS.CONSTRAINT_SCHEMA AS 'database', CHECK_CONSTRAINTS.CONSTRAINT_NAME AS 'name', `CHECK_CLAUSE` AS 'value', TABLE_CONSTRAINTS.TABLE_NAME AS 'table', 'CHECK' AS type FROM information_schema.CHECK_CONSTRAINTS JOIN information_schema.TABLE_CONSTRAINTS ON CHECK_CONSTRAINTS.CONSTRAINT_SCHEMA = TABLE_CONSTRAINTS.CONSTRAINT_SCHEMA AND CHECK_CONSTRAINTS.CONSTRAINT_NAME = TABLE_CONSTRAINTS.CONSTRAINT_NAME"))
 		];
 	}
 

@@ -19,7 +19,7 @@
 					*ngIf="querySize < 100000"
 					[value]="params.page">
 					<ng-container
-						*ngFor="let item of [].constructor(Math.floor(querySize / pageSize) + 1); let i = index">
+						*ngFor="let item of [].constructor(Math.floor(querySize / params.pageSize) + 1); let i = index">
 						<mat-option [value]="i">
 							{{ i }}
 						</mat-option>
@@ -27,11 +27,11 @@
 				</mat-select>
 			</mat-form-field>
 			<mat-paginator
-				(page)="changePage($event.pageIndex); refreshData()"
+				(page)="changePage($event.pageIndex, $event.pageSize); refreshData()"
 				[length]="querySize"
 				[pageIndex]="params.page"
+				[pageSize]="params.pageSize"
 				[pageSizeOptions]="[50, 100, 500, 2000]"
-				pageSize="{{pageSize}}"
 			></mat-paginator>
 		</div>
 	</div>

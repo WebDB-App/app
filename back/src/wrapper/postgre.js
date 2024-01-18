@@ -162,8 +162,12 @@ ${def[0]["pg_get_viewdef"]}`
 				const complexes = [
 					...(await this.runCommand("SELECT routine_name as name, routine_type as type, routine_schema as database FROM information_schema.routines WHERE routine_schema NOT IN ('pg_catalog', 'information_schema') ORDER BY routine_name;", db.datname)),
 					...(await this.runCommand("SELECT trigger_name as name, 'TRIGGER' as type, trigger_schema as database, event_object_table as table FROM information_schema.triggers", db.datname)),
-					...(await this.runCommand("SELECT constraint_name AS name, 'CHECK' as type, ccu.table_schema AS database, table_name as table FROM pg_constraint pgc JOIN pg_namespace nsp ON nsp.oid = pgc.connamespace JOIN pg_class cls ON pgc.conrelid = cls.oid LEFT JOIN information_schema.constraint_column_usage ccu ON pgc.conname = ccu.constraint_name AND nsp.nspname = ccu.constraint_schema WHERE contype = 'c' ORDER BY pgc.conname", db.datname))
+					...(await this.runCommand("SELECT constraint_name AS name, 'CHECK' as type, ccu.table_schema AS database, table_name as table FROM pg_constraint pgc JOIN pg_namespace nsp ON nsp.oid = pgc.connamespace JOIN pg_class cls ON pgc.conrelid = cls.oid LEFT JOIN information_schema.constraint_column_usage ccu ON pgc.conname = ccu.constraint_name AND nsp.nspname = ccu.constraint_schema WHERE contype = 'c' ORDER BY pgc.conname", db.datname)),
+					//...(await this.runCommand("SELECT t.typname AS name, 'ENUM' as type, string_agg(e.enumlabel, ', ') AS value FROM pg_type t JOIN pg_enum e ON t.oid = e.enumtypid JOIN pg_catalog.pg_namespace n ON n.oid = t.typnamespace GROUP BY enum_schema, enum_name;", db.datname))
 				];
+
+				//TODO
+
 				for (let comp of await this.runCommand("SELECT t.typname AS name, typtype as type, nspname as database FROM pg_type t LEFT JOIN pg_catalog.pg_namespace n ON n.oid = t.typnamespace WHERE ( t.typrelid = 0 OR ( SELECT c.relkind = 'c' FROM pg_catalog.pg_class c WHERE c.oid = t.typrelid ) ) AND NOT EXISTS ( SELECT 1 FROM pg_catalog.pg_type el WHERE el.oid = t.typelem AND el.typarray = t.oid ) AND n.nspname NOT IN ('pg_catalog', 'information_schema')", db.datname)) {
 					if (comp.type === "c") {
 						comp.type = "CUSTOM_TYPE";
@@ -171,8 +175,6 @@ ${def[0]["pg_get_viewdef"]}`
 						comp.type = "DOMAIN";
 					} else if (comp.type === "r") {
 						comp.type = "SEQUENCE";
-					} else {
-						comp.type = "ENUM";
 					}
 					complexes.push(comp);
 				}

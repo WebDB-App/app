@@ -14,27 +14,46 @@
 			<mat-icon>close</mat-icon>
 		</button>
 	</mat-form-field>
+
+	<button [matMenuTriggerFor]="list" mat-button>
+		Complex supported
+	</button>
+	<mat-menu #list="matMenu">
+		<span mat-menu-item *ngFor="let group of Object.keys(complex)">
+			{{group | titlecase}}
+		</span>
+	</mat-menu>
 </mat-toolbar>
 
-<mat-card *ngFor="let group of Object.keys(complex)">
+<mat-card *ngIf="complexes.length < 1">
 	<mat-card-header>
 		<mat-card-subtitle>
-			{{group | titlecase}}
+			No complex on this database
 		</mat-card-subtitle>
 	</mat-card-header>
-	<mat-card-content>
-		<ul>
-			<ng-container *ngFor="let complex of complexes">
-				<li *ngIf="complex.type === group"
-					[hidden]="complex.hide">
-					<ng-container *ngIf="complex.table">
-						{{ complex.name }} — {{complex.table}}
-					</ng-container>
-					<ng-container *ngIf="!complex.table">
-						{{ complex.name }}
-					</ng-container>
-				</li>
-			</ng-container>
-		</ul>
-	</mat-card-content>
 </mat-card>
+
+<div *ngIf="complexes.length > 0" style="padding: 12px">
+	<mat-accordion multi>
+		<mat-expansion-panel
+			*ngFor="let complex of complexes"
+			[hidden]="complex.hide">
+			<mat-expansion-panel-header>
+				<mat-panel-title>
+					{{complex.type | titlecase}}
+				</mat-panel-title>
+				<mat-panel-description *ngIf="complex.table">
+					{{complex.name}} – {{complex.table}}
+				</mat-panel-description>
+				<mat-panel-description *ngIf="!complex.table">
+					{{complex.name}}
+				</mat-panel-description>
+			</mat-expansion-panel-header>
+			<pre *ngIf="complex.value"><code
+				[languages]="[selectedServer?.driver!.language.id, 'JSON']"
+				[highlight]="complex.value">
+		</code></pre>
+		</mat-expansion-panel>
+	</mat-accordion>
+</div>
+

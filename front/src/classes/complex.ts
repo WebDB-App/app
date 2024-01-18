@@ -3,5 +3,6 @@ export class Complex {
 	database!: string
 	table?: string
 	type!: string;
+	value?: string;
 	hide?: boolean;
 }
