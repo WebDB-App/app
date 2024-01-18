@@ -79,7 +79,7 @@ export interface Driver {
 	extractEnum: (col: Column) => string[] | false;
 	extractConditionParams: (query: string) => QueryParams;
 	format?: (code: string) => string;
-	wrapValue: (type: string, value: string) => string;
+	wrapValue: (type: any, value: string) => string;
 	quickSearch: (driver: Driver, column: Column, value: string) => string;
 	generateSuggestions?: (textUntilPosition: string) => any[];
 

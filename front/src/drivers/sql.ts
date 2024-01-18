@@ -258,7 +258,7 @@ export class SQL implements Driver {
 		return query;
 	}
 
-	wrapValue(type: string, value: string) {
+	wrapValue(type: any, value: string) {
 		return `'${value}'`;
 	}
 
@@ -291,8 +291,8 @@ export class SQL implements Driver {
 	}
 
 	extractEnum(col: Column) {
-		if (col.type.startsWith("enum(")) {
-			return col.type.slice(5, -1).split(',').map(str => str.replace(/['"]+/g, ''));
+		if ((<String>col.type).startsWith("enum(")) {
+			return (<String>col.type).slice(5, -1).split(',').map(str => str.replace(/['"]+/g, ''));
 		}
 
 		return false
@@ -601,10 +601,10 @@ export class SQL implements Driver {
 	}
 
 	getColForWhere(columns: Column[]) {
-		return columns.map(column => `${this.wrapStructure(column.name)} = '${column.type.replaceAll("'", '"')}'`);
+		return columns.map(column => `${this.wrapStructure(column.name)} = '${(<String>column.type).replaceAll("'", '"')}'`);
 	}
 
 	getColForInsert(columns: Column[]) {
-		return columns.map(column => `'${column.type.replaceAll("'", '"')}'`);
+		return columns.map(column => `'${(<String>column.type).replaceAll("'", '"')}'`);
 	}
 }

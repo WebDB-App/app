@@ -221,7 +221,7 @@ async function main() {
 		);
 	}
 
-	wrapValue(type: string, value: string) {
+	wrapValue(type: any, value: string) {
 		if (Object.keys(bson).indexOf(type) >= 0) {
 			return `new bson.${type}("${value}")`;
 		}

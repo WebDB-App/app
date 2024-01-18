@@ -9,7 +9,7 @@ import { Driver } from "./driver";
 
 export class Column {
 	name!: string;
-	type!: string;
+	type!: string | Object | Array<any>;
 	collation!: string;
 	nullable!: boolean;
 	defaut!: string;
@@ -91,11 +91,14 @@ export class Column {
 	}
 
 	static isOfGroups(driver: Driver, column: Column, groups: string[]) {
-		const parenthese = column.type.indexOf('(');
-		const columnType = parenthese >= 0 ? column.type.substring(0, parenthese) : column.type;
+		let columnType;
 
-		//Works with nosql ??
-		//	type!: string | Object | Array<any>;
+		if (typeof column.type === "string") {
+			const parenthese = column.type.indexOf('(');
+			columnType = parenthese >= 0 ? column.type.substring(0, parenthese) : column.type;
+		} else {
+			columnType = typeof column.type;
+		}
 
 		for (const group of groups) {
 			const typeDatas = driver.language.typeGroups.find(type => type.name === group)!.list!;

@@ -1,6 +1,6 @@
 import assert from 'node:assert';
 import {test} from "node:test";
-import {get, post} from "../api.js";
+import {post} from "../api.js";
 import {tableCity} from "../base.js";
 
 async function run(config) {
