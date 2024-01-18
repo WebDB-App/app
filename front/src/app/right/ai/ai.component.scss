@@ -2,6 +2,14 @@
 	width: 35vw !important;
 }
 
+.marked {
+	&:hover {
+		.sub-actions {
+			display: block;
+		}
+	}
+}
+
 #examples {
 	display: flex;
 	flex-wrap: wrap;

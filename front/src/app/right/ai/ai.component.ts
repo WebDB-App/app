@@ -158,7 +158,7 @@ export class AiComponent implements OnInit, OnDestroy {
 		this.localKeyPreSent = 'preSent-' + this.selectedDatabase.name.split(' ¦ ')[0];
 
 		const msgs = JSON.parse(localStorage.getItem(this.localKeyChatHistory) || '[]');
-		this.chat = msgs.map((msg: Msg) => new Msg(msg.txt, msg.user, msg.error));
+		this.chat = msgs.map((msg: Msg) => new Msg(msg.txt, msg.user, msg.error, msg.config));
 
 		const pre = localStorage.getItem(this.localKeyPreSent);
 		if (pre) {

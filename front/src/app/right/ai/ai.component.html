@@ -290,6 +290,7 @@
 				*ngFor="let ch of chat"
 				[hidden]="ch.hide"
 				[style.background-color]="ch.error ? '#f44336' : ch.user === Role.Assistant ? undefined : 'transparent'"
+				[style.margin-bottom]="ch.user === Role.User ? '-18px' : undefined"
 				style="box-shadow: none">
 				<mat-card-content>
 
@@ -343,7 +344,7 @@
 
 					<div *ngFor="let mrk of ch.marked" class="marked">
 						<div *ngIf="mrk.code && !ch.error" class="responseCode">
-							<div class="actions">
+							<div class="sub-actions">
 								<button
 									(click)="runQuery(mrk.code);"
 									color="accent"

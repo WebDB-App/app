@@ -308,7 +308,7 @@ pre {
 		}
 	}
 
-	.actions {
+	.actions, .sub-actions {
 		display: none;
 		position: absolute;
 		z-index: 10000;
@@ -321,7 +321,7 @@ pre {
 	}
 }
 
-.mat-cell, .mat-card .actions {
+.mat-cell, .mat-card .actions, .mat-card .sub-actions {
 
 	.mat-icon-button {
 		width: 32px;
