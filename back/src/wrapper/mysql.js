@@ -338,7 +338,7 @@ ${def[0]["VIEW_DEFINITION"]}`
 
 		if (message.indexOf("'") >= 0) {
 			message = message.substring(message.indexOf("'") + 1);
-			message = message.substring(0, message.lastIndexOf("'"));
+			message = message.substring(0, message.indexOf("'"));
 
 			const separators = ["\n", "\t", " ", ""];
 			for (const start of separators) {

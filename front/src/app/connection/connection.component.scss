@@ -1,5 +1,5 @@
 #container {
-	padding: 20px;
+	padding: 20px 20px 0px 20px;
 
 	.servers {
 		display: flex;
@@ -8,7 +8,7 @@
 			display: flex;
 			width: 100%;
 
-			.body {
+			.nonConnected {
 				flex: 1;
 				display: flex;
 				flex-direction: column;
@@ -116,7 +116,7 @@
 
 	::ng-deep .mat-tab-body-wrapper {
 		overflow: auto;
-		height: calc(100vh - 147px);
+		height: calc(100vh - 126px);
 	}
 
 	::ng-deep .mat-tab-labels {
@@ -137,16 +137,8 @@
 }
 
 @media (max-width: 1200px) {
-	.mat-card {
-		margin: 14px 8px;
-	}
-
 	#container {
 		padding: 0px;
-	}
-
-	.hideOnMobile {
-		display: none !important;
 	}
 
 	.servers .login {
@@ -157,7 +149,7 @@
 		}
 	}
 
-	.body {
+	.nonConnected {
 		.mat-form-field, button {
 			width: 170px !important;
 		}

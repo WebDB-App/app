@@ -26,6 +26,8 @@
 
 .result {
 	margin-top: 65px;
+	position: relative;
+	z-index: 0;
 
 	.scrollDiv {
 		overflow-y: hidden;

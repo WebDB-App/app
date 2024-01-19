@@ -3,6 +3,8 @@ import { Group, QueryParams } from "../classes/driver";
 import { Server } from "../classes/server";
 import { Database } from "../classes/database";
 import { format } from "sql-formatter";
+import { Column } from "../classes/column";
+import { Table } from "../classes/table";
 
 export class PostgreSQL extends SQL {
 
@@ -280,6 +282,23 @@ export class PostgreSQL extends SQL {
 					]
 				}]
 		};
+
+		this.extractEnum = (col: Column) => {
+			for (const complex of Server.getSelected().complexes) {
+				if (Database.getSelected().name !== complex.database) {
+					continue;
+				}
+				if (complex.type !== "ENUM") {
+					continue;
+				}
+				if (col.type !== complex.name) {
+					continue;
+				}
+				return complex.value!.split(', ');
+			}
+
+			return false;
+		}
 
 		this.nodeLib = (query: QueryParams) => {
 			let prepared = query.query;

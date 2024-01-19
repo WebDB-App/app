@@ -454,3 +454,13 @@ ngx-monaco-editor {
 		color: grey;
 	}
 }
+
+@media (max-width: 1200px) {
+	.mat-card {
+		margin: 14px 8px;
+	}
+
+	.hideOnMobile {
+		display: none !important;
+	}
+}

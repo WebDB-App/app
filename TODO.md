@@ -1,20 +1,14 @@
-- postgre enum auto found on insertion
-- sql autocomplete: table alias ('as', ' '), error dans quote
 - mongo: compatibility relation
-
-
-
 - ERD [Chrome bookmarks]
-
-
+- doc
 
 
 ----------------------------------------------------------
 
 
+
 - mysql/etc gui -> stackoverflow
 - lookup chrome history: stackoverflow+reddit+github (aleluff + webdb): filter mongo/mysql etc
-- dBeaver + datagrip: This is a user robbery, don't anyone oppose resistance and everything gonna be alright. Those who think DBeaver is too complicate come with me, the rest you just give feedback. Everyone stay calm. Process now
 - report issue: debug http
 
 
@@ -23,7 +17,20 @@
 - system de téléchargement de code depuis la landing avec le mail
 - récupérer la licence directemnt depuis la landing + enlever l'endpoint
 - reorder columns
-- sql function doc (generate from web scrap)
+
+
+# Migration
+- git shelve
+- monaco diff between 2 structures
+- Schema Compare: relation, index, etc
+- execute migration
+
+
+# SQL editor
+- function doc (generate from web scrap)
+- add CTE to table list
+- autocomplete: table alias ('as', ' ')
+- handle subquery and cte like table (propose column from)
 
 
 # Profiling

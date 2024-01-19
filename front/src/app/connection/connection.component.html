@@ -163,7 +163,7 @@
 
 					<ng-container *ngIf="!server.connected">
 						<ng-container *ngIf="!server.scanned">
-							<div class="body">
+							<div class="nonConnected">
 								<mat-error>
 									Unreachable or bad credentials
 								</mat-error>
@@ -186,7 +186,7 @@
 
 						<div (keyup.enter)="loginBtn._elementRef.nativeElement.click()"
 							 *ngIf="server.scanned"
-							 class="body">
+							 class="nonConnected">
 							<div>
 								<mat-form-field appearance="outline" style="margin-bottom: -1.75em;">
 									<mat-label>User</mat-label>
