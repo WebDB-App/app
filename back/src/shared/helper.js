@@ -1,14 +1,14 @@
 export const parentheses = /\((?:[^)(]|\((?:[^)(]|\((?:[^)(]|\([^)(]*\))*\))*\))*\)/g;
 
 export const complex = {
+	"CHECK": "Interface",
+	"CUSTOM_TYPE": "Property",
+	"DOMAIN": "Module",
+	"ENUM": "Enum",
 	"FUNCTION": "Method",
 	"PROCEDURE": "Method",
-	"DOMAIN": "Module",
-	"CUSTOM_TYPE": "Property",
 	"SEQUENCE": "Constant",
-	"ENUM": "Enum",
 	"TRIGGER": "Event",
-	"CHECK": "Interface",
 	"VALIDATOR": "VALIDATOR"
 };
 

@@ -14,7 +14,6 @@ export class ComplexComponent implements OnInit {
 	complexes: Complex[] = [];
 	selectedServer?: Server;
 	selectedDatabase?: Database;
-
 	protected readonly Object = Object;
 
 	constructor() {

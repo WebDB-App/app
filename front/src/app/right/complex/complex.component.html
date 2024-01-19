@@ -40,12 +40,9 @@
 			[hidden]="complex.hide">
 			<mat-expansion-panel-header>
 				<mat-panel-title>
-					{{complex.type | titlecase}}
+					{{complex.type | titlecase}} {{complex.table ? ' on ' + complex.table : ''}}{{complex.column ? '.' + complex.column : ''}}
 				</mat-panel-title>
-				<mat-panel-description *ngIf="complex.table">
-					{{complex.name}} – {{complex.table}}
-				</mat-panel-description>
-				<mat-panel-description *ngIf="!complex.table">
+				<mat-panel-description>
 					{{complex.name}}
 				</mat-panel-description>
 			</mat-expansion-panel-header>

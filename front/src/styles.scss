@@ -241,7 +241,6 @@ a {
 .scrollDiv {
 	width: 100%;
 	overflow: auto;
-	border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 ::-webkit-scrollbar {
@@ -277,6 +276,13 @@ a {
 
 	.mat-form-field, .mat-select, .mat-slide-toggle, .mat-button-toggle-group {
 		font-size: 14px !important;
+	}
+}
+
+#core {
+	.mat-toolbar {
+		box-shadow: none;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 	}
 }
 

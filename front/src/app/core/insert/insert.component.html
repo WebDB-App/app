@@ -42,8 +42,8 @@
 	</mat-toolbar>
 
 	<div *ngIf="iframe"
-		 style="height: 300px; display: flex; overflow: auto; resize: vertical; padding: 16px; background-color: #1e1e1e">
-		<iframe [src]="iframe" style="border: none; min-height: 100%; width: 100%; border-radius: 6px;"></iframe>
+		 style="height: 300px; display: flex; overflow: auto; resize: vertical;">
+		<iframe [src]="iframe" style="border: none; min-height: 100%; width: 100%;"></iframe>
 	</div>
 
 	<mat-tab-group mat-align-tabs="center">
@@ -87,6 +87,15 @@
 					</button>
 
 					<button
+						(click)="random.model = beautify(random.model)"
+						mat-stroked-button>
+						<span class="material-symbols-outlined notranslate">
+							format_indent_increase
+						</span>
+						Format code
+					</button>
+
+					<button
 						[matMenuTriggerFor]="iaFrame"
 						mat-flat-button>
 						<span class="material-symbols-outlined notranslate">
@@ -95,7 +104,7 @@
 						AI suggestion
 					</button>
 					<mat-menu #iaFrame="matMenu" xPosition="before">
-						<button (click)="iaCode(random, 'FakerJS')"
+						<button (click)="iaCode(random, 'Falso')"
 								mat-menu-item>
 							Falso
 						</button>

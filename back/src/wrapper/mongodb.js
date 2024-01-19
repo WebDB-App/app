@@ -491,6 +491,23 @@ export default class MongoDB extends Driver {
 		return indexes;
 	}
 
+	stringify(obj) {
+		let cache = [];
+		try {
+			return BSON.EJSON.stringify(obj);
+		} catch (e) {
+			return JSON.stringify(obj, function(key, value) {
+				if (typeof value === "object" && value !== null) {
+					if (cache.indexOf(value) !== -1) {
+						return;
+					}
+					cache.push(value);
+				}
+				return value;
+			});
+		}
+	}
+
 	async runCommand(command, database = false) {
 		let db = this.connection;
 		let lgth = -1;
@@ -509,7 +526,7 @@ export default class MongoDB extends Driver {
 			const res = await fct(db, BSON, MongoClient);
 			lgth = res.length;
 			version.commandFinished(this, command, database);
-			return BSON.EJSON.stringify(res);
+			return this.stringify(res);
 		} catch (e) {
 			return {error: e.message};
 		} finally {

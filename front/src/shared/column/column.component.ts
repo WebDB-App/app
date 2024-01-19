@@ -40,7 +40,7 @@ export class ColumnComponent implements OnInit {
 			if (Database.getSelected().name !== complex.database) {
 				return;
 			}
-			if (['DOMAIN', 'CUSTOM_TYPE', 'SEQUENCE', 'ENUM'].indexOf(complex.type) >= 0) {
+			if (['DOMAIN', 'ENUM'].indexOf(complex.type) >= 0) {
 				custom.push({
 					id: complex.name,
 					bold: true,

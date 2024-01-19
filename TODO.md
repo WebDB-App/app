@@ -1,4 +1,3 @@
-- circular ejson: https://www.mongodb.com/docs/v5.0/core/schema-validation/#json-schema
 - postgre enum auto found on insertion
 - sql autocomplete: table alias ('as', ' '), error dans quote
 - mongo: compatibility relation

@@ -160,26 +160,30 @@ ${def[0]["pg_get_viewdef"]}`
 		for (const db of await this.getDbs()) {
 			promises.push(new Promise(async resolve => {
 				const complexes = [
-					...(await this.runCommand("SELECT routine_name as name, routine_type as type, routine_schema as database FROM information_schema.routines WHERE routine_schema NOT IN ('pg_catalog', 'information_schema') ORDER BY routine_name;", db.datname)),
-					...(await this.runCommand("SELECT trigger_name as name, 'TRIGGER' as type, trigger_schema as database, event_object_table as table FROM information_schema.triggers", db.datname)),
-					...(await this.runCommand("SELECT constraint_name AS name, 'CHECK' as type, ccu.table_schema AS database, table_name as table FROM pg_constraint pgc JOIN pg_namespace nsp ON nsp.oid = pgc.connamespace JOIN pg_class cls ON pgc.conrelid = cls.oid LEFT JOIN information_schema.constraint_column_usage ccu ON pgc.conname = ccu.constraint_name AND nsp.nspname = ccu.constraint_schema WHERE contype = 'c' ORDER BY pgc.conname", db.datname)),
-					//...(await this.runCommand("SELECT t.typname AS name, 'ENUM' as type, string_agg(e.enumlabel, ', ') AS value FROM pg_type t JOIN pg_enum e ON t.oid = e.enumtypid JOIN pg_catalog.pg_namespace n ON n.oid = t.typnamespace GROUP BY enum_schema, enum_name;", db.datname))
+					...(await this.runCommand("SELECT routine_name as name, routine_type as type, routine_schema as schema, routine_definition as value FROM information_schema.routines WHERE routine_schema NOT IN ('pg_catalog', 'information_schema') ORDER BY routine_name;", db.datname)),
+					...(await this.runCommand("SELECT trigger_name as name, 'TRIGGER' as type, trigger_schema as schema, event_object_table as table, action_statement as value FROM information_schema.triggers", db.datname)),
+					...(await this.runCommand("SELECT constraint_name AS name, 'CHECK' as type, ccu.table_schema AS schema, table_name as table, column_name as column, pg_get_constraintdef(pgc.oid) as value FROM pg_constraint pgc JOIN pg_namespace nsp ON nsp.oid = pgc.connamespace JOIN pg_class cls ON pgc.conrelid = cls.oid LEFT JOIN information_schema.constraint_column_usage ccu ON pgc.conname = ccu.constraint_name AND nsp.nspname = ccu.constraint_schema WHERE contype = 'c' ORDER BY pgc.conname", db.datname)),
+					...(await this.runCommand("SELECT t.typname AS name, 'ENUM' AS type, string_agg(e.enumlabel, ', ') AS value, nspname AS schema FROM pg_type t JOIN pg_enum e ON t.oid = e.enumtypid JOIN pg_catalog.pg_namespace n ON n.oid = t.typnamespace GROUP BY schema, type, name;", db.datname)),
+					...(await this.runCommand("SELECT sequence_schema as schema, sequence_name as name, 'SEQUENCE' as type, data_type as value FROM information_schema.sequences;", db.datname)),
+					...(await this.runCommand("SELECT 'CUSTOM_TYPE' AS type, user_defined_type_schema AS schema, user_defined_type_name AS name FROM information_schema.user_defined_types", db.datname))
 				];
+				const domains = await this.runCommand("SELECT n.nspname AS SCHEMA, t.typname AS name, pg_catalog.format_type (t.typbasetype, t.typtypmod) AS underlying_type, t.typnotnull AS not_null, ( SELECT c.collname FROM pg_catalog.pg_collation c, pg_catalog.pg_type bt WHERE c.oid = t.typcollation AND bt.oid = t.typbasetype AND t.typcollation <> bt.typcollation ) AS COLLATION, t.typdefault AS DEFAULT, pg_catalog.array_to_string ( ARRAY( SELECT pg_catalog.pg_get_constraintdef (r.oid, TRUE) FROM pg_catalog.pg_constraint r WHERE t.oid = r.contypid ), ' ' ) AS check_constraints FROM pg_catalog.pg_type t LEFT JOIN pg_catalog.pg_namespace n ON n.oid = t.typnamespace WHERE t.typtype = 'd' AND n.nspname <> 'pg_catalog' AND n.nspname <> 'information_chema' AND pg_catalog.pg_type_is_visible (t.oid)", db.datname);
+				domains.map(domain => {
+					let value = domain.underlying_type;
+					value += domain.not_null === "true" ? " NOT NULL " : "";
+					value += domain.default ? " DEFAULT " + domain.default + "" : "";
+					value += " " + domain.check_constraints;
 
-				//TODO
+					complexes.push({
+						name: domain.name,
+						schema: domain.schema,
+						type: "DOMAIN",
+						value
+					});
+				});
 
-				for (let comp of await this.runCommand("SELECT t.typname AS name, typtype as type, nspname as database FROM pg_type t LEFT JOIN pg_catalog.pg_namespace n ON n.oid = t.typnamespace WHERE ( t.typrelid = 0 OR ( SELECT c.relkind = 'c' FROM pg_catalog.pg_class c WHERE c.oid = t.typrelid ) ) AND NOT EXISTS ( SELECT 1 FROM pg_catalog.pg_type el WHERE el.oid = t.typelem AND el.typarray = t.oid ) AND n.nspname NOT IN ('pg_catalog', 'information_schema')", db.datname)) {
-					if (comp.type === "c") {
-						comp.type = "CUSTOM_TYPE";
-					} else if (comp.type === "d") {
-						comp.type = "DOMAIN";
-					} else if (comp.type === "r") {
-						comp.type = "SEQUENCE";
-					}
-					complexes.push(comp);
-				}
 				resolve(complexes.map(complex => {
-					complex.database = db.datname + this.dbToSchemaDelimiter + complex.database;
+					complex.database = db.datname + this.dbToSchemaDelimiter + complex.schema;
 					return complex;
 				}));
 			}));

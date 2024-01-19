@@ -37,6 +37,14 @@ export class MySQL extends SQL {
 			]),
 			functions: {
 				...this.language.functions, ...{
+					'SHOW CREATE DATABASE': null,
+					'SHOW CREATE EVENT': null,
+					'SHOW CREATE FUNCTION': null,
+					'SHOW CREATE PROCEDURE': null,
+					'SHOW CREATE TABLE': null,
+					'SHOW CREATE TRIGGER': null,
+					'SHOW CREATE USER': null,
+					'SHOW CREATE VIEW': null,
 					'LPAD': '(string, length, lpad_string)',
 					'INSTR': '(string1, string2)',
 					'GROUP_CONCAT': null,
