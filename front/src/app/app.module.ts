@@ -21,7 +21,7 @@ import { MatListModule } from "@angular/material/list";
 import { MatExpansionModule } from "@angular/material/expansion";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { MatDialogModule } from "@angular/material/dialog";
+import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogConfig, MatDialogModule } from "@angular/material/dialog";
 import { MatSelectModule } from "@angular/material/select";
 import { HttpClientModule } from "@angular/common/http";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
@@ -58,6 +58,13 @@ const providers: Provider[] = [
 			lineNumbersLoader: () => import('highlightjs-line-numbers.js'),
 			fullLibraryLoader: () => import('highlight.js'),
 		}
+	},
+	{
+		provide: MAT_DIALOG_DEFAULT_OPTIONS,
+		useValue: {
+			...new MatDialogConfig(),
+			closeOnNavigation: false
+		} as MatDialogConfig,
 	}
 ];
 if (environment.production) {
