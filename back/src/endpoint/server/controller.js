@@ -64,11 +64,15 @@ class Controller {
 			promises.push(
 				(final.complexes = await driver.getComplexes()),
 				(final.indexes = await driver.getIndexes()),
-				(final.relations = await driver.getRelations(final.dbs, +req.query.size))
 			);
 		}
 
 		await Promise.all(promises);
+
+		if (+req.query.full) {
+			final.relations = await driver.getRelations(final.dbs, +req.query.size);
+		}
+
 		res.send(final);
 	}
 

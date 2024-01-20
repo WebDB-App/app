@@ -1,15 +1,26 @@
-- mongo: compatibility relation
 - ERD [Chrome bookmarks]
-- doc
+- mysql/etc gui -> stackoverflow
+- lookup chrome history: stackoverflow+reddit+github (aleluff + webdb): filter mongo/mysql etc
+
+
+# Migration
+- git shelve
+- monaco diff between 2 structures
+- Schema Compare: relation, index, etc
+- listbox des tables/column pour checker les differences de valeurs
+- execute migration??
+
+
+# SQL editor
+- add CTE to table list
+- autocomplete: table alias ('as', ' ')
+- handle subquery and cte like table (propose column from)
+
+
 
 
 ----------------------------------------------------------
 
-
-
-- mysql/etc gui -> stackoverflow
-- lookup chrome history: stackoverflow+reddit+github (aleluff + webdb): filter mongo/mysql etc
-- report issue: debug http
 
 
 
@@ -19,18 +30,9 @@
 - reorder columns
 
 
-# Migration
-- git shelve
-- monaco diff between 2 structures
-- Schema Compare: relation, index, etc
-- execute migration
-
 
 # SQL editor
 - function doc (generate from web scrap)
-- add CTE to table list
-- autocomplete: table alias ('as', ' ')
-- handle subquery and cte like table (propose column from)
 
 
 # Profiling
@@ -61,6 +63,7 @@
 
 
 # Mongo
+- relation avec array: l427 mongodb.js
 - https://www.mongodb.com/docs/manual/reference/operator/aggregation/lookup/#use--lookup-with-an-array
 - columns with array > 2 : harmonize to one of the type (attention deep)
 - obj column update
