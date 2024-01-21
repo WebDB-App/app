@@ -207,6 +207,8 @@ export class QueryComponent implements OnInit, OnDestroy {
 	}
 
 	async _runCompare() {
+		this.querySize = -1;
+
 		const run = async (query: string, editor: any) => {
 			let data;
 			try {
@@ -216,6 +218,15 @@ export class QueryComponent implements OnInit, OnDestroy {
 					page: this.page
 				});
 				this.history.addLocal(new Query(query, data.length));
+
+				const size = await this.request.post('database/querySize', {query: this.query});
+				if (this.querySize === null) {
+					this.querySize = Object.values(data).length;
+				} else if (this.querySize < 1 && Object.values(data).length) {
+					this.querySize = 1;
+				}
+
+				this.querySize = Math.max(this.querySize, size);
 			} catch (result: any) {
 				addMonacoError(query, editor, result.error);
 			}
@@ -223,7 +234,6 @@ export class QueryComponent implements OnInit, OnDestroy {
 			return JSON.stringify(data, null, "\t");
 		}
 
-		this.querySize = 10000;
 		[this.originalResult.code, this.modifiedResult.code] = await Promise.all([run(this.query, this.editors[0]), run(this.query2, this.editors[1])]);
 	}
 
@@ -248,6 +258,7 @@ export class QueryComponent implements OnInit, OnDestroy {
 	exportQuery() {
 		this.dialog.open(ExportQueryDialog, {
 			data: removeComment(this.query),
+			id: this.selectedTable?.name,
 			hasBackdrop: false
 		});
 	}

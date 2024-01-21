@@ -3,12 +3,6 @@
 - lookup chrome history: stackoverflow+reddit+github (aleluff + webdb): filter mongo/mysql etc
 
 
-# Migration
-- git shelve
-- monaco diff between 2 structures
-- Schema Compare: relation, index, etc
-- listbox des tables/column pour checker les differences de valeurs
-- execute migration??
 
 
 # SQL editor
@@ -29,6 +23,9 @@
 - récupérer la licence directemnt depuis la landing + enlever l'endpoint
 - reorder columns
 
+
+# Comparator
+- Generate script to migrate + opt to run it
 
 
 # SQL editor
@@ -68,15 +65,3 @@
 - columns with array > 2 : harmonize to one of the type (attention deep)
 - obj column update
 - harmonizer obj > 2
-
-
-# features dans gitlab/issues
-
-
-
-
-----------------------------------------------------------
-
-
-
-- tester Angular 17 avec material icône dans stackblitz

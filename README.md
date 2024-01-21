@@ -8,7 +8,7 @@
 
 ### Development
 
-[🏗️ CI/CD](hhttps://gitlab.com/web-db/app/-/pipelines)
+[🏗️ CI/CD](https://gitlab.com/web-db/app/-/pipelines)
 
 [👨‍💻 Contributing](CONTRIBUTING.md)
 
