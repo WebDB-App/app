@@ -4,12 +4,18 @@ import { ContainerComponent } from "./container/container.component";
 import { environment } from "../environments/environment";
 import { ConnectionComponent } from "./connection/connection.component";
 import { TablesComponent } from "./tables/tables.component";
+import { CompareComponent } from "./compare/compare.component";
 
 const appRoutes: Routes = [
 	{
 		path: '',
 		pathMatch: 'full',
 		component: ConnectionComponent,
+	},
+	{
+		path: 'compare',
+		pathMatch: 'full',
+		component: CompareComponent,
 	},
 	{
 		path: ':server/:database',

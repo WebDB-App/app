@@ -6,11 +6,6 @@ import { MatPaginatorIntl } from "@angular/material/paginator";
 
 declare var monaco: any;
 
-export class REMOVED_LABELS extends MatPaginatorIntl {
-	override nextPageLabel: string = '';
-	override previousPageLabel: string = '';
-}
-
 export function isSQL(server = Server.getSelected()): boolean | undefined {
 	if (!server) {
 		return undefined;

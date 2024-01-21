@@ -297,7 +297,7 @@ async function main() {
 		return cols;
 	}
 
-	format = (code: string) => {
+	format(code: string) {
 		return jsbeautifier.js_beautify(code);
 	}
 }

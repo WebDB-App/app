@@ -78,7 +78,7 @@ export interface Driver {
 	extractForView: (query: string) => string | false;
 	extractEnum: (col: Column) => string[] | false;
 	extractConditionParams: (query: string) => QueryParams;
-	format?: (code: string) => string;
+	format: (code: string) => string;
 	wrapValue: (type: any, value: string) => string;
 	quickSearch: (driver: Driver, column: Column, value: string) => string;
 	generateSuggestions?: (textUntilPosition: string) => any[];

@@ -76,7 +76,7 @@ export class ConnectionComponent implements OnInit {
 	async ngOnInit(reload = false) {
 		this.filterChanged('');
 		Server.setSelected(undefined);
-		this.titleService.setTitle("WebDB – App");
+		this.titleService.setTitle("WebDB – Connections");
 		this.loading = LoadingStatus.LOADING;
 		let scans: Server[] = [];
 

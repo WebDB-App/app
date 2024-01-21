@@ -1,0 +1,39 @@
+<div cdkDrag cdkDragHandle
+	 cdkDragRootElement=".cdk-overlay-pane"
+	 mat-dialog-title>
+	<div>
+		<h3>Edit query</h3>
+	</div>
+	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
+		<mat-icon>close</mat-icon>
+	</button>
+</div>
+
+<div mat-dialog-content style="overflow: hidden;">
+	<ngx-monaco-editor
+		(onInit)="initEditor($event)"
+		[(ngModel)]="str"
+		[options]="editorOptions">
+	</ngx-monaco-editor>
+</div>
+<mat-dialog-actions>
+	<button
+		(click)="reset()"
+		mat-stroked-button>
+		<span class="material-symbols-outlined notranslate">
+			undo
+		</span>
+		Reset
+	</button>
+
+	<button
+		(click)="save()"
+		cdkFocusInitial
+		color="primary"
+		mat-raised-button>
+		<span class="material-symbols-outlined notranslate">
+			send
+		</span>
+		Apply
+	</button>
+</mat-dialog-actions>

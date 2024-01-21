@@ -48,6 +48,9 @@ import { NgChartsModule } from 'ng2-charts';
 import { StatsDialogComponent } from "./stats/stats-dialog.component";
 import { ProcessDialogComponent } from "./process/process-dialog.component";
 import { MatChipsModule } from "@angular/material/chips";
+import { CompareComponent, EditQueryDialog } from './compare/compare.component';
+import { MatPaginatorIntl, MatPaginatorModule } from "@angular/material/paginator";
+import { CustomPaginatorIntl } from "../shared/paginator.transform";
 
 const providers: Provider[] = [
 	{
@@ -58,8 +61,10 @@ const providers: Provider[] = [
 			lineNumbersLoader: () => import('highlightjs-line-numbers.js'),
 			fullLibraryLoader: () => import('highlight.js'),
 		}
-	},
-	{
+	}, {
+		provide: MatPaginatorIntl,
+		useClass: CustomPaginatorIntl
+	}, {
 		provide: MAT_DIALOG_DEFAULT_OPTIONS,
 		useValue: {
 			...new MatDialogConfig(),
@@ -92,7 +97,7 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 				return [
 					{
 						range: model.getFullModelRange(),
-						text: Server.getSelected().driver.format!(model.getValue())
+						text: Server.getSelected().driver.format(model.getValue())
 					}
 				];
 			},
@@ -129,7 +134,9 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 		TopRightComponent,
 		EditConnectionComponent,
 		StatsDialogComponent,
-		ProcessDialogComponent
+		ProcessDialogComponent,
+		CompareComponent,
+		EditQueryDialog
 	],
 	imports: [
 		AppRoutingModule,
@@ -173,7 +180,8 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 		MatCheckboxModule,
 		MatTableModule,
 		NgChartsModule,
-		MatChipsModule
+		MatChipsModule,
+		MatPaginatorModule
 	],
 	providers,
 	bootstrap: [AppComponent]

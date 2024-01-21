@@ -16,11 +16,9 @@ import {
 	alterStructure,
 	initBaseEditor,
 	removeComment,
-	REMOVED_LABELS,
 	validName
 } from "../../../shared/helper";
 import { ExportResultDialog } from "../../../shared/export-result-dialog/export-result-dialog";
-import { MatPaginatorIntl } from "@angular/material/paginator";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { saveAs } from "file-saver-es";
@@ -31,7 +29,6 @@ declare var monaco: any;
 	selector: 'app-query',
 	templateUrl: './query.component.html',
 	styleUrls: ['./query.component.scss'],
-	providers: [{provide: MatPaginatorIntl, useValue: new REMOVED_LABELS()}]
 })
 export class QueryComponent implements OnInit, OnDestroy {
 
@@ -145,8 +142,8 @@ export class QueryComponent implements OnInit, OnDestroy {
 
 		try {
 			if (this.autoFormat) {
-				this.query = Server.getSelected().driver.format!(this.query);
-				this.query2 = Server.getSelected().driver.format!(this.query2);
+				this.query = Server.getSelected().driver.format(this.query);
+				this.query2 = Server.getSelected().driver.format(this.query2);
 			}
 			if (this.diff) {
 				await this._runCompare();
