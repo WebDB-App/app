@@ -32,6 +32,7 @@
 		"@types/js-beautify": "latest",
 		"@types/marked": "^5.0.0",
 		"@types/node": "20.4.5",
+		"@types/sqlstring": "latest",
 		"ansi-to-html": "^0.7.2",
 		"bson": "latest",
 		"chart.js": "latest",
@@ -53,6 +54,7 @@
 		"openai": "latest",
 		"rxjs": "~7.8.1",
 		"sql-formatter": "latest",
+		"sqlstring": "latest",
 		"tslib": "^2.5.0",
 		"typescript": "~4.8.4",
 		"zone.js": "~0.12.0"

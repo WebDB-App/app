@@ -261,14 +261,11 @@ export class SQL implements Driver {
 	}
 
 	wrapValue(type: any, value: string) {
-		return `'${value}'`;
+		return value;
 	}
 
 	wrapStructure(structure: string) {
-		if (structure.match(/^[a-z]+$/)) {
-			return structure;
-		}
-		return `"${structure}"`;
+		return structure;
 	}
 
 	quickSearch(driver: Driver, column: Column, value: string) {

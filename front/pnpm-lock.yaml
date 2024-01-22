@@ -77,6 +77,9 @@ dependencies:
   '@types/node':
     specifier: 20.4.5
     version: 20.4.5
+  '@types/sqlstring':
+    specifier: latest
+    version: 2.3.2
   ansi-to-html:
     specifier: ^0.7.2
     version: 0.7.2
@@ -140,6 +143,9 @@ dependencies:
   sql-formatter:
     specifier: latest
     version: 15.0.2
+  sqlstring:
+    specifier: latest
+    version: 2.3.3
   tslib:
     specifier: ^2.5.0
     version: 2.6.2
@@ -2504,6 +2510,10 @@ packages:
     resolution: {integrity: sha512-MK9V6NzAS1+Ud7JV9lJLFqW85VbC9dq3LmwZCuBe4wBDgKC0Kj/jd8Xl+nSviU+Qc3+m7umHHyHg//2KSa0a0Q==}
     dependencies:
       '@types/node': 20.4.5
+    dev: false
+
+  /@types/sqlstring@2.3.2:
+    resolution: {integrity: sha512-lVRe4Iz9UNgiHelKVo8QlC8fb5nfY8+p+jNQNE+UVsuuVlQnWhyWmQ/wF5pE8Ys6TdjfVpqTG9O9i2vi6E0+Sg==}
     dev: false
 
   /@types/webidl-conversions@7.0.3:
@@ -7158,6 +7168,11 @@ packages:
       argparse: 2.0.1
       get-stdin: 8.0.0
       nearley: 2.20.1
+    dev: false
+
+  /sqlstring@2.3.3:
+    resolution: {integrity: sha512-qC9iz2FlN7DQl3+wjwn3802RTyjCx7sDvfQEXchwa6CWOx07/WVfh91gBmQ9fahw8snwGEWU3xGzOt4tFyHLxg==}
+    engines: {node: '>= 0.6'}
     dev: false
 
   /ssri@9.0.1:

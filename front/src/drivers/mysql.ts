@@ -3,6 +3,9 @@ import { Group, QueryParams } from "../classes/driver";
 import { Server } from "../classes/server";
 import { Database } from "../classes/database";
 import { format } from "sql-formatter";
+import { escapeId, escape } from "sqlstring";
+
+declare module 'sqlstring';
 
 export class MySQL extends SQL {
 
@@ -333,10 +336,11 @@ async function main() {
 		}
 	}
 
+	override wrapValue(type: any, value: string) {
+		return escape(value);
+	}
+
 	override wrapStructure(structure: string) {
-		if (structure.match(/^[a-z]+$/)) {
-			return structure;
-		}
-		return `\`${structure}\``;
+		return escapeId(structure);
 	}
 }

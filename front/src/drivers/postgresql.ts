@@ -4,7 +4,6 @@ import { Server } from "../classes/server";
 import { Database } from "../classes/database";
 import { format } from "sql-formatter";
 import { Column } from "../classes/column";
-import { Table } from "../classes/table";
 
 export class PostgreSQL extends SQL {
 
@@ -344,5 +343,31 @@ async function main() {
 				return code;
 			}
 		}
+	}
+
+	override wrapValue(type: any, value: string) {
+		let hasBackslash = false
+		let escaped = "'"
+
+		for (let i = 0; i < value.length; i++) {
+			const c = value[i]
+			if (c === "'") {
+				escaped += c + c;
+			} else if (c === '\\') {
+				escaped += c + c;
+				hasBackslash = true;
+			} else {
+				escaped += c;
+			}
+		}
+		escaped += "'";
+		if (hasBackslash) {
+			escaped = ' E' + escaped;
+		}
+		return escaped
+	}
+
+	override wrapStructure(structure: string) {
+		return '"' + structure.replace(/"/g, '""') + '"'
 	}
 }

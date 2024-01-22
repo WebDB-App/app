@@ -1,12 +1,11 @@
-/*
 import assert from 'node:assert';
 import {test} from "node:test";
 import {post} from "../api.js";
 
-async function getCountryRelation(config) {
+async function getCountryIndexes(config) {
 	const structure = await post(`server/structure?full=1&size=50`, config.credentials);
-	return structure.relations.find(relation => {
-		if (relation.table_source !== "country") {
+	return structure.indexes.filter(index => {
+		if (index.table !== "country") {
 			return false;
 		}
 		return relation.database === config.database || relation.database === (config.database + " ¦ public");
@@ -15,17 +14,27 @@ async function getCountryRelation(config) {
 
 async function run(config) {
 
-	const countryRelation = await getCountryRelation(config);
-	await test('[relation] country->continent found in structure', () => {
-		assert.ok(countryRelation.column_source, "continent_id");
-		assert.ok(countryRelation.table_dest, "continent");
-	});
-	if (!countryRelation) {
-		return;
+	/*const countryIndexes = await getCountryIndexes(config);
+
+	if (config.wrapper !== "MongoDB") {
+		const continent_id = countryIndexes.find(index => index.columns[0] === "continent_id");
+
+		await test('[index] Foreign key found in structure', () => {
+			assert.ok(!continent_id.primary);
+			assert.ok(!continent_id.unique);
+		});
+
+		const continent_id = countryIndexes.find(index => index.columns[0] === "continent_id");
+
+		await test('[index] Foreign key found in structure', () => {
+			assert.ok(!continent_id.primary);
+			assert.ok(!continent_id.unique);
+		});
 	}
-	if (config.wrapper === "MongoDB") {
-		return;
-	}
+
+
+
+
 
 
 	//--------------------------------------------
@@ -47,13 +56,11 @@ async function run(config) {
 	await test('[relation] Add ok', () => {
 		assert.ok(!added.error);
 		assert.ok(addedCheck);
-	});
+	});*/
 }
 
 export default run;
 
-/*
 import {loadConfig} from "../api.js";
 import servers from "../docker.js";
-await run(await loadConfig(servers.mysql));
-*/
+await run(await loadConfig(servers.mongo));
