@@ -4,7 +4,7 @@ import { ContainerComponent } from "./container/container.component";
 import { environment } from "../environments/environment";
 import { ConnectionComponent } from "./connection/connection.component";
 import { TablesComponent } from "./tables/tables.component";
-import { CompareComponent } from "./compare/compare.component";
+import { MigrateComponent } from "./migrate/migrate.component";
 
 const appRoutes: Routes = [
 	{
@@ -13,9 +13,9 @@ const appRoutes: Routes = [
 		component: ConnectionComponent,
 	},
 	{
-		path: 'compare',
+		path: 'migrate',
 		pathMatch: 'full',
-		component: CompareComponent,
+		component: MigrateComponent,
 	},
 	{
 		path: ':server/:database',

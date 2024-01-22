@@ -7,7 +7,7 @@
 
     <div style="display: flex; gap: 20px; align-items: center;">
         <mat-button-toggle-group
-                (change)="refreshCompare(left); refreshCompare(right);"
+                (change)="refreshSide(left); refreshSide(right);"
                 [(ngModel)]="type">
             <mat-button-toggle value="structure">
                 Structure
@@ -26,7 +26,7 @@
             </mat-button-toggle>
         </mat-button-toggle-group>
         <button
-            (click)="refreshCompare(left); refreshCompare(right)"
+            (click)="refreshSide(left); refreshSide(right)"
             mat-flat-button>
             <span class="material-symbols-outlined notranslate">
                 compare
@@ -37,7 +37,7 @@
 
     <div *ngIf="type === 'data' && left.querySize && right.querySize">
         <mat-paginator
-            (page)="page = $event.pageIndex; pageSize = $event.pageSize; refreshCompare(left); refreshCompare(right)"
+            (page)="page = $event.pageIndex; pageSize = $event.pageSize; refreshSide(left); refreshSide(right)"
             [length]="Math.max(left.querySize, right.querySize)"
             [pageIndex]="page"
             [pageSize]="pageSize"
@@ -78,16 +78,13 @@
 
     <div style="height: calc(100vh - 220px)">
 
-        <div *ngIf="isComparing || !diffDone"
-             id="loader">
+        <div *ngIf="isComparing" id="loader">
             <mat-spinner mode="indeterminate"></mat-spinner>
-            <h2 style="color: #2196f3">Loading Data</h2>
         </div>
 
         <ngx-monaco-diff-editor
-            *ngIf="!isComparing"
+			*ngIf="!isComparing"
             style="height: 100%"
-            (onInit)="initEditor($event)"
             [modifiedModel]="right.diff"
             [options]="editorOptions"
             [originalModel]="left.diff"
@@ -111,7 +108,7 @@
                         *ngFor="let server of servers"
                         [label]="server.name">
                     <mat-option
-                            (click)="side.server = server; side.database = db; side.query = ''; refreshCompare(side)"
+                            (click)="side.server = server; side.database = db; side.table = undefined; side.query = undefined; side.columnsToHide = undefined; side.diff.code = ''; refreshSide(side)"
                             *ngFor="let db of server.dbs"
                             [value]="db.name">
                         {{ db.name }}
@@ -128,7 +125,7 @@
                     required
                     disableOptionCentering>
                     <mat-option
-                            (click)="side.table = table; side.query = ''; side.columnsToHide = []; refreshCompare(side)"
+                            (click)="side.table = table; side.query = ''; side.columnsToHide = []; refreshSide(side)"
                             *ngFor="let table of side.database.tables"
                             [value]="table.name">
                         {{ table.name }}
@@ -140,7 +137,7 @@
                 <mat-label>Hide columns</mat-label>
                 <mat-select disableOptionCentering multiple [(ngModel)]="side.columnsToHide">
                     <mat-option
-                        (click)="refreshCompare(side)"
+                        (click)="refreshSide(side)"
                         *ngFor="let column of side.table.columns"
                         [value]="column">
                         {{ column.name }}

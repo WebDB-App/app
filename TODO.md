@@ -1,31 +1,46 @@
+- version -> monaco-diff
+- quand . completion -> dans tout le code: check le token a gauche ('as', ' ') du token courant
+
+- finir tests
 - ERD [Chrome bookmarks]
+
+
+# Doc
+- nosql default column
+- expliquer code non UI
+- compatibility + ajouter lien dans landing
+- https://chat.openai.com/c/eae4f88e-e100-45de-9502-8708f7f48bf8
+
+
 - mysql/etc gui -> stackoverflow
 - lookup chrome history: stackoverflow+reddit+github (aleluff + webdb): filter mongo/mysql etc
-
-
-
-
-# SQL editor
-- add CTE to table list
-- autocomplete: table alias ('as', ' ')
-- handle subquery and cte like table (propose column from)
-
-
-
+- sql server
+- inspi: issues de PMA/dbeaver/datagrip/pgAdmin/cloudbeaver
 
 ----------------------------------------------------------
 
 
 
-
 # modules payant
 - system de téléchargement de code depuis la landing avec le mail
+- attention de telecharger la version par rapport a la version en cours
 - récupérer la licence directemnt depuis la landing + enlever l'endpoint
-- reorder columns
+
+
+# reorder columns
+
+
+# SQL editor
+- LLM on WebGPU ?
+- add CTE to table list
+- handle subquery and cte like table (propose column from)
 
 
 # Comparator
 - Generate script to migrate + opt to run it
+- https://documentation.red-gate.com/flyway/quickstart-how-flyway-works
+- pgAdmin
+- https://dbconvert.com/dbconvert-studio
 
 
 # SQL editor

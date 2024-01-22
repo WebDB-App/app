@@ -48,7 +48,7 @@ import { NgChartsModule } from 'ng2-charts';
 import { StatsDialogComponent } from "./stats/stats-dialog.component";
 import { ProcessDialogComponent } from "./process/process-dialog.component";
 import { MatChipsModule } from "@angular/material/chips";
-import { CompareComponent, EditQueryDialog } from './compare/compare.component';
+import { MigrateComponent, EditQueryDialog } from './migrate/migrate.component';
 import { MatPaginatorIntl, MatPaginatorModule } from "@angular/material/paginator";
 import { CustomPaginatorIntl } from "../shared/paginator.transform";
 
@@ -135,7 +135,7 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 		EditConnectionComponent,
 		StatsDialogComponent,
 		ProcessDialogComponent,
-		CompareComponent,
+		MigrateComponent,
 		EditQueryDialog
 	],
 	imports: [

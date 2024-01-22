@@ -25,23 +25,21 @@ class Side {
 }
 
 @Component({
-  selector: 'app-compare',
-  templateUrl: './compare.component.html',
-  styleUrls: ['./compare.component.scss']
+	selector: 'app-migrate',
+	templateUrl: './migrate.component.html',
+	styleUrls: ['./migrate.component.scss']
 })
-export class CompareComponent implements OnInit {
+export class MigrateComponent implements OnInit {
 
-	editors: any[] = [];
 	page = 0;
 	pageSize = 200;
 	isComparing = false;
-	diffDone = true;
 	sub!: Subscription;
 	servers: Server[] = [];
 	left = new Side();
 	right = new Side();
 	loading: LoadingStatus = LoadingStatus.LOADING;
-	type : 'structure' | 'relation' | 'indexes' | 'complex' | 'data' = "structure";
+	type: 'structure' | 'relation' | 'indexes' | 'complex' | 'data' = "structure";
 	editorOptions = {
 		language: ''
 	};
@@ -62,7 +60,7 @@ export class CompareComponent implements OnInit {
 
 	async ngOnInit() {
 		Server.setSelected(undefined);
-		this.titleService.setTitle("WebDB – Compare");
+		this.titleService.setTitle("WebDB – Migration");
 		this.loading = LoadingStatus.LOADING;
 
 		const servers = await Promise.all(Server.getAll().map(server => this.request.connectServer(server)));
@@ -73,13 +71,12 @@ export class CompareComponent implements OnInit {
 		return datas.filter(data => data.database === database || data.database === (database + " ¦ public"));
 	}
 
-	async refreshCompare(side: Side) {
+	async refreshSide(side: Side) {
 		if (!side.server || !side.database) {
 			return;
 		}
 
 		this.isComparing = true;
-		this.diffDone = false;
 		if (this.type === 'structure') {
 			side.diff.code = JSON.stringify(side.database, null, "\t");
 		} else if (this.type === 'relation') {
@@ -127,15 +124,8 @@ export class CompareComponent implements OnInit {
 				return;
 			}
 			side.query = result;
-			this.refreshCompare(side);
+			this.refreshSide(side);
 		});
-	}
-
-	initEditor($event: any) {
-		$event.onDidUpdateDiff(() => {
-			this.diffDone = true;
-		});
-		this.editors.push($event);
 	}
 }
 
