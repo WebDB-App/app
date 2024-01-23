@@ -1,5 +1,5 @@
 import {join} from "path";
-import {existsSync, readdirSync} from "fs";
+import fs, {existsSync, readdirSync} from "fs";
 import bash from "./bash.js";
 import {URL} from "url";
 import {simpleGit} from "simple-git";
@@ -57,18 +57,24 @@ class Version {
 		const dir = this.getPath(database, driver);
 		const git = simpleGit(dir);
 
-		let diff = await git.diff(["--no-prefix", "--text", hash]);
-		if (!diff) {
-			diff = "⸻ Empty diff ⸻";
+		let original = await git.diff(["--no-prefix", "--text", hash]);
+		let final = [];
+		if (!original) {
+			final.push("⸻ Empty diff ⸻");
 		} else {
-			diff = driver.readDiff(database, diff).slice(0, 2000000);
-			// eslint-disable-next-line no-control-regex
-			diff = diff.replace(/[\x00-\x09\x0B-\x0C\x0E-\x1F]/g, " ");
-			diff = diff.replaceAll("�", " ");
-			diff = diff.replace(/ +(?= )/g,"");
+			for (let row of driver.readDiff(database, original).split("\n")) {
+				// eslint-disable-next-line no-control-regex
+				row = row.replace(/[\x00-\x09\x0B-\x0C\x0E-\x1F]/g, " ");
+				// eslint-disable-next-line no-control-regex
+				row = row.replace(/[\u007F-\u009F]/g, " ");
+				row = row.replaceAll("�", " ");
+				row = row.replace(/ +(?= )/g,"");
+
+				final.push(row);
+			}
 		}
 
-		return {diff};
+		return {diff: final};
 	}
 
 	async list(database, driver) {
@@ -148,6 +154,11 @@ class Version {
 			done: false,
 			driver
 		};
+	}
+
+	deleteDatabase(driver, database) {
+		const dir = this.getPath(database, driver);
+		fs.rmSync(dir, { recursive: true, force: true });
 	}
 }
 

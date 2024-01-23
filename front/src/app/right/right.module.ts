@@ -39,6 +39,7 @@ import { HistoryComponent, SortPipe } from "./history/history.component";
 import { VersionComponent } from './version/version.component';
 import { MatListModule } from "@angular/material/list";
 import { ComplexComponent } from './complex/complex.component';
+import { MatTabsModule } from "@angular/material/tabs";
 
 
 @NgModule({
@@ -62,40 +63,41 @@ import { ComplexComponent } from './complex/complex.component';
 		DumpComponent,
 		AdvancedComponent
 	],
-	imports: [
-		CommonModule,
-		MonacoEditorModule,
-		FlexModule,
-		RightRoutingModule,
-		MatButtonModule,
-		HighlightModule,
-		MatInputModule,
-		MatSelectModule,
-		MatDividerModule,
-		MatDialogModule,
-		MatSlideToggleModule,
-		MatToolbarModule,
-		MatSliderModule,
-		MatIconModule,
-		FormsModule,
-		MatTreeModule,
-		MatCheckboxModule,
-		MatButtonToggleModule,
-		MatProgressBarModule,
-		MatTableModule,
-		GridModule,
-		MatAutocompleteModule,
-		ReactiveFormsModule,
-		DragDropModule,
-		MatTooltipModule,
-		MatMenuModule,
-		MatCardModule,
-		SharedModule,
-		MatExpansionModule,
-		MatProgressSpinnerModule,
-		ClipboardModule,
-		MatListModule
-	],
+    imports: [
+        CommonModule,
+        MonacoEditorModule,
+        FlexModule,
+        RightRoutingModule,
+        MatButtonModule,
+        HighlightModule,
+        MatInputModule,
+        MatSelectModule,
+        MatDividerModule,
+        MatDialogModule,
+        MatSlideToggleModule,
+        MatToolbarModule,
+        MatSliderModule,
+        MatIconModule,
+        FormsModule,
+        MatTreeModule,
+        MatCheckboxModule,
+        MatButtonToggleModule,
+        MatProgressBarModule,
+        MatTableModule,
+        GridModule,
+        MatAutocompleteModule,
+        ReactiveFormsModule,
+        DragDropModule,
+        MatTooltipModule,
+        MatMenuModule,
+        MatCardModule,
+        SharedModule,
+        MatExpansionModule,
+        MatProgressSpinnerModule,
+        ClipboardModule,
+        MatListModule,
+        MatTabsModule
+    ],
 	providers: [
 		CdkColumnDef,
 	]

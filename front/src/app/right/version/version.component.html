@@ -1,27 +1,37 @@
 <mat-toolbar
+	*ngIf="selectedPatch"
 	fxLayout="row"
 	fxLayoutAlign="space-between center">
-	<mat-form-field appearance="legacy" style="width: 250px; margin-bottom: -1.25em">
-		<input (keyup)="filterChanged()"
-			   [(ngModel)]="filter"
-			   autocomplete="off"
-			   matInput
-			   placeholder="Search version">
-		<button (click)="filter = ''; filterChanged()"
-				*ngIf="filter"
-				aria-label="Clear" mat-icon-button
-				matSuffix>
-			<mat-icon>close</mat-icon>
-		</button>
-	</mat-form-field>
 
-	<div style="display: flex; gap: 10px">
+	<div style="display: flex; gap: 26px; font-size: 16px; align-items: center;">
+		<span>
+			{{selectedPatch.time | date:'MM-dd HH:mm:ss'}}
+		</span>
+
 		<button
-			(click)="load10()"
-			mat-flat-button>
-			Load next 10
+			(click)="snackBar.open('Hash copied', '⨉', {duration: 3000})"
+			[cdkCopyToClipboard]="selectedPatch.hash"
+			mat-button>
+			<span class="material-symbols-outlined notranslate">
+				tag
+			</span>
+			{{ selectedPatch.hash | slice:0:6 }}
 		</button>
 	</div>
+
+	<div *ngIf="!selectedPatch.isLoading">
+		<button
+			(click)="reset(selectedPatch)"
+			[disabled]="isResetting"
+			color="accent"
+			mat-stroked-button>
+			<span class="material-symbols-outlined notranslate">
+				restart_alt
+			</span>
+			Reset
+		</button>
+	</div>
+
 </mat-toolbar>
 
 <mat-progress-bar
@@ -56,70 +66,30 @@
 			</mat-card-header>
 		</mat-card>
 
-		<mat-card
-			*ngFor="let patch of patches; trackBy:identify"
-			[hidden]="patch.hide">
+		<mat-tab-group
+			(selectedTabChange)="selectedPatch = patches[$event.index]; loadDiff()">
+			<mat-tab
+				*ngFor="let patch of patches; trackBy:identify"
+				[label]="patch.ago + ' ago'">
 
-			<mat-card-actions>
-
-				<ng-container *ngIf="!patch.isLoading">
-					<span>
-						{{ patch.time | date:'MM-dd HH:mm:ss' }}
-					</span>
-
-					<button
-						(click)="snackBar.open('Hash copied', '⨉', {duration: 3000})"
-						[cdkCopyToClipboard]="patch.hash"
-						mat-button>
-						<span class="material-symbols-outlined notranslate">
-							tag
-						</span>
-						{{ patch.hash | slice:0:6 }}
-					</button>
-
-					<button
-						(click)="reset(patch)"
-						*ngIf="patch.diff"
-						[disabled]="isResetting"
+				<div *ngIf="selectedPatch?.hash === patch.hash">
+					<mat-progress-spinner
+						*ngIf="patch.isLoading"
+						[diameter]="60"
 						color="accent"
-						mat-button>
-						<span class="material-symbols-outlined notranslate">
-							restart_alt
-						</span>
-						Reset
-					</button>
-				</ng-container>
+						mode="indeterminate"
+						style="margin: auto;">
+					</mat-progress-spinner>
 
-				<mat-progress-spinner
-					*ngIf="patch.isLoading"
-					[diameter]="60"
-					color="accent"
-					mode="indeterminate"
-					style="margin: auto;">
-				</mat-progress-spinner>
-			</mat-card-actions>
-
-			<mat-card-content style="display: flex; flex: 1; justify-content: center; align-items: center;">
-				<button
-					(click)="loadDiff(patch)"
-					*ngIf="!patch.diff"
-					color="accent"
-					mat-flat-button>
-					<span class="material-symbols-outlined notranslate">
-						difference
-					</span>
-					Load diff
-				</button>
-
-				<ngx-monaco-editor
-					(onInit)="initEditor($event, patch.diff)"
-					*ngIf="patch.diff"
-					[(ngModel)]="patch.diff"
-					[options]="editorOptions"
-					style="min-width: 500px; min-height: 250px">
-				</ngx-monaco-editor>
-			</mat-card-content>
-		</mat-card>
-
+					<ngx-monaco-diff-editor
+						style="height: calc(100vh - 105px)"
+						*ngIf="patch.right.code || patch.left.code"
+						[modifiedModel]="patch.right"
+						[options]="editorOptions"
+						[originalModel]="patch.left"
+					></ngx-monaco-diff-editor>
+				</div>
+			</mat-tab>
+		</mat-tab-group>
 	</ng-container>
 </div>

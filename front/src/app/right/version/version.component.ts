@@ -4,13 +4,55 @@ import { Database } from "../../../classes/database";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { RequestService } from "../../../shared/request.service";
 import { Router } from "@angular/router";
+import { DiffEditorModel } from "ngx-monaco-editor-v2";
 
 class Patch {
-	diff?: string;
 	hash!: string;
-	time!: string;
+	time!: number;
+	ago!: string;
 	isLoading = false;
-	hide = false;
+	left!: DiffEditorModel;
+	right!: DiffEditorModel;
+
+	timeSince(date: Date) {
+		const seconds = Math.floor(((new Date()).getTime() - date.getTime()) / 1000);
+
+		let interval = seconds / 31536000;
+		if (interval > 1) {
+			return Math.floor(interval) + " years";
+		}
+		interval = seconds / 2592000;
+		if (interval > 1) {
+			return Math.floor(interval) + " months";
+		}
+		interval = seconds / 86400;
+		if (interval > 1) {
+			return Math.floor(interval) + " days";
+		}
+		interval = seconds / 3600;
+		if (interval > 1) {
+			return Math.floor(interval) + " hours";
+		}
+		interval = seconds / 60;
+		if (interval > 1) {
+			return Math.floor(interval) + " minutes";
+		}
+		return Math.floor(seconds) + " seconds";
+	}
+
+	constructor(hash: string, time: number) {
+		this.hash = hash;
+		this.time = +time;
+		this.ago = this.timeSince(new Date(this.time));
+		this.left = {
+			code: '',
+			language: Server.getSelected().driver.language.id
+		};
+		this.right = {
+			code: '',
+			language: Server.getSelected().driver.language.id
+		};
+	}
 }
 
 declare var monaco: any;
@@ -25,6 +67,7 @@ export class VersionComponent implements OnInit, OnDestroy {
 	selectedServer?: Server;
 	selectedDatabase?: Database;
 
+	selectedPatch?: Patch;
 	filter = "";
 	isLoading = true;
 	isResetting = false;
@@ -32,8 +75,7 @@ export class VersionComponent implements OnInit, OnDestroy {
 	patches: Patch[] = [];
 	editorOptions = {
 		readOnly: true,
-		language: 'text',
-		glyphMargin: true
+		language: ''
 	};
 
 	constructor(
@@ -54,15 +96,14 @@ export class VersionComponent implements OnInit, OnDestroy {
 				const patches: Patch[] = await this.request.post('version/list', undefined);
 				for (const patch of patches) {
 					if (!this.patches.find(pa => pa.hash === patch.hash)) {
-						this.patches.push(patch);
+						this.patches.push(new Patch(patch.hash, patch.time));
 					}
 				}
-				this.patches.sort((a, b) => +b.time - +a.time);
+				this.patches.sort((a, b) => b.time - a.time);
 			} catch (e) {
 				console.error(e);
 			}
 
-			this.filterChanged();
 			setTimeout(() => loop(), 5000);
 			this.isLoading = false;
 		};
@@ -70,7 +111,7 @@ export class VersionComponent implements OnInit, OnDestroy {
 		this.selectedDatabase = Database.getSelected();
 		this.selectedServer = Server.getSelected();
 
-		loop();
+		await loop();
 	}
 
 	ngOnDestroy() {
@@ -83,36 +124,6 @@ export class VersionComponent implements OnInit, OnDestroy {
 
 	identify(index: any, patch: Patch) {
 		return patch.hash;
-	}
-
-	filterChanged() {
-		const value = this.filter.toLowerCase();
-		for (const [index, patch] of this.patches.entries()) {
-			if (!patch.diff) {
-				continue;
-			}
-			this.patches[index].hide = patch.diff.toLowerCase().indexOf(value) < 0;
-		}
-	}
-
-	initEditor(editor: any, diff: string) {
-		const decos: any[] = [];
-		let lid = 0;
-		diff.split('\n').map(line => {
-			lid++;
-			if (line[0] !== "+" && line[0] !== "-") {
-				return;
-			}
-			decos.push({
-				range: new monaco.Range(lid, 1, lid, 1),
-				options: {
-					isWholeLine: true,
-					className: "glyph",
-					glyphMarginClassName: line[0] === "+" ? "addGlyph" : "removeGlyph",
-				},
-			});
-		})
-		setTimeout(() => editor.createDecorationsCollection(decos), 100);
 	}
 
 	async reset(patch: Patch) {
@@ -130,25 +141,31 @@ export class VersionComponent implements OnInit, OnDestroy {
 		patch.isLoading = this.isResetting = false;
 	}
 
-	async loadDiff(patch: Patch) {
+	async loadDiff(patch = this.selectedPatch) {
+		if (!patch) {
+			return;
+		}
+		if (patch.left.code || patch.right.code) {
+			return;
+		}
+
 		patch.isLoading = true;
 
 		const res = await this.request.post('version/diff', patch);
-		patch.diff = res.diff;
-
-		patch.isLoading = false;
-	}
-
-	async load10() {
-		let count = 0;
-		for (const patch of this.patches) {
-			if (patch.diff) {
-				continue;
-			}
-			await this.loadDiff(patch);
-			if (++count >= 10) {
-				break;
+		for (const row of res.diff) {
+			if (row[0] === '-' && row[1] !== '-') {
+				patch.left.code += row.substring(1) + '\n';
+			} else if (row[0] === '+' && row[1] !== '+') {
+				patch.right.code += row.substring(1) + '\n';
+			} else {
+				patch.right.code += row + '\n';
+				patch.left.code += row + '\n';
 			}
 		}
+
+		patch.right.code = patch.right.code.replaceAll("),", "),\n");
+		patch.left.code = patch.left.code.replaceAll("),", "),\n");
+
+		patch.isLoading = false;
 	}
 }
