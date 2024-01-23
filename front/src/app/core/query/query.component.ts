@@ -44,6 +44,10 @@ export class QueryComponent implements OnInit, OnDestroy {
 	editorOptions = {
 		language: ''
 	};
+	diffOptions = {
+		readOnly: true,
+		language: ''
+	};
 	originalResult: DiffEditorModel = {
 		code: '',
 		language: 'json'
