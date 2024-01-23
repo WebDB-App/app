@@ -346,8 +346,8 @@ async function main() {
 	}
 
 	override wrapValue(type: any, value: string) {
-		let hasBackslash = false
-		let escaped = "'"
+		let hasBackslash = false;
+		let escaped = "'";
 
 		for (let i = 0; i < value.length; i++) {
 			const c = value[i]
@@ -364,7 +364,7 @@ async function main() {
 		if (hasBackslash) {
 			escaped = ' E' + escaped;
 		}
-		return escaped
+		return escaped;
 	}
 
 	override wrapStructure(structure: string) {

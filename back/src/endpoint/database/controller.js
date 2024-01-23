@@ -19,7 +19,7 @@ class Controller {
 		if (driver.isSystemDbs(database)) {
 			return res.send({error: `You should not delete ${database}`});
 		}
-		res.send(await driver.dropDatabase(database));
+		res.send(await driver.dropDatabase(database, req.body.associated));
 	}
 
 	async sample(req, res) {

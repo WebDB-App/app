@@ -4,6 +4,25 @@
 		<mat-icon>close</mat-icon>
 	</button>
 </div>
+<mat-dialog-content style="display: flex; align-items: center; padding: 20px !important; flex-direction: column;">
+	<h4>Some data are associated to you database:</h4>
+	<ul style="padding: 0px;">
+		<li>Time machine versions</li>
+		<li>ERD disposition</li>
+		<li>Query history</li>
+		<li>Generator codes</li>
+		<li>AI chat & settings</li>
+	</ul>
+	<mat-checkbox
+		#associated
+		color="warn">
+		Clear associated data
+	</mat-checkbox>
+</mat-dialog-content>
 <mat-dialog-actions>
-	<button [mat-dialog-close]="database.name" color="warn" mat-button>Drop database {{ database.name }}</button>
+	<button
+		[mat-dialog-close]="{databaseName: database.name, associated: associated.checked}"
+		color="warn" mat-button>
+		Drop database {{ database.name }}
+	</button>
 </mat-dialog-actions>

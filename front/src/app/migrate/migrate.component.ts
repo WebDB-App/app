@@ -41,6 +41,7 @@ export class MigrateComponent implements OnInit {
 	loading: LoadingStatus = LoadingStatus.LOADING;
 	type: 'structure' | 'relation' | 'indexes' | 'complex' | 'data' = "structure";
 	editorOptions = {
+		readOnly: true,
 		language: ''
 	};
 
@@ -117,7 +118,6 @@ export class MigrateComponent implements OnInit {
 	editQuery(side: Side) {
 		const dialogRef = this.dialog.open(EditQueryDialog, {
 			data: side,
-			hasBackdrop: false
 		});
 		dialogRef.afterClosed().subscribe(async result => {
 			if (!result) {

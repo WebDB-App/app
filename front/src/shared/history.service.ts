@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Database } from "../classes/database";
-import { singleLine } from "./helper";
+import { getStorageKey, singleLine } from "./helper";
 
 const maxHistory = 100;
 
@@ -28,14 +27,14 @@ export class HistoryService {
 	constructor() {
 	}
 
-	getLocal(database = Database.getSelected()): Query[] {
-		const queries: Query[] = JSON.parse(localStorage.getItem("queries-" + database.name.split(' ¦ ')[0]) || "[]");
+	getLocal(): Query[] {
+		const queries: Query[] = JSON.parse(localStorage.getItem(getStorageKey("queries")) || "[]");
 		return queries.sort((q1, q2) => q1.star ? -1 : 1);
 	}
 
-	saveLocal(queries: Query[], database = Database.getSelected()) {
+	saveLocal(queries: Query[]) {
 		queries = queries.slice(0, maxHistory);
-		localStorage.setItem("queries-" + database.name.split(' ¦ ')[0], JSON.stringify(queries))
+		localStorage.setItem(getStorageKey("queries"), JSON.stringify(queries))
 	}
 
 	addLocal(query: Query) {

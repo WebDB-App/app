@@ -8,7 +8,7 @@ import { Configuration } from "../../../classes/configuration";
 import { marked } from 'marked';
 import { DrawerService } from "../../../shared/drawer.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { isSQL } from "../../../shared/helper";
+import { getStorageKey, isSQL } from "../../../shared/helper";
 import { Subscription } from "rxjs";
 import { Table } from "../../../classes/table";
 import { Router } from "@angular/router";
@@ -154,8 +154,8 @@ export class AiComponent implements OnInit, OnDestroy {
 			}
 		});
 
-		this.localKeyChatHistory = 'chat-' + this.selectedDatabase.name.split(' ¦ ')[0];
-		this.localKeyPreSent = 'preSent-' + this.selectedDatabase.name.split(' ¦ ')[0];
+		this.localKeyChatHistory = getStorageKey("chat");
+		this.localKeyPreSent = getStorageKey("preSent");
 
 		const msgs = JSON.parse(localStorage.getItem(this.localKeyChatHistory) || '[]');
 		this.chat = msgs.map((msg: Msg) => new Msg(msg.txt, msg.user, msg.error, msg.config));

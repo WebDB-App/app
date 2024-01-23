@@ -1,4 +1,3 @@
-- version -> monaco-diff
 - quand . completion -> dans tout le code: check le token a gauche ('as', ' ') du token courant
 
 - finir tests

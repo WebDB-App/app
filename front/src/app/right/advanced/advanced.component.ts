@@ -6,7 +6,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { RequestService } from "../../../shared/request.service";
 import { Router } from "@angular/router";
 import { DrawerService } from "../../../shared/drawer.service";
-import { validName } from "../../../shared/helper";
+import { getStorageKey, validName } from "../../../shared/helper";
 import { Stats } from "../../../classes/stats";
 import { Subscription } from "rxjs";
 
@@ -77,13 +77,22 @@ export class AdvancedComponent implements OnDestroy {
 			data: this.selectedDatabase
 		});
 
-		dialogRef.afterClosed().subscribe(async (databaseName) => {
-			if (!databaseName) {
+		dialogRef.afterClosed().subscribe(async (result) => {
+			if (!result.databaseName) {
 				return;
 			}
 
-			await this.request.post('database/drop', undefined);
-			this.snackBar.open(`${databaseName} dropped`, "⨉", {duration: 3000});
+			await this.request.post('database/drop', result);
+			if (result.associated) {
+				for (const key in localStorage){
+					if (!key.startsWith(getStorageKey(""))) {
+						continue;
+					}
+					localStorage.removeItem(key);
+				}
+			}
+
+			this.snackBar.open(`${result.databaseName} dropped`, "⨉", {duration: 3000});
 
 			await this.request.reloadServer();
 			await this.router.navigate(['/']);

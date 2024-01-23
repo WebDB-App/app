@@ -3,6 +3,7 @@ import { SQL } from "../drivers/sql";
 import { HttpClient } from "@angular/common/http";
 import { firstValueFrom } from "rxjs";
 import { MatPaginatorIntl } from "@angular/material/paginator";
+import { Database } from "../classes/database";
 
 declare var monaco: any;
 
@@ -108,5 +109,9 @@ export function alterStructure(command: string) {
 		"deleteone", "deletemany", "delete ",
 		"insertone", "insertmany", "insert ",
 		"drop", "alter ", "add ", "create", "rename", "replace"].some(v => command.includes(v));
+}
+
+export function getStorageKey(scope: string, server = Server.getSelected(), database = Database.getSelected()) {
+	return `${server.name}-${database.name}-${scope}`;
 }
 

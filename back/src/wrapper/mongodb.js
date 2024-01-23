@@ -243,8 +243,12 @@ export default class MongoDB extends Driver {
 		};
 	}
 
-	async dropDatabase(name) {
-		return await this.connection.db(name).dropDatabase();
+	async dropDatabase(name, associated = false) {
+		await this.connection.db(name).dropDatabase();
+		if (associated) {
+			version.deleteDatabase(this, name);
+		}
+		return {ok: true};
 	}
 
 	async createTable(database, table) {

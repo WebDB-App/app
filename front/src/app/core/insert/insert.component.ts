@@ -8,7 +8,7 @@ import { RequestService } from "../../../shared/request.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Server } from "../../../classes/server";
 import { Database } from "../../../classes/database";
-import { initBaseEditor, loadLibAsset } from "../../../shared/helper";
+import { getStorageKey, initBaseEditor, loadLibAsset } from "../../../shared/helper";
 import { Column } from "../../../classes/column";
 import { MatPaginator } from "@angular/material/paginator";
 import { allFakers, faker } from '@faker-js/faker';
@@ -20,7 +20,6 @@ import { UpdateDataDialog } from "../../../shared/update-data-dialog/update-data
 import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 import { DrawerService } from "../../../shared/drawer.service";
 
-const localStorageName = "insert-codes";
 
 class Random {
 	column!: Column;
@@ -53,7 +52,8 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 	randomSource: Random[] = [];
 	interval?: NodeJS.Timer;
 	iframe?: SafeResourceUrl;
-	codes: any = JSON.parse(localStorage.getItem(localStorageName) || "{}");
+	codes: any = JSON.parse(localStorage.getItem(getStorageKey("insertCode")) || "{}");
+
 	protected readonly JSON = JSON;
 	@ViewChild('scrollContainer') private scrollContainer!: ElementRef;
 
@@ -256,18 +256,17 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 
 	saveCode() {
 		for (const random of this.randomSource) {
-			this.codes[this.selectedDatabase!.name][this.selectedTable!.name][random.column.name] = random.model;
+			this.codes[this.selectedTable!.name][random.column.name] = random.model;
 		}
 
-		localStorage.setItem(localStorageName, JSON.stringify(this.codes));
+		localStorage.setItem(getStorageKey("insertCode"), JSON.stringify(this.codes));
 	}
 
 	getCode(col: string) {
-		this.codes[this.selectedDatabase!.name] = this.codes[this.selectedDatabase!.name] || {};
-		this.codes[this.selectedDatabase!.name][this.selectedTable!.name] = this.codes[this.selectedDatabase!.name][this.selectedTable!.name] || {};
+		this.codes[this.selectedTable!.name] = this.codes[this.selectedTable!.name] || {};
 
-		if (this.codes[this.selectedDatabase!.name][this.selectedTable!.name][col]) {
-			return this.codes[this.selectedDatabase!.name][this.selectedTable!.name][col];
+		if (this.codes[this.selectedTable!.name][col]) {
+			return this.codes[this.selectedTable!.name][col];
 		}
 		return false;
 	}

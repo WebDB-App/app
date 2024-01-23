@@ -10,6 +10,7 @@ import { Column } from "../../../classes/column";
 import { DrawerService } from "../../../shared/drawer.service";
 import { HoverService } from "../../../shared/hover.service";
 import { Subscription } from "rxjs";
+import { getStorageKey } from "../../../shared/helper";
 
 @Component({
 	selector: 'app-diagram',
@@ -78,7 +79,7 @@ export class DiagramComponent implements OnDestroy {
 	}
 
 	prepareTables() {
-		const positions = JSON.parse(localStorage.getItem('diagram-' + this.selectedDatabase.name) || '[]');
+		const positions = JSON.parse(localStorage.getItem(getStorageKey("diagram")) || '[]');
 		const entities: Entity[] = [];
 		const db_indexes = this.selectedServer.indexes.filter(index => index.database === this.selectedDatabase.name);
 
@@ -155,7 +156,7 @@ export class DiagramComponent implements OnDestroy {
 			this.diagramController?.tableMap.forEach(table => {
 				positions.push({table: table.data.name, x: table.translateX, y: table.translateY});
 			})
-			localStorage.setItem('diagram-' + this.selectedDatabase.name, JSON.stringify(positions));
+			localStorage.setItem(getStorageKey("diagram"), JSON.stringify(positions));
 		}, 2000);
 
 		this.diagramController.render({

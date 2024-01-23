@@ -1,5 +1,6 @@
 import Driver from "./driver.js";
 import {singleLine, sql_isSelect} from "./helper.js";
+import version from "./version.js";
 
 export default class SQL extends Driver {
 
@@ -76,8 +77,12 @@ export default class SQL extends Driver {
 		return examples.map(example => example.example);
 	}
 
-	async dropDatabase(name) {
-		return await this.runCommand(`DROP DATABASE ${this.escapeId(name)}`);
+	async dropDatabase(name, associated = false) {
+		await this.runCommand(`DROP DATABASE ${this.escapeId(name)}`);
+		if (associated) {
+			version.deleteDatabase(this, name);
+		}
+		return {ok: true};
 	}
 
 	async createTable(database, table) {
