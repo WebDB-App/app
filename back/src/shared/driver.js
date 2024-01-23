@@ -58,9 +58,6 @@ export default class Driver {
 	}
 
 	readDiff(database, diff) {
-		if (diff.indexOf("\n+++ " + database) >= 0) {
-			diff = diff.split("\n+++ " + database)[1].trim();
-		}
-		return diff;
+		return diff.slice(4);
 	}
 }

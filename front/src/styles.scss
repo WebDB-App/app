@@ -455,6 +455,17 @@ ngx-monaco-editor {
 	}
 }
 
+.loader {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	justify-content: center;
+	position: absolute;
+	z-index: 10;
+	width: 100%;
+	background: rgba(174, 174, 174, 0.5);
+}
+
 @media (max-width: 1200px) {
 	.mat-card {
 		margin: 14px 8px;

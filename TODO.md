@@ -15,6 +15,7 @@
 - lookup chrome history: stackoverflow+reddit+github (aleluff + webdb): filter mongo/mysql etc
 - sql server
 - inspi: issues de PMA/dbeaver/datagrip/pgAdmin/cloudbeaver
+- autocomplete modal
 
 ----------------------------------------------------------
 

@@ -19,10 +19,10 @@
 		</button>
 	</div>
 
-	<div *ngIf="!selectedPatch.isLoading">
+	<div style="display: flex; align-items: center; gap: 15px;">
 		<button
 			(click)="reset(selectedPatch)"
-			[disabled]="isResetting"
+			[disabled]="isResetting || selectedPatch.isLoading"
 			color="accent"
 			mat-stroked-button>
 			<span class="material-symbols-outlined notranslate">
@@ -30,6 +30,13 @@
 			</span>
 			Reset
 		</button>
+
+		<mat-progress-spinner
+			*ngIf="isResetting"
+			[diameter]="30"
+			color="accent"
+			mode="indeterminate">
+		</mat-progress-spinner>
 	</div>
 
 </mat-toolbar>
@@ -73,14 +80,6 @@
 				[label]="patch.ago + ' ago'">
 
 				<div *ngIf="selectedPatch?.hash === patch.hash">
-					<mat-progress-spinner
-						*ngIf="patch.isLoading"
-						[diameter]="60"
-						color="accent"
-						mode="indeterminate"
-						style="margin: auto;">
-					</mat-progress-spinner>
-
 					<ngx-monaco-diff-editor
 						style="height: calc(100vh - 105px)"
 						*ngIf="patch.right.code || patch.left.code"

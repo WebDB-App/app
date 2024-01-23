@@ -70,7 +70,6 @@ export default class MongoDB extends Driver {
 	}
 
 	readDiff(database, diff) {
-		diff = diff.replaceAll("\\ No newline at end of file", "");
 		return diff;
 	}
 

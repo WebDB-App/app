@@ -24,15 +24,3 @@
 		}
 	}
 }
-
-#loader {
-	display: flex;
-	align-items: center;
-	flex-direction: column;
-	justify-content: center;
-	position: absolute;
-	z-index: 10;
-	width: 100%;
-	height: calc(100vh - 220px);
-	background: #aeaeae54;
-}

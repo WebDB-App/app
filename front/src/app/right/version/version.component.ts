@@ -163,9 +163,6 @@ export class VersionComponent implements OnInit, OnDestroy {
 			}
 		}
 
-		patch.right.code = patch.right.code.replaceAll("),", "),\n");
-		patch.left.code = patch.left.code.replaceAll("),", "),\n");
-
 		patch.isLoading = false;
 	}
 }

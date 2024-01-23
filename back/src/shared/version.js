@@ -20,7 +20,7 @@ class Version {
 					this.changes[database].done = true;
 				}
 			}
-			setTimeout(() => loop(), 15 * 1000);
+			setTimeout(() => loop(), (process.env.WATCHER_DELAY || 15) * 1000);
 		};
 		loop();
 	}
@@ -62,13 +62,16 @@ class Version {
 		if (!original) {
 			final.push("⸻ Empty diff ⸻");
 		} else {
-			for (let row of driver.readDiff(database, original).split("\n")) {
+			for (let row of driver.readDiff(database, original.split("\n"))) {
 				// eslint-disable-next-line no-control-regex
 				row = row.replace(/[\x00-\x09\x0B-\x0C\x0E-\x1F]/g, " ");
 				// eslint-disable-next-line no-control-regex
 				row = row.replace(/[\u007F-\u009F]/g, " ");
 				row = row.replaceAll("�", " ");
 				row = row.replace(/ +(?= )/g,"");
+				if (!row.trim()) {
+					continue;
+				}
 
 				final.push(row);
 			}
