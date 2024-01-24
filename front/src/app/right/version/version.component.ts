@@ -3,8 +3,9 @@ import { Server } from "../../../classes/server";
 import { Database } from "../../../classes/database";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { RequestService } from "../../../shared/request.service";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { DiffEditorModel } from "ngx-monaco-editor-v2";
+import { DrawerService } from "../../../shared/drawer.service";
 
 class Patch {
 	hash!: string;
@@ -81,6 +82,7 @@ export class VersionComponent implements OnInit, OnDestroy {
 	constructor(
 		private request: RequestService,
 		private router: Router,
+		private activatedRoute: ActivatedRoute,
 		public snackBar: MatSnackBar
 	) {
 	}
@@ -130,15 +132,17 @@ export class VersionComponent implements OnInit, OnDestroy {
 		patch.isLoading = this.isResetting = true;
 
 		await this.request.post('version/reset', patch);
+		this.snackBar.open(`Database reset to ${patch.hash}`, '⨉', {duration: 3000});
+
 		await this.request.reloadServer();
 		await this.router.navigate([
 			'/',
 			this.selectedServer?.name,
 			this.selectedDatabase?.name
 		]);
-		this.snackBar.open(`Database reset to ${patch.hash}`, '⨉', {duration: 3000});
-
-		patch.isLoading = this.isResetting = false;
+		await this.router.navigate(
+			[{outlets: {right: ['version']}}],
+			{relativeTo: this.activatedRoute.parent?.parent})
 	}
 
 	async loadDiff(patch = this.selectedPatch) {

@@ -1,10 +1,7 @@
 - quand . completion -> dans tout le code: check le token a gauche ('as', ' ') du token courant
 
-- stats mariabd cumulative
 - refaire video time machine
-- tester le sed dans docker
-- quid de version si le user update le container
-- mariadb query sphinx
+- update doc on update (standalone + compose) -> volume version
 
 
 # Doc
