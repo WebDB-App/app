@@ -18,4 +18,12 @@ export default class CockroachDB extends PostgreSQL {
 	async statsDatabase() {
 		return undefined;
 	}
+
+	async kill(pid) {
+		await this.runCommand(`CANCEL QUERY '${pid}';`);
+	}
+
+	async process() {
+		return await this.runCommand("WITH x AS ( SHOW CLUSTER STATEMENTS ) SELECT query_id AS pid, query, ROUND( EXTRACT( epoch FROM NOW() - x.start ) * 1000 ) AS duration FROM x");
+	}
 }

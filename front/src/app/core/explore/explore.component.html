@@ -34,6 +34,13 @@
 				[pageSizeOptions]="[50, 100, 500, 2000]"
 			></mat-paginator>
 		</div>
+		<button
+			(click)="refreshData()"
+			mat-icon-button>
+			<span class="material-symbols-outlined notranslate">
+				repeat
+			</span>
+		</button>
 	</div>
 
 	<mat-chip-list #chipList style="font-size: 12px;">
@@ -57,7 +64,7 @@
 	</mat-chip-list>
 
 	<div>
-		<mat-form-field>
+		<mat-form-field appearance="standard">
 			<mat-label>Sort By</mat-label>
 			<mat-select
 				(selectionChange)="refreshData()"
@@ -79,7 +86,6 @@
 			<mat-button-toggle matTooltip="Z -> A" value="desc">↓</mat-button-toggle>
 			<mat-button-toggle matTooltip="No sort" value="">×</mat-button-toggle>
 		</mat-button-toggle-group>
-
 		<button
 			(click)="setAutoUp()"
 			mat-icon-button

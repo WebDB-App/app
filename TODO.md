@@ -1,7 +1,5 @@
-- quand . completion -> dans tout le code: check le token a gauche ('as', ' ') du token courant
+- finir tests
 
-- refaire video time machine
-- update doc on update (standalone + compose) -> volume version
 
 
 # Doc
@@ -11,7 +9,9 @@
 - https://chat.openai.com/c/eae4f88e-e100-45de-9502-8708f7f48bf8
 
 
-- finir tests
+
+
+- quand . completion -> dans tout le code: check le token a gauche ('as', ' ') du token courant
 - ERD [Chrome bookmarks]
 
 
@@ -19,7 +19,7 @@
 ----------------------------------------------------------
 
 
-
+- refaire video time machine
 - derobien + lui demander des contacts pour autre ecole / régins
 - sql server / sqlite
 - inspi: issues de PMA/dbeaver/datagrip/pgAdmin/cloudbeaver

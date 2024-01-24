@@ -42,7 +42,7 @@ class Controller {
 		};
 		const promises = [
 			new Promise(async resolve => {
-				const structure = await driver.getDatabases(+req.query.full, +req.query.size);
+				const structure = await driver.getStructure(+req.query.full, +req.query.size);
 
 				for (const str of Object.values(structure)) {
 					structure[str.name].system = driver.isSystemDbs(str.name);

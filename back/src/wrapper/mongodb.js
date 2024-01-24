@@ -88,7 +88,7 @@ export default class MongoDB extends Driver {
 			} else {
 				bash.runBash(`mongorestore --uri="${this.makeUri()}" --nsFrom="*" --nsTo="${database}.*" --gzip --archive="${file.path}"`);
 
-				const tables = (await this.getDatabases(false, 0))[database].tables;
+				const tables = (await this.getStructure(false, 0))[database].tables;
 				for (const table of Object.values(tables)) {
 					if (table.name.indexOf(".") < 0) {
 						continue;
@@ -628,7 +628,7 @@ export default class MongoDB extends Driver {
 		return results;
 	}
 
-	async getDatabases(full, sampleSize) {
+	async getStructure(full, sampleSize) {
 		const struct = {};
 		const promises = [];
 		sampleSize = sampleSize > 500 ? 500 : sampleSize;

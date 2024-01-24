@@ -38,10 +38,10 @@ ${def[0]["pg_get_viewdef"]}`
 	}
 
 	async sampleDatabase(name, {count, tables}) {
-		const [database, schema] = name.split(this.dbToSchemaDelimiter);
+		const structure = Object.values((await this.getStructure(true))).find(db => db.name === name);
 		const getSample = async (table) => {
 			return {
-				structure: (bash.runBash(`pg_dump ${this.makeUri(database)} -t '${schema}.${table}' --schema-only`)).result,
+				structure: JSON.stringify(structure.tables[table]),
 				data: await this.runCommand(`SELECT * FROM ${this.escapeId(table)} LIMIT ${count}`, name)
 			};
 		};
@@ -371,7 +371,7 @@ ${def[0]["pg_get_viewdef"]}`
 		return this.runCommand("SELECT * FROM pg_database WHERE datistemplate = false");
 	}
 
-	async getDatabases(full) {
+	async getStructure(full) {
 		const dbs = await this.getDbs();
 		const struct = {};
 		const promises = [];

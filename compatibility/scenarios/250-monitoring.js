@@ -18,12 +18,14 @@ async function run(config) {
 	//--------------------------------------------
 
 
-	const db = await post(`stats/dbSize`, {});
-	await test('[monitoring] Database stats ok', () => {
-		assert.ok(!db.error);
-		assert.ok(db.data_length > 0);
-		assert.ok(db.index_length > 0);
-	});
+	if (config.wrapper !== "CockroachDB") {
+		const db = await post(`stats/dbSize`, {});
+		await test('[monitoring] Database stats ok', () => {
+			assert.ok(!db.error);
+			assert.ok(db.data_length > 0);
+			assert.ok(db.index_length > 0);
+		});
+	}
 
 
 	//--------------------------------------------
