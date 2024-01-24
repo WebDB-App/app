@@ -93,7 +93,7 @@ ${def[0]["VIEW_DEFINITION"]}`
 	}
 
 	async saveState(path, database) {
-		return bash.runBash(`mysqldump --single-transaction --skip-comments --extended-insert --net-buffer-length=100000000 --column-statistics=0 --routines --events --user='${this.user}' --port=${this.port} --password='${this.password}' --host='${this.host}' ${database} | sed 's$VALUES ($VALUES\\n($g' | sed 's$),($),\\n($g' > ${join(path, database)}`);
+		return bash.runBash(`mysqldump --single-transaction --skip-comments --extended-insert --net-buffer-length=100000000 --routines --events --user='${this.user}' --port=${this.port} --password='${this.password}' --host='${this.host}' ${database} | sed 's$VALUES ($VALUES\\n($g' | sed 's$),($),\\n($g' > ${join(path, database)}`);
 	}
 
 	async load(files, database) {
