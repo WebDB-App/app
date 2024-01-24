@@ -155,7 +155,7 @@ ${def[0]["VIEW_DEFINITION"]}`
 		const tmp = (await this.runCommand("SHOW STATUS WHERE Variable_name IN ('Bytes_received', 'Bytes_sent', 'Connections', 'Created_tmp_files', 'Created_tmp_tables', 'Innodb_rows_updated', 'Innodb_rows_deleted', 'Innodb_rows_inserted', 'Innodb_rows_read', 'Threads_connected', 'Threads_running')"));
 
 		const stats = {};
-		tmp.map(t => stats[t.Variable_name] = t.Value);
+		tmp.map(t => stats[t.Variable_name] = +t.Value);
 
 		return [
 			{Variable_name: "Conn active", "Value": stats.Threads_running},
@@ -163,10 +163,10 @@ ${def[0]["VIEW_DEFINITION"]}`
 			{Variable_name: "Conn attempts", "Value": stats.Connections},
 			{Variable_name: "Net in (Mo)", "Value": Math.floor(stats.Bytes_received / 1000000)},
 			{Variable_name: "Net out (Mo)", "Value": Math.floor(stats.Bytes_sent / 1000000)},
-			{Variable_name: "Oper deletes", "Value": stats.Innodb_rows_deleted},
-			{Variable_name: "Oper updates", "Value": stats.Innodb_rows_updated},
-			{Variable_name: "Oper inserts", "Value": stats.Innodb_rows_inserted},
-			{Variable_name: "Oper reads", "Value": stats.Innodb_rows_read},
+			{Variable_name: "Rows deletes", "Value": stats.Innodb_rows_deleted},
+			{Variable_name: "Rows updates", "Value": stats.Innodb_rows_updated},
+			{Variable_name: "Rows inserts", "Value": stats.Innodb_rows_inserted},
+			{Variable_name: "Rows reads", "Value": stats.Innodb_rows_read},
 			{Variable_name: "Tmp created files", "Value": stats.Created_tmp_files},
 			{Variable_name: "Tmp created tables", "Value": stats.Created_tmp_tables},
 		];

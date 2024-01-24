@@ -1,7 +1,10 @@
 - quand . completion -> dans tout le code: check le token a gauche ('as', ' ') du token courant
 
-- finir tests
-- ERD [Chrome bookmarks]
+- stats mariabd cumulative
+- refaire video time machine
+- tester le sed dans docker
+- quid de version si le user update le container
+- mariadb query sphinx
 
 
 # Doc
@@ -11,13 +14,18 @@
 - https://chat.openai.com/c/eae4f88e-e100-45de-9502-8708f7f48bf8
 
 
-- mysql/etc gui -> stackoverflow
-- lookup chrome history: stackoverflow+reddit+github (aleluff + webdb): filter mongo/mysql etc
-- sql server
-- inspi: issues de PMA/dbeaver/datagrip/pgAdmin/cloudbeaver
-- autocomplete modal
+- finir tests
+- ERD [Chrome bookmarks]
+
+
 
 ----------------------------------------------------------
+
+
+
+- derobien + lui demander des contacts pour autre ecole / régins
+- sql server / sqlite
+- inspi: issues de PMA/dbeaver/datagrip/pgAdmin/cloudbeaver
 
 
 
