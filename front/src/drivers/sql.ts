@@ -412,7 +412,7 @@ export class SQL implements Driver {
 		return suggestions;
 	}
 
-	dotSuggestions(textUntilPosition: string) {
+	dotSuggestions(textUntilPosition: string, allText: string) {
 		const suggestions: any[] = [];
 
 		textUntilPosition = textUntilPosition.trim();
@@ -443,7 +443,7 @@ export class SQL implements Driver {
 		}
 
 		Database.getSelected()?.tables?.map(table => {
-			if (previousToken !== table.name.toLowerCase()) {
+			if (previousToken !== table.name.toLowerCase() && !this.foundAlias(previousToken, table.name.toLowerCase(), allText)) {
 				return;
 			}
 
@@ -461,11 +461,11 @@ export class SQL implements Driver {
 		return suggestions;
 	}
 
-	generateSuggestions(textUntilPosition: string) {
+	generateSuggestions(textUntilPosition: string, allText: string) {
 		textUntilPosition = textUntilPosition.toLowerCase();
 
 		if (textUntilPosition.lastIndexOf('.') === textUntilPosition.length - 1) {
-			return this.dotSuggestions(textUntilPosition);
+			return this.dotSuggestions(textUntilPosition, allText);
 		}
 
 		const suggestions = this.basicSuggestions();
@@ -605,5 +605,28 @@ export class SQL implements Driver {
 
 	getColForInsert(columns: Column[]) {
 		return columns.map(column => `'${(<String>column.type).replaceAll("'", '"')}'`);
+	}
+
+	foundAlias(previousToken: string, table: string, allText: string) {
+		allText = allText.replace(/['"`]+/g," ");
+		allText = singleLine(allText);
+		allText = allText.replace(/ +(?= )/g,"");
+
+		const tokens = allText.split(" ");
+		for (const [index, token] of tokens.entries()) {
+			if (!tokens[index + 2]) {
+				continue;
+			}
+			if (table !== token) {
+				continue;
+			}
+			if (tokens[index + 1] === previousToken) {
+				return true;
+			}
+			if (tokens[index + 1].toLowerCase() === "as" && tokens[index + 2] === previousToken) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

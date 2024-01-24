@@ -113,7 +113,7 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 				});
 
 				return {
-					suggestions: Server.getSelected().driver.generateSuggestions!(textUntilPosition)
+					suggestions: Server.getSelected().driver.generateSuggestions!(textUntilPosition, model.getValue())
 				};
 			}
 		});

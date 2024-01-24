@@ -1,7 +1,3 @@
-- finir tests
-
-
-
 # Doc
 - nosql default column
 - expliquer code .js, .ts
@@ -10,19 +6,16 @@
 
 
 
-
-- quand . completion -> dans tout le code: check le token a gauche ('as', ' ') du token courant
+- finir tests
 - ERD [Chrome bookmarks]
-
 
 
 ----------------------------------------------------------
 
 
-- refaire video time machine
+
 - derobien + lui demander des contacts pour autre ecole / régins
 - sql server / sqlite
-- inspi: issues de PMA/dbeaver/datagrip/pgAdmin/cloudbeaver
 
 
 
