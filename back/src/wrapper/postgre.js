@@ -38,7 +38,9 @@ ${def[0]["pg_get_viewdef"]}`
 	}
 
 	async sampleDatabase(name, {count, tables}) {
-		const structure = Object.values((await this.getStructure(true))).find(db => db.name === name);
+		let structure = await this.getStructure(true);
+		structure = Object.values(structure).find(db => db.name === name);
+
 		const getSample = async (table) => {
 			return {
 				structure: JSON.stringify(structure.tables[table]),
@@ -212,10 +214,10 @@ ${def[0]["pg_get_viewdef"]}`
 
 	async statsDatabase(name) {
 		const database = name.split(this.dbToSchemaDelimiter)[0];
-		return {
-			data_length: (await this.runCommand(`SELECT pg_database_size('${database}') AS "data_length"`, database))[0].data_length,
-			index_length: (await this.runCommand("SELECT SUM(pg_indexes_size(relid)) as \"index_length\" FROM pg_catalog.pg_statio_user_tables", database))[0].index_length
-		};
+		const data_length = (await this.runCommand(`SELECT pg_database_size('${database}') AS "data_length"`, database))[0].data_length;
+		const index_length = (await this.runCommand("SELECT SUM(pg_indexes_size(relid)) as \"index_length\" FROM pg_catalog.pg_statio_user_tables", database))[0].index_length;
+
+		return {data_length, index_length};
 	}
 
 	async statsTable(database, table) {

@@ -608,25 +608,11 @@ export class SQL implements Driver {
 	}
 
 	foundAlias(previousToken: string, table: string, allText: string) {
+		allText = allText.toLowerCase().replace(" as "," ");
 		allText = allText.replace(/['"`]+/g," ");
 		allText = singleLine(allText);
 		allText = allText.replace(/ +(?= )/g,"");
 
-		const tokens = allText.split(" ");
-		for (const [index, token] of tokens.entries()) {
-			if (!tokens[index + 2]) {
-				continue;
-			}
-			if (table !== token) {
-				continue;
-			}
-			if (tokens[index + 1] === previousToken) {
-				return true;
-			}
-			if (tokens[index + 1].toLowerCase() === "as" && tokens[index + 2] === previousToken) {
-				return true;
-			}
-		}
-		return false;
+		return allText.indexOf(table + " " + previousToken) >= 0;
 	}
 }

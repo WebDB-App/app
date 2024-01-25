@@ -144,6 +144,9 @@ class Version {
 		if (driver.isSystemDbs(database)) {
 			return;
 		}
+		if (driver.constructor.name === "CockroachDB") {
+			return;
+		}
 		if (process.env.WATCHER_EXCLUDE &&
 			(process.env.WATCHER_EXCLUDE === "true" ||
 				process.env.WATCHER_EXCLUDE.indexOf(database) >= 0)) {
