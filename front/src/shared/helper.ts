@@ -100,7 +100,7 @@ export function isNested(data: any) {
 }
 
 export function removeComment(query: string) {
-	return query.replace(/\/\*[\s\S]*?\*\/|(?<=[^:])\/\/.*|^\/\/.*/g, "").trim();
+	return query.replace(/\/\*[\s\S]*?\*\/|(?<=[^:])\/\/.*|^\/\/.*|--.*/g, "").trim();
 }
 
 export function alterStructure(command: string) {
@@ -113,5 +113,14 @@ export function alterStructure(command: string) {
 
 export function getStorageKey(scope: string, server = Server.getSelected(), database = Database.getSelected()) {
 	return `${server.name}-${database.name}-${scope}`;
+}
+
+export function sql_cleanQuery(query: string) {
+	query = query.toLowerCase();
+	query = query.replace(/['"`]+/g," ");
+	query = singleLine(query);
+	query = query.replace(/ +(?= )/g,"");
+
+	return query;
 }
 

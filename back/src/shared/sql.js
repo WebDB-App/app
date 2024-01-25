@@ -1,5 +1,5 @@
 import Driver from "./driver.js";
-import {singleLine, sql_isSelect} from "./helper.js";
+import {removeComment, singleLine, sql_isSelect} from "./helper.js";
 import version from "./version.js";
 
 export default class SQL extends Driver {
@@ -191,6 +191,7 @@ export default class SQL extends Driver {
 	}
 
 	cleanQuery(query, keepLength = false) {
+		query = removeComment(query);
 		query = singleLine(query, keepLength);
 		return query.trim().endsWith(";") ? query.trim().slice(0, -1) : query;
 	}

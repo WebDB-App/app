@@ -47,7 +47,7 @@ export function singleLine(code, keepLength = false) {
 }
 
 export function removeComment(query) {
-	return query.replace(/\/\*[\s\S]*?\*\/|(?<=[^:])\/\/.*|^\/\/.*/g, "").trim();
+	return query.replace(/\/\*[\s\S]*?\*\/|(?<=[^:])\/\/.*|^\/\/.*|--.*/g, "").trim();
 }
 
 export function alterStructure(command) {

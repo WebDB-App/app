@@ -7,7 +7,7 @@ import { HistoryService } from "../shared/history.service";
 import { Relation } from "../classes/relation";
 import { Configuration } from "../classes/configuration";
 import { HttpClient } from "@angular/common/http";
-import { singleLine, sql_isSelect } from "../shared/helper";
+import { singleLine, sql_cleanQuery, sql_isSelect } from "../shared/helper";
 
 
 //import * as monaco from 'monaco-editor'
@@ -516,58 +516,26 @@ export class SQL implements Driver {
 			});
 		});
 
-		return this.preselectNext(suggestions, textUntilPosition);
-	}
-
-	getLastWord(sentence: string) {
-		const n = sentence.trim().split(" ");
-		return n[n.length - 1];
-	}
-
-	getNextWord(sentence: string) {
-		const n = sentence.trim().split(" ");
-		if (!n[1]) {
-			return false;
-		}
-
-		return n[1].replaceAll(/(,|  +)/gm, " ").trim();
-	}
-
-	cleanSentence(sentence: string) {
-		return sentence.replaceAll(/(\r|\n|\t|,)/gm, " ").replaceAll(/  +/gm, " ");
-	}
-
-	preselectNext(suggestions: any[], previousToken: string): any[] {
-		if (previousToken.length < 1) {
+		if (textUntilPosition.length < 1) {
 			return suggestions;
 		}
 
-		let tokens: any = [];
-		previousToken = this.getLastWord(this.cleanSentence(previousToken));
+		return this.preselectNext(suggestions);
+	}
 
-		const locals = history.getLocal().flatMap(local => local.query.split(";"));
-		for (const local of locals) {
-			const cleaned = this.cleanSentence(local.toLowerCase()).trim();
-
-			const pos = cleaned.indexOf(previousToken);
-			if (pos < 0) {
-				continue;
+	preselectNext(suggestions: any[]): any[] {
+		let tokens: any = {};
+		for (const local of history.getLocal()) {
+			const words = sql_cleanQuery(local.query).split(/[ ,\(\)]/);
+			for (const word of words) {
+				if (!word.match(/[a-zA-Z]/) || word.length < 2) {
+					continue;
+				}
+				tokens[word] = tokens[word] + 1 || 1;
 			}
-
-			let cutted = cleaned.substring(pos).trim();
-			if (previousToken.at(-1) === ' ') {
-				cutted = cutted.substring(cutted.indexOf(' ')).trim();
-			}
-
-			const next = this.getNextWord(cutted);
-			if (!next || next.length < 1) {
-				continue;
-			}
-			tokens[next] = tokens[next] ? tokens[next] + 1 : 1;
 		}
 
-		tokens = Object.keys(tokens).sort((a: any, b: any) => tokens[b] - tokens[a]);
-
+		tokens = Object.keys(tokens).sort((a, b) => tokens[b] - tokens[a]);
 		for (const token of tokens) {
 			for (const [key, sug] of Object.entries(suggestions)) {
 				if (sug.label.toLowerCase() !== token) {
@@ -609,9 +577,7 @@ export class SQL implements Driver {
 
 	foundAlias(previousToken: string, table: string, allText: string) {
 		allText = allText.toLowerCase().replace(" as "," ");
-		allText = allText.replace(/['"`]+/g," ");
-		allText = singleLine(allText);
-		allText = allText.replace(/ +(?= )/g,"");
+		allText = sql_cleanQuery(allText);
 
 		return allText.indexOf(table + " " + previousToken) >= 0;
 	}
