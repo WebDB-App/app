@@ -8,7 +8,7 @@ async function getCountryIndexes(config) {
 		if (index.table !== "country") {
 			return false;
 		}
-		return relation.database === config.database || relation.database === (config.database + " ¦ public");
+		return relation.database === config.database;
 	});
 }
 
@@ -16,7 +16,7 @@ async function run(config) {
 
 	/*const countryIndexes = await getCountryIndexes(config);
 
-	if (config.wrapper !== "MongoDB") {
+	if (config.base !== "MongoDB") {
 		const continent_id = countryIndexes.find(index => index.columns[0] === "continent_id");
 
 		await test('[index] Foreign key found in structure', () => {
@@ -60,7 +60,8 @@ async function run(config) {
 }
 
 export default run;
-
+/*
 import {loadConfig} from "../api.js";
 import servers from "../docker.js";
 await run(await loadConfig(servers.mongo));
+*/

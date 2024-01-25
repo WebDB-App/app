@@ -2,24 +2,24 @@ import assert from 'node:assert';
 import {test} from "node:test";
 import {post} from "../api.js";
 import {checkCityNumber, cityNumber, tableCity} from "../base.js";
-import {wrapper} from "../docker.js";
+import {base} from "../docker.js";
 
 const old_data = {
-	[wrapper.PostgreSQL]: {
+	[base.PostgreSQL]: {
 		"name": "Jerusalem",
 		"lat": "31.76904",
 		"lng": "35.21633",
 		"country_id": 103,
 		"region_code": null
 	},
-	[wrapper.MySQL]: {
+	[base.MySQL]: {
 		"name": "Jerusalem",
 		"lat": "31.76904",
 		"lng": "35.21633",
 		"country_id": 103,
 		"region_code": null
 	},
-	[wrapper.MongoDB]: {
+	[base.MongoDB]: {
 		"name": "Jerusalem",
 		"lat": "31.76904",
 		"lng": "35.21633",
@@ -30,21 +30,21 @@ const old_data = {
 	}
 };
 const new_data = {
-	[wrapper.PostgreSQL]: {
+	[base.PostgreSQL]: {
 		"name": "Jerusalem",
 		"lat": 47.47156,
 		"lng": -0.55202,
 		"country_id": 75,
 		"region_code": "FR.52.49"
 	},
-	[wrapper.MySQL]: {
+	[base.MySQL]: {
 		"name": "Jerusalem",
 		"lat": 47.47156,
 		"lng": -0.55202,
 		"country_id": 75,
 		"region_code": "FR.52.49"
 	},
-	[wrapper.MongoDB]: {
+	[base.MongoDB]: {
 		"name": "Jerusalem",
 		"lat": 47.47156,
 		"lng": -0.55202,
@@ -57,7 +57,7 @@ const new_data = {
 
 async function run(config) {
 
-	const updated = await post(`data/update`, {old_data: old_data[config.wrapper], new_data: new_data[config.wrapper]}, tableCity);
+	const updated = await post(`data/update`, {old_data: old_data[config.base], new_data: new_data[config.base]}, tableCity);
 	await test('[data] Update ok', () => {
 		assert.ok(!updated.error);
 	});

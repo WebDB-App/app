@@ -12,15 +12,7 @@ export function runWebDB() {
 }
 
 export function getDatabase(dbs, dbName) {
-	let found = dbs.find(db => db.name === dbName + " ¦ public");
-	if (found) {
-		return found;
-	}
-	found = dbs.find(db => db.name === dbName);
-	if (found) {
-		return found;
-	}
-	return false;
+	return dbs.find(db => db.name === dbName);
 }
 
 export async function iterateDir(dir) {

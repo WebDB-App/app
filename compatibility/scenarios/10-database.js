@@ -4,7 +4,7 @@ import {getDatabase} from "../helper.js";
 import {post} from "../api.js";
 
 async function run(config) {
-	const created = await post(`database/create`, {name: config.database});
+	const created = await post(`database/create`, {name: config.database.replace(" ¦ public", "")});
 	await test('[database] Creation ok', () => {
 		assert.ok(!created.error);
 	});

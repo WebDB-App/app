@@ -6,7 +6,7 @@ import {columnsForTests, tableForStruct} from "../base.js";
 
 async function run(config) {
 	const table = {
-		name: tableForStruct.Table, columns: [columnsForTests[config.wrapper][0]]
+		name: tableForStruct.Table, columns: [columnsForTests[config.base][0]]
 	};
 
 	const created = await post(`table/create`, table);

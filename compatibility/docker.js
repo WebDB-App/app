@@ -1,4 +1,4 @@
-export const wrapper = {
+export const base = {
 	MySQL: "MySQL",
 	MongoDB: "MongoDB",
 	PostgreSQL: "PostgreSQL"
@@ -13,7 +13,8 @@ export default {
 			env: ["MYSQL_ROOT_PASSWORD=notSecureChangeMe"],
 			cmd: "mysqld --default-authentication-plugin=mysql_native_password"
 		},
-		wrapper: wrapper.MySQL,
+		base: base.MySQL,
+		wrapper: "MySQL",
 		params: {
 			dateStrings: true,
 			multipleStatements: true,
@@ -28,7 +29,8 @@ export default {
 			name: "library/mariadb",
 			env: ["MYSQL_ROOT_PASSWORD=notSecureChangeMe"],
 		},
-		wrapper: wrapper.MySQL,
+		base: base.MySQL,
+		wrapper: "MySQL",
 		params: {
 			dateStrings: true,
 			multipleStatements: true,
@@ -44,7 +46,8 @@ export default {
 			name: "library/percona",
 			env: ["MYSQL_ROOT_PASSWORD=notSecureChangeMe"],
 		},
-		wrapper: wrapper.MySQL,
+		base: base.MySQL,
+		wrapper: "MySQL",
 		params: {
 			dateStrings: true,
 			multipleStatements: true,
@@ -55,7 +58,7 @@ export default {
 	/*yugabyte: {
 		internal_port: 5433,
 		external_port: 5433,
-		wrapper: "PostgreSQL",
+		base: "PostgreSQL",
 		docker: {
 			name: "yugabytedb/yugabyte",
 			env: ["YSQL_USER=root", "YSQL_PASSWORD=notSecureChangeMe"],
@@ -70,7 +73,8 @@ export default {
 			name: "library/mongo",
 			env: ["MONGO_INITDB_ROOT_USERNAME=root", "MONGO_INITDB_ROOT_PASSWORD=notSecureChangeMe"],
 		},
-		wrapper: wrapper.MongoDB,
+		base: base.MongoDB,
+		wrapper: "MongoDB",
 		params: {
 			serverSelectionTimeoutMS: 2000,
 			authSource: 'admin'
@@ -79,7 +83,8 @@ export default {
 	postgres: {
 		internal_port: 5432,
 		external_port: 5432,
-		wrapper: wrapper.PostgreSQL,
+		base: base.PostgreSQL,
+		wrapper: "PostgreSQL",
 		docker: {
 			name: "library/postgres",
 			env: ["POSTGRES_USER=root", "POSTGRES_PASSWORD=notSecureChangeMe"]
@@ -88,7 +93,8 @@ export default {
 	cockroachdb: {
 		internal_port: 26257,
 		external_port: 26257,
-		wrapper: wrapper.PostgreSQL,
+		base: base.PostgreSQL,
+		wrapper: "CockroachDB",
 		docker: {
 			name: "cockroachdb/cockroach",
 			env: ["COCKROACH_USER=root", "COCKROACH_PASSWORD=notSecureChangeMe"],

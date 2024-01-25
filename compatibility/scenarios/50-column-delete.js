@@ -5,7 +5,7 @@ import {post} from "../api.js";
 import {columnsForTests, tableForStruct} from "../base.js";
 
 async function run(config) {
-	const name = columnsForTests[config.wrapper][2].name;
+	const name = columnsForTests[config.base][2].name;
 
 	const dropped = await post(`column/drop`, {column: name}, tableForStruct);
 	await test('[column] Drop ok', () => {

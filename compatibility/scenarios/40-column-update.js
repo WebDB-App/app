@@ -3,10 +3,11 @@ import {test} from "node:test";
 import {getDatabase} from "../helper.js";
 import {post} from "../api.js";
 import {columnsForTests, tableForStruct} from "../base.js";
+import {base} from "../docker.js";
 
 async function run(config) {
-	const before = {...columnsForTests[config.wrapper][0]};
-	const after = {...columnsForTests[config.wrapper][0]};
+	const before = {...columnsForTests[config.base][0]};
+	const after = {...columnsForTests[config.base][0]};
 
 	//--------------------------------------------
 
@@ -27,7 +28,7 @@ async function run(config) {
 	//--------------------------------------------
 
 
-	after.type = columnsForTests[config.wrapper][1].type;
+	after.type = columnsForTests[config.base][1].type;
 	const updatedType = await post(`column/modify`, {
 		old: before,
 		columns: [after]
@@ -82,7 +83,7 @@ async function run(config) {
 		assert.ok(final);
 		assert.equal(final.type, after.type);
 
-		if (config.wrapper !== "MongoDB") {
+		if (config.base !== base.MongoDB) {
 			assert.equal(final.nullable, after.nullable);
 			final.defaut = final.defaut.replaceAll("'", "").replace('::character varying', '');
 			assert.equal(final.defaut, after.defaut);

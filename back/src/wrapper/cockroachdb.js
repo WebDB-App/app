@@ -19,6 +19,11 @@ export default class CockroachDB extends PostgreSQL {
 		return undefined;
 	}
 
+	async getPks(db, table) {
+		const tableIndexes = await super.getPks(db, table);
+		return tableIndexes.filter(index => index.columns[0] !== "rowid");
+	}
+
 	async kill(pid) {
 		await this.runCommand(`CANCEL QUERY '${pid}';`);
 	}

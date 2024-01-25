@@ -1,7 +1,7 @@
 import assert from 'node:assert';
 import {test} from "node:test";
 import {post} from "../api.js";
-import {getDatabase} from "../helper.js";
+import {base} from "../docker.js";
 
 async function getCountryRelation(config) {
 	const structure = await post(`server/structure?full=1&size=50`, config.credentials);
@@ -9,7 +9,7 @@ async function getCountryRelation(config) {
 		if (relation.table_source !== "country") {
 			return false;
 		}
-		return relation.database === config.database || relation.database === (config.database + " ¦ public");
+		return relation.database === config.database;
 	});
 }
 
@@ -23,7 +23,7 @@ async function run(config) {
 	if (!countryRelation) {
 		return;
 	}
-	if (config.wrapper === "MongoDB") {
+	if (config.base === base.MongoDB) {
 		return;
 	}
 

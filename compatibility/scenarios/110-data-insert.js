@@ -2,24 +2,24 @@ import assert from 'node:assert';
 import {test} from "node:test";
 import {post} from "../api.js";
 import {checkCityNumber, cityNumber, tableCity} from "../base.js";
-import {wrapper} from "../docker.js";
+import {base} from "../docker.js";
 
 const insertCity = {
-	[wrapper.PostgreSQL]: [{
+	[base.PostgreSQL]: [{
 		"name": "WebDB and spé'cial\"s ch`@°r$ctữer㍐الْأَ",
 		"lat": 42.42,
 		"lng": 13.37,
 		"country_id": 9,
 		"region_code": null
 	}],
-	[wrapper.MySQL]: [{
+	[base.MySQL]: [{
 		"name": "WebDB and spé'cial\"s ch`@°r$ctữer㍐الْأَ",
 		"lat": 42.42,
 		"lng": 13.37,
 		"country_id": 9,
 		"region_code": null
 	}],
-	[wrapper.MongoDB]: [{
+	[base.MongoDB]: [{
 		"name": "WebDB and spé'cial\"s ch`@°r$ctữer㍐الْأَ",
 		"lat": 42.42,
 		"lng": 13.37,
@@ -32,7 +32,7 @@ const insertCity = {
 
 async function run(config) {
 
-	const insert = await post(`data/insert`, insertCity[config.wrapper], tableCity);
+	const insert = await post(`data/insert`, insertCity[config.base], tableCity);
 	await test('[data] Insert ok', () => {
 		assert.ok(!insert.error);
 	});

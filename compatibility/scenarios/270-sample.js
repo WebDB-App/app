@@ -10,7 +10,7 @@ async function run(config) {
 			deep: 2,
 			count: 5,
 			anonymize: 0}}, tableCity);
-	await test(`[sample] Found ${tableCity.Table} table and is ${longEnough} min long`, () => {
+	await test(`[sample] Found ${tableCity.Table} table and have at least ${longEnough} chars`, () => {
 		assert.ok(!sample.error);
 		assert.ok(sample.txt.length > longEnough);
 		assert.ok(sample.txt.indexOf(tableCity.Table) > 0);

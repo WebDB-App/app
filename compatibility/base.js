@@ -1,4 +1,4 @@
-import {wrapper} from "./docker.js";
+import {base} from "./docker.js";
 import {post} from "./api.js";
 
 export const tableForStruct = {
@@ -9,19 +9,19 @@ export const tableCity = {
 }
 
 export const columnsForTests = {
-	[wrapper.MySQL]: [
+	[base.MySQL]: [
 		{name: "cId", type: "int", nullable: false, defaut: null, extra: []},
 		{name: "cName", type: "varchar(200)", nullable: false, defaut: "name", extra: []},
 		{name: "cDate", type: "date", nullable: false, defaut: null, extra: []},
 		{name: "cBinary", type: "json", nullable: false, defaut: null, extra: []}
 	],
-	[wrapper.PostgreSQL]: [
+	[base.PostgreSQL]: [
 		{name: "cId", type: "int", nullable: false, defaut: null, extra: []},
 		{name: "cName", type: "character varying(200)", nullable: false, defaut: "name", extra: []},
 		{name: "cDate", type: "date", nullable: false, defaut: null, extra: []},
 		{name: "cBinary", type: "json", nullable: false, defaut: null, extra: []}
 	],
-	[wrapper.MongoDB]: [
+	[base.MongoDB]: [
 		{name: "cId", type: "Number", nullable: false, defaut: null, extra: []},
 		{name: "cName", type: "String", nullable: false, defaut: "name", extra: []},
 		{name: "cDate", type: "Date", nullable: false, defaut: null, extra: []},
@@ -30,7 +30,7 @@ export const columnsForTests = {
 }
 
 export const selectCitiesNumber = {
-	[wrapper.PostgreSQL]: `SELECT
+	[base.PostgreSQL]: `SELECT
 	c.name AS continent_name,
 	COUNT(ct.name) AS city_count
 FROM
@@ -41,7 +41,7 @@ GROUP BY
 	continent_name
 ORDER BY
 	continent_name;`,
-	[wrapper.MySQL]: `SELECT
+	[base.MySQL]: `SELECT
 	c.name AS continent_name,
 	COUNT(ct.name) AS city_count
 FROM
@@ -52,7 +52,7 @@ GROUP BY
 	continent_name
 ORDER BY
 	continent_name;`,
-	[wrapper.MongoDB]: `db.collection("city").aggregate([
+	[base.MongoDB]: `db.collection("city").aggregate([
     {
         $lookup: {
             from: "country",
@@ -106,7 +106,7 @@ export function initCityNumber() {
 
 export async function checkCityNumber(config) {
 	const query = await post(`database/query`, {
-		query: selectCitiesNumber[config.wrapper],
+		query: selectCitiesNumber[config.base],
 		page: 0,
 		pageSize: 100,
 	});
