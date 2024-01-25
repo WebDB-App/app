@@ -342,51 +342,62 @@ export class SQL implements Driver {
 		return result;
 	}
 
+	setCase(configId: string, value: string) {
+		const config = this.configuration.getByName(configId)?.value;
+
+		if (config === 'upper') {
+			value = value.toUpperCase();
+		} else if (config === 'lower') {
+			value = value.toLowerCase();
+		}
+		return value;
+	}
+
 	basicSuggestions() {
 		const suggestions: any[] = [];
 
 		this.language.keywords.map(keyword => {
 			suggestions.push({
-				label: keyword,
+				label: keyword.toLowerCase(),
 				kind: monaco.languages.CompletionItemKind.Keyword,
 				insertText: `${keyword} `
-			})
+			});
 		});
 
 		Object.keys(this.language.functions).map(fct => {
 			const detail = this.language.functions[fct] || '(expression)';
 			suggestions.push({
-				label: fct,
+				label: fct.toLowerCase(),
 				kind: monaco.languages.CompletionItemKind.Function,
-				insertText: `${fct}()`,
+				insertText: `${this.setCase('functionCase', fct)}()`,
 				detail
-			})
+			});
 		});
 
 		this.language.constraints.map(constraint => {
 			suggestions.push({
-				label: constraint,
+				label: constraint.toLowerCase(),
 				kind: monaco.languages.CompletionItemKind.Reference,
-				insertText: `${constraint}`
-			})
+				insertText: `${this.setCase('keywordCase', constraint)}`
+			});
 		});
 
 		this.language.typeGroups.map(types => {
 			types.list.map(type => {
 				suggestions.push({
-					label: type.id,
+					label: this.setCase('dataTypeCase', type.id),
 					kind: monaco.languages.CompletionItemKind.TypeParameter,
-					insertText: `${type.id}`,
+					insertText: `${this.setCase('dataTypeCase', type.id)}`,
 					detail: type.description
-				})
-			})
+				});
+			});
 		});
 
 		this.language.comparators.map(comparator => {
 			suggestions.push({
-				label: comparator.symbol,
+				label: this.setCase('keywordCase', comparator.symbol),
 				kind: monaco.languages.CompletionItemKind.Operator,
-				insertText: `${comparator.symbol} ${comparator.example}`
+				insertText: `${this.setCase('keywordCase', comparator.symbol)} ${comparator.example}`
 			});
 		});
 
@@ -520,15 +531,18 @@ export class SQL implements Driver {
 			return suggestions;
 		}
 
-		return this.preselectNext(suggestions);
+		return this.preselectNext(suggestions, textUntilPosition);
 	}
 
-	preselectNext(suggestions: any[]): any[] {
+	preselectNext(suggestions: any[], previousToken: string): any[] {
 		let tokens: any = {};
 		for (const local of history.getLocal()) {
-			const words = sql_cleanQuery(local.query).split(/[ ,\(\)]/);
+			const words = sql_cleanQuery(local.query).split(/[ ,\(\);]/);
 			for (const word of words) {
 				if (!word.match(/[a-zA-Z]/) || word.length < 2) {
+					continue;
+				}
+				if (word.indexOf(previousToken) < 0) {
 					continue;
 				}
 				tokens[word] = tokens[word] + 1 || 1;

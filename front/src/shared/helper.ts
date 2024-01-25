@@ -55,6 +55,7 @@ export const complex = {
 	"DOMAIN": "Module",
 	"ENUM": "Enum",
 	"FUNCTION": "Method",
+	"MATERIALIZED_VIEW": "File",
 	"PROCEDURE": "Method",
 	"SEQUENCE": "Constant",
 	"TRIGGER": "Event",

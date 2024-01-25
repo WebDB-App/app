@@ -87,8 +87,8 @@
 		<mat-menu #advanced="matMenu" xPosition="before">
 			<button (click)="inputFile.click()" mat-menu-item>Load query from file</button>
 			<button (click)="saveToDisk()" mat-menu-item>Save query to file</button>
-			<button (click)="addView()" *ngIf="!selectedTable?.view" [disabled]="!isQuerySelect()" mat-menu-item>Create
-				view from query
+			<button (click)="addView()" *ngIf="!selectedTable?.view" [disabled]="!isQuerySelect()" mat-menu-item>
+				Create view from query
 			</button>
 			<button (click)="exportQuery()" [disabled]="query.length < 1" mat-menu-item>Export query</button>
 			<button [matMenuTriggerFor]="shortcuts" mat-menu-item>Shortcuts</button>
