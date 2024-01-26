@@ -1,50 +1,50 @@
 import net from "net";
-import {Client} from "ssh2";
+import bash from "../../shared/bash.js";
+import os from "os";
+import fs from "fs";
 
 class Controller {
 
 	pool = [];
 
-	async handleSsh(connection, cache = true) {
-		const makeHash = (ssh) => JSON.stringify(ssh);
+	makeHash = (ssh) => JSON.stringify(ssh);
 
+	async handleSsh(connection, cache = true) {
 		if (!connection.ssh || !connection.ssh.host || !connection.ssh.port || !connection.ssh.user) {
 			return false;
 		}
 
-		if (cache && this.pool[makeHash(connection)]) {
-			return this.pool[makeHash(connection)];
+		const hash = this.makeHash(connection.ssh);
+		if (cache && this.pool[hash]) {
+			return this.pool[hash];
 		}
 
-		const forwardPort = await this.newTunnel(connection);
-		this.pool[makeHash(connection)] = forwardPort;
-		return forwardPort;
+		const tunnel = await this.newTunnel(connection);
+		if (tunnel.error) {
+			return tunnel;
+		}
+
+		this.pool[hash] = tunnel;
+		return tunnel;
 	}
 
 	async newTunnel(connection, test = false) {
-		const client = new Client();
-		const cfg = {
-			host: connection.ssh.host,
-			port: connection.ssh.port,
-			username: connection.ssh.user,
-			readyTimeout: 10000
-		};
-		if (connection.ssh.password) {
-			cfg["password"] = connection.ssh.password;
-		} else {
-			cfg["privateKey"] = connection.ssh.privateKey;
+		const uri = `-p ${connection.ssh.port} ${connection.ssh.user}@${connection.ssh.host}`;
+		let common = `ssh -F /dev/null -o ConnectTimeout=1 -o BatchMode=true `;
+
+		const privateKey = os.tmpdir() + connection.ssh.host;
+		if (connection.ssh.privateKey) {
+			const pk = connection.ssh.privateKey.trim() + "\n";
+			fs.writeFileSync(privateKey, pk);
+			fs.chmodSync(privateKey, 0o700);
 		}
 
-		await new Promise((resolve, reject) => {
-			client.on("ready", () => {
-				resolve();
-			}).on("error", (err) => {
-				reject(err);
-			}).connect(cfg);
-		});
-
 		if (test) {
-			return client.end();
+			if (connection.ssh.password) {
+				return bash.runBash(`sshpass -p "${connection.ssh.password}" ${common} ${uri} true`);
+			} else {
+				return bash.runBash(common + `-i ${privateKey} ${uri} true`);
+			}
 		}
 
 		const freePort = await new Promise(res => {
@@ -55,27 +55,30 @@ class Controller {
 			});
 		});
 
-		await new Promise((resolve, reject) => {
-			client.forwardOut("127.0.0.1", freePort, connection.host, connection.port, (err) => {
-				if (err) {
-					client.end();
-					console.error(err);
-					reject({error: err.message || JSON.stringify(err)});
-				}
-				resolve(true);
-			});
-		});
+		let forward;
+		common += `-f -N -L ${freePort}:${connection.host}:${connection.port} `;
+		if (connection.ssh.password) {
+			forward = bash.runBash(`sshpass -p "${connection.ssh.password}" ${common} ${uri}`);
+		} else {
+			forward = bash.runBash(common + `-i ${privateKey} ${uri}`);
+		}
+		if (forward.error) {
+			return forward;
+		}
 
 		return freePort;
 	}
 
 	async test(req, res) {
-		try {
-			await this.newTunnel(req.body, true);
-			return res.send({ok: true});
-		} catch (error) {
-			return res.send({error: error.message});
+		if (process.env.PROTECTED_MODE === "true") {
+			return res.send({error: "Dump is disable by backend configuration"});
 		}
+
+		const tunnel = await this.newTunnel(req.body, true);
+		if (tunnel.error) {
+			return res.send(tunnel);
+		}
+		return res.send({ok: true});
 	}
 }
 

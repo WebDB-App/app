@@ -81,13 +81,8 @@ class Controller {
 			return res.send({error: "Load is disable by backend configuration"});
 		}
 
-		const [driver, , , server] = await http.getLoggedDriver(req);
-		let result = {error: "While tunneling, native import is not available with WebDB"};
-
-		if (!server.ssh || !server.ssh.host) {
-			result = await driver.load(req.files, req.get("Database"));
-		}
-
+		const [driver] = await http.getLoggedDriver(req);
+		const result = await driver.load(req.files, req.get("Database"));
 		res.send(result);
 
 		version.commandFinished(driver, "", req.get("Database"), true);
@@ -99,11 +94,7 @@ class Controller {
 			return res.send({error: "Dump is disable by backend configuration"});
 		}
 
-		const [driver, database, , server] = await http.getLoggedDriver(req);
-
-		if (req.body.exportType.toLowerCase() !== "json" && server.ssh && server.ssh.host) {
-			return res.send({error: "While tunneling, native export is not available with WebDB"});
-		}
+		const [driver, database] = await http.getLoggedDriver(req);
 
 		const result = await driver.dump(
 			database,
@@ -180,7 +171,11 @@ class Controller {
 		const driver = new driverClass(req.body.port, req.body.host, req.body.user, req.body.password, req.body.params);
 		const connection = await driver.establish(false, true);
 
-		res.send(connection?.error ? connection : {...req.body, uri: driver.makeUri()});
+		if (connection?.error) {
+			res.send(connection);
+		} else {
+			res.send({...req.body, uri: driver.makeUri()});
+		}
 	}
 }
 

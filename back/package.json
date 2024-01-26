@@ -20,7 +20,6 @@
 		"node-rsa": "latest",
 		"pg": "latest",
 		"simple-git": "latest",
-		"ssh2": "latest",
 		"tedious": "latest"
 	},
 	"devDependencies": {

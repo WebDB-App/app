@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import * as drivers from "../../../drivers";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Server, SSH } from "../../../classes/server";
 import { environment } from "../../../environments/environment";
 import { firstValueFrom } from "rxjs";
@@ -61,13 +61,20 @@ export class EditConnectionComponent implements OnChanges {
 	async testServer() {
 		this.connectionStatus = 'loading';
 		this.saveParams();
-		const data = await firstValueFrom(this.http.post<any>(environment.apiRootUrl + 'server/connect', Server.getShallow(this.server)));
 
-		if (data.error) {
+		try {
+			const data = await firstValueFrom(this.http.post<any>(environment.apiRootUrl + 'server/connect', Server.getShallow(this.server)));
+			if (data.error) {
+				this.connectionStatus = 'notConnected';
+				this.snackBar.open(data.error, "⨉", {duration: 3000, panelClass: 'snack-error'});
+				return;
+			}
+		} catch (err: any) {
 			this.connectionStatus = 'notConnected';
-			this.snackBar.open(data.error, "⨉", {duration: 3000, panelClass: 'snack-error'});
+			this.snackBar.open(err.statusText, "⨉", {duration: 3000, panelClass: 'snack-error'});
 			return;
 		}
+
 		this.snackBar.open("Connection valid", "⨉", {duration: 3000});
 		this.connectionStatus = 'connected';
 	}

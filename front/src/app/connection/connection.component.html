@@ -98,9 +98,9 @@
 							</span>
 							{{ server.host }}
 						</h4>
-						<h4 *ngIf="server.ssh && server.ssh.host">
+						<h4 *ngIf="server.ssh && server.ssh.host"
+							[matTooltip]="server.ssh | json">
 							<span
-								[matTooltip]="server.ssh | json"
 								class="material-symbols-outlined notranslate">
 								subway
 							</span>

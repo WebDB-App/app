@@ -122,7 +122,6 @@ class Version {
 		if (!existsSync(dir)) {
 			const r = bash.runBash(`mkdir -p ${dir} && cd ${dir} && git init --initial-branch=main && git config user.email "main.webdb@gmail.com" && git config user.name "WebDB"`);
 			if (r.error) {
-				console.error(r.error);
 				return;
 			}
 		}
@@ -134,7 +133,6 @@ class Version {
 		}
 		const commit = bash.runBash(`cd ${dir} && git add --all && (git commit -m '${(new Date()).getTime()}' || echo)`);
 		if (commit.error) {
-			console.error(commit.error);
 			return;
 		}
 		return commit;

@@ -9,9 +9,9 @@
 			<div style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
 				<div (click)="changeWrapper(wrapper)"
 					 *ngFor="let wrapper of driverNames"
+					 [style.border-bottom-color]="wrapper === server.wrapper ? '#2196f3' : 'transparent'"
 					 class="logo">
-					<img [style.border-color]="wrapper === server.wrapper ? '#2196f3' : 'transparent'"
-						 src="/assets/drivers/{{wrapper | lowercase}}.svg">
+					<img src="/assets/drivers/{{wrapper | lowercase}}.svg">
 				</div>
 
 				<a color="accent"
@@ -87,12 +87,13 @@
 					style="width: 160px">
 					ssh-keygen
 				</button>
-				<button (click)="testSSH()"
-						[disabled]="!server.ssh.host || !server.ssh.port || !server.ssh.user"
-						[ngClass]="{'mat-flat-button' : sshStatus === 'notConnected'}"
-						color="accent"
-						mat-button
-						style="width: 200px;">
+				<button
+					(click)="testSSH()"
+					[disabled]="!server.ssh.host || !server.ssh.port || !server.ssh.user"
+					[ngClass]="{'mat-flat-button' : sshStatus === 'notConnected'}"
+					color="accent"
+					mat-button
+					style="width: 200px;">
 					Test SSH
 				</button>
 
@@ -184,7 +185,7 @@
 			Forget
 		</button>
 
-		<div style="display: flex;">
+		<div style="display: flex; align-items: center; gap: 12px;">
 			<button
 				(click)="testServer()"
 				[disabled]="!server.host || !server.port || connectionStatus === 'loading'"

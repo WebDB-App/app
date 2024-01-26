@@ -1,6 +1,9 @@
 - ng-terminal + mysql/pgsql connect with uri
-- tester si icon de tunnel apparait bien dans connexion
 
+- pas de saveState si remote
+- tester dans docker
+- tester avec password
+- tester avec remote et local sur le meme port
 
 
 # Doc
