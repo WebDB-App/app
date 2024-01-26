@@ -66,7 +66,7 @@ class Wrapper {
 			return false;
 		}
 
-		const driver = new driverClass(connection.port, connection.host, connection.user, connection.password, connection.params);
+		const driver = new driverClass(connection.port, connection.host, connection.user, connection.password, connection.params, connection.ssh);
 		driver.connection = await driver.establish(false, test);
 
 		this.pool[hash] = driver;

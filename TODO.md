@@ -1,9 +1,7 @@
 - ng-terminal + mysql/pgsql connect with uri
 
-- pas de saveState si remote
 - tester dans docker
-- tester avec password
-- tester avec remote et local sur le meme port
+- tester avec remote et local sur le meme port (use remote host instead of connection)
 
 
 # Doc

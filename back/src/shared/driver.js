@@ -10,15 +10,17 @@ export default class Driver {
 	user;
 	password;
 	params;
+	ssh;
 
 	dbPool = {};
 
-	constructor(port, host, user, password, params) {
+	constructor(port, host, user, password, params, ssh) {
 		this.port = port;
 		this.host = host;
 		this.user = user;
 		this.password = password;
 		this.params = params;
+		this.ssh = ssh;
 	}
 
 	async scan(host, from, to) {

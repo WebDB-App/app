@@ -149,6 +149,9 @@ class Version {
 		if (driver.constructor.name === "CockroachDB") {
 			return;
 		}
+		if (driver.ssh && driver.ssh.host) {
+			return false;
+		}
 		if (process.env.WATCHER_EXCLUDE &&
 			(process.env.WATCHER_EXCLUDE === "true" ||
 				process.env.WATCHER_EXCLUDE.indexOf(database) >= 0)) {

@@ -168,7 +168,7 @@ class Controller {
 			return res.send(error);
 		}
 
-		const driver = new driverClass(req.body.port, req.body.host, req.body.user, req.body.password, req.body.params);
+		const driver = new driverClass(req.body.port, req.body.host, req.body.user, req.body.password, req.body.params, req.body.ssh);
 		const connection = await driver.establish(false, true);
 
 		if (connection?.error) {
