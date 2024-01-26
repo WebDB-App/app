@@ -152,7 +152,7 @@ export class ConnectionComponent implements OnInit {
 		const data = await firstValueFrom(this.http.post<any>(environment.apiRootUrl + 'server/connect', Server.getShallow(server)));
 
 		if (data.error) {
-			this.snackBar.open(data.error, "⨉", {duration: 3000});
+			this.snackBar.open(data.error, "⨉", {duration: 3000, panelClass: 'snack-error'});
 			return;
 		}
 		await this.postLogged(server, data);
@@ -232,6 +232,8 @@ export class ConnectionComponent implements OnInit {
 })
 export class CreateDatabaseDialog {
 
+	isLoading = false;
+
 	constructor(
 		private dialogRef: MatDialogRef<CreateDatabaseDialog>,
 		private request: RequestService,
@@ -240,6 +242,7 @@ export class CreateDatabaseDialog {
 	}
 
 	async createDb(name: string) {
+		this.isLoading = true;
 		await this.request.post('database/create', {name}, undefined, undefined, this.server);
 		this.dialogRef.close(name);
 	}

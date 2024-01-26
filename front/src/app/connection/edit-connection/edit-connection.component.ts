@@ -65,7 +65,7 @@ export class EditConnectionComponent implements OnChanges {
 
 		if (data.error) {
 			this.connectionStatus = 'notConnected';
-			this.snackBar.open(data.error, "⨉", {duration: 3000});
+			this.snackBar.open(data.error, "⨉", {duration: 3000, panelClass: 'snack-error'});
 			return;
 		}
 		this.snackBar.open("Connection valid", "⨉", {duration: 3000});

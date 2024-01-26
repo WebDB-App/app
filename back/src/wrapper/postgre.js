@@ -138,7 +138,10 @@ ${def[0]["pg_get_viewdef"]}`
 		const [database] = dbSchema.split(this.dbToSchemaDelimiter);
 
 		for (const file of files) {
-			bash.runBash(`psql ${this.makeUri(database)} < ${file.path}`);
+			const r = bash.runBash(`psql ${this.makeUri(database)} < ${file.path}`);
+			if (r.error) {
+				return r;
+			}
 		}
 
 		return {ok: true};

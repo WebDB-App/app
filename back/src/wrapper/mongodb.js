@@ -76,17 +76,23 @@ export default class MongoDB extends Driver {
 	async load(files, database) {
 		const folder = files.find(file => file.originalname.endsWith(".metadata.json"));
 		if (folder) {
-			bash.runBash(`mongorestore --uri="${this.makeUri()}" --db="${database}" ${files[0].destination}`);
-			return {ok: true};
+			const r = bash.runBash(`mongorestore --uri="${this.makeUri()}" --db="${database}" ${files[0].destination}`);
+			return r.error ? r : {ok: true};
 		}
 
 		for (const file of files) {
 			if (file.originalname.endsWith(".csv") ||
 				file.originalname.endsWith(".json") ||
 				file.originalname.endsWith(".tsv")) {
-				bash.runBash(`mongoimport --uri="${this.makeUri()}" --db="${database}" --file "${file.path}" --collection ${file.originalname.split(".")[0]}`);
+				const r = bash.runBash(`mongoimport --uri="${this.makeUri()}" --db="${database}" --file "${file.path}" --collection ${file.originalname.split(".")[0]}`);
+				if (r.error) {
+					return r;
+				}
 			} else {
-				bash.runBash(`mongorestore --uri="${this.makeUri()}" --nsFrom="*" --nsTo="${database}.*" --gzip --archive="${file.path}"`);
+				const r = bash.runBash(`mongorestore --uri="${this.makeUri()}" --nsFrom="*" --nsTo="${database}.*" --gzip --archive="${file.path}"`);
+				if (r.error) {
+					return r;
+				}
 
 				const tables = (await this.getStructure(false, 0))[database].tables;
 				for (const table of Object.values(tables)) {

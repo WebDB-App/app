@@ -98,7 +98,10 @@ ${def[0]["VIEW_DEFINITION"]}`
 
 	async load(files, database) {
 		for (const file of files) {
-			bash.runBash(`mysql --user='${this.user}' --port=${this.port} --password='${this.password}' --host='${this.host}' ${database} < ${file.path}`);
+			const r = bash.runBash(`mysql --user='${this.user}' --port=${this.port} --password='${this.password}' --host='${this.host}' ${database} < ${file.path}`);
+			if (r.error) {
+				return r;
+			}
 		}
 		return {ok: true};
 	}

@@ -1,3 +1,8 @@
+- ng-terminal + mysql/pgsql connect with uri
+- tester si icon de tunnel apparait bien dans connexion
+
+
+
 # Doc
 - nosql default column
 - expliquer code .js, .ts
@@ -6,16 +11,16 @@
 
 
 
+- sqlite3/libSQL
 - finir tests
 - ERD [Chrome bookmarks]
+- derobien: sql server + contrat maintenance + lui demander des contacts pour autre ecole / régins
+
 
 
 ----------------------------------------------------------
 
 
-
-- derobien + lui demander des contacts pour autre ecole / régins
-- sql server / sqlite
 
 
 

@@ -84,7 +84,7 @@ class Controller {
 		const [driver, , , server] = await http.getLoggedDriver(req);
 		let result = {error: "While tunneling, native import is not available with WebDB"};
 
-		if (!server.ssh) {
+		if (!server.ssh || !server.ssh.host) {
 			result = await driver.load(req.files, req.get("Database"));
 		}
 
@@ -101,7 +101,7 @@ class Controller {
 
 		const [driver, database, , server] = await http.getLoggedDriver(req);
 
-		if (req.body.exportType.toLowerCase() !== "json" && server.ssh) {
+		if (req.body.exportType.toLowerCase() !== "json" && server.ssh && server.ssh.host) {
 			return res.send({error: "While tunneling, native export is not available with WebDB"});
 		}
 
@@ -174,7 +174,7 @@ class Controller {
 				req.body.port = forwardPort;
 			}
 		} catch (error) {
-			return res.send({error: JSON.stringify(error)});
+			return res.send(error);
 		}
 
 		const driver = new driverClass(req.body.port, req.body.host, req.body.user, req.body.password, req.body.params);

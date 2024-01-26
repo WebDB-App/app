@@ -103,6 +103,9 @@ export class MigrateComponent implements OnInit {
 			}
 
 			side.diff.code = JSON.stringify(result, null, "\t");
+			side.diff.code = side.diff.code.replaceAll(",\n\t\t", ", ");
+			side.diff.code = side.diff.code.replaceAll("{\n\t\t", "{ ");
+			side.diff.code = side.diff.code.replaceAll("\n\t}", " }");
 
 			side.querySize = await this.request.post('database/querySize', {query: side.query}, side.table, side.database, side.server);
 			if (side.querySize === null) {

@@ -60,7 +60,7 @@ class Controller {
 				if (err) {
 					client.end();
 					console.error(err);
-					reject(err);
+					reject({error: err.message || JSON.stringify(err)});
 				}
 				resolve(true);
 			});

@@ -120,7 +120,11 @@ class Version {
 
 		const dir = this.getPath(database, driver);
 		if (!existsSync(dir)) {
-			bash.runBash(`mkdir -p ${dir} && cd ${dir} && git init --initial-branch=main && git config user.email "main.webdb@gmail.com" && git config user.name "WebDB"`);
+			const r = bash.runBash(`mkdir -p ${dir} && cd ${dir} && git init --initial-branch=main && git config user.email "main.webdb@gmail.com" && git config user.name "WebDB"`);
+			if (r.error) {
+				console.error(r.error);
+				return;
+			}
 		}
 
 		const state = await driver.saveState(dir, database);
