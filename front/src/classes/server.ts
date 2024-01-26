@@ -77,6 +77,9 @@ export class Server {
 	}
 
 	static setName(scan: Server) {
+		if (scan.ssh && scan.ssh.host) {
+			return `${scan.ssh.host}--${scan.user}@${scan.host}:${scan.port}`
+		}
 		return `${scan.user}@${scan.host}:${scan.port}`
 	}
 

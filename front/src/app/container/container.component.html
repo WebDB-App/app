@@ -14,6 +14,13 @@
 				</a>
 
 				<div *ngIf="selectedServer && selectedDatabase" id="server">
+					<div *ngIf="selectedServer.ssh && selectedServer.ssh.host"
+						[matTooltip]="selectedServer.ssh | json">
+						<span
+							class="material-symbols-outlined notranslate">
+							subway
+						</span>
+					</div>
 					<div>
 						<span>{{ selectedServer.host }}</span>:<span>{{ selectedServer.port }}</span>
 						<span style="color: #1de9b6;">{{ selectedDatabase.name }}</span>

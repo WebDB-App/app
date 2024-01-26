@@ -1,7 +1,5 @@
-- ng-terminal + mysql/pgsql connect with uri
+- tester dans docker + password
 
-- tester dans docker
-- tester avec remote et local sur le meme port (use remote host instead of connection)
 
 
 # Doc
@@ -9,6 +7,7 @@
 - expliquer code .js, .ts
 - compatibility + ajouter lien dans landing
 - https://chat.openai.com/c/eae4f88e-e100-45de-9502-8708f7f48bf8
+
 
 
 
@@ -31,13 +30,12 @@
 - récupérer la licence directemnt depuis la landing + enlever l'endpoint
 
 
+# Terminal
+- ng-terminal
+- mysql/pgsql connect with uri
+
+
 # reorder columns
-
-
-# SQL editor
-- LLM on WebGPU ?
-- add CTE to table list
-- handle subquery and cte like table (propose column from)
 
 
 # Comparator
@@ -49,6 +47,9 @@
 
 # SQL editor
 - function doc (generate from web scrap)
+- LLM on WebGPU ?
+- add CTE to table list
+- handle subquery and cte like table (propose column from)
 
 
 # Profiling
@@ -79,8 +80,11 @@
 
 
 # Mongo
-- relation avec array: l427 mongodb.js
+- free: relation avec array: l427 mongodb.js
 - https://www.mongodb.com/docs/manual/reference/operator/aggregation/lookup/#use--lookup-with-an-array
 - columns with array > 2 : harmonize to one of the type (attention deep)
 - obj column update
 - harmonizer obj > 2
+
+
+# Refaire list des features payantes dans stripe

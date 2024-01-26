@@ -27,7 +27,8 @@
 			}
 
 			.infos {
-				width: 160px;
+				min-width: 160px;
+				max-width: 226px;
 				display: flex;
 				flex-direction: column;
 				justify-content: space-around;

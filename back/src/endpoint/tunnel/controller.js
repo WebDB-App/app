@@ -30,7 +30,7 @@ class Controller {
 
 	async newTunnel(connection, test = false) {
 		const uri = `-p ${connection.ssh.port} ${connection.ssh.user}@${connection.ssh.host}`;
-		let common = `ssh -F /dev/null -o ConnectTimeout=1 -o BatchMode=true -o StrictHostKeyChecking=no `;
+		let common = `ssh -F /dev/null -o ConnectTimeout=2000 -o BatchMode=true -o StrictHostKeyChecking=no `;
 
 		const privateKey = os.tmpdir() + connection.ssh.host;
 		if (connection.ssh.privateKey) {
