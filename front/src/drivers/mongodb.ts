@@ -300,4 +300,8 @@ async function main() {
 	format(code: string) {
 		return jsbeautifier.js_beautify(code);
 	}
+
+	terminalCmd = () => {
+		return ``;
+	}
 }

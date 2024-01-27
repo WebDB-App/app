@@ -1,4 +1,5 @@
 # Doc
+- mistral en co-author / gitbook upgrade ??
 - nosql default column
 - expliquer code .js, .ts
 - compatibility + ajouter lien dans landing
@@ -6,7 +7,6 @@
 
 
 
-- finir tests
 - ERD [Chrome bookmarks]
 - sqlite3/libSQL
 
@@ -16,17 +16,11 @@
 
 
 
-
-
 # modules payant
 - system de téléchargement de code depuis la landing avec le mail
 - attention de telecharger la version par rapport a la version en cours
 - récupérer la licence directemnt depuis la landing + enlever l'endpoint
 
-
-# Terminal
-- ng-terminal
-- mysql/pgsql connect with uri
 
 
 # reorder columns
@@ -61,6 +55,7 @@
 - afficher comme serveur supporté dans la landing avec le page ultimate
 - tls
 - SCRAM, X.509, Kerberos, LDAP, proxy
+- ssl-mode: DISABLED PREFERRED REQUIRED VERIFY_CA VERIFY_IDENTITY
 
 
 # Relation wizard

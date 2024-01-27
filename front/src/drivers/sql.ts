@@ -595,4 +595,8 @@ export class SQL implements Driver {
 
 		return allText.indexOf(table + " " + previousToken) >= 0;
 	}
+
+	terminalCmd = () => {
+		return "";
+	}
 }

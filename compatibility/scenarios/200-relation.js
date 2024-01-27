@@ -1,7 +1,6 @@
 import assert from 'node:assert';
 import {test} from "node:test";
 import {post} from "../api.js";
-import {base} from "../docker.js";
 
 async function getCountryRelation(config) {
 	const structure = await post(`server/structure?full=1&size=50`, config.credentials);

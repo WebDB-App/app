@@ -7,15 +7,16 @@ import { Column } from "../classes/column";
 
 export class PostgreSQL extends SQL {
 
+	override docs = {
+		driver: "https://github.com/brianc/node-postgres/blob/master/packages/pg/lib/defaults.js",
+		types: "https://www.postgresql.org/docs/current/datatype.html",
+		language: "https://www.postgresql.org/docs/current/sql-commands.html",
+		dump: "https://www.postgresql.org/docs/current/app-pgdump.html"
+	}
+
 	constructor() {
 		super();
 
-		this.docs = {
-			driver: "https://github.com/brianc/node-postgres/blob/master/packages/pg/lib/defaults.js",
-			types: "https://www.postgresql.org/docs/current/datatype.html",
-			language: "https://www.postgresql.org/docs/current/sql-commands.html",
-			dump: "https://www.postgresql.org/docs/current/app-pgdump.html"
-		}
 		this.language = {
 			...this.language,
 			fctAsDefault: ['now()', 'nextval()'],
@@ -281,34 +282,35 @@ export class PostgreSQL extends SQL {
 					]
 				}]
 		};
+	}
 
-		this.extractEnum = (col: Column) => {
-			for (const complex of Server.getSelected().complexes) {
-				if (Database.getSelected().name !== complex.database) {
-					continue;
-				}
-				if (complex.type !== "ENUM") {
-					continue;
-				}
-				if (col.type !== complex.name) {
-					continue;
-				}
-				return complex.value!.split(', ');
+	override extractEnum = (col: Column) => {
+		for (const complex of Server.getSelected().complexes) {
+			if (Database.getSelected().name !== complex.database) {
+				continue;
 			}
-
-			return false;
+			if (complex.type !== "ENUM") {
+				continue;
+			}
+			if (col.type !== complex.name) {
+				continue;
+			}
+			return complex.value!.split(', ');
 		}
 
-		this.nodeLib = (query: QueryParams) => {
-			let prepared = query.query;
-			let inc = 0;
+		return false;
+	}
 
-			prepared = prepared.replace(/\?/g, () => {
-				return "$" + ++inc;
-			});
+	override nodeLib = (query: QueryParams) => {
+		let prepared = query.query;
+		let inc = 0;
+
+		prepared = prepared.replace(/\?/g, () => {
+			return "$" + ++inc;
+		});
 
 
-			return `//with pg lib
+		return `//with pg lib
 import pg from "pg";
 
 const pool = new pg.Pool({
@@ -325,23 +327,22 @@ async function main() {
 	  values: [${query.params.join(', ')}],
 	});
 }`;
-		};
+	};
 
-		this.format = (code: string) => {
-			try {
-				code = format(code, {
-					language: 'postgresql',
-					useTabs: true,
-					identifierCase: this.configuration.getByName('identifierCase')?.value,
-					keywordCase: this.configuration.getByName('keywordCase')?.value,
-					functionCase: this.configuration.getByName('functionCase')?.value,
-					dataTypeCase: this.configuration.getByName('dataTypeCase')?.value,
-				});
+	override format = (code: string) => {
+		try {
+			code = format(code, {
+				language: 'postgresql',
+				useTabs: true,
+				identifierCase: this.configuration.getByName('identifierCase')?.value,
+				keywordCase: this.configuration.getByName('keywordCase')?.value,
+				functionCase: this.configuration.getByName('functionCase')?.value,
+				dataTypeCase: this.configuration.getByName('dataTypeCase')?.value,
+			});
 
-				return code.replace(/\n/g, " \n");
-			} catch (e) {
-				return code;
-			}
+			return code.replace(/\n/g, " \n");
+		} catch (e) {
+			return code;
 		}
 	}
 
@@ -369,5 +370,9 @@ async function main() {
 
 	override wrapStructure(structure: string) {
 		return '"' + structure.replace(/"/g, '""') + '"'
+	}
+
+	override terminalCmd = () => {
+		return `docker exec -it $(docker ps -a -q --filter ancestor=webdb/app) psql ` + Server.getSelected().uri;
 	}
 }

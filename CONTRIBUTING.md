@@ -8,10 +8,13 @@ Anyway, if you planned to push changement, I would prefer that you use GitLab's 
 ### Requirements
 
 - node >= 16
-- docker (highly recommended)
 - git
 - linux / macOS environment (for Windows users, developing inside a container will be the only option)
-- binaries of `apk add` from [Dockerfile](back%2FDockerfile) (mysql, pgsql, etc)
+
+### Optional
+
+- native DBMS binaries like the ones of `apk add` from [Dockerfile](back%2FDockerfile) (mysql, pgsql, etc)
+- docker (for compatibility tests)
 
 ##### Setup
 

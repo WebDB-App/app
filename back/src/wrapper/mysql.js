@@ -401,4 +401,8 @@ ${def[0]["VIEW_DEFINITION"]}`
 			return {error: e.sqlMessage || e.message};
 		}
 	}
+
+	makeUri() {
+		return `--user="${this.user}" --password="${this.password}" --host="${this.host}" --port="${this.port}"`;
+	}
 }

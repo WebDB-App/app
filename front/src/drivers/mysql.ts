@@ -9,15 +9,15 @@ declare module 'sqlstring';
 
 export class MySQL extends SQL {
 
+	override docs = {
+		driver: "https://github.com/sidorares/node-mysql2/blob/master/typings/mysql/lib/Connection.d.ts",
+		types: "https://dev.mysql.com/doc/refman/8.0/en/data-types.html",
+		language: "https://dev.mysql.com/doc/refman/8.0/en/sql-statements.html",
+		dump: "https://dev.mysql.com/doc/refman/8.0/en/mysqldump.html#mysqldump-option-summary"
+	}
+
 	constructor() {
 		super();
-
-		this.docs = {
-			driver: "https://github.com/sidorares/node-mysql2/blob/master/typings/mysql/lib/Connection.d.ts",
-			types: "https://dev.mysql.com/doc/refman/8.0/en/data-types.html",
-			language: "https://dev.mysql.com/doc/refman/8.0/en/sql-statements.html",
-			dump: "https://dev.mysql.com/doc/refman/8.0/en/mysqldump.html#mysqldump-option-summary"
-		}
 
 		this.connection = {
 			...this.connection,
@@ -301,10 +301,11 @@ export class MySQL extends SQL {
 					]
 				}
 			]
-		}
+		};
+	}
 
-		this.nodeLib = (query: QueryParams) => {
-			return `//with mysql2 lib
+	override nodeLib = (query: QueryParams) => {
+		return `//with mysql2 lib
 import mysql from "mysql2/promise.js";
 
 async function main() {
@@ -317,22 +318,25 @@ async function main() {
 	});
 	const [rows, fields] = await connection.execute(\`${query.query}\`, [${query.params.join(', ')}]);
 }`;
-		};
+	};
 
-		this.format = (code: string) => {
-			try {
-				code = format(code, {
-					language: 'mariadb',
-					useTabs: true,
-					identifierCase: this.configuration.getByName('identifierCase')?.value,
-					keywordCase: this.configuration.getByName('keywordCase')?.value,
-					functionCase: this.configuration.getByName('functionCase')?.value,
-					dataTypeCase: this.configuration.getByName('dataTypeCase')?.value,
-				});
-				return code.replace(/\n/g, " \n");
-			} catch (e) {
-				return code;
-			}
+	override terminalCmd = () => {
+		return `docker exec -it $(docker ps -a -q --filter ancestor=webdb/app) mysql ` + Server.getSelected().uri;
+	}
+
+	override format = (code: string) => {
+		try {
+			code = format(code, {
+				language: 'mariadb',
+				useTabs: true,
+				identifierCase: this.configuration.getByName('identifierCase')?.value,
+				keywordCase: this.configuration.getByName('keywordCase')?.value,
+				functionCase: this.configuration.getByName('functionCase')?.value,
+				dataTypeCase: this.configuration.getByName('dataTypeCase')?.value,
+			});
+			return code.replace(/\n/g, " \n");
+		} catch (e) {
+			return code;
 		}
 	}
 

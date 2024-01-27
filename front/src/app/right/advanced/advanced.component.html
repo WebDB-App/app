@@ -63,6 +63,31 @@
 		<mat-divider></mat-divider>
 
 		<div fxLayout="row" fxLayoutAlign="space-between center">
+			<button
+				*ngIf="selectedServer.driver.terminalCmd()"
+				(click)="snackBar.open('Command copied', '⨉', {duration: 3000})"
+				[cdkCopyToClipboard]="selectedServer.driver.terminalCmd()"
+				mat-button>
+				<span class="material-symbols-outlined notranslate">
+					terminal
+				</span>
+				Terminal
+			</button>
+
+			<button
+				(click)="snackBar.open('Uri copied', '⨉', {duration: 3000})"
+				[cdkCopyToClipboard]="selectedServer.uri!"
+				mat-button>
+				<span class="material-symbols-outlined notranslate">
+					link
+				</span>
+				Uri
+			</button>
+		</div>
+
+		<mat-divider></mat-divider>
+
+		<div fxLayout="row" fxLayoutAlign="space-between center">
 			<mat-form-field>
 				<mat-label>Copy Name</mat-label>
 				<input
