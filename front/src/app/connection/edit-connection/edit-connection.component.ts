@@ -89,6 +89,7 @@ export class EditConnectionComponent implements OnChanges {
 			this.snackBar.open(data.error, "⨉", {panelClass: 'snack-error'});
 			return;
 		}
+		this.server.host = "localhost";
 		this.snackBar.open("SSH connection valid", "⨉", {duration: 3000});
 		this.sshStatus = 'connected';
 	}

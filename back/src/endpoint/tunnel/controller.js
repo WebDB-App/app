@@ -2,6 +2,7 @@ import net from "net";
 import bash from "../../shared/bash.js";
 import os from "os";
 import fs from "fs";
+import nodePortScanner from "node-port-scanner";
 
 class Controller {
 
@@ -9,13 +10,13 @@ class Controller {
 
 	makeHash = (ssh) => JSON.stringify(ssh);
 
-	async handleSsh(connection, cache = true) {
+	async handleSsh(connection) {
 		if (!connection.ssh || !connection.ssh.host || !connection.ssh.port || !connection.ssh.user) {
 			return false;
 		}
 
 		const hash = this.makeHash(connection.ssh);
-		if (cache && this.pool[hash]) {
+		if (this.pool[hash] && await this.checkPort(this.pool[hash])) {
 			return this.pool[hash];
 		}
 
@@ -32,7 +33,7 @@ class Controller {
 		const uri = `-p ${connection.ssh.port} ${connection.ssh.user}@${connection.ssh.host}`;
 		let common = `ssh -F /dev/null -o ConnectTimeout=2000 -o BatchMode=true -o StrictHostKeyChecking=no `;
 
-		const privateKey = os.tmpdir() + connection.ssh.host;
+		const privateKey = os.tmpdir() + "/" + connection.ssh.host;
 		if (connection.ssh.privateKey) {
 			const pk = connection.ssh.privateKey.trim() + "\n";
 			fs.writeFileSync(privateKey, pk);
@@ -79,6 +80,11 @@ class Controller {
 			return res.send(tunnel);
 		}
 		return res.send({ok: true});
+	}
+
+	async checkPort(port) {
+		const scanned = await nodePortScanner("localhost", [port]);
+		return scanned.ports.open.length > 0;
 	}
 }
 

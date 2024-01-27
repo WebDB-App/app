@@ -1,7 +1,3 @@
-- tester dans docker + password
-
-
-
 # Doc
 - nosql default column
 - expliquer code .js, .ts
@@ -10,11 +6,9 @@
 
 
 
-
-- sqlite3/libSQL
 - finir tests
 - ERD [Chrome bookmarks]
-- derobien: sql server + contrat maintenance + lui demander des contacts pour autre ecole / régins
+- sqlite3/libSQL
 
 
 

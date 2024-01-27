@@ -160,7 +160,7 @@ class Controller {
 		}
 
 		try {
-			const forwardPort = await Tunnel.handleSsh(req.body, false);
+			const forwardPort = await Tunnel.handleSsh(req.body);
 			if (forwardPort) {
 				req.body.port = forwardPort;
 			}

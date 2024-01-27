@@ -53,18 +53,23 @@
 	<mat-card *ngIf="selectedDatabase?.system || selectedServer?.wrapper === 'CockroachDB'">
 		<mat-card-header>
 			<mat-card-subtitle>
-				<mat-error>
-					<br>
-					Database Versioning is not available for {{ selectedServer?.wrapper }}
-				</mat-error>
+				<br>
+				Database Versioning is not available for {{ selectedServer?.wrapper }}
+			</mat-card-subtitle>
+		</mat-card-header>
+	</mat-card>
+	<mat-card *ngIf="selectedServer?.ssh && selectedServer?.ssh?.host">
+		<mat-card-header>
+			<mat-card-subtitle>
+				<br>
+				Database Versioning is not available for tunneled connection
 			</mat-card-subtitle>
 		</mat-card-header>
 	</mat-card>
 
-	<ng-container *ngIf="!selectedDatabase?.system && selectedServer?.wrapper !== 'CockroachDB'">
+	<ng-container *ngIf="!selectedDatabase?.system && selectedServer?.wrapper !== 'CockroachDB' && !(selectedServer?.ssh && selectedServer?.ssh?.host)">
 
-		<mat-card
-			*ngIf="patches.length < 1">
+		<mat-card *ngIf="patches.length < 1">
 			<mat-card-header>
 				<mat-card-subtitle>
 					<br>
