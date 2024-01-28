@@ -1,4 +1,4 @@
-const models = [
+let models = [
 	{
 		"modelInstanceConfig": {
 			"appearsIn": [],
@@ -32,25 +32,26 @@ const models = [
 		"update_at": "2023-08-24T17:08:25.379Z",
 		"instances": [
 			{
-				"avzone": "us-central-1a",
-				"cluster": "sassyseal"
+				"avzone": "us-central-5a",
+				"cluster": "wrigleycub"
 			}
 		],
 		"access": "",
 		"link": "",
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 1,
+			"num_asks": 2,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x255Ed7Da3d6C6f750d405334Ba5c87c8e239Faf7": 1
+				"0x28Ae7c37F200EBAD8C237ea6002056700D1D0DB2": 1,
+				"0xa6f750121e302654eA2D4ceC8a3CE30ACf8f0499": 1
 			},
-			"asks_updated": "2024-01-12T10:45:53.608710674Z",
+			"asks_updated": "2024-01-27T11:01:30.82448601Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.2,
+			"qps": 0,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -59,16 +60,14 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 131.46666666666667,
-			"throughput_out": 16.666666666666668,
 			"stats": [
 				{
-					"avzone": "us-central-1a",
-					"cluster": "sassyseal",
-					"capacity": 0.0705128205128205,
-					"qps": 0.2,
-					"throughput_in": 131.46666666666667,
-					"throughput_out": 16.666666666666668,
+					"avzone": "us-central-5a",
+					"cluster": "wrigleycub",
+					"capacity": 0.25,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -124,13 +123,13 @@ const models = [
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0xBA3E32aC933c2094559eB6861a2b1564E60196A2": 1
+				"0x8Cb311340FC6D910140fF403D8f64644f3e05e37": 1
 			},
-			"asks_updated": "2024-01-12T10:45:50.90846722Z",
+			"asks_updated": "2024-01-27T11:44:04.670339021Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0,
+			"qps": 0.06666666666666667,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -139,14 +138,16 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
+			"throughput_in": 0.4666666666666667,
+			"throughput_out": 8.533333333333333,
 			"stats": [
 				{
 					"avzone": "us-east-1a",
 					"cluster": "happypiglet",
-					"capacity": 0.03676470588235294,
-					"qps": 0,
-					"throughput_in": 0,
-					"throughput_out": 0,
+					"capacity": 0.030303030303030304,
+					"qps": 0.06666666666666667,
+					"throughput_in": 0.4666666666666667,
+					"throughput_out": 8.533333333333333,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -183,19 +184,25 @@ const models = [
 		},
 		"created_at": "2023-10-20T21:28:26.403Z",
 		"update_at": "2023-10-24T17:42:38.630Z",
+		"instances": [
+			{
+				"avzone": "us-central-5a",
+				"cluster": "testytiger"
+			}
+		],
 		"descriptionLink": "",
 		"depth": {
 			"num_asks": 1,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x1de9B2f4CFe3fc2905B5C38302E77dd823536c73": 1
+				"0x7E787EB9044d3b6D9f2907Dee9a392526074cE36": 1
 			},
-			"asks_updated": "2024-01-12T03:25:03.845566258Z",
+			"asks_updated": "2024-01-27T11:38:52.152415896Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.034068074,
+			"qps": 0,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -204,8 +211,18 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 0.64739907,
-			"throughput_out": 2.76121
+			"stats": [
+				{
+					"avzone": "us-central-5a",
+					"cluster": "testytiger",
+					"capacity": 0.125,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
 		}
 	},
 	{
@@ -242,56 +259,93 @@ const models = [
 		"update_at": "2023-09-05T19:58:25.683Z",
 		"instances": [
 			{
-				"avzone": "us-east-1a",
-				"cluster": "happypiglet"
-			},
-			{
 				"avzone": "us-east-2a",
 				"cluster": "jumpyjackal"
 			},
 			{
-				"avzone": "us-central-1a",
-				"cluster": "sassyseal"
+				"avzone": "us-central-5a",
+				"cluster": "wrigleycub"
+			},
+			{
+				"avzone": "ap-northeast-1a",
+				"cluster": "optimisticotter"
+			},
+			{
+				"avzone": "us-central-2a",
+				"cluster": "jollyllama"
 			}
 		],
 		"access": "",
 		"link": "",
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 22,
+			"num_asks": 54,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x0B1cD1bC822132837e07dC7Fde072d25ccc61f19": 1,
-				"0x1E369D6B479606747b09DA25c1C2b7A7318c4ae5": 1,
-				"0x1E91621e0d194497c5b8A8d89e0aAdaFbb6e487D": 1,
-				"0x1b3D7472DCC94DbC10e6245454eeea539a765010": 1,
-				"0x1cC18eE68FDCd943B8abD1C9E017A992CEfb7C20": 1,
-				"0x206787C26aC596c0D59122961aBA185c80DD5a5c": 1,
-				"0x208dfAC95159847A209534a91D5dA864EFCeC2b4": 1,
-				"0x313387A438ED1f03a2d680bceD4Ae97F7E1d9724": 1,
-				"0x37e91A3cc4321B72285311F4fF43F19a70031284": 1,
-				"0x3850527E0e2d38493D8885164cbdA66A0E7E9EFf": 1,
-				"0x3a455B8FED43041d744db8FfdB7e3Cd14c7987F2": 1,
-				"0x4D18d19987c4E9520C5550DC556a3957dDF6C1aE": 1,
-				"0x5D6Ec6C81678667b04246291872F14f19De81b01": 1,
-				"0x74f191B3EbD079831523eD8949DDD5f983a4DAB3": 1,
-				"0x8683a9501De813c6f9B41672Dd1b42a4498FCdCE": 1,
-				"0x8F0Aa65B09FA8Ad2d88dE82105f81E85Cc341dD6": 1,
-				"0x8f3ef7915Cf1A064d416805895B2A7085DB99Cf8": 1,
-				"0x92D4a3573529bf0165e55E088fa79EedE7F59E22": 1,
-				"0x98489b32756c5e519e0F19105DE8c7CEcdEB05b3": 1,
-				"0xA2097568Fc4f4A175Fc8dF261AB7897E963DCE4F": 1,
-				"0xAAc36075c74909Be69958c0e2e0A1Fdea4f4c687": 1,
-				"0xB3168538E10D2ae9c5AE2692fF91b7a8aADfFA2A": 1,
-				"0xB8f835E5d00712e72225f2DBc104E522379A7680": 1,
-				"0xC416b98EA5a099B57e55bc4EeFef58002756ea13": 1
+				"0x0026Bed1182260FFb12621A30F1bE3560b37f94a": 1,
+				"0x02e3fd28726382Dd7CFA7901F8332abBd9608e72": 1,
+				"0x08840a241E355626f42bF8546e5E22385C0fC33E": 1,
+				"0x16073c55346E7B5f388db71447fAa206a8dd5CF0": 1,
+				"0x1fbCDFDD3BFe598Aa0dfFD8390a143e6224e9e7B": 1,
+				"0x232363fA4A952f6e29983EeA22A2E39b2e62973d": 1,
+				"0x2927C272a4B7c31Bc2c486eEBc0E5AA86f3CcEfB": 1,
+				"0x2b69983bf96c4332d35ceC93cF97417b60ed5519": 1,
+				"0x313c7B67CCF26A31463cD2338835511b89BEEB49": 1,
+				"0x34211f85cD09c8089712d952C4C0703ba2f16516": 1,
+				"0x3c0F66d55D78b2F8Fd8500FfaEa8e16B8E31249E": 1,
+				"0x4DB7fe5DAA4D6b3285413A218D4e81FCed2687cc": 1,
+				"0x4E2D160C36cA01686D2662499a45020c03110511": 1,
+				"0x51cE21328fBfc572FFA0468A7a8AEBf2A9F6EE45": 1,
+				"0x545f090bE948b4507080B53eF77e9491a3E9025F": 1,
+				"0x56EF47C02F0954906dbcd8D65c7C8a06C58c4419": 1,
+				"0x58c3617651aD71D1B23B8576245f87dBCb3Dc763": 1,
+				"0x59FF0c2F988B3C8Caea1e29f9fC0163eDC659F5d": 1,
+				"0x5b1e5643738c23CbaBe03A9c14eA739761e35377": 1,
+				"0x5d7397f120985dfE675F4D7b9c6900e977Eb551D": 1,
+				"0x625E8490121D7DB081d8Fa66cFA4cC6D018F704c": 1,
+				"0x672ed7D4Ae7C5F60b6E887b88536672252Ee14F9": 1,
+				"0x729BA8932D2fC1e526673A1A6F2F0EcAA6fb9838": 1,
+				"0x739A4B6fCdba1d99949B30760dA954D71048f625": 1,
+				"0x745cee17E9c5f374F6CEE542C254b5DE4fFb5334": 1,
+				"0x77b617b3fa0294E651afbc9c51bf632dEbeeFdAc": 1,
+				"0x78095EF0524aef7951806a98416C57443d018048": 1,
+				"0x807E363FB66192d34CD0Fa9f9A55ABF7f068c309": 1,
+				"0x8aF3B8985d835A0e24377c8367e2ad8Eec37A7DA": 1,
+				"0x8b65BE0c475018478c4FE25798E03834B8588B3A": 1,
+				"0x8e5403C413DE5226A6c0A2250A4ccafF957c4398": 1,
+				"0x98fcf78348Aa1DCEbF11232E9d7c9aaD3d8bDb9E": 1,
+				"0x9B42dEC0DFb20Ea1fC19365C2e88E8173f442664": 1,
+				"0xB005FD1B9A5Ccb8B545700f0E776a51Ad31E2bd2": 1,
+				"0xBbCF26bD7da46d84C7c963a9F4c11ba7B4022863": 1,
+				"0xC3Cc2c0Fe69270b33bb7Bc6Dba6faB01958874c6": 1,
+				"0xC9faCfb16dfBe1064b52cD18FaB73F6159948d41": 1,
+				"0xD894Fe61Ebc57d62A4Cf607e39df7079CE06A7ad": 1,
+				"0xD90ce2565dAD34FBc059C87A67a0E29676D7f43b": 1,
+				"0xE03A304c415f8A872610B9A2d8459AFcA1a1102a": 1,
+				"0xE0Fe9Bcc24DcCFFC76d697Af5717505c6967eD07": 1,
+				"0xE310c12F2fe6ba16D613c643475BE8453f144908": 1,
+				"0xF4DA53ae91f4cc347148C9b9CFee3cEa288bDE63": 1,
+				"0xF56A18817e97C899B7F6d5E0A862A786BBF4b69B": 1,
+				"0xF91C0798699FF00CC0FA5A58C06a1C742543f88f": 1,
+				"0xa9669c717f1Fa1405CEe2E36cd877240D759Cfcb": 1,
+				"0xb38cD5cb8f0C610fD72c1AE6a5C55459e6417F3c": 1,
+				"0xb4FF4A51d003705aA8123023D0a45755726a3dA5": 1,
+				"0xb625A364F7c5ad5C413Ee99fD5BcC552E3a5bE45": 1,
+				"0xbb6aC7d85De74b85DfD07cf52d2C3b2068f2814D": 1,
+				"0xcc1cBb1A210aA8ba96243D0747cA5Eb760E534e3": 1,
+				"0xd2c27EC8435041F6AB28714D42C94E9F232f02eb": 1,
+				"0xe991f9163009Cbd793a80cB9E51D8F4811902418": 1,
+				"0xf24A7BA151F83b95fF082cB5367898f7c2b09AdE": 1,
+				"0xf5508486edAa90e9461eD80d91bd9237e1150192": 1,
+				"0xfAafA4dac8a51b70EB992a7E79348a605C88CA06": 1,
+				"0xfe94132fa325EC5f970749E9D179e38717209f80": 1
 			},
-			"asks_updated": "2024-01-12T10:56:24.555174903Z",
+			"asks_updated": "2024-01-28T11:42:13.731417182Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 28.200000000000003,
+			"qps": 55.06666666666666,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -300,39 +354,49 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 25464,
-			"throughput_out": 4101,
-			"retry_rate": 0.06666666666666667,
+			"throughput_in": 44740.8,
+			"throughput_out": 7551.2,
+			"retry_rate": 0.9333333333333333,
 			"stats": [
-				{
-					"avzone": "us-east-1a",
-					"cluster": "happypiglet",
-					"capacity": 0.10659452822224769,
-					"qps": 9.333333333333334,
-					"throughput_in": 8425.866666666667,
-					"throughput_out": 1338.6,
-					"error_rate": 0,
-					"retry_rate": 0
-				},
 				{
 					"avzone": "us-east-2a",
 					"cluster": "jumpyjackal",
-					"capacity": 0.546351084812624,
-					"qps": 8.266666666666667,
-					"throughput_in": 7537.666666666667,
-					"throughput_out": 1148.8,
-					"error_rate": 0,
-					"retry_rate": 0.06666666666666667
-				},
-				{
-					"avzone": "us-central-1a",
-					"cluster": "sassyseal",
-					"capacity": 0.5217583388557542,
-					"qps": 10.6,
-					"throughput_in": 9500.466666666667,
-					"throughput_out": 1613.6,
+					"capacity": 0.48811881188118805,
+					"qps": 14.666666666666666,
+					"throughput_in": 12063.133333333333,
+					"throughput_out": 1834.5333333333333,
 					"error_rate": 0,
 					"retry_rate": 0
+				},
+				{
+					"avzone": "us-central-5a",
+					"cluster": "wrigleycub",
+					"capacity": 0.15511811023622038,
+					"qps": 13.133333333333333,
+					"throughput_in": 11092.8,
+					"throughput_out": 1942.2666666666667,
+					"error_rate": 0,
+					"retry_rate": 0.3333333333333333
+				},
+				{
+					"avzone": "ap-northeast-1a",
+					"cluster": "optimisticotter",
+					"capacity": 0.5697157622739009,
+					"qps": 13,
+					"throughput_in": 10396.6,
+					"throughput_out": 1788.2,
+					"error_rate": 0,
+					"retry_rate": 0.26666666666666666
+				},
+				{
+					"avzone": "us-central-2a",
+					"cluster": "jollyllama",
+					"capacity": 0.250242685947647,
+					"qps": 14.266666666666667,
+					"throughput_in": 11188.266666666666,
+					"throughput_out": 1986.2,
+					"error_rate": 0,
+					"retry_rate": 0.3333333333333333
 				}
 			]
 		}
@@ -370,14 +434,15 @@ const models = [
 			}
 		},
 		"pricing": {
-			"input": 50,
-			"output": 50,
+			"input": 6,
+			"output": 6,
 			"hourly": 0
 		},
+		"update_at": "2024-01-18T17:03:16.859Z",
 		"instances": [
 			{
-				"avzone": "us-central-5a",
-				"cluster": "wrigleycub"
+				"avzone": "ap-northeast-1a",
+				"cluster": "optimisticotter"
 			}
 		],
 		"hardware_label": "",
@@ -387,14 +452,14 @@ const models = [
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x1bE91dbACe4c9fEeae5f5888ed0fAa6c5748e389": 1,
-				"0x3964E9d3158Ae5096Cc87Ab4f5185B4Abe4cB11e": 1
+				"0x1Df913A55fB33624b5E9661ED65E94DC5Ea08E6D": 1,
+				"0xA232661Ea91ccb7FF243119024F2A5B283b272ff": 1
 			},
-			"asks_updated": "2024-01-12T08:05:27.272289037Z",
+			"asks_updated": "2024-01-28T07:19:13.76022617Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.06666666666666667,
+			"qps": 0.2,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -403,16 +468,16 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 71.53333333333333,
-			"throughput_out": 0.06666666666666667,
+			"throughput_in": 81.8,
+			"throughput_out": 8.8,
 			"stats": [
 				{
-					"avzone": "us-central-5a",
-					"cluster": "wrigleycub",
-					"capacity": 0.1074074074074074,
-					"qps": 0.06666666666666667,
-					"throughput_in": 71.53333333333333,
-					"throughput_out": 0.06666666666666667,
+					"avzone": "ap-northeast-1a",
+					"cluster": "optimisticotter",
+					"capacity": 0.17635467980295588,
+					"qps": 0.2,
+					"throughput_in": 81.8,
+					"throughput_out": 8.8,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -448,8 +513,8 @@ const models = [
 		"update_at": "2023-12-05T17:15:24.561Z",
 		"instances": [
 			{
-				"avzone": "us-east-1a",
-				"cluster": "happypiglet"
+				"avzone": "ap-northeast-1a",
+				"cluster": "optimisticotter"
 			}
 		],
 		"descriptionLink": "",
@@ -458,9 +523,9 @@ const models = [
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x075F5e378Da00535E8BbB864f5587CC40f881b00": 1
+				"0x80DD495D00fEE432d8B60066f93FD20500DF9C93": 1
 			},
-			"asks_updated": "2024-01-12T01:02:16.676771404Z",
+			"asks_updated": "2024-01-28T08:42:55.788255685Z",
 			"gpus": {
 				"": 0
 			},
@@ -475,8 +540,8 @@ const models = [
 			},
 			"stats": [
 				{
-					"avzone": "us-east-1a",
-					"cluster": "happypiglet",
+					"avzone": "ap-northeast-1a",
+					"cluster": "optimisticotter",
 					"capacity": 0,
 					"qps": 0,
 					"throughput_in": 0,
@@ -519,26 +584,36 @@ const models = [
 		},
 		"created_at": "2023-11-28T20:32:13.026Z",
 		"update_at": "2023-11-28T20:33:03.163Z",
+		"instances": [
+			{
+				"avzone": "us-central-1a",
+				"cluster": "sassyseal"
+			}
+		],
 		"access": "",
 		"link": "",
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 15,
-			"num_bids": 11,
-			"num_running": 11,
+			"num_asks": 14,
+			"num_bids": 10,
+			"num_running": 10,
 			"asks": {
-				"0x15ad12e7f0c692e1C051d7c32C87Db8997239719": 1,
-				"0x3812808EF729628F2A066D8d2096f47865a2F586": 2,
-				"0xCd0A4b254331519B3912ee8c4543836e03AB003e": 2,
-				"0xD7F589C032FE87f70a1c7efCBBAFf4D4bB8e33Be": 4,
-				"0xb4C7952EB1A9B6cFB4822ab2F3434FA9669fAe33": 4,
-				"0xeCecDe213d10a1Fbbe489DA4ba4Bd825C9dE70eD": 2
+				"0x0b4Ba87cA9b5FD677574f39a0552B316b10F0Cee": 1,
+				"0x3812808EF729628F2A066D8d2096f47865a2F586": 4,
+				"0x6837Cd8A797B53B9f92ca92C37169D77C571BAA1": 1,
+				"0x6C669109E61B568a1196A7d5A0b0BDD77F8fA664": 1,
+				"0x9b5eea36146ceD560DF92679B810e3A691d332dB": 1,
+				"0xA3d760FEb1951734e9c24c967C2fcc0Ac47adEC4": 1,
+				"0xD7F589C032FE87f70a1c7efCBBAFf4D4bB8e33Be": 2,
+				"0xDE188C285C393e238ACDef1d6DBB3557041AD8f3": 1,
+				"0xeCecDe213d10a1Fbbe489DA4ba4Bd825C9dE70eD": 1,
+				"0xeb8B2072208d0555066Dbd668D32b723daa9bd62": 1
 			},
-			"asks_updated": "2024-01-12T04:32:31.111596964Z",
+			"asks_updated": "2024-01-28T11:41:26.194878312Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.5922982,
+			"qps": 0.8,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -547,8 +622,181 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 5117.508,
-			"throughput_out": 435.34113
+			"throughput_in": 1525.4666666666667,
+			"throughput_out": 117.66666666666667,
+			"stats": [
+				{
+					"avzone": "us-central-1a",
+					"cluster": "sassyseal",
+					"capacity": 0.4184397163120568,
+					"qps": 0.8,
+					"throughput_in": 1525.4666666666667,
+					"throughput_out": 117.66666666666667,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65a4b298fbc8405400423169",
+		"name": "NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO",
+		"display_name": "Nous Hermes 2 - Mixtral 8x7B-DPO ",
+		"display_type": "chat",
+		"description": "Nous Hermes 2 Mixtral 7bx8 DPO is the new flagship Nous Research model trained over the Mixtral 7bx8 MoE LLM. The model was trained on over 1,000,000 entries of primarily GPT-4 generated data, as well as other high quality data from open datasets across the AI landscape, achieving state of the art performance on a variety of tasks.",
+		"license": "apache-2.0",
+		"link": "https://huggingface.co/NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO",
+		"creator_organization": "NousResearch",
+		"pricing_tier": "Featured",
+		"access": "open",
+		"num_parameters": "56000000000",
+		"show_in_playground": true,
+		"isFeaturedModel": true,
+		"context_length": 32768,
+		"config": {
+			"stop": [
+				"<|im_end|>",
+				"<|im_start|>"
+			],
+			"prompt_format": "<|im_start|>user\n{prompt}<|im_end|>\n<|im_start|>assistant\n",
+			"add_generation_prompt": true,
+			"chat_template_name": "default"
+		},
+		"pricing": {
+			"input": 150,
+			"output": 150,
+			"hourly": 0
+		},
+		"created_at": "2024-01-15T04:20:40.079Z",
+		"update_at": "2024-01-15T04:20:40.079Z",
+		"instances": [
+			{
+				"avzone": "us-central-5a",
+				"cluster": "wrigleycub"
+			}
+		],
+		"hardware_label": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 3,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0x32b741eFa5c7dEF7f448A1002cF8DcEB1C1149De": 1,
+				"0x70563b6C4Bb757519f75460EdA995bD10FA4Caa1": 1,
+				"0xbba1A54574E347a8788CAE187dE170674895bB6d": 1
+			},
+			"asks_updated": "2024-01-27T16:48:38.858022334Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0.6666666666666666,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"throughput_in": 568.8666666666667,
+			"throughput_out": 63.333333333333336,
+			"stats": [
+				{
+					"avzone": "us-central-5a",
+					"cluster": "wrigleycub",
+					"capacity": 0.06628787878787878,
+					"qps": 0.6666666666666666,
+					"throughput_in": 568.8666666666667,
+					"throughput_out": 63.333333333333336,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65a4466efbc8405400423166",
+		"name": "NousResearch/Nous-Hermes-2-Mixtral-8x7B-SFT",
+		"display_name": "Nous Hermes 2 - Mixtral 8x7B-SFT",
+		"display_type": "chat",
+		"description": "Nous Hermes 2 Mixtral 7bx8 SFT is the new flagship Nous Research model trained over the Mixtral 7bx8 MoE LLM. The model was trained on over 1,000,000 entries of primarily GPT-4 generated data, as well as other high quality data from open datasets across the AI landscape, achieving state of the art performance on a variety of tasks.",
+		"license": "apache-2.0",
+		"link": "https://huggingface.co/NousResearch/Nous-Hermes-2-Mixtral-8x7B-SFT",
+		"creator_organization": "NousResearch",
+		"pricing_tier": "Featured",
+		"access": "open",
+		"num_parameters": "56000000000",
+		"show_in_playground": true,
+		"isFeaturedModel": true,
+		"context_length": 32768,
+		"config": {
+			"stop": [
+				"<|im_end|>",
+				"<|im_start|>"
+			],
+			"prompt_format": "<|im_start|>user\n{prompt}<|im_end|>\n<|im_start|>assistant\n",
+			"add_generation_prompt": true,
+			"chat_template_name": "default"
+		},
+		"pricing": {
+			"input": 150,
+			"output": 150,
+			"hourly": 0
+		},
+		"created_at": "2024-01-14T20:39:10.060Z",
+		"update_at": "2024-01-14T20:39:10.060Z",
+		"instances": [
+			{
+				"avzone": "us-central-5a",
+				"cluster": "wrigleycub"
+			}
+		],
+		"hardware_label": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 2,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0x20672bd9B0918a94ece9254cA9659f21e457b65b": 1,
+				"0xAe49Cd900CF7DdF1830EcF188c455e0cD658C0EC": 1
+			},
+			"asks_updated": "2024-01-28T11:16:06.302124148Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 3.1333333333333333,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"throughput_in": 3624.3333333333335,
+			"throughput_out": 285.26666666666665,
+			"stats": [
+				{
+					"avzone": "us-central-5a",
+					"cluster": "wrigleycub",
+					"capacity": 0.46111719605695534,
+					"qps": 3.1333333333333333,
+					"throughput_in": 3624.3333333333335,
+					"throughput_out": 285.26666666666665,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
 		}
 	},
 	{
@@ -584,6 +832,12 @@ const models = [
 		},
 		"created_at": "2023-12-27T20:48:45.586Z",
 		"update_at": "2023-12-27T20:50:38.632Z",
+		"instances": [
+			{
+				"avzone": "ap-northeast-1a",
+				"cluster": "optimisticotter"
+			}
+		],
 		"access": "",
 		"link": "",
 		"descriptionLink": "",
@@ -594,11 +848,11 @@ const models = [
 			"asks": {
 				"0x90462E9dF5B4D30aF311cF945680b9bF811b8D7f": 1
 			},
-			"asks_updated": "2024-01-12T04:23:51.930429846Z",
+			"asks_updated": "2024-01-27T17:17:48.248099526Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.023837503,
+			"qps": 0.06666666666666667,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -607,8 +861,20 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 31.584694,
-			"throughput_out": 4.884221
+			"throughput_in": 0.4,
+			"throughput_out": 8.533333333333333,
+			"stats": [
+				{
+					"avzone": "ap-northeast-1a",
+					"cluster": "optimisticotter",
+					"capacity": 0.018518518518518517,
+					"qps": 0.06666666666666667,
+					"throughput_in": 0.4,
+					"throughput_out": 8.533333333333333,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
 		}
 	},
 	{
@@ -650,27 +916,25 @@ const models = [
 			{
 				"avzone": "us-central-1a",
 				"cluster": "sassyseal"
-			},
-			{
-				"avzone": "us-east-1a",
-				"cluster": "happypiglet"
 			}
 		],
 		"link": "",
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 1,
+			"num_asks": 4,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0xb9F61c80edB496497C3Df67BD06499F16F123Eae": 1,
-				"0xeAe825b6C2C451B647fd7e028aEb6BAB61422aaf": 1
+				"0x7D5B340D56c131104a0f7Bb698CFC9f342710c49": 1,
+				"0x9C1f53616ac2775A4C9faB53d1ee4e01F506Ab7d": 1,
+				"0xE521C2c2030b68E8352654F888648A54Ab9f9774": 1,
+				"0xb8dA7dfEbdc552588a25fE10e7F1C2A879967A9f": 1
 			},
-			"asks_updated": "2024-01-12T09:51:23.619461896Z",
+			"asks_updated": "2024-01-28T03:09:36.097909339Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 1.2,
+			"qps": 1.1333333333333333,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -679,26 +943,16 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 784.2,
-			"throughput_out": 98.33333333333334,
+			"throughput_in": 1526.2,
+			"throughput_out": 89.6,
 			"stats": [
 				{
 					"avzone": "us-central-1a",
 					"cluster": "sassyseal",
-					"capacity": 0.3418803418803418,
-					"qps": 0.6,
-					"throughput_in": 340,
-					"throughput_out": 83.46666666666667,
-					"error_rate": 0,
-					"retry_rate": 0
-				},
-				{
-					"avzone": "us-east-1a",
-					"cluster": "happypiglet",
-					"capacity": 0.03333333333333335,
-					"qps": 0.6,
-					"throughput_in": 444.2,
-					"throughput_out": 14.866666666666667,
+					"capacity": 0.11515151515151506,
+					"qps": 1.1333333333333333,
+					"throughput_in": 1526.2,
+					"throughput_out": 89.6,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -756,7 +1010,7 @@ const models = [
 				"0x897A39009678200dE6DA2B9aF46e902E4E206123": 1,
 				"0xA8d55Bf4cc0947e687C58F5abB5e39598CBB3B39": 1
 			},
-			"asks_updated": "2024-01-12T05:50:56.063892565Z",
+			"asks_updated": "2024-01-28T04:30:51.977920209Z",
 			"gpus": {
 				"": 0
 			},
@@ -833,7 +1087,7 @@ const models = [
 			"asks": {
 				"0x3A0fc817f649b611714a1EbF02fBA1286D603D96": 1
 			},
-			"asks_updated": "2024-01-12T08:37:04.571876779Z",
+			"asks_updated": "2024-01-27T10:15:52.209524402Z",
 			"gpus": {
 				"": 0
 			},
@@ -865,44 +1119,48 @@ const models = [
 			"appearsIn": [],
 			"order": 0
 		},
-		"_id": "64f677bdbc372ce719b97f05",
+		"_id": "65ac4e5e75846d9d3ae5b836",
 		"name": "NumbersStation/nsql-llama-2-7B",
 		"display_name": "NSQL LLaMA-2 (7B)",
-		"display_type": "code",
-		"description": "NSQL is a family of autoregressive open-source large foundation models (FMs) designed specifically for SQL generation tasks.",
-		"license": "llama2",
+		"description": "NSQL is a family of autoregressive open-source large foundation models (FMs) designed specifically for SQL generation tasks",
+		"link": "https://huggingface.co/NumbersStation/nsql-llama-2-7B",
 		"creator_organization": "Numbers Station",
-		"hardware_label": "A40 48GB",
-		"pricing_tier": "supported",
+		"hardware_label": "A100",
+		"pricing_tier": "Featured",
 		"num_parameters": 7000000000,
+		"release_date": "2024-01-20T22:51:10.492Z",
 		"show_in_playground": true,
 		"isFeaturedModel": true,
-		"context_length": 4096,
-		"config": {
-			"chat_template_name": "llama"
-		},
 		"pricing": {
+			"hourly": 0,
 			"input": 50,
 			"output": 50,
-			"hourly": 0
+			"finetune": 0,
+			"base": 0
 		},
-		"created_at": "2023-09-05T00:35:09.649Z",
-		"update_at": "2023-09-05T00:35:09.649Z",
+		"created_at": "2024-01-20T22:51:10.492Z",
+		"update_at": "2024-01-20T22:59:48.333Z",
+		"instances": [
+			{
+				"avzone": "us-central-1a",
+				"cluster": "sassyseal"
+			}
+		],
 		"access": "",
-		"link": "",
+		"license": "",
 		"descriptionLink": "",
 		"depth": {
 			"num_asks": 1,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0xBb702A9526c057836fe845DF91dEAa3B5a48cc84": 1
+				"0x786A1F3875B78ED1807719814F43B8F4C7302e6a": 1
 			},
-			"asks_updated": "2024-01-12T03:22:36.106249774Z",
+			"asks_updated": "2024-01-27T09:20:00.296093392Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.032455042,
+			"qps": 0.13333333333333333,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -911,8 +1169,20 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 0.617054,
-			"throughput_out": 0.6597889
+			"throughput_in": 1.8,
+			"throughput_out": 9.866666666666667,
+			"stats": [
+				{
+					"avzone": "us-central-1a",
+					"cluster": "sassyseal",
+					"capacity": 0.045454545454545456,
+					"qps": 0.13333333333333333,
+					"throughput_in": 1.8,
+					"throughput_out": 9.866666666666667,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
 		}
 	},
 	{
@@ -966,10 +1236,9 @@ const models = [
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x3bE0411E8B0D17e833aA6A3e4B68eD177A74B799": 1,
-				"0x993a8ADcf3aA16e4786Cd7098EF99Cc53969B160": 1
+				"0x764612b874fA44815c872f8A6C4EAbE0414011be": 1
 			},
-			"asks_updated": "2024-01-12T07:45:02.018556434Z",
+			"asks_updated": "2024-01-28T11:42:15.431615483Z",
 			"gpus": {
 				"": 0
 			},
@@ -983,25 +1252,25 @@ const models = [
 				"output": 0
 			},
 			"throughput_in": 0.4666666666666667,
-			"throughput_out": 0.6666666666666666,
+			"throughput_out": 8.533333333333333,
 			"stats": [
 				{
 					"avzone": "us-east-2a",
 					"cluster": "jumpyjackal",
-					"capacity": 0.1,
-					"qps": 0.06666666666666667,
-					"throughput_in": 0.4666666666666667,
-					"throughput_out": 0.6666666666666666,
+					"capacity": 0,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
 					"error_rate": 0,
 					"retry_rate": 0
 				},
 				{
 					"avzone": "us-central-1a",
 					"cluster": "sassyseal",
-					"capacity": 0.1,
-					"qps": 0,
-					"throughput_in": 0,
-					"throughput_out": 0,
+					"capacity": 0.1111111111111111,
+					"qps": 0.06666666666666667,
+					"throughput_in": 0.4666666666666667,
+					"throughput_out": 8.533333333333333,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -1051,13 +1320,14 @@ const models = [
 		"link": "",
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 1,
+			"num_asks": 2,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0xaf74dDfFd9DC6F3ec0279355B0E2159a11ca690e": 1
+				"0x053b963a4B9675640f6c2303e022085352304300": 1,
+				"0x1A6E16Ebf00e4ebf8413D7B63C4BD5De9b9aE69f": 1
 			},
-			"asks_updated": "2024-01-12T03:38:21.486529569Z",
+			"asks_updated": "2024-01-28T11:02:15.237703765Z",
 			"gpus": {
 				"": 0
 			},
@@ -1074,7 +1344,7 @@ const models = [
 				{
 					"avzone": "us-east-2a",
 					"cluster": "jumpyjackal",
-					"capacity": 0.05,
+					"capacity": 0.05263157894736842,
 					"qps": 0,
 					"throughput_in": 0,
 					"throughput_out": 0,
@@ -1126,13 +1396,15 @@ const models = [
 		"link": "",
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 1,
+			"num_asks": 3,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x589b32956e88E449a9C37657f7D81C4cf3668dC0": 1
+				"0x23096d3C0409D83Eb50a686C4B6564C484e79874": 1,
+				"0x7da823447CBFd3aDb9BE36f7EcE31af9EEF43fEb": 1,
+				"0xDD82Bf96cc9A353e2fb926468D4549203eec5410": 1
 			},
-			"asks_updated": "2024-01-12T10:08:29.22968739Z",
+			"asks_updated": "2024-01-28T04:30:58.037196494Z",
 			"gpus": {
 				"": 0
 			},
@@ -1149,7 +1421,7 @@ const models = [
 				{
 					"avzone": "us-east-2a",
 					"cluster": "jumpyjackal",
-					"capacity": 0.05,
+					"capacity": 0.05263157894736842,
 					"qps": 0,
 					"throughput_in": 0,
 					"throughput_out": 0,
@@ -1202,14 +1474,14 @@ const models = [
 			"asks": {
 				"0x1E128f472069E38aEF6B8f25147B42EF81f0F3C0": 1
 			},
-			"asks_updated": "2024-01-12T03:25:35.494017559Z",
+			"asks_updated": "2024-01-27T19:32:09.830790175Z",
 			"gpus": {
 				"NVIDIA A40": 1
 			},
 			"options": {
 				"input=text,image": 1
 			},
-			"qps": 0.014990248,
+			"qps": 0.016473085,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -1218,7 +1490,7 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 0.27945724
+			"throughput_in": 0.3294617
 		}
 	},
 	{
@@ -1255,19 +1527,25 @@ const models = [
 		},
 		"created_at": "2023-11-21T20:41:11.759Z",
 		"update_at": "2023-11-21T20:41:11.759Z",
+		"instances": [
+			{
+				"avzone": "us-east-2a",
+				"cluster": "jumpyjackal"
+			}
+		],
 		"descriptionLink": "",
 		"depth": {
 			"num_asks": 1,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x38b90e0ae1a5fC42C364d1AfCA07184f153E5160": 1
+				"0x98FC7Ae285bd96dA3A1fCD068F114BBb6C1698Cf": 1
 			},
-			"asks_updated": "2024-01-12T06:50:52.569437475Z",
+			"asks_updated": "2024-01-27T12:00:29.097770657Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.1974534,
+			"qps": 0,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -1276,8 +1554,18 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 596.18536,
-			"throughput_out": 83.202965
+			"stats": [
+				{
+					"avzone": "us-east-2a",
+					"cluster": "jumpyjackal",
+					"capacity": 0.1,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
 		}
 	},
 	{
@@ -1314,19 +1602,25 @@ const models = [
 		},
 		"created_at": "2023-11-21T20:15:40.468Z",
 		"update_at": "2023-11-21T20:15:40.468Z",
+		"instances": [
+			{
+				"avzone": "us-east-2a",
+				"cluster": "jumpyjackal"
+			}
+		],
 		"descriptionLink": "",
 		"depth": {
 			"num_asks": 1,
-			"num_bids": 1,
-			"num_running": 1,
+			"num_bids": 0,
+			"num_running": 0,
 			"asks": {
-				"0x2e58c20b3e8090632DdE22091EC734E2F15207AA": 1
+				"0xa916df84D25D2421a3DEea5Ca652C1e5d47979A0": 1
 			},
-			"asks_updated": "2024-01-12T09:32:14.917419712Z",
+			"asks_updated": "2024-01-28T10:04:25.093318113Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.02683271,
+			"qps": 0,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -1335,8 +1629,18 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 65.7249,
-			"throughput_out": 4.1923313
+			"stats": [
+				{
+					"avzone": "us-east-2a",
+					"cluster": "jumpyjackal",
+					"capacity": 0.0078125,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
 		}
 	},
 	{
@@ -1387,7 +1691,7 @@ const models = [
 			"asks": {
 				"0x52485C1e2C2f4Db6a091c799eB882DaC0B7eFA2e": 1
 			},
-			"asks_updated": "2024-01-12T01:18:50.563663517Z",
+			"asks_updated": "2024-01-27T10:16:03.845391838Z",
 			"gpus": {
 				"": 0
 			},
@@ -1460,9 +1764,9 @@ const models = [
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0xa3067d4A48E9075b24B1a02eD3090b325202301b": 1
+				"0x71F64AFd79612d3405e488CDFe3b319fE4e44453": 1
 			},
-			"asks_updated": "2024-01-12T10:46:23.807898245Z",
+			"asks_updated": "2024-01-27T11:04:59.973138129Z",
 			"gpus": {
 				"": 0
 			},
@@ -1479,7 +1783,7 @@ const models = [
 				{
 					"avzone": "us-east-2a",
 					"cluster": "jumpyjackal",
-					"capacity": 0.05,
+					"capacity": 0.05263157894736842,
 					"qps": 0,
 					"throughput_in": 0,
 					"throughput_out": 0,
@@ -1538,11 +1842,11 @@ const models = [
 			"asks": {
 				"0xebdAc92FF164586c1c3B0bA29856A3006F2997B1": 1
 			},
-			"asks_updated": "2024-01-12T10:46:05.729432702Z",
+			"asks_updated": "2024-01-27T12:15:56.243148431Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0,
+			"qps": 3.6,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -1551,16 +1855,19 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
+			"throughput_in": 3823.9333333333334,
+			"throughput_out": 114.33333333333333,
+			"retry_rate": 87.8,
 			"stats": [
 				{
 					"avzone": "us-east-2a",
 					"cluster": "jumpyjackal",
-					"capacity": 0.08333333333333333,
-					"qps": 0,
-					"throughput_in": 0,
-					"throughput_out": 0,
+					"capacity": 1.017225325884543,
+					"qps": 3.6,
+					"throughput_in": 3823.9333333333334,
+					"throughput_out": 114.33333333333333,
 					"error_rate": 0,
-					"retry_rate": 0
+					"retry_rate": 87.8
 				}
 			]
 		}
@@ -1613,7 +1920,7 @@ const models = [
 			"asks": {
 				"0x7deea9c37D0514E60862b783fFdcC15Bd8C3Bb7b": 1
 			},
-			"asks_updated": "2024-01-12T07:50:48.413852369Z",
+			"asks_updated": "2024-01-28T11:02:14.043233314Z",
 			"gpus": {
 				"": 0
 			},
@@ -1638,65 +1945,6 @@ const models = [
 					"retry_rate": 0
 				}
 			]
-		}
-	},
-	{
-		"modelInstanceConfig": {
-			"appearsIn": [],
-			"order": 0
-		},
-		"_id": "64f676f7bc372ce719b97f04",
-		"name": "garage-bAInd/Platypus2-70B-instruct",
-		"display_name": "Platypus2 Instruct (70B)",
-		"display_type": "chat",
-		"description": "An instruction fine-tuned LLaMA-2 (70B) model by merging Platypus2 (70B) by garage-bAInd and LLaMA-2 Instruct v2 (70B) by upstage.",
-		"license": "CC BY-NC-4.0",
-		"creator_organization": "garage-bAInd",
-		"hardware_label": "2x A100 80GB",
-		"pricing_tier": "featured",
-		"num_parameters": 70000000000,
-		"show_in_playground": true,
-		"isFeaturedModel": true,
-		"context_length": 4096,
-		"config": {
-			"stop": [
-				"</s>",
-				"###"
-			],
-			"prompt_format": "### Instruction:\n{prompt}\n### Response:\n"
-		},
-		"pricing": {
-			"input": 225,
-			"output": 225,
-			"hourly": 0
-		},
-		"created_at": "2023-09-05T00:31:51.264Z",
-		"update_at": "2023-09-07T01:46:29.338Z",
-		"access": "",
-		"link": "",
-		"descriptionLink": "",
-		"depth": {
-			"num_asks": 1,
-			"num_bids": 0,
-			"num_running": 0,
-			"asks": {
-				"0x763611653e222b6a0a8b7E060FB819A1FfcDF025": 1
-			},
-			"asks_updated": "2024-01-12T05:16:58.929614929Z",
-			"gpus": {
-				"": 0
-			},
-			"qps": 0.037114855,
-			"permit_required": false,
-			"price": {
-				"base": 0,
-				"finetune": 0,
-				"hourly": 0,
-				"input": 0,
-				"output": 0
-			},
-			"throughput_in": 35.32119,
-			"throughput_out": 4.5534315
 		}
 	},
 	{
@@ -1737,15 +1985,17 @@ const models = [
 		],
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 3,
+			"num_asks": 5,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
+				"0x0b29d9896C55EAaebb969eF1823DBb0f589538E8": 1,
 				"0x5Db772c45b58EefE138373DED59B8c648a4bA89a": 1,
-				"0xAa53c46CBC899AB34292E4b8d51AbFd1Fa7288F4": 1,
-				"0xf614e3DF144F9F859cDac30bAe98ea9BbA187D72": 1
+				"0x691E7ee9F5522c03309F6fBD602Cd4Eb86CF4419": 1,
+				"0x79A249Da54510FA7cb756Ab5A03f5729789C1916": 1,
+				"0xbCBEd934C6A9b1Abb6B22bd581370E9eAaE09E5B": 1
 			},
-			"asks_updated": "2024-01-12T10:42:37.269190646Z",
+			"asks_updated": "2024-01-28T08:46:47.217989875Z",
 			"gpus": {
 				"": 0
 			},
@@ -1818,13 +2068,13 @@ const models = [
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x0c622aB2F8608DB41c071c0D36DB2D96413A640D": 1
+				"0xC2fa861b51f682C6DEffeC0521Eb7D24D913E717": 1
 			},
-			"asks_updated": "2024-01-12T06:08:17.675037221Z",
+			"asks_updated": "2024-01-27T12:03:10.893984523Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0,
+			"qps": 0.06666666666666667,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -1833,14 +2083,16 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
+			"throughput_in": 0.4666666666666667,
+			"throughput_out": 8.533333333333333,
 			"stats": [
 				{
 					"avzone": "us-central-1a",
 					"cluster": "sassyseal",
 					"capacity": 0.14285714285714285,
-					"qps": 0,
-					"throughput_in": 0,
-					"throughput_out": 0,
+					"qps": 0.06666666666666667,
+					"throughput_in": 0.4666666666666667,
+					"throughput_out": 8.533333333333333,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -1893,9 +2145,9 @@ const models = [
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x54445411C6D7A375D363ee3D097F020128b2c1Db": 1
+				"0x75c42C746f45AC32cb8f15522F919ad25d0769fA": 1
 			},
-			"asks_updated": "2024-01-12T10:40:21.572811167Z",
+			"asks_updated": "2024-01-28T09:52:32.770982452Z",
 			"gpus": {
 				"": 0
 			},
@@ -1912,7 +2164,7 @@ const models = [
 				{
 					"avzone": "us-central-1a",
 					"cluster": "sassyseal",
-					"capacity": 0.09523809523809523,
+					"capacity": 0.10389610389610392,
 					"qps": 0,
 					"throughput_in": 0,
 					"throughput_out": 0,
@@ -1969,13 +2221,13 @@ const models = [
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0xD4B1C96188b54214B0e63fD8876bd881AF044bba": 1
+				"0x6cdA20330714Fde76167809E8915c2cF52469A4E": 1
 			},
-			"asks_updated": "2024-01-12T02:38:14.874894087Z",
+			"asks_updated": "2024-01-28T09:55:25.27760955Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.2,
+			"qps": 0.13333333333333333,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -1984,16 +2236,85 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 99.26666666666667,
-			"throughput_out": 32.2,
+			"throughput_in": 1.8,
+			"throughput_out": 9.866666666666667,
 			"stats": [
 				{
 					"avzone": "us-central-1a",
 					"cluster": "sassyseal",
-					"capacity": 0.04347826086956521,
-					"qps": 0.2,
-					"throughput_in": 99.26666666666667,
-					"throughput_out": 32.2,
+					"capacity": 0.04545454545454545,
+					"qps": 0.13333333333333333,
+					"throughput_in": 1.8,
+					"throughput_out": 9.866666666666667,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65b40661251b2ff9f146d8ba",
+		"name": "microsoft/phi-2",
+		"display_name": "Microsoft Phi-2",
+		"display_type": "language",
+		"description": "Phi-2 is a Transformer with 2.7 billion parameters. It was trained using the same data sources as Phi-1.5, augmented with a new data source that consists of various NLP synthetic texts and filtered websites (for safety and educational value)",
+		"license": "mit",
+		"link": "https://huggingface.co/microsoft/phi-2",
+		"creator_organization": "Microsoft",
+		"pricing_tier": "Featured",
+		"num_parameters": 2700000000,
+		"release_date": "2024-01-26T19:22:09.533Z",
+		"show_in_playground": true,
+		"isFeaturedModel": true,
+		"context_length": 2048,
+		"pricing": {
+			"input": 25,
+			"output": 25,
+			"hourly": 0
+		},
+		"created_at": "2024-01-26T19:22:09.533Z",
+		"update_at": "2024-01-26T19:23:46.072Z",
+		"instances": [
+			{
+				"avzone": "us-central-5a",
+				"cluster": "wrigleycub"
+			}
+		],
+		"access": "",
+		"hardware_label": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 1,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0xD13D60186eC2F972F3290F6e9E4994d67923e5fe": 1
+			},
+			"asks_updated": "2024-01-27T10:47:55.376176844Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"stats": [
+				{
+					"avzone": "us-central-5a",
+					"cluster": "wrigleycub",
+					"capacity": 0,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -2026,7 +2347,7 @@ const models = [
 			],
 			"prompt_format": "<s>[INST] {prompt} [/INST]",
 			"chat_template_name": "llama",
-			"tools_template": "{{ '<<SYS>>\nYou are a helpful assistant with access to the following functions. Use them if required -\n' + tools + '\n<</SYS>>\n\n' + message['content'] }}"
+			"tools_template": "{{ '<<SYS>>\\n' + systemMessage['content'] + '\\n\\nYou can access the following functions. Use them if required -\\n' + tools + '\\n<</SYS>>\\n\\n' + message['content'] }}"
 		},
 		"pricing": {
 			"input": 50,
@@ -2037,26 +2358,29 @@ const models = [
 		"update_at": "2023-10-12T01:13:51.840Z",
 		"instances": [
 			{
-				"avzone": "us-east-1a",
-				"cluster": "happypiglet"
+				"avzone": "ap-northeast-1a",
+				"cluster": "optimisticotter"
+			},
+			{
+				"avzone": "us-central-2a",
+				"cluster": "jollyllama"
 			}
 		],
 		"access": "",
 		"link": "",
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 2,
+			"num_asks": 1,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x15e9dF0F77024826Ce4A53907d810e5c87325346": 1,
-				"0x439F7273C53604f668d9A73ABda3bBCF81C87d7e": 1
+				"0xd67c558915095d7fe3D8762B09eb97A143202602": 1
 			},
-			"asks_updated": "2024-01-12T03:56:19.017369995Z",
+			"asks_updated": "2024-01-27T23:11:23.831011141Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 1.8,
+			"qps": 1.7333333333333334,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -2065,16 +2389,27 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 724,
-			"throughput_out": 318.73333333333335,
+			"throughput_in": 370.73333333333335,
+			"throughput_out": 236.13333333333333,
+			"retry_rate": 2,
 			"stats": [
 				{
-					"avzone": "us-east-1a",
-					"cluster": "happypiglet",
-					"capacity": 0.1668978270920017,
-					"qps": 1.8,
-					"throughput_in": 724,
-					"throughput_out": 318.73333333333335,
+					"avzone": "ap-northeast-1a",
+					"cluster": "optimisticotter",
+					"capacity": 0.16076388888888898,
+					"qps": 1.7333333333333334,
+					"throughput_in": 370.73333333333335,
+					"throughput_out": 236.13333333333333,
+					"error_rate": 0,
+					"retry_rate": 2
+				},
+				{
+					"avzone": "us-central-2a",
+					"cluster": "jollyllama",
+					"capacity": 0,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -2118,8 +2453,8 @@ const models = [
 		"update_at": "2023-12-11T20:09:33.627Z",
 		"instances": [
 			{
-				"avzone": "us-east-1a",
-				"cluster": "happypiglet"
+				"avzone": "ap-northeast-1a",
+				"cluster": "optimisticotter"
 			},
 			{
 				"avzone": "us-central-1a",
@@ -2131,19 +2466,25 @@ const models = [
 		"link": "",
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 2,
+			"num_asks": 8,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x93B19479E81af6622065d6Ce1cE8f55e0B7Fe5E1": 1,
-				"0x93C318521A19683d65d066165C4BaDC3D7920aaA": 1,
-				"0xe58D8966A1b792AB22E9015068792544f8230B11": 1
+				"0x350Ac4bd8f284c24689D481A0781C23B3b556a27": 1,
+				"0x410E34c509337944cf3D5668e5C261608690A73C": 1,
+				"0x5EcDb6E5f850280085e17986273c98432bE1bDBB": 1,
+				"0xF0f3b7a1339d7540e3EdA47C1f4CF45406247ff8": 1,
+				"0xb262c98cd2075D6bc8EDe59551cdD62dFc33c5a8": 1,
+				"0xbcf0e2D261ed3272416FAdca618bD000E4dB75e8": 1,
+				"0xcb5e44ec9A7942F4C3064a65fCFc1C21e2449B8e": 1,
+				"0xdF958d30F85c7caD3F8630840F72FA162323994c": 1,
+				"0xf162Ce79587d1Cfe351603683D59d352D7963CbA": 1
 			},
-			"asks_updated": "2024-01-12T10:47:14.012187436Z",
+			"asks_updated": "2024-01-28T11:37:20.209308809Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 1.5333333333333332,
+			"qps": 0.13333333333333333,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -2152,26 +2493,26 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 379.73333333333335,
-			"throughput_out": 647.9333333333334,
+			"throughput_in": 1.7999999999999998,
+			"throughput_out": 9.866666666666667,
 			"stats": [
 				{
-					"avzone": "us-east-1a",
-					"cluster": "happypiglet",
-					"capacity": 0.2695560253699788,
-					"qps": 0.6,
-					"throughput_in": 145.4,
-					"throughput_out": 302.8666666666667,
+					"avzone": "ap-northeast-1a",
+					"cluster": "optimisticotter",
+					"capacity": 0.05263157894736842,
+					"qps": 0.06666666666666667,
+					"throughput_in": 0.4666666666666667,
+					"throughput_out": 8.533333333333333,
 					"error_rate": 0,
 					"retry_rate": 0
 				},
 				{
 					"avzone": "us-central-1a",
 					"cluster": "sassyseal",
-					"capacity": 0.3425925925925927,
-					"qps": 0.9333333333333333,
-					"throughput_in": 234.33333333333334,
-					"throughput_out": 345.06666666666666,
+					"capacity": 0.1111111111111111,
+					"qps": 0.06666666666666667,
+					"throughput_in": 1.3333333333333333,
+					"throughput_out": 1.3333333333333333,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -2213,28 +2554,25 @@ const models = [
 		"update_at": "2023-09-28T00:21:02.330Z",
 		"instances": [
 			{
-				"avzone": "us-east-1a",
-				"cluster": "happypiglet"
+				"avzone": "us-central-2a",
+				"cluster": "jollyllama"
 			}
 		],
 		"access": "",
 		"link": "",
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 4,
+			"num_asks": 1,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x1E7Ef4AAE66AF617Dc063866d23B3Add1204d450": 1,
-				"0x6313B61c1F6024cCf157162E822f7C9DB46F2584": 1,
-				"0xACCa4a28B26B00ba8e56191E39423e6edd93130B": 1,
-				"0xa72A4ed9531acbc8E91e367B6CA31e1Bb88C73D1": 1
+				"0xFf846afd22c38E7cb1E12d0661c9Fd5CE0a375B6": 1
 			},
-			"asks_updated": "2024-01-12T10:39:16.492810649Z",
+			"asks_updated": "2024-01-27T10:53:36.066176197Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 1.1333333333333333,
+			"qps": 0.06666666666666667,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -2243,19 +2581,18 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 276.8,
-			"throughput_out": 122.6,
-			"retry_rate": 0.06666666666666667,
+			"throughput_in": 0.4666666666666667,
+			"throughput_out": 8.533333333333333,
 			"stats": [
 				{
-					"avzone": "us-east-1a",
-					"cluster": "happypiglet",
-					"capacity": 0.05598669623059863,
-					"qps": 1.1333333333333333,
-					"throughput_in": 276.8,
-					"throughput_out": 122.6,
+					"avzone": "us-central-2a",
+					"cluster": "jollyllama",
+					"capacity": 0.25,
+					"qps": 0.06666666666666667,
+					"throughput_in": 0.4666666666666667,
+					"throughput_out": 8.533333333333333,
 					"error_rate": 0,
-					"retry_rate": 0.06666666666666667
+					"retry_rate": 0
 				}
 			]
 		}
@@ -2285,7 +2622,8 @@ const models = [
 				"[/INST]",
 				"</s>"
 			],
-			"chat_template_name": "llama"
+			"chat_template_name": "llama",
+			"tools_template": "{{ '<<SYS>>\\n' + systemMessage['content'] + '\\n\\nYou can access the following functions. Use them if required -\\n' + tools + '\\n<</SYS>>\\n\\n' + message['content'] }}"
 		},
 		"pricing": {
 			"input": 150,
@@ -2298,27 +2636,41 @@ const models = [
 			{
 				"avzone": "us-east-1a",
 				"cluster": "happypiglet"
+			},
+			{
+				"avzone": "us-central-5a",
+				"cluster": "wrigleycub"
 			}
 		],
 		"hardware_label": "",
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 6,
+			"num_asks": 15,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x271897e255fa603F3D1e015097753D0F9D732562": 1,
-				"0x5CDBce91751B38E9572Bc62ED73Dd643Aa34ae62": 1,
-				"0xD2BAa9E93F68007EDF40542aF25a748899868633": 1,
-				"0xD9ce22F32c24De59044E39d237425D5FCe05A062": 1,
-				"0xDc9eC92901CC735e1a023a32915B5Cbfb507a274": 1,
-				"0xd52d9FE2201325ab370219d5d3Fdd6310FD0D423": 1
+				"0x064b205Eb742312BAbBCA35e271761E5954c4667": 1,
+				"0x0f821C50562315A252fEE9b66103c3E3d9375971": 1,
+				"0x338C3AE7830c7D31837F6f2A1c43aEf630A249BB": 1,
+				"0x34a967702d0071579F47eFF632D58D7A235e9a26": 1,
+				"0x5108488D900AC93C5DBd42AcACD190fBA77b7084": 1,
+				"0x551f2889FF97a812668c584fff5Da268234fde10": 1,
+				"0x555A4454465AfdB6c208745a9cC47b8A98307B9b": 1,
+				"0x5Ba73D7cB470ef21DEE441a2eb168A2ae8331B3D": 1,
+				"0x60D937AFcC4f2AFd2A25610094Cd4149612Ef986": 1,
+				"0x8aE0216c6cfF5470d33e156Dc08D100EC9D31173": 1,
+				"0x9a8a5Eca5ED0d77c6165a302DeE6ef8Bee7d2724": 1,
+				"0xA339F5b1e2bf8123be1B565355A842432757e44C": 1,
+				"0xD547C6DEdcD8410FCd39B3588A14e5665A3F8a5f": 1,
+				"0xDe47AB74625Db038ba3662c41332155ac9b80541": 1,
+				"0xca8734926B420a52F10438AFE3A09620be09F985": 1,
+				"0xf6a4a9a56dc9D39521B8d1F1DF49D146915e41B5": 1
 			},
-			"asks_updated": "2024-01-12T05:04:09.434352867Z",
+			"asks_updated": "2024-01-28T11:30:59.141907995Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 4.866666666666666,
+			"qps": 12.066666666666666,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -2327,19 +2679,30 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 7317.2,
-			"throughput_out": 1077.0666666666666,
+			"throughput_in": 15169.733333333334,
+			"throughput_out": 2523.2,
 			"error_rate": 0.06666666666666667,
+			"retry_rate": 53.53333333333333,
 			"stats": [
 				{
 					"avzone": "us-east-1a",
 					"cluster": "happypiglet",
-					"capacity": 0.17681380010147135,
-					"qps": 4.866666666666666,
-					"throughput_in": 7317.2,
-					"throughput_out": 1077.0666666666666,
+					"capacity": 0.20395890754196971,
+					"qps": 6,
+					"throughput_in": 7313.733333333334,
+					"throughput_out": 1195.3333333333333,
 					"error_rate": 0.06666666666666667,
-					"retry_rate": 0
+					"retry_rate": 30.133333333333333
+				},
+				{
+					"avzone": "us-central-5a",
+					"cluster": "wrigleycub",
+					"capacity": 0.23955067920585182,
+					"qps": 6.066666666666666,
+					"throughput_in": 7856,
+					"throughput_out": 1327.8666666666666,
+					"error_rate": 0,
+					"retry_rate": 23.4
 				}
 			]
 		}
@@ -2382,8 +2745,8 @@ const models = [
 		"update_at": "2023-12-14T21:56:58.576Z",
 		"instances": [
 			{
-				"avzone": "us-east-1a",
-				"cluster": "happypiglet"
+				"avzone": "ap-northeast-1a",
+				"cluster": "optimisticotter"
 			}
 		],
 		"hardware_label": "",
@@ -2393,13 +2756,13 @@ const models = [
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0xdca756a6345927b0D0e013dE3A640a23bff12cBe": 1
+				"0xABDf5E3162B18e8ddA01478386c88dC1021A7383": 1
 			},
-			"asks_updated": "2024-01-12T01:31:53.104290956Z",
+			"asks_updated": "2024-01-28T09:59:23.509143128Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0,
+			"qps": 0.13333333333333333,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -2408,14 +2771,16 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
+			"throughput_in": 4.533333333333333,
+			"throughput_out": 16.8,
 			"stats": [
 				{
-					"avzone": "us-east-1a",
-					"cluster": "happypiglet",
-					"capacity": 0.010416666666666666,
-					"qps": 0,
-					"throughput_in": 0,
-					"throughput_out": 0,
+					"avzone": "ap-northeast-1a",
+					"cluster": "optimisticotter",
+					"capacity": 0.02702702702702703,
+					"qps": 0.13333333333333333,
+					"throughput_in": 4.533333333333333,
+					"throughput_out": 16.8,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -2465,14 +2830,14 @@ const models = [
 				"0x5C5b60Ea2C7046FDdf7F7be3853d046301334a85": 1,
 				"0xB2bFeaa446Cc0376249ed2d7a8f5C32E0705e556": 1
 			},
-			"asks_updated": "2024-01-12T04:04:35.838647129Z",
+			"asks_updated": "2024-01-28T10:31:00.847324865Z",
 			"gpus": {
 				"NVIDIA A40": 2
 			},
 			"options": {
 				"input=text,image": 2
 			},
-			"qps": 0.019759923,
+			"qps": 0.009803828,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -2481,7 +2846,7 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 0.3987558
+			"throughput_in": 0.19607656
 		}
 	},
 	{
@@ -2527,14 +2892,14 @@ const models = [
 			"asks": {
 				"0x98D41CFC96e488D9810431B65Aa98EBfc87b73c8": 1
 			},
-			"asks_updated": "2024-01-12T04:43:33.44039265Z",
+			"asks_updated": "2024-01-27T10:31:07.335099037Z",
 			"gpus": {
 				"NVIDIA A40": 1
 			},
 			"options": {
 				"input=text,image": 1
 			},
-			"qps": 0.023330977,
+			"qps": 0.010860239,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -2543,7 +2908,87 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 0.47052926
+			"throughput_in": 0.21720478
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65b454f3d9877b0bd1376470",
+		"name": "snorkelai/Snorkel-Mistral-PairRM-DPO",
+		"display_name": "Snorkel Mistral PairRM DPO",
+		"display_type": "chat",
+		"description": "A state-of-the-art model by Snorkel AI, DPO fine-tuned on Mistral-7B",
+		"license": "apache-2.0",
+		"creator_organization": "Snorkel AI",
+		"pricing_tier": "Featured",
+		"num_parameters": 7000000000,
+		"release_date": "2024-01-27T00:57:23.638Z",
+		"show_in_playground": true,
+		"isFeaturedModel": true,
+		"context_length": 32768,
+		"config": {
+			"prompt_format": "[INST] {prompt} [/INST]",
+			"stop": [
+				"[/INST]",
+				"</s>"
+			],
+			"chat_template_name": "llama"
+		},
+		"pricing": {
+			"input": 50,
+			"output": 50,
+			"hourly": 0
+		},
+		"created_at": "2024-01-27T00:57:23.638Z",
+		"update_at": "2024-01-27T14:24:41.745Z",
+		"instances": [
+			{
+				"avzone": "us-central-2a",
+				"cluster": "jollyllama"
+			}
+		],
+		"access": "",
+		"hardware_label": "",
+		"link": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 2,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0x03168eAc48df7A570E91C074901D11013A1881f4": 1,
+				"0x116414bb6b0a40B37b90C880e59C6cF3E7196E74": 1
+			},
+			"asks_updated": "2024-01-27T10:22:40.42772748Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0.13333333333333333,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"throughput_in": 230.33333333333334,
+			"throughput_out": 27.266666666666666,
+			"stats": [
+				{
+					"avzone": "us-central-2a",
+					"cluster": "jollyllama",
+					"capacity": 0.25,
+					"qps": 0.13333333333333333,
+					"throughput_in": 230.33333333333334,
+					"throughput_out": 27.266666666666666,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
 		}
 	},
 	{
@@ -2582,14 +3027,14 @@ const models = [
 			"asks": {
 				"0xC9494f3A014EAC6DD43De5b03E03364F1AcC9ea7": 1
 			},
-			"asks_updated": "2024-01-12T10:53:48.356359536Z",
+			"asks_updated": "2024-01-27T11:41:26.576250365Z",
 			"gpus": {
 				"NVIDIA A100 80GB PCIe": 1
 			},
 			"options": {
 				"input=text,image": 1
 			},
-			"qps": 0.011744807,
+			"qps": 0.020753827,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -2598,7 +3043,7 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 0.23914562
+			"throughput_in": 0.41507655
 		}
 	},
 	{
@@ -2644,14 +3089,14 @@ const models = [
 			"asks": {
 				"0x2E595c6ee5e62FeFF9f426b239a2fB0970476593": 1
 			},
-			"asks_updated": "2024-01-12T05:21:37.750980711Z",
+			"asks_updated": "2024-01-28T03:28:40.512213181Z",
 			"gpus": {
 				"NVIDIA A100 80GB PCIe": 1
 			},
 			"options": {
 				"input=text,image": 1
 			},
-			"qps": 0.026987417,
+			"qps": 0.07634915,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -2660,7 +3105,7 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 0.3281115
+			"throughput_in": 27.084574
 		}
 	},
 	{
@@ -2716,20 +3161,19 @@ const models = [
 		"link": "",
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 2,
+			"num_asks": 1,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
 				"0x0916A27F8b14De53BE968F395dFb041b1564d828": 1,
-				"0x9f850AC6941891f0ce2893F67f97DBc0f3839cDB": 1,
-				"0xA59b2541da93726954C2F250d438b17Dc15E2F7E": 1,
-				"0xD451BB68A5Af1dB8d287668Fa5640dEA160e4922": 1
+				"0x7dC61AB36Cd89be8C43e0725D8DC1480710c677D": 1,
+				"0x9f850AC6941891f0ce2893F67f97DBc0f3839cDB": 1
 			},
-			"asks_updated": "2024-01-12T10:50:05.91997416Z",
+			"asks_updated": "2024-01-28T08:01:01.713577145Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.33333333333333337,
+			"qps": 0.4666666666666667,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -2738,13 +3182,13 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 311.8666666666667,
-			"throughput_out": 36.86666666666667,
+			"throughput_in": 400.5333333333333,
+			"throughput_out": 61.86666666666666,
 			"stats": [
 				{
 					"avzone": "us-east-2a",
 					"cluster": "jumpyjackal",
-					"capacity": 0.06363636363636363,
+					"capacity": 0.05681818181818182,
 					"qps": 0,
 					"throughput_in": 0,
 					"throughput_out": 0,
@@ -2754,20 +3198,20 @@ const models = [
 				{
 					"avzone": "us-central-1a",
 					"cluster": "sassyseal",
-					"capacity": 0.1363636363636364,
-					"qps": 0.2,
-					"throughput_in": 182.06666666666666,
-					"throughput_out": 29.466666666666665,
+					"capacity": 0.05194805194805195,
+					"qps": 0.3333333333333333,
+					"throughput_in": 220.86666666666667,
+					"throughput_out": 42.53333333333333,
 					"error_rate": 0,
 					"retry_rate": 0
 				},
 				{
 					"avzone": "us-central-5a",
 					"cluster": "wrigleycub",
-					"capacity": 0.1527777777777778,
+					"capacity": 0.13333333333333336,
 					"qps": 0.13333333333333333,
-					"throughput_in": 129.8,
-					"throughput_out": 7.4,
+					"throughput_in": 179.66666666666666,
+					"throughput_out": 19.333333333333332,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -2822,13 +3266,13 @@ const models = [
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0xDf50D0d525ba07B0faf17AbB686cFb7684804Dd4": 1
+				"0xD7BC9F96850b54dBbaC1A4938D34c500Fbee2E8A": 1
 			},
-			"asks_updated": "2024-01-12T08:01:14.535733964Z",
+			"asks_updated": "2024-01-28T06:51:52.324521917Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 1.6,
+			"qps": 2.3333333333333335,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -2837,18 +3281,19 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 1709.4666666666667,
-			"throughput_out": 288.6666666666667,
+			"throughput_in": 2619.3333333333335,
+			"throughput_out": 457.8,
+			"retry_rate": 0.3333333333333333,
 			"stats": [
 				{
 					"avzone": "us-east-2a",
 					"cluster": "jumpyjackal",
-					"capacity": 0.1505145797598629,
-					"qps": 1.6,
-					"throughput_in": 1709.4666666666667,
-					"throughput_out": 288.6666666666667,
+					"capacity": 0.2675061425061425,
+					"qps": 2.3333333333333335,
+					"throughput_in": 2619.3333333333335,
+					"throughput_out": 457.8,
 					"error_rate": 0,
-					"retry_rate": 0
+					"retry_rate": 0.3333333333333333
 				}
 			]
 		}
@@ -2888,10 +3333,6 @@ const models = [
 		"update_at": "2023-12-04T05:01:42.539Z",
 		"instances": [
 			{
-				"avzone": "us-central-2a",
-				"cluster": "jollyllama"
-			},
-			{
 				"avzone": "us-central-1a",
 				"cluster": "sassyseal"
 			}
@@ -2904,14 +3345,13 @@ const models = [
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x7f3EB57bA165aB305BC58649566c89861758C852": 1,
-				"0xB9CA93c8Ed8eeb43Ab281d30345714F729878919": 1
+				"0xd90aeCe81bf3FA14FbB303533A8d88323A3CD3C4": 1
 			},
-			"asks_updated": "2024-01-12T05:21:20.832588763Z",
+			"asks_updated": "2024-01-28T05:36:38.771760047Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0,
+			"qps": 0.13333333333333333,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -2920,24 +3360,16 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
+			"throughput_in": 2.066666666666667,
+			"throughput_out": 11.066666666666666,
 			"stats": [
-				{
-					"avzone": "us-central-2a",
-					"cluster": "jollyllama",
-					"capacity": 0.14285714285714285,
-					"qps": 0,
-					"throughput_in": 0,
-					"throughput_out": 0,
-					"error_rate": 0,
-					"retry_rate": 0
-				},
 				{
 					"avzone": "us-central-1a",
 					"cluster": "sassyseal",
-					"capacity": 0.14285714285714285,
-					"qps": 0,
-					"throughput_in": 0,
-					"throughput_out": 0,
+					"capacity": 0.2222222222222222,
+					"qps": 0.13333333333333333,
+					"throughput_in": 2.066666666666667,
+					"throughput_out": 11.066666666666666,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -2989,13 +3421,13 @@ const models = [
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x9e64C206d828Fa5E9beC546FB0d8C115E6Ef264c": 1
+				"0x087EEbB518f2C3245B6651FEE9F591DFAEa3629e": 1
 			},
-			"asks_updated": "2024-01-12T05:13:11.356971543Z",
+			"asks_updated": "2024-01-28T05:40:55.983880128Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0,
+			"qps": 0.13333333333333333,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -3004,14 +3436,16 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
+			"throughput_in": 1,
+			"throughput_out": 17.066666666666666,
 			"stats": [
 				{
 					"avzone": "us-central-1a",
 					"cluster": "sassyseal",
-					"capacity": 0.19047619047619047,
-					"qps": 0,
-					"throughput_in": 0,
-					"throughput_out": 0,
+					"capacity": 0.2222222222222222,
+					"qps": 0.13333333333333333,
+					"throughput_in": 1,
+					"throughput_out": 17.066666666666666,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -3064,13 +3498,13 @@ const models = [
 			"num_running": 0,
 			"asks": {
 				"0xBEAaD56Bd33DB9bE9Eb4bcDa6C28174a2eCa8cdc": 1,
-				"0xCe0c92fE8e92cb46Afb6fAFc6Eef015b0c097CDb": 1
+				"0xD91496Fbe55E9268b35Bcbe45F4C18a6805908AE": 1
 			},
-			"asks_updated": "2024-01-12T05:18:30.468121652Z",
+			"asks_updated": "2024-01-27T11:43:18.546449802Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0,
+			"qps": 0.13333333333333333,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -3079,14 +3513,16 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
+			"throughput_in": 1.2,
+			"throughput_out": 9.2,
 			"stats": [
 				{
 					"avzone": "us-central-1a",
 					"cluster": "sassyseal",
-					"capacity": 0.19047619047619047,
-					"qps": 0,
-					"throughput_in": 0,
-					"throughput_out": 0,
+					"capacity": 0.2222222222222222,
+					"qps": 0.13333333333333333,
+					"throughput_in": 1.2,
+					"throughput_out": 9.2,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -3116,11 +3552,12 @@ const models = [
 				"</s>",
 				"[INST]"
 			],
-			"chat_template_name": "llama"
+			"chat_template_name": "llama",
+			"tools_template": "{{ '<<SYS>>\\n' + systemMessage['content'] + '\\n\\nYou can access the following functions. Use them if required -\\n' + tools + '\\n<</SYS>>\\n\\n' + message['content'] }}"
 		},
 		"pricing": {
-			"input": 200,
-			"output": 200,
+			"input": 194,
+			"output": 194,
 			"hourly": 0
 		},
 		"created_at": "2023-08-24T17:28:42.172Z",
@@ -3135,17 +3572,18 @@ const models = [
 		"link": "",
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 1,
+			"num_asks": 2,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0xb0b3cB04544Cb6eA5D9A25761d836D1d0B8a12d6": 1
+				"0x931FF9601c0032CC0edC79eD1A71cf2d98ef04Fe": 1,
+				"0xB5E95DAB94e739500cB80389B5641411C21CD4aF": 1
 			},
-			"asks_updated": "2024-01-12T05:19:49.960084914Z",
+			"asks_updated": "2024-01-28T11:28:40.078419964Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.13333333333333333,
+			"qps": 0.6,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -3154,16 +3592,16 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 110.53333333333333,
-			"throughput_out": 39.333333333333336,
+			"throughput_in": 185.8,
+			"throughput_out": 350.73333333333335,
 			"stats": [
 				{
 					"avzone": "us-central-1a",
 					"cluster": "sassyseal",
-					"capacity": 0.2361111111111111,
-					"qps": 0.13333333333333333,
-					"throughput_in": 110.53333333333333,
-					"throughput_out": 39.333333333333336,
+					"capacity": 0.3201754385964913,
+					"qps": 0.6,
+					"throughput_in": 185.8,
+					"throughput_out": 350.73333333333335,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -3194,8 +3632,8 @@ const models = [
 			"chat_template_name": "llama"
 		},
 		"pricing": {
-			"input": 200,
-			"output": 200,
+			"input": 194,
+			"output": 194,
 			"hourly": 0
 		},
 		"created_at": "2023-08-24T17:28:42.172Z",
@@ -3210,17 +3648,20 @@ const models = [
 		"link": "",
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 1,
+			"num_asks": 4,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x64AA865eDF00dfed7AEE6D0F01389ea0bffD5B1b": 1
+				"0x39537072Cd98262a94E40ea2783266AB7EdA7986": 1,
+				"0x9A42A3f5AE541119d3afFa761C968351ED0ffF83": 1,
+				"0xc6D3883Ec197E2665E17dfA7C1867943C24DD0b3": 1,
+				"0xf3121679Bc8b5C884a60d69A491Bdd4dE5381A17": 1
 			},
-			"asks_updated": "2024-01-12T00:20:36.781704445Z",
+			"asks_updated": "2024-01-28T11:33:57.319591179Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0,
+			"qps": 12.4,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -3229,14 +3670,16 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
+			"throughput_in": 4539.066666666667,
+			"throughput_out": 589.5333333333333,
 			"stats": [
 				{
 					"avzone": "us-central-1a",
 					"cluster": "sassyseal",
-					"capacity": 0.06666666666666667,
-					"qps": 0,
-					"throughput_in": 0,
-					"throughput_out": 0,
+					"capacity": 0.5501631662622386,
+					"qps": 12.4,
+					"throughput_in": 4539.066666666667,
+					"throughput_out": 589.5333333333333,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -3267,8 +3710,8 @@ const models = [
 			"chat_template_name": "llama"
 		},
 		"pricing": {
-			"input": 200,
-			"output": 200,
+			"input": 194,
+			"output": 194,
 			"hourly": 0
 		},
 		"created_at": "2023-08-24T17:28:42.172Z",
@@ -3287,13 +3730,13 @@ const models = [
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0xd17Ac95C32E42931b74FC8A259700F98Bedd82a6": 1
+				"0x3C53215aA6a1B28eEE542036972eaE62Bb3fB488": 1
 			},
-			"asks_updated": "2024-01-12T04:01:43.185202965Z",
+			"asks_updated": "2024-01-27T11:05:31.098670997Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0,
+			"qps": 0.13333333333333333,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -3302,14 +3745,16 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
+			"throughput_in": 2.066666666666667,
+			"throughput_out": 2,
 			"stats": [
 				{
 					"avzone": "us-central-1a",
 					"cluster": "sassyseal",
-					"capacity": 0.09999999999999999,
-					"qps": 0,
-					"throughput_in": 0,
-					"throughput_out": 0,
+					"capacity": 0.05263157894736842,
+					"qps": 0.13333333333333333,
+					"throughput_in": 2.066666666666667,
+					"throughput_out": 2,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -3349,22 +3794,27 @@ const models = [
 		},
 		"created_at": "2023-08-24T17:08:25.379Z",
 		"update_at": "2023-08-24T17:08:25.379Z",
+		"instances": [
+			{
+				"avzone": "us-east-2a",
+				"cluster": "jumpyjackal"
+			}
+		],
 		"access": "",
 		"link": "",
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 2,
+			"num_asks": 1,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x5216d6CA97cACeD33b1090433fEb1e83886406C2": 1,
-				"0x85efbC73601981Ffd34e777359b36b145a56048F": 1
+				"0x3A592173A8298D1889d19F8cc84dEf7624293532": 1
 			},
-			"asks_updated": "2024-01-12T10:54:24.410047879Z",
+			"asks_updated": "2024-01-28T08:21:04.822204375Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.07490195,
+			"qps": 0.13333333333333333,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -3373,8 +3823,20 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 78.443436,
-			"throughput_out": 8.057548
+			"throughput_in": 2.066666666666667,
+			"throughput_out": 10.8,
+			"stats": [
+				{
+					"avzone": "us-east-2a",
+					"cluster": "jumpyjackal",
+					"capacity": 0.3333333333333333,
+					"qps": 0.13333333333333333,
+					"throughput_in": 2.066666666666667,
+					"throughput_out": 10.8,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
 		}
 	},
 	{
@@ -3408,22 +3870,27 @@ const models = [
 		},
 		"created_at": "2023-08-24T17:08:25.379Z",
 		"update_at": "2023-08-24T17:08:25.379Z",
+		"instances": [
+			{
+				"avzone": "us-east-2a",
+				"cluster": "jumpyjackal"
+			}
+		],
 		"access": "",
 		"link": "",
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 2,
+			"num_asks": 1,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x8ff44C68db56E66E200C6a7a51740d09D18Cd93b": 1,
-				"0xfdf5757441d96F33A8a3e1D08D6ca4D1E3e1D12e": 1
+				"0xC1F78f5A837eA668e529d67eb4fFf9c296bbd322": 1
 			},
-			"asks_updated": "2024-01-12T05:18:15.889292078Z",
+			"asks_updated": "2024-01-28T09:57:54.650595116Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.057282627,
+			"qps": 0.06666666666666667,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -3432,8 +3899,20 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 3.714627,
-			"throughput_out": 21.191435
+			"throughput_in": 0.5333333333333333,
+			"throughput_out": 8.533333333333333,
+			"stats": [
+				{
+					"avzone": "us-east-2a",
+					"cluster": "jumpyjackal",
+					"capacity": 0.25,
+					"qps": 0.06666666666666667,
+					"throughput_in": 0.5333333333333333,
+					"throughput_out": 8.533333333333333,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
 		}
 	},
 	{
@@ -3467,22 +3946,27 @@ const models = [
 		},
 		"created_at": "2023-08-24T17:08:25.379Z",
 		"update_at": "2023-08-24T17:08:25.379Z",
+		"instances": [
+			{
+				"avzone": "us-east-2a",
+				"cluster": "jumpyjackal"
+			}
+		],
 		"access": "",
 		"link": "",
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 2,
+			"num_asks": 1,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x2529004E1F328c64aefE70d0a78BC636f9a10C67": 1,
-				"0xEDA1b10361ce070fea99CF46A4738BD9f4CC52c2": 1
+				"0x0D8dCF916D963FE585B1c5C7D39679436392c2ab": 1
 			},
-			"asks_updated": "2024-01-12T10:35:39.259312754Z",
+			"asks_updated": "2024-01-27T11:56:01.072179233Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.042529367,
+			"qps": 0.2,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -3491,8 +3975,20 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 0.8232049,
-			"throughput_out": 1.3809674
+			"throughput_in": 2.533333333333333,
+			"throughput_out": 10.533333333333333,
+			"stats": [
+				{
+					"avzone": "us-east-2a",
+					"cluster": "jumpyjackal",
+					"capacity": 0.3333333333333333,
+					"qps": 0.2,
+					"throughput_in": 2.533333333333333,
+					"throughput_out": 10.533333333333333,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
 		}
 	},
 	{
@@ -3531,6 +4027,10 @@ const models = [
 			{
 				"avzone": "us-central-1a",
 				"cluster": "sassyseal"
+			},
+			{
+				"avzone": "us-central-5a",
+				"cluster": "wrigleycub"
 			}
 		],
 		"depth": {
@@ -3538,9 +4038,10 @@ const models = [
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0xF459F9268226BbAcFbA88CbB4b5C7CF9756D5FC9": 1
+				"0x8AD0e2680EbF209793Cf8826BE6e68d8b119448D": 1,
+				"0xfe3449B977e9d3911bd38b54c0Ddc46f53878fE5": 1
 			},
-			"asks_updated": "2024-01-12T10:26:20.733053861Z",
+			"asks_updated": "2024-01-27T12:24:29.374928135Z",
 			"gpus": {
 				"": 0
 			},
@@ -3557,6 +4058,16 @@ const models = [
 				{
 					"avzone": "us-central-1a",
 					"cluster": "sassyseal",
+					"capacity": 0.0078125,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
+					"error_rate": 0,
+					"retry_rate": 0
+				},
+				{
+					"avzone": "us-central-5a",
+					"cluster": "wrigleycub",
 					"capacity": 0.0078125,
 					"qps": 0,
 					"throughput_in": 0,
@@ -3606,20 +4117,26 @@ const models = [
 		},
 		"created_at": "2023-06-23T20:22:43.657Z",
 		"update_at": "2023-06-23T20:22:43.657Z",
+		"instances": [
+			{
+				"avzone": "us-central-5a",
+				"cluster": "testytiger"
+			}
+		],
 		"descriptionLink": "",
 		"depth": {
 			"num_asks": 2,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x6ab061898c6c0b6E7595BFa12c7d3F410a79D480": 1,
-				"0xfDb481fb1949C07e4096111E92C426821516AC67": 1
+				"0x49916E2a07BD2bd24F0414BAc7d060A8e3CCA1f6": 1,
+				"0x706627e602aa4AA1a4685C10c3ebdF8a8CF71A43": 1
 			},
-			"asks_updated": "2024-01-12T04:26:50.922390177Z",
+			"asks_updated": "2024-01-27T11:08:14.858317213Z",
 			"gpus": {
-				"NVIDIA A100 80GB PCIe": 2
+				"": 0
 			},
-			"qps": 0.038443312,
+			"qps": 0.06666666666666667,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -3628,8 +4145,20 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 1.3218673,
-			"throughput_out": 5.70541
+			"throughput_in": 0.4,
+			"throughput_out": 2.2666666666666666,
+			"stats": [
+				{
+					"avzone": "us-central-5a",
+					"cluster": "testytiger",
+					"capacity": 0.05,
+					"qps": 0.06666666666666667,
+					"throughput_in": 0.4,
+					"throughput_out": 2.2666666666666666,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
 		}
 	},
 	{
@@ -3667,20 +4196,25 @@ const models = [
 		},
 		"created_at": "2023-06-23T20:22:43.702Z",
 		"update_at": "2023-06-23T20:22:43.702Z",
+		"instances": [
+			{
+				"avzone": "us-central-5a",
+				"cluster": "testytiger"
+			}
+		],
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 2,
+			"num_asks": 1,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x0648b3363589FE937639A018781Ea6A1367AeDA3": 1,
-				"0xF336AF86FBFf5dc323F0964f2DF9C8fE9ce804DB": 1
+				"0xd8Cef20eB9321e3f121B4B253EA6d8C0E4Accb81": 1
 			},
-			"asks_updated": "2024-01-12T10:47:21.537299561Z",
+			"asks_updated": "2024-01-27T11:14:16.117506302Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.040466625,
+			"qps": 0.06666666666666667,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -3689,8 +4223,20 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 0.8073917,
-			"throughput_out": 2.8769805
+			"throughput_in": 1.2666666666666666,
+			"throughput_out": 1.3333333333333333,
+			"stats": [
+				{
+					"avzone": "us-central-5a",
+					"cluster": "testytiger",
+					"capacity": 0.0078125,
+					"qps": 0.06666666666666667,
+					"throughput_in": 1.2666666666666666,
+					"throughput_out": 1.3333333333333333,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
 		}
 	},
 	{
@@ -3736,21 +4282,18 @@ const models = [
 		],
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 5,
+			"num_asks": 2,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x23493275B3aaA1F7EB20A1691e15Be3176b243ce": 1,
-				"0x2d2015F17737ABAE1B8a8a5B68D0519B0a6Acc5B": 1,
-				"0x332696C85E6c96e1218D958D0962E17CED8F6781": 1,
-				"0x5DB0284816dc17477e27b55F9179CD9309036944": 1,
-				"0xEf76FE343147D4D028295B8676c706337547e94F": 1
+				"0x06e3D009eDb9F29bB81E878d225C0d5220E30621": 1,
+				"0xF5C8C993ad24B700535Add7ad22A28BbE7F48e6e": 1
 			},
-			"asks_updated": "2024-01-12T09:32:19.7799055Z",
+			"asks_updated": "2024-01-28T07:13:57.340947531Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0,
+			"qps": 0.06666666666666667,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -3759,14 +4302,16 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
+			"throughput_in": 0.4,
+			"throughput_out": 8.533333333333333,
 			"stats": [
 				{
 					"avzone": "us-east-2a",
 					"cluster": "jumpyjackal",
-					"capacity": 0.5,
-					"qps": 0,
-					"throughput_in": 0,
-					"throughput_out": 0,
+					"capacity": 1,
+					"qps": 0.06666666666666667,
+					"throughput_in": 0.4,
+					"throughput_out": 8.533333333333333,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -3817,21 +4362,18 @@ const models = [
 		],
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 5,
+			"num_asks": 2,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x1110687901f68af0c0d5F49A70C4eB82fcccB413": 1,
-				"0x2D29C6a7e6C5b643788DF7C44C3cF39EC56aa0e8": 1,
-				"0x5A7d176Ea006c9e5ea167CFe4d1DcaCF2c9ecBd4": 1,
-				"0xECD06B9E88Fa7f2F45c1cc7f6008A2C308024aC0": 1,
-				"0xc7b7d32D5dabe3C955Af54065F62a7267E98E534": 1
+				"0xE2f8c6Ca58F16683C2F5d6faAD728C6D054347Eb": 1,
+				"0xF3A9F6CcD6c970e921fe7D47d0839C437012f653": 1
 			},
-			"asks_updated": "2024-01-12T10:53:43.6437532Z",
+			"asks_updated": "2024-01-28T10:42:34.979239114Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0,
+			"qps": 0.13333333333333333,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -3840,14 +4382,16 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
+			"throughput_in": 1.8,
+			"throughput_out": 9.866666666666667,
 			"stats": [
 				{
 					"avzone": "us-east-2a",
 					"cluster": "jumpyjackal",
-					"capacity": 0.5,
-					"qps": 0,
-					"throughput_in": 0,
-					"throughput_out": 0,
+					"capacity": 1,
+					"qps": 0.13333333333333333,
+					"throughput_in": 1.8,
+					"throughput_out": 9.866666666666667,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -3888,6 +4432,12 @@ const models = [
 		},
 		"created_at": "2023-06-23T20:22:44.251Z",
 		"update_at": "2023-06-23T20:22:44.251Z",
+		"instances": [
+			{
+				"avzone": "us-central-1a",
+				"cluster": "sassyseal"
+			}
+		],
 		"link": "",
 		"descriptionLink": "",
 		"depth": {
@@ -3895,13 +4445,13 @@ const models = [
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x42899d444e0669B867ECa64983143469F097D9c5": 1
+				"0xdBC2C35dDcBD80f4DD880ff3Fb9f76935d22A0c3": 1
 			},
-			"asks_updated": "2024-01-12T03:11:02.390410995Z",
+			"asks_updated": "2024-01-27T10:44:03.747776503Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.025978047,
+			"qps": 0.06666666666666667,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -3910,8 +4460,20 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 0.3994765,
-			"throughput_out": 2.5004354
+			"throughput_in": 1.2666666666666666,
+			"throughput_out": 1.3333333333333333,
+			"stats": [
+				{
+					"avzone": "us-central-1a",
+					"cluster": "sassyseal",
+					"capacity": 0.0078125,
+					"qps": 0.06666666666666667,
+					"throughput_in": 1.2666666666666666,
+					"throughput_out": 1.3333333333333333,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
 		}
 	},
 	{
@@ -3964,11 +4526,11 @@ const models = [
 			"asks": {
 				"0x3CA68fF3313821F606d5BA2590cd7BF7a2244fcc": 1
 			},
-			"asks_updated": "2024-01-12T03:51:17.610988004Z",
+			"asks_updated": "2024-01-27T09:55:59.892347873Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0,
+			"qps": 0.06666666666666667,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -3977,14 +4539,16 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
+			"throughput_in": 546.0666666666667,
+			"throughput_out": 8.533333333333333,
 			"stats": [
 				{
 					"avzone": "us-east-2a",
 					"cluster": "jumpyjackal",
 					"capacity": 0.0078125,
-					"qps": 0,
-					"throughput_in": 0,
-					"throughput_out": 0,
+					"qps": 0.06666666666666667,
+					"throughput_in": 546.0666666666667,
+					"throughput_out": 8.533333333333333,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -4040,11 +4604,11 @@ const models = [
 			"asks": {
 				"0xa1206a2C43e3bA6b7E611523Fcc72539Af36d5bc": 1
 			},
-			"asks_updated": "2024-01-12T02:17:02.144994603Z",
+			"asks_updated": "2024-01-28T04:30:52.715305813Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0,
+			"qps": 0.06666666666666667,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -4053,14 +4617,16 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
+			"throughput_in": 546.0666666666667,
+			"throughput_out": 8.533333333333333,
 			"stats": [
 				{
 					"avzone": "us-east-2a",
 					"cluster": "jumpyjackal",
 					"capacity": 0.0078125,
-					"qps": 0,
-					"throughput_in": 0,
-					"throughput_out": 0,
+					"qps": 0.06666666666666667,
+					"throughput_in": 546.0666666666667,
+					"throughput_out": 8.533333333333333,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -4099,19 +4665,24 @@ const models = [
 		},
 		"created_at": "2023-06-23T20:22:44.033Z",
 		"update_at": "2023-06-23T20:22:44.033Z",
+		"instances": [
+			{
+				"avzone": "us-central-5a",
+				"cluster": "testytiger"
+			}
+		],
 		"depth": {
-			"num_asks": 2,
+			"num_asks": 1,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x7c7007A3ffF953bA357CF3eeF853DD8613B07209": 1,
-				"0xa5c71572Cfa868Ef8616Bb33FccB05B49dA88d8B": 1
+				"0x3a6A7E635309874281c01346Ad2af7750b54f47f": 1
 			},
-			"asks_updated": "2024-01-12T04:14:34.81911547Z",
+			"asks_updated": "2024-01-27T11:58:36.515438041Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.037256252,
+			"qps": 0.06666666666666667,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -4120,8 +4691,20 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 0.7434852,
-			"throughput_out": 1.5901525
+			"throughput_in": 0.4,
+			"throughput_out": 8.533333333333333,
+			"stats": [
+				{
+					"avzone": "us-central-5a",
+					"cluster": "testytiger",
+					"capacity": 0.0078125,
+					"qps": 0.06666666666666667,
+					"throughput_in": 0.4,
+					"throughput_out": 8.533333333333333,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
 		}
 	},
 	{
@@ -4159,20 +4742,25 @@ const models = [
 		},
 		"created_at": "2023-06-23T20:22:44.190Z",
 		"update_at": "2023-06-23T20:22:44.190Z",
+		"instances": [
+			{
+				"avzone": "us-central-5a",
+				"cluster": "testytiger"
+			}
+		],
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 3,
-			"num_bids": 1,
-			"num_running": 1,
+			"num_asks": 1,
+			"num_bids": 0,
+			"num_running": 0,
 			"asks": {
-				"0xcC9323401A6f39efd3C5fc8bFAc74D7b512abd69": 2,
-				"0xd21D8158D6065D9D38d68DEAcd5946F228499b16": 1
+				"0x2591d174b8795694fCf407B3710e67820241de1f": 1
 			},
-			"asks_updated": "2024-01-12T10:54:15.292331839Z",
+			"asks_updated": "2024-01-27T09:28:05.592333371Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.1984789,
+			"qps": 0.06666666666666667,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -4181,8 +4769,20 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 43.50416,
-			"throughput_out": 163.00926
+			"throughput_in": 0.4,
+			"throughput_out": 0.4666666666666667,
+			"stats": [
+				{
+					"avzone": "us-central-5a",
+					"cluster": "testytiger",
+					"capacity": 0.0078125,
+					"qps": 0.06666666666666667,
+					"throughput_in": 0.4,
+					"throughput_out": 0.4666666666666667,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
 		}
 	},
 	{
@@ -4216,20 +4816,25 @@ const models = [
 		},
 		"created_at": "2023-06-23T20:22:44.083Z",
 		"update_at": "2023-06-23T20:22:44.083Z",
+		"instances": [
+			{
+				"avzone": "us-central-5a",
+				"cluster": "testytiger"
+			}
+		],
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 2,
+			"num_asks": 1,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x30D9d6EaFcA72F8913A8661450722E512bD06a9F": 1,
-				"0xF68F3AfE6f0e6a29A16CB73cFB3BEb86E88Df043": 1
+				"0x16b5700Ec8510e8eA86205DF2Ffabc536156e3cd": 1
 			},
-			"asks_updated": "2024-01-12T10:44:03.260103917Z",
+			"asks_updated": "2024-01-27T10:51:27.547726717Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.029412098,
+			"qps": 0,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -4238,8 +4843,18 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 0.51600116,
-			"throughput_out": 1.8815347
+			"stats": [
+				{
+					"avzone": "us-central-5a",
+					"cluster": "testytiger",
+					"capacity": 0.0078125,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
 		}
 	},
 	{
@@ -4274,19 +4889,24 @@ const models = [
 		},
 		"created_at": "2023-06-23T20:22:43.751Z",
 		"update_at": "2023-06-23T20:22:43.751Z",
+		"instances": [
+			{
+				"avzone": "us-central-5a",
+				"cluster": "testytiger"
+			}
+		],
 		"depth": {
-			"num_asks": 2,
+			"num_asks": 1,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x0aBe21E3ca185164261ef34A239C247300ac8443": 1,
-				"0x930312eb45cEDC07Ca1cFFf399e46693e1f6b0B9": 1
+				"0x0F9E25230ed9Cb2979C2F8E263cc463F8437FC12": 1
 			},
-			"asks_updated": "2024-01-12T04:46:05.262639186Z",
+			"asks_updated": "2024-01-27T11:34:35.816276872Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.024042346,
+			"qps": 0,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -4295,8 +4915,18 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 0.36014554,
-			"throughput_out": 1.5365028
+			"stats": [
+				{
+					"avzone": "us-central-5a",
+					"cluster": "testytiger",
+					"capacity": 0.0078125,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
 		}
 	},
 	{
@@ -4334,20 +4964,25 @@ const models = [
 		},
 		"created_at": "2023-06-23T20:22:43.839Z",
 		"update_at": "2023-06-23T20:22:43.839Z",
+		"instances": [
+			{
+				"avzone": "us-central-5a",
+				"cluster": "testytiger"
+			}
+		],
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 2,
+			"num_asks": 1,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x314e601Ca3c385ade582C39Ea568fc5F93024899": 1,
-				"0xE5CdaceFC11371aF54F4CEa9B825E299605fC0DB": 1
+				"0x5Ea975bA97366270Cc57a20562dfFe237341a76A": 1
 			},
-			"asks_updated": "2024-01-12T08:19:23.004877794Z",
+			"asks_updated": "2024-01-27T09:35:57.224123266Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.033206347,
+			"qps": 0.06666666666666667,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -4356,8 +4991,20 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 1.8424233,
-			"throughput_out": 12.33398
+			"throughput_in": 0.4,
+			"throughput_out": 8.533333333333333,
+			"stats": [
+				{
+					"avzone": "us-central-5a",
+					"cluster": "testytiger",
+					"capacity": 0.0078125,
+					"qps": 0.06666666666666667,
+					"throughput_in": 0.4,
+					"throughput_out": 8.533333333333333,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
 		}
 	},
 	{
@@ -4391,20 +5038,25 @@ const models = [
 		},
 		"created_at": "2023-06-23T20:22:43.796Z",
 		"update_at": "2023-06-23T20:22:43.796Z",
+		"instances": [
+			{
+				"avzone": "us-central-5a",
+				"cluster": "testytiger"
+			}
+		],
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 2,
+			"num_asks": 1,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x9212cc97439F70f4a4611c5D93F37087d5DF111b": 1,
-				"0xc627592f6023D78F544e7D643e5aF32c055EEA9D": 1
+				"0xb640F1F9aD0e7f87C2e735c6c8242c1867dec2Cf": 1
 			},
-			"asks_updated": "2024-01-12T10:43:29.906380554Z",
+			"asks_updated": "2024-01-27T11:33:31.790618051Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.026177688,
+			"qps": 0,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -4413,8 +5065,18 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 0.4222854,
-			"throughput_out": 0.9140853
+			"stats": [
+				{
+					"avzone": "us-central-5a",
+					"cluster": "testytiger",
+					"capacity": 0.0078125,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
 		}
 	},
 	{
@@ -4443,8 +5105,8 @@ const models = [
 		"update_at": "2023-12-08T19:03:32.567Z",
 		"instances": [
 			{
-				"avzone": "us-east-1a",
-				"cluster": "happypiglet"
+				"avzone": "ap-northeast-1a",
+				"cluster": "optimisticotter"
 			}
 		],
 		"access": "",
@@ -4455,13 +5117,13 @@ const models = [
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0xE33189FB446fe8Bd78FCC02B99a08704b1410a96": 1
+				"0x887499d64E5D15D0fEE7F6733C59094d05Ea7176": 1
 			},
-			"asks_updated": "2024-01-12T04:39:14.585203503Z",
+			"asks_updated": "2024-01-27T23:12:16.941004637Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0,
+			"qps": 0.06666666666666667,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -4470,153 +5132,20 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
+			"throughput_in": 0.4666666666666667,
+			"throughput_out": 8.533333333333333,
 			"stats": [
 				{
-					"avzone": "us-east-1a",
-					"cluster": "happypiglet",
-					"capacity": 0.024390243902439025,
-					"qps": 0,
-					"throughput_in": 0,
-					"throughput_out": 0,
+					"avzone": "ap-northeast-1a",
+					"cluster": "optimisticotter",
+					"capacity": 0.03571428571428571,
+					"qps": 0.06666666666666667,
+					"throughput_in": 0.4666666666666667,
+					"throughput_out": 8.533333333333333,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
 			]
-		}
-	},
-	{
-		"modelInstanceConfig": {
-			"appearsIn": [],
-			"order": 0
-		},
-		"_id": "65735d536923087ddd5a6606",
-		"name": "togethercomputer/StripedHyena-Nous-7B",
-		"display_name": "StripedHyena Nous (7B)",
-		"display_type": "chat",
-		"description": "A hybrid architecture composed of multi-head, grouped-query attention and gated convolutions arranged in Hyena blocks, different from traditional decoder-only Transformers",
-		"license": "Apache-2",
-		"creator_organization": "Together",
-		"hardware_label": "H100",
-		"pricing_tier": "Featured",
-		"num_parameters": 7000000000,
-		"release_date": "2023-11-01T00:00:00.000Z",
-		"show_in_playground": true,
-		"isFeaturedModel": true,
-		"config": {
-			"stop": [
-				"###",
-				"</s>"
-			],
-			"prompt_format": "### Instruction:\n{prompt}\n\n### Response:",
-			"chat_template": "{% for message in messages %}{% if message['role'] == 'user' %}{{ bos_token + '### Instruction:\\n' + message['content'] + '\\n\\n' }}{% elif message['role'] == 'system' %}{{ '### System:\\n' + message['content'] + '\\n\\n' }}{% elif message['role'] == 'assistant' %}{{ '### Response:\\n'  + message['content'] + '\\n' }}{% endif %}{% if loop.last %}{{ '### Response:\\n' }}{% endif %}{% endfor %}"
-		},
-		"pricing": {
-			"input": 50,
-			"output": 50
-		},
-		"created_at": "2023-12-08T18:15:47.433Z",
-		"update_at": "2023-12-08T19:03:11.497Z",
-		"instances": [
-			{
-				"avzone": "us-east-1a",
-				"cluster": "happypiglet"
-			}
-		],
-		"access": "",
-		"link": "",
-		"descriptionLink": "",
-		"depth": {
-			"num_asks": 1,
-			"num_bids": 0,
-			"num_running": 0,
-			"asks": {
-				"0xc7D6248310276eb53B7d49843a7858e5A08F90BE": 1
-			},
-			"asks_updated": "2024-01-12T02:55:40.286161564Z",
-			"gpus": {
-				"": 0
-			},
-			"qps": 0,
-			"permit_required": false,
-			"price": {
-				"base": 0,
-				"finetune": 0,
-				"hourly": 0,
-				"input": 0,
-				"output": 0
-			},
-			"stats": [
-				{
-					"avzone": "us-east-1a",
-					"cluster": "happypiglet",
-					"capacity": 0.024390243902439025,
-					"qps": 0,
-					"throughput_in": 0,
-					"throughput_out": 0,
-					"error_rate": 0,
-					"retry_rate": 0
-				}
-			]
-		}
-	},
-	{
-		"modelInstanceConfig": {
-			"appearsIn": [],
-			"order": 0
-		},
-		"_id": "64ace317227f790586239ce2",
-		"name": "togethercomputer/alpaca-7b",
-		"display_name": "Alpaca (7B)",
-		"display_type": "chat",
-		"description": "Fine-tuned from the LLaMA 7B model on 52K instruction-following demonstrations. ",
-		"license": "cc-by-nc-4.0",
-		"link": "https://huggingface.co/tatsu-lab/alpaca-7b-wdiff",
-		"creator_organization": "Stanford",
-		"hardware_label": "A40 48GB",
-		"pricing_tier": "supported",
-		"access": "open",
-		"num_parameters": 7000000000,
-		"show_in_playground": true,
-		"isFeaturedModel": true,
-		"context_length": 2048,
-		"config": {
-			"stop": [
-				"</s>",
-				"###"
-			],
-			"prompt_format": "### Instruction:\n{prompt}\n### Response:\n",
-			"chat_template": "{% for message in messages %}{% if message['role'] == 'user' %}{{ '### Instruction:\n' + message['content'] + '\n' }}{% else %}{{ '### Response:\n' + message['content'] + '\n' }}{% endif %}{% endfor %}{{ '### Response:\n' }}"
-		},
-		"pricing": {
-			"input": 50,
-			"output": 50,
-			"hourly": 0
-		},
-		"created_at": "2023-07-11T05:05:27.713Z",
-		"update_at": "2023-07-11T05:05:27.713Z",
-		"descriptionLink": "",
-		"depth": {
-			"num_asks": 1,
-			"num_bids": 0,
-			"num_running": 0,
-			"asks": {
-				"0x4174A3c81710BCd6C43b1F8e8f8a91B1137Baf55": 1
-			},
-			"asks_updated": "2024-01-12T04:57:04.553368615Z",
-			"gpus": {
-				"": 0
-			},
-			"qps": 0.030366395,
-			"permit_required": false,
-			"price": {
-				"base": 0,
-				"finetune": 0,
-				"hourly": 0,
-				"input": 0,
-				"output": 0
-			},
-			"throughput_in": 0.5470847,
-			"throughput_out": 1.4369965
 		}
 	},
 	{
@@ -4654,19 +5183,25 @@ const models = [
 		},
 		"created_at": "2023-07-11T05:18:12.323Z",
 		"update_at": "2023-07-11T05:18:12.323Z",
+		"instances": [
+			{
+				"avzone": "us-central-5a",
+				"cluster": "wrigleycub"
+			}
+		],
 		"descriptionLink": "",
 		"depth": {
 			"num_asks": 1,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x0b5481F80C5DEe44b73CC49BA6091F6245545716": 1
+				"0xc3dCAEFb2fB24EcAf7C84eFeB4c59D6Ae1308290": 1
 			},
-			"asks_updated": "2024-01-12T05:14:59.907454469Z",
+			"asks_updated": "2024-01-27T11:07:23.345484536Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.048925485,
+			"qps": 0,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -4675,8 +5210,18 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 1.6858435,
-			"throughput_out": 5.654552
+			"stats": [
+				{
+					"avzone": "us-central-5a",
+					"cluster": "wrigleycub",
+					"capacity": 0.0078125,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
 		}
 	},
 	{
@@ -4712,19 +5257,25 @@ const models = [
 		},
 		"created_at": "2023-07-11T05:16:15.898Z",
 		"update_at": "2023-07-11T05:16:15.898Z",
+		"instances": [
+			{
+				"avzone": "us-central-5a",
+				"cluster": "wrigleycub"
+			}
+		],
 		"descriptionLink": "",
 		"depth": {
 			"num_asks": 1,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x42C59dDFA7fEF158a7d11a675317669893CE0EbC": 1
+				"0x36965DA0006E1B014eF3eA631C2B745AfB31452c": 1
 			},
-			"asks_updated": "2024-01-12T03:03:49.211121235Z",
+			"asks_updated": "2024-01-27T09:06:04.849021201Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.123053744,
+			"qps": 0.06666666666666667,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -4733,8 +5284,21 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 608.0222,
-			"throughput_out": 1.3262092
+			"throughput_in": 1.2666666666666666,
+			"throughput_out": 1.3333333333333333,
+			"error_rate": 0.06666666666666667,
+			"stats": [
+				{
+					"avzone": "us-central-5a",
+					"cluster": "wrigleycub",
+					"capacity": 0.0078125,
+					"qps": 0.06666666666666667,
+					"throughput_in": 1.2666666666666666,
+					"throughput_out": 1.3333333333333333,
+					"error_rate": 0.06666666666666667,
+					"retry_rate": 0
+				}
+			]
 		}
 	},
 	{
@@ -4772,19 +5336,25 @@ const models = [
 		},
 		"created_at": "2023-07-11T05:18:53.623Z",
 		"update_at": "2023-07-11T05:18:53.623Z",
+		"instances": [
+			{
+				"avzone": "us-central-5a",
+				"cluster": "wrigleycub"
+			}
+		],
 		"descriptionLink": "",
 		"depth": {
 			"num_asks": 1,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x2b665036860161c962147A49c5Baf87CFbFC6c4b": 1
+				"0xa7Fa07E7B1dFCaDC6846172ab1C5BCd9AFb754D7": 1
 			},
-			"asks_updated": "2024-01-12T02:31:45.075442207Z",
+			"asks_updated": "2024-01-27T09:26:27.947437125Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.024289055,
+			"qps": 0.13333333333333333,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -4793,8 +5363,20 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 0.36861348,
-			"throughput_out": 1.5699861
+			"throughput_in": 1.6666666666666667,
+			"throughput_out": 3,
+			"stats": [
+				{
+					"avzone": "us-central-5a",
+					"cluster": "wrigleycub",
+					"capacity": 0.0078125,
+					"qps": 0.13333333333333333,
+					"throughput_in": 1.6666666666666667,
+					"throughput_out": 3,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
 		}
 	},
 	{
@@ -4830,19 +5412,25 @@ const models = [
 		},
 		"created_at": "2023-07-11T05:17:17.883Z",
 		"update_at": "2023-07-11T05:17:17.883Z",
+		"instances": [
+			{
+				"avzone": "us-central-5a",
+				"cluster": "wrigleycub"
+			}
+		],
 		"descriptionLink": "",
 		"depth": {
 			"num_asks": 1,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0xeA9aAE19f2f4423f83eBF38571Cc6F4BC990174d": 1
+				"0x925BBAC0441f02F46Af7A284D6FFFA7F885760C2": 1
 			},
-			"asks_updated": "2024-01-12T05:02:23.839719719Z",
+			"asks_updated": "2024-01-27T12:07:53.700108074Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.025090838,
+			"qps": 0.06666666666666667,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -4851,8 +5439,20 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 0.3904532,
-			"throughput_out": 1.3441321
+			"throughput_in": 0.4,
+			"throughput_out": 0.8666666666666667,
+			"stats": [
+				{
+					"avzone": "us-central-5a",
+					"cluster": "wrigleycub",
+					"capacity": 0.0078125,
+					"qps": 0.06666666666666667,
+					"throughput_in": 0.4,
+					"throughput_out": 0.8666666666666667,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
 		}
 	},
 	{
@@ -4893,8 +5493,8 @@ const models = [
 		"update_at": "2023-12-04T05:00:54.436Z",
 		"instances": [
 			{
-				"avzone": "us-east-1a",
-				"cluster": "happypiglet"
+				"avzone": "us-central-1a",
+				"cluster": "sassyseal"
 			}
 		],
 		"descriptionLink": "",
@@ -4903,13 +5503,13 @@ const models = [
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0xdE32Dce2e5a826Eb6C6a205a0b0366cCbf6ea811": 1
+				"0x9850d8e4d64618A890aE5F8D050D6C10cCd4bf81": 1
 			},
-			"asks_updated": "2024-01-12T01:31:23.038537773Z",
+			"asks_updated": "2024-01-28T09:36:38.98933668Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.26666666666666666,
+			"qps": 0.06666666666666667,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -4918,16 +5518,16 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 287.4,
-			"throughput_out": 77.86666666666666,
+			"throughput_in": 0.4666666666666667,
+			"throughput_out": 8.533333333333333,
 			"stats": [
 				{
-					"avzone": "us-east-1a",
-					"cluster": "happypiglet",
-					"capacity": 0.03448275862068966,
-					"qps": 0.26666666666666666,
-					"throughput_in": 287.4,
-					"throughput_out": 77.86666666666666,
+					"avzone": "us-central-1a",
+					"cluster": "sassyseal",
+					"capacity": 0.27999999999999997,
+					"qps": 0.06666666666666667,
+					"throughput_in": 0.4666666666666667,
+					"throughput_out": 8.533333333333333,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -4977,13 +5577,13 @@ const models = [
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x7bF7996272049f1634003953D1866AbCE29883e9": 1
+				"0x61Ba41B5D30c04De97499543dE3A767e21D258eB": 1
 			},
-			"asks_updated": "2024-01-12T04:30:24.281579263Z",
+			"asks_updated": "2024-01-28T04:18:19.847851295Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0,
+			"qps": 0.13333333333333333,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -4992,14 +5592,16 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
+			"throughput_in": 0.8666666666666667,
+			"throughput_out": 9.733333333333333,
 			"stats": [
 				{
 					"avzone": "us-central-1a",
 					"cluster": "sassyseal",
-					"capacity": 0.057971014492753624,
-					"qps": 0,
-					"throughput_in": 0,
-					"throughput_out": 0,
+					"capacity": 0.13333333333333333,
+					"qps": 0.13333333333333333,
+					"throughput_in": 0.8666666666666667,
+					"throughput_out": 9.733333333333333,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -5051,18 +5653,20 @@ const models = [
 		],
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 2,
+			"num_asks": 4,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x954cD8f6eb6F1400F7752F9a7c5D20dD871B54Ad": 1,
-				"0xD9D9CEceE6A83A9656eCdcd87d8e7110502b680f": 1
+				"0x63327E269412d4e83dcB0559907EcEa61FAAf9e2": 1,
+				"0x6D3936E8f511F8860d481c3Dda33A639833fF225": 1,
+				"0x9d2Fc82264e1954a18F38D1768b6cBc281D9FA34": 1,
+				"0xffe42ef3D9C162444CA850900ecd41B05Fd8dE86": 1
 			},
-			"asks_updated": "2024-01-12T05:19:47.208082206Z",
+			"asks_updated": "2024-01-28T08:24:38.442976283Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.7333333333333333,
+			"qps": 3.533333333333333,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -5071,18 +5675,19 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 243.13333333333333,
-			"throughput_out": 118.86666666666666,
+			"throughput_in": 1994.9333333333334,
+			"throughput_out": 641.0666666666667,
+			"retry_rate": 0.5333333333333333,
 			"stats": [
 				{
 					"avzone": "us-east-1a",
 					"cluster": "happypiglet",
-					"capacity": 0.18015625,
-					"qps": 0.7333333333333333,
-					"throughput_in": 243.13333333333333,
-					"throughput_out": 118.86666666666666,
+					"capacity": 0.04811789772727273,
+					"qps": 3.533333333333333,
+					"throughput_in": 1994.9333333333334,
+					"throughput_out": 641.0666666666667,
 					"error_rate": 0,
-					"retry_rate": 0
+					"retry_rate": 0.5333333333333333
 				}
 			]
 		}
@@ -5127,18 +5732,17 @@ const models = [
 		],
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 2,
+			"num_asks": 1,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x1cA2836F7D6522694c8f20efecAc392A27b06B5F": 1,
-				"0x4ed2303cE721121Ce17b0Ad925a54AFF6346dd22": 1
+				"0xe2B7d404dDfaA98EAdbe21643919B5eFcce0ca8e": 1
 			},
-			"asks_updated": "2024-01-12T03:18:25.125089394Z",
+			"asks_updated": "2024-01-27T14:50:26.315667296Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0,
+			"qps": 0.13333333333333333,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -5147,14 +5751,16 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
+			"throughput_in": 0.8666666666666667,
+			"throughput_out": 9.8,
 			"stats": [
 				{
 					"avzone": "us-east-1a",
 					"cluster": "happypiglet",
 					"capacity": 0.021551724137931036,
-					"qps": 0,
-					"throughput_in": 0,
-					"throughput_out": 0,
+					"qps": 0.13333333333333333,
+					"throughput_in": 0.8666666666666667,
+					"throughput_out": 9.8,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -5209,13 +5815,13 @@ const models = [
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0xcbF16bFD6463b9BE83835E5Aff93dd70bC08e29f": 1
+				"0x986F1d5bcFA6F2902847b716c7C99b558916cf75": 1
 			},
-			"asks_updated": "2024-01-12T05:04:45.484024052Z",
+			"asks_updated": "2024-01-28T09:41:52.408697226Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.26666666666666666,
+			"qps": 0.4,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -5224,16 +5830,16 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 83.13333333333334,
-			"throughput_out": 24.333333333333332,
+			"throughput_in": 96.53333333333333,
+			"throughput_out": 155.4,
 			"stats": [
 				{
 					"avzone": "us-central-1a",
 					"cluster": "sassyseal",
-					"capacity": 0.06597222222222222,
-					"qps": 0.26666666666666666,
-					"throughput_in": 83.13333333333334,
-					"throughput_out": 24.333333333333332,
+					"capacity": 0.162,
+					"qps": 0.4,
+					"throughput_in": 96.53333333333333,
+					"throughput_out": 155.4,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -5283,13 +5889,13 @@ const models = [
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x4cABD4579EF006b34C5D1EAF8f8e94C6aCb1cCEC": 1
+				"0x370dfBC1cc49e89f208150381Eb121E4C7271BF9": 1
 			},
-			"asks_updated": "2024-01-12T05:16:56.265446455Z",
+			"asks_updated": "2024-01-27T11:03:44.941585819Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0,
+			"qps": 0.2,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -5298,14 +5904,16 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
+			"throughput_in": 2.2,
+			"throughput_out": 11.333333333333334,
 			"stats": [
 				{
 					"avzone": "us-central-1a",
 					"cluster": "sassyseal",
-					"capacity": 0.0625,
-					"qps": 0,
-					"throughput_in": 0,
-					"throughput_out": 0,
+					"capacity": 0.05000000000000001,
+					"qps": 0.2,
+					"throughput_in": 2.2,
+					"throughput_out": 11.333333333333334,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -5354,16 +5962,90 @@ const models = [
 		"link": "",
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 4,
+			"num_asks": 2,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x27aF4Aa79cAF4474BFAE3bdE9D270d5aA66d653e": 1,
-				"0x28c6482fc89503c6b1e31df21af94804e82609D5": 1,
-				"0x4490a9356Bdd49156142e78388ed80114a4Bc1E6": 1,
-				"0x8E3ed25250B5152Ac86935386cdC0F2228EBEC9C": 1
+				"0x657c72806A9e3F05127c5098259511De0d6c91a1": 1,
+				"0x7b3c570D43A98071D51C84DdC4E5fdEeFA6b474C": 1
 			},
-			"asks_updated": "2024-01-12T04:51:55.521627383Z",
+			"asks_updated": "2024-01-28T02:44:07.670609849Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0.2,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"throughput_in": 2.2666666666666666,
+			"throughput_out": 18.4,
+			"stats": [
+				{
+					"avzone": "us-central-1a",
+					"cluster": "sassyseal",
+					"capacity": 0.0078125,
+					"qps": 0.2,
+					"throughput_in": 2.2666666666666666,
+					"throughput_out": 18.4,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "657f7552a9c4049b6a42e4c6",
+		"name": "upstage/SOLAR-10.7B-Instruct-v1.0",
+		"display_name": "Upstage SOLAR Instruct v1 (11B)",
+		"display_type": "chat",
+		"description": "Built on the Llama2 architecture, SOLAR-10.7B incorporates the innovative Upstage Depth Up-Scaling",
+		"license": "cc-by-nc-4.0",
+		"creator_organization": "upstage",
+		"hardware_label": "A100B",
+		"pricing_tier": "Featured",
+		"num_parameters": 10700000000,
+		"release_date": "2023-12-01T00:00:00.000Z",
+		"show_in_playground": true,
+		"isFeaturedModel": true,
+		"config": {
+			"stop": [
+				"###",
+				"</s>"
+			],
+			"prompt_format": "<s> ### User:\n{prompt}\n### Assistant:\n"
+		},
+		"pricing": {
+			"input": 75,
+			"output": 75
+		},
+		"created_at": "2023-12-17T22:25:22.252Z",
+		"update_at": "2023-12-17T22:32:58.075Z",
+		"instances": [
+			{
+				"avzone": "us-east-2a",
+				"cluster": "jumpyjackal"
+			}
+		],
+		"access": "",
+		"link": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 1,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0xa69DE9F0Af3D471069cd1C33e1A6d524e192a23D": 1
+			},
+			"asks_updated": "2024-01-28T10:19:47.75593533Z",
 			"gpus": {
 				"": 0
 			},
@@ -5378,8 +6060,8 @@ const models = [
 			},
 			"stats": [
 				{
-					"avzone": "us-central-1a",
-					"cluster": "sassyseal",
+					"avzone": "us-east-2a",
+					"cluster": "jumpyjackal",
 					"capacity": 0,
 					"qps": 0,
 					"throughput_in": 0,
@@ -5427,14 +6109,14 @@ const models = [
 			"asks": {
 				"0xC830b3583bcA51887185318c0184fbdB622A55f5": 1
 			},
-			"asks_updated": "2024-01-12T04:23:21.207914716Z",
+			"asks_updated": "2024-01-27T10:21:11.913713377Z",
 			"gpus": {
 				"NVIDIA A40": 1
 			},
 			"options": {
 				"input=text,image": 1
 			},
-			"qps": 0.013095589,
+			"qps": 0.013694377,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -5443,7 +6125,7 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 0.2652213
+			"throughput_in": 0.27388754
 		}
 	},
 	{
@@ -5493,13 +6175,13 @@ const models = [
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x48D9a0565325be1964b5bf8C73033e7b3D10216d": 1
+				"0x3d3d04D907E5C66532766A746932EdbAA33f4D82": 1
 			},
-			"asks_updated": "2024-01-12T06:53:35.079079916Z",
+			"asks_updated": "2024-01-28T08:47:35.800766093Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.06666666666666667,
+			"qps": 0.5333333333333333,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -5508,18 +6190,19 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 0.4666666666666667,
-			"throughput_out": 0.4666666666666667,
+			"throughput_in": 322.26666666666665,
+			"throughput_out": 303.6666666666667,
+			"retry_rate": 0.8,
 			"stats": [
 				{
 					"avzone": "us-east-2a",
 					"cluster": "jumpyjackal",
-					"capacity": 0.02150537634408602,
-					"qps": 0.06666666666666667,
-					"throughput_in": 0.4666666666666667,
-					"throughput_out": 0.4666666666666667,
+					"capacity": 0.46012544802867367,
+					"qps": 0.5333333333333333,
+					"throughput_in": 322.26666666666665,
+					"throughput_out": 303.6666666666667,
 					"error_rate": 0,
-					"retry_rate": 0
+					"retry_rate": 0.8
 				}
 			]
 		}
@@ -5562,9 +6245,9 @@ const models = [
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x3Ce7f858b7dDDAC43F8dfA79fE25fF906696c691": 1
+				"0x30bc352981eE5B08C0eAFc3c0C8d24C5026A4637": 1
 			},
-			"asks_updated": "2024-01-12T02:45:31.880988931Z",
+			"asks_updated": "2024-01-28T10:06:44.364931344Z",
 			"gpus": {
 				"": 0
 			},
@@ -5581,7 +6264,7 @@ const models = [
 				{
 					"avzone": "us-east-2a",
 					"cluster": "jumpyjackal",
-					"capacity": 0.015873015873015872,
+					"capacity": 0.016129032258064516,
 					"qps": 0,
 					"throughput_in": 0,
 					"throughput_out": 0,
@@ -5629,13 +6312,13 @@ const models = [
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0xF1a1323A6755bcF13CD869c5aE78B8AD3aC58F43": 1
+				"0x66cF06b006C16aaB80340d21C528D87fCa2D61Ce": 1
 			},
-			"asks_updated": "2024-01-12T06:53:38.165595212Z",
+			"asks_updated": "2024-01-27T10:23:59.103187882Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0,
+			"qps": 0.06666666666666667,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -5644,14 +6327,16 @@ const models = [
 				"input": 0,
 				"output": 0
 			},
+			"throughput_in": 0.4,
+			"throughput_out": 8.533333333333333,
 			"stats": [
 				{
 					"avzone": "us-east-2a",
 					"cluster": "jumpyjackal",
 					"capacity": 0.0078125,
-					"qps": 0,
-					"throughput_in": 0,
-					"throughput_out": 0,
+					"qps": 0.06666666666666667,
+					"throughput_in": 0.4,
+					"throughput_out": 8.533333333333333,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -5675,6 +6360,7 @@ const models = [
 		"access": "open",
 		"num_parameters": "56000000000",
 		"show_in_playground": true,
+		"finetuning_supported": true,
 		"isFeaturedModel": true,
 		"context_length": 32768,
 		"pricing": {
@@ -5684,6 +6370,7 @@ const models = [
 		},
 		"created_at": "2023-12-12T02:01:52.674Z",
 		"update_at": "2023-12-12T02:01:52.674Z",
+		"autopilot_pool": "cr-a100-80-2x",
 		"instances": [
 			{
 				"avzone": "us-east-1a",
@@ -5721,45 +6408,42 @@ const models = [
 			"appearsIn": [],
 			"order": 0
 		},
-		"_id": "657bed666aca120ac2af2fb7",
-		"name": "HuggingFaceH4/zephyr-7b-beta",
-		"display_name": "Zephyr-7B-ß",
+		"_id": "65735d536923087ddd5a6606",
+		"name": "togethercomputer/StripedHyena-Nous-7B",
+		"display_name": "StripedHyena Nous (7B)",
 		"display_type": "chat",
-		"description": "A fine-tuned version of Mistral-7B to act as a helpful assistant.",
-		"license": "mit",
-		"link": "https://huggingface.co/HuggingFaceH4/zephyr-7b-beta",
-		"creator_organization": "HuggingFace",
-		"hardware_label": "2x A100 80GB",
+		"description": "A hybrid architecture composed of multi-head, grouped-query attention and gated convolutions arranged in Hyena blocks, different from traditional decoder-only Transformers",
+		"license": "Apache-2",
+		"creator_organization": "Together",
+		"hardware_label": "H100",
 		"pricing_tier": "Featured",
-		"access": "open",
-		"num_parameters": 7241732096,
+		"num_parameters": 7000000000,
+		"release_date": "2023-11-01T00:00:00.000Z",
 		"show_in_playground": true,
-		"finetuning_supported": true,
-		"isFeaturedModel": false,
-		"context_length": 32768,
+		"isFeaturedModel": true,
 		"config": {
 			"stop": [
-				"[INST]",
+				"###",
 				"</s>"
 			],
-			"prompt_format": "<s>[INST] {prompt} [INST]"
+			"prompt_format": "### Instruction:\n{prompt}\n\n### Response:",
+			"chat_template": "{% for message in messages %}{% if message['role'] == 'user' %}{{ bos_token + '### Instruction:\\n' + message['content'] + '\\n\\n' }}{% elif message['role'] == 'system' %}{{ '### System:\\n' + message['content'] + '\\n\\n' }}{% elif message['role'] == 'assistant' %}{{ '### Response:\\n'  + message['content'] + '\\n' }}{% endif %}{% if loop.last %}{{ '### Response:\\n' }}{% endif %}{% endfor %}"
 		},
-		"created_at": "2023-12-15T06:08:38.925Z",
-		"update_at": "2023-12-15T06:08:38.925Z",
+		"pricing": {
+			"input": 50,
+			"output": 50
+		},
+		"created_at": "2023-12-08T18:15:47.433Z",
+		"update_at": "2023-12-08T19:03:11.497Z",
 		"instances": [
 			{
-				"avzone": "us-east-2a",
-				"cluster": "jumpyjackal"
+				"avzone": "ap-northeast-1a",
+				"cluster": "optimisticotter"
 			}
 		],
+		"access": "",
+		"link": "",
 		"descriptionLink": "",
-		"pricing": {
-			"hourly": 0,
-			"input": 0,
-			"output": 0,
-			"base": 0,
-			"finetune": 0
-		},
 		"depth": {
 			"num_asks": 1,
 			"num_bids": 0,
@@ -5771,8 +6455,137 @@ const models = [
 			"retry_rate": 0,
 			"stats": [
 				{
-					"avzone": "us-east-2a",
-					"cluster": "jumpyjackal",
+					"avzone": "ap-northeast-1a",
+					"cluster": "optimisticotter",
+					"capacity": 0,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "64f676f7bc372ce719b97f04",
+		"name": "garage-bAInd/Platypus2-70B-instruct",
+		"display_name": "Platypus2 Instruct (70B)",
+		"display_type": "chat",
+		"description": "An instruction fine-tuned LLaMA-2 (70B) model by merging Platypus2 (70B) by garage-bAInd and LLaMA-2 Instruct v2 (70B) by upstage.",
+		"license": "CC BY-NC-4.0",
+		"creator_organization": "garage-bAInd",
+		"hardware_label": "2x A100 80GB",
+		"pricing_tier": "featured",
+		"num_parameters": 70000000000,
+		"show_in_playground": true,
+		"isFeaturedModel": true,
+		"context_length": 4096,
+		"config": {
+			"stop": [
+				"</s>",
+				"###"
+			],
+			"prompt_format": "### Instruction:\n{prompt}\n### Response:\n"
+		},
+		"pricing": {
+			"input": 225,
+			"output": 225,
+			"hourly": 0
+		},
+		"created_at": "2023-09-05T00:31:51.264Z",
+		"update_at": "2023-09-07T01:46:29.338Z",
+		"instances": [
+			{
+				"avzone": "us-central-5a",
+				"cluster": "wrigleycub"
+			}
+		],
+		"access": "",
+		"link": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 1,
+			"num_bids": 0,
+			"num_running": 0,
+			"qps": 0.13333333333333333,
+			"throughput_in": 1.8,
+			"throughput_out": 9.866666666666667,
+			"error_rate": 0,
+			"retry_rate": 0,
+			"stats": [
+				{
+					"avzone": "us-central-5a",
+					"cluster": "wrigleycub",
+					"capacity": 0.25,
+					"qps": 0.13333333333333333,
+					"throughput_in": 1.8,
+					"throughput_out": 9.866666666666667,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "64ace317227f790586239ce2",
+		"name": "togethercomputer/alpaca-7b",
+		"display_name": "Alpaca (7B)",
+		"display_type": "chat",
+		"description": "Fine-tuned from the LLaMA 7B model on 52K instruction-following demonstrations. ",
+		"license": "cc-by-nc-4.0",
+		"link": "https://huggingface.co/tatsu-lab/alpaca-7b-wdiff",
+		"creator_organization": "Stanford",
+		"hardware_label": "A40 48GB",
+		"pricing_tier": "supported",
+		"access": "open",
+		"num_parameters": 7000000000,
+		"show_in_playground": true,
+		"isFeaturedModel": true,
+		"context_length": 2048,
+		"config": {
+			"stop": [
+				"</s>",
+				"###"
+			],
+			"prompt_format": "### Instruction:\n{prompt}\n### Response:\n",
+			"chat_template": "{% for message in messages %}{% if message['role'] == 'user' %}{{ '### Instruction:\n' + message['content'] + '\n' }}{% else %}{{ '### Response:\n' + message['content'] + '\n' }}{% endif %}{% endfor %}{{ '### Response:\n' }}"
+		},
+		"pricing": {
+			"input": 50,
+			"output": 50,
+			"hourly": 0
+		},
+		"created_at": "2023-07-11T05:05:27.713Z",
+		"update_at": "2023-07-11T05:05:27.713Z",
+		"instances": [
+			{
+				"avzone": "us-central-1a",
+				"cluster": "sassyseal"
+			}
+		],
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 1,
+			"num_bids": 0,
+			"num_running": 0,
+			"qps": 0,
+			"throughput_in": 0,
+			"throughput_out": 0,
+			"error_rate": 0,
+			"retry_rate": 0,
+			"stats": [
+				{
+					"avzone": "us-central-1a",
+					"cluster": "sassyseal",
 					"capacity": 0,
 					"qps": 0,
 					"throughput_in": 0,
@@ -6744,6 +7557,45 @@ const models = [
 			"appearsIn": [],
 			"order": 0
 		},
+		"_id": "657bed666aca120ac2af2fb7",
+		"name": "HuggingFaceH4/zephyr-7b-beta",
+		"display_name": "Zephyr-7B-ß",
+		"display_type": "chat",
+		"description": "A fine-tuned version of Mistral-7B to act as a helpful assistant.",
+		"license": "",
+		"link": "",
+		"creator_organization": "HuggingFace",
+		"hardware_label": "2x A100 80GB",
+		"pricing_tier": "Featured",
+		"access": "open",
+		"num_parameters": 7241732096,
+		"show_in_playground": true,
+		"finetuning_supported": true,
+		"isFeaturedModel": false,
+		"context_length": 32768,
+		"config": {
+			"stop": [
+				"[INST]",
+				"</s>"
+			],
+			"prompt_format": "<s>[INST] {prompt} [INST]"
+		},
+		"created_at": "2023-12-15T06:08:38.925Z",
+		"update_at": "2023-12-15T06:08:38.925Z",
+		"descriptionLink": "",
+		"pricing": {
+			"hourly": 0,
+			"input": 0,
+			"output": 0,
+			"base": 0,
+			"finetune": 0
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
 		"_id": "64f0de22caa9e2eb543b373b",
 		"name": "togethercomputer/guanaco-13b",
 		"display_name": "Guanaco (13B) ",
@@ -7188,12 +8040,18 @@ const models = [
 	}
 ];
 
-for (const mod of models.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))) {
+models = models.map(model => {
+	model.name = model.name.split('/')[1];
+	return model;
+});
+models = models.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
+
+for (const mod of models) {
 	if (mod.display_type !== "chat" && mod.display_type !== "code") {
 		continue;
 	}
 	if (!mod.instances) {
 		continue;
 	}
-	console.log(`{name: "${mod.name}", bold: false},`);
+	console.log(`{name: "${mod.name}", bold: ${mod.name.indexOf("tral-") >= 0 ? 'true': 'false'}},`);
 }
