@@ -7,10 +7,10 @@ settings:
 dependencies:
   '@angular-builders/custom-webpack':
     specifier: ^14.1.0
-    version: 14.1.0(@angular/compiler-cli@14.3.0)(@angular/service-worker@14.3.0)(@types/node@20.4.5)(typescript@4.8.4)
+    version: 14.1.0(@angular/compiler-cli@14.3.0)(@types/node@20.4.5)(typescript@4.8.4)
   '@angular-devkit/build-angular':
     specifier: ^14.2.13
-    version: 14.2.13(@angular/compiler-cli@14.3.0)(@angular/service-worker@14.3.0)(typescript@4.8.4)
+    version: 14.2.13(@angular/compiler-cli@14.3.0)(typescript@4.8.4)
   '@angular/animations':
     specifier: ^14.3.0
     version: 14.3.0(@angular/core@14.3.0)
@@ -50,9 +50,6 @@ dependencies:
   '@angular/router':
     specifier: ^14.3.0
     version: 14.3.0(@angular/common@14.3.0)(@angular/core@14.3.0)(@angular/platform-browser@14.3.0)(rxjs@7.8.1)
-  '@angular/service-worker':
-    specifier: ^14.3.0
-    version: 14.3.0(@angular/common@14.3.0)(@angular/core@14.3.0)
   '@faker-js/faker':
     specifier: latest
     version: 8.3.1
@@ -178,14 +175,14 @@ packages:
       '@jridgewell/trace-mapping': 0.3.20
     dev: false
 
-  /@angular-builders/custom-webpack@14.1.0(@angular/compiler-cli@14.3.0)(@angular/service-worker@14.3.0)(@types/node@20.4.5)(typescript@4.8.4):
+  /@angular-builders/custom-webpack@14.1.0(@angular/compiler-cli@14.3.0)(@types/node@20.4.5)(typescript@4.8.4):
     resolution: {integrity: sha512-FLGDrBOg04cYvzCudeb15LWY2v91dtJ5+AfmP0aS/0T0D0AYmY4uM3FxZeh4jJcWETLvnHVFBCjan6y2Ct9J3A==}
     engines: {node: ^14.15.0 || >=16.10.0}
     peerDependencies:
       '@angular/compiler-cli': ^14.0.0
     dependencies:
       '@angular-devkit/architect': 0.1402.13
-      '@angular-devkit/build-angular': 14.2.13(@angular/compiler-cli@14.3.0)(@angular/service-worker@14.3.0)(typescript@4.8.4)
+      '@angular-devkit/build-angular': 14.2.13(@angular/compiler-cli@14.3.0)(typescript@4.8.4)
       '@angular-devkit/core': 14.2.13
       '@angular/compiler-cli': 14.3.0(@angular/compiler@14.3.0)(typescript@4.8.4)
       lodash: 4.17.21
@@ -227,7 +224,7 @@ packages:
       - chokidar
     dev: false
 
-  /@angular-devkit/build-angular@14.2.13(@angular/compiler-cli@14.3.0)(@angular/service-worker@14.3.0)(typescript@4.8.4):
+  /@angular-devkit/build-angular@14.2.13(@angular/compiler-cli@14.3.0)(typescript@4.8.4):
     resolution: {integrity: sha512-FJZKQ3xYFvEJ807sxVy4bCVyGU2NMl3UUPNfLIdIdzwwDEP9tx/cc+c4VtVPEZZfU8jVenu8XOvL6L0vpjt3yg==}
     engines: {node: ^14.15.0 || >=16.10.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
     peerDependencies:
@@ -258,7 +255,6 @@ packages:
       '@angular-devkit/build-webpack': 0.1402.13(webpack-dev-server@4.11.0)(webpack@5.76.1)
       '@angular-devkit/core': 14.2.13
       '@angular/compiler-cli': 14.3.0(@angular/compiler@14.3.0)(typescript@4.8.4)
-      '@angular/service-worker': 14.3.0(@angular/common@14.3.0)(@angular/core@14.3.0)
       '@babel/core': 7.18.10
       '@babel/generator': 7.18.12
       '@babel/helper-annotate-as-pure': 7.18.6
@@ -598,19 +594,6 @@ packages:
       '@angular/core': 14.3.0(rxjs@7.8.1)(zone.js@0.12.0)
       '@angular/platform-browser': 14.3.0(@angular/animations@14.3.0)(@angular/common@14.3.0)(@angular/core@14.3.0)
       rxjs: 7.8.1
-      tslib: 2.6.2
-    dev: false
-
-  /@angular/service-worker@14.3.0(@angular/common@14.3.0)(@angular/core@14.3.0):
-    resolution: {integrity: sha512-i5O7m1gQijWm7cgva0XTmOVBFrPrttNxFDwoMLMYCh8rHOCQUQ4DcVO1qTBPWU4SrY5BYPEvR+r05dYQLFYCBw==}
-    engines: {node: ^14.15.0 || >=16.10.0}
-    hasBin: true
-    peerDependencies:
-      '@angular/common': 14.3.0
-      '@angular/core': 14.3.0
-    dependencies:
-      '@angular/common': 14.3.0(@angular/core@14.3.0)(rxjs@7.8.1)
-      '@angular/core': 14.3.0(rxjs@7.8.1)(zone.js@0.12.0)
       tslib: 2.6.2
     dev: false
 
