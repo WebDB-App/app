@@ -8,33 +8,20 @@ async function getCountryIndexes(config) {
 		if (index.table !== "country") {
 			return false;
 		}
-		return relation.database === config.database;
+		return index.database === config.database;
 	});
 }
 
 async function run(config) {
 
-	/*const countryIndexes = await getCountryIndexes(config);
+	const countryIndexes = await getCountryIndexes(config);
 
-	if (config.base !== "MongoDB") {
-		const continent_id = countryIndexes.find(index => index.columns[0] === "continent_id");
+	const continent_id = countryIndexes.find(index => index.columns[0] === "continent_id");
 
-		await test('[index] Foreign key found in structure', () => {
-			assert.ok(!continent_id.primary);
-			assert.ok(!continent_id.unique);
-		});
-
-		const continent_id = countryIndexes.find(index => index.columns[0] === "continent_id");
-
-		await test('[index] Foreign key found in structure', () => {
-			assert.ok(!continent_id.primary);
-			assert.ok(!continent_id.unique);
-		});
-	}
-
-
-
-
+	await test('[index] Foreign key found in structure', () => {
+		assert.ok(!continent_id.primary);
+		assert.ok(!continent_id.unique);
+	});
 
 
 	//--------------------------------------------
@@ -56,12 +43,11 @@ async function run(config) {
 	await test('[relation] Add ok', () => {
 		assert.ok(!added.error);
 		assert.ok(addedCheck);
-	});*/
+	});
 }
 
 export default run;
-/*
+
 import {loadConfig} from "../api.js";
 import servers from "../docker.js";
-await run(await loadConfig(servers.mongo));
-*/
+await run(await loadConfig(servers.mysql));

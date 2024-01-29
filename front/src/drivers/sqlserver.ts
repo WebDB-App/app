@@ -298,7 +298,7 @@ const pool = new pg.Pool({
 	host: '${Server.getSelected().host}',
 	password: '${Server.getSelected().password}',
 	port: '${Server.getSelected().port}',
-	database: '${Database.getSelected().name.split(' ¦ ')[0]}'
+	database: '${Database.getSelected().name.split(' | ')[0]}'
 })
 
 async function main() {

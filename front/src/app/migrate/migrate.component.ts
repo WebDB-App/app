@@ -69,7 +69,7 @@ export class MigrateComponent implements OnInit {
 	}
 
 	filterByDb(datas: any[], database: string) {
-		return datas.filter(data => data.database === database || data.database === (database + " ¦ public"));
+		return datas.filter(data => data.database === database || data.database === (database + " | public"));
 	}
 
 	async refreshSide(side: Side) {

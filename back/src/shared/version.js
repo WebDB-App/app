@@ -30,7 +30,7 @@ class Version {
 	}
 
 	async reset(dbSchema, driver, hash) {
-		const db = dbSchema.split(" ¦ ")[0];
+		const db = dbSchema.split(" | ")[0];
 		const dir = this.getPath(db, driver);
 		if (!existsSync(dir)) {
 			return {error: "Directory does not exist"};
@@ -142,7 +142,7 @@ class Version {
 		if (!database) {
 			return;
 		}
-		database = database.split(" ¦ ")[0];
+		database = database.split(" | ")[0];
 		if (driver.isSystemDbs(database)) {
 			return;
 		}

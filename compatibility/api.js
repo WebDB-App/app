@@ -27,7 +27,7 @@ const globalHeaders = {
 
 export async function loadConfig(server) {
 	const conf = {...basicConf, ...server};
-	conf.database = "world" + (conf.base === base.PostgreSQL ? " ¦ public" : "");
+	conf.database = "world" + (conf.base === base.PostgreSQL ? " | public" : "");
 	conf.credentials.wrapper = conf.wrapper;
 	conf.credentials.host = process.env.CI ? "host.docker.internal" : "127.0.0.1";
 	conf.credentials.port = conf.external_port;

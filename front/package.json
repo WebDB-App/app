@@ -23,7 +23,6 @@
 		"@angular/platform-browser": "^14.3.0",
 		"@angular/platform-browser-dynamic": "^14.3.0",
 		"@angular/router": "^14.3.0",
-		"@angular/service-worker": "^14.3.0",
 		"@faker-js/faker": "latest",
 		"@google/generative-ai": "latest",
 		"@ngneat/falso": "latest",
