@@ -16,11 +16,11 @@ Developed with robust web technologies like Node.js, Docker, and Angular, WebDB 
 
   ![Query Editor](https://webdb.app/capture.png)
 
-- **Time Machine**: Navigate through your database's timeline effortlessly.
+- **Time Machine**: Revert any changes made to your database with 200 version history
 
   ![Time Machine](https://webdb.app/diff.png)
 
-- **NoSQL Support**: Manage your NoSQL data with ease.
+- **NoSQL Structure inferring**: Documents structure inferring as well as relation between collections
 
   ![NoSQL Data](https://webdb.app/nosql.png)
 
