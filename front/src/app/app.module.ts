@@ -39,7 +39,6 @@ import { ConfigDialog } from "./top-right/config/config-dialog.component";
 import { SharedModule } from "../shared/shared.module";
 import { LogsDialog, TopRightComponent } from './top-right/top-right.component';
 import { createErrorHandler } from "@sentry/angular-ivy";
-import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { EditConnectionComponent } from './connection/edit-connection/edit-connection.component';
@@ -173,10 +172,6 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 		MatTabsModule,
 		DragDropModule,
 		SharedModule,
-		ServiceWorkerModule.register('ngsw-worker.js', {
-			enabled: environment.production,
-			registrationStrategy: 'registerWhenStable:30000'
-		}),
 		MatCheckboxModule,
 		MatTableModule,
 		NgChartsModule,

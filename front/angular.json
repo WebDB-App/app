@@ -36,7 +36,6 @@
 						"assets": [
 							"src/favicon.ico",
 							"src/assets",
-							"src/manifest.webmanifest",
 							{
 								"glob": "**/*",
 								"input": "node_modules/monaco-editor/min",
@@ -46,9 +45,7 @@
 						"styles": [
 							"src/styles.scss"
 						],
-						"scripts": [],
-						"serviceWorker": true,
-						"ngswConfigPath": "ngsw-config.json"
+						"scripts": []
 					},
 					"configurations": {
 						"production": {
