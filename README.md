@@ -1,32 +1,34 @@
 <img src="https://webdb.app/webdb-logo.svg" alt="Logo" width="300"/>
 
-
-### WebDB is a free database IDE with a main focus on efficiency
+WebDB is a free database IDE with a main focus on efficiency
 
 IDE means it embed all tools need to develop databases: data viewer, query editor, data generator and many other useful features
 
 Built with web tools such as Node.JS, Docker and Angular, it aims to ease common database tasks
 
-<img src="https://webdb.app/capture.png" alt="Query editor" width="700"/>
+| <img src="https://webdb.app/capture.png" alt="Query editor"/> | <img src="https://webdb.app/diff.png" alt="Time machine"/> |
+|-----------------------------------------------------------|----------------------------------------------------------|
+| <img src="https://webdb.app/nosql.png" alt="NoSQL data"/> | <img src="https://webdb.app/erd.png" alt="ERD"/> |
+
 
 [![Better Stack Badge](https://uptime.betterstack.com/status-badges/v1/monitor/10izf.svg)](https://status.webdb.app) 
 [![GitLab CI](https://img.shields.io/badge/gitlab%20ci-%23181717.svg?style=for-the-badge&logo=gitlab&logoColor=white)](https://gitlab.com/web-db/app/-/pipelines)
 
-### Regular installation
+## Regular installation
 
-[🐳 Standalone](https://docs.webdb.app/installation/standalone)
+### [🐳 Standalone](https://docs.webdb.app/installation/standalone)
 
-[🐳 Compose](https://docs.webdb.app/installation/compose)
+### [🐳 Compose](https://docs.webdb.app/installation/compose)
 
-### Development
+## Development
 
-[🏗️ CI/CD](https://gitlab.com/web-db/app/-/pipelines)
+### [🏗️ CI/CD](https://gitlab.com/web-db/app/-/pipelines)
 
-[👨‍💻 Contributing](CONTRIBUTING.md)
+### [👨‍💻 Contributing](CONTRIBUTING.md)
 
-[📝 Planned features](TODO.md)
+### [📝 Planned features](TODO.md)
 
-### Links
+## Links
 
 [🧪 Demo](https://demo.webdb.app/)
 
