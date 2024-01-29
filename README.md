@@ -16,17 +16,17 @@ Built with web tools such as Node.JS, Docker and Angular, it aims to ease common
 
 ## Regular installation
 
-### [🐳 Standalone](https://docs.webdb.app/installation/standalone)
+[🐳 Standalone](https://docs.webdb.app/installation/standalone)
 
-### [🐳 Compose](https://docs.webdb.app/installation/compose)
+[🐳 Compose](https://docs.webdb.app/installation/compose)
 
 ## Development
 
-### [🏗️ CI/CD](https://gitlab.com/web-db/app/-/pipelines)
+[🏗️ CI/CD](https://gitlab.com/web-db/app/-/pipelines)
 
-### [👨‍💻 Contributing](CONTRIBUTING.md)
+[👨‍💻 Contributing](CONTRIBUTING.md)
 
-### [📝 Planned features](TODO.md)
+[📝 Planned features](TODO.md)
 
 ## Links
 
