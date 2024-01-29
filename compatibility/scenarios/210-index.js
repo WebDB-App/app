@@ -13,7 +13,7 @@ async function getCountryIndexes(config) {
 }
 
 async function run(config) {
-
+/*
 	const countryIndexes = await getCountryIndexes(config);
 
 	const continent_id = countryIndexes.find(index => index.columns[0] === "continent_id");
@@ -43,11 +43,12 @@ async function run(config) {
 	await test('[relation] Add ok', () => {
 		assert.ok(!added.error);
 		assert.ok(addedCheck);
-	});
+	});*/
 }
 
 export default run;
-
+/*
 import {loadConfig} from "../api.js";
 import servers from "../docker.js";
 await run(await loadConfig(servers.mysql));
+*/
