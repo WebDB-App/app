@@ -9,6 +9,7 @@ import { Configuration } from "../classes/configuration";
 import { HttpClient } from "@angular/common/http";
 import { singleLine, sql_cleanQuery, sql_isSelect } from "../shared/helper";
 
+const sugCache: any = {};
 
 //import * as monaco from 'monaco-editor'
 declare var monaco: any;
@@ -472,14 +473,8 @@ export class SQL implements Driver {
 		return suggestions;
 	}
 
-	generateSuggestions(textUntilPosition: string, allText: string) {
-		textUntilPosition = textUntilPosition.toLowerCase();
-
-		if (textUntilPosition.lastIndexOf('.') === textUntilPosition.length - 1) {
-			return this.dotSuggestions(textUntilPosition, allText);
-		}
-
-		const suggestions = this.basicSuggestions();
+	staticSuggestion() {
+		const suggestions: any[] = [];
 
 		const indexes = Table.getIndexes().filter(index => index.table === Table.getSelected()?.name);
 		Table.getSelected()?.columns.map(column => {
@@ -527,7 +522,38 @@ export class SQL implements Driver {
 			});
 		});
 
-		if (textUntilPosition.length < 1) {
+		return suggestions;
+	}
+
+	getCache() {
+		const key = Server.getSelected().name + Database.getSelected().name + Table.getSelected().name;
+		if (!sugCache[key]) {
+			sugCache[key] = this.basicSuggestions().concat(this.staticSuggestion());
+		}
+		return JSON.parse(JSON.stringify(sugCache[key]));
+	}
+
+	isAfterDot(textUntilPosition: string) {
+		const space = Math.max(
+			textUntilPosition.lastIndexOf(' '),
+			textUntilPosition.lastIndexOf('\t')
+		);
+		if (space < 0) {
+			return false;
+		}
+		textUntilPosition = textUntilPosition.slice(space);
+		return textUntilPosition.indexOf('.') >= 0;
+	}
+
+	generateSuggestions(textUntilPosition: string, allText: string) {
+		textUntilPosition = textUntilPosition.toLowerCase();
+
+		if (this.isAfterDot(textUntilPosition)) {
+			return this.dotSuggestions(textUntilPosition, allText);
+		}
+
+		const suggestions = this.getCache().concat(this.extractCTE(allText));
+		if (suggestions.length < 1) {
 			return suggestions;
 		}
 
@@ -598,5 +624,18 @@ export class SQL implements Driver {
 
 	terminalCmd = () => {
 		return "";
+	}
+
+	extractCTE(allText: string) {
+		allText = sql_cleanQuery(allText, false);
+
+		const matchs = allText.matchAll(/ ([a-zA-Z0-9]+) as \(/gmi);
+		return [...matchs]?.map(match => {
+			return {
+				label: match[1],
+				kind: monaco.languages.CompletionItemKind.Struct,
+				insertText: match[1]
+			};
+		});
 	}
 }

@@ -1,6 +1,7 @@
 # Doc
-- mistral en co-author / gitbook upgrade ??
+- numérotation de version + cycle de dev + ci/cd
 - nosql default column
+- gpt4
 - expliquer code .js, .ts
 - compatibility + ajouter lien dans landing
 - https://chat.openai.com/c/eae4f88e-e100-45de-9502-8708f7f48bf8
@@ -8,7 +9,7 @@
 
 
 - ERD [Chrome bookmarks]
-- sqlite3/libSQL
+- tests
 
 
 
@@ -36,7 +37,6 @@
 # SQL editor
 - function doc (generate from web scrap)
 - LLM on WebGPU ?
-- add CTE to table list
 - handle subquery and cte like table (propose column from)
 
 
@@ -51,6 +51,7 @@
 
 
 # Advanced auth 
+- tunnel passphrase ?
 - cloud (google sql / atlas / rds / aurora)
 - afficher comme serveur supporté dans la landing avec le page ultimate
 - tls

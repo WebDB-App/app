@@ -116,8 +116,10 @@ export function getStorageKey(scope: string, server = Server.getSelected(), data
 	return `${server.name}-${database.name}-${scope}`;
 }
 
-export function sql_cleanQuery(query: string) {
-	query = query.toLowerCase();
+export function sql_cleanQuery(query: string, lowerCase = true) {
+	if (lowerCase) {
+		query = query.toLowerCase();
+	}
 	query = query.replace(/['"`]+/g," ");
 	query = singleLine(query);
 	query = query.replace(/ +(?= )/g,"");

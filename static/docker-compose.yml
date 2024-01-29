@@ -25,6 +25,13 @@ services:
             MONGO_INITDB_ROOT_USERNAME: root
             MONGO_INITDB_ROOT_PASSWORD: notSecureChangeMe
 
+    cassandra:
+        image: cassandra
+        ports:
+            - "9042:9042"
+        environment:
+            - CASSANDRA_CLUSTER_NAME=cloudinfra
+
     sqldata:
         image: mcr.microsoft.com/mssql/server:2022-latest
         environment:
@@ -33,4 +40,11 @@ services:
         ports:
             - "1433:1433"
 
-    #Oracle
+    oracle-db:
+        image: container-registry.oracle.com/database/enterprise:latest
+        environment:
+            - ORACLE_SID=ORCLCDB
+            - ORACLE_PDB=ORCLPDB1
+            - ORACLE_PWD=Oracle_123
+        ports:
+            - 1521:1521
