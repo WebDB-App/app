@@ -7,7 +7,7 @@ IDE means it embed all tools need to develop databases: data viewer, query edito
 
 Built with web tools such as Node.JS, Docker and Angular, it aims to ease common database tasks
 
-<img src="https://webdb.app/capture.png" alt="Query editor" width="500"/>
+<img src="https://webdb.app/capture.png" alt="Query editor" width="700"/>
 
 [![Better Stack Badge](https://uptime.betterstack.com/status-badges/v1/monitor/10izf.svg)](https://status.webdb.app) 
 [![GitLab CI](https://img.shields.io/badge/gitlab%20ci-%23181717.svg?style=for-the-badge&logo=gitlab&logoColor=white)](https://gitlab.com/web-db/app/-/pipelines)
