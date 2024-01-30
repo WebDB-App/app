@@ -131,27 +131,28 @@
 					</mat-form-field>
 				</ng-container>
 
-				<ng-container *ngIf="column === actionColum">
-					<button
-						[disabled]="selection.isEmpty()"
-						[matMenuTriggerFor]="actions"
-						mat-icon-button>
-						<span class="material-symbols-outlined notranslate">
-							more_vert
-						</span>
-					</button>
-					<mat-checkbox
-						(change)="$event ? toggleAllRows() : null"
-						[checked]="selection.hasValue() && isAllSelected()"
-						[indeterminate]="selection.hasValue() && !isAllSelected()"
-						color="primary">
-					</mat-checkbox>
+				<div *ngIf="column === actionColum" style="display: flex; flex-direction: column; align-items: center;">
+					<div>
+						<button
+							[disabled]="selection.isEmpty()"
+							[matMenuTriggerFor]="actions"
+							mat-icon-button>
+							<span class="material-symbols-outlined notranslate">
+								more_vert
+							</span>
+						</button>
+						<mat-checkbox
+							(change)="$event ? toggleAllRows() : null"
+							[checked]="selection.hasValue() && isAllSelected()"
+							[indeterminate]="selection.hasValue() && !isAllSelected()"
+							color="primary">
+						</mat-checkbox>
+					</div>
 					<span *ngIf="selection.selected.length > 0"
-						  style="font-size: 12px">
-						<br>
-						{{ selection.selected.length }} Selected
+						  style="font-size: 12px; margin-top: -10px; color: white">
+						{{ selection.selected.length }} selected
 					</span>
-				</ng-container>
+				</div>
 
 			</th>
 			<td *matCellDef="let row; let i = index"
