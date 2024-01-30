@@ -37,7 +37,7 @@ if (process.env.NODE_ENV === "production") {
 app.use(compression());
 app.use(cors({origin: "*"}));
 app.use(express.json({limit: "50mb"}));
-app.use(express.static(join(dirname, "../static/")));
+app.use(express.static(join(dirname, "../static/"), { maxAge: 3600 * 1000 }));
 
 (async () => {
 	const endpointPath = join(dirname, "./endpoint/");
