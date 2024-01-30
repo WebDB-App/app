@@ -53,7 +53,9 @@
 					selected>
 					{{ chips }}
 					<button matChipRemove>
-						<mat-icon>cancel</mat-icon>
+						<span class="material-symbols-outlined notranslate">
+							cancel
+						</span>
 					</button>
 				</mat-chip>
 				<ng-container *ngIf="i < (params.chips.split(';').length - 2)">

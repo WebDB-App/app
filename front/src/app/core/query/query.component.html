@@ -82,7 +82,9 @@
 			   onclick="this.value=null" type="file"/>
 
 		<button [matMenuTriggerFor]="advanced" mat-icon-button>
-			<mat-icon>more_vert</mat-icon>
+			<span class="material-symbols-outlined notranslate">
+				more_vert
+			</span>
 		</button>
 		<mat-menu #advanced="matMenu" xPosition="before">
 			<button (click)="inputFile.click()" mat-menu-item>Load query from file</button>
