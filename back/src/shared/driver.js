@@ -35,7 +35,7 @@ export default class Driver {
 	}
 
 	isSystemDbs(dbName) {
-		return this.systemDbs.find(db => dbName.indexOf(db) >= 0);
+		return !!this.systemDbs.find(db => dbName.indexOf(db) >= 0);
 	}
 
 	makeUri() {

@@ -111,23 +111,17 @@
 					<mat-divider style="margin: -16px 20px;" vertical></mat-divider>
 
 					<ng-container *ngIf="server.connected">
-						<mat-selection-list [multiple]="false">
-							<mat-list-option
-								*ngFor="let database of server.dbs"
-								[hidden]="database.hide"
-								[style.opacity]="database.system ? '0.5' : 1">
-								<span
-									class="tableCount"
-									matTooltip="Table(s)"
-									matTooltipPosition="left">
-									{{ database.tables?.length }}
-								</span>
+						<ng-container
+							[ngTemplateOutlet]="dbList"
+							[ngTemplateOutletContext]="{server: server, system: false}">
+						</ng-container>
 
-								<a [href]="'/#/' + server.name + '/' + database.name">
-									{{ database.name }}
-								</a>
-							</mat-list-option>
-						</mat-selection-list>
+						<mat-divider style="margin: -16px 20px;" vertical></mat-divider>
+
+						<ng-container
+							[ngTemplateOutlet]="dbList"
+							[ngTemplateOutletContext]="{server: server, system: true}">
+						</ng-container>
 
 						<mat-divider class="right-divider hideOnMobile" style="margin: -16px 20px;" vertical></mat-divider>
 
@@ -277,3 +271,25 @@
 		</mat-tab>
 	</mat-tab-group>
 </div>
+
+<ng-template #dbList let-server='server' let-system='system'>
+	<mat-selection-list [multiple]="false">
+		<ng-container *ngFor="let database of server.dbs">
+			<mat-list-option
+				*ngIf="database.system === system"
+				[hidden]="database.hide"
+				[style.opacity]="database.system ? '0.5' : 1">
+				<span
+					class="tableCount"
+					matTooltip="Table(s)"
+					matTooltipPosition="left">
+					{{ database.tables?.length }}
+				</span>
+
+				<a [href]="'/#/' + server.name + '/' + database.name">
+					{{ database.name }}
+				</a>
+			</mat-list-option>
+		</ng-container>
+	</mat-selection-list>
+</ng-template>
