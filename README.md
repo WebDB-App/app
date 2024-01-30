@@ -41,7 +41,7 @@ Developed with robust web technologies like Node.js, Docker, and Angular, WebDB 
 
 ### For Developers
 
-- [🏗️ CI/CD Guidelines](https://gitlab.com/web-db/app/-/pipelines) - Contribute to our continuous integration and deployment processes.
+- [🏗️ CI/CD Pipelines](https://gitlab.com/web-db/app/-/pipelines) - Contribute to our continuous integration and deployment processes.
 - [👨‍💻 Contributing](CONTRIBUTING.md) - Learn how you can contribute to the WebDB project.
 - [📝 Planned Features](TODO.md) - Explore the upcoming features and enhancements.
 
