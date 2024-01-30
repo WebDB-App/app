@@ -12,21 +12,18 @@ Developed with robust web technologies like Node.js, Docker, and Angular, WebDB 
 
 ## Key Features
 
+- **DBMS Discovery & Credential Guess**: WebDB will lookup nearby DBMS automatically 
 - **Query Editor**: Monaco + autocompletion + documentation = 💪
-
-  ![Query Editor](https://webdb.app/editor.png)
-
 - **Time Machine**: Revert any changes made to your database with 200 version history
-
-  ![Time Machine](https://webdb.app/diff.png)
-
 - **NoSQL Structure inferring**: Documents structure inferring as well as relation between collections
+- **Modern ERD**: Visualize database structures with our ERD tool.
+- **Intelligent data generator**: Auto detect and fill foreign key and Enum with FakerJS and Falso integrated
 
-  ![NoSQL Data](https://webdb.app/nosql.png)
 
-- **Entity-Relationship Diagram (ERD)**: Visualize database structures with our ERD tool.
+| ![Query Editor](https://webdb.app/editor.png) | ![NoSQL Data](https://webdb.app/nosql.png) |
+|--|--|
+| ![Time Machine](https://webdb.app/diff.png) | ![ERD](https://webdb.app/erd.png) |
 
-  ![ERD](https://webdb.app/erd.png)
 
 
 [![Better Stack Badge](https://uptime.betterstack.com/status-badges/v1/monitor/10izf.svg)](https://status.webdb.app)
