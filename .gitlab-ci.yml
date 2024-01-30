@@ -43,8 +43,8 @@ eslint:
     interruptible: true
     image: registry.gitlab.com/pipeline-components/eslint:latest
     script:
-        - cd back
-        - eslint --color .
+        - (cd back && eslint --color .)
+        - (cd compatibility && eslint --color .)
 
 
 #-----------------------------------------

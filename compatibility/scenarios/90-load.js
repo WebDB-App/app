@@ -1,4 +1,4 @@
-import assert from 'node:assert';
+import assert from "node:assert";
 import {test} from "node:test";
 import {readFile} from "node:fs/promises";
 import {getDatabase, iterateDir} from "../helper.js";
@@ -12,16 +12,16 @@ async function run(config) {
 		form_data.append("files[]", new Blob([await readFile(file)]));
 	}
 
-	const loaded = await multipart(`server/load`, form_data);
-	await test('[load] Load native dataset', async () => {
+	const loaded = await multipart("server/load", form_data);
+	await test("[load] Load native dataset", async () => {
 		assert.ok(loaded.ok);
 	});
 	if (!loaded.ok) {
 		throw new Error();
 	}
 
-	const structure = await post(`server/structure?full=0&size=50`, config.credentials);
-	await test('[load] Loaded dataset is present in structure', () => {
+	const structure = await post("server/structure?full=0&size=50", config.credentials);
+	await test("[load] Loaded dataset is present in structure", () => {
 		assert.ok(getDatabase(structure.dbs, config.database));
 	});
 }

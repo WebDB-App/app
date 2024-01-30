@@ -1,5 +1,5 @@
 import {execSync} from "child_process";
-import { fetchToCurl } from 'fetch-to-curl';
+import { fetchToCurl } from "fetch-to-curl";
 import {base} from "./docker.js";
 
 export const basicConf = {
@@ -7,7 +7,7 @@ export const basicConf = {
 		user: "root",
 		password: "notSecureChangeMe"
 	}
-}
+};
 
 export function runBash(cmd) {
 	if (!process.env.CI) {
@@ -22,7 +22,7 @@ export function runBash(cmd) {
 
 const apiAddr = "http://127.0.0.1:22070/api/";
 const globalHeaders = {
-	'Content-Type': 'application/json'
+	"Content-Type": "application/json"
 };
 
 export async function loadConfig(server) {
@@ -33,8 +33,8 @@ export async function loadConfig(server) {
 	conf.credentials.port = conf.external_port;
 	conf.credentials.params = conf.params || {};
 
-	globalHeaders['Server'] = JSON.stringify(conf.credentials);
-	globalHeaders['Database'] = conf.database;
+	globalHeaders["Server"] = JSON.stringify(conf.credentials);
+	globalHeaders["Database"] = conf.database;
 
 	return conf;
 }
@@ -51,7 +51,7 @@ async function runFetch(url, init) {
 export async function get(url) {
 	return await runFetch(url, {
 		headers: globalHeaders,
-		method: 'GET'
+		method: "GET"
 	});
 }
 
@@ -63,7 +63,7 @@ export async function post(url, body, _headers) {
 	const r = await runFetch(url, {
 		body: JSON.stringify(body),
 		headers,
-		method: 'POST',
+		method: "POST",
 		signal: controller.signal
 	});
 	clearTimeout(id);
@@ -80,7 +80,7 @@ export async function multipart(url, body, _headers) {
 	const r = await runFetch(url, {
 		body,
 		headers,
-		method: 'POST',
+		method: "POST",
 		signal: controller.signal
 	});
 	clearTimeout(id);

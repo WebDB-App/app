@@ -1,4 +1,4 @@
-import assert from 'node:assert';
+import assert from "node:assert";
 import {test} from "node:test";
 import {post} from "../api.js";
 import {checkCityNumber, cityNumber, tableCity} from "../base.js";
@@ -32,8 +32,8 @@ const insertCity = {
 
 async function run(config) {
 
-	const insert = await post(`data/insert`, insertCity[config.base], tableCity);
-	await test('[data] Insert ok', () => {
+	const insert = await post("data/insert", insertCity[config.base], tableCity);
+	await test("[data] Insert ok", () => {
 		assert.ok(!insert.error);
 	});
 
@@ -42,7 +42,7 @@ async function run(config) {
 
 	cityNumber.AN++;
 	const ok = await checkCityNumber(config);
-	await test('[data] Inserted are calculated', () => {
+	await test("[data] Inserted are calculated", () => {
 		assert.ok(ok);
 	});
 }

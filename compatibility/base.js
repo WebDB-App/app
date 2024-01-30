@@ -3,10 +3,10 @@ import {post} from "./api.js";
 
 export const tableForStruct = {
 	Table: "tableTest01"
-}
+};
 export const tableCity = {
 	Table: "city"
-}
+};
 
 export const columnsForTests = {
 	[base.MySQL]: [
@@ -27,7 +27,7 @@ export const columnsForTests = {
 		{name: "cDate", type: "Date", nullable: false, defaut: null, extra: []},
 		{name: "cBinary", type: "Object", nullable: false, defaut: null, extra: []}
 	]
-}
+};
 
 export const selectCitiesNumber = {
 	[base.PostgreSQL]: `SELECT
@@ -88,7 +88,7 @@ ORDER BY
         }
     }
 ]).toArray()`
-}
+};
 
 export let cityNumber = {};
 
@@ -101,11 +101,11 @@ export function initCityNumber() {
 		NA: 29785,
 		OC: 4714,
 		SA: 6737
-	}
+	};
 }
 
 export async function checkCityNumber(config) {
-	const query = await post(`database/query`, {
+	const query = await post("database/query", {
 		query: selectCitiesNumber[config.base],
 		page: 0,
 		pageSize: 100,

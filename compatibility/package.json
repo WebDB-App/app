@@ -4,9 +4,13 @@
 	"scripts": {
 		"test:docker": "node --test-reporter=spec --test-reporter=junit --test-reporter-destination=stdout --test-reporter-destination=./report.xml compatibility.js",
 		"test:app": "node --test-reporter=spec --test-reporter-destination=stdout app.js",
-		"test:dev": "node --test-reporter=spec --test-reporter-destination=stdout --watch compatibility.js"
+		"test:dev": "node --test-reporter=spec --test-reporter-destination=stdout --watch compatibility.js",
+		"lint": "eslint . --fix"
 	},
 	"dependencies": {
 		"fetch-to-curl": "latest"
+	},
+	"devDependencies": {
+		"eslint": "latest"
 	}
 }

@@ -1,4 +1,4 @@
-import assert from 'node:assert';
+import assert from "node:assert";
 import {test} from "node:test";
 import {post} from "../api.js";
 import {checkCityNumber, cityNumber, tableCity} from "../base.js";
@@ -12,8 +12,8 @@ const data = [{
 
 async function run(config) {
 
-	const updated = await post(`data/delete`, data, tableCity);
-	await test('[data] Delete ok', () => {
+	const updated = await post("data/delete", data, tableCity);
+	await test("[data] Delete ok", () => {
 		assert.ok(!updated.error);
 	});
 
@@ -23,7 +23,7 @@ async function run(config) {
 
 	cityNumber.EU--;
 	const ok = await checkCityNumber(config);
-	await test('[data] Deleted are calculated', () => {
+	await test("[data] Deleted are calculated", () => {
 		assert.ok(ok);
 	});
 }

@@ -1,9 +1,9 @@
-import assert from 'node:assert';
+import assert from "node:assert";
 import {test} from "node:test";
 import {post} from "../api.js";
 
 async function getCountryIndexes(config) {
-	const structure = await post(`server/structure?full=1&size=50`, config.credentials);
+	const structure = await post("server/structure?full=1&size=50", config.credentials);
 	return structure.indexes.filter(index => {
 		if (index.table !== "country") {
 			return false;

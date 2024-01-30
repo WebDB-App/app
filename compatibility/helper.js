@@ -1,14 +1,14 @@
 import {join} from "path";
 import {promises as fsp} from "fs";
-import {URL} from 'url';
+import {URL} from "url";
 import {runBash} from "./api.js";
 
 export function runWebDB() {
 	if (!process.env.CI) {
 		return;
 	}
-	runBash(`docker rm -f webdb; docker pull webdb/app; docker run --name webdb -d --restart=always --add-host=\"host.docker.internal:host-gateway\" -p 22070:22071 webdb/app`);
-	runBash(`sleep 1`);
+	runBash("docker rm -f webdb; docker pull webdb/app; docker run --name webdb -d --restart=always --add-host=\"host.docker.internal:host-gateway\" -p 22070:22071 webdb/app");
+	runBash("sleep 1");
 }
 
 export function getDatabase(dbs, dbName) {
@@ -16,11 +16,11 @@ export function getDatabase(dbs, dbName) {
 }
 
 export async function iterateDir(dir) {
-	const dirname = new URL('.', import.meta.url).pathname;
+	const dirname = new URL(".", import.meta.url).pathname;
 	const endpointPath = join(dirname, dir);
 	const entries = (await fsp.readdir(endpointPath)).filter(entry => !entry.startsWith("."));
 	entries.sort((a, b) => {
-		return +a.split('-')[0] - +b.split('-')[0];
+		return +a.split("-")[0] - +b.split("-")[0];
 	});
 
 	return entries.map(entry => join(endpointPath, entry));

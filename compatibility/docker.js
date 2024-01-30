@@ -2,7 +2,7 @@ export const base = {
 	MySQL: "MySQL",
 	MongoDB: "MongoDB",
 	PostgreSQL: "PostgreSQL"
-}
+};
 
 export default {
 	mysql: {
@@ -77,7 +77,7 @@ export default {
 		wrapper: "MongoDB",
 		params: {
 			serverSelectionTimeoutMS: 2000,
-			authSource: 'admin'
+			authSource: "admin"
 		}
 	},
 	postgres: {
@@ -101,6 +101,6 @@ export default {
 			cmd: "start-single-node --insecure"
 		}
 	}
-}
+};
 
 
