@@ -33,7 +33,7 @@ Developed with robust web technologies like Node.js, Docker, and Angular, WebDB 
 
 ### Regular Installation
 
-- [🐳 Standalone Installation](https://docs.webdb.app/installation/standalone) - Deploy WebDB as a standalone service.
+- [🐳 Standalone Installation](https://docs.webdb.app/installation/standalone) - Install WebDB with a single line command
 - [🐳 Docker Compose](https://docs.webdb.app/installation/compose) - Set up WebDB using Docker Compose.
 
 ### For Developers
