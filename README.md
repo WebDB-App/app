@@ -12,9 +12,9 @@ Developed with robust web technologies like Node.js, Docker, and Angular, WebDB 
 
 ## Key Features
 
-- **Query Editor**: Streamline your database queries with our intuitive and powerful query editor.
+- **Query Editor**: Monaco + autocompletion + documentation = 💪
 
-  ![Query Editor](https://webdb.app/capture.png)
+  ![Query Editor](https://webdb.app/editor.png)
 
 - **Time Machine**: Revert any changes made to your database with 200 version history
 

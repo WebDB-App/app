@@ -3,7 +3,6 @@
 - nosql default column
 - gpt4
 - expliquer code .js, .ts
-- compatibility + ajouter lien dans landing
 - https://chat.openai.com/c/eae4f88e-e100-45de-9502-8708f7f48bf8
 
 
