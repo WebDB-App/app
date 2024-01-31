@@ -103,8 +103,14 @@
 			<button mat-menu-item>Alt + Maj + f → <span style="color: #2196f3">Format query</span></button>
 		</mat-menu>
 		<mat-menu #disclaimer="matMenu">
-			<pre
-				style="color: white; padding: 0px 10px">Only most keyword/function <br>are proposed in autocomplete</pre>
+			<ul style="color: white;">
+				<li>
+					<pre>Only most keyword/function are proposed in autocomplete</pre>
+				</li>
+				<li>
+					<pre>Autocomplete can propose impossible suggestion</pre>
+				</li>
+			</ul>
 		</mat-menu>
 	</div>
 

@@ -424,6 +424,28 @@ export class SQL implements Driver {
 		return suggestions;
 	}
 
+	tableSuggestions(textUntilPosition: string, allText: string) {
+		const suggestions = this.extractCTE(allText);
+
+		Database.getSelected()?.tables?.map(table => {
+			suggestions.push({
+				label: `${table.name}`,
+				kind: monaco.languages.CompletionItemKind.Struct,
+				insertText: `${table.name}`
+			});
+		});
+
+		Server.getSelected()?.dbs.map(db => {
+			suggestions.push({
+				label: db.name,
+				kind: monaco.languages.CompletionItemKind.Function,
+				insertText: `${db.name}`
+			});
+		});
+
+		return suggestions;
+	}
+
 	dotSuggestions(textUntilPosition: string, allText: string) {
 		const suggestions: any[] = [];
 
@@ -479,7 +501,7 @@ export class SQL implements Driver {
 		const indexes = Table.getIndexes().filter(index => index.table === Table.getSelected()?.name);
 		Table.getSelected()?.columns.map(column => {
 			suggestions.push({
-				label: `${column.name}`,
+				label: {label: column.name, detail: ` (${Table.getSelected().name})`},
 				kind: monaco.languages.CompletionItemKind.Class,
 				insertText: `${column.name}`,
 				detail: Column.displayTags(column, indexes)
@@ -530,7 +552,7 @@ export class SQL implements Driver {
 		if (!sugCache[key]) {
 			sugCache[key] = this.basicSuggestions().concat(this.staticSuggestion());
 		}
-		return JSON.parse(JSON.stringify(sugCache[key]));
+		return sugCache[key];
 	}
 
 	isAfterDot(textUntilPosition: string) {
@@ -550,6 +572,12 @@ export class SQL implements Driver {
 
 		if (this.isAfterDot(textUntilPosition)) {
 			return this.dotSuggestions(textUntilPosition, allText);
+		}
+		if (allText.match(/\s+from\s+(\S+)$/mi) ||
+			allText.match(/delete\s+(\S+)$/mi) ||
+			allText.match(/update\s+(\S+)$/mi) ||
+			allText.match(/insert into\s+(\S+)$/mi)) {
+			return this.tableSuggestions(textUntilPosition, allText);
 		}
 
 		const suggestions = this.getCache().concat(this.extractCTE(allText));
@@ -578,7 +606,11 @@ export class SQL implements Driver {
 		tokens = Object.keys(tokens).sort((a, b) => tokens[b] - tokens[a]);
 		for (const token of tokens) {
 			for (const [key, sug] of Object.entries(suggestions)) {
-				if (sug.label.toLowerCase() !== token) {
+				if (typeof sug.label === "object") {
+					if (sug.label.label.toLowerCase() !== token) {
+						continue;
+					}
+				} else if (sug.label.toLowerCase() !== token) {
 					continue;
 				}
 				suggestions[<any>key].preselect = true;

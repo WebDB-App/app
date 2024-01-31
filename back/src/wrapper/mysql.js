@@ -356,10 +356,11 @@ ${def[0]["VIEW_DEFINITION"]}`
 		error["position"] = -1;
 
 		if (message.indexOf("'") >= 0) {
+			message = message.replace("...", "");
 			message = message.substring(message.indexOf("'") + 1);
 			message = message.substring(0, message.indexOf("'"));
 
-			const separators = ["\n", "\t", " ", ""];
+			const separators = ["\n", "\t", "`", "\"", "'", " ", ""];
 			for (const start of separators) {
 				for (const end of separators) {
 					error.position = command.indexOf(start + message + end);

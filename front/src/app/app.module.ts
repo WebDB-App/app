@@ -110,9 +110,9 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 					endLineNumber: position.lineNumber,
 					endColumn: position.column,
 				});
-
+				const suggestions = Server.getSelected().driver.generateSuggestions!(textUntilPosition, model.getValue());
 				return {
-					suggestions: Server.getSelected().driver.generateSuggestions!(textUntilPosition, model.getValue())
+					suggestions: JSON.parse(JSON.stringify(suggestions))
 				};
 			}
 		});
