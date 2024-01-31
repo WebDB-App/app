@@ -140,6 +140,10 @@
 @media (max-width: 1200px) {
 	#container {
 		padding: 0px;
+
+		::ng-deep .mat-tab-body-wrapper {
+			height: calc(100vh - 106px) !important;
+		}
 	}
 
 	.servers .login {

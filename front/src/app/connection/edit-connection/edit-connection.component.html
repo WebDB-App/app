@@ -65,10 +65,13 @@
 						   autocomplete="off"
 						   matInput
 						   type="{{!showPassword ? 'password' : 'text'}}">
-					<mat-icon (click)="showPassword = !showPassword" matSuffix
-							  style="cursor: pointer; position: absolute; right: 0px; top: -22px">
+					<span
+						(click)="showPassword = !showPassword"
+						matSuffix
+						style="cursor: pointer; font-size: 20px; position: absolute; right: 0px; top: -22px"
+						class="material-symbols-outlined notranslate">
 						{{ !showPassword ? 'visibility' : 'visibility_off' }}
-					</mat-icon>
+					</span>
 				</mat-form-field>
 			</div>
 
@@ -129,10 +132,13 @@
 							   autocomplete="off"
 							   matInput
 							   type="{{!showPassword ? 'password' : 'text'}}">
-						<mat-icon (click)="showPassword = !showPassword" matSuffix
-								  style="cursor: pointer; position: absolute; right: 0px; top: -22px">
+						<span
+							(click)="showPassword = !showPassword"
+							matSuffix
+							style="cursor: pointer; font-size: 20px; position: absolute; right: 0px; top: -22px"
+							class="material-symbols-outlined notranslate">
 							{{ !showPassword ? 'visibility' : 'visibility_off' }}
-						</mat-icon>
+						</span>
 					</mat-form-field>
 				</div>
 			</div>

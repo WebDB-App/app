@@ -55,14 +55,14 @@
 						<span class="material-symbols-outlined notranslate">
 							developer_guide
 						</span>
-						Documentation
+						CLI References
 					</a>
 				</div>
 
 				<ngx-monaco-editor
 					[(ngModel)]="cliOptions"
 					[options]="editorOptions"
-					style="flex: 1; min-height: 200px; width: 350px">
+					style="flex: 1; min-height: 200px; width: 350px; position: relative;">
 				</ngx-monaco-editor>
 			</div>
 		</ng-container>
@@ -82,14 +82,15 @@
 		<mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
 			<div class="mat-tree-node">
 				<button mat-icon-button matTreeNodeToggle>
-					<mat-icon class="mat-icon-rtl-mirror">
+					<span class="material-symbols-outlined notranslate">
 						{{ treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
-					</mat-icon>
+					</span>
 				</button>
-				<mat-checkbox (change)="itemSelectionToggle(node)"
-							  [checked]="descendantsAllSelected(node)"
-							  [indeterminate]="descendantsPartiallySelected(node)"
-							  color="accent">
+				<mat-checkbox
+					(change)="itemSelectionToggle(node)"
+					[checked]="descendantsAllSelected(node)"
+					[indeterminate]="descendantsPartiallySelected(node)"
+					color="accent">
 					{{ node.name }}
 				</mat-checkbox>
 			</div>

@@ -27,7 +27,7 @@ export class MySQL extends SQL {
 				supportBigNumbers: true,
 				bigNumberStrings: true
 			},
-			defaultDumpOptions: "--routines\n--events"
+			defaultDumpOptions: "--routines\n--events\n--column-statistics=0"
 		}
 
 		this.language = {

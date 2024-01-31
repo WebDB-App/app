@@ -111,6 +111,7 @@
 					<mat-divider style="margin: -16px 20px;" vertical></mat-divider>
 
 					<ng-container *ngIf="server.connected">
+
 						<ng-container
 							[ngTemplateOutlet]="dbList"
 							[ngTemplateOutletContext]="{server: server, system: false}">
@@ -125,7 +126,7 @@
 
 						<mat-divider class="right-divider hideOnMobile" style="margin: -16px 20px;" vertical></mat-divider>
 
-						<div class="right-actions hideOnMobile">
+						<div class="right-actions">
 							<button
 								(click)="editServer = server; tabGroup.selectedIndex = 3"
 								mat-button
@@ -207,10 +208,13 @@
 										autocomplete="off"
 										matInput
 										type="{{!showPassword ? 'password' : 'text'}}">
-									<mat-icon (click)="showPassword = !showPassword" matSuffix
-											  style="cursor: pointer;">
+									<span
+										(click)="showPassword = !showPassword"
+										matSuffix
+										style="cursor: pointer; font-size: 20px"
+										class="material-symbols-outlined notranslate">
 										{{ !showPassword ? 'visibility' : 'visibility_off' }}
-									</mat-icon>
+									</span>
 								</mat-form-field>
 							</div>
 							<div>
@@ -275,7 +279,9 @@
 </div>
 
 <ng-template #dbList let-server='server' let-system='system'>
-	<mat-selection-list [multiple]="false">
+	<mat-selection-list
+		[class.hideOnMobile]="system"
+		[multiple]="false">
 		<ng-container *ngFor="let database of server.dbs">
 			<mat-list-option
 				*ngIf="database.system === system"
