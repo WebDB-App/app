@@ -27,7 +27,7 @@ Developed with robust web technologies like Node.js, Docker, and Angular, WebDB 
 
 
 [![Better Stack Badge](https://uptime.betterstack.com/status-badges/v1/monitor/10izf.svg)](https://status.webdb.app)
-[![GitLab CI](https://img.shields.io/badge/gitlab%20ci-%23181717.svg?style=for-the-badge&logo=gitlab&logoColor=white)](https://gitlab.com/web-db/app/-/pipelines)
+[![GitLab CI](https://gitlab.com/web-db/app/badges/main/pipeline.svg?ignore_skipped=true)](https://gitlab.com/web-db/app/-/pipelines)
 
 ## Getting Started
 
@@ -39,8 +39,8 @@ Developed with robust web technologies like Node.js, Docker, and Angular, WebDB 
 ### For Developers
 
 - [🏗️ CI/CD Pipelines](https://gitlab.com/web-db/app/-/pipelines) - Contribute to our continuous integration and deployment processes.
-- [👨‍💻 Contributing](CONTRIBUTING.md) - Learn how you can contribute to the WebDB project.
-- [📝 Planned Features](TODO.md) - Explore the upcoming features and enhancements.
+- [👨‍💻 Contributing](https://github.com/WebDB-App/app/blob/main/CONTRIBUTING.md) - Learn how you can contribute to the WebDB project.
+- [📝 Planned Features](https://github.com/WebDB-App/app/blob/main/TODO.md) - Explore the upcoming features and enhancements.
 
 ## Additional Resources
 

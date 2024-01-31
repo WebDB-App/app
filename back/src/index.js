@@ -7,6 +7,7 @@ import bash from "./shared/bash.js";
 import {join} from "path";
 import Sentry from "@sentry/node";
 import compression from "compression";
+import * as serveStatic from "serve-static";
 
 const dirname = new URL(".", import.meta.url).pathname;
 dotenv.config({path: dirname + "/../.env"});
@@ -34,10 +35,18 @@ if (process.env.NODE_ENV === "production") {
 	app.use(Sentry.Handlers.errorHandler());
 }
 
+
+const cached = ["text/html", "text/css", "text/javascript", "image/svg+xml", "font/ttf", "font/woff2"];
+function setCustomCacheControl (res, path) {
+	if (cached.indexOf(serveStatic.mime.lookup(path)) >= 0) {
+		res.setHeader("Cache-Control", "public, max-age=7200");
+	}
+}
+
 app.use(compression());
 app.use(cors({origin: "*"}));
 app.use(express.json({limit: "50mb"}));
-app.use(express.static(join(dirname, "../static/")));
+app.use(express.static(join(dirname, "../static/"), {setHeaders: setCustomCacheControl}));
 
 (async () => {
 	const endpointPath = join(dirname, "./endpoint/");
