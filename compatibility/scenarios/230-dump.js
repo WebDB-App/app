@@ -39,21 +39,23 @@ async function run(config) {
 	defaultParams[config.base].tables = false;
 
 	const dump = await post("server/dump", defaultParams[config.base]);
-	await test("[dump] Dump world ok", async () => {
+	await test("[dump] Dump world ok", () => {
 		assert.ok(!dump.error);
 		assert.ok(dump.path);
+	});
 
-		const req = await fetch(listenAddr + dump.path);
-		const file = await req.blob();
+	if (dump.error || !dump.path) {
+		return;
+	}
 
-		await test("[dump] Dump size match original one", async () => {
+	const req = await fetch(listenAddr + dump.path);
+	const file = await req.blob();
+	const files = await iterateDir(`../static/world-${config.base.toLowerCase()}/`);
+	const origin = new Blob([await readFile(files[0])]);
 
-			const files = await iterateDir(`../static/world-${config.base.toLowerCase()}/`);
-			const origin = new Blob([await readFile(files[0])]);
-			const pourcent = calculateMatchPercentage(file.size, origin.size);
-
-			assert.ok(pourcent > 90);
-		});
+	await test("[dump] Dump size match original one", () => {
+		const percent = calculateMatchPercentage(file.size, origin.size);
+		assert.ok(percent > 90);
 	});
 }
 
