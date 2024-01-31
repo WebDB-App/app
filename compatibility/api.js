@@ -20,7 +20,8 @@ export function runBash(cmd) {
 	}
 }
 
-const apiAddr = "http://127.0.0.1:22070/api/";
+export const listenAddr = "http://127.0.0.1:22070/";
+const apiAddr = listenAddr + "api/";
 const globalHeaders = {
 	"Content-Type": "application/json"
 };
