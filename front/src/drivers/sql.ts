@@ -375,25 +375,6 @@ export class SQL implements Driver {
 			});
 		});
 
-		this.language.constraints.map(constraint => {
-			suggestions.push({
-				label: constraint.toLowerCase(),
-				kind: monaco.languages.CompletionItemKind.Reference,
-				insertText: `${this.setCase('keywordCase', constraint)}`
-			});
-		});
-
-		this.language.typeGroups.map(types => {
-			types.list.map(type => {
-				suggestions.push({
-					label: this.setCase('dataTypeCase', type.id),
-					kind: monaco.languages.CompletionItemKind.TypeParameter,
-					insertText: `${this.setCase('dataTypeCase', type.id)}`,
-					detail: type.description
-				});
-			});
-		});
-
 		this.language.comparators.map(comparator => {
 			suggestions.push({
 				label: this.setCase('keywordCase', comparator.symbol),
@@ -574,13 +555,13 @@ export class SQL implements Driver {
 			return this.dotSuggestions(textUntilPosition, allText);
 		}
 		if (allText.match(/\s+from\s+(\S+)$/mi) ||
-			allText.match(/delete\s+(\S+)$/mi) ||
-			allText.match(/update\s+(\S+)$/mi) ||
-			allText.match(/insert into\s+(\S+)$/mi)) {
+			allText.match(/^update\s+(\S+)$/mi) ||
+			allText.match(/^insert into\s+(\S+)$/mi)) {
 			return this.tableSuggestions(textUntilPosition, allText);
 		}
 
-		const suggestions = this.getCache().concat(this.extractCTE(allText));
+		let suggestions = this.getCache().concat(this.extractCTE(allText));
+		suggestions = suggestions.filter((s: any) => typeof s.label === "object" ? s.label.label.length > 2 : s.label.length > 2);
 		if (suggestions.length < 1) {
 			return suggestions;
 		}
