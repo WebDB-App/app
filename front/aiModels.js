@@ -8040,7 +8040,12 @@ let models = [
 	}
 ];
 
-models = models.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
+models = models.map(model => {
+	model.shortName = model.name.split('/')[1];
+	model.fullName = model.name;
+	return model;
+});
+models = models.sort((a, b) => a.shortName.toLowerCase().localeCompare(b.shortName.toLowerCase()));
 
 for (const mod of models) {
 	if (mod.display_type !== "chat" && mod.display_type !== "code") {
@@ -8049,5 +8054,7 @@ for (const mod of models) {
 	if (!mod.instances) {
 		continue;
 	}
-	console.log(`{name: "${mod.name}", bold: false},`);
+	console.log(`{shortName: "${mod.shortName}", fullName: "${mod.fullName}"},`);
 }
+
+console.log("FAIRE GPT AUSSI");

@@ -79,7 +79,7 @@ export class AiComponent implements OnInit, OnDestroy {
 	licence?: Licence;
 	configuration: Configuration = new Configuration();
 	initialized = false
-	models: { [key: string]: { name: string; bold?: boolean }[] } = {};
+	models: { [key: string]: { shortName: string; fullName: string }[] } = {};
 	Role = Role;
 	examples = [
 		'Adapt this query to retrieve "registering_date" : `SELECT email, password FROM users WHERE email LIKE ?`',
@@ -189,79 +189,84 @@ export class AiComponent implements OnInit, OnDestroy {
 				dangerouslyAllowBrowser: true
 			});
 			this.models[Provider.openai] = [
-				{name: "gpt-4", bold: true},
-				{name: "gpt-4-1106-preview", bold: false},
-				{name: "gpt-4-vision-preview", bold: false},
-				{name: "gpt-4-32k", bold: true},
-				{name: "gpt-3.5-turbo", bold: false},
-				{name: "gpt-3.5-turbo-16k", bold: true},
+				{shortName: "gpt-4", fullName: "gpt-4"},
+				{shortName: "gpt-4-32k", fullName: "gpt-4-32k"},
+				{shortName: "gpt-4-32k-0613", fullName: "gpt-4-32k-0613"},
+				{shortName: "gpt-4-1106-preview", fullName: "gpt-4-1106-preview"},
+				{shortName: "gpt-4-turbo-preview", fullName: "gpt-4-turbo-preview"},
+				{shortName: "gpt-4-vision-preview", fullName: "gpt-4-vision-preview"},
+				{shortName: "gpt-3.5-turbo", fullName: "gpt-3.5-turbo"},
+				{shortName: "gpt-3.5-turbo-16k", fullName: "gpt-3.5-turbo-16k"},
+				{shortName: "gpt-3.5-turbo-1106", fullName: "gpt-3.5-turbo-1106"},
+				{shortName: "gpt-3.5-turbo-instruct", fullName: "gpt-3.5-turbo-instruct"},
+
 			];
 		}
 
 		if (this.config.together) {
 			this.models[Provider.together] = [
-				{name: "Austism/chronos-hermes-13b", bold: false},
-				{name: "DiscoResearch/DiscoLM-mixtral-8x7b-v2", bold: false},
-				{name: "garage-bAInd/Platypus2-70B-instruct", bold: false},
-				{name: "Gryphe/MythoMax-L2-13b", bold: false},
-				{name: "lmsys/vicuna-13b-v1.5", bold: false},
-				{name: "lmsys/vicuna-13b-v1.5-16k", bold: false},
-				{name: "lmsys/vicuna-7b-v1.5", bold: false},
-				{name: "mistralai/Mistral-7B-Instruct-v0.1", bold: false},
-				{name: "mistralai/Mistral-7B-Instruct-v0.2", bold: false},
-				{name: "mistralai/Mixtral-8x7B-Instruct-v0.1", bold: false},
-				{name: "NousResearch/Nous-Capybara-7B-V1p9", bold: false},
-				{name: "NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO", bold: false},
-				{name: "NousResearch/Nous-Hermes-2-Mixtral-8x7B-SFT", bold: false},
-				{name: "NousResearch/Nous-Hermes-2-Yi-34B", bold: false},
-				{name: "NousResearch/Nous-Hermes-llama-2-7b", bold: false},
-				{name: "NousResearch/Nous-Hermes-Llama2-13b", bold: false},
-				{name: "NousResearch/Nous-Hermes-Llama2-70b", bold: false},
-				{name: "Open-Orca/Mistral-7B-OpenOrca", bold: false},
-				{name: "openchat/openchat-3.5-1210", bold: false},
-				{name: "Phind/Phind-CodeLlama-34B-Python-v1", bold: false},
-				{name: "Phind/Phind-CodeLlama-34B-v2", bold: false},
-				{name: "snorkelai/Snorkel-Mistral-PairRM-DPO", bold: false},
-				{name: "teknium/OpenHermes-2-Mistral-7B", bold: false},
-				{name: "teknium/OpenHermes-2p5-Mistral-7B", bold: false},
-				{name: "togethercomputer/alpaca-7b", bold: false},
-				{name: "togethercomputer/CodeLlama-13b", bold: false},
-				{name: "togethercomputer/CodeLlama-13b-Instruct", bold: false},
-				{name: "togethercomputer/CodeLlama-13b-Python", bold: false},
-				{name: "togethercomputer/CodeLlama-34b", bold: false},
-				{name: "togethercomputer/CodeLlama-34b-Instruct", bold: false},
-				{name: "togethercomputer/CodeLlama-34b-Python", bold: false},
-				{name: "togethercomputer/CodeLlama-7b", bold: false},
-				{name: "togethercomputer/CodeLlama-7b-Instruct", bold: false},
-				{name: "togethercomputer/CodeLlama-7b-Python", bold: false},
-				{name: "togethercomputer/falcon-40b-instruct", bold: false},
-				{name: "togethercomputer/falcon-7b-instruct", bold: false},
-				{name: "togethercomputer/GPT-NeoXT-Chat-Base-20B", bold: false},
-				{name: "togethercomputer/llama-2-13b-chat", bold: false},
-				{name: "togethercomputer/llama-2-70b-chat", bold: false},
-				{name: "togethercomputer/Llama-2-7B-32K-Instruct", bold: false},
-				{name: "togethercomputer/llama-2-7b-chat", bold: false},
-				{name: "togethercomputer/Pythia-Chat-Base-7B-v0.16", bold: false},
-				{name: "togethercomputer/Qwen-7B-Chat", bold: false},
-				{name: "togethercomputer/RedPajama-INCITE-7B-Chat", bold: false},
-				{name: "togethercomputer/RedPajama-INCITE-Chat-3B-v1", bold: false},
-				{name: "togethercomputer/StripedHyena-Nous-7B", bold: false},
-				{name: "Undi95/ReMM-SLERP-L2-13B", bold: false},
-				{name: "Undi95/Toppy-M-7B", bold: false},
-				{name: "upstage/SOLAR-0-70b-16bit", bold: false},
-				{name: "upstage/SOLAR-10.7B-Instruct-v1.0", bold: false},
-				{name: "WizardLM/WizardCoder-15B-V1.0", bold: false},
-				{name: "WizardLM/WizardCoder-Python-34B-V1.0", bold: false},
-				{name: "WizardLM/WizardLM-13B-V1.2", bold: false},
-				{name: "zero-one-ai/Yi-34B-Chat", bold: false},
+				{shortName: "alpaca-7b", fullName: "togethercomputer/alpaca-7b"},
+				{shortName: "chronos-hermes-13b", fullName: "Austism/chronos-hermes-13b"},
+				{shortName: "CodeLlama-13b", fullName: "togethercomputer/CodeLlama-13b"},
+				{shortName: "CodeLlama-13b-Instruct", fullName: "togethercomputer/CodeLlama-13b-Instruct"},
+				{shortName: "CodeLlama-13b-Python", fullName: "togethercomputer/CodeLlama-13b-Python"},
+				{shortName: "CodeLlama-34b", fullName: "togethercomputer/CodeLlama-34b"},
+				{shortName: "CodeLlama-34b-Instruct", fullName: "togethercomputer/CodeLlama-34b-Instruct"},
+				{shortName: "CodeLlama-34b-Python", fullName: "togethercomputer/CodeLlama-34b-Python"},
+				{shortName: "CodeLlama-7b", fullName: "togethercomputer/CodeLlama-7b"},
+				{shortName: "CodeLlama-7b-Instruct", fullName: "togethercomputer/CodeLlama-7b-Instruct"},
+				{shortName: "CodeLlama-7b-Python", fullName: "togethercomputer/CodeLlama-7b-Python"},
+				{shortName: "DiscoLM-mixtral-8x7b-v2", fullName: "DiscoResearch/DiscoLM-mixtral-8x7b-v2"},
+				{shortName: "falcon-40b-instruct", fullName: "togethercomputer/falcon-40b-instruct"},
+				{shortName: "falcon-7b-instruct", fullName: "togethercomputer/falcon-7b-instruct"},
+				{shortName: "GPT-NeoXT-Chat-Base-20B", fullName: "togethercomputer/GPT-NeoXT-Chat-Base-20B"},
+				{shortName: "llama-2-13b-chat", fullName: "togethercomputer/llama-2-13b-chat"},
+				{shortName: "llama-2-70b-chat", fullName: "togethercomputer/llama-2-70b-chat"},
+				{shortName: "Llama-2-7B-32K-Instruct", fullName: "togethercomputer/Llama-2-7B-32K-Instruct"},
+				{shortName: "llama-2-7b-chat", fullName: "togethercomputer/llama-2-7b-chat"},
+				{shortName: "Mistral-7B-Instruct-v0.1", fullName: "mistralai/Mistral-7B-Instruct-v0.1"},
+				{shortName: "Mistral-7B-Instruct-v0.2", fullName: "mistralai/Mistral-7B-Instruct-v0.2"},
+				{shortName: "Mistral-7B-OpenOrca", fullName: "Open-Orca/Mistral-7B-OpenOrca"},
+				{shortName: "Mixtral-8x7B-Instruct-v0.1", fullName: "mistralai/Mixtral-8x7B-Instruct-v0.1"},
+				{shortName: "MythoMax-L2-13b", fullName: "Gryphe/MythoMax-L2-13b"},
+				{shortName: "Nous-Capybara-7B-V1p9", fullName: "NousResearch/Nous-Capybara-7B-V1p9"},
+				{shortName: "Nous-Hermes-2-Mixtral-8x7B-DPO", fullName: "NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO"},
+				{shortName: "Nous-Hermes-2-Mixtral-8x7B-SFT", fullName: "NousResearch/Nous-Hermes-2-Mixtral-8x7B-SFT"},
+				{shortName: "Nous-Hermes-2-Yi-34B", fullName: "NousResearch/Nous-Hermes-2-Yi-34B"},
+				{shortName: "Nous-Hermes-llama-2-7b", fullName: "NousResearch/Nous-Hermes-llama-2-7b"},
+				{shortName: "Nous-Hermes-Llama2-13b", fullName: "NousResearch/Nous-Hermes-Llama2-13b"},
+				{shortName: "Nous-Hermes-Llama2-70b", fullName: "NousResearch/Nous-Hermes-Llama2-70b"},
+				{shortName: "openchat-3.5-1210", fullName: "openchat/openchat-3.5-1210"},
+				{shortName: "OpenHermes-2-Mistral-7B", fullName: "teknium/OpenHermes-2-Mistral-7B"},
+				{shortName: "OpenHermes-2p5-Mistral-7B", fullName: "teknium/OpenHermes-2p5-Mistral-7B"},
+				{shortName: "Phind-CodeLlama-34B-Python-v1", fullName: "Phind/Phind-CodeLlama-34B-Python-v1"},
+				{shortName: "Phind-CodeLlama-34B-v2", fullName: "Phind/Phind-CodeLlama-34B-v2"},
+				{shortName: "Platypus2-70B-instruct", fullName: "garage-bAInd/Platypus2-70B-instruct"},
+				{shortName: "Pythia-Chat-Base-7B-v0.16", fullName: "togethercomputer/Pythia-Chat-Base-7B-v0.16"},
+				{shortName: "Qwen-7B-Chat", fullName: "togethercomputer/Qwen-7B-Chat"},
+				{shortName: "RedPajama-INCITE-7B-Chat", fullName: "togethercomputer/RedPajama-INCITE-7B-Chat"},
+				{shortName: "RedPajama-INCITE-Chat-3B-v1", fullName: "togethercomputer/RedPajama-INCITE-Chat-3B-v1"},
+				{shortName: "ReMM-SLERP-L2-13B", fullName: "Undi95/ReMM-SLERP-L2-13B"},
+				{shortName: "Snorkel-Mistral-PairRM-DPO", fullName: "snorkelai/Snorkel-Mistral-PairRM-DPO"},
+				{shortName: "SOLAR-0-70b-16bit", fullName: "upstage/SOLAR-0-70b-16bit"},
+				{shortName: "SOLAR-10.7B-Instruct-v1.0", fullName: "upstage/SOLAR-10.7B-Instruct-v1.0"},
+				{shortName: "StripedHyena-Nous-7B", fullName: "togethercomputer/StripedHyena-Nous-7B"},
+				{shortName: "Toppy-M-7B", fullName: "Undi95/Toppy-M-7B"},
+				{shortName: "vicuna-13b-v1.5", fullName: "lmsys/vicuna-13b-v1.5"},
+				{shortName: "vicuna-13b-v1.5-16k", fullName: "lmsys/vicuna-13b-v1.5-16k"},
+				{shortName: "vicuna-7b-v1.5", fullName: "lmsys/vicuna-7b-v1.5"},
+				{shortName: "WizardCoder-15B-V1.0", fullName: "WizardLM/WizardCoder-15B-V1.0"},
+				{shortName: "WizardCoder-Python-34B-V1.0", fullName: "WizardLM/WizardCoder-Python-34B-V1.0"},
+				{shortName: "WizardLM-13B-V1.2", fullName: "WizardLM/WizardLM-13B-V1.2"},
+				{shortName: "Yi-34B-Chat", fullName: "zero-one-ai/Yi-34B-Chat"},
 			];
 		}
 
 		if (this.config.gemini) {
 			this.gemini = new GoogleGenerativeAI(this.config.gemini);
 			this.models[Provider.gemini] = [
-				{name: "gemini-pro", bold: true},
-				{name: "gemini-ultra", bold: false},
+				{shortName: "gemini-pro", fullName: "gemini-pro"},
+				{shortName: "gemini-ultra", fullName: "gemini-ultra"},
 			];
 		}
 
@@ -309,7 +314,7 @@ export class AiComponent implements OnInit, OnDestroy {
 
 		let provider = "";
 		for (const [pro, models] of Object.entries(this.models)) {
-			if (models.map(model => model.name).indexOf(this.config.model) >= 0) {
+			if (models.map(model => model.fullName).indexOf(this.config.model) >= 0) {
 				provider = pro;
 				break;
 			}

@@ -24,30 +24,6 @@
 				</button>
 			</mat-form-field>
 
-			<mat-form-field
-				appearance="legacy"
-				color="accent"
-				*ngIf="Object.keys(models).length"
-				style="margin-bottom: -1.25em;">
-				<mat-label>Model</mat-label>
-				<mat-select
-					(selectionChange)="configChange()"
-					[(ngModel)]="config.model"
-					disableOptionCentering>
-					<mat-optgroup
-						*ngFor="let provider of Object.keys(models)"
-						[label]="provider"
-						class="hasBold">
-						<mat-option
-							*ngFor="let model of models[provider]"
-							[class.bold]="true"
-							[value]="model.name">
-							{{ model.name }}
-						</mat-option>
-					</mat-optgroup>
-				</mat-select>
-			</mat-form-field>
-
 			<div>
 				<button
 					(click)="chat = []; saveChat()"
@@ -163,100 +139,125 @@
 			</div>
 		</mat-card>
 
-		<mat-card style="padding: 10px 0px; display: flex;">
-			<div id="tokens">
-				<div>
-					<a href="https://makersuite.google.com/app/apikey"
-					   mat-button
-					   target="_blank">
-						<mat-icon svgIcon="gemini" style="width: 70px"></mat-icon>
-					</a>
-
-					<mat-form-field appearance="standard">
-						<mat-label>Key</mat-label>
-						<input
-							(change)="goodGemini() ? configChange() : undefined"
-							[(ngModel)]="config.gemini"
-							matInput>
-					</mat-form-field>
-					<mat-error *ngIf="!goodGemini()">
-						Bad key format
-					</mat-error>
-				</div>
-				<div>
-					<a href="https://platform.openai.com/account"
-					   mat-button
-					   target="_blank">
-						<mat-icon svgIcon="openai" style="width: 70px"></mat-icon>
-					</a>
-
-					<mat-form-field appearance="standard">
-						<mat-label>Key</mat-label>
-						<input
-							(change)="goodOpenAIKey() ? configChange() : undefined"
-							[(ngModel)]="config.openAI"
-							matInput>
-					</mat-form-field>
-					<mat-error *ngIf="!goodOpenAIKey()">
-						Bad key format
-					</mat-error>
-				</div>
-				<div>
-					<a href="https://api.together.xyz/settings/api-keys"
-					   mat-button
-					   target="_blank">
-						<mat-icon svgIcon="together" style="width: 70px"></mat-icon>
-					</a>
-
-					<mat-form-field appearance="standard">
-						<mat-label>Key</mat-label>
-						<input
-							(change)="goodTogetherKey() ? configChange() : undefined"
-							[(ngModel)]="config.together"
-							matInput>
-					</mat-form-field>
-					<mat-error *ngIf="!goodTogetherKey()">
-						Bad key format
-					</mat-error>
-				</div>
-			</div>
-
-			<div class="centered" style="min-width: 150px;">
-				<div class="slider">
+		<mat-card style="padding: 10px 0px; display: flex; flex-direction: column;">
+			<mat-form-field
+				appearance="fill"
+				color="accent"
+				*ngIf="Object.keys(models).length"
+				style="padding: 10px 14px 0px; flex: 1;">
+				<mat-label>Model</mat-label>
+				<mat-select
+					(selectionChange)="configChange()"
+					[(ngModel)]="config.model"
+					disableOptionCentering>
+					<mat-optgroup
+						*ngFor="let provider of Object.keys(models)"
+						[label]="provider"
+						class="hasBold">
+						<mat-option
+							*ngFor="let model of models[provider]"
+							[class.bold]="true"
+							[value]="model.fullName">
+							{{ model.shortName }}
+						</mat-option>
+					</mat-optgroup>
+				</mat-select>
+			</mat-form-field>
+			<div style="display: flex;">
+				<div id="tokens">
 					<div>
-						<span matTooltip="Higher values will make the output more random
-					Lower values will make it more focused and deterministic"
-							  matTooltipPosition="left">Temperature</span>
-						<span>{{ config.temperature }}</span>
+						<a href="https://makersuite.google.com/app/apikey"
+						   mat-button
+						   target="_blank">
+							<mat-icon svgIcon="gemini" style="width: 70px"></mat-icon>
+						</a>
+
+						<mat-form-field appearance="standard">
+							<mat-label>Key</mat-label>
+							<input
+								(change)="goodGemini() ? configChange() : undefined"
+								[(ngModel)]="config.gemini"
+								matInput>
+						</mat-form-field>
+						<mat-error *ngIf="!goodGemini()">
+							Bad key format
+						</mat-error>
 					</div>
-					<mat-slider
-						(change)="configChange()"
-						(input)="config.temperature = $event.value!.valueOf()"
-						[value]="config.temperature"
-						color="accent"
-						max="2"
-						min="0"
-						step="0.1">
-					</mat-slider>
+					<div>
+						<a href="https://platform.openai.com/account"
+						   mat-button
+						   target="_blank">
+							<mat-icon svgIcon="openai" style="width: 70px"></mat-icon>
+						</a>
+
+						<mat-form-field appearance="standard">
+							<mat-label>Key</mat-label>
+							<input
+								(change)="goodOpenAIKey() ? configChange() : undefined"
+								[(ngModel)]="config.openAI"
+								matInput>
+						</mat-form-field>
+						<mat-error *ngIf="!goodOpenAIKey()">
+							Bad key format
+						</mat-error>
+					</div>
+					<div>
+						<a href="https://api.together.xyz/settings/api-keys"
+						   mat-button
+						   target="_blank">
+							<mat-icon svgIcon="together" style="width: 70px"></mat-icon>
+						</a>
+
+						<mat-form-field appearance="standard">
+							<mat-label>Key</mat-label>
+							<input
+								(change)="goodTogetherKey() ? configChange() : undefined"
+								[(ngModel)]="config.together"
+								matInput>
+						</mat-form-field>
+						<mat-error *ngIf="!goodTogetherKey()">
+							Bad key format
+						</mat-error>
+					</div>
 				</div>
 
-				<div class="slider">
-					<div>
-						<span
-							matTooltip="If you set Top-p to 0.9, the LLM will only generate words that have a probability of at least 0.9"
-							matTooltipPosition="left">Top P
-						</span>
-						<span>{{ config.top_p }}</span>
+				<div class="centered" style="min-width: 150px;">
+					<div class="slider">
+						<div>
+							<span matTooltip="Higher values will make the output more random
+						Lower values will make it more focused and deterministic"
+								  matTooltipPosition="left">Temperature</span>
+							<span>{{ config.temperature }}</span>
+						</div>
+						<mat-slider
+							(change)="configChange()"
+							(input)="config.temperature = $event.value!.valueOf()"
+							[value]="config.temperature"
+							color="accent"
+							max="2"
+							min="0"
+							step="0.1">
+						</mat-slider>
 					</div>
-					<mat-slider
-						(change)="configChange()"
-						(input)="config.top_p = $event.value!.valueOf()"
-						[value]="config.top_p"
-						color="accent"
-						max="2"
-						min="0"
-						step="0.1">
-					</mat-slider>
+
+					<div class="slider">
+						<div>
+							<span
+								matTooltip="If you set Top-p to 0.9, the LLM will only generate words that have a probability of at least 0.9"
+								matTooltipPosition="left">Top P
+							</span>
+							<span>{{ config.top_p }}</span>
+						</div>
+						<mat-slider
+							(change)="configChange()"
+							(input)="config.top_p = $event.value!.valueOf()"
+							[value]="config.top_p"
+							color="accent"
+							max="2"
+							min="0"
+							step="0.1">
+						</mat-slider>
+					</div>
 				</div>
 			</div>
 		</mat-card>
