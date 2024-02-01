@@ -91,7 +91,7 @@ export class LogsDialog implements OnDestroy {
 	}
 
 	async load() {
-		const str = await firstValueFrom(this.http.get(`${environment.rootUrl}logs/finished.log`, {responseType: 'text'}));
+		const str = await firstValueFrom(this.http.get(`${environment.apiRootUrl}logs/finished`, {responseType: 'text'}));
 		if (this.str.length === str.length) {
 			return;
 		}
@@ -109,11 +109,6 @@ export class LogsDialog implements OnDestroy {
 
 		if (this.filter) {
 			str = str.filter((s: string) => s.toLowerCase().indexOf(this.filter.toLowerCase()) >= 0);
-		} else {
-			str = str.slice(-1000);
-			if (str.length === 1000) {
-				str.unshift("<h4>Only 1000 last lines are shown, full logs are still available from backend</h4>");
-			}
 		}
 
 		this.strFiltered = <string>this.sanitizer.bypassSecurityTrustHtml(str.join('\n'));
@@ -122,4 +117,6 @@ export class LogsDialog implements OnDestroy {
 	onScroll(event: any) {
 		this.atBottom = event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight;
 	}
+
+	protected readonly environment = environment;
 }

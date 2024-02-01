@@ -1,3 +1,6 @@
+import {URL} from "url";
+import {join} from "path";
+
 export const parentheses = /\((?:[^)(]|\((?:[^)(]|\((?:[^)(]|\([^)(]*\))*\))*\))*\)/g;
 
 export const complex = {
@@ -59,4 +62,5 @@ export function alterStructure(command) {
 		"drop", "alter ", "add ", "create", "rename", "replace", "truncate"].some(v => command.includes(v));
 }
 
-
+const dirname = new URL(".", import.meta.url).pathname;
+export const finishedPath = join(dirname, "../../static/logs/finished.log");

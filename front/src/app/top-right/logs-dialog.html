@@ -1,19 +1,16 @@
 <div cdkDrag cdkDragHandle
 	 cdkDragRootElement=".cdk-overlay-pane"
+	 style="font-size: 14px;"
 	 mat-dialog-title>
-	<h4>
-		Finished queries
-	</h4>
-
 	<mat-form-field
 		appearance="legacy"
 		color="primary"
-		style="font-size: 13px; flex: 1; margin-bottom: -0.25em">
+		style="flex: 1; margin-bottom: -1em; padding: 6px 12px;">
 		<input (keyup)="filterChanged()"
 			   [(ngModel)]="filter"
 			   autocomplete="off"
 			   matInput
-			   placeholder="Search text">
+			   placeholder="Search in finished queries">
 		<button (click)="filter = ''; filterChanged()"
 				*ngIf="filter"
 				aria-label="Clear" mat-icon-button
@@ -22,11 +19,17 @@
 		</button>
 	</mat-form-field>
 
+	<a [href]="environment.rootUrl + 'logs/finished.log'"
+	   target="_blank">
+		Full logs
+	</a>
+
 	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
 		<span class="material-symbols-outlined notranslate">close</span>
 	</button>
 </div>
 <div mat-dialog-content>
+	<mat-divider></mat-divider>
 	<pre><code
 		#scrollContainer
 		(scroll)="onScroll($event)"

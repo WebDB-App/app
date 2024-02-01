@@ -142,7 +142,7 @@ export class StatsDialogComponent implements OnDestroy {
 			return;
 		}
 
-		newVals.push({Variable_name: `Ping ${this.server.wrapper} (ms)`, Value: ping});
+		newVals.push({Variable_name: `End to end ping (ms)`, Value: ping});
 
 		newVals.map((newVal: { Variable_name: any; Value: any; }) => {
 			if (!this.times[newVal.Variable_name]) {

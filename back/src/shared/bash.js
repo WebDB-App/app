@@ -1,18 +1,13 @@
 import {execSync} from "child_process";
 import {appendFileSync, writeFileSync} from "fs";
 import {randomUUID} from "crypto";
-import {join} from "path";
-import {URL} from "url";
-import {singleLine} from "./helper.js";
-
-const dirname = new URL(".", import.meta.url).pathname;
-const finished = join(dirname, "../../static/logs/finished.log");
+import {finishedPath, singleLine} from "./helper.js";
 
 class Bash {
 	commands = {};
 
 	constructor() {
-		writeFileSync(finished, "");
+		writeFileSync(finishedPath, "");
 	}
 
 	startCommand(command, database, port) {
@@ -39,7 +34,7 @@ class Bash {
 		ping = `\x1b[32m${ping.toString().padStart(5, " ")}ms\x1b[0m`;
 		length = `\x1b[34m${length.toString().padStart(6, " ")}\x1b[0m`;
 
-		appendFileSync(finished, `${port} ${ping} ${database} ${length} ${command}\n`);
+		appendFileSync(finishedPath, `${port} ${ping} ${database} ${length} ${command}\n`);
 		delete this.commands[cid];
 	}
 
