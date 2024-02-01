@@ -194,7 +194,7 @@ export default class MongoDB extends Driver {
 			old_data = BSON.EJSON.deserialize(old_data);
 			new_data = BSON.EJSON.deserialize(new_data);
 
-			const res = await this.connection.db(db).collection(table).updateOne(old_data, {$set: new_data});
+			const res = await this.connection.db(db).collection(table).replaceOne(old_data, new_data);
 			version.commandFinished(this, "", db, true);
 			return res.modifiedCount.toString();
 		} catch (e) {

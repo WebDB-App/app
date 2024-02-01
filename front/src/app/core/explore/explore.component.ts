@@ -130,14 +130,19 @@ export class ExploreComponent implements OnInit, OnDestroy {
 			query = this.selectedServer?.driver.basicSort(query, this.params.field, <"asc" | "desc">this.params.direction)!;
 		}
 
-		const result = await this.request.post('database/query', {
+		const result: any[] = await this.request.post('database/query', {
 			query,
 			pageSize: this.params.pageSize,
 			page: this.params.page
 		});
 
 		this.dataSource = new MatTableDataSource<any>(result);
-		this.displayedColumns = result.length ? this.selectedTable!.columns.map(column => column.name).concat([this.actionColum]) : [];
+
+		this.displayedColumns = this.selectedTable!.columns.map(column => column.name)
+		if (result.length) {
+			this.displayedColumns = [...new Set(this.displayedColumns.concat(result.flatMap(res => Object.keys(res))))]
+		}
+		this.displayedColumns = this.displayedColumns.concat([this.actionColum]);
 	}
 
 	async getQuerySize() {
