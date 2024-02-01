@@ -264,7 +264,7 @@
 
 	<div></div>
 
-	<div #scrollContainer id="container">
+	<div #scrollContainer id="container" (scroll)="onScroll($event)">
 
 		<div *ngIf="!config.openAI && !config.gemini" style="margin-bottom: 30vh">
 			<br><br>

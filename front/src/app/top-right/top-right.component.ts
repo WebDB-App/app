@@ -1,11 +1,11 @@
-import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnDestroy, ViewChild } from '@angular/core';
 import { MatDialog } from "@angular/material/dialog";
 import { HttpClient } from "@angular/common/http";
 import { DomSanitizer } from "@angular/platform-browser";
 import Convert from "ansi-to-html";
 import { environment } from "../../environments/environment";
 import { ConfigDialog } from "./config/config-dialog.component";
-import { isSQL } from "../../shared/helper";
+import { isSQL, scrollToBottom } from "../../shared/helper";
 import { firstValueFrom } from "rxjs";
 import { Router } from "@angular/router";
 import { Server } from "../../classes/server";
@@ -68,6 +68,8 @@ export class LogsDialog implements OnDestroy {
 	strFiltered: any = "";
 	filter = "";
 	interval?: NodeJS.Timer;
+	atBottom = true;
+
 	@ViewChild('scrollContainer') private scrollContainer!: ElementRef;
 
 	constructor(
@@ -78,7 +80,6 @@ export class LogsDialog implements OnDestroy {
 
 	async ngOnInit() {
 		await this.load();
-		this.scrollToBottom();
 
 		this.interval = setInterval(() => {
 			this.load();
@@ -89,15 +90,6 @@ export class LogsDialog implements OnDestroy {
 		clearInterval(this.interval);
 	}
 
-	scrollToBottom() {
-		setTimeout(() => {
-			if (!this.scrollContainer) {
-				return;
-			}
-			this.scrollContainer.nativeElement.scrollTop = this.scrollContainer.nativeElement.scrollHeight
-		}, 10);
-	}
-
 	async load() {
 		const str = await firstValueFrom(this.http.get(`${environment.rootUrl}logs/finished.log`, {responseType: 'text'}));
 		if (this.str.length === str.length) {
@@ -105,6 +97,10 @@ export class LogsDialog implements OnDestroy {
 		}
 		this.str = str;
 		this.filterChanged();
+
+		if (this.atBottom) {
+			scrollToBottom(this.scrollContainer);
+		}
 	};
 
 	filterChanged() {
@@ -121,5 +117,9 @@ export class LogsDialog implements OnDestroy {
 		}
 
 		this.strFiltered = <string>this.sanitizer.bypassSecurityTrustHtml(str.join('\n'));
+	}
+
+	onScroll(event: any) {
+		this.atBottom = event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight;
 	}
 }

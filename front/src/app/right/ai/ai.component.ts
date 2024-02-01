@@ -8,13 +8,12 @@ import { Configuration } from "../../../classes/configuration";
 import { marked } from 'marked';
 import { DrawerService } from "../../../shared/drawer.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { getStorageKey, isSQL } from "../../../shared/helper";
+import { getStorageKey, isSQL, scrollToBottom } from "../../../shared/helper";
 import { Subscription } from "rxjs";
 import { Table } from "../../../classes/table";
 import { Router } from "@angular/router";
 import { ChatCompletionCreateParamsStreaming } from "openai/src/resources/chat/completions";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { Readable } from "stream";
 
 const localKeyConfig = 'ia-config';
 
@@ -120,11 +119,13 @@ export class AiComponent implements OnInit, OnDestroy {
 	stream?: string;
 	abort = false;
 	showPrompt = false;
+	atBottom = true;
 
 	@ViewChild('scrollContainer') public scrollContainer!: ElementRef;
 	protected readonly Math = Math;
 	protected readonly Object = Object;
 	protected readonly isSQL = isSQL;
+	protected readonly JSON = JSON;
 
 	constructor(
 		private request: RequestService,
@@ -145,7 +146,7 @@ export class AiComponent implements OnInit, OnDestroy {
 		this.drawerObs = this.drawer.drawer.openedChange.subscribe(async (state: boolean) => {
 			if (state && !this.initialized) {
 				this.initialized = true;
-				this.scrollToBottom();
+				scrollToBottom(this.scrollContainer);
 			}
 
 			const question = this.drawer.lastData;
@@ -178,15 +179,6 @@ export class AiComponent implements OnInit, OnDestroy {
 		this.drawerObs.unsubscribe();
 	}
 
-	scrollToBottom() {
-		setTimeout(() => {
-			if (!this.scrollContainer) {
-				return;
-			}
-			this.scrollContainer.nativeElement.scrollTop = this.scrollContainer.nativeElement.scrollHeight
-		}, 10);
-	}
-
 	async configChange(snack = true) {
 		localStorage.setItem(localKeyConfig, JSON.stringify(this.config));
 		this.models = {};
@@ -208,60 +200,60 @@ export class AiComponent implements OnInit, OnDestroy {
 
 		if (this.config.together) {
 			this.models[Provider.together] = [
-				{name: "alpaca-7b", bold: false},
-				{name: "chronos-hermes-13b", bold: false},
-				{name: "CodeLlama-13b", bold: false},
-				{name: "CodeLlama-13b-Instruct", bold: false},
-				{name: "CodeLlama-13b-Python", bold: false},
-				{name: "CodeLlama-34b", bold: false},
-				{name: "CodeLlama-34b-Instruct", bold: false},
-				{name: "CodeLlama-34b-Python", bold: false},
-				{name: "CodeLlama-7b", bold: false},
-				{name: "CodeLlama-7b-Instruct", bold: false},
-				{name: "CodeLlama-7b-Python", bold: false},
-				{name: "DiscoLM-mixtral-8x7b-v2", bold: true},
-				{name: "falcon-40b-instruct", bold: false},
-				{name: "falcon-7b-instruct", bold: false},
-				{name: "GPT-NeoXT-Chat-Base-20B", bold: false},
-				{name: "llama-2-13b-chat", bold: false},
-				{name: "llama-2-70b-chat", bold: false},
-				{name: "Llama-2-7B-32K-Instruct", bold: false},
-				{name: "llama-2-7b-chat", bold: false},
-				{name: "Mistral-7B-Instruct-v0.1", bold: true},
-				{name: "Mistral-7B-Instruct-v0.2", bold: true},
-				{name: "Mistral-7B-OpenOrca", bold: true},
-				{name: "Mixtral-8x7B-Instruct-v0.1", bold: true},
-				{name: "MythoMax-L2-13b", bold: false},
-				{name: "Nous-Capybara-7B-V1p9", bold: false},
-				{name: "Nous-Hermes-2-Mixtral-8x7B-DPO", bold: true},
-				{name: "Nous-Hermes-2-Mixtral-8x7B-SFT", bold: true},
-				{name: "Nous-Hermes-2-Yi-34B", bold: false},
-				{name: "Nous-Hermes-llama-2-7b", bold: false},
-				{name: "Nous-Hermes-Llama2-13b", bold: false},
-				{name: "Nous-Hermes-Llama2-70b", bold: false},
-				{name: "openchat-3.5-1210", bold: false},
-				{name: "OpenHermes-2-Mistral-7B", bold: true},
-				{name: "OpenHermes-2p5-Mistral-7B", bold: true},
-				{name: "Phind-CodeLlama-34B-Python-v1", bold: false},
-				{name: "Phind-CodeLlama-34B-v2", bold: false},
-				{name: "Platypus2-70B-instruct", bold: false},
-				{name: "Pythia-Chat-Base-7B-v0.16", bold: false},
-				{name: "Qwen-7B-Chat", bold: false},
-				{name: "RedPajama-INCITE-7B-Chat", bold: false},
-				{name: "RedPajama-INCITE-Chat-3B-v1", bold: false},
-				{name: "ReMM-SLERP-L2-13B", bold: false},
-				{name: "Snorkel-Mistral-PairRM-DPO", bold: true},
-				{name: "SOLAR-0-70b-16bit", bold: false},
-				{name: "SOLAR-10.7B-Instruct-v1.0", bold: false},
-				{name: "StripedHyena-Nous-7B", bold: false},
-				{name: "Toppy-M-7B", bold: false},
-				{name: "vicuna-13b-v1.5", bold: false},
-				{name: "vicuna-13b-v1.5-16k", bold: false},
-				{name: "vicuna-7b-v1.5", bold: false},
-				{name: "WizardCoder-15B-V1.0", bold: false},
-				{name: "WizardCoder-Python-34B-V1.0", bold: false},
-				{name: "WizardLM-13B-V1.2", bold: false},
-				{name: "Yi-34B-Chat", bold: false},
+				{name: "Austism/chronos-hermes-13b", bold: false},
+				{name: "DiscoResearch/DiscoLM-mixtral-8x7b-v2", bold: false},
+				{name: "garage-bAInd/Platypus2-70B-instruct", bold: false},
+				{name: "Gryphe/MythoMax-L2-13b", bold: false},
+				{name: "lmsys/vicuna-13b-v1.5", bold: false},
+				{name: "lmsys/vicuna-13b-v1.5-16k", bold: false},
+				{name: "lmsys/vicuna-7b-v1.5", bold: false},
+				{name: "mistralai/Mistral-7B-Instruct-v0.1", bold: false},
+				{name: "mistralai/Mistral-7B-Instruct-v0.2", bold: false},
+				{name: "mistralai/Mixtral-8x7B-Instruct-v0.1", bold: false},
+				{name: "NousResearch/Nous-Capybara-7B-V1p9", bold: false},
+				{name: "NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO", bold: false},
+				{name: "NousResearch/Nous-Hermes-2-Mixtral-8x7B-SFT", bold: false},
+				{name: "NousResearch/Nous-Hermes-2-Yi-34B", bold: false},
+				{name: "NousResearch/Nous-Hermes-llama-2-7b", bold: false},
+				{name: "NousResearch/Nous-Hermes-Llama2-13b", bold: false},
+				{name: "NousResearch/Nous-Hermes-Llama2-70b", bold: false},
+				{name: "Open-Orca/Mistral-7B-OpenOrca", bold: false},
+				{name: "openchat/openchat-3.5-1210", bold: false},
+				{name: "Phind/Phind-CodeLlama-34B-Python-v1", bold: false},
+				{name: "Phind/Phind-CodeLlama-34B-v2", bold: false},
+				{name: "snorkelai/Snorkel-Mistral-PairRM-DPO", bold: false},
+				{name: "teknium/OpenHermes-2-Mistral-7B", bold: false},
+				{name: "teknium/OpenHermes-2p5-Mistral-7B", bold: false},
+				{name: "togethercomputer/alpaca-7b", bold: false},
+				{name: "togethercomputer/CodeLlama-13b", bold: false},
+				{name: "togethercomputer/CodeLlama-13b-Instruct", bold: false},
+				{name: "togethercomputer/CodeLlama-13b-Python", bold: false},
+				{name: "togethercomputer/CodeLlama-34b", bold: false},
+				{name: "togethercomputer/CodeLlama-34b-Instruct", bold: false},
+				{name: "togethercomputer/CodeLlama-34b-Python", bold: false},
+				{name: "togethercomputer/CodeLlama-7b", bold: false},
+				{name: "togethercomputer/CodeLlama-7b-Instruct", bold: false},
+				{name: "togethercomputer/CodeLlama-7b-Python", bold: false},
+				{name: "togethercomputer/falcon-40b-instruct", bold: false},
+				{name: "togethercomputer/falcon-7b-instruct", bold: false},
+				{name: "togethercomputer/GPT-NeoXT-Chat-Base-20B", bold: false},
+				{name: "togethercomputer/llama-2-13b-chat", bold: false},
+				{name: "togethercomputer/llama-2-70b-chat", bold: false},
+				{name: "togethercomputer/Llama-2-7B-32K-Instruct", bold: false},
+				{name: "togethercomputer/llama-2-7b-chat", bold: false},
+				{name: "togethercomputer/Pythia-Chat-Base-7B-v0.16", bold: false},
+				{name: "togethercomputer/Qwen-7B-Chat", bold: false},
+				{name: "togethercomputer/RedPajama-INCITE-7B-Chat", bold: false},
+				{name: "togethercomputer/RedPajama-INCITE-Chat-3B-v1", bold: false},
+				{name: "togethercomputer/StripedHyena-Nous-7B", bold: false},
+				{name: "Undi95/ReMM-SLERP-L2-13B", bold: false},
+				{name: "Undi95/Toppy-M-7B", bold: false},
+				{name: "upstage/SOLAR-0-70b-16bit", bold: false},
+				{name: "upstage/SOLAR-10.7B-Instruct-v1.0", bold: false},
+				{name: "WizardLM/WizardCoder-15B-V1.0", bold: false},
+				{name: "WizardLM/WizardCoder-Python-34B-V1.0", bold: false},
+				{name: "WizardLM/WizardLM-13B-V1.2", bold: false},
+				{name: "zero-one-ai/Yi-34B-Chat", bold: false},
 			];
 		}
 
@@ -313,7 +305,7 @@ export class AiComponent implements OnInit, OnDestroy {
 		}
 
 		this.chat.push(new Msg(txt, Role.User));
-		this.scrollToBottom();
+		scrollToBottom(this.scrollContainer);
 
 		let provider = "";
 		for (const [pro, models] of Object.entries(this.models)) {
@@ -339,7 +331,7 @@ export class AiComponent implements OnInit, OnDestroy {
 		await this.askLLM(provider, body);
 
 		this.stream = undefined;
-		this.scrollToBottom();
+		scrollToBottom(this.scrollContainer);
 		this.saveChat();
 	}
 
@@ -361,7 +353,10 @@ export class AiComponent implements OnInit, OnDestroy {
 						}
 
 						this.stream += part.choices[0]?.delta?.content || '';
-						this.scrollToBottom();
+
+						if (this.atBottom) {
+							scrollToBottom(this.scrollContainer);
+						}
 					}
 					resolve(new Msg(this.stream!, Role.Assistant, false, body));
 				}).catch(error => {
@@ -393,7 +388,9 @@ export class AiComponent implements OnInit, OnDestroy {
 							try {
 								const msg = JSON.parse(chunk);
 								this.stream += msg.choices[0]?.text || '';
-								this.scrollToBottom();
+								if (this.atBottom) {
+									scrollToBottom(this.scrollContainer);
+								}
 							} catch (e) {
 							}
 						}
@@ -432,7 +429,9 @@ export class AiComponent implements OnInit, OnDestroy {
 							break;
 						}
 						this.stream += chunk.text();
-						this.scrollToBottom();
+						if (this.atBottom) {
+							scrollToBottom(this.scrollContainer);
+						}
 					}
 					resolve(new Msg(this.stream!, Role.Assistant, false, body));
 				} catch (error: any) {
@@ -499,5 +498,7 @@ export class AiComponent implements OnInit, OnDestroy {
 		return !!this.config.together.match(/^[a-zA-Z0-9]{64,}$/);
 	}
 
-	protected readonly JSON = JSON;
+	onScroll(event: any) {
+		this.atBottom = event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight;
+	}
 }

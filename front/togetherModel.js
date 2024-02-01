@@ -8040,10 +8040,6 @@ let models = [
 	}
 ];
 
-models = models.map(model => {
-	model.name = model.name.split('/')[1];
-	return model;
-});
 models = models.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
 
 for (const mod of models) {
@@ -8053,5 +8049,5 @@ for (const mod of models) {
 	if (!mod.instances) {
 		continue;
 	}
-	console.log(`{name: "${mod.name}", bold: ${mod.name.indexOf("tral-") >= 0 ? 'true': 'false'}},`);
+	console.log(`{name: "${mod.name}", bold: false},`);
 }

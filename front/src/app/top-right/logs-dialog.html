@@ -29,6 +29,7 @@
 <div mat-dialog-content>
 	<pre><code
 		#scrollContainer
+		(scroll)="onScroll($event)"
 		[innerHTML]="strFiltered"
 		cdkFocusInitial
 		id="backendLogs">

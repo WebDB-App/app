@@ -4,6 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import { firstValueFrom } from "rxjs";
 import { MatPaginatorIntl } from "@angular/material/paginator";
 import { Database } from "../classes/database";
+import { ElementRef } from "@angular/core";
 
 declare var monaco: any;
 
@@ -125,5 +126,14 @@ export function sql_cleanQuery(query: string, lowerCase = true) {
 	query = query.replace(/ +(?= )/g,"");
 
 	return query;
+}
+
+export function scrollToBottom(scrollContainer: ElementRef) {
+	setTimeout(() => {
+		if (!scrollContainer) {
+			return;
+		}
+		scrollContainer.nativeElement.scrollTop = scrollContainer.nativeElement.scrollHeight
+	}, 10);
 }
 

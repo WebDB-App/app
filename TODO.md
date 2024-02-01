@@ -34,6 +34,8 @@
 
 
 # SQL editor
+- first level keyword (select, update, create)
+- comprendre les columns retournées par les cte et subquery 
 - function doc (generate from web scrap)
 - LLM on WebGPU ?
 - handle subquery and cte like table (propose column from)
