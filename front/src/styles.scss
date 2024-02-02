@@ -234,6 +234,23 @@ a {
 	max-height: 50vh !important;
 }
 
+.mat-form-field-flex {
+	align-items: center !important;
+}
+
+.searchField {
+	.mat-form-field-suffix {
+		button {
+			width: 1.5em !important;
+			height: 1.5em !important;
+
+			.material-symbols-outlined {
+				font-size: 16px;
+			}
+		}
+	}
+}
+
 .flex-spacer {
 	flex: 1 1 auto;
 }
