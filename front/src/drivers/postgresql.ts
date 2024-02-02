@@ -285,17 +285,15 @@ export class PostgreSQL extends SQL {
 	}
 
 	override extractEnum = (col: Column) => {
-		for (const complex of Server.getSelected().complexes) {
-			if (Database.getSelected().name !== complex.database) {
+		const nums = Server.getSelected().complexes['ENUM'];
+		for (const num of nums) {
+			if (Database.getSelected().name !== num.database) {
 				continue;
 			}
-			if (complex.type !== "ENUM") {
+			if (col.type !== num.name) {
 				continue;
 			}
-			if (col.type !== complex.name) {
-				continue;
-			}
-			return complex.value!.split(', ');
+			return num.value!.split(', ');
 		}
 
 		return false;

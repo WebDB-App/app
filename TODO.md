@@ -6,7 +6,8 @@
 - https://chat.openai.com/c/eae4f88e-e100-45de-9502-8708f7f48bf8
 
 
-
+- postgre list variable + https://dev.mysql.com/doc/refman/8.0/en/show-variables.html
+- query stats -> network, execution
 - finir tests
 - ERD [Chrome bookmarks] + UML/Merise + draw named zones
 

@@ -30,7 +30,7 @@ export class Server {
 	relations!: Relation[];
 	dbs!: Database[];
 	indexes!: Index[];
-	complexes!: Complex[];
+	complexes!: { [type: string]: Complex[] };
 	driver!: Driver;
 	params?: {};
 	uri?: string;
@@ -88,7 +88,7 @@ export class Server {
 		shallow.dbs = [];
 		shallow.relations = [];
 		shallow.indexes = [];
-		shallow.complexes = [];
+		shallow.complexes = {};
 		shallow.driver = <Driver>{};
 		shallow.isLoading = false;
 

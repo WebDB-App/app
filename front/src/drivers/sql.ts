@@ -366,12 +366,11 @@ export class SQL implements Driver {
 		});
 
 		Object.keys(this.language.functions).map(fct => {
-			const detail = this.language.functions[fct] || '(expression)';
 			suggestions.push({
-				label: fct.toLowerCase(),
+				label: fct.toLowerCase() + '()',
 				kind: monaco.languages.CompletionItemKind.Function,
 				insertText: `${this.setCase('functionCase', fct)}()`,
-				detail
+				detail: this.language.functions[fct] || '(expression)'
 			});
 		});
 
@@ -389,7 +388,7 @@ export class SQL implements Driver {
 			insertText: `* `
 		});
 
-		Server.getSelected().complexes?.map(complex => {
+		Object.values(Server.getSelected().complexes).flatMap(c => c).map(complex => {
 			if (Database.getSelected().name !== complex.database) {
 				return;
 			}

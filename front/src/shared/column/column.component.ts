@@ -36,18 +36,20 @@ export class ColumnComponent implements OnInit {
 		this.typeGroups = this.selectedServer!.driver.language.typeGroups;
 
 		const custom: TypeData[] = [];
-		this.selectedServer.complexes?.map(complex => {
-			if (Database.getSelected().name !== complex.database) {
-				return;
-			}
-			if (['DOMAIN', 'ENUM'].indexOf(complex.type) >= 0) {
+
+		['DOMAIN', 'ENUM'].map(type => {
+			this.selectedServer!.complexes[type].map(complex => {
+				if (Database.getSelected().name !== complex.database) {
+					return;
+				}
 				custom.push({
 					id: complex.name,
 					bold: true,
-					description: complex.type.charAt(0).toUpperCase() + complex.type.slice(1).toLowerCase()
+					description: type.charAt(0).toUpperCase() + type.slice(1).toLowerCase()
 				});
-			}
-		})
+			});
+		});
+
 		if (custom.length) {
 			this.typeGroups.push({
 				name: Group.Custom,

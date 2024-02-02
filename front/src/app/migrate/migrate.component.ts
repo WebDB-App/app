@@ -85,7 +85,7 @@ export class MigrateComponent implements OnInit {
 		} else if (this.type === 'indexes') {
 			side.diff.code = JSON.stringify(this.filterByDb(side.server.indexes, side.database.name), null, "\t");
 		} else if (this.type === 'complex') {
-			side.diff.code = JSON.stringify(this.filterByDb(side.server.complexes, side.database.name), null, "\t");
+			side.diff.code = JSON.stringify(this.filterByDb(Object.values(side.server.complexes).flatMap(c => c), side.database.name), null, "\t");
 		} else if (this.type === 'data' && side.table) {
 			if (!side.query) {
 				side.query = side.server!.driver.basicFilter(side.table, [], 'AND');

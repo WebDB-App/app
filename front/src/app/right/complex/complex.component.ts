@@ -11,7 +11,7 @@ import { complex } from "../../../shared/helper";
 })
 export class ComplexComponent implements OnInit {
 
-	complexes: Complex[] = [];
+	complexes: { [type: string]: Complex[] } = {};
 	selectedServer?: Server;
 	selectedDatabase?: Database;
 	protected readonly Object = Object;
@@ -23,19 +23,22 @@ export class ComplexComponent implements OnInit {
 		this.selectedServer = Server.getSelected();
 		this.selectedDatabase = Database.getSelected();
 
-		this.complexes = this.selectedServer.complexes.filter(complex => {
-			return this.selectedDatabase!.name === complex.database;
-		});
+		for (const [type, complexes] of Object.entries(this.selectedServer.complexes)) {
+			this.complexes[type] = complexes.filter(complex => this.selectedDatabase!.name === complex.database);
+		}
 	}
 
 	filterChanged(_value: string) {
 		const value = _value.toLowerCase();
 
-		for (const [index, complex] of this.complexes.entries()) {
-			this.complexes[index].hide = complex.name.indexOf(value) < 0;
-			if (this.complexes[index].hide && complex.table) {
-				this.complexes[index].hide = complex.table.indexOf(value) < 0;
-			}
+		for (const [type, complexes] of Object.entries(this.complexes)) {
+			this.complexes[type] = complexes.filter(complex => {
+				complex.hide = complex.name.indexOf(value) < 0;
+				if (complex.hide && complex.table) {
+					complex.hide = complex.table.indexOf(value) < 0;
+				}
+				return complex;
+			});
 		}
 	}
 

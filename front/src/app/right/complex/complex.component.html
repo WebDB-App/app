@@ -15,15 +15,6 @@
 		</button>
 	</mat-form-field>
 
-	<button [matMenuTriggerFor]="list" mat-button>
-		Complex supported
-	</button>
-	<mat-menu #list="matMenu">
-		<span mat-menu-item *ngFor="let group of Object.keys(complex)">
-			{{group | titlecase}}
-		</span>
-	</mat-menu>
-
 	<a href="https://docs.webdb.app/complexes"
 	   mat-button
 	   target="_blank">
@@ -33,32 +24,38 @@
 	</a>
 </mat-toolbar>
 
-<mat-card *ngIf="complexes.length < 1">
-	<mat-card-header>
-		<mat-card-subtitle>
-			No complex on this database
-		</mat-card-subtitle>
-	</mat-card-header>
-</mat-card>
+<mat-accordion multi>
+	<mat-expansion-panel *ngFor="let type of Object.keys(complexes)">
+		<mat-expansion-panel-header>
+			<mat-panel-title>
+				{{Object.values(complexes[type]).length}}
+			</mat-panel-title>
+			<mat-panel-description>
+				{{type.charAt(0).toUpperCase() + type.slice(1).toLowerCase().replace("_", " ")}}
+			</mat-panel-description>
+		</mat-expansion-panel-header>
 
-<div *ngIf="complexes.length > 0" style="padding: 12px">
-	<mat-accordion multi>
-		<mat-expansion-panel
-			*ngFor="let complex of complexes"
-			[hidden]="complex.hide">
-			<mat-expansion-panel-header>
-				<mat-panel-title>
-					{{complex.type | titlecase}} {{complex.table ? ' on ' + complex.table : ''}}{{complex.column ? '.' + complex.column : ''}}
-				</mat-panel-title>
-				<mat-panel-description>
-					{{complex.name}}
-				</mat-panel-description>
-			</mat-expansion-panel-header>
+		<div *ngFor="let complex of complexes[type]" class="complex" [hidden]="complex.hide">
+			<div>
+				<div>
+					<h4>{{complex.name}}</h4>
+					<div *ngIf="complex.table">
+						on <a [routerLink]="['/' + selectedServer!.name, selectedDatabase!.name, complex.table]">{{complex.table}}</a>
+						<span *ngIf="complex.column">.{{complex.column}}</span>
+					</div>
+				</div>
+				<button
+					mat-icon-button>
+					<span class="material-symbols-outlined notranslate">
+						edit
+					</span>
+				</button>
+			</div>
+
 			<pre *ngIf="complex.value"><code
 				[languages]="[selectedServer?.driver!.language.id, 'JSON']"
 				[highlight]="complex.value">
-		</code></pre>
-		</mat-expansion-panel>
-	</mat-accordion>
-</div>
-
+			</code></pre>
+		</div>
+	</mat-expansion-panel>
+</mat-accordion>

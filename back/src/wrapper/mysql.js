@@ -6,6 +6,7 @@ import bash from "../shared/bash.js";
 import {join} from "path";
 import {loadData} from "../shared/buffer.js";
 import {URL} from "url";
+import {complex} from "../shared/helper.js";
 
 const dirname = new URL(".", import.meta.url).pathname;
 
@@ -193,12 +194,18 @@ ${def[0]["VIEW_DEFINITION"]}`
 	}
 
 	async getComplexes() {
-		const complexes = [
-			...(await this.runCommand("SELECT routine_name as name, routine_type as type, routine_schema as 'database', ROUTINE_DEFINITION as 'value' FROM information_schema.routines WHERE routine_schema != 'sys' ORDER BY routine_name;")),
-			...(await this.runCommand("SELECT trigger_name as name, 'TRIGGER' as type, trigger_schema as 'database', EVENT_OBJECT_TABLE as 'table', ACTION_STATEMENT as 'value' FROM information_schema.triggers WHERE trigger_schema != 'sys'")),
-		];
+		const complexes = {
+			["TRIGGER"]: [await this.runCommand("SELECT trigger_name as name, trigger_schema as 'database', EVENT_OBJECT_TABLE as 'table', ACTION_STATEMENT as 'value' FROM information_schema.triggers WHERE trigger_schema != 'sys'")]
+		};
+
+		const routines = await this.runCommand("SELECT routine_name as name, routine_type as type, routine_schema as 'database', ROUTINE_DEFINITION as 'value' FROM information_schema.routines WHERE routine_schema != 'sys' ORDER BY routine_name;");
+		complexes["FUNCTION"] = routines.filter(routine => routine.type.toLowerCase() === "function");
+		complexes["PROCEDURE"] = routines.filter(routine => routine.type.toLowerCase() === "procedure");
+
+		//mariadb sequence
+		//materialized view
 		try {
-			complexes.push(...(await this.runCommand("SELECT CHECK_CONSTRAINTS.CONSTRAINT_SCHEMA AS 'database', CHECK_CONSTRAINTS.CONSTRAINT_NAME AS 'name', `CHECK_CLAUSE` AS 'value', TABLE_CONSTRAINTS.TABLE_NAME AS 'table', 'CHECK' AS type FROM information_schema.CHECK_CONSTRAINTS JOIN information_schema.TABLE_CONSTRAINTS ON CHECK_CONSTRAINTS.CONSTRAINT_SCHEMA = TABLE_CONSTRAINTS.CONSTRAINT_SCHEMA AND CHECK_CONSTRAINTS.CONSTRAINT_NAME = TABLE_CONSTRAINTS.CONSTRAINT_NAME")));
+			complexes["CHECK"] = await this.runCommand("SELECT CHECK_CONSTRAINTS.CONSTRAINT_SCHEMA AS 'database', CHECK_CONSTRAINTS.CONSTRAINT_NAME AS 'name', `CHECK_CLAUSE` AS 'value', TABLE_CONSTRAINTS.TABLE_NAME AS 'table' FROM information_schema.CHECK_CONSTRAINTS JOIN information_schema.TABLE_CONSTRAINTS ON CHECK_CONSTRAINTS.CONSTRAINT_SCHEMA = TABLE_CONSTRAINTS.CONSTRAINT_SCHEMA AND CHECK_CONSTRAINTS.CONSTRAINT_NAME = TABLE_CONSTRAINTS.CONSTRAINT_NAME");
 		} catch (e) { /* empty */ }
 		return complexes;
 	}

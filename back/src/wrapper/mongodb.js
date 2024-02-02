@@ -360,7 +360,7 @@ export default class MongoDB extends Driver {
 	}
 
 	async getComplexes() {
-		const complexes = [];
+		const complexes = {"VALIDATOR": []};
 		const databases = (await this.connection.db().admin().listDatabases()).databases;
 		for (const database of databases) {
 			const collections = await this.connection.db(database.name).command({
@@ -372,7 +372,7 @@ export default class MongoDB extends Driver {
 				if (Object.keys(options).length < 1 || !options.validator) {
 					return;
 				}
-				complexes.push({
+				complexes["VALIDATOR"].push({
 					name: JSON.stringify(options.validator).slice(0, 25) + "...",
 					database: database.name,
 					table: collection.name,
