@@ -8,7 +8,7 @@
 
 
 - finir tests
-- ERD [Chrome bookmarks]
+- ERD [Chrome bookmarks] + UML/Merise + draw named zones
 
 
 
@@ -42,6 +42,7 @@
 
 
 # Profiling
+- https://github.com/dalibo/pev2
 - https://www.postgresql.org/docs/9.2/using-explain.html
 - https://www.mongodb.com/docs/manual/reference/command/explain/
 - https://www.mongodb.com/docs/manual/tutorial/manage-the-database-profiler/

@@ -50,6 +50,7 @@ import { MatChipsModule } from "@angular/material/chips";
 import { MigrateComponent, EditQueryDialog } from './migrate/migrate.component';
 import { MatPaginatorIntl, MatPaginatorModule } from "@angular/material/paginator";
 import { CustomPaginatorIntl } from "../shared/paginator.transform";
+import { VariableDialogComponent } from "./variable/variable-dialog.component";
 
 const providers: Provider[] = [
 	{
@@ -135,7 +136,8 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 		StatsDialogComponent,
 		ProcessDialogComponent,
 		MigrateComponent,
-		EditQueryDialog
+		EditQueryDialog,
+		VariableDialogComponent
 	],
 	imports: [
 		AppRoutingModule,

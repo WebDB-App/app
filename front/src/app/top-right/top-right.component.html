@@ -4,6 +4,14 @@
 	</span>
 </button>
 <mat-menu #activity="matMenu">
+	<a (click)="showLogs()"
+	   mat-menu-item
+	   target="_blank">
+		<span class="material-symbols-outlined notranslate">
+			receipt_long
+		</span>
+		Finished queries
+	</a>
 	<ng-container
 		*ngIf="Server.getSelected()">
 		<a (click)="request.reloadServer()"
@@ -13,6 +21,7 @@
 			</span>
 			Reload Database
 		</a>
+		<mat-divider></mat-divider>
 		<a (click)="showProcess()"
 		   *ngIf="Server.getSelected()"
 		   mat-menu-item
@@ -30,16 +39,15 @@
 			</span>
 			Server Stats
 		</a>
+		<a (click)="showVariables()"
+		   mat-menu-item
+		   target="_blank">
+			<span class="material-symbols-outlined notranslate">
+				discover_tune
+			</span>
+			Server Variables
+		</a>
 	</ng-container>
-
-	<a (click)="showLogs()"
-	   mat-menu-item
-	   target="_blank">
-		<span class="material-symbols-outlined notranslate">
-			receipt_long
-		</span>
-		Finished queries
-	</a>
 </mat-menu>
 <button [matMenuTriggerFor]="help" mat-icon-button>
 	<span class="material-symbols-outlined notranslate">

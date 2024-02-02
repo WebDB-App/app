@@ -36,7 +36,7 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 		{link: "load", icon: "input"},
 		{link: "dump", icon: "ios_share"},
 		{link: "complex", icon: "device_hub"},
-		{link: "advanced", icon: "instant_mix"},
+		{link: "advanced", icon: "database"},
 	];
 
 	protected readonly environment = environment;

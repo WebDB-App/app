@@ -1,0 +1,51 @@
+<div mat-dialog-content>
+	<table
+		[dataSource]="variableList"
+		[trackBy]="identify"
+		mat-table
+		style="border-radius: 6px; border: 1px solid transparent;">
+
+		<ng-container matColumnDef="pid">
+			<th *matHeaderCellDef mat-header-cell style="min-width: 50px">
+				<mat-form-field appearance="legacy" style="margin-bottom: -1.25em">
+					<input
+						#filter
+						(keyup)="filterChanged(filter.value)"
+						autocomplete="off"
+						matInput
+						placeholder="Search variable">
+					<button
+						(click)="filter.value=''; filterChanged(filter.value)"
+						*ngIf="filter.value"
+						aria-label="Clear"
+						mat-icon-button
+						matSuffix>
+						<span class="material-symbols-outlined notranslate">close</span>
+					</button>
+				</mat-form-field>
+			</th>
+			<td *matCellDef="let element" mat-cell> {{ element.name }}</td>
+		</ng-container>
+
+		<ng-container matColumnDef="db">
+			<th *matHeaderCellDef mat-header-cell style="min-width: 50px"> Value </th>
+			<td *matCellDef="let element" mat-cell>
+				<mat-form-field appearance="legacy" style="margin-bottom: -1.25em">
+					<input
+						[(ngModel)]="element.value"
+						autocomplete="off"
+						matInput
+						placeholder="Search process">
+				</mat-form-field>
+			</td>
+		</ng-container>
+
+		<tr *matHeaderRowDef="displayedColumns; sticky: true" cdkDrag cdkDragHandle
+			cdkDragRootElement=".cdk-overlay-pane" mat-header-row></tr>
+		<tr *matRowDef="let row; columns: displayedColumns;" mat-row
+			style="background-color: rgba(0, 0, 0, 0.25);"></tr>
+	</table>
+</div>
+
+
+

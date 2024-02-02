@@ -191,9 +191,9 @@ export class StatsDialogComponent implements OnDestroy {
 	}
 
 	switchAll() {
-		this.chart.chart!.data.datasets.forEach(function (ds) {
-			ds.hidden = !ds.hidden;
-		});
+		for(const [key, stat] of Object.entries(this.chart.chart!.data.datasets)) {
+			this.chart.chart!.data.datasets[<any>key].hidden = !stat.hidden;
+		}
 		this.chart.chart!.update();
 	}
 }

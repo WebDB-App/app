@@ -12,6 +12,7 @@ import { Server } from "../../classes/server";
 import { ProcessDialogComponent } from "../process/process-dialog.component";
 import { StatsDialogComponent } from "../stats/stats-dialog.component";
 import { RequestService } from "../../shared/request.service";
+import { VariableDialogComponent } from "../variable/variable-dialog.component";
 
 @Component({
 	selector: 'app-top-right',
@@ -54,6 +55,14 @@ export class TopRightComponent {
 		this.dialog.open(StatsDialogComponent, {
 			hasBackdrop: false,
 			id: 'stats',
+			data: {...Server.getSelected()},
+		});
+	}
+
+	showVariables() {
+		this.dialog.open(VariableDialogComponent, {
+			hasBackdrop: false,
+			id: 'variable',
 			data: {...Server.getSelected()},
 		});
 	}
