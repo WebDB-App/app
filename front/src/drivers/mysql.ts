@@ -64,6 +64,8 @@ export class MySQL extends SQL {
 					'JSON_ARRAY': '([val[, val] ...])',
 					'JSON_ARRAY_APPEND': '(json_doc, path, val[, path, val] ...)',
 					'JSON_ARRAYAGG': null,
+					'LASTVAL': null,
+					'NEXTVAL': null,
 					'UUID': '',
 					'AES_ENCRYPT': '(str, key_str)',
 					'AES_DECRYPT': '(crypt_str, key_str)'

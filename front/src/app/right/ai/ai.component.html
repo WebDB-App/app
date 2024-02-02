@@ -415,7 +415,7 @@
 		<mat-form-field
 			appearance="fill"
 			color="accent">
-			<mat-label>Ask anything about `{{ selectedDatabase?.name }}`</mat-label>
+			<mat-label>Ask anything about <i>{{ selectedDatabase?.name }}</i></mat-label>
 			<textarea
 				#message
 				(keydown.enter)="sendMessage(message.value); message.value = ''"

@@ -36,9 +36,8 @@ export class ColumnComponent implements OnInit {
 		this.typeGroups = this.selectedServer!.driver.language.typeGroups;
 
 		const custom: TypeData[] = [];
-
 		['DOMAIN', 'ENUM'].map(type => {
-			this.selectedServer!.complexes[type].map(complex => {
+			this.selectedServer!.complexes[type]?.map(complex => {
 				if (Database.getSelected().name !== complex.database) {
 					return;
 				}
@@ -49,7 +48,6 @@ export class ColumnComponent implements OnInit {
 				});
 			});
 		});
-
 		if (custom.length) {
 			this.typeGroups.push({
 				name: Group.Custom,
