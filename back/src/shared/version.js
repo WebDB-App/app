@@ -77,7 +77,7 @@ class Version {
 			}
 		}
 
-		return {diff: final};
+		return {diff: final, raw: original};
 	}
 
 	async list(database, driver) {

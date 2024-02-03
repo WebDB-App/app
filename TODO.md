@@ -3,7 +3,7 @@
 - nosql default column
 - gpt4
 - expliquer code .js, .ts
-- dire que seul al dernière requete est display
+- dire que seul la dernière requete est display
 - https://chat.openai.com/c/eae4f88e-e100-45de-9502-8708f7f48bf8
 
 
@@ -12,18 +12,14 @@
 - ERD [Chrome bookmarks] + UML/Merise
 
 
-- edit complex
-- download/toClipboard git patch
-- erd draw named zones
 
-
-
-- https://www.bytebase.com/docs/sql-editor/overview/
 - first level keyword (select, update, create, with, alter) + patch
 
 
 
+
 ----------------------------------------------------------
+
 
 
 
@@ -34,9 +30,11 @@
 
 
 
-
 # reorder columns
 
+
+# ERD
+- draw named zones
 
 
 # Comparator

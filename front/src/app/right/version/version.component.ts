@@ -5,12 +5,14 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { RequestService } from "../../../shared/request.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { DiffEditorModel } from "ngx-monaco-editor-v2";
-import { DrawerService } from "../../../shared/drawer.service";
+import { saveAs } from "file-saver-es";
+import { Table } from "../../../classes/table";
 
 class Patch {
 	hash!: string;
 	time!: number;
 	ago!: string;
+	raw!: string;
 	isLoading = false;
 	left!: DiffEditorModel;
 	right!: DiffEditorModel;
@@ -166,7 +168,12 @@ export class VersionComponent implements OnInit, OnDestroy {
 				patch.left.code += row + '\n';
 			}
 		}
-
+		patch.raw = res.raw;
 		patch.isLoading = false;
+	}
+
+	download() {
+		const blob = new Blob([this.selectedPatch!.raw]);
+		saveAs(blob, this.selectedPatch?.hash + '.patch');
 	}
 }

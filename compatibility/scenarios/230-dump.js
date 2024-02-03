@@ -7,15 +7,12 @@ import {readFile} from "node:fs/promises";
 
 const defaultParams = {
 	[base.MongoDB]: {
-		options: "",
 		exportType: "bson"
 	},
 	[base.PostgreSQL]: {
-		options: "",
 		exportType: "sql"
 	},
 	[base.MySQL]: {
-		options: "--column-statistics=0",
 		exportType: "sql"
 	},
 };
@@ -37,6 +34,7 @@ async function run(config) {
 
 
 	defaultParams[config.base].tables = false;
+	defaultParams[config.base].options = "";
 
 	const dump = await post("server/dump", defaultParams[config.base]);
 	await test("[dump] Dump world ok", () => {

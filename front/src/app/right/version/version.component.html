@@ -20,6 +20,27 @@
 	</div>
 
 	<div style="display: flex; align-items: center; gap: 15px;">
+
+		<button
+			(click)="download()"
+			[cdkCopyToClipboard]="selectedPatch.raw"
+			mat-button>
+			<span class="material-symbols-outlined notranslate">
+				download
+			</span>
+			Download
+		</button>
+
+		<button
+			(click)="snackBar.open('Patch copied', '⨉', {duration: 3000})"
+			[cdkCopyToClipboard]="selectedPatch.raw"
+			mat-button>
+			<span class="material-symbols-outlined notranslate">
+				content_copy
+			</span>
+			Copy
+		</button>
+
 		<button
 			(click)="reset(selectedPatch)"
 			[disabled]="isResetting || selectedPatch.isLoading"
