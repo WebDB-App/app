@@ -49,7 +49,7 @@ export class CellComponent implements OnInit {
 		this.relations = Table.getRelations();
 		this.selectedServer = Server.getSelected();
 
-		this.value = JSON.parse(JSON.stringify(this.value));
+		this.value = structuredClone(this.value);
 		this.nested = isNested(this.value);
 		if (this.nested) {
 			if (JSON.stringify(this.value).length > 70) {

@@ -155,6 +155,21 @@ ${def[0]["VIEW_DEFINITION"]}`
 		return (await this.runCommand(`SELECT SUM(data_length) AS "data_length", SUM(index_length) AS "index_length" FROM information_schema.TABLES WHERE table_schema = "${database}" AND table_name = "${table}"`))[0];
 	}
 
+	async variableSet(variable) {
+		return await this.runCommand(`SET GLOBAL ${variable.name} = ${variable.value};`);
+	}
+
+	async variableList(global = true) {
+		const list = await this.runCommand(`SHOW ${global ? "GLOBAL" : "SESSION"} VARIABLES`);
+		return list.map(l =>  {
+			return {
+				name: l.Variable_name,
+				value: l.Value,
+				link: `https://mariadb.com/docs/server/ref/mdb/system-variables/${l.Variable_name}/`
+			};
+		});
+	}
+
 	async serverStats() {
 		const tmp = (await this.runCommand("SHOW GLOBAL STATUS WHERE Variable_name IN ('Bytes_received', 'Bytes_sent', 'Connections', 'Created_tmp_files', 'Created_tmp_tables', 'Innodb_rows_updated', 'Innodb_rows_deleted', 'Innodb_rows_inserted', 'Innodb_rows_read', 'Handler_update', 'Handler_delete', 'Handler_write', 'Handler_read_rnd_next', 'Threads_connected', 'Threads_running')"));
 		const stats = {};
@@ -202,8 +217,6 @@ ${def[0]["VIEW_DEFINITION"]}`
 		complexes["FUNCTION"] = routines.filter(routine => routine.type.toLowerCase() === "function");
 		complexes["PROCEDURE"] = routines.filter(routine => routine.type.toLowerCase() === "procedure");
 
-		//mariadb sequence
-		//materialized view
 		try {
 			complexes["CHECK"] = await this.runCommand("SELECT CHECK_CONSTRAINTS.CONSTRAINT_SCHEMA AS 'database', CHECK_CONSTRAINTS.CONSTRAINT_NAME AS 'name', `CHECK_CLAUSE` AS 'value', TABLE_CONSTRAINTS.TABLE_NAME AS 'table' FROM information_schema.CHECK_CONSTRAINTS JOIN information_schema.TABLE_CONSTRAINTS ON CHECK_CONSTRAINTS.CONSTRAINT_SCHEMA = TABLE_CONSTRAINTS.CONSTRAINT_SCHEMA AND CHECK_CONSTRAINTS.CONSTRAINT_NAME = TABLE_CONSTRAINTS.CONSTRAINT_NAME");
 		} catch (e) { /* empty */ }

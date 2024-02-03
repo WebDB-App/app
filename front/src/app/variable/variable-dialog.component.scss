@@ -2,14 +2,24 @@
 	width: 700px;
 	height: 350px;
 	resize: both;
-	overflow: auto;
+	overflow-y: scroll;
+	overflow-x: hidden;
 
 	table {
 		height: 100%;
 		width: 100%;
 
 		td {
-			padding: 4px;
+			padding: 2px;
+			max-width: 300px;
+			word-break: break-word;
+		}
+
+		td:first-child {
+			padding-left: 14px;
+		}
+		td:last-child {
+			text-align: right;
 		}
 	}
 }

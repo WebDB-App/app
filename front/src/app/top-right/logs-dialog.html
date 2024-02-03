@@ -6,7 +6,7 @@
 		appearance="legacy"
 		color="primary"
 		class="searchField"
-		style="flex: 1; margin-bottom: -1em; padding: 6px 12px;">
+		style="margin-bottom: -1.25em; padding: 0px 12px;">
 		<input (keyup)="filterChanged()"
 			   [(ngModel)]="filter"
 			   autocomplete="off"
@@ -20,14 +20,17 @@
 		</button>
 	</mat-form-field>
 
-	<a [href]="environment.rootUrl + 'logs/finished.log'"
-	   target="_blank">
-		Full logs
-	</a>
+	<div>
+		<a [href]="environment.rootUrl + 'logs/finished.log'"
+		   style="margin-right: 20px;"
+		   target="_blank">
+			Full logs
+		</a>
 
-	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
-		<span class="material-symbols-outlined notranslate">close</span>
-	</button>
+		<button aria-label="close dialog" mat-dialog-close mat-icon-button>
+			<span class="material-symbols-outlined notranslate">close</span>
+		</button>
+	</div>
 </div>
 <div mat-dialog-content>
 	<mat-divider></mat-divider>

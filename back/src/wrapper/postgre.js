@@ -155,8 +155,37 @@ ${def[0]["pg_get_viewdef"]}`
 		await this.runCommand(`SELECT pg_terminate_backend(${pid});`);
 	}
 
+	async variableSet(variable) {
+		return await this.runCommand(`SET ${variable.name} = ${variable.value};`);
+	}
+
+	async variableList() {
+		const list = await this.runCommand("SHOW ALL");
+		return list.rows.map(l => {
+			return {
+				name: l.name,
+				link: `https://postgresqlco.nf/doc/en/param/${l.name}/`,
+				value: l.setting,
+				description: l.description
+			};
+		});
+	}
+
 	async serverStats() {
-		return {error: "Statistics unavailable for this driver"};
+		const stats = (await this.runCommand("SELECT SUM(xact_commit) as xact_commit, SUM(blks_read) as blks_read, SUM(tup_returned) as tup_returned, SUM(tup_fetched) as tup_fetched, SUM(tup_inserted) as tup_inserted, SUM(tup_updated) as tup_updated, SUM(tup_deleted) as tup_deleted FROM pg_stat_database;"))[0];
+		const sessions = await this.runCommand("SELECT state FROM pg_stat_activity;");
+		return [
+			{Variable_name: "Block read", "Value": stats.blks_read},
+			{Variable_name: "Session active", "Value": sessions.filter(s => s.state === "active").length},
+			{Variable_name: "Session idle", "Value": sessions.filter(s => s.state === "idle").length},
+			{Variable_name: "Session total", "Value": sessions.length},
+			{Variable_name: "Transactions", "Value": stats.xact_commit},
+			{Variable_name: "Tupl fetch", "Value": stats.tup_fetched},
+			{Variable_name: "Tupl return", "Value": stats.tup_returned},
+			{Variable_name: "Tupl insert", "Value": stats.tup_inserted},
+			{Variable_name: "Tupl update", "Value": stats.tup_updated},
+			{Variable_name: "Tupl delete", "Value": stats.tup_deleted},
+		];
 	}
 
 	async getComplexes() {

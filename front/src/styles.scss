@@ -173,11 +173,7 @@ a {
 	transition: filter 0.1s linear;
 	min-width: 250px;
 
-	&:hover, &:has(iframe) {
-		filter: brightness(0.9);
-	}
-
-	&:focus, &:active, &:focus-within {
+	&:focus, &:active, &:focus-within, &:hover, &:has(iframe) {
 		filter: brightness(1);
 	}
 

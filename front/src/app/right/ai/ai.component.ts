@@ -284,7 +284,7 @@ export class AiComponent implements OnInit, OnDestroy {
 	}
 
 	saveChat() {
-		const copy = JSON.parse(JSON.stringify(this.chat));
+		const copy = structuredClone(this.chat);
 		localStorage.setItem(this.localKeyChatHistory, JSON.stringify(copy.map((ch: Msg) => {
 			delete ch.marked;
 			return ch;

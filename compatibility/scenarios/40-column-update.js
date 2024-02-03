@@ -6,8 +6,8 @@ import {columnsForTests, tableForStruct} from "../base.js";
 import {base} from "../docker.js";
 
 async function run(config) {
-	const before = {...columnsForTests[config.base][0]};
-	const after = {...columnsForTests[config.base][0]};
+	const before = structuredClone(columnsForTests[config.base][0]);
+	const after = structuredClone(columnsForTests[config.base][0]);
 
 	//--------------------------------------------
 

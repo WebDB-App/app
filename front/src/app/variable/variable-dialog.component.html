@@ -1,19 +1,26 @@
 <div mat-dialog-content>
+	<mat-spinner
+		*ngIf="!variableList.data.length"
+		[diameter]="50"
+		color="primary"
+		style="margin: 30px auto;"
+	></mat-spinner>
+
 	<table
+		*ngIf="variableList.data.length"
 		[dataSource]="variableList"
 		[trackBy]="identify"
-		mat-table
-		style="border-radius: 6px; border: 1px solid transparent;">
+		mat-table>
 
-		<ng-container matColumnDef="pid">
-			<th *matHeaderCellDef mat-header-cell style="min-width: 50px">
-				<mat-form-field appearance="legacy" style="margin-bottom: -1.25em" class="searchField">
+		<ng-container matColumnDef="name">
+			<th *matHeaderCellDef mat-header-cell style="padding-left: 14px;">
+				<mat-form-field appearance="legacy" style="margin-bottom: -1em; width: 92%;" class="searchField">
 					<input
 						#filter
 						(keyup)="filterChanged(filter.value)"
 						autocomplete="off"
 						matInput
-						placeholder="Search variable">
+						placeholder="Search name | description | value">
 					<button
 						(click)="filter.value=''; filterChanged(filter.value)"
 						*ngIf="filter.value"
@@ -24,19 +31,75 @@
 					</button>
 				</mat-form-field>
 			</th>
-			<td *matCellDef="let element" mat-cell> {{ element.name }}</td>
+			<td *matCellDef="let element" mat-cell [matTooltip]="element.description" matTooltipPosition="right"> {{ element.name }}</td>
 		</ng-container>
 
-		<ng-container matColumnDef="db">
-			<th *matHeaderCellDef mat-header-cell style="min-width: 50px"> Value </th>
+		<ng-container matColumnDef="value">
+			<th *matHeaderCellDef mat-header-cell> Value </th>
 			<td *matCellDef="let element" mat-cell>
-				<mat-form-field appearance="legacy" style="margin-bottom: -1.25em">
-					<input
-						[(ngModel)]="element.value"
-						autocomplete="off"
-						matInput
-						placeholder="Search process">
-				</mat-form-field>
+
+				<span *ngIf="!toUpdate[element.name]">{{element.value}}</span>
+
+				<ng-container *ngIf="toUpdate[element.name]">
+					<mat-form-field
+						appearance="legacy"
+						style="width: 100%; margin-bottom: -1em">
+						<textarea
+							cdkTextareaAutosize
+							[(ngModel)]="element.value"
+							matInput
+							type="text">
+						</textarea>
+					</mat-form-field>
+				</ng-container>
+			</td>
+		</ng-container>
+
+		<ng-container matColumnDef="description">
+			<th *matHeaderCellDef mat-header-cell style="text-align: end; padding-right: 14px;">
+				<button aria-label="close dialog" mat-dialog-close mat-icon-button>
+					<span class="material-symbols-outlined notranslate">close</span>
+				</button>
+			</th>
+			<td *matCellDef="let element" mat-cell>
+				<ng-container *ngIf="server.wrapper !== 'MongoDB'">
+					<button
+						*ngIf="!toUpdate[element.name]"
+						(click)="toUpdate[element.name] = element.value"
+						mat-icon-button>
+						<span class="material-symbols-outlined notranslate">
+							edit_square
+						</span>
+					</button>
+
+					<ng-container *ngIf="toUpdate[element.name]">
+						<button
+							(click)="setVariable(element)"
+							color="primary"
+							mat-icon-button>
+							<span class="material-symbols-outlined notranslate">
+								save
+							</span>
+						</button>
+
+						<button
+							(click)="element.value = toUpdate[element.name]; toUpdate[element.name] = undefined;"
+							color="warn"
+							mat-icon-button>
+							<span class="material-symbols-outlined notranslate">
+								cancel
+							</span>
+						</button>
+					</ng-container>
+
+					<a [href]="element.link"
+					   mat-icon-button
+					   target="_blank">
+						<span class="material-symbols-outlined notranslate">
+							developer_guide
+						</span>
+					</a>
+				</ng-container>
 			</td>
 		</ng-container>
 

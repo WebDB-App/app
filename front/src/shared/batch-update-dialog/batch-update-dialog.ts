@@ -62,7 +62,7 @@ export class BatchUpdateDialog {
 
 		for (const old_data of this.data) {
 			this.loading = ++nb * 100 / this.data.length;
-			const new_data = {...old_data};
+			const new_data = structuredClone(old_data);
 
 			for (const [key, val] of Object.entries(replacer)) {
 				new_data[key] = val;

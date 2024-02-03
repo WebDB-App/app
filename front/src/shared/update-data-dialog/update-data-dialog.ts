@@ -34,7 +34,7 @@ export class UpdateDataDialog {
 			updateInPlace: boolean
 		},
 	) {
-		data.row = {...data.row};
+		data.row = structuredClone(data.row);
 		for (const col of Object.keys(data.row)) {
 			if (Column.isOfGroups(Server.getSelected().driver, Table.getSelected().columns.find(c => c.name === col)!, [Group.Blob])) {
 				delete data.row[col];

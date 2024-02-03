@@ -24,7 +24,7 @@ async function run(config) {
 		throw new Error();
 	}
 
-	const currentWithoutCreds = {...config.credentials};
+	const currentWithoutCreds = structuredClone(config.credentials);
 	currentWithoutCreds.user = "";
 	currentWithoutCreds.password = "";
 

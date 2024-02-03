@@ -148,6 +148,43 @@ export default class MongoDB extends Driver {
 		await this.connection.db().admin().command({killOp: 1, op: pid});
 	}
 
+	flattenObject(obj, prefix = "", result = {}) {
+		for (const [key, value] of Object.entries(obj)) {
+			const fullPath = prefix ? `${prefix}.${key}` : key;
+
+			if (typeof value === "object" && value !== null && !Array.isArray(value)) {
+				this.flattenObject(value, fullPath, result);
+			} else {
+				result[fullPath] = value;
+			}
+		}
+
+		return result;
+	}
+
+	async variableList() {
+		let list = await this.connection.db().admin().command({serverStatus: 1});
+		list = this.flattenObject(list);
+
+		return Object.entries(list).map(([name, value]) => {
+			if (name.indexOf(" ") > 0) {
+				let description = name.slice(name.lastIndexOf(".") + 1);
+				return {
+					name: name.slice(0, name.lastIndexOf(".") + 1) + description.split(" ").map((n) => n[0]).join("").replaceAll("(", ""),
+					value,
+					description: description.charAt(0).toUpperCase() + description.slice(1),
+					link: ""
+				};
+			} else {
+				return {
+					name,
+					value,
+					link: ""
+				};
+			}
+		});
+	}
+
 	async serverStats() {
 		const stats = await this.connection.db().admin().command({serverStatus: 1});
 		return [

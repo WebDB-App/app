@@ -7,15 +7,12 @@
 
 
 
-- postgre list variable + https://dev.mysql.com/doc/refman/8.0/en/show-variables.html
-
-
-- create table t1 (a int primary key default (next value for s1), b int);
 - edit complex
+
 - query stats -> network, execution
 - finir tests
 - ERD [Chrome bookmarks] + UML/Merise + draw named zones
-
+- download/toClipboard git patch 
 
 
 ----------------------------------------------------------
@@ -40,7 +37,8 @@
 
 
 # SQL editor
-- first level keyword (select, update, create)
+- https://demo.questdb.io/?query=--%20Compute%20the%20average%20gas%20price%20per%20gallon%20in%20one-month%20intervals.%20We%20use%20the%20SAMPLE%20BY%0A--%20SQL%20extension%20to%20aggregate%20records%20at%20regular%20intervals.%20This%20query%20covers%20a%20small%20demo%0A--%20dataset%20(1%2C028%20records)%20with%20historical%20gas%20prices.%0ASELECT%20timestamp%2C%20avg(galon_price)%0AFROM%20gas_prices%0ASAMPLE%20BY%201M%3B&executeQuery=true
+- first level keyword (select, update, create, with) + patch
 - comprendre les columns retournées par les cte et subquery 
 - function doc (generate from web scrap)
 - LLM on WebGPU ?

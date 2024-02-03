@@ -28,7 +28,7 @@
 		</mat-toolbar>
 
 		<div fxLayout="column" fxLayoutAlign="center none" style="width: 400px;">
-			
+
 			<ng-container *ngIf="!selectedTable.view">
 
 				<div *ngIf="stats" fxLayout="row" fxLayoutAlign="space-between center">
@@ -73,7 +73,7 @@
 							[disabled]="!validName(tableRename.value)"
 							mat-stroked-button>
 						<span class="material-symbols-outlined notranslate">
-							edit_square
+							match_word
 						</span>
 						Rename
 					</button>

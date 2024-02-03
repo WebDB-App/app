@@ -47,7 +47,7 @@ export class TopRightComponent {
 		this.dialog.open(ProcessDialogComponent, {
 			hasBackdrop: false,
 			id: 'process',
-			data: {...Server.getSelected()},
+			data: JSON.parse(JSON.stringify(Server.getSelected())),
 		});
 	}
 
@@ -55,7 +55,7 @@ export class TopRightComponent {
 		this.dialog.open(StatsDialogComponent, {
 			hasBackdrop: false,
 			id: 'stats',
-			data: {...Server.getSelected()},
+			data: JSON.parse(JSON.stringify(Server.getSelected())),
 		});
 	}
 
@@ -63,7 +63,7 @@ export class TopRightComponent {
 		this.dialog.open(VariableDialogComponent, {
 			hasBackdrop: false,
 			id: 'variable',
-			data: {...Server.getSelected()},
+			data: JSON.parse(JSON.stringify(Server.getSelected())),
 		});
 	}
 }

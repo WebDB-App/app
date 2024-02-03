@@ -31,7 +31,7 @@ async function run(config) {
 
 	//--------------------------------------------
 
-	const oldTable = {...tableForStruct};
+	const oldTable = structuredClone(tableForStruct);
 	const duplicate = await post("table/duplicate", {new_name: "tableTest02"}, oldTable);
 	await test("[table] Duplication ok", () => {
 		assert.ok(!duplicate.error);

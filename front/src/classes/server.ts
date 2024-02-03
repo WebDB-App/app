@@ -84,7 +84,7 @@ export class Server {
 	}
 
 	static getShallow(server: Server) {
-		const shallow = {...server}
+		const shallow = JSON.parse(JSON.stringify(server));
 		shallow.dbs = [];
 		shallow.relations = [];
 		shallow.indexes = [];
