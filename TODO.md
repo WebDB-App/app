@@ -3,6 +3,7 @@
 - nosql default column
 - gpt4
 - expliquer code .js, .ts
+- dire que seul al dernière requete est display
 - https://chat.openai.com/c/eae4f88e-e100-45de-9502-8708f7f48bf8
 
 
@@ -11,8 +12,15 @@
 - ERD [Chrome bookmarks] + UML/Merise
 
 
-- https://demo.questdb.io/?query=--%20Compute%20the%20average%20gas%20price%20per%20gallon%20in%20one-month%20intervals.%20We%20use%20the%20SAMPLE%20BY%0A--%20SQL%20extension%20to%20aggregate%20records%20at%20regular%20intervals.%20This%20query%20covers%20a%20small%20demo%0A--%20dataset%20(1%2C028%20records)%20with%20historical%20gas%20prices.%0ASELECT%20timestamp%2C%20avg(galon_price)%0AFROM%20gas_prices%0ASAMPLE%20BY%201M%3B&executeQuery=true
-- first level keyword (select, update, create, with) + patch
+- edit complex
+- download/toClipboard git patch
+- erd draw named zones
+
+
+
+- https://www.bytebase.com/docs/sql-editor/overview/
+- first level keyword (select, update, create, with, alter) + patch
+
 
 
 ----------------------------------------------------------
@@ -26,14 +34,9 @@
 
 
 
-- edit complex
-- query stats -> network, execution
-- download/toClipboard git patch
-- erd draw named zones
-
-
 
 # reorder columns
+
 
 
 # Comparator
@@ -51,6 +54,7 @@
 
 
 # Profiling
+- query stats -> network, execution
 - https://github.com/dalibo/pev2
 - https://www.postgresql.org/docs/9.2/using-explain.html
 - https://www.mongodb.com/docs/manual/reference/command/explain/

@@ -639,8 +639,8 @@ export default class MongoDB extends Driver {
 		}
 
 		if (query.indexOf(".find(") > 0) {
-			query = query.replace(".find(", ".countDocuments(");
-			query = query.replace(".toArray()", "");
+			query = query.replaceAll(".find(", ".countDocuments(");
+			query = query.replaceAll(".toArray()", "");
 			const result = await this.runCommand(query, database);
 			return result.error ? "0" : result.toString();
 		}

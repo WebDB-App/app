@@ -405,7 +405,7 @@ export class SQL implements Driver {
 	}
 
 	tableSuggestions(textUntilPosition: string, allText: string) {
-		const suggestions = this.extractCTE(allText);
+		const suggestions = this.extractAlias(allText);
 
 		Database.getSelected()?.tables?.map(table => {
 			suggestions.push({
@@ -457,7 +457,7 @@ export class SQL implements Driver {
 		}
 
 		Database.getSelected()?.tables?.map(table => {
-			if (previousToken !== table.name.toLowerCase() && !this.foundAlias(previousToken, table.name.toLowerCase(), allText)) {
+			if (previousToken !== table.name.toLowerCase() && !this.lookupTableAlias(previousToken, table.name.toLowerCase(), allText)) {
 				return;
 			}
 
@@ -559,7 +559,7 @@ export class SQL implements Driver {
 			return this.tableSuggestions(textUntilPosition, allText);
 		}
 
-		let suggestions = this.getCache().concat(this.extractCTE(allText));
+		let suggestions = this.extractAlias(allText).concat(this.getCache());
 		suggestions = suggestions.filter((s: any) => typeof s.label === "object" ? s.label.label.length > 2 : s.label.length > 2);
 		if (suggestions.length < 1) {
 			return suggestions;
@@ -627,7 +627,7 @@ export class SQL implements Driver {
 		return columns.map(column => `'${(<String>column.type).replaceAll("'", '"')}'`);
 	}
 
-	foundAlias(previousToken: string, table: string, allText: string) {
+	lookupTableAlias(previousToken: string, table: string, allText: string) {
 		allText = allText.toLowerCase().replace(" as "," ");
 		allText = sql_cleanQuery(allText);
 
@@ -638,16 +638,26 @@ export class SQL implements Driver {
 		return "";
 	}
 
-	extractCTE(allText: string) {
+	extractAlias(allText: string) {
 		allText = sql_cleanQuery(allText, false);
+		const suggestions: any[] = [];
 
-		const matchs = allText.matchAll(/ ([a-zA-Z0-9]+) as \(/gmi);
-		return [...matchs]?.map(match => {
-			return {
+		[...allText.matchAll(/ ([a-zA-Z0-9]+) as \(/gmi)]?.map(match => {
+			suggestions.push({
 				label: match[1],
 				kind: monaco.languages.CompletionItemKind.Struct,
 				insertText: match[1]
-			};
+			});
 		});
+
+		[...allText.matchAll(/\) as ([a-zA-Z0-9]+)/gmi)]?.map(match => {
+			suggestions.push({
+				label: match[1],
+				kind: monaco.languages.CompletionItemKind.Struct,
+				insertText: match[1]
+			});
+		});
+
+		return suggestions;
 	}
 }

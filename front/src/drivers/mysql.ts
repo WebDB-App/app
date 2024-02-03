@@ -268,9 +268,11 @@ export class MySQL extends SQL {
 						{
 							id: "json",
 							bold: true,
+							description: "JSON stands for “JavaScript Object Notation”. JSON is a lightweight data-interchange format that is easy for humans to read and write and simple for computers to parse and generate."
 						},
 						{
 							id: "set('a', 'b', 'c')",
+							description: "A SET is a string object that can have zero or more values, each of which must be chosen from a list of permitted values specified when the table is created. SET column values that consist of multiple set members are specified with members separated by commas (,). A consequence of this is that SET member values should not themselves contain commas."
 						}
 					]
 				}, {
@@ -278,27 +280,35 @@ export class MySQL extends SQL {
 					list: [
 						{
 							id: "geometry",
+							description: 'GEOMETRY is one of the data types in MySQL used for storing spatial data. It can store geometric objects such as points, lines, polygons, etc., and supports storage, computation, and querying of spatial data.'
 						},
 						{
 							id: "linestring",
+							description: 'A LineString is a Curve with linear interpolation between points.'
 						},
 						{
 							id: "point",
+							description: 'A Point is a geometry which represents a single location in coordinate space.'
 						},
 						{
 							id: "polygon",
+							description: 'A Polygon is a planar Surface representing a multisided geometry. It is defined by a single exterior boundary and zero or more interior boundaries, where each interior boundary defines a hole in the Polygon.'
 						},
 						{
 							id: "multipoint",
+							description: "A MultiPoint is a geometry collection composed of Point elements. The points are not connected or ordered in any way."
 						},
 						{
 							id: "multilinestring",
+							description: "A MultiLineString is a MultiCurve geometry collection composed of LineString elements."
 						},
 						{
 							id: "multipolygon",
+							description: "MultiPolygon is a MultiSurface object composed of Polygon elements."
 						},
 						{
 							id: "geometrycollection",
+							description: "A GeometryCollection is a geometry that is a collection of one or more geometries of any class."
 						}
 					]
 				}
