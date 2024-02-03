@@ -1,0 +1,86 @@
+Index: front/src/drivers/sql.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/front/src/drivers/sql.ts b/front/src/drivers/sql.ts
+--- a/front/src/drivers/sql.ts	
++++ b/front/src/drivers/sql.ts	(date 1706870341078)
+@@ -366,12 +366,11 @@
+ 		});
+ 
+ 		Object.keys(this.language.functions).map(fct => {
+-			const detail = this.language.functions[fct] || '(expression)';
+ 			suggestions.push({
+-				label: fct.toLowerCase(),
++				label: fct.toLowerCase() + '()',
+ 				kind: monaco.languages.CompletionItemKind.Function,
+ 				insertText: `${this.setCase('functionCase', fct)}()`,
+-				detail
++				detail: this.language.functions[fct] || '(expression)'
+ 			});
+ 		});
+ 
+@@ -389,7 +388,7 @@
+ 			insertText: `* `
+ 		});
+ 
+-		Server.getSelected().complexes?.map(complex => {
++		Object.values(Server.getSelected().complexes).flatMap(c => c).map(complex => {
+ 			if (Database.getSelected().name !== complex.database) {
+ 				return;
+ 			}
+@@ -473,29 +472,6 @@
+ 			})
+ 		});
+ 
+-		return suggestions;
+-	}
+-
+-	alterStructureSuggestion() {
+-		const suggestions: any = [];
+-		this.language.constraints.map(constraint => {
+-			suggestions.push({
+-				label: constraint.toLowerCase(),
+-				kind: monaco.languages.CompletionItemKind.Reference,
+-				insertText: `${this.setCase('keywordCase', constraint)}`
+-			});
+-		});
+-
+-		this.language.typeGroups.map(types => {
+-			types.list.map(type => {
+-				suggestions.push({
+-					label: this.setCase('dataTypeCase', type.id),
+-					kind: monaco.languages.CompletionItemKind.TypeParameter,
+-					insertText: `${this.setCase('dataTypeCase', type.id)}`,
+-					detail: type.description
+-				});
+-			});
+-		});
+ 		return suggestions;
+ 	}
+ 
+@@ -578,21 +554,12 @@
+ 			return this.dotSuggestions(textUntilPosition, allText);
+ 		}
+ 		if (allText.match(/\s+from\s+(\S+)$/mi) ||
+-			allText.match(/^delete\s+(\S+)$/mi) ||
+ 			allText.match(/^update\s+(\S+)$/mi) ||
+-			allText.match(/^insert into\s+(\S+)$/mi) ||
+-			allText.match(/\s+table\s+(\S+)$/mi)) {
++			allText.match(/^insert into\s+(\S+)$/mi)) {
+ 			return this.tableSuggestions(textUntilPosition, allText);
+ 		}
+ 
+-		let suggestions = [];
+-
+-		if (allText.match(/^alter table/mi) ||
+-			allText.match(/^create table/mi)) {
+-			suggestions = this.alterStructureSuggestion();
+-		}
+-
+-		suggestions = suggestions.concat(this.getCache()).concat(this.extractCTE(allText));
++		let suggestions = this.getCache().concat(this.extractCTE(allText));
+ 		suggestions = suggestions.filter((s: any) => typeof s.label === "object" ? s.label.label.length > 2 : s.label.length > 2);
+ 		if (suggestions.length < 1) {
+ 			return suggestions;

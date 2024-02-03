@@ -7,12 +7,12 @@
 
 
 
-- edit complex
-
-- query stats -> network, execution
 - finir tests
-- ERD [Chrome bookmarks] + UML/Merise + draw named zones
-- download/toClipboard git patch 
+- ERD [Chrome bookmarks] + UML/Merise
+
+
+- https://demo.questdb.io/?query=--%20Compute%20the%20average%20gas%20price%20per%20gallon%20in%20one-month%20intervals.%20We%20use%20the%20SAMPLE%20BY%0A--%20SQL%20extension%20to%20aggregate%20records%20at%20regular%20intervals.%20This%20query%20covers%20a%20small%20demo%0A--%20dataset%20(1%2C028%20records)%20with%20historical%20gas%20prices.%0ASELECT%20timestamp%2C%20avg(galon_price)%0AFROM%20gas_prices%0ASAMPLE%20BY%201M%3B&executeQuery=true
+- first level keyword (select, update, create, with) + patch
 
 
 ----------------------------------------------------------
@@ -23,6 +23,13 @@
 - system de téléchargement de code depuis la landing avec le mail
 - attention de telecharger la version par rapport a la version en cours
 - récupérer la licence directemnt depuis la landing + enlever l'endpoint
+
+
+
+- edit complex
+- query stats -> network, execution
+- download/toClipboard git patch
+- erd draw named zones
 
 
 
@@ -37,8 +44,6 @@
 
 
 # SQL editor
-- https://demo.questdb.io/?query=--%20Compute%20the%20average%20gas%20price%20per%20gallon%20in%20one-month%20intervals.%20We%20use%20the%20SAMPLE%20BY%0A--%20SQL%20extension%20to%20aggregate%20records%20at%20regular%20intervals.%20This%20query%20covers%20a%20small%20demo%0A--%20dataset%20(1%2C028%20records)%20with%20historical%20gas%20prices.%0ASELECT%20timestamp%2C%20avg(galon_price)%0AFROM%20gas_prices%0ASAMPLE%20BY%201M%3B&executeQuery=true
-- first level keyword (select, update, create, with) + patch
 - comprendre les columns retournées par les cte et subquery 
 - function doc (generate from web scrap)
 - LLM on WebGPU ?
