@@ -256,6 +256,10 @@ a {
 	overflow: auto;
 }
 
+app-cell::-webkit-scrollbar {
+	height: 6px;
+}
+
 ::-webkit-scrollbar {
 	width: 10px;
 	height: 10px;

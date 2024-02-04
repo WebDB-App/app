@@ -9,6 +9,7 @@ import { Server } from "../classes/server";
 import { Configuration } from "../classes/configuration";
 import * as bson from "bson";
 import jsbeautifier from "js-beautify";
+import { Complex } from "../classes/complex";
 
 declare var monaco: any;
 
@@ -303,5 +304,9 @@ async function main() {
 
 	terminalCmd = () => {
 		return ``;
+	}
+
+	alterComplex(complex: Complex, type: string) {
+		return "";
 	}
 }

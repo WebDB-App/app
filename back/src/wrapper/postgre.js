@@ -525,6 +525,10 @@ ${def[0]["pg_get_viewdef"]}`
 		}
 	}
 
+	async saveVersionInfo() {
+		//const version = (await this.variableList()).find(variable => variable.name === "version_comment");
+	}
+
 	async establish(database = false) {
 		try {
 			const creds = {

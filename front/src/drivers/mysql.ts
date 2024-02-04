@@ -4,6 +4,7 @@ import { Server } from "../classes/server";
 import { Database } from "../classes/database";
 import { format } from "sql-formatter";
 import { escapeId, escape } from "sqlstring";
+import { Complex } from "../classes/complex";
 
 declare module 'sqlstring';
 
@@ -358,5 +359,22 @@ async function main() {
 
 	override wrapStructure(structure: string) {
 		return escapeId(structure);
+	}
+
+	override alterComplex(complex: Complex, type: string) {
+		switch (type) {
+			case "CHECK":
+				return `ALTER TABLE ${complex.table} DROP CONSTRAINT ${complex.name};\nALTER TABLE ${complex.table} ADD CONSTRAINT ${complex.name} CHECK (${complex.value});`
+				break;
+			case "FUNCTION":
+				return ``;//DROP FUNCTION ${complex.name};\n${complex.value};`
+				break;
+			case "PROCEDURE":
+				return ``;//`DROP PROCEDURE ${complex.name};\n${complex.value};`
+				break;
+			case "TRIGGER":
+				break;
+		}
+		return "";
 	}
 }

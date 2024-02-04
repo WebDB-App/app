@@ -2,6 +2,7 @@ import { Column } from "./column";
 import { Relation } from "./relation";
 import { Table } from "./table";
 import { HttpClient } from "@angular/common/http";
+import { Complex } from "./complex";
 
 export interface Comparator {
 	symbol: string
@@ -82,7 +83,8 @@ export interface Driver {
 	format: (code: string) => string;
 	wrapValue: (type: any, value: string) => string;
 	quickSearch: (driver: Driver, column: Column, value: string) => string;
-	generateSuggestions?: (textUntilPosition: string, allText: string) => any[];
+	generateSuggestions?: (textUntilPosition: string, colUntilPosition: string, allText: string) => any[];
+	alterComplex: (complex: Complex, type: string) => string;
 
 	basicSort: (query: string, field: string, direction: 'asc' | 'desc') => string;
 	basicFilter: (table: Table, condition: string[], operand: 'AND' | 'OR') => string;

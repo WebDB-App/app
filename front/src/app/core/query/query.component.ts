@@ -58,7 +58,7 @@ export class QueryComponent implements OnInit, OnDestroy {
 	};
 	query = '';
 	query2 = '';
-	reloadDb = false
+	reloadDb = false;
 	diff = false;
 	pageSize = 50;
 	page = 0;
@@ -177,6 +177,7 @@ export class QueryComponent implements OnInit, OnDestroy {
 			addMonacoError(this.query, this.editors[0], result.error);
 			this.dataSource = new MatTableDataSource();
 			this.querySize = -1;
+			this.history.addLocal(new Query(this.query, this.querySize));
 			return;
 		}
 
@@ -185,23 +186,19 @@ export class QueryComponent implements OnInit, OnDestroy {
 		} else if (this.querySize < 1 && Object.values(result).length) {
 			this.querySize = 1;
 		}
+		this.history.addLocal(new Query(this.query, this.querySize));
 
 		if ((this.page * this.pageSize) > this.querySize) {
 			this.page = 0;
 			await this._runSingle();
 			return;
 		}
-
 		if (this.querySize === 0) {
 			result.push({" ": "No Data"});
-		} else {
-			this.history.addLocal(new Query(this.query, this.querySize));
 		}
-
 		if (!Array.isArray(result)) {
 			result = [result];
 		}
-
 		this.displayedColumns = [...new Set(result.flatMap(res => Object.keys(res)))];
 		this.dataSource = new MatTableDataSource(result);
 		this.reloadDb = alterStructure(this.query.toLowerCase());

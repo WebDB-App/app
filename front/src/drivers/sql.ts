@@ -8,6 +8,7 @@ import { Relation } from "../classes/relation";
 import { Configuration } from "../classes/configuration";
 import { HttpClient } from "@angular/common/http";
 import { singleLine, sql_cleanQuery, sql_isSelect } from "../shared/helper";
+import { Complex } from "../classes/complex";
 
 const sugCache: any = {};
 
@@ -404,7 +405,7 @@ export class SQL implements Driver {
 		return suggestions;
 	}
 
-	tableSuggestions(textUntilPosition: string, allText: string) {
+	tableSuggestions(allText: string) {
 		const suggestions = this.extractAlias(allText);
 
 		Database.getSelected()?.tables?.map(table => {
@@ -426,18 +427,18 @@ export class SQL implements Driver {
 		return suggestions;
 	}
 
-	dotSuggestions(textUntilPosition: string, allText: string) {
+	dotSuggestions(colUntilPosition: string, allText: string) {
 		const suggestions: any[] = [];
 
-		textUntilPosition = textUntilPosition.trim();
+		colUntilPosition = colUntilPosition.trim();
 		const lastEscaped = Math.max(
-			textUntilPosition.lastIndexOf(' '),
-			textUntilPosition.lastIndexOf('\t'),
-			textUntilPosition.lastIndexOf('`'),
-			textUntilPosition.lastIndexOf('"'),
-			textUntilPosition.slice(0, -1).lastIndexOf('.')
+			colUntilPosition.lastIndexOf(' '),
+			colUntilPosition.lastIndexOf('\t'),
+			colUntilPosition.lastIndexOf('`'),
+			colUntilPosition.lastIndexOf('"'),
+			colUntilPosition.slice(0, -1).lastIndexOf('.')
 		);
-		const previousToken = textUntilPosition.slice(lastEscaped + 1).slice(0, -1);
+		const previousToken = colUntilPosition.slice(lastEscaped + 1).slice(0, -1);
 
 		Server.getSelected().dbs.map(db => {
 			if (previousToken !== db.name.toLowerCase()) {
@@ -535,28 +536,29 @@ export class SQL implements Driver {
 		return sugCache[key];
 	}
 
-	isAfterDot(textUntilPosition: string) {
+	isAfterDot(colUntilPosition: string) {
 		const space = Math.max(
-			textUntilPosition.lastIndexOf(' '),
-			textUntilPosition.lastIndexOf('\t')
+			colUntilPosition.lastIndexOf(' '),
+			colUntilPosition.lastIndexOf('\t')
 		);
 		if (space < 0) {
 			return false;
 		}
-		textUntilPosition = textUntilPosition.slice(space);
-		return textUntilPosition.indexOf('.') >= 0;
+		colUntilPosition = colUntilPosition.slice(space);
+		return colUntilPosition.indexOf('.') >= 0;
 	}
 
-	generateSuggestions(textUntilPosition: string, allText: string) {
-		textUntilPosition = textUntilPosition.toLowerCase();
+	generateSuggestions(textUntilPosition: string, colUntilPosition: string, allText: string) {
+		colUntilPosition = colUntilPosition.toLowerCase();
 
-		if (this.isAfterDot(textUntilPosition)) {
-			return this.dotSuggestions(textUntilPosition, allText);
+		if (this.isAfterDot(colUntilPosition)) {
+			return this.dotSuggestions(colUntilPosition, allText);
 		}
-		if (allText.match(/\s+from\s+(\S+)$/mi) ||
-			allText.match(/^update\s+(\S+)$/mi) ||
-			allText.match(/^insert into\s+(\S+)$/mi)) {
-			return this.tableSuggestions(textUntilPosition, allText);
+
+		if (textUntilPosition.match(/\s+from\s+(\S+)$/mi) ||
+			textUntilPosition.match(/^update\s+(\S+)$/mi) ||
+			textUntilPosition.match(/^insert into\s+(\S+)$/mi)) {
+			return this.tableSuggestions(allText);
 		}
 
 		let suggestions = this.extractAlias(allText).concat(this.getCache());
@@ -565,7 +567,7 @@ export class SQL implements Driver {
 			return suggestions;
 		}
 
-		return this.preselectNext(suggestions, textUntilPosition);
+		return this.preselectNext(suggestions, colUntilPosition);
 	}
 
 	preselectNext(suggestions: any[], previousToken: string): any[] {
@@ -659,5 +661,9 @@ export class SQL implements Driver {
 		});
 
 		return suggestions;
+	}
+
+	alterComplex(complex: Complex, type: string) {
+		return "";
 	}
 }

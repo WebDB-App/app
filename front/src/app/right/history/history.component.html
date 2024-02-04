@@ -97,8 +97,11 @@
 		</mat-card-content>
 
 		<mat-card-actions>
-			<h4>
+			<h4 *ngIf="his.nbResult >= 0">
 				{{ his.nbResult }} rows
+			</h4>
+			<h4 *ngIf="his.nbResult < 0">
+				error
 			</h4>
 
 			<h4 matTooltip="First run"
@@ -106,8 +109,11 @@
 				{{ his.date | date: 'HH:mm dd/MM' }}
 			</h4>
 
-			<h4>
-				{{ his.occurrence }} run(s)
+			<h4 *ngIf="his.occurrence > 1">
+				{{ his.occurrence }} runs
+			</h4>
+			<h4 *ngIf="his.occurrence <= 1">
+				1 run
 			</h4>
 		</mat-card-actions>
 	</mat-card>

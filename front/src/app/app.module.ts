@@ -106,12 +106,18 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 			triggerCharacters: [".", '"', "'", '`', '(', '{', '['],
 			provideCompletionItems: (model: any, position: any) => {
 				const textUntilPosition = model.getValueInRange({
+					startLineNumber: 0,
+					startColumn: 0,
+					endLineNumber: position.lineNumber,
+					endColumn: position.column,
+				});
+				const colUntilPosition = model.getValueInRange({
 					startLineNumber: position.lineNumber,
 					startColumn: 0,
 					endLineNumber: position.lineNumber,
 					endColumn: position.column,
 				});
-				const suggestions = Server.getSelected().driver.generateSuggestions!(textUntilPosition, model.getValue());
+				const suggestions = Server.getSelected().driver.generateSuggestions!(textUntilPosition, colUntilPosition, model.getValue());
 				return {
 					suggestions: structuredClone(suggestions)
 				};

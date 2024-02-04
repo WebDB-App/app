@@ -7,14 +7,14 @@
 - https://chat.openai.com/c/eae4f88e-e100-45de-9502-8708f7f48bf8
 
 
-
+- ajouter plein de complex et check leur nombre dans les tests
 - finir tests
 - ERD [Chrome bookmarks] + UML/Merise
 
 
 
 - first level keyword (select, update, create, with, alter) + patch
-
+- tester export query: java/php
 
 
 

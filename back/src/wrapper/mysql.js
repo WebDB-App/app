@@ -9,11 +9,18 @@ import {URL} from "url";
 
 const dirname = new URL(".", import.meta.url).pathname;
 
+const subWrapper = {
+	MySQL: "MySQL",
+	MariaDB: "MariaDB",
+	Percona: "Percona",
+};
+
 export default class MySQL extends SQL {
 
 	commonUser = ["mysql", "maria", "mariadb"];
 	commonPass = ["mysql", "my-secret-pw", "maria", "mariadb", "mypass"];
 	systemDbs = ["information_schema", "mysql", "performance_schema", "sys"];
+	realWrapper;
 
 	escapeValue(value) {
 		return mysql.escape(value);
@@ -209,16 +216,28 @@ ${def[0]["VIEW_DEFINITION"]}`
 
 	async getComplexes() {
 		const complexes = {
-			["TRIGGER"]: [await this.runCommand("SELECT trigger_name as name, trigger_schema as 'database', EVENT_OBJECT_TABLE as 'table', ACTION_STATEMENT as 'value' FROM information_schema.triggers WHERE trigger_schema != 'sys'")]
+			"FUNCTION": [],
+			"PROCEDURE": [],
+			"TRIGGER": [await this.runCommand("SELECT trigger_name as name, trigger_schema as 'database', EVENT_OBJECT_TABLE as 'table', ACTION_STATEMENT as 'value' FROM information_schema.triggers WHERE trigger_schema != 'sys'")]
 		};
 
-		const routines = await this.runCommand("SELECT routine_name as name, routine_type as type, routine_schema as 'database', ROUTINE_DEFINITION as 'value' FROM information_schema.routines WHERE routine_schema != 'sys' ORDER BY routine_name;");
-		complexes["FUNCTION"] = routines.filter(routine => routine.type.toLowerCase() === "function");
-		complexes["PROCEDURE"] = routines.filter(routine => routine.type.toLowerCase() === "procedure");
-
-		try {
+		const routines = await this.runCommand("SELECT routine_name as name, routine_type as type, routine_schema as 'database' FROM information_schema.routines WHERE routine_schema != 'sys' ORDER BY routine_name;");
+		for (const routine of routines) {
+			if (routine.type.toLowerCase() === "function") {
+				const def = await this.runCommand(`SHOW CREATE FUNCTION ${routine.name}`, routine.database);
+				routine.value = def[0]["Create Function"];
+				complexes["FUNCTION"].push(routine);
+			} else if (routine.type.toLowerCase() === "procedure") {
+				const def = await this.runCommand(`SHOW CREATE PROCEDURE ${routine.name}`, routine.database);
+				routine.value = def[0]["Create Procedure"];
+				complexes["PROCEDURE"].push(routine);
+			}
+		}
+		if (this.realWrapper === subWrapper.MySQL) {
 			complexes["CHECK"] = await this.runCommand("SELECT CHECK_CONSTRAINTS.CONSTRAINT_SCHEMA AS 'database', CHECK_CONSTRAINTS.CONSTRAINT_NAME AS 'name', `CHECK_CLAUSE` AS 'value', TABLE_CONSTRAINTS.TABLE_NAME AS 'table' FROM information_schema.CHECK_CONSTRAINTS JOIN information_schema.TABLE_CONSTRAINTS ON CHECK_CONSTRAINTS.CONSTRAINT_SCHEMA = TABLE_CONSTRAINTS.CONSTRAINT_SCHEMA AND CHECK_CONSTRAINTS.CONSTRAINT_NAME = TABLE_CONSTRAINTS.CONSTRAINT_NAME");
-		} catch (e) { /* empty */ }
+		} else if (this.realWrapper === subWrapper.MariaDB) {
+			complexes["CHECK"] = await this.runCommand("SELECT CONSTRAINT_SCHEMA as 'database', CONSTRAINT_NAME as name, TABLE_NAME as 'table', CHECK_CLAUSE as value FROM INFORMATION_SCHEMA.CHECK_CONSTRAINTS WHERE CONSTRAINT_SCHEMA != 'sys'");
+		}
 		return complexes;
 	}
 
@@ -393,6 +412,17 @@ ${def[0]["VIEW_DEFINITION"]}`
 			}
 		}
 		return error;
+	}
+
+	async saveVersionInfo() {
+		const version = (await this.variableList()).find(variable => variable.name === "version_comment");
+		if (version.value.toLowerCase().indexOf('mariadb') >= 0) {
+			this.realWrapper = subWrapper.MariaDB;
+		} else if (version.value.toLowerCase().indexOf('percona') >= 0) {
+			this.realWrapper = subWrapper.Percona;
+		} else {
+			this.realWrapper = subWrapper.MySQL;
+		}
 	}
 
 	// eslint-disable-next-line no-unused-vars
