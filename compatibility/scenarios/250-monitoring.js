@@ -2,18 +2,15 @@ import assert from "node:assert";
 import {test} from "node:test";
 import {post} from "../api.js";
 import {tableCity} from "../base.js";
-import {base} from "../docker.js";
 
 async function run(config) {
 
-	if (config.base !== base.PostgreSQL) {
-		const table = await post("stats/tableSize", {}, tableCity);
-		await test("[monitoring] Table stats ok", () => {
-			assert.ok(!table.error);
-			assert.ok(table.data_length > 0);
-			assert.ok(table.index_length > 0);
-		});
-	}
+	const table = await post("stats/tableSize", {}, tableCity);
+	await test("[monitoring] Table stats ok", () => {
+		assert.ok(!table.error);
+		assert.ok(table.data_length > 0);
+		assert.ok(table.index_length > 0);
+	});
 
 
 	//--------------------------------------------

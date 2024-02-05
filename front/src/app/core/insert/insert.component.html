@@ -248,11 +248,11 @@
 					</td>
 				</ng-container>
 				<ng-container *ngIf="column !== actionColum">
-					<th *matHeaderCellDef mat-header-cell>
+					<th *matHeaderCellDef mat-header-cell class="resizeColumn">
 						{{ column }}
 					</th>
 					<td *matCellDef="let row"
-						[class.selected]="selection.isSelected(row)"
+						[class.selected-row]="selection.isSelected(row)"
 						mat-cell>
 						<app-cell
 							*ngIf="column !== actionColum"

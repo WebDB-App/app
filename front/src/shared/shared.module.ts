@@ -31,6 +31,7 @@ import { ErrorComponent } from './error/error.component';
 import { MatBottomSheetModule } from "@angular/material/bottom-sheet";
 import { MatDividerModule } from "@angular/material/divider";
 import { UnreachableComponent } from './unreachable/unreachable.component';
+import { RangeSelectionDirective } from "./range-selection.directive";
 
 @NgModule({
 	declarations: [
@@ -41,7 +42,8 @@ import { UnreachableComponent } from './unreachable/unreachable.component';
 		BatchUpdateDialog,
 		ColumnComponent,
 		ErrorComponent,
-		UnreachableComponent
+		UnreachableComponent,
+		RangeSelectionDirective
 	],
 	exports: [
 		RoundPipe,
@@ -50,7 +52,8 @@ import { UnreachableComponent } from './unreachable/unreachable.component';
 		ExportResultDialog,
 		BatchUpdateDialog,
 		ColumnComponent,
-		UnreachableComponent
+		UnreachableComponent,
+		RangeSelectionDirective
 	],
 	imports: [
 		CommonModule,

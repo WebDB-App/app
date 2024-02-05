@@ -184,12 +184,12 @@
 	</ngx-monaco-editor>
 
 	<div *ngIf="!diff && dataSource?.data && dataSource!.data!.length > 0" id="results">
-		<table [dataSource]="dataSource!" [trackBy]="identify" class="table" mat-table>
+		<table [dataSource]="dataSource!" class="table" mat-table range-selection>
 			<ng-container
 				*ngFor="let column of displayedColumns"
 				matColumnDef="{{column}}"
 			>
-				<th *matHeaderCellDef mat-header-cell>
+				<th *matHeaderCellDef mat-header-cell class="resizeColumn">
 					{{ column }}
 				</th>
 				<td *matCellDef="let row" mat-cell>

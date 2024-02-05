@@ -562,7 +562,7 @@ export class SQL implements Driver {
 		}
 
 		let suggestions = this.extractAlias(allText).concat(this.getCache());
-		suggestions = suggestions.filter((s: any) => typeof s.label === "object" ? s.label.label.length > 2 : s.label.length > 2);
+		//suggestions = suggestions.filter((s: any) => typeof s.label === "object" ? s.label.label.length > 2 : s.label.length > 2);
 		if (suggestions.length < 1) {
 			return suggestions;
 		}
@@ -644,7 +644,7 @@ export class SQL implements Driver {
 		allText = sql_cleanQuery(allText, false);
 		const suggestions: any[] = [];
 
-		[...allText.matchAll(/ ([a-zA-Z0-9]+) as \(/gmi)]?.map(match => {
+		[...allText.matchAll(/ \S+ as ([a-zA-Z0-9_`"]+)/gmi)]?.map(match => {
 			suggestions.push({
 				label: match[1],
 				kind: monaco.languages.CompletionItemKind.Struct,
@@ -652,7 +652,7 @@ export class SQL implements Driver {
 			});
 		});
 
-		[...allText.matchAll(/\) as ([a-zA-Z0-9]+)/gmi)]?.map(match => {
+		[...allText.matchAll(/ ([a-zA-Z0-9_`"]+) as \(/gmi)]?.map(match => {
 			suggestions.push({
 				label: match[1],
 				kind: monaco.languages.CompletionItemKind.Struct,

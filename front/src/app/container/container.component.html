@@ -3,9 +3,8 @@
 		<router-outlet *ngIf="loading === LoadingStatus.DONE" name="right"></router-outlet>
 	</mat-drawer>
 
-	<mat-drawer-content style="display: flex; flex-direction: column">
-		<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center"
-					 style="background-color: #444444; z-index: 1000">
+	<mat-drawer-content>
+		<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
 			<div fxLayout="row" fxLayoutGap="12px" style="align-items: center">
 				<a mat-raised-button
 				   mat-stroked-button
@@ -16,8 +15,7 @@
 				<div *ngIf="selectedServer && selectedDatabase" id="server">
 					<div *ngIf="selectedServer.ssh && selectedServer.ssh.host"
 						[matTooltip]="selectedServer.ssh | json">
-						<span
-							class="material-symbols-outlined notranslate">
+						<span class="material-symbols-outlined notranslate">
 							subway
 						</span>
 					</div>

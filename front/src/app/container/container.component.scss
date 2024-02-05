@@ -13,6 +13,20 @@ mat-drawer {
 	}
 }
 
+.mat-drawer-content {
+	display: flex;
+	flex-direction: column;
+
+	.mat-toolbar {
+		background-color: #444444;
+		z-index: 1000;
+
+		.material-symbols-outlined {
+			font-size: 22px
+		}
+	}
+}
+
 #server {
 	display: flex;
 	align-items: center;

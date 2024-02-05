@@ -104,13 +104,14 @@
 
 <div class="scrollDiv" style="height: calc(100vh - 161px);">
 
-	<table [dataSource]="dataSource" [trackBy]="identify" class="table mat-elevation-z8" mat-table>
+	<table [dataSource]="dataSource" class="table mat-elevation-z8" mat-table range-selection>
 		<ng-container
-			*ngFor="let column of displayedColumns"
+			*ngFor="let column of displayedColumns; let i = index"
 			[stickyEnd]="column === actionColum"
 			matColumnDef="{{column}}"
 		>
 			<th *matHeaderCellDef
+				class="resizeColumn"
 				mat-header-cell>
 
 				<ng-container *ngIf="column !== actionColum">

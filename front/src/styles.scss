@@ -55,6 +55,16 @@ body {
 	.mat-header-row {
 		height: 45px;
 
+		.mat-header-cell:not(:nth-last-of-type(-n+2)) .resize-holder {
+			cursor: col-resize;
+			width: 20px;
+			height: 100%;
+			position: absolute;
+			right: -10px;
+			top: 0;
+			z-index: 1;
+		}
+
 		.mat-header-cell {
 			color: mat.get-color-from-palette($angular-primary, default);
 			font-size: 15px;
@@ -63,6 +73,16 @@ body {
 			input {
 				width: 100%;
 				margin: 0px;
+			}
+
+			&.resizeColumn:not(.mat-column---ACTION--) {
+				resize: horizontal;
+				overflow-y: hidden;
+				overflow-x: auto;
+
+				&::-webkit-resizer {
+					border-width: 0px;
+				}
 			}
 		}
 	}
@@ -104,7 +124,7 @@ body {
 			height: 32px;
 		}
 
-		.mat-row:hover .mat-cell, .mat-cell.selected {
+		.mat-row:hover .mat-cell, .mat-cell.selected-row, .mat-cell.selected-cell {
 			.mat-icon-button, .mat-checkbox {
 				opacity: 1;
 			}
@@ -114,8 +134,12 @@ body {
 			background-color: #1e1e1e;
 		}
 
-		.mat-cell.selected {
+		.mat-cell.selected-row {
 			background-color: rgba(33, 150, 243, 0.3);
+		}
+
+		.mat-cell.selected-cell {
+			box-shadow: inset 0px 0px 0px 1px #2196f3;
 		}
 	}
 }
@@ -257,7 +281,7 @@ a {
 }
 
 app-cell::-webkit-scrollbar {
-	height: 6px;
+	height: 4px;
 }
 
 ::-webkit-scrollbar {
@@ -278,7 +302,7 @@ app-cell::-webkit-scrollbar {
 }
 
 ::-webkit-resizer {
-	border-width: 3px;
+	border-width: 2px;
 	border-style: outset;
 	border-color: rgb(255 255 255 / 0%) rgb(255 255 255 / 50%) rgb(255 255 255 / 50%) rgb(255 255 255 / 0%);
 	border-radius: 0px;
