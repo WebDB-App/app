@@ -17,14 +17,14 @@ export class RangeSelectionDirective {
 
 	@HostListener('window:keydown', ['$event'])
 	handleKeyDown(event: KeyboardEvent) {
-		if (event.key === 'Meta' || event.key === 'Control' || event.key === 'Shift') {
+		if (event.key === 'Shift') {
 			this.toggleUserSelect(true);
 		}
 	}
 
 	@HostListener('window:keyup', ['$event'])
 	handleKeyUp(event: KeyboardEvent) {
-		if (event.key === 'Meta' || event.key === 'Control' || event.key === 'Shift') {
+		if (event.key === 'Shift') {
 			this.toggleUserSelect(false);
 		}
 	}

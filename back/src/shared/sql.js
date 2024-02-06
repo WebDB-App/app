@@ -193,21 +193,10 @@ export default class SQL extends Driver {
 	cleanQuery(query, keepLength = false) {
 		query = removeComment(query);
 		query = singleLine(query, keepLength);
-		return query;
-	}
-
-	getLastQuery(query) {
-		const list = query.split(";");
-		for (const l of list.reverse()) {
-			if (l.trim().length > 0) {
-				return l;
-			}
-		}
-		return "";
+		return query.trim().endsWith(";") ? query.trim().slice(0, -1) : query;
 	}
 
 	async querySize(query, database) {
-		query = this.getLastQuery(query);
 		query = this.cleanQuery(query);
 
 		if (!sql_isSelect(query)) {
@@ -218,30 +207,15 @@ export default class SQL extends Driver {
 		return result.error ? "0" : result[0]["querysize"];
 	}
 
-	async runPagedQuery(queries, page, pageSize, database) {
-		let result;
-		let doneQuery = "";
-		for (let query of queries.split(";")) {
-			if (query.trim().length < 1) {
-				continue;
-			}
+	async runPagedQuery(query, page, pageSize, database) {
+		query = this.cleanQuery(query, true);
 
-			query = this.cleanQuery(query, true);
-
-			if (sql_isSelect(query)
-				&& query.toLowerCase().indexOf(" offset ") < 0
-				&& query.toLowerCase().indexOf(" limit ") < 0) {
-				query = `${query} LIMIT ${pageSize} OFFSET ${page * pageSize}`;
-			}
-			result = await this.runCommand(query, database);
-			if (result.error) {
-				if (result.position >= 0) {
-					result.position += doneQuery.length;
-				}
-				return result;
-			}
-			doneQuery += query;
+		if (sql_isSelect(query)
+			&& query.toLowerCase().indexOf(" offset ") < 0
+			&& query.toLowerCase().indexOf(" limit ") < 0) {
+			query = `${query} LIMIT ${pageSize} OFFSET ${page * pageSize}`;
 		}
-		return result;
+
+		return await this.runCommand(query, database);
 	}
 }

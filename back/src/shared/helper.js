@@ -34,8 +34,9 @@ export function mongo_injectAggregate(query, toInject) {
 export function sql_isSelect(query) {
 	query = query.trim().toLowerCase();
 	query = query.replaceAll(parentheses, "").trim();
+	query = query.replaceAll(/"([^"]*)"|'([^']*)'|`([^`]*)`/g, "");
 
-	if ([" procedure ", " event ", " function "].some(v => query.includes(v))) {
+	if (query.match(/\S+\s*;\s+\S+/)) {
 		return false;
 	}
 
