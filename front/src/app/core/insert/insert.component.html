@@ -208,7 +208,7 @@
 	</mat-toolbar>
 
 	<div class="scrollDiv mat-elevation-z8">
-		<table [dataSource]="dataSource" class="table" mat-table>
+		<table [dataSource]="dataSource" class="table" mat-table range-selection>
 			<ng-container
 				*ngFor="let column of displayedColumns"
 				matColumnDef="{{column}}"

@@ -138,7 +138,7 @@ body {
 			background-color: rgba(33, 150, 243, 0.3);
 		}
 
-		.mat-cell.selected-cell {
+		.mat-cell.selected-cell:not(.mat-column---ACTION--) {
 			box-shadow: inset 0px 0px 0px 1px #2196f3;
 		}
 	}

@@ -5,116 +5,128 @@ import { filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 @Directive({
 	selector: 'table[range-selection]',
 })
-export class RangeSelectionDirective implements OnDestroy, OnInit {
+export class RangeSelectionDirective {
 	@Input() selectionClass = 'selected-cell';
 
-	selectedRange = new Set<HTMLTableCellElement>();
-
-	private readonly table: HTMLTableElement;
-	private startCell?: HTMLTableCellElement;
-	private cellIndices = new Map<HTMLTableCellElement, { row: number; column: number }>();
+	private keyPressed = false;
+	private table: HTMLTableElement;
+	private startCell: HTMLTableCellElement | null = null;
 	private selecting: boolean = false;
-	private destroy$ = new Subject<void>();
+	private range = new Set<HTMLTableCellElement>();
+	private cellIndices = new Map<HTMLTableCellElement, { row: number; column: number }>();
 
-	@HostListener('keydown', ['$event'])
-	onKeyUp(e: KeyboardEvent) {
-		switch (e.code) {
-			case "ArrowUp":
-				//current cell ou 0, 0
-				//this.keyboardService.sendMessage({ element: this.element, action: 'UP' })
-				break;
-			case "ArrowRight":
-				break;
-			case "ArrowDown":
-				break;
-			case "ArrowLeft":
-				break;
+	@HostListener('window:keydown', ['$event'])
+	handleKeyDown(event: KeyboardEvent) {
+		if (event.key === 'Meta' || event.key === 'Control' || event.key === 'Shift') {
+			this.toggleUserSelect(true);
 		}
 	}
 
-	constructor(private zone: NgZone, {nativeElement}: ElementRef<HTMLTableElement>) {
-		this.table = nativeElement;
+	@HostListener('window:keyup', ['$event'])
+	handleKeyUp(event: KeyboardEvent) {
+		if (event.key === 'Meta' || event.key === 'Control' || event.key === 'Shift') {
+			this.toggleUserSelect(false);
+		}
 	}
 
-	//ajouter cmd pour cell individuel
 	//press papier
+	//ajouter icone keyboard avec tooltip qui explique
 
-	ngOnInit() {
-		//this.zone.runOutsideAngular(() => this.initListeners());
+	private toggleUserSelect(pressed: boolean) {
+		this.keyPressed = pressed;
+		if (pressed) {
+			this.table.style.userSelect = 'none';
+			this.initListeners();
+		} else {
+			this.table.style.userSelect = 'auto';
+			this.removeListeners();
+		}
 	}
 
-	private initListeners() {
-		const withCell = pipe(
-			map((event: MouseEvent) => ({event, cell: (event.target as HTMLElement).closest<HTMLTableCellElement>('td')})),
-			filter(({cell}) => !!cell),
-		);
-		const mouseDown$ = fromEvent<MouseEvent>(this.table, 'mousedown')
-			.pipe(
-				filter(event => event.button === 0),
-				// @ts-ignore
-				withCell,
-				tap(this.startSelection)
-			);
-		const mouseOver$ = fromEvent<MouseEvent>(this.table, 'mouseover');
-		const mouseUp$ = fromEvent(document, 'mouseup').pipe(
-			tap(() => this.selecting = false)
-		);
-		this.handleOutsideClick();
+	constructor(elementRef: ElementRef<HTMLTableElement>) {
+		this.table = elementRef.nativeElement;
 
-		mouseDown$.pipe(
-			switchMap(() => mouseOver$.pipe(takeUntil(mouseUp$))),
-			takeUntil(this.destroy$),
-			withCell
-			// @ts-ignore
-		).subscribe(this.select);
-	}
-
-	private handleOutsideClick() {
-		fromEvent(document, 'mouseup').pipe(
-			takeUntil(this.destroy$)
-		).subscribe((event: any) => {
-			if (!this.selecting && !this.table.contains(event.target as HTMLElement)) {
+		document.addEventListener('mouseup', (event) => {
+			if (!this.keyPressed) {
 				this.clearCells();
 			}
 		});
 	}
 
-	private startSelection = ({cell, event}: { event: MouseEvent, cell: HTMLTableCellElement }) => {
+	private initListeners() {
+		this.table.addEventListener('mousedown', this.handleMouseDown);
+		document.addEventListener('mouseup', this.handleMouseUp);
+		this.table.addEventListener('mouseover', this.handleMouseOver);
+	}
+
+	private removeListeners() {
+		this.table.removeEventListener('mousedown', this.handleMouseDown);
+		document.removeEventListener('mouseup', this.handleMouseUp);
+		this.table.removeEventListener('mouseover', this.handleMouseOver);
+	}
+
+	private handleMouseDown = (event: MouseEvent) => {
 		this.updateCellIndices();
-		if (!event.ctrlKey && !event.shiftKey) {
-			this.clearCells();
+		if (event.button !== 0) {
+			return;
 		}
 
-		if (event.shiftKey) {
-			this.select({cell});
+		const cell = (event.target as HTMLElement).closest('td') as HTMLTableCellElement | null;
+		if (!cell) {
+			return;
 		}
 
 		this.selecting = true;
 		this.startCell = cell;
+		this.toggleCellSelection(cell);
+	};
 
-		if (!event.shiftKey) {
-			if (this.selectedRange.has(cell)) {
-				this.selectedRange.delete(cell);
-			} else {
-				this.selectedRange.add(cell);
-			}
-			cell.classList.toggle(this.selectionClass);
+	private handleMouseUp = (event: MouseEvent) => {
+		this.selecting = false;
+	};
+
+	private handleMouseOver = (event: MouseEvent) => {
+		if (!this.selecting || !this.startCell) {
+			return;
+		}
+
+		const cell = (event.target as HTMLElement).closest('td') as HTMLTableCellElement | null;
+		if (cell) {
+			this.selectRange(cell);
 		}
 	};
 
-	private select = ({cell}: { cell: HTMLTableCellElement }) => {
+	private toggleCellSelection(cell: HTMLTableCellElement) {
+		if (this.range.has(cell)) {
+			this.range.delete(cell);
+		} else {
+			this.range.add(cell);
+		}
+		cell.classList.toggle(this.selectionClass);
+		this.updateClipboard();
+	}
+
+	private selectRange(endCell: HTMLTableCellElement) {
 		this.clearCells();
-		this.getCellsBetween(this.startCell!, cell).forEach(item => {
-			this.selectedRange.add(item);
-			item.classList.add(this.selectionClass);
+		this.getCellsBetween(this.startCell!, endCell).forEach(cell => {
+			this.range.add(cell);
+			cell.classList.add(this.selectionClass);
+			this.updateClipboard();
 		});
-	};
+	}
+
+	updateClipboard() {
+		let text = '';
+		this.range.forEach(cell => text += cell.innerText + '\t');
+		if (text) {
+			navigator.clipboard.writeText(text);
+		}
+	}
 
 	private clearCells() {
-		Array.from(this.selectedRange).forEach(cell => {
-			cell.classList.remove(this.selectionClass);
-		});
-		this.selectedRange.clear();
+		this.range.forEach(cell => cell.classList.remove(this.selectionClass));
+		this.range.clear();
+		this.updateClipboard();
 	}
 
 	private getCellsBetween(start: HTMLTableCellElement, end: HTMLTableCellElement) {
@@ -152,10 +164,6 @@ export class RangeSelectionDirective implements OnDestroy, OnInit {
 			}
 			this.cellIndices.set(cell, {row: y, column: x});
 		});
-	}
-
-	ngOnDestroy() {
-		this.destroy$.next();
 	}
 }
 

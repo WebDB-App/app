@@ -159,7 +159,7 @@
 
 			</th>
 			<td *matCellDef="let row; let i = index"
-				[class.selected]="selection.isSelected(row)"
+				[class.selected-row]="selection.isSelected(row)"
 				mat-cell>
 
 				<ng-container *ngIf="column === actionColum">
