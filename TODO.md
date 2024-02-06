@@ -9,11 +9,9 @@
 
 - finir tests
 - ERD [Chrome bookmarks] + UML/Merise
-
-
-
-- first level keyword (select, update, create, with, alter) + patch
 - tester export query: java/php
+- complex update
+- first level keyword (select, update, create, with, alter) + patch
 
 
 

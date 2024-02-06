@@ -162,7 +162,11 @@ ${def[0]["VIEW_DEFINITION"]}`
 	}
 
 	async variableSet(variable) {
-		return await this.runCommand(`SET GLOBAL ${variable.name} = ${variable.value};`);
+		let value = variable.value;
+		try {
+			value = JSON.parse(value);
+		} catch (e) { /* empty */ }
+		return await this.runCommand(`SET GLOBAL ${variable.name} = ${this.escapeValue(value)};`);
 	}
 
 	async variableList(global = true) {

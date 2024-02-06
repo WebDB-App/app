@@ -16,14 +16,14 @@
 			<th *matHeaderCellDef mat-header-cell style="padding-left: 14px;">
 				<mat-form-field appearance="legacy" style="margin-bottom: -1em; width: 92%;" class="searchField">
 					<input
-						#filter
-						(keyup)="filterChanged(filter.value)"
+						[(ngModel)]="filter"
+						(keyup)="filterChanged()"
 						autocomplete="off"
 						matInput
 						placeholder="Search name | description | value">
 					<button
-						(click)="filter.value=''; filterChanged(filter.value)"
-						*ngIf="filter.value"
+						(click)="filter = ''; filterChanged()"
+						*ngIf="filter"
 						aria-label="Clear"
 						mat-icon-button
 						matSuffix>
@@ -56,21 +56,31 @@
 		</ng-container>
 
 		<ng-container matColumnDef="description">
-			<th *matHeaderCellDef mat-header-cell style="text-align: end; padding-right: 14px;">
+			<th *matHeaderCellDef mat-header-cell style="text-align: end; padding-right: 14px; width: 85px;">
 				<button aria-label="close dialog" mat-dialog-close mat-icon-button>
 					<span class="material-symbols-outlined notranslate">close</span>
 				</button>
 			</th>
 			<td *matCellDef="let element" mat-cell>
 				<ng-container *ngIf="server.wrapper !== 'MongoDB'">
-					<button
-						*ngIf="!toUpdate[element.name]"
-						(click)="toUpdate[element.name] = element.value"
-						mat-icon-button>
-						<span class="material-symbols-outlined notranslate">
-							edit_square
-						</span>
-					</button>
+
+					<ng-container *ngIf="!toUpdate[element.name]">
+						<button
+							(click)="toUpdate[element.name] = element.value"
+							mat-icon-button>
+							<span class="material-symbols-outlined notranslate">
+								edit_square
+							</span>
+						</button>
+
+						<a [href]="element.link"
+						   mat-icon-button
+						   target="_blank">
+							<span class="material-symbols-outlined notranslate">
+								developer_guide
+							</span>
+						</a>
+					</ng-container>
 
 					<ng-container *ngIf="toUpdate[element.name]">
 						<button
@@ -91,14 +101,6 @@
 							</span>
 						</button>
 					</ng-container>
-
-					<a [href]="element.link"
-					   mat-icon-button
-					   target="_blank">
-						<span class="material-symbols-outlined notranslate">
-							developer_guide
-						</span>
-					</a>
 				</ng-container>
 			</td>
 		</ng-container>

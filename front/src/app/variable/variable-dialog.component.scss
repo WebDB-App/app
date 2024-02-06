@@ -8,10 +8,10 @@
 	table {
 		height: 100%;
 		width: 100%;
+		table-layout: fixed;
 
 		td {
 			padding: 2px;
-			max-width: 300px;
 			word-break: break-word;
 		}
 

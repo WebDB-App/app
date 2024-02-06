@@ -5,13 +5,7 @@ import { MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { MatTableDataSource } from "@angular/material/table";
 import { environment } from "../../environments/environment";
 import { MatSnackBar } from "@angular/material/snack-bar";
-
-class Variable {
-	name!: string;
-	value!: string;
-	description?: string;
-	link?: string;
-}
+import { Variable } from "../../classes/variable";
 
 @Component({
 	selector: 'app-variable',
@@ -23,8 +17,7 @@ export class VariableDialogComponent {
 	displayedColumns = ['name', 'value', 'description'];
 	variableList = new MatTableDataSource<Variable>();
 	toUpdate: any = {};
-
-	//toggle global / session
+	filter = '';
 
 	protected readonly environment = environment;
 
@@ -43,10 +36,11 @@ export class VariableDialogComponent {
 			return l;
 		});
 		this.variableList = new MatTableDataSource(list);
+		this.filterChanged();
 	}
 
-	filterChanged(_value = '') {
-		this.variableList.filter = _value.trim().toLowerCase();
+	filterChanged() {
+		this.variableList.filter = this.filter.trim().toLowerCase();
 	}
 
 	identify(index: any, rom: Variable) {

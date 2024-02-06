@@ -21,9 +21,12 @@
             <mat-button-toggle value="complex">
                 Complex
             </mat-button-toggle>
-            <mat-button-toggle value="data">
-                Data
-            </mat-button-toggle>
+			<mat-button-toggle value="data">
+				Data
+			</mat-button-toggle>
+			<mat-button-toggle value="variable">
+				Variable
+			</mat-button-toggle>
         </mat-button-toggle-group>
         <button
             (click)="refreshSide(left); refreshSide(right)"
@@ -93,7 +96,22 @@
 </div>
 
 <ng-template #connection let-side='side'>
-    <div>
+	<div *ngIf="type === 'variable'">
+		<mat-form-field appearance="fill">
+			<mat-label>Server</mat-label>
+			<mat-select
+				required
+				disableOptionCentering>
+				<mat-option
+					(click)="side.server = server; side.database = undefined; side.table = undefined; side.query = undefined; side.columnsToHide = undefined; side.diff.code = ''; refreshSide(side)"
+					*ngFor="let server of servers"
+					[value]="server">
+					{{ server.name }}
+				</mat-option>
+			</mat-select>
+		</mat-form-field>
+	</div>
+    <div *ngIf="type !== 'variable'">
         <mat-form-field appearance="fill">
             <mat-label>Server</mat-label>
             <input matInput [value]="side.server?.name" disabled>

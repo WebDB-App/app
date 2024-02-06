@@ -10,6 +10,7 @@ import { Table } from "../../classes/table";
 import { Column } from "../../classes/column";
 import { initBaseEditor } from "../../shared/helper";
 import { HttpClient } from "@angular/common/http";
+import { Variable } from "../../classes/variable";
 
 class Side {
 	server?: Server;
@@ -39,7 +40,7 @@ export class MigrateComponent implements OnInit {
 	left = new Side();
 	right = new Side();
 	loading: LoadingStatus = LoadingStatus.LOADING;
-	type: 'structure' | 'relation' | 'indexes' | 'complex' | 'data' = "structure";
+	type: 'structure' | 'relation' | 'indexes' | 'complex' | 'data' | 'variable' = "structure";
 	editorOptions = {
 		readOnly: true,
 		language: ''
@@ -73,7 +74,10 @@ export class MigrateComponent implements OnInit {
 	}
 
 	async refreshSide(side: Side) {
-		if (!side.server || !side.database) {
+		if (!side.server) {
+			return;
+		}
+		if (this.type !== 'variable' && !side.database) {
 			return;
 		}
 
@@ -81,11 +85,11 @@ export class MigrateComponent implements OnInit {
 		if (this.type === 'structure') {
 			side.diff.code = JSON.stringify(side.database, null, "\t");
 		} else if (this.type === 'relation') {
-			side.diff.code = JSON.stringify(this.filterByDb(side.server.relations, side.database.name), null, "\t");
+			side.diff.code = JSON.stringify(this.filterByDb(side.server.relations, side.database!.name), null, "\t");
 		} else if (this.type === 'indexes') {
-			side.diff.code = JSON.stringify(this.filterByDb(side.server.indexes, side.database.name), null, "\t");
+			side.diff.code = JSON.stringify(this.filterByDb(side.server.indexes, side.database!.name), null, "\t");
 		} else if (this.type === 'complex') {
-			side.diff.code = JSON.stringify(this.filterByDb(Object.values(side.server.complexes).flatMap(c => c), side.database.name), null, "\t");
+			side.diff.code = JSON.stringify(this.filterByDb(Object.values(side.server.complexes).flatMap(c => c), side.database!.name), null, "\t");
 		} else if (this.type === 'data' && side.table) {
 			if (!side.query) {
 				side.query = side.server!.driver.basicFilter(side.table, [], 'AND');
@@ -113,6 +117,9 @@ export class MigrateComponent implements OnInit {
 			} else if (side.querySize! < 1 && Object.values(result).length) {
 				side.querySize = 1;
 			}
+		} else if (this.type === 'variable') {
+			const list = <Variable[]>(await this.request.post('variable/list', {}, undefined, undefined, side.server));
+			side.diff.code = JSON.stringify(list, null, "\t");
 		}
 
 		setTimeout(() => this.isComparing = false, 1);
