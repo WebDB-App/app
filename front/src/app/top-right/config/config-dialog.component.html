@@ -39,10 +39,12 @@
 							<mat-card-subtitle fxLayout="row" fxLayoutAlign="space-between center">
 								<h3>{{ licence?.plan }}</h3>
 								<div>
-									<span *ngIf="licence?.valid" style="color: #2196f3;" class="material-symbols-outlined notranslate">
+									<span *ngIf="licence?.valid" class="material-symbols-outlined notranslate"
+										  style="color: #2196f3;">
 										check_circle
 									</span>
-									<span *ngIf="!licence?.valid" style="color: #f44336;" class="material-symbols-outlined notranslate">
+									<span *ngIf="!licence?.valid" class="material-symbols-outlined notranslate"
+										  style="color: #f44336;">
 										cancel
 									</span>
 								</div>

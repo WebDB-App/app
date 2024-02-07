@@ -27,16 +27,16 @@
 		</mat-form-field>
 	</div>
 	<ngx-monaco-editor
-		style="width: 450px"
 		[(ngModel)]="str"
-		[options]="editorOptions">
+		[options]="editorOptions"
+		style="width: 450px">
 	</ngx-monaco-editor>
 </div>
 <mat-dialog-actions>
-	<a	[href]="selectedServer?.driver!.language.extendedJSONDoc"
-		  target="_blank"
-		  *ngIf="selectedServer?.driver!.language.extendedJSONDoc"
-		  mat-button>
+	<a *ngIf="selectedServer?.driver!.language.extendedJSONDoc"
+	   [href]="selectedServer?.driver!.language.extendedJSONDoc"
+	   mat-button
+	   target="_blank">
 		<span class="material-symbols-outlined notranslate">
 			info
 		</span>

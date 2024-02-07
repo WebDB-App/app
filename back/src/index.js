@@ -37,7 +37,8 @@ if (process.env.NODE_ENV === "production") {
 
 
 const cached = ["text/html", "text/css", "text/javascript", "image/svg+xml", "font/ttf", "font/woff2"];
-function setCustomCacheControl (res, path) {
+
+function setCustomCacheControl(res, path) {
 	if (cached.indexOf(serveStatic.mime.lookup(path)) >= 0) {
 		res.setHeader("Cache-Control", "public, max-age=7200");
 	}

@@ -47,7 +47,7 @@ import { NgChartsModule } from 'ng2-charts';
 import { StatsDialogComponent } from "./stats/stats-dialog.component";
 import { ProcessDialogComponent } from "./process/process-dialog.component";
 import { MatChipsModule } from "@angular/material/chips";
-import { MigrateComponent, EditQueryDialog } from './migrate/migrate.component';
+import { EditQueryDialog, MigrateComponent } from './migrate/migrate.component';
 import { MatPaginatorIntl, MatPaginatorModule } from "@angular/material/paginator";
 import { CustomPaginatorIntl } from "../shared/paginator.transform";
 import { VariableDialogComponent } from "./variable/variable-dialog.component";

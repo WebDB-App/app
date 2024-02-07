@@ -67,9 +67,9 @@
 						   type="{{!showPassword ? 'password' : 'text'}}">
 					<span
 						(click)="showPassword = !showPassword"
+						class="material-symbols-outlined notranslate"
 						matSuffix
-						style="cursor: pointer; font-size: 20px; position: absolute; right: 0px; top: -22px"
-						class="material-symbols-outlined notranslate">
+						style="cursor: pointer; font-size: 20px; position: absolute; right: 0px; top: -22px">
 						{{ !showPassword ? 'visibility' : 'visibility_off' }}
 					</span>
 				</mat-form-field>
@@ -134,9 +134,9 @@
 							   type="{{!showPassword ? 'password' : 'text'}}">
 						<span
 							(click)="showPassword = !showPassword"
+							class="material-symbols-outlined notranslate"
 							matSuffix
-							style="cursor: pointer; font-size: 20px; position: absolute; right: 0px; top: -22px"
-							class="material-symbols-outlined notranslate">
+							style="cursor: pointer; font-size: 20px; position: absolute; right: 0px; top: -22px">
 							{{ !showPassword ? 'visibility' : 'visibility_off' }}
 						</span>
 					</mat-form-field>
@@ -177,7 +177,7 @@
 		</mat-step>
 	</mat-stepper>
 
-	<mat-divider vertical style="margin: -16px 18px;"></mat-divider>
+	<mat-divider style="margin: -16px 18px;" vertical></mat-divider>
 
 	<div style="width: 200px; display: flex; flex-direction: column; justify-content: space-evenly;">
 		<button

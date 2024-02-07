@@ -24,6 +24,7 @@ export class UpdateDataDialog {
 		language: 'json'
 	};
 	protected readonly Object = Object;
+	protected readonly JSON = JSON;
 
 	constructor(
 		private dialogRef: MatDialogRef<UpdateDataDialog>,
@@ -101,6 +102,4 @@ export class UpdateDataDialog {
 		}
 		return null;
 	}
-
-	protected readonly JSON = JSON;
 }

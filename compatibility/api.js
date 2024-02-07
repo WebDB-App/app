@@ -1,5 +1,5 @@
 import {execSync} from "child_process";
-import { fetchToCurl } from "fetch-to-curl";
+import {fetchToCurl} from "fetch-to-curl";
 import {base} from "./docker.js";
 
 export const basicConf = {

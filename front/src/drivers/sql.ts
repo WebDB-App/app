@@ -630,7 +630,7 @@ export class SQL implements Driver {
 	}
 
 	lookupTableAlias(previousToken: string, table: string, allText: string) {
-		allText = allText.toLowerCase().replace(" as "," ");
+		allText = allText.toLowerCase().replace(" as ", " ");
 		allText = sql_cleanQuery(allText);
 
 		return allText.indexOf(table + " " + previousToken) >= 0;

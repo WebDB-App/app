@@ -40,10 +40,12 @@ class Version {
 		if (r.error) {
 			return r;
 		}
-		const files = readdirSync(dir).filter(f => !f.startsWith(".")).map(f => {return {
-			originalname: f,
-			path: join(dir, f),
-			destination: dir};
+		const files = readdirSync(dir).filter(f => !f.startsWith(".")).map(f => {
+			return {
+				originalname: f,
+				path: join(dir, f),
+				destination: dir
+			};
 		});
 
 		await driver.dropDatabase(dbSchema);
@@ -68,7 +70,7 @@ class Version {
 				// eslint-disable-next-line no-control-regex
 				row = row.replace(/[\u007F-\u009F]/g, " ");
 				row = row.replaceAll("�", " ");
-				row = row.replace(/ +(?= )/g,"");
+				row = row.replace(/ +(?= )/g, "");
 				if (!row.trim()) {
 					continue;
 				}
@@ -169,7 +171,7 @@ class Version {
 
 	deleteDatabase(driver, database) {
 		const dir = this.getPath(database, driver);
-		fs.rmSync(dir, { recursive: true, force: true });
+		fs.rmSync(dir, {recursive: true, force: true});
 	}
 }
 

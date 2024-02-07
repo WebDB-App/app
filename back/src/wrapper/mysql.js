@@ -166,13 +166,14 @@ ${def[0]["VIEW_DEFINITION"]}`
 		let value = variable.value;
 		try {
 			value = JSON.parse(value);
-		} catch (e) { /* empty */ }
+		} catch (e) { /* empty */
+		}
 		return await this.runCommand(`SET GLOBAL ${variable.name} = ${this.escapeValue(value)};`);
 	}
 
 	async variableList(global = true) {
 		const list = await this.runCommand(`SHOW ${global ? "GLOBAL" : "SESSION"} VARIABLES`);
-		return list.map(l =>  {
+		return list.map(l => {
 			return {
 				name: l.Variable_name,
 				value: l.Value,

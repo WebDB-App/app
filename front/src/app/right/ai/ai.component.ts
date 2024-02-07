@@ -325,7 +325,8 @@ export class AiComponent implements OnInit, OnDestroy {
 			model: this.config.model,
 			messages: [
 				{role: Role.System, content: this.sample},
-				...(this.chat.map(ch => { return {role: ch.user, content: ch.txt}
+				...(this.chat.map(ch => {
+					return {role: ch.user, content: ch.txt}
 				}))
 			],
 			stream: true,

@@ -1,5 +1,5 @@
 <mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
-	<mat-form-field appearance="standard" style="width: 200px" class="searchField">
+	<mat-form-field appearance="standard" class="searchField" style="width: 200px">
 		<input
 			#filter
 			(keyup)="filterChanged(filter.value)"
@@ -27,9 +27,9 @@
 	</button>
 
 	<button
-		routerLink="/migrate"
 		class="hideOnMobile"
-		mat-button>
+		mat-button
+		routerLink="/migrate">
 		<span class="material-symbols-outlined notranslate">
 			compare
 		</span>
@@ -113,18 +113,19 @@
 					<ng-container *ngIf="server.connected">
 
 						<ng-container
-							[ngTemplateOutlet]="dbList"
-							[ngTemplateOutletContext]="{server: server, system: false}">
+							[ngTemplateOutletContext]="{server: server, system: false}"
+							[ngTemplateOutlet]="dbList">
 						</ng-container>
 
 						<mat-divider style="margin: -16px 20px;" vertical></mat-divider>
 
 						<ng-container
-							[ngTemplateOutlet]="dbList"
-							[ngTemplateOutletContext]="{server: server, system: true}">
+							[ngTemplateOutletContext]="{server: server, system: true}"
+							[ngTemplateOutlet]="dbList">
 						</ng-container>
 
-						<mat-divider class="right-divider hideOnMobile" style="margin: -16px 20px;" vertical></mat-divider>
+						<mat-divider class="right-divider hideOnMobile" style="margin: -16px 20px;"
+									 vertical></mat-divider>
 
 						<div class="right-actions">
 							<button
@@ -210,9 +211,9 @@
 										type="{{!showPassword ? 'password' : 'text'}}">
 									<span
 										(click)="showPassword = !showPassword"
+										class="material-symbols-outlined notranslate"
 										matSuffix
-										style="cursor: pointer; font-size: 20px"
-										class="material-symbols-outlined notranslate">
+										style="cursor: pointer; font-size: 20px">
 										{{ !showPassword ? 'visibility' : 'visibility_off' }}
 									</span>
 								</mat-form-field>

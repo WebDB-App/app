@@ -542,7 +542,7 @@ export default class MongoDB extends Driver {
 		try {
 			return BSON.EJSON.stringify(obj);
 		} catch (e) {
-			return JSON.stringify(obj, function(key, value) {
+			return JSON.stringify(obj, function (key, value) {
 				if (typeof value === "object" && value !== null) {
 					if (cache.indexOf(value) !== -1) {
 						return;

@@ -121,8 +121,9 @@
 						Example
 					</button>
 					<mat-menu #example="matMenu" xPosition="before">
-						<button (click)="random.model = 'if (Math.random() < 0.3) {\n\treturn undefined;\n} else {\n\treturn \'70% probability\';\n}'"
-								mat-menu-item>
+						<button
+							(click)="random.model = 'if (Math.random() < 0.3) {\n\treturn undefined;\n} else {\n\treturn \'70% probability\';\n}'"
+							mat-menu-item>
 							30% Null
 						</button>
 						<button (click)="random.model = 'return faker.address.streetAddress(true)'"
@@ -248,7 +249,7 @@
 					</td>
 				</ng-container>
 				<ng-container *ngIf="column !== actionColum">
-					<th *matHeaderCellDef mat-header-cell class="resizeColumn">
+					<th *matHeaderCellDef class="resizeColumn" mat-header-cell>
 						{{ column }}
 					</th>
 					<td *matCellDef="let row"

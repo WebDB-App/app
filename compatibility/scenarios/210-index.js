@@ -40,7 +40,11 @@ async function run(config) {
 	//--------------------------------------------
 
 
-	const added = await post("index/add", {name: "unique_country_name", type: "UNIQUE", columns: ["name"]}, {Table: table});
+	const added = await post("index/add", {
+		name: "unique_country_name",
+		type: "UNIQUE",
+		columns: ["name"]
+	}, {Table: table});
 	const addedCheck = await getCountryIndexes(config);
 	await test("[index] Add ok", () => {
 		assert.ok(!added.error);

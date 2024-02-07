@@ -6,7 +6,6 @@ import { RequestService } from "../../../shared/request.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { DiffEditorModel } from "ngx-monaco-editor-v2";
 import { saveAs } from "file-saver-es";
-import { Table } from "../../../classes/table";
 
 class Patch {
 	hash!: string;
@@ -16,6 +15,20 @@ class Patch {
 	isLoading = false;
 	left!: DiffEditorModel;
 	right!: DiffEditorModel;
+
+	constructor(hash: string, time: number) {
+		this.hash = hash;
+		this.time = +time;
+		this.ago = this.timeSince(new Date(this.time));
+		this.left = {
+			code: '',
+			language: Server.getSelected().driver.language.id
+		};
+		this.right = {
+			code: '',
+			language: Server.getSelected().driver.language.id
+		};
+	}
 
 	timeSince(date: Date) {
 		const seconds = Math.floor(((new Date()).getTime() - date.getTime()) / 1000);
@@ -41,20 +54,6 @@ class Patch {
 			return Math.floor(interval) + " minutes";
 		}
 		return Math.floor(seconds) + " seconds";
-	}
-
-	constructor(hash: string, time: number) {
-		this.hash = hash;
-		this.time = +time;
-		this.ago = this.timeSince(new Date(this.time));
-		this.left = {
-			code: '',
-			language: Server.getSelected().driver.language.id
-		};
-		this.right = {
-			code: '',
-			language: Server.getSelected().driver.language.id
-		};
 	}
 }
 

@@ -1,11 +1,11 @@
 <mat-toolbar
 	fxLayout="row"
 	fxLayoutAlign="space-between center">
-	<mat-form-field appearance="legacy" style="width: 250px; margin-bottom: -1.25em" class="searchField">
-		<input (keyup)="filterChanged(filter.value)"
+	<mat-form-field appearance="legacy" class="searchField" style="width: 250px; margin-bottom: -1.25em">
+		<input #filter
+			   (keyup)="filterChanged(filter.value)"
 			   autocomplete="off"
 			   matInput
-			   #filter
 			   placeholder="Search complex or table">
 		<button (click)="filterChanged('')"
 				*ngIf="filter.value"
@@ -28,26 +28,27 @@
 	<mat-expansion-panel *ngFor="let type of Object.keys(complexes)">
 		<mat-expansion-panel-header>
 			<mat-panel-title>
-				{{Object.values(complexes[type]).length}}
+				{{ Object.values(complexes[type]).length }}
 			</mat-panel-title>
 			<mat-panel-description>
-				{{type.charAt(0).toUpperCase() + type.slice(1).toLowerCase().replace("_", " ")}}
+				{{ type.charAt(0).toUpperCase() + type.slice(1).toLowerCase().replace("_", " ") }}
 			</mat-panel-description>
 		</mat-expansion-panel-header>
 
-		<div *ngFor="let complex of complexes[type]" class="complex" [hidden]="complex.hide">
+		<div *ngFor="let complex of complexes[type]" [hidden]="complex.hide" class="complex">
 			<div>
 				<div>
-					<h4>{{complex.name}}</h4>
+					<h4>{{ complex.name }}</h4>
 					<div *ngIf="complex.table">
-						on <a [routerLink]="['/' + selectedServer!.name, selectedDatabase!.name, complex.table]">{{complex.table}}</a>
-						<span *ngIf="complex.column">.{{complex.column}}</span>
+						on <a
+						[routerLink]="['/' + selectedServer!.name, selectedDatabase!.name, complex.table]">{{ complex.table }}</a>
+						<span *ngIf="complex.column">.{{ complex.column }}</span>
 					</div>
 				</div>
 				<button
 					(click)="alter(complex, type)"
-					matTooltip="Alter value"
-					mat-icon-button>
+					mat-icon-button
+					matTooltip="Alter value">
 					<span class="material-symbols-outlined notranslate">
 						edit_square
 					</span>
@@ -55,8 +56,8 @@
 			</div>
 
 			<pre *ngIf="complex.value"><code
-				[languages]="[selectedServer?.driver!.language.id, 'JSON']"
-				[highlight]="complex.value">
+				[highlight]="complex.value"
+				[languages]="[selectedServer?.driver!.language.id, 'JSON']">
 			</code></pre>
 		</div>
 	</mat-expansion-panel>

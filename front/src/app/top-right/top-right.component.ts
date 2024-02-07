@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnDestroy, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { MatDialog } from "@angular/material/dialog";
 import { HttpClient } from "@angular/common/http";
 import { DomSanitizer } from "@angular/platform-browser";
@@ -78,7 +78,7 @@ export class LogsDialog implements OnDestroy {
 	filter = "";
 	interval?: NodeJS.Timer;
 	atBottom = true;
-
+	protected readonly environment = environment;
 	@ViewChild('scrollContainer') private scrollContainer!: ElementRef;
 
 	constructor(
@@ -126,6 +126,4 @@ export class LogsDialog implements OnDestroy {
 	onScroll(event: any) {
 		this.atBottom = event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight;
 	}
-
-	protected readonly environment = environment;
 }

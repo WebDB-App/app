@@ -64,8 +64,8 @@
 
 		<div fxLayout="row" fxLayoutAlign="space-between center">
 			<button
-				*ngIf="selectedServer.driver.terminalCmd()"
 				(click)="snackBar.open('Command copied', '⨉', {duration: 3000})"
+				*ngIf="selectedServer.driver.terminalCmd()"
 				[cdkCopyToClipboard]="selectedServer.driver.terminalCmd()"
 				mat-button>
 				<span class="material-symbols-outlined notranslate">

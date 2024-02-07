@@ -57,7 +57,10 @@ const new_data = {
 
 async function run(config) {
 
-	const updated = await post("data/update", {old_data: old_data[config.base], new_data: new_data[config.base]}, tableCity);
+	const updated = await post("data/update", {
+		old_data: old_data[config.base],
+		new_data: new_data[config.base]
+	}, tableCity);
 	await test("[data] Update ok", () => {
 		assert.ok(!updated.error);
 	});

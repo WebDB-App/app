@@ -191,7 +191,7 @@ export class StatsDialogComponent implements OnDestroy {
 	}
 
 	switchAll() {
-		for(const [key, stat] of Object.entries(this.chart.chart!.data.datasets)) {
+		for (const [key, stat] of Object.entries(this.chart.chart!.data.datasets)) {
 			this.chart.chart!.data.datasets[<any>key].hidden = !stat.hidden;
 		}
 		this.chart.chart!.update();

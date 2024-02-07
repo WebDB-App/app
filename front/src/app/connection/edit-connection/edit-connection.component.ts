@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import * as drivers from "../../../drivers";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Server, SSH } from "../../../classes/server";
 import { environment } from "../../../environments/environment";
 import { firstValueFrom } from "rxjs";

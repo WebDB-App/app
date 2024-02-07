@@ -1,5 +1,5 @@
 import Driver from "./driver.js";
-import {removeComment, singleLine, sql_cleanQuery, sql_isSelect} from "./helper.js";
+import {sql_cleanQuery, sql_isSelect} from "./helper.js";
 import version from "./version.js";
 
 export default class SQL extends Driver {

@@ -1,98 +1,98 @@
 <mat-toolbar style="display: flex; gap: 20px; justify-content: space-between;">
-    <a mat-raised-button
-       mat-stroked-button
-       routerLink="/">
-        <mat-icon style="height: 28px; width: 28px;" svgIcon="webdb"></mat-icon>
-    </a>
+	<a mat-raised-button
+	   mat-stroked-button
+	   routerLink="/">
+		<mat-icon style="height: 28px; width: 28px;" svgIcon="webdb"></mat-icon>
+	</a>
 
-    <div style="display: flex; gap: 20px; align-items: center;">
-        <mat-button-toggle-group
-                (change)="refreshSide(left); refreshSide(right);"
-                [(ngModel)]="type">
-            <mat-button-toggle value="structure">
-                Structure
-            </mat-button-toggle>
-            <mat-button-toggle value="relation">
-                Relation
-            </mat-button-toggle>
-            <mat-button-toggle value="indexes">
-                Index
-            </mat-button-toggle>
-            <mat-button-toggle value="complex">
-                Complex
-            </mat-button-toggle>
+	<div style="display: flex; gap: 20px; align-items: center;">
+		<mat-button-toggle-group
+			(change)="refreshSide(left); refreshSide(right);"
+			[(ngModel)]="type">
+			<mat-button-toggle value="structure">
+				Structure
+			</mat-button-toggle>
+			<mat-button-toggle value="relation">
+				Relation
+			</mat-button-toggle>
+			<mat-button-toggle value="indexes">
+				Index
+			</mat-button-toggle>
+			<mat-button-toggle value="complex">
+				Complex
+			</mat-button-toggle>
 			<mat-button-toggle value="data">
 				Data
 			</mat-button-toggle>
 			<mat-button-toggle value="variable">
 				Variable
 			</mat-button-toggle>
-        </mat-button-toggle-group>
-        <button
-            (click)="refreshSide(left); refreshSide(right)"
-            mat-flat-button>
+		</mat-button-toggle-group>
+		<button
+			(click)="refreshSide(left); refreshSide(right)"
+			mat-flat-button>
             <span class="material-symbols-outlined notranslate">
                 compare
             </span>
-            Refresh
-        </button>
-    </div>
+			Refresh
+		</button>
+	</div>
 
-    <div *ngIf="type === 'data' && left.querySize && right.querySize">
-        <mat-paginator
-            (page)="page = $event.pageIndex; pageSize = $event.pageSize; refreshSide(left); refreshSide(right)"
-            [length]="Math.max(left.querySize, right.querySize)"
-            [pageIndex]="page"
-            [pageSize]="pageSize"
-            hidePageSize
-        ></mat-paginator>
-    </div>
+	<div *ngIf="type === 'data' && left.querySize && right.querySize">
+		<mat-paginator
+			(page)="page = $event.pageIndex; pageSize = $event.pageSize; refreshSide(left); refreshSide(right)"
+			[length]="Math.max(left.querySize, right.querySize)"
+			[pageIndex]="page"
+			[pageSize]="pageSize"
+			hidePageSize
+		></mat-paginator>
+	</div>
 
-    <a href="https://docs.webdb.app/comparator"
-       mat-button
-       target="_blank">
+	<a href="https://docs.webdb.app/comparator"
+	   mat-button
+	   target="_blank">
 		<span class="material-symbols-outlined notranslate">
 			dictionary
 		</span>
-        Documentation
-    </a>
+		Documentation
+	</a>
 </mat-toolbar>
 
 <mat-progress-bar
-        *ngIf="loading === LoadingStatus.LOADING"
-        mode="indeterminate"
+	*ngIf="loading === LoadingStatus.LOADING"
+	mode="indeterminate"
 ></mat-progress-bar>
 
 <div *ngIf="loading === LoadingStatus.DONE" id="container">
-    <div id="connections">
-        <div>
-            <ng-container
-                    [ngTemplateOutlet]="connection"
-                    [ngTemplateOutletContext]="{side:left}">
-            </ng-container>
-        </div>
-        <div>
-            <ng-container
-                    [ngTemplateOutlet]="connection"
-                    [ngTemplateOutletContext]="{side:right}">
-            </ng-container>
-        </div>
-    </div>
+	<div id="connections">
+		<div>
+			<ng-container
+				[ngTemplateOutletContext]="{side:left}"
+				[ngTemplateOutlet]="connection">
+			</ng-container>
+		</div>
+		<div>
+			<ng-container
+				[ngTemplateOutletContext]="{side:right}"
+				[ngTemplateOutlet]="connection">
+			</ng-container>
+		</div>
+	</div>
 
-    <div style="height: calc(100vh - 220px)">
+	<div style="height: calc(100vh - 220px)">
 
-        <div *ngIf="isComparing" class="loader" style="height: calc(100vh - 220px);">
-            <mat-spinner mode="indeterminate"></mat-spinner>
-        </div>
+		<div *ngIf="isComparing" class="loader" style="height: calc(100vh - 220px);">
+			<mat-spinner mode="indeterminate"></mat-spinner>
+		</div>
 
-        <ngx-monaco-diff-editor
+		<ngx-monaco-diff-editor
 			*ngIf="!isComparing"
-            style="height: 100%"
-            [modifiedModel]="right.diff"
-            [options]="editorOptions"
-            [originalModel]="left.diff"
-        ></ngx-monaco-diff-editor>
-    </div>
+			[modifiedModel]="right.diff"
+			[options]="editorOptions"
+			[originalModel]="left.diff"
+			style="height: 100%"
+		></ngx-monaco-diff-editor>
+	</div>
 </div>
 
 <ng-template #connection let-side='side'>
@@ -100,8 +100,8 @@
 		<mat-form-field appearance="fill">
 			<mat-label>Server</mat-label>
 			<mat-select
-				required
-				disableOptionCentering>
+				disableOptionCentering
+				required>
 				<mat-option
 					(click)="side.server = server; side.database = undefined; side.table = undefined; side.query = undefined; side.columnsToHide = undefined; side.diff.code = ''; refreshSide(side)"
 					*ngFor="let server of servers"
@@ -111,67 +111,67 @@
 			</mat-select>
 		</mat-form-field>
 	</div>
-    <div *ngIf="type !== 'variable'">
-        <mat-form-field appearance="fill">
-            <mat-label>Server</mat-label>
-            <input matInput [value]="side.server?.name" disabled>
-        </mat-form-field>
+	<div *ngIf="type !== 'variable'">
+		<mat-form-field appearance="fill">
+			<mat-label>Server</mat-label>
+			<input [value]="side.server?.name" disabled matInput>
+		</mat-form-field>
 
-        <mat-form-field appearance="fill">
-            <mat-label>Database</mat-label>
-            <mat-select
-                    required
-                    disableOptionCentering>
-                <mat-optgroup
-                        *ngFor="let server of servers"
-                        [label]="server.name">
-                    <mat-option
-                            (click)="side.server = server; side.database = db; side.table = undefined; side.query = undefined; side.columnsToHide = undefined; side.diff.code = ''; refreshSide(side)"
-                            *ngFor="let db of server.dbs"
-                            [value]="db.name">
-                        {{ db.name }}
-                    </mat-option>
-                </mat-optgroup>
-            </mat-select>
-        </mat-form-field>
-    </div>
-    <ng-container *ngIf="type === 'data' && side.database">
-        <div>
-            <mat-form-field appearance="outline">
-                <mat-label>Table</mat-label>
-                <mat-select
-                    required
-                    disableOptionCentering>
-                    <mat-option
-                            (click)="side.table = table; side.query = ''; side.columnsToHide = []; refreshSide(side)"
-                            *ngFor="let table of side.database.tables"
-                            [value]="table.name">
-                        {{ table.name }}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
+		<mat-form-field appearance="fill">
+			<mat-label>Database</mat-label>
+			<mat-select
+				disableOptionCentering
+				required>
+				<mat-optgroup
+					*ngFor="let server of servers"
+					[label]="server.name">
+					<mat-option
+						(click)="side.server = server; side.database = db; side.table = undefined; side.query = undefined; side.columnsToHide = undefined; side.diff.code = ''; refreshSide(side)"
+						*ngFor="let db of server.dbs"
+						[value]="db.name">
+						{{ db.name }}
+					</mat-option>
+				</mat-optgroup>
+			</mat-select>
+		</mat-form-field>
+	</div>
+	<ng-container *ngIf="type === 'data' && side.database">
+		<div>
+			<mat-form-field appearance="outline">
+				<mat-label>Table</mat-label>
+				<mat-select
+					disableOptionCentering
+					required>
+					<mat-option
+						(click)="side.table = table; side.query = ''; side.columnsToHide = []; refreshSide(side)"
+						*ngFor="let table of side.database.tables"
+						[value]="table.name">
+						{{ table.name }}
+					</mat-option>
+				</mat-select>
+			</mat-form-field>
 
-            <mat-form-field appearance="outline" *ngIf="side.table">
-                <mat-label>Hide columns</mat-label>
-                <mat-select disableOptionCentering multiple [(ngModel)]="side.columnsToHide">
-                    <mat-option
-                        (click)="refreshSide(side)"
-                        *ngFor="let column of side.table.columns"
-                        [value]="column">
-                        {{ column.name }}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-        <div *ngIf="side.table">
-            <button
-                (click)="editQuery(side)"
-                mat-flat-button>
+			<mat-form-field *ngIf="side.table" appearance="outline">
+				<mat-label>Hide columns</mat-label>
+				<mat-select [(ngModel)]="side.columnsToHide" disableOptionCentering multiple>
+					<mat-option
+						(click)="refreshSide(side)"
+						*ngFor="let column of side.table.columns"
+						[value]="column">
+						{{ column.name }}
+					</mat-option>
+				</mat-select>
+			</mat-form-field>
+		</div>
+		<div *ngIf="side.table">
+			<button
+				(click)="editQuery(side)"
+				mat-flat-button>
                 <span class="material-symbols-outlined notranslate">
                     edit
                 </span>
-                Query
-            </button>
-        </div>
-    </ng-container>
+				Query
+			</button>
+		</div>
+	</ng-container>
 </ng-template>

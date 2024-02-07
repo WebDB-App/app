@@ -30,8 +30,8 @@
 				(page)="changePage($event.pageIndex, $event.pageSize); refreshData()"
 				[length]="querySize"
 				[pageIndex]="params.page"
-				[pageSize]="params.pageSize"
 				[pageSizeOptions]="[50, 100, 500, 2000]"
+				[pageSize]="params.pageSize"
 			></mat-paginator>
 		</div>
 		<button
@@ -164,8 +164,8 @@
 
 				<ng-container *ngIf="column === actionColum">
 					<button
-						disableRipple
 						(click)="editRow(i, row)"
+						disableRipple
 						mat-icon-button>
 						<span class="material-symbols-outlined notranslate">
 							edit
@@ -173,11 +173,11 @@
 					</button>
 
 					<mat-checkbox
-						disableRipple
 						(change)="$event ? selection.toggle(row) : null"
 						(click)="shiftCheckBox($event, row); $event.stopPropagation();"
 						[checked]="selection.isSelected(row)"
-						color="primary">
+						color="primary"
+						disableRipple>
 					</mat-checkbox>
 				</ng-container>
 

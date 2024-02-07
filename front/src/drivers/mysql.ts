@@ -3,7 +3,7 @@ import { Group, QueryParams } from "../classes/driver";
 import { Server } from "../classes/server";
 import { Database } from "../classes/database";
 import { format } from "sql-formatter";
-import { escapeId, escape } from "sqlstring";
+import { escape, escapeId } from "sqlstring";
 import { Complex } from "../classes/complex";
 
 declare module 'sqlstring';

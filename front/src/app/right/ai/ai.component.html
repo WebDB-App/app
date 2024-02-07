@@ -7,7 +7,7 @@
 		<div fxLayout="row"
 			 fxLayoutAlign="space-between center"
 			 style="gap: 10px; height: 52px">
-			<mat-form-field appearance="legacy" style="margin-bottom: -1.25em" class="searchField">
+			<mat-form-field appearance="legacy" class="searchField" style="margin-bottom: -1.25em">
 				<input
 					#filter
 					(keyup)="filterChanged(filter.value)"
@@ -131,8 +131,8 @@
 
 			<div style="position: relative; padding: 0px;">
 				<ngx-monaco-editor
-					[hidden]="!showPrompt"
 					[(ngModel)]="sample"
+					[hidden]="!showPrompt"
 					[options]="editorOptions"
 					style="min-width: inherit; flex: 1; min-height: 300px"
 				></ngx-monaco-editor>
@@ -141,9 +141,9 @@
 
 		<mat-card style="padding: 10px 0px; display: flex; flex-direction: column;">
 			<mat-form-field
+				*ngIf="Object.keys(models).length"
 				appearance="fill"
 				color="accent"
-				*ngIf="Object.keys(models).length"
 				style="padding: 10px 14px 0px; flex: 1;">
 				<mat-label>Model</mat-label>
 				<mat-select
@@ -169,7 +169,7 @@
 						<a href="https://makersuite.google.com/app/apikey"
 						   mat-button
 						   target="_blank">
-							<mat-icon svgIcon="gemini" style="width: 70px"></mat-icon>
+							<mat-icon style="width: 70px" svgIcon="gemini"></mat-icon>
 						</a>
 
 						<mat-form-field appearance="standard">
@@ -187,7 +187,7 @@
 						<a href="https://platform.openai.com/account"
 						   mat-button
 						   target="_blank">
-							<mat-icon svgIcon="openai" style="width: 70px"></mat-icon>
+							<mat-icon style="width: 70px" svgIcon="openai"></mat-icon>
 						</a>
 
 						<mat-form-field appearance="standard">
@@ -205,7 +205,7 @@
 						<a href="https://api.together.xyz/settings/api-keys"
 						   mat-button
 						   target="_blank">
-							<mat-icon svgIcon="together" style="width: 70px"></mat-icon>
+							<mat-icon style="width: 70px" svgIcon="together"></mat-icon>
 						</a>
 
 						<mat-form-field appearance="standard">
@@ -265,7 +265,7 @@
 
 	<div></div>
 
-	<div #scrollContainer id="container" (scroll)="onScroll($event)">
+	<div #scrollContainer (scroll)="onScroll($event)" id="container">
 
 		<div *ngIf="!config.openAI && !config.gemini" style="margin-bottom: 30vh">
 			<br><br>

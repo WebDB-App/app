@@ -14,10 +14,10 @@
 
 		<ng-container matColumnDef="name">
 			<th *matHeaderCellDef mat-header-cell style="padding-left: 14px;">
-				<mat-form-field appearance="legacy" style="margin-bottom: -1em; width: 92%;" class="searchField">
+				<mat-form-field appearance="legacy" class="searchField" style="margin-bottom: -1em; width: 92%;">
 					<input
-						[(ngModel)]="filter"
 						(keyup)="filterChanged()"
+						[(ngModel)]="filter"
 						autocomplete="off"
 						matInput
 						placeholder="Search name | description | value">
@@ -31,22 +31,24 @@
 					</button>
 				</mat-form-field>
 			</th>
-			<td *matCellDef="let element" mat-cell [matTooltip]="element.description" matTooltipPosition="right"> {{ element.name }}</td>
+			<td *matCellDef="let element" [matTooltip]="element.description" mat-cell
+				matTooltipPosition="right"> {{ element.name }}
+			</td>
 		</ng-container>
 
 		<ng-container matColumnDef="value">
-			<th *matHeaderCellDef mat-header-cell> Value </th>
+			<th *matHeaderCellDef mat-header-cell> Value</th>
 			<td *matCellDef="let element" mat-cell>
 
-				<span *ngIf="!toUpdate[element.name]">{{element.value}}</span>
+				<span *ngIf="!toUpdate[element.name]">{{ element.value }}</span>
 
 				<ng-container *ngIf="toUpdate[element.name]">
 					<mat-form-field
 						appearance="legacy"
 						style="width: 100%; margin-bottom: -1em">
 						<textarea
-							cdkTextareaAutosize
 							[(ngModel)]="element.value"
+							cdkTextareaAutosize
 							matInput
 							type="text">
 						</textarea>

@@ -7,7 +7,6 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { isSQL } from "../../../shared/helper";
 import { Server } from "../../../classes/server";
 import { Database } from "../../../classes/database";
-import { Complex } from "../../../classes/complex";
 import { Stats } from "../../../classes/stats";
 
 @Component({

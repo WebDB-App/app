@@ -2,7 +2,6 @@ import { Server } from "../classes/server";
 import { SQL } from "../drivers/sql";
 import { HttpClient } from "@angular/common/http";
 import { firstValueFrom } from "rxjs";
-import { MatPaginatorIntl } from "@angular/material/paginator";
 import { Database } from "../classes/database";
 import { ElementRef } from "@angular/core";
 
@@ -122,9 +121,9 @@ export function sql_cleanQuery(query: string, lowerCase = true) {
 	if (lowerCase) {
 		query = query.toLowerCase();
 	}
-	query = query.replace(/['"`]+/g," ");
+	query = query.replace(/['"`]+/g, " ");
 	query = singleLine(query);
-	query = query.replace(/ +(?= )/g,"");
+	query = query.replace(/ +(?= )/g, "");
 
 	return query;
 }

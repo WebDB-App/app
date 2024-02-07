@@ -5,7 +5,7 @@
 
 	<div style="display: flex; gap: 26px; font-size: 16px; align-items: center;">
 		<span>
-			{{selectedPatch.time | date:'MM-dd HH:mm:ss'}}
+			{{ selectedPatch.time | date:'MM-dd HH:mm:ss' }}
 		</span>
 
 		<button
@@ -88,7 +88,8 @@
 		</mat-card-header>
 	</mat-card>
 
-	<ng-container *ngIf="!selectedDatabase?.system && selectedServer?.wrapper !== 'CockroachDB' && !(selectedServer?.ssh && selectedServer?.ssh?.host)">
+	<ng-container
+		*ngIf="!selectedDatabase?.system && selectedServer?.wrapper !== 'CockroachDB' && !(selectedServer?.ssh && selectedServer?.ssh?.host)">
 
 		<mat-card *ngIf="patches.length < 1">
 			<mat-card-header>
@@ -107,11 +108,11 @@
 
 				<div *ngIf="selectedPatch?.hash === patch.hash">
 					<ngx-monaco-diff-editor
-						style="height: calc(100vh - 105px)"
 						*ngIf="patch.right.code || patch.left.code"
 						[modifiedModel]="patch.right"
 						[options]="editorOptions"
 						[originalModel]="patch.left"
+						style="height: calc(100vh - 105px)"
 					></ngx-monaco-diff-editor>
 				</div>
 			</mat-tab>

@@ -1,6 +1,4 @@
-import { Directive, ElementRef, HostListener, Input, NgZone, OnDestroy, OnInit } from '@angular/core';
-import { fromEvent, pipe, Subject } from 'rxjs';
-import { filter, map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 
 @Directive({
 	selector: 'table[range-selection]',
@@ -15,12 +13,25 @@ export class RangeSelectionDirective {
 	private range = new Set<HTMLTableCellElement>();
 	private cellIndices = new Map<HTMLTableCellElement, { row: number; column: number }>();
 
+	constructor(elementRef: ElementRef<HTMLTableElement>) {
+		this.table = elementRef.nativeElement;
+
+		document.addEventListener('mouseup', (event) => {
+			if (!this.keyPressed) {
+				this.clearCells();
+			}
+		});
+	}
+
 	@HostListener('window:keydown', ['$event'])
 	handleKeyDown(event: KeyboardEvent) {
 		if (event.key === 'Shift') {
 			this.toggleUserSelect(true);
 		}
 	}
+
+	//press papier
+	//ajouter icone keyboard avec tooltip qui explique
 
 	@HostListener('window:keyup', ['$event'])
 	handleKeyUp(event: KeyboardEvent) {
@@ -29,8 +40,13 @@ export class RangeSelectionDirective {
 		}
 	}
 
-	//press papier
-	//ajouter icone keyboard avec tooltip qui explique
+	updateClipboard() {
+		let text = '';
+		this.range.forEach(cell => text += cell.innerText + '\t');
+		if (text) {
+			navigator.clipboard.writeText(text);
+		}
+	}
 
 	private toggleUserSelect(pressed: boolean) {
 		this.keyPressed = pressed;
@@ -41,16 +57,6 @@ export class RangeSelectionDirective {
 			this.table.style.userSelect = 'auto';
 			this.removeListeners();
 		}
-	}
-
-	constructor(elementRef: ElementRef<HTMLTableElement>) {
-		this.table = elementRef.nativeElement;
-
-		document.addEventListener('mouseup', (event) => {
-			if (!this.keyPressed) {
-				this.clearCells();
-			}
-		});
 	}
 
 	private initListeners() {
@@ -115,14 +121,6 @@ export class RangeSelectionDirective {
 		});
 	}
 
-	updateClipboard() {
-		let text = '';
-		this.range.forEach(cell => text += cell.innerText + '\t');
-		if (text) {
-			navigator.clipboard.writeText(text);
-		}
-	}
-
 	private clearCells() {
 		this.range.forEach(cell => cell.classList.remove(this.selectionClass));
 		this.range.clear();
@@ -142,7 +140,7 @@ export class RangeSelectionDirective {
 		const cells: any[] = [];
 
 		iterateCells(this.table, (cell) => {
-			const { column, row } = this.cellIndices.get(cell)!;
+			const {column, row} = this.cellIndices.get(cell)!;
 			if (column >= boundaries.left && column <= boundaries.right &&
 				row >= boundaries.top && row <= boundaries.bottom) {
 				cells.push(cell);
@@ -156,7 +154,8 @@ export class RangeSelectionDirective {
 		this.cellIndices.clear();
 		const matrix: any[] = [];
 		iterateCells(this.table, (cell, y, x) => {
-			for (; matrix[y] && matrix[y][x]; x++) {}
+			for (; matrix[y] && matrix[y][x]; x++) {
+			}
 			for (let spanX = x; spanX < x + cell.colSpan; spanX++) {
 				for (let spanY = y; spanY < y + cell.rowSpan; spanY++) {
 					(matrix[spanY] = matrix[spanY] || [])[spanX] = 1;

@@ -6,11 +6,14 @@ import {tableCity} from "../base.js";
 // eslint-disable-next-line no-unused-vars
 async function run(config) {
 	const longEnough = 100;
-	const sample = await post("database/sample", {preSent: {
-		tables: [tableCity.Table],
-		deep: 2,
-		count: 5,
-		anonymize: 0}}, tableCity);
+	const sample = await post("database/sample", {
+		preSent: {
+			tables: [tableCity.Table],
+			deep: 2,
+			count: 5,
+			anonymize: 0
+		}
+	}, tableCity);
 	await test(`[sample] Found ${tableCity.Table} table and have at least ${longEnough} chars`, () => {
 		assert.ok(!sample.error);
 		assert.ok(sample.txt.length > longEnough);

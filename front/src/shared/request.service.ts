@@ -23,7 +23,7 @@ export enum LoadingStatus {
 export class RequestService {
 
 	configuration: Configuration = new Configuration();
-	lastError?: {time: number, ref: MatBottomSheetRef};
+	lastError?: { time: number, ref: MatBottomSheetRef };
 
 	private loadingSubject = new BehaviorSubject(LoadingStatus.LOADING);
 	loadingServer = this.loadingSubject.asObservable();

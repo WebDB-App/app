@@ -162,7 +162,7 @@ export class EditQueryDialog {
 		this.editorOptions.language = side.server!.driver.language.id;
 	}
 
-	async create(){
+	async create() {
 		this.dialogRef.close(true);
 	}
 

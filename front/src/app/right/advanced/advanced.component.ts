@@ -84,7 +84,7 @@ export class AdvancedComponent implements OnDestroy {
 
 			await this.request.post('database/drop', result);
 			if (result.associated) {
-				for (const key in localStorage){
+				for (const key in localStorage) {
 					if (!key.startsWith(getStorageKey(""))) {
 						continue;
 					}
