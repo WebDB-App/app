@@ -367,12 +367,13 @@ async function main() {
 				return `ALTER TABLE ${complex.table} DROP CONSTRAINT ${complex.name};\nALTER TABLE ${complex.table} ADD CONSTRAINT ${complex.name} CHECK (${complex.value});`
 				break;
 			case "FUNCTION":
-				return ``;//DROP FUNCTION ${complex.name};\n${complex.value};`
+				return `DROP FUNCTION ${complex.name};\n${complex.value};`
 				break;
 			case "PROCEDURE":
-				return ``;//`DROP PROCEDURE ${complex.name};\n${complex.value};`
+				return `DROP PROCEDURE ${complex.name};\n${complex.value};`
 				break;
 			case "TRIGGER":
+				return `DROP TRIGGER ${complex.name};\nCREATE TRIGGER ${complex.name} ${complex.value};`
 				break;
 		}
 		return "";

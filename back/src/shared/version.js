@@ -157,7 +157,7 @@ class Version {
 				process.env.WATCHER_EXCLUDE.indexOf(database) >= 0)) {
 			return;
 		}
-		if (!force && !alterStructure(command.toLowerCase())) {
+		if (!force && !alterStructure(command)) {
 			return;
 		}
 

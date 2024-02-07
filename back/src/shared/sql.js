@@ -1,5 +1,5 @@
 import Driver from "./driver.js";
-import {removeComment, singleLine, sql_isSelect} from "./helper.js";
+import {removeComment, singleLine, sql_cleanQuery, sql_isSelect} from "./helper.js";
 import version from "./version.js";
 
 export default class SQL extends Driver {
@@ -190,15 +190,8 @@ export default class SQL extends Driver {
 		return res.error ? res : res.toString();
 	}
 
-	cleanQuery(query, keepLength = false) {
-		query = removeComment(query);
-		query = singleLine(query, keepLength);
-		return query.trim().endsWith(";") ? query.trim().slice(0, -1) : query;
-	}
-
 	async querySize(query, database) {
-		query = this.cleanQuery(query);
-
+		query = sql_cleanQuery(query);
 		if (!sql_isSelect(query)) {
 			return null;
 		}
@@ -208,11 +201,11 @@ export default class SQL extends Driver {
 	}
 
 	async runPagedQuery(query, page, pageSize, database) {
-		query = this.cleanQuery(query, true);
-
 		if (sql_isSelect(query)
 			&& query.toLowerCase().indexOf(" offset ") < 0
 			&& query.toLowerCase().indexOf(" limit ") < 0) {
+
+			query = query.endsWith(";") ? query.trim().slice(0, -1) : query;
 			query = `${query} LIMIT ${pageSize} OFFSET ${page * pageSize}`;
 		}
 

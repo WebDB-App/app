@@ -31,8 +31,17 @@ export function mongo_injectAggregate(query, toInject) {
 	return query.replace(reg, agg);
 }
 
-export function sql_isSelect(query) {
+export function sql_cleanQuery(query) {
+	query = removeComment(query);
+	query = singleLine(query);
 	query = query.trim().toLowerCase();
+	query = query.endsWith(";") ? query.trim().slice(0, -1) : query;
+
+	return query;
+}
+
+export function sql_isSelect(query) {
+	query = sql_cleanQuery(query);
 	query = query.replaceAll(parentheses, "").trim();
 	query = query.replaceAll(/"([^"]*)"|'([^']*)'|`([^`]*)`/g, "");
 
@@ -43,11 +52,9 @@ export function sql_isSelect(query) {
 	return query.indexOf("select ") >= 0;
 }
 
-export function singleLine(code, keepLength = false) {
+export function singleLine(code) {
 	code = code.replaceAll(/(\r|\n|\t)/gm, " ");
-	if (!keepLength) {
-		code = code.replaceAll(/  +/gm, " ");
-	}
+	code = code.replaceAll(/  +/gm, " ");
 	return code;
 }
 

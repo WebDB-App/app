@@ -6,6 +6,7 @@ import bash from "../shared/bash.js";
 import {join} from "path";
 import {loadData} from "../shared/buffer.js";
 import {URL} from "url";
+import {sql_cleanQuery} from "../shared/helper.js";
 
 const dirname = new URL(".", import.meta.url).pathname;
 
@@ -222,7 +223,7 @@ ${def[0]["VIEW_DEFINITION"]}`
 		const complexes = {
 			"FUNCTION": [],
 			"PROCEDURE": [],
-			"TRIGGER": [await this.runCommand("SELECT trigger_name as name, trigger_schema as 'database', EVENT_OBJECT_TABLE as 'table', ACTION_STATEMENT as 'value' FROM information_schema.triggers WHERE trigger_schema != 'sys'")]
+			"TRIGGER": await this.runCommand("SELECT trigger_name as name, trigger_schema as 'database', EVENT_OBJECT_TABLE as 'table', CONCAT( ACTION_TIMING, ' ', EVENT_MANIPULATION, ' ON ', EVENT_OBJECT_TABLE, ' FOR EACH ', ACTION_ORIENTATION, '\n', ACTION_STATEMENT ) AS 'value' FROM information_schema.triggers WHERE trigger_schema != 'sys'")
 		};
 
 		const routines = await this.runCommand("SELECT routine_name as name, routine_type as type, routine_schema as 'database' FROM information_schema.routines WHERE routine_schema != 'sys' ORDER BY routine_name;");
@@ -240,7 +241,7 @@ ${def[0]["VIEW_DEFINITION"]}`
 		if (this.realWrapper === subWrapper.MySQL) {
 			complexes["CHECK"] = await this.runCommand("SELECT CHECK_CONSTRAINTS.CONSTRAINT_SCHEMA AS 'database', CHECK_CONSTRAINTS.CONSTRAINT_NAME AS 'name', `CHECK_CLAUSE` AS 'value', TABLE_CONSTRAINTS.TABLE_NAME AS 'table' FROM information_schema.CHECK_CONSTRAINTS JOIN information_schema.TABLE_CONSTRAINTS ON CHECK_CONSTRAINTS.CONSTRAINT_SCHEMA = TABLE_CONSTRAINTS.CONSTRAINT_SCHEMA AND CHECK_CONSTRAINTS.CONSTRAINT_NAME = TABLE_CONSTRAINTS.CONSTRAINT_NAME");
 		} else if (this.realWrapper === subWrapper.MariaDB) {
-			complexes["CHECK"] = await this.runCommand("SELECT CONSTRAINT_SCHEMA as 'database', CONSTRAINT_NAME as name, TABLE_NAME as 'table', CHECK_CLAUSE as value FROM INFORMATION_SCHEMA.CHECK_CONSTRAINTS WHERE CONSTRAINT_SCHEMA != 'sys'");
+			complexes["CHECK"] = await this.runCommand("SELECT CONSTRAINT_SCHEMA as 'database', CONSTRAINT_NAME as name, TABLE_NAME as 'table', CHECK_CLAUSE as value FROM INFORMATION_SCHEMA.CHECK_CONSTRAINTS WHERE CONSTRAINT_SCHEMA NOT IN ('sys', 'mysql')");
 		}
 		return complexes;
 	}
@@ -373,7 +374,7 @@ ${def[0]["VIEW_DEFINITION"]}`
 	}
 
 	async runCommand(command, database = false) {
-		const cid = bash.startCommand(command, database, this.port);
+		const cid = bash.startCommand(sql_cleanQuery(command), database, this.port);
 		const connection = await this.connection.promise().getConnection();
 		let lgth = -1;
 
@@ -383,7 +384,7 @@ ${def[0]["VIEW_DEFINITION"]}`
 			}
 			const [res] = await connection.query(command);
 			lgth = res.length;
-			version.commandFinished(this, command, database);
+			version.commandFinished(this, sql_cleanQuery(command), database);
 			return res;
 		} catch (e) {
 			return this.foundErrorPos({error: e.sqlMessage}, command);

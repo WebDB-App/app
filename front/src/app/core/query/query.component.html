@@ -23,10 +23,9 @@
 		<div style="width: 12px"></div>
 
 		<button
-			(click)="autoFormat = !autoFormat"
-			[class.mat-raised-button]="autoFormat"
+			(click)="formatQuery()"
 			mat-icon-button
-			matTooltip="Format query on run">
+			matTooltip="Format query">
 			<span class="material-symbols-outlined notranslate">format_indent_increase</span>
 		</button>
 
@@ -34,7 +33,7 @@
 			[matMenuTriggerFor]="templatesMenu"
 			mat-icon-button
 			matTooltip="Prebuilds queries">
-			<span class="material-symbols-outlined notranslate">grid_guides</span>
+			<span class="material-symbols-outlined notranslate">factory</span>
 		</button>
 		<mat-menu #templatesMenu="matMenu" xPosition="before">
 			<button (click)="loadTemplate(template)"

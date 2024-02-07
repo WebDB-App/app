@@ -6,6 +6,7 @@ import {loadData} from "../shared/buffer.js";
 import {join} from "path";
 import version from "../shared/version.js";
 import {URL} from "url";
+import {sql_cleanQuery} from "../shared/helper.js";
 
 const Pool = pg.Pool;
 const dirname = new URL(".", import.meta.url).pathname;
@@ -507,7 +508,7 @@ ${def[0]["pg_get_viewdef"]}`
 			connection = await this.connection.connect();
 		}
 
-		const cid = bash.startCommand(command, (database || "") + (schema ? `,${schema}` : ""), this.port);
+		const cid = bash.startCommand(sql_cleanQuery(command), (database || "") + (schema ? `,${schema}` : ""), this.port);
 		try {
 			if (schema) {
 				await connection.query(`SET search_path TO ${this.escapeId(schema)};`);
@@ -515,7 +516,7 @@ ${def[0]["pg_get_viewdef"]}`
 			let res = await connection.query(command);
 			res = res.command === "SELECT" ? res.rows : res;
 			lgth = res.length;
-			version.commandFinished(this, command, database);
+			version.commandFinished(this, sql_cleanQuery(command), database);
 			return res;
 		} catch (e) {
 			return {error: e.message + ". " + (e.hint || ""), position: e.position};

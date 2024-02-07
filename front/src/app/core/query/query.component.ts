@@ -120,7 +120,6 @@ export class QueryComponent implements OnInit, OnDestroy {
 			if (this.query.length < 5000) {
 				this.router.navigate(['query', this.query], {relativeTo: this.activatedRoute.parent});
 			}
-			this.configuration.update('autoFormat', this.autoFormat);
 		}, 1000);
 	}
 
@@ -136,14 +135,18 @@ export class QueryComponent implements OnInit, OnDestroy {
 		}
 	}
 
+	formatQuery() {
+		this.query = Server.getSelected().driver.format(this.query);
+		this.query2 = Server.getSelected().driver.format(this.query2);
+	}
+
 	async runQuery() {
 		this.isLoading = true;
 		this.editors.map(editor => monaco.editor.setModelMarkers(editor.getModel(), "owner", []));
 
 		try {
 			if (this.autoFormat) {
-				this.query = Server.getSelected().driver.format(this.query);
-				this.query2 = Server.getSelected().driver.format(this.query2);
+				this.formatQuery();
 			}
 			if (this.diff) {
 				await this._runCompare();

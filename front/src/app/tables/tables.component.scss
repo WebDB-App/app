@@ -51,9 +51,11 @@
 	background-color: #1e1e1e;
 
 	.mat-row {
-		height: 32px;
+		height: 30px;
 
 		.mat-cell {
+			font-size: 12px;
+			padding: 0px 0px 0px 6px !important;
 			min-width: inherit;
 		}
 	}
