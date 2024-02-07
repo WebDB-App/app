@@ -422,9 +422,9 @@ ${def[0]["VIEW_DEFINITION"]}`
 
 	async saveVersionInfo() {
 		const version = (await this.variableList()).find(variable => variable.name === "version_comment");
-		if (version.value.toLowerCase().indexOf('mariadb') >= 0) {
+		if (version.value.toLowerCase().indexOf("mariadb") >= 0) {
 			this.realWrapper = subWrapper.MariaDB;
-		} else if (version.value.toLowerCase().indexOf('percona') >= 0) {
+		} else if (version.value.toLowerCase().indexOf("percona") >= 0) {
 			this.realWrapper = subWrapper.Percona;
 		} else {
 			this.realWrapper = subWrapper.MySQL;
