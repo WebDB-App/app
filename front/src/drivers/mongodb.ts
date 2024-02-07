@@ -307,7 +307,7 @@ async function main() {
 	}
 
 	alterComplex(complex: Complex, type: string) {
-		return "";
+		return "db.admin";
 		/*
 		{
 				collMod: table,

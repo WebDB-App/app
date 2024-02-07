@@ -242,6 +242,23 @@ ${def[0]["pg_get_viewdef"]}`
 		return complexes;
 	}
 
+	async dropComplex(complex, type, database) {
+		if (type === "SEQUENCE") {
+			return await this.runCommand(`DROP SEQUENCE ${complex.name}`, database);
+		}
+		if (type === "MATERIALIZED_VIEW") {
+			return await this.runCommand(`DROP MATERIALIZED VIEW ${complex.name}`, database);
+		}
+		if (type === "ENUM" || type === "CUSTOM_TYPE") {
+			return await this.runCommand(`DROP TYPE ${complex.name}`, database);
+		}
+		if (type === "DOMAIN") {
+			return await this.runCommand(`DROP DOMAIN ${complex.name}`, database);
+		}
+
+		return super.dropComplex(complex, type, database);
+	}
+
 	async insert(db, table, datas) {
 		datas = datas.map(row => {
 			for (const [index, obj] of Object.entries(row)) {

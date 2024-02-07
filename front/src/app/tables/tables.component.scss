@@ -59,13 +59,19 @@
 ::ng-deep .columns {
 	background-color: #1e1e1e;
 
-	.mat-row {
-		height: 30px;
+	table {
+		padding: 0px 6px;
+		width: 100%;
 
-		.mat-cell {
-			font-size: 12px;
-			padding: 0px 0px 0px 6px !important;
-			min-width: inherit;
+		.mat-row {
+			height: 30px;
+
+			.mat-cell {
+				font-size: 12px;
+				padding: 0px !important;
+				min-width: inherit;
+				border: none;
+			}
 		}
 	}
 }

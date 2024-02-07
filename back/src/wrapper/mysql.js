@@ -247,21 +247,6 @@ ${def[0]["VIEW_DEFINITION"]}`
 		return complexes;
 	}
 
-	async dropComplex(complex, type, database) {
-		if (type === "FUNCTION") {
-			return await this.runCommand(`DROP FUNCTION ${complex.name}`, database);
-		}
-		if (type === "PROCEDURE") {
-			return await this.runCommand(`DROP PROCEDURE ${complex.name}`, database);
-		}
-		if (type === "TRIGGER") {
-			return await this.runCommand(`DROP TRIGGER ${complex.name}`, database);
-		}
-		if (type === "CHECK") {
-			return await this.runCommand(`ALTER TABLE ${complex.table} DROP CONSTRAINT ${complex.name};`, database);
-		}
-	}
-
 	async setCollation(database, collate) {
 		const colls = await this.getAvailableCollations();
 		const character = colls.find(coll => coll.Collation === collate).Charset;

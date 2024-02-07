@@ -104,7 +104,7 @@ export class TablesComponent implements OnInit {
 			return;
 		}
 
-		let str = "<table class='table'>";
+		let str = "<table>";
 		const indexes = Table.getIndexes(table);
 		const relations = Table.getRelations(table);
 
