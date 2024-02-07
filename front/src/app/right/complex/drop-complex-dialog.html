@@ -1,0 +1,9 @@
+<div mat-dialog-title>
+	<h3>Sure to drop <i>{{ complex.name }}</i> ?</h3>
+	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
+		<span class="material-symbols-outlined notranslate">close</span>
+	</button>
+</div>
+<mat-dialog-actions>
+	<button (click)="remove()" color="warn" mat-button>Remove {{ complex.name }}</button>
+</mat-dialog-actions>

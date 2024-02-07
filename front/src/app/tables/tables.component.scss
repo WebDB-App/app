@@ -15,9 +15,18 @@
 			overflow-x: hidden;
 			overflow-y: auto;
 
-			a {
-				text-decoration: none;
-				color: inherit;
+			::ng-deep .mat-list-item-content {
+				padding: 0px;
+
+				.mat-list-text {
+					padding: 0px;
+
+					a {
+						text-decoration: none;
+						color: inherit;
+						margin-left: 12px;
+					}
+				}
 			}
 
 			.entity {

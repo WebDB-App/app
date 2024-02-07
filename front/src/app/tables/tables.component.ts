@@ -124,7 +124,7 @@ export class TablesComponent implements OnInit {
 		});
 	}
 
-	changeTable(name: string) {
+	getTableUrl(name: string) {
 		let url = this.router.url;
 		if (url.indexOf(`/(${this.selectedTable!.name}/`) >= 0) {
 			url = url.replace(`/(${this.selectedTable!.name}/`, `/(${name}/`);
@@ -136,7 +136,15 @@ export class TablesComponent implements OnInit {
 		if (explore >= 0) {
 			url = url.substring(0, explore) + '/explore';
 		}
-		return '/#' + url;
+		return url;
+	}
+
+	goTo(name: string) {
+		this.router.navigateByUrl(this.getTableUrl(name));
+	}
+
+	changeTable(name: string) {
+		return '/#' + this.getTableUrl(name);
 	}
 
 	saveWidth(width: number) {

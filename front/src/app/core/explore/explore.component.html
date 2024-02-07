@@ -134,7 +134,7 @@
 					</mat-form-field>
 				</ng-container>
 
-				<div *ngIf="column === actionColum" style="display: flex; flex-direction: column; align-items: center;">
+				<div *ngIf="column === actionColum && dataSource.data.length" style="display: flex; flex-direction: column; align-items: center;">
 					<div>
 						<button
 							[disabled]="selection.isEmpty()"

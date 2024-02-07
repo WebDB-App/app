@@ -38,7 +38,7 @@ import { HighlightModule } from 'ngx-highlightjs';
 import { HistoryComponent, SortPipe } from "./history/history.component";
 import { VersionComponent } from './version/version.component';
 import { MatListModule } from "@angular/material/list";
-import { ComplexComponent } from './complex/complex.component';
+import { ComplexComponent, DropComplexDialog } from './complex/complex.component';
 import { MatTabsModule } from "@angular/material/tabs";
 
 
@@ -54,7 +54,8 @@ import { MatTabsModule } from "@angular/material/tabs";
 		SortPipe,
 		AiComponent,
 		VersionComponent,
-		ComplexComponent
+		ComplexComponent,
+		DropComplexDialog
 	],
 	exports: [
 		DiagramComponent,

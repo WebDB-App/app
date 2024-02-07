@@ -127,7 +127,6 @@ export class DropTableDialog {
 	}
 }
 
-
 @Component({
 	templateUrl: './truncate-table-dialog.html',
 })

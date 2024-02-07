@@ -1,20 +1,21 @@
 # Doc
-
 - numérotation de version + cycle de dev + ci/cd
 - nosql default column
 - gpt4
 - expliquer code .js, .ts
-- dire que seul la dernière requete est display
+- dire que si la requete n'est pas un select, la reponse raw est affiché
+- expliquer le multi select des checkbox et le multi select des cellsdans le press papier
 - https://chat.openai.com/c/eae4f88e-e100-45de-9502-8708f7f48bf8
 
 
 - finir tests
 - ERD [Chrome bookmarks] + UML/Merise
 - tester export query: java/php
-- complex update
 - first level keyword (select, update, create, with, alter) + patch
 
+
 ----------------------------------------------------------
+
 
 # modules payant
 

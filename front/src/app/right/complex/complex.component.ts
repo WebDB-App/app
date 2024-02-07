@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Complex } from "../../../classes/complex";
 import { Server } from "../../../classes/server";
 import { Database } from "../../../classes/database";
@@ -6,6 +6,9 @@ import { complex } from "../../../shared/helper";
 import { Table } from "../../../classes/table";
 import { MatDrawer } from "@angular/material/sidenav";
 import { Router } from "@angular/router";
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
+import { RequestService } from "../../../shared/request.service";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
 	selector: 'app-complex',
@@ -24,6 +27,9 @@ export class ComplexComponent implements OnInit {
 	constructor(
 		private drawer: MatDrawer,
 		private router: Router,
+		private request: RequestService,
+		private dialog: MatDialog,
+		private snackBar: MatSnackBar
 	) {
 	}
 
@@ -54,5 +60,35 @@ export class ComplexComponent implements OnInit {
 		const query = this.selectedServer?.driver.alterComplex(complex, type);
 		this.router.navigate([Server.getSelected().name, Database.getSelected().name, Table.getSelected().name, 'query', query]);
 		this.drawer.close();
+	}
+
+	drop(complex: Complex, type: string) {
+		const dialogRef = this.dialog.open(DropComplexDialog, {
+			data: complex
+		});
+
+		dialogRef.afterClosed().subscribe(async (result: any) => {
+			if (!result) {
+				return;
+			}
+			await this.request.post('complex/drop', {complex, type});
+			this.snackBar.open(`Dropped ${complex?.name}`, "⨉", {duration: 3000});
+			await this.request.reloadServer();
+		});
+	}
+}
+
+
+@Component({
+	templateUrl: './drop-complex-dialog.html',
+})
+export class DropComplexDialog {
+	constructor(
+		@Inject(MAT_DIALOG_DATA) public complex: Complex,
+		private dialogRef: MatDialogRef<DropComplexDialog>) {
+	}
+
+	async remove() {
+		this.dialogRef.close(true);
 	}
 }

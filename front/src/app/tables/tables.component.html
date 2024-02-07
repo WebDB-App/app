@@ -52,7 +52,9 @@
 						</div>
 						<mat-list-option
 							[class.mat-list-single-selected-option]="selectedTable?.name === table.name"
-							[style.font-style]="table.view ? 'italic' : 'normal' "
+							[style.font-style]="table.view ? 'italic' : 'normal'"
+							(keyup.enter)="goTo(table.name)"
+							(keyup.space)="goTo(table.name)"
 							[value]="table.name">
 							<a href="{{changeTable(table.name)}}">
 								{{ table.name }}

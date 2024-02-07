@@ -308,5 +308,13 @@ async function main() {
 
 	alterComplex(complex: Complex, type: string) {
 		return "";
+		/*
+		{
+				collMod: table,
+				validator: JSON.parse(trigger.code),
+				validationLevel: trigger.level,
+				validationAction: trigger.action
+			}
+		 */
 	}
 }

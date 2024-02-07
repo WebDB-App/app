@@ -421,6 +421,18 @@ export default class MongoDB extends Driver {
 		return complexes;
 	}
 
+	async dropComplex(complex, type, database) {
+		try {
+			return await this.connection.db(database).command({
+				collMod: complex.table,
+				validator: {},
+				validationLevel: "off"
+			});
+		} catch (e) {
+			return {error: e.message};
+		}
+	}
+
 	async getRelations(databases, sampleSize) {
 		const relations = [];
 		const promises = [];

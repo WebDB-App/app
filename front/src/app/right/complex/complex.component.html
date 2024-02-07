@@ -45,14 +45,23 @@
 						<span *ngIf="complex.column">.{{ complex.column }}</span>
 					</div>
 				</div>
-				<button
-					(click)="alter(complex, type)"
-					mat-icon-button
-					matTooltip="Alter value">
-					<span class="material-symbols-outlined notranslate">
-						edit_square
-					</span>
-				</button>
+				<div>
+					<button
+						(click)="alter(complex, type)"
+						mat-icon-button>
+						<span class="material-symbols-outlined notranslate">
+							edit_square
+						</span>
+					</button>
+					<button
+						(click)="drop(complex, type)"
+						color="warn"
+						mat-icon-button>
+						<span class="material-symbols-outlined notranslate">
+							delete
+						</span>
+					</button>
+				</div>
 			</div>
 
 			<pre *ngIf="complex.value"><code
