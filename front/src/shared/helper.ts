@@ -45,7 +45,7 @@ export async function loadLibAsset(http: HttpClient, paths: string[]) {
 	}
 }
 
-export const validName = /^[a-zA-Z0-9-_]{2,50}$/;
+export const validName = /^[a-zA-Z0-9-_]{1,400}$/;
 
 export const parentheses = /\((?:[^)(]|\((?:[^)(]|\((?:[^)(]|\([^)(]*\))*\))*\))*\)/g;
 

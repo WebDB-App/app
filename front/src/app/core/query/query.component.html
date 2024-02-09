@@ -188,7 +188,10 @@
 				*ngFor="let column of displayedColumns"
 				matColumnDef="{{column}}"
 			>
-				<th *matHeaderCellDef class="resizeColumn" mat-header-cell>
+				<th *matHeaderCellDef
+					[style.min-width]="column.length * 8 + 'px'"
+					class="resizeColumn"
+					mat-header-cell>
 					{{ column }}
 				</th>
 				<td *matCellDef="let row" mat-cell>

@@ -1,6 +1,6 @@
 #container {
 	display: flex;
-	height: calc(100vh - 160px);
+	height: calc(100vh - 154px);
 
 	&.diff {
 		height: 330px !important;
@@ -13,7 +13,7 @@
 }
 
 ngx-monaco-diff-editor {
-	height: calc(100vh - 494px) !important;
+	height: calc(100vh - 486px) !important;
 }
 
 ngx-monaco-editor {

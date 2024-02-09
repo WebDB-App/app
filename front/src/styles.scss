@@ -55,16 +55,6 @@ body {
 	.mat-header-row {
 		height: 45px;
 
-		.mat-header-cell:not(:nth-last-of-type(-n+2)) .resize-holder {
-			cursor: col-resize;
-			width: 20px;
-			height: 100%;
-			position: absolute;
-			right: -10px;
-			top: 0;
-			z-index: 1;
-		}
-
 		.mat-header-cell {
 			color: mat.get-color-from-palette($angular-primary, default);
 			font-size: 15px;

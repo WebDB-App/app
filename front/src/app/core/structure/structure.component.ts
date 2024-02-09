@@ -253,8 +253,8 @@ export class AddColumnDialog {
 	) {
 		this.selectedServer = Server.getSelected();
 		this.selectedTable = Table.getSelected();
-		this.form = fb.group({
-			columns: fb.array([
+		this.form = this.fb.group({
+			columns: this.fb.array([
 				Column.getFormGroup(this.selectedTable),
 			])
 		});
@@ -285,6 +285,7 @@ export class UpdateColumnDialog {
 	protected readonly JSON = JSON;
 
 	constructor(
+		private dialogRef: MatDialogRef<UpdateColumnDialog>,
 		private request: RequestService,
 		private fb: FormBuilder,
 		private snackBar: MatSnackBar,
@@ -310,7 +311,7 @@ export class UpdateColumnDialog {
 		try {
 			await this.request.post('column/modify', this.form.getRawValue());
 			this.snackBar.open(`Columns altered`, "⨉", {duration: 3000});
-			await this.request.reloadServer();
+			this.dialogRef.close(true);
 		} catch (e) {
 		}
 

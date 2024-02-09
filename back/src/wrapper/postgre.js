@@ -213,7 +213,7 @@ ${def[0]["pg_get_viewdef"]}`
 				tmp.FUNCTION = routines.filter(routine => routine.type.toLowerCase() === "function");
 				tmp.MATERIALIZED_VIEW = await this.runCommand("SELECT schemaname AS SCHEMA, matviewname AS name, definition AS VALUE FROM pg_matviews", db.datname);
 				tmp.PROCEDURE = routines.filter(routine => routine.type.toLowerCase() === "procedure");
-				tmp.SEQUENCE = await this.runCommand("SELECT sequence_schema AS SCHEMA, sequence_name AS name, 'Min: ' || minimum_value || ', Max: ' || maximum_value || ', Start: ' || start_value || ', Incr: ' || INCREMENT || ', Type: ' || data_type AS VALUE FROM information_schema.sequences;", db.datname);
+				tmp.SEQUENCE = await this.runCommand("SELECT sequence_schema AS SCHEMA, sequence_name AS name, ' AS ' || data_type || '\n MINVALUE ' || minimum_value || '\n MAXVALUE ' || maximum_value || '\n START WITH ' || start_value || '\n INCREMENT BY ' || INCREMENT AS value FROM information_schema.sequences;", db.datname);
 				tmp.TRIGGER = await this.runCommand("SELECT trigger_name as name, trigger_schema as schema, event_object_table as table, action_statement as value FROM information_schema.triggers", db.datname);
 
 				const domains = await this.runCommand("SELECT n.nspname AS SCHEMA, t.typname AS name, pg_catalog.format_type (t.typbasetype, t.typtypmod) AS underlying_type, t.typnotnull AS not_null, ( SELECT c.collname FROM pg_catalog.pg_collation c, pg_catalog.pg_type bt WHERE c.oid = t.typcollation AND bt.oid = t.typbasetype AND t.typcollation <> bt.typcollation ) AS COLLATION, t.typdefault AS DEFAULT, pg_catalog.array_to_string ( ARRAY( SELECT pg_catalog.pg_get_constraintdef (r.oid, TRUE) FROM pg_catalog.pg_constraint r WHERE t.oid = r.contypid ), ' ' ) AS check_constraints FROM pg_catalog.pg_type t LEFT JOIN pg_catalog.pg_namespace n ON n.oid = t.typnamespace WHERE t.typtype = 'd' AND n.nspname <> 'pg_catalog' AND n.nspname <> 'information_chema' AND pg_catalog.pg_type_is_visible (t.oid)", db.datname);
@@ -244,16 +244,16 @@ ${def[0]["pg_get_viewdef"]}`
 
 	async dropComplex(complex, type, database) {
 		if (type === "SEQUENCE") {
-			return await this.runCommand(`DROP SEQUENCE ${complex.name}`, database);
+			return await this.runCommand(`DROP SEQUENCE ${this.escapeId(complex.name)}`, database);
 		}
 		if (type === "MATERIALIZED_VIEW") {
-			return await this.runCommand(`DROP MATERIALIZED VIEW ${complex.name}`, database);
+			return await this.runCommand(`DROP MATERIALIZED VIEW ${this.escapeId(complex.name)}`, database);
 		}
 		if (type === "ENUM" || type === "CUSTOM_TYPE") {
-			return await this.runCommand(`DROP TYPE ${complex.name}`, database);
+			return await this.runCommand(`DROP TYPE ${this.escapeId(complex.name)}`, database);
 		}
 		if (type === "DOMAIN") {
-			return await this.runCommand(`DROP DOMAIN ${complex.name}`, database);
+			return await this.runCommand(`DROP DOMAIN ${this.escapeId(complex.name)}`, database);
 		}
 
 		return super.dropComplex(complex, type, database);

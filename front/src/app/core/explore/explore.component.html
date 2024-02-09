@@ -102,7 +102,7 @@
 
 <mat-progress-bar *ngIf="isLoading" mode="indeterminate" style="position: absolute; z-index: 10000;"></mat-progress-bar>
 
-<div class="scrollDiv" style="height: calc(100vh - 161px);">
+<div class="scrollDiv" style="height: calc(100vh - 154px);">
 
 	<table [dataSource]="dataSource" class="table mat-elevation-z8" mat-table range-selection>
 		<ng-container
@@ -112,6 +112,7 @@
 		>
 			<th *matHeaderCellDef
 				class="resizeColumn"
+				[style.min-width]="column.length * 8 + 'px'"
 				mat-header-cell>
 
 				<ng-container *ngIf="column !== actionColum">

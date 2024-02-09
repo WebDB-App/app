@@ -249,7 +249,10 @@
 					</td>
 				</ng-container>
 				<ng-container *ngIf="column !== actionColum">
-					<th *matHeaderCellDef class="resizeColumn" mat-header-cell>
+					<th *matHeaderCellDef
+						class="resizeColumn"
+						[style.min-width]="column.length * 8 + 'px'"
+						mat-header-cell>
 						{{ column }}
 					</th>
 					<td *matCellDef="let row"
