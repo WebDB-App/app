@@ -100,18 +100,21 @@ export class LoadComponent {
 	}
 
 	async setImport(files: any[]) {
-		this.files = this.files.concat(await Promise.all(files.filter(file => {
-			const end = this.acceptedExt.some(name => {
+		files = files.filter(file => {
+			return this.acceptedExt.some(name => {
 				return file.name.toLowerCase().endsWith(name);
 			});
-			if (!end) {
-				this.snackBar.open("File format not supported", "⨉", {panelClass: 'snack-error'})
-				return false;
-			}
-			return file;
-		}).map(async file => {
+		});
+		if (files.length < 1) {
+			this.snackBar.open("No file format supported", "⨉", {panelClass: 'snack-error'})
+			return;
+		}
+		files = files.sort((a, b) => a.name.localeCompare(b.name));
+		files = files.map(async file => {
 			return new Loads(file.name, await file.text(), file);
-		})));
+		});
+
+		this.files = this.files.concat(await Promise.all(files));
 	}
 
 	async inputChange(fileInputEvent: any) {

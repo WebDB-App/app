@@ -4,5 +4,10 @@ export class Complex {
 	table?: string;
 	column?: string;
 	value?: string;
+}
+
+export class EditableComplex extends Complex {
 	hide?: boolean;
+	newName?: string;
+	rename = false;
 }

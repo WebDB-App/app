@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { Complex } from "../../../classes/complex";
+import { EditableComplex } from "../../../classes/complex";
 import { Server } from "../../../classes/server";
 import { Database } from "../../../classes/database";
 import { complex } from "../../../shared/helper";
@@ -17,7 +17,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 })
 export class ComplexComponent implements OnInit {
 
-	complexes: { [type: string]: Complex[] } = {};
+	complexes: { [type: string]: EditableComplex[] } = {};
 	selectedServer?: Server;
 	selectedDatabase?: Database;
 
@@ -38,7 +38,7 @@ export class ComplexComponent implements OnInit {
 		this.selectedDatabase = Database.getSelected();
 
 		for (const [type, complexes] of Object.entries(this.selectedServer.complexes)) {
-			this.complexes[type] = complexes.filter(complex => this.selectedDatabase!.name === complex.database);
+			this.complexes[type] = <EditableComplex[]>complexes.filter(complex => this.selectedDatabase!.name === complex.database);
 		}
 	}
 
@@ -56,15 +56,24 @@ export class ComplexComponent implements OnInit {
 		}
 	}
 
-	alter(complex: Complex, type: string) {
+	async rename(complex: EditableComplex, type: string) {
+		const query = this.selectedServer!.driver.renameComplex(complex, type, this.selectedDatabase!.name);
+		await this.request.post('database/query', { query });
+
+		this.snackBar.open(`Rename ${complex.name} to ${complex.newName}`, "⨉", {duration: 3000});
+		complex.name = complex.newName!;
+		complex.rename = false;
+	}
+
+	alter(complex: EditableComplex, type: string) {
 		const query = this.selectedServer?.driver.alterComplex(complex, type);
 		this.router.navigate([Server.getSelected().name, Database.getSelected().name, Table.getSelected().name, 'query', query]);
 		this.drawer.close();
 	}
 
-	drop(complex: Complex, type: string) {
+	drop(complex: EditableComplex, type: string) {
 		const dialogRef = this.dialog.open(DropComplexDialog, {
-			data: complex
+			data: EditableComplex
 		});
 
 		dialogRef.afterClosed().subscribe(async (result: any) => {
@@ -72,7 +81,7 @@ export class ComplexComponent implements OnInit {
 				return;
 			}
 			await this.request.post('complex/drop', {complex, type});
-			this.snackBar.open(`Dropped ${complex?.name}`, "⨉", {duration: 3000});
+			this.snackBar.open(`Dropped ${complex.name}`, "⨉", {duration: 3000});
 			await this.request.reloadServer();
 		});
 	}
@@ -84,7 +93,7 @@ export class ComplexComponent implements OnInit {
 })
 export class DropComplexDialog {
 	constructor(
-		@Inject(MAT_DIALOG_DATA) public complex: Complex,
+		@Inject(MAT_DIALOG_DATA) public complex: EditableComplex,
 		private dialogRef: MatDialogRef<DropComplexDialog>) {
 	}
 

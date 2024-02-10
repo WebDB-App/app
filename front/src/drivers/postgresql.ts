@@ -4,6 +4,7 @@ import { Server } from "../classes/server";
 import { Database } from "../classes/database";
 import { format } from "sql-formatter";
 import { Column } from "../classes/column";
+import { Complex, EditableComplex } from "../classes/complex";
 
 export class PostgreSQL extends SQL {
 
@@ -372,5 +373,47 @@ async function main() {
 
 	override terminalCmd = () => {
 		return `docker exec -it $(docker ps -a -q --filter ancestor=webdb/app) psql ` + Server.getSelected().uri;
+	}
+
+	override alterComplex(complex: Complex, type: string) {
+		switch (type) {
+			case "SEQUENCE":
+				return `ALTER SEQUENCE ${complex.name}\n${complex.value};`
+			case "ENUM":
+				return `DROP TYPE ${complex.name};\nCREATE TYPE ${complex.name} AS ENUM(${complex.value});`
+			case "PROCEDURE":
+				return `DROP PROCEDURE ${complex.name};\n${complex.value};`
+			case "TRIGGER":
+				return `DROP TRIGGER ${complex.name};\nCREATE TRIGGER ${complex.name} ${complex.value};`
+		}
+		return super.alterComplex(complex, type);
+	}
+
+	override renameComplex(complex: EditableComplex, type: string, database: string): string | false {
+		if (type === "CHECK" && complex.table) {
+			return `ALTER TABLE ${this.wrapStructure(complex.table)} RENAME CONSTRAINT ${this.wrapStructure(complex.name)} TO ${this.wrapStructure(complex.newName!)};`;
+		}
+		if (type === "ENUM" || type === "CUSTOM_TYPE") {
+			return `ALTER TYPE ${this.wrapStructure(complex.name)} RENAME TO ${this.wrapStructure(complex.newName!)};`;
+		}
+		if (type === "DOMAIN") {
+			return `ALTER DOMAIN ${this.wrapStructure(complex.name)} RENAME TO ${this.wrapStructure(complex.newName!)};`;
+		}
+		if (type === "FUNCTION") {
+			return `ALTER FUNCTION ${this.wrapStructure(complex.name)} RENAME TO ${this.wrapStructure(complex.newName!)};`;
+		}
+		if (type === "PROCEDURE") {
+			return `ALTER PROCEDURE ${this.wrapStructure(complex.name)} RENAME TO ${this.wrapStructure(complex.newName!)};`;
+		}
+		if (type === "MATERIALIZED_VIEW") {
+			return `ALTER MATERIALIZED VIEW ${this.wrapStructure(complex.name)} RENAME TO ${this.wrapStructure(complex.newName!)};`;
+		}
+		if (type === "TRIGGER" && complex.table) {
+			return `ALTER TRIGGER ${this.wrapStructure(complex.name)} ON ${this.wrapStructure(complex.table)} RENAME TO ${this.wrapStructure(complex.newName!)}`;
+		}
+		if (type === "SEQUENCE") {
+			return `ALTER SEQUENCE ${this.wrapStructure(complex.name)} RENAME TO ${this.wrapStructure(complex.newName!)};`;
+		}
+		return false;
 	}
 }

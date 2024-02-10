@@ -317,4 +317,8 @@ async function main() {
 			}
 		 */
 	}
+
+	renameComplex(complex: Complex, type: string, database: string): string | false {
+		return false;
+	}
 }

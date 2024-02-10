@@ -4,7 +4,7 @@ import { Server } from "../classes/server";
 import { Database } from "../classes/database";
 import { format } from "sql-formatter";
 import { escape, escapeId } from "sqlstring";
-import { Complex } from "../classes/complex";
+import { EditableComplex } from "../classes/complex";
 
 declare module 'sqlstring';
 
@@ -361,21 +361,16 @@ async function main() {
 		return escapeId(structure);
 	}
 
-	override alterComplex(complex: Complex, type: string) {
-		switch (type) {
-			case "CHECK":
-				return `ALTER TABLE ${complex.table} DROP CONSTRAINT ${complex.name};\nALTER TABLE ${complex.table} ADD CONSTRAINT ${complex.name} CHECK (${complex.value});`
-				break;
-			case "FUNCTION":
-				return `DROP FUNCTION ${complex.name};\n${complex.value};`
-				break;
-			case "PROCEDURE":
-				return `DROP PROCEDURE ${complex.name};\n${complex.value};`
-				break;
-			case "TRIGGER":
-				return `DROP TRIGGER ${complex.name};\nCREATE TRIGGER ${complex.name} ${complex.value};`
-				break;
+	override renameComplex(complex: EditableComplex, type: string, database: string): string | false {
+		if (type === "FUNCTION" || type === "PROCEDURE") {
+			return `UPDATE mysql.proc SET name = ${escapeId(complex.newName)}, specific_name = ${escapeId(complex.newName)} WHERE db = ${escapeId(database)} AND name = ${escapeId(complex.name)}`;
 		}
-		return "";
+		if (type === "CHECK") {
+			return `ALTER TABLE ${complex.table} DROP CONSTRAINT ${complex.name};\nALTER TABLE ${complex.table} ADD CONSTRAINT ${complex.newName} ${complex.value};`;
+		}
+		if (type === "TRIGGER") {
+			return `DROP TRIGGER ${complex.name};\nCREATE TRIGGER ${complex.newName} ${complex.value};`;
+		}
+		return false;
 	}
 }

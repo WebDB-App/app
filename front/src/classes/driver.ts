@@ -84,7 +84,9 @@ export interface Driver {
 	wrapValue: (type: any, value: string) => string;
 	quickSearch: (driver: Driver, column: Column, value: string) => string;
 	generateSuggestions?: (textUntilPosition: string, colUntilPosition: string, allText: string) => any[];
+
 	alterComplex: (complex: Complex, type: string) => string;
+	renameComplex: (complex: Complex, type: string, database: string) => string | false;
 
 	basicSort: (query: string, field: string, direction: 'asc' | 'desc') => string;
 	basicFilter: (table: Table, condition: string[], operand: 'AND' | 'OR') => string;

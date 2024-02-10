@@ -664,6 +664,20 @@ export class SQL implements Driver {
 	}
 
 	alterComplex(complex: Complex, type: string) {
+		switch (type) {
+			case "CHECK":
+				return `ALTER TABLE ${complex.table} DROP CONSTRAINT ${complex.name};\nALTER TABLE ${complex.table} ADD CONSTRAINT ${complex.name} ${complex.value};`
+			case "FUNCTION":
+				return `DROP FUNCTION ${complex.name};\n${complex.value};`
+			case "PROCEDURE":
+				return `DROP PROCEDURE ${complex.name};\n${complex.value};`
+			case "TRIGGER":
+				return `DROP TRIGGER ${complex.name};\nCREATE TRIGGER ${complex.name} ${complex.value};`
+		}
 		return "";
+	}
+
+	renameComplex(complex: Complex, type: string, database: string): string | false {
+		return false;
 	}
 }

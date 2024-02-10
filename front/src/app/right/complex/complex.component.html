@@ -37,31 +37,66 @@
 
 		<div *ngFor="let complex of complexes[type]" [hidden]="complex.hide" class="complex">
 			<div>
-				<div>
-					<h4>{{ complex.name }}</h4>
-					<div *ngIf="complex.table">
-						on <a
-						[routerLink]="['/' + selectedServer!.name, selectedDatabase!.name, complex.table]">{{ complex.table }}</a>
-						<span *ngIf="complex.column">.{{ complex.column }}</span>
+				<ng-container *ngIf="complex.rename">
+					<div>
+						<mat-form-field appearance="legacy" style="width: 200px; margin-bottom: -1.25em">
+							<input
+								[(ngModel)]="complex.newName"
+								autocomplete="off"
+								matInput>
+						</mat-form-field>
 					</div>
-				</div>
-				<div>
-					<button
-						(click)="alter(complex, type)"
-						mat-icon-button>
-						<span class="material-symbols-outlined notranslate">
-							edit_square
-						</span>
-					</button>
-					<button
-						(click)="drop(complex, type)"
-						color="warn"
-						mat-icon-button>
-						<span class="material-symbols-outlined notranslate">
-							delete
-						</span>
-					</button>
-				</div>
+					<div>
+						<button
+							(click)="rename(complex, type)"
+							mat-button>
+							<span class="material-symbols-outlined notranslate" style="color: #2196f3;">
+								check_circle
+							</span>
+						</button>
+
+						<button
+							(click)="complex.rename = false"
+							mat-button>
+							<span class="material-symbols-outlined notranslate">
+								cancel
+							</span>
+						</button>
+					</div>
+				</ng-container>
+				<ng-container *ngIf="!complex.rename">
+					<div>
+						<h4>{{ complex.name }}</h4>
+						<div *ngIf="complex.table">
+							on <a
+							[routerLink]="['/' + selectedServer!.name, selectedDatabase!.name, complex.table]">{{ complex.table }}</a>
+							<span *ngIf="complex.column">.{{ complex.column }}</span>
+						</div>
+					</div>
+					<div>
+						<button
+							hidden
+							(click)="alter(complex, type)"
+							mat-button>
+							Alter
+						</button>
+						<button
+							hidden
+							*ngIf="selectedServer!.driver.renameComplex(complex, type, selectedDatabase!.name)"
+							(click)="complex.newName = complex.name; complex.rename = true"
+							mat-button>
+							Rename
+						</button>
+						<button
+							(click)="drop(complex, type)"
+							color="warn"
+							mat-icon-button>
+							<span class="material-symbols-outlined notranslate">
+								delete
+							</span>
+						</button>
+					</div>
+				</ng-container>
 			</div>
 
 			<pre *ngIf="complex.value"><code
