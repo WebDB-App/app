@@ -12,6 +12,9 @@ import { MatIconRegistry } from "@angular/material/icon";
 import { ProcessDialogComponent } from "../process/process-dialog.component";
 import { StatsDialogComponent } from "../stats/stats-dialog.component";
 import { validName } from "../../shared/helper";
+import { Database } from "../../classes/database";
+import { Router } from "@angular/router";
+import { VariableDialogComponent } from "../variable/variable-dialog.component";
 
 enum ServerStatus {
 	Connected = 'Connected',
@@ -49,6 +52,7 @@ export class ConnectionComponent implements OnInit {
 		private domSanitizer: DomSanitizer,
 		private matIconRegistry: MatIconRegistry,
 		private titleService: Title,
+		private router: Router,
 		private dialog: MatDialog) {
 
 		if (this.demo) {
@@ -207,6 +211,14 @@ export class ConnectionComponent implements OnInit {
 		});
 	}
 
+	variableServer(server: Server) {
+		this.dialog.open(VariableDialogComponent, {
+			hasBackdrop: false,
+			id: 'vars-' + server.name,
+			data: JSON.parse(JSON.stringify(server)),
+		});
+	}
+
 	getServerByStatus(status: string): Server[] {
 		return this.servers.filter(server => {
 			if (status === ServerStatus.Connected) {
@@ -224,6 +236,10 @@ export class ConnectionComponent implements OnInit {
 			delete this.editServer;
 		}
 		await this.ngOnInit();
+	}
+
+	goTo(server: Server, database: Database) {
+		this.router.navigateByUrl('/' + server.name + '/' + database.name);
 	}
 }
 

@@ -128,6 +128,35 @@
 									 vertical></mat-divider>
 
 						<div class="right-actions">
+							<div style="text-align: center">
+								<button
+									(click)="processServer(server)"
+									mat-icon-button
+									matTooltip="Process list"
+									style="justify-self: center">
+									<span class="material-symbols-outlined notranslate">
+										smart_display
+									</span>
+								</button>
+								<button
+									(click)="statsServer(server)"
+									mat-icon-button
+									matTooltip="Server statistics"
+									style="justify-self: center">
+									<span class="material-symbols-outlined notranslate">
+										timeline
+									</span>
+								</button>
+								<button
+									(click)="variableServer(server)"
+									mat-icon-button
+									matTooltip="Server variables"
+									style="justify-self: center">
+									<span class="material-symbols-outlined notranslate">
+										discover_tune
+									</span>
+								</button>
+							</div>
 							<button
 								(click)="editServer = server; tabGroup.selectedIndex = 3"
 								mat-button
@@ -136,24 +165,6 @@
 									network_manage
 								</span>
 								Edit
-							</button>
-							<button
-								(click)="processServer(server)"
-								mat-button
-								style="justify-self: center">
-								<span class="material-symbols-outlined notranslate">
-									smart_display
-								</span>
-								Process
-							</button>
-							<button
-								(click)="statsServer(server)"
-								mat-button
-								style="justify-self: center">
-								<span class="material-symbols-outlined notranslate">
-									timeline
-								</span>
-								Stats
 							</button>
 							<button
 								(click)="addDatabase(server)"
@@ -287,15 +298,17 @@
 			<mat-list-option
 				*ngIf="database.system === system"
 				[hidden]="database.hide"
+				(keyup.enter)="goTo(server, database)"
+				(keyup.space)="goTo(server, database)"
 				[style.opacity]="database.system ? '0.5' : 1">
-				<span
-					class="tableCount"
-					matTooltip="Table(s)"
-					matTooltipPosition="left">
-					{{ database.tables?.length }}
-				</span>
-
 				<a [href]="'/#/' + server.name + '/' + database.name">
+					<span
+						class="tableCount"
+						matTooltip="Table(s)"
+						matTooltipPosition="left">
+						{{ database.tables?.length }}
+					</span>
+
 					{{ database.name }}
 				</a>
 			</mat-list-option>
