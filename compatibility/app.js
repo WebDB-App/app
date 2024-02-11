@@ -1,5 +1,4 @@
 import {describe, test} from "node:test";
-import {post} from "./api.js";
 import assert from "node:assert";
 import {runWebDB} from "./helper.js";
 
