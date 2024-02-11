@@ -1,5 +1,5 @@
 <div cdkFocusInitial mat-dialog-content>
-	<mat-tab-group #tabs (selectedTabChange)="$event.index === 3 ? dialogRef.close() : undefined">
+	<mat-tab-group (selectedTabChange)="$event.index === 2 ? dialogRef.close() : undefined">
 		<mat-tab label="Parameters">
 			<table style="padding: 20px">
 
@@ -31,72 +31,6 @@
 				</ng-container>
 			</table>
 		</mat-tab>
-		<mat-tab label="Subscription">
-			<div style="text-align: center;">
-				<div style="padding: 12px 28px">
-					<mat-card>
-						<mat-card-header>
-							<mat-card-subtitle fxLayout="row" fxLayoutAlign="space-between center">
-								<h3>{{ licence?.plan }}</h3>
-								<div>
-									<span *ngIf="licence?.valid" class="material-symbols-outlined notranslate"
-										  style="color: #2196f3;">
-										check_circle
-									</span>
-									<span *ngIf="!licence?.valid" class="material-symbols-outlined notranslate"
-										  style="color: #f44336;">
-										cancel
-									</span>
-								</div>
-							</mat-card-subtitle>
-						</mat-card-header>
-						<mat-card-content fxLayout="row" fxLayoutAlign="space-evenly center">
-							<ng-container *ngIf="!licence?.error">
-								<span *ngIf="licence?.email">{{ licence?.email }}</span>
-								<span *ngIf="licence?.expire! > 0">
-									Expire: {{ licence?.expire! * 1000 | date: 'mediumDate' }}
-								</span>
-							</ng-container>
-
-							<mat-error *ngIf="licence?.error">
-								{{ licence?.error }}
-							</mat-error>
-						</mat-card-content>
-					</mat-card>
-
-					<mat-form-field appearance="outline" style="width: 100%;">
-						<mat-label>Register a subscription with your mail</mat-label>
-						<input #mail [formControl]="email" autocomplete="off" matInput type="text">
-					</mat-form-field>
-				</div>
-			</div>
-			<div class="mat-dialog-actions">
-				<a href="https://webdb.app/price" mat-stroked-button target="_blank">
-					<span class="material-symbols-outlined notranslate">
-						shopping_cart
-					</span>
-					Pricing
-				</a>
-
-				<a [href]="env.stripeUserLink" mat-stroked-button target="_blank">
-					<span class="material-symbols-outlined notranslate">
-						credit_card
-					</span>
-					Account
-				</a>
-
-				<button (click)="save(mail.value)"
-						[disabled]="!email.valid"
-						cdkFocusInitial
-						color="primary"
-						mat-flat-button>
-					<span class="material-symbols-outlined notranslate">
-						verified
-					</span>
-					Register
-				</button>
-			</div>
-		</mat-tab>
 		<mat-tab label="About">
 			<div style="text-align: center">
 				<div style="font-weight: 300; font-size: 30px;">
@@ -123,10 +57,12 @@
 				<mat-divider></mat-divider>
 
 				<div class="mat-dialog-actions">
-					<a href="https://www.linkedin.com/company/web-db"
+					<a href="https://patreon.com/WebDB?utm_medium=unknown&utm_source=join_link&utm_campaign=creatorshare_creator&utm_content=copyLink"
 					   mat-button
 					   target="_blank">
-						<mat-icon svgIcon="linkedin"></mat-icon>
+						<span class="material-symbols-outlined notranslate">
+							credit_card_heart
+						</span>
 					</a>
 
 					<a href="https://github.com/WebDB-App/app"

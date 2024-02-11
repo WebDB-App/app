@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Configuration } from "../../../classes/configuration";
 import { RequestService } from "../../../shared/request.service";
-import { MatSnackBar } from "@angular/material/snack-bar";
 import { Server } from "../../../classes/server";
 import { FormControl, Validators } from "@angular/forms";
-import { Licence } from "../../../classes/licence";
 import { environment } from "../../../environments/environment";
 import { MatDialogRef } from "@angular/material/dialog";
 import packageJson from '../../../../package.json';
@@ -20,7 +18,6 @@ export class ConfigDialog implements OnInit {
 	upToDate!: boolean;
 	configuration: Configuration = new Configuration();
 	email = new FormControl('', [Validators.required, Validators.email]);
-	licence?: Licence;
 	env = environment
 	currentYear = new Date().getFullYear();
 	protected readonly packageJson = packageJson;
@@ -28,19 +25,13 @@ export class ConfigDialog implements OnInit {
 
 	constructor(
 		public dialogRef: MatDialogRef<ConfigDialog>,
-		private snackBar: MatSnackBar,
 		private http: HttpClient,
 		private request: RequestService
 	) {
 	}
 
 	async ngOnInit() {
-		this.loadLicence();
 		this.checkUptoDate();
-	}
-
-	async loadLicence() {
-		this.licence = await Licence.getCached();
 	}
 
 	async checkUptoDate() {
@@ -50,20 +41,6 @@ export class ConfigDialog implements OnInit {
 			this.upToDate = local.length >= remote.length;
 		} catch (e) {
 			console.error(e);
-		}
-	}
-
-	async save(email: string) {
-		try {
-			await Licence.renew(email);
-			this.snackBar.open(`Account successfully registered `, "⨉", {duration: 3000});
-			await this.loadLicence();
-
-			if (Server.getSelected()) {
-				await this.request.reloadServer();
-			}
-		} catch (err: any) {
-			this.snackBar.open(err + ". Contact us at: main.webdb@gmail.com", "⨉", {panelClass: 'snack-error'});
 		}
 	}
 

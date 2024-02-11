@@ -17,12 +17,6 @@
 ----------------------------------------------------------
 
 
-# modules payant
-
-- system de téléchargement de code depuis la landing avec le mail
-- attention de telecharger la version par rapport a la version en cours
-- récupérer la licence directemnt depuis la landing + enlever l'endpoint
-
 # reorder columns
 
 # ERD

@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { DomSanitizer } from "@angular/platform-browser";
 import { MatIconRegistry } from "@angular/material/icon";
-import { Licence } from "../classes/licence";
 import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
@@ -21,22 +20,6 @@ export class AppComponent {
 				icon,
 				this.domSanitizer.bypassSecurityTrustResourceUrl(`/assets/${icon}.svg`)
 			);
-		}
-
-		setInterval(async () => {
-			await this.checkLicence();
-		}, 1000 * 3600);
-		this.checkLicence();
-	}
-
-	async checkLicence() {
-		try {
-			const licence = await Licence.renew();
-			if (licence.error) {
-				this.snackBar.open(licence.error, "⨉", {panelClass: 'snack-error'});
-			}
-		} catch (e) {
-			console.error(e);
 		}
 	}
 }

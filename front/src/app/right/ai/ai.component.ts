@@ -1,7 +1,6 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Database } from "../../../classes/database";
 import { Server } from "../../../classes/server";
-import { Licence } from "../../../classes/licence";
 import { RequestService } from "../../../shared/request.service";
 import { OpenAI } from "openai";
 import { Configuration } from "../../../classes/configuration";
@@ -76,7 +75,6 @@ export class AiComponent implements OnInit, OnDestroy {
 	drawerObs!: Subscription
 	selectedServer?: Server;
 	selectedDatabase?: Database;
-	licence?: Licence;
 	configuration: Configuration = new Configuration();
 	initialized = false
 	models: { [key: string]: { shortName: string; fullName: string }[] } = {};
@@ -167,7 +165,6 @@ export class AiComponent implements OnInit, OnDestroy {
 		}
 
 		await Promise.all([
-			(this.licence = await Licence.getCached()),
 			this.configChange(false),
 			this.preSentChange(),
 		]);

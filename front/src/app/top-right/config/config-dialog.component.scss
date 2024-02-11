@@ -12,17 +12,23 @@ table {
 }
 
 :host ::ng-deep {
-	.mat-tab-label:last-child {
-		width: 0px;
-		min-width: 0px;
-	}
 
 	.mat-tab-labels {
 		justify-content: space-between;
+
+		> .mat-tab-label:not(:last-child) {
+			width: 100%;
+		}
+
+		> .mat-tab-label:last-child {
+			width: 0px;
+			min-width: 0px;
+		}
 	}
 
 	.mat-tab-body-wrapper {
 		max-height: 65vh;
+		width: 650px;
 	}
 
 	.mat-card-header-text {
