@@ -11,6 +11,7 @@ export default class Driver {
 	password;
 	params;
 	ssh;
+	serverVersion;
 
 	dbPool = {};
 

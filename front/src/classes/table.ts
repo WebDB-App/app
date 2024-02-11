@@ -25,7 +25,7 @@ export class Table {
 			return;
 		}
 
-		Table.setSelected(db.tables!.find(table => table.name === selected.name)!);
+		Table.setSelected(db.tables.find(table => table.name === selected.name)!);
 	}
 
 	static getIndexes(table = selected, database = Database.getSelected()): Index[] {

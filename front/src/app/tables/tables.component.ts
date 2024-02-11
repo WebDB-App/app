@@ -43,7 +43,7 @@ export class TablesComponent implements OnInit {
 			this.selectedDatabase = Database.getSelected();
 			this.selectedServer = Server.getSelected();
 
-			if (!this.selectedDatabase || !this.selectedDatabase.tables?.length) {
+			if (!this.selectedDatabase || !this.selectedDatabase.tables.length) {
 				return;
 			}
 
@@ -87,14 +87,14 @@ export class TablesComponent implements OnInit {
 
 		const value = _value.toLowerCase();
 
-		for (const [index, table] of this.selectedDatabase.tables!.entries()) {
+		for (const [index, table] of this.selectedDatabase.tables.entries()) {
 			let match = table.name.toLowerCase().indexOf(value) > -1;
 
 			if (!match) {
 				match = (table.columns.findIndex(col => col.name.toLowerCase().indexOf(value) > -1 || JSON.stringify(col.type).toLowerCase().indexOf(value) > -1) > -1);
 			}
 
-			this.selectedDatabase.tables![index].hide = !match;
+			this.selectedDatabase.tables[index].hide = !match;
 		}
 	}
 
@@ -175,7 +175,7 @@ export class CreateTableDialog {
 		this.selectedDatabase = Database.getSelected();
 
 		this.form = this.fb.group({
-			name: [null, [Validators.required, Validators.pattern(validName), uniqueValidator('name', Database.getSelected().tables!.map(table => table.name))]],
+			name: [null, [Validators.required, Validators.pattern(validName), uniqueValidator('name', Database.getSelected().tables.map(table => table.name))]],
 			columns: fb.array([
 				Column.getFormGroup(),
 			])

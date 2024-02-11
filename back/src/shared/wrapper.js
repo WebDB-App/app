@@ -70,7 +70,7 @@ class Wrapper {
 		driver.connection = await driver.establish(false, test);
 
 		if (!test) {
-			await driver.saveVersionInfo();
+			driver.serverVersion = await driver.getVersionInfo();
 		}
 		this.pool[hash] = driver;
 		return driver;

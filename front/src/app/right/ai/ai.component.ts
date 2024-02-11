@@ -278,7 +278,7 @@ export class AiComponent implements OnInit, OnDestroy {
 	async preSentChange() {
 		localStorage.setItem(this.localKeyPreSent, JSON.stringify(this.preSent));
 		if (this.preSent.tables[0] === "") {
-			this.preSent.tables = this.selectedDatabase?.tables?.map(table => table.name)!;
+			this.preSent.tables = this.selectedDatabase?.tables.map(table => table.name)!;
 		}
 		this.sample = (await this.request.post('database/sample', {preSent: this.preSent}, undefined)).txt;
 	}

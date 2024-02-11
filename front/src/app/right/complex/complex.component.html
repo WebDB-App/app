@@ -75,13 +75,11 @@
 					</div>
 					<div>
 						<button
-							hidden
 							(click)="alter(complex, type)"
 							mat-button>
 							Alter
 						</button>
 						<button
-							hidden
 							*ngIf="selectedServer!.driver.renameComplex(complex, type, selectedDatabase!.name)"
 							(click)="complex.newName = complex.name; complex.rename = true"
 							mat-button>

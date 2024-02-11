@@ -408,7 +408,7 @@ export class SQL implements Driver {
 	tableSuggestions(allText: string) {
 		const suggestions = this.extractAlias(allText);
 
-		Database.getSelected()?.tables?.map(table => {
+		Database.getSelected()?.tables.map(table => {
 			suggestions.push({
 				label: `${table.name}`,
 				kind: monaco.languages.CompletionItemKind.Struct,
@@ -444,7 +444,7 @@ export class SQL implements Driver {
 			if (previousToken !== db.name.toLowerCase()) {
 				return;
 			}
-			db.tables?.map(table => {
+			db.tables.map(table => {
 				suggestions.push({
 					label: `${table.name}`,
 					kind: monaco.languages.CompletionItemKind.Struct,
@@ -457,7 +457,7 @@ export class SQL implements Driver {
 			return suggestions;
 		}
 
-		Database.getSelected()?.tables?.map(table => {
+		Database.getSelected()?.tables.map(table => {
 			if (previousToken !== table.name.toLowerCase() && !this.lookupTableAlias(previousToken, table.name.toLowerCase(), allText)) {
 				return;
 			}
@@ -489,7 +489,7 @@ export class SQL implements Driver {
 			});
 		});
 
-		Database.getSelected()?.tables?.map(table => {
+		Database.getSelected()?.tables.map(table => {
 			const indexes = Table.getIndexes(table);
 			const relations = Table.getRelations(table);
 

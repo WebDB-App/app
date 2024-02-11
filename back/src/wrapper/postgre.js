@@ -543,7 +543,7 @@ ${def[0]["pg_get_viewdef"]}`
 		}
 	}
 
-	async saveVersionInfo() {
+	async getVersionInfo() {
 		//const version = (await this.variableList()).find(variable => variable.name === "version_comment");
 	}
 

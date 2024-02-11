@@ -11,9 +11,9 @@ import {sql_cleanQuery} from "../shared/helper.js";
 const dirname = new URL(".", import.meta.url).pathname;
 
 const subWrapper = {
-	MySQL: "MySQL",
-	MariaDB: "MariaDB",
-	Percona: "Percona",
+	mysql: "mysql",
+	mariadb: "mariadb",
+	percona: "percona",
 };
 
 export default class MySQL extends SQL {
@@ -21,7 +21,6 @@ export default class MySQL extends SQL {
 	commonUser = ["mysql", "maria", "mariadb"];
 	commonPass = ["mysql", "my-secret-pw", "maria", "mariadb", "mypass"];
 	systemDbs = ["information_schema", "mysql", "performance_schema", "sys"];
-	realWrapper;
 
 	escapeValue(value) {
 		return mysql.escape(value);
@@ -239,9 +238,9 @@ ${def[0]["VIEW_DEFINITION"]}`
 				complexes["PROCEDURE"].push(routine);
 			}
 		}
-		if (this.realWrapper === subWrapper.MySQL) {
+		if (this.serverVersion === subWrapper.mysql) {
 			complexes["CHECK"] = await this.runCommand("SELECT CHECK_CONSTRAINTS.CONSTRAINT_SCHEMA AS 'database', CHECK_CONSTRAINTS.CONSTRAINT_NAME AS 'name', CONCAT('CHECK', `CHECK_CLAUSE`) AS 'value', TABLE_CONSTRAINTS.TABLE_NAME AS 'table' FROM information_schema.CHECK_CONSTRAINTS JOIN information_schema.TABLE_CONSTRAINTS ON CHECK_CONSTRAINTS.CONSTRAINT_SCHEMA = TABLE_CONSTRAINTS.CONSTRAINT_SCHEMA AND CHECK_CONSTRAINTS.CONSTRAINT_NAME = TABLE_CONSTRAINTS.CONSTRAINT_NAME");
-		} else if (this.realWrapper === subWrapper.MariaDB) {
+		} else if (this.serverVersion === subWrapper.mariadb) {
 			complexes["CHECK"] = await this.runCommand("SELECT CONSTRAINT_SCHEMA as 'database', CONSTRAINT_NAME as name, TABLE_NAME as 'table', CONCAT('CHECK(', `CHECK_CLAUSE`, ')') as value FROM INFORMATION_SCHEMA.CHECK_CONSTRAINTS WHERE CONSTRAINT_SCHEMA NOT IN ('sys', 'mysql')");
 		}
 		return complexes;
@@ -353,7 +352,7 @@ ${def[0]["VIEW_DEFINITION"]}`
 						continue;
 					}
 
-					if (this.realWrapper === subWrapper.MariaDB && column.COLUMN_DEFAULT === "NULL") {
+					if (this.serverVersion === subWrapper.mariadb && column.COLUMN_DEFAULT === "NULL") {
 						column.COLUMN_DEFAULT = null;
 					}
 
@@ -424,14 +423,14 @@ ${def[0]["VIEW_DEFINITION"]}`
 		return error;
 	}
 
-	async saveVersionInfo() {
+	async getVersionInfo() {
 		const version = (await this.variableList()).find(variable => variable.name === "version_comment");
 		if (version.value.toLowerCase().indexOf("mariadb") >= 0) {
-			this.realWrapper = subWrapper.MariaDB;
+			return subWrapper.mariadb;
 		} else if (version.value.toLowerCase().indexOf("percona") >= 0) {
-			this.realWrapper = subWrapper.Percona;
+			return subWrapper.percona;
 		} else {
-			this.realWrapper = subWrapper.MySQL;
+			return subWrapper.mysql;
 		}
 	}
 

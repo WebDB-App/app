@@ -7,7 +7,7 @@ export class Database {
 	hide!: boolean;
 	system!: boolean;
 	collation!: string;
-	tables?: Table[];
+	tables!: Table[];
 
 	static setSelected(database: Database) {
 		selected = database;

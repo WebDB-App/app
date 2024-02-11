@@ -83,7 +83,7 @@ export class DiagramComponent implements OnDestroy {
 		const entities: Entity[] = [];
 		const db_indexes = this.selectedServer.indexes.filter(index => index.database === this.selectedDatabase.name);
 
-		for (const table of this.selectedDatabase.tables!) {
+		for (const table of this.selectedDatabase.tables) {
 			if (!table.columns) {
 				continue;
 			}
@@ -110,7 +110,7 @@ export class DiagramComponent implements OnDestroy {
 
 				if (relation) {
 					let relationType: RelationType = ">-";
-					const dest_col = this.selectedDatabase.tables!.find(table => relation.table_dest === table.name)!.columns.find(column => column.name === relation.column_dest)!;
+					const dest_col = this.selectedDatabase.tables.find(table => relation.table_dest === table.name)!.columns.find(column => column.name === relation.column_dest)!;
 					const dest_indexes = db_indexes.filter(index => index.table === relation.table_dest && index.columns.indexOf(dest_col.name) >= 0);
 
 					if (col.nullable) {

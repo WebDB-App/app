@@ -28,7 +28,7 @@
 			</mat-list-item>
 
 			<mat-list-item
-				*ngIf="!selectedDatabase || !selectedDatabase?.tables || selectedDatabase.tables!.length < 1">
+				*ngIf="!selectedDatabase || !selectedDatabase?.tables || selectedDatabase.tables.length < 1">
 				No table
 			</mat-list-item>
 
@@ -86,7 +86,7 @@
 		</mat-list>
 	</mat-sidenav>
 
-	<div [hidden]="!selectedDatabase?.tables?.length" id="core">
+	<div [hidden]="!selectedDatabase || selectedDatabase.tables.length < 1" id="core">
 		<nav [tabPanel]="tabPanel" mat-tab-nav-bar style="border-bottom: none;">
 			<a *ngFor="let tab of tabs"
 			   [routerLinkActive]="['mat-list-single-selected-option']"

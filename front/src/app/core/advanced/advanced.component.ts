@@ -102,7 +102,7 @@ export class TableAdvancedComponent implements OnDestroy {
 	}
 
 	validName(name: string) {
-		return name.length > 1 && !this.selectedDatabase?.tables?.find(table => table.name === name);
+		return name.length > 1 && !this.selectedDatabase?.tables.find(table => table.name === name);
 	}
 }
 

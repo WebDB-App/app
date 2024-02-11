@@ -62,7 +62,7 @@ export class CellComponent implements OnInit {
 		const relation = this.relations?.find(relation => relation.column_source === this.column);
 		this.fkLink = !relation ? undefined : ('/' + Server.getSelected().name + '/' + Database.getSelected().name + '/' + relation.table_dest + '/explore');
 		if (relation) {
-			const col = Database.getSelected().tables!.find(tab => tab.name === relation.table_dest)!.columns.find(col => col.name === relation.column_dest)!;
+			const col = Database.getSelected().tables.find(tab => tab.name === relation.table_dest)!.columns.find(col => col.name === relation.column_dest)!;
 
 			this.value = this.nested ? Object.values(this.value)[0] : this.value;
 

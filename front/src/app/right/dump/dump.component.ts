@@ -50,7 +50,7 @@ export class DumpComponent {
 
 		const tree = new ItemTree();
 		tree.name = this.selectedDatabase?.name;
-		tree.children = this.selectedDatabase?.tables!.map(table => {
+		tree.children = this.selectedDatabase?.tables.map(table => {
 			return {name: table.name}
 		});
 

@@ -363,6 +363,10 @@ async function main() {
 
 	override renameComplex(complex: EditableComplex, type: string, database: string): string | false {
 		if (type === "FUNCTION" || type === "PROCEDURE") {
+			const proc = Server.getSelected().dbs.find(db => db.name === "mysql")!.tables.find(table => table.name === "proc");
+			if (!proc) {
+				return false;
+			}
 			return `UPDATE mysql.proc SET name = ${escapeId(complex.newName)}, specific_name = ${escapeId(complex.newName)} WHERE db = ${escapeId(database)} AND name = ${escapeId(complex.name)}`;
 		}
 		if (type === "CHECK") {
