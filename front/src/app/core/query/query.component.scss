@@ -1,3 +1,13 @@
+:host(.noTable) {
+	#container {
+		height: calc(100vh - 112px) !important;
+	}
+
+	ngx-monaco-diff-editor {
+		height: calc(100vh - 444px) !important;
+	}
+}
+
 #container {
 	display: flex;
 	height: calc(100vh - 154px);

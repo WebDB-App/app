@@ -1,4 +1,4 @@
-import { Component, HostListener, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostBinding, HostListener, Inject, OnDestroy, OnInit } from '@angular/core';
 import { Table } from "../../../classes/table";
 import { ActivatedRoute, Router } from "@angular/router";
 import { DiffEditorModel } from "ngx-monaco-editor-v2";
@@ -23,6 +23,7 @@ declare var monaco: any;
 	selector: 'app-query',
 	templateUrl: './query.component.html',
 	styleUrls: ['./query.component.scss'],
+	host: {'[class.noTable]': '!selectedTable'}
 })
 export class QueryComponent implements OnInit, OnDestroy {
 
@@ -94,14 +95,17 @@ export class QueryComponent implements OnInit, OnDestroy {
 		this.editorOptions.language = this.selectedServer?.driver.language.id!;
 
 		this.activatedRoute.parent?.params.subscribe(async (_params) => {
-			this.selectedTable = Table.getSelected();
-			this.relations = Table.getRelations();
 			this.querySize = -1;
 			this.dataSource = new MatTableDataSource<any>();
 			if (this.editors.length && monaco) {
 				this.editors.map(editor => monaco.editor.setModelMarkers(editor.getModel(), "owner", []));
 			}
-			this.loadTemplate(Object.keys(this.selectedServer!.driver.queryTemplates)[0]);
+
+			this.selectedTable = Table.getSelected();
+			if (this.selectedTable) {
+				this.relations = Table.getRelations();
+				this.loadTemplate(Object.keys(this.selectedServer!.driver.queryTemplates)[0]);
+			}
 		});
 
 		this.activatedRoute?.paramMap.subscribe(async (paramMap) => {
@@ -111,7 +115,7 @@ export class QueryComponent implements OnInit, OnDestroy {
 		});
 
 		this.interval = setInterval(() => {
-			if (this.query.length < 5000) {
+			if (this.query.length < 5000 && this.selectedTable) {
 				this.router.navigate(['query', this.query], {relativeTo: this.activatedRoute.parent});
 			}
 		}, 1000);

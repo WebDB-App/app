@@ -1,3 +1,14 @@
+- finir tests
+- tester export query: java/php
+- first level keyword (select, update, create, with, alter) + patch
+
+
+
+
+
+
+
+
 # Doc
 - numérotation de version + cycle de dev + ci/cd
 - nosql default column
@@ -8,19 +19,24 @@
 - https://chat.openai.com/c/eae4f88e-e100-45de-9502-8708f7f48bf8
 
 
-- finir tests
-- ERD [Chrome bookmarks] + UML/Merise
-- tester export query: java/php
-- first level keyword (select, update, create, with, alter) + patch
+# Advanced auth
 
-
-----------------------------------------------------------
+- ssh passphrase
+- cloud (google sql / atlas / rds / aurora)
+- afficher comme serveur supporté dans la landing avec le page ultimate
+- tls
+- SCRAM, X.509, Kerberos, LDAP, proxy
+- ssl-mode: DISABLED PREFERRED REQUIRED VERIFY_CA VERIFY_IDENTITY
 
 
 # reorder columns
+- pg: dump -> rename in file -> load
+
 
 # ERD
-
+- finir Crows foot
+- UML notation
+- [Chrome bookmarks]
 - draw named zones
 
 # Comparator
@@ -49,15 +65,6 @@
 - https://www.postgresql.org/docs/current/sql-explain.html
 - https://mariadb.com/kb/en/explain-format-json/
 
-# Advanced auth
-
-- tunnel passphrase ?
-- cloud (google sql / atlas / rds / aurora)
-- afficher comme serveur supporté dans la landing avec le page ultimate
-- tls
-- SCRAM, X.509, Kerberos, LDAP, proxy
-- ssl-mode: DISABLED PREFERRED REQUIRED VERIFY_CA VERIFY_IDENTITY
-
 # Relation wizard
 
 - 1,1 -> 0,n
@@ -75,5 +82,3 @@
 - columns with array > 2 : harmonize to one of the type (attention deep)
 - obj column update
 - harmonizer obj > 2
-
-# Refaire list des features payantes dans stripe

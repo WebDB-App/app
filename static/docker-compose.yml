@@ -48,13 +48,13 @@ services:
         environment:
             - CASSANDRA_CLUSTER_NAME=cloudinfra
 
-    sqldata:
-        image: mcr.microsoft.com/mssql/server:2022-latest
-        environment:
-            - MSSQL_SA_PASSWORD=yourStrong(!)Password
-            - ACCEPT_EULA=Y
-        ports:
-            - "1433:1433"
+#    sqldata:
+#        image: mcr.microsoft.com/mssql/server:2022-latest
+#        environment:
+#            - MSSQL_SA_PASSWORD=yourStrong(!)Password
+#            - ACCEPT_EULA=Y
+#        ports:
+#            - "1433:1433"
 
 #    oracle-db:
 #        image: container-registry.oracle.com/database/enterprise:latest

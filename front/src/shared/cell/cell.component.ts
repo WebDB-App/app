@@ -38,15 +38,18 @@ export class CellComponent implements OnInit {
 			return;
 		}
 
-		const col = Table.getSelected().columns.find(col => col.name === this.column);
-		if (col) {
-			this.blob = Column.isOfGroups(Server.getSelected().driver, col, [Group.Blob]);
-			if (this.blob) {
-				return;
+		if (Table.getSelected()) {
+			this.relations = Table.getRelations();
+			const col = Table.getSelected().columns.find(col => col.name === this.column);
+			if (col) {
+				this.blob = Column.isOfGroups(Server.getSelected().driver, col, [Group.Blob]);
 			}
 		}
+		this.blob = this.blob || this.value.length > 10_000;
+		if (this.blob) {
+			return;
+		}
 
-		this.relations = Table.getRelations();
 		this.selectedServer = Server.getSelected();
 
 		this.value = structuredClone(this.value);

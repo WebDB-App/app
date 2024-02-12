@@ -30,6 +30,7 @@
 		</button>
 
 		<button
+			*ngIf="selectedTable"
 			[matMenuTriggerFor]="templatesMenu"
 			mat-icon-button
 			matTooltip="Prebuilds queries">
@@ -168,7 +169,8 @@
 	style="position: absolute; left: 0px; right: 0px; z-index: 10000000">
 </mat-progress-bar>
 
-<div [class.diff]="diff" id="container">
+<div id="container" [class.diff]="diff">
+
 	<ngx-monaco-editor
 		(onInit)="initEditor($event, 0)"
 		[(ngModel)]="query"

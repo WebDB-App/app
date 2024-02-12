@@ -529,7 +529,8 @@ export class SQL implements Driver {
 	}
 
 	getCache() {
-		const key = Server.getSelected().name + Database.getSelected().name + Table.getSelected().name;
+		const table = Table.getSelected() ? Table.getSelected().name : '';
+		const key = Server.getSelected().name + Database.getSelected().name + table;
 		if (!sugCache[key]) {
 			sugCache[key] = this.basicSuggestions().concat(this.staticSuggestion());
 		}

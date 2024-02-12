@@ -7,6 +7,7 @@ import { Database } from "../../classes/database";
 import { environment } from "../../environments/environment";
 import { LoadingStatus, RequestService } from "../../shared/request.service";
 import { Subscription } from "rxjs";
+import { Table } from "../../classes/table";
 
 class Panel {
 	link!: string
@@ -78,6 +79,7 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 
 		Server.setSelected(server);
 		Database.setSelected(database);
+		Table.setSelected(<Table><unknown>undefined);
 		this.selectedServer = server;
 		this.selectedDatabase = database;
 	}
