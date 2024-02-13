@@ -90,15 +90,17 @@ export class Column {
 		});
 	}
 
-	static isOfGroups(driver: Driver, column: Column, groups: string[]) {
-		let columnType;
-
+	static cleanColumnType(column: Column) {
 		if (typeof column.type === "string") {
 			const parenthese = column.type.indexOf('(');
-			columnType = parenthese >= 0 ? column.type.substring(0, parenthese) : column.type;
+			return parenthese >= 0 ? column.type.substring(0, parenthese) : column.type;
 		} else {
-			columnType = typeof column.type;
+			return typeof column.type;
 		}
+	}
+
+	static isOfGroups(driver: Driver, column: Column, groups: string[]) {
+		const columnType = Column.cleanColumnType(column);
 
 		for (const group of groups) {
 			const typeDatas = driver.language.typeGroups.find(type => type.name === group)!.list!;
@@ -107,6 +109,19 @@ export class Column {
 			}
 		}
 
+		return false;
+	}
+
+	static isTimestamp(driver: Driver, column: Column) {
+		const columnType = Column.cleanColumnType(column);
+
+		for (const group of driver.language.typeGroups) {
+			for (const type of group.list) {
+				if (type.toTimestamp && columnType === type.id.replace(/\([^)]*\)/g, "")) {
+					return type.toTimestamp;
+				}
+			}
+		}
 		return false;
 	}
 }

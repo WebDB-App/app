@@ -19,6 +19,7 @@ export class UpdateDataDialog {
 	selectedTable?: Table;
 
 	updateSuggestions: { [key: string]: any[] } = {};
+	datesHelper: { [key: string]: (date: string) => {} } = {};
 	str = "";
 	editorOptions = {
 		language: 'json'
@@ -43,10 +44,10 @@ export class UpdateDataDialog {
 		}
 
 		this.str = JSON.stringify(data.row, null, "\t");
-		this.loadSuggestions();
 		this.selectedServer = Server.getSelected();
 		this.selectedDatabase = Database.getSelected();
 		this.selectedTable = Table.getSelected();
+		this.loadHelper();
 	}
 
 	async update() {
@@ -66,12 +67,18 @@ export class UpdateDataDialog {
 		return JSON.stringify(this.data.row, null, "\t") !== this.str;
 	}
 
-	async loadSuggestions() {
+	async loadHelper() {
 		const relations = Table.getRelations();
 		const limit = 1000;
 
 		for (const col of Table.getSelected().columns) {
-			const enums = Server.getSelected().driver.extractEnum(col);
+			const tsFunction = Column.isTimestamp(this.selectedServer!.driver, col);
+			if (tsFunction) {
+				this.datesHelper[col.name] = tsFunction;
+				continue;
+			}
+
+			const enums = this.selectedServer!.driver.extractEnum(col);
 			if (enums) {
 				this.updateSuggestions[col.name] = enums;
 				continue;

@@ -217,11 +217,13 @@ export class MySQL extends SQL {
 					list: [
 						{
 							id: "date",
-							description: "Values range from '1000-01-01' to '9999-12-31'.\nDisplayed as 'YYYY-MM-DD'."
+							description: "Values range from '1000-01-01' to '9999-12-31'.\nDisplayed as 'YYYY-MM-DD'.",
+							toTimestamp: (date: string) => { return new Date(date).toISOString().split('T')[0] }
 						},
 						{
 							id: "datetime(precision)",
-							description: "Values range from '1000-01-01 00:00:00' to '9999-12-31 23:59:59'.\nDisplayed as 'YYYY-MM-DD HH:MM:SS'."
+							description: "Values range from '1000-01-01 00:00:00' to '9999-12-31 23:59:59'.\nDisplayed as 'YYYY-MM-DD HH:MM:SS'.",
+							toTimestamp: (date: string) => { return new Date(date).toISOString().slice(0, 19).replace('T', ' ') }
 						},
 						{
 							id: "time",
@@ -230,7 +232,8 @@ export class MySQL extends SQL {
 						{
 							id: "timestamp(precision)",
 							bold: true,
-							description: "Values range from '1970-01-01 00:00:01' UTC to '2038-01-19 03:14:07' UTC.\nDisplayed as 'YYYY-MM-DD HH:MM:SS'."
+							description: "Values range from '1970-01-01 00:00:01' UTC to '2038-01-19 03:14:07' UTC.\nDisplayed as 'YYYY-MM-DD HH:MM:SS'.",
+							toTimestamp: (date: string) => { return new Date(date).toISOString().slice(0, 19).replace('T', ' ') }
 						},
 						{
 							id: "year(2|4)",

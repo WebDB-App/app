@@ -1,10 +1,8 @@
 - finir tests
 - tester export query: java/php
 - first level keyword (select, update, create, with, alter) + patch
-
-
-
-
+- revoir default et null de actor avec mysql et maria
+- blob
 
 
 

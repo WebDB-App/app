@@ -161,6 +161,10 @@
 								mat-menu-item>
 							String
 						</button>
+						<button (click)="random.model = 'return Math.floor((new Date()).getTime() / 1000)'"
+								mat-menu-item>
+							Timestamp (in sec)
+						</button>
 					</mat-menu>
 				</div>
 			</div>

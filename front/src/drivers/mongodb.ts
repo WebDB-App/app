@@ -107,7 +107,8 @@ export class MongoDB implements Driver {
 				}, {
 					id: "Date",
 					bold: true,
-					description: "64-bit integer that represents the number of milliseconds since the Unix epoch"
+					description: "64-bit integer that represents the number of milliseconds since the Unix epoch",
+					toTimestamp: (date: string) => { return new Date(date).getTime() }
 				}]
 			},
 			{

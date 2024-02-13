@@ -205,7 +205,7 @@ ${def[0]["pg_get_viewdef"]}`
 
 		for (const db of await this.getDbs()) {
 			promises.push(new Promise(async resolve => {
-				const routines = await this.runCommand("SELECT routine_name as name, routine_type as type, routine_schema as schema, routine_definition as value FROM information_schema.routines WHERE routine_schema NOT IN ('pg_catalog', 'information_schema') ORDER BY routine_name;", db.datname);
+				const routines = await this.runCommand("SELECT routine_name as name, routine_type as type, routine_schema as schema, routine_definition as value FROM information_schema.routines WHERE routine_schema NOT IN ('pg_catalog', 'information_schema') AND routine_type IS NOT NULL ORDER BY routine_name;", db.datname);
 				const tmp = {};
 				tmp.CHECK = await this.runCommand("SELECT constraint_name AS name, ccu.table_schema AS schema, table_name as table, column_name as column, pg_get_constraintdef(pgc.oid) as value FROM pg_constraint pgc JOIN pg_namespace nsp ON nsp.oid = pgc.connamespace JOIN pg_class cls ON pgc.conrelid = cls.oid LEFT JOIN information_schema.constraint_column_usage ccu ON pgc.conname = ccu.constraint_name AND nsp.nspname = ccu.constraint_schema WHERE contype = 'c' ORDER BY pgc.conname", db.datname);
 				tmp.CUSTOM_TYPE = await this.runCommand("SELECT user_defined_type_schema AS schema, user_defined_type_name AS name FROM information_schema.user_defined_types", db.datname);
@@ -215,6 +215,7 @@ ${def[0]["pg_get_viewdef"]}`
 				tmp.PROCEDURE = routines.filter(routine => routine.type.toLowerCase() === "procedure");
 				tmp.SEQUENCE = await this.runCommand("SELECT sequence_schema AS SCHEMA, sequence_name AS name, ' AS ' || data_type || '\n MINVALUE ' || minimum_value || '\n MAXVALUE ' || maximum_value || '\n START WITH ' || start_value || '\n INCREMENT BY ' || INCREMENT AS value FROM information_schema.sequences;", db.datname);
 				tmp.TRIGGER = await this.runCommand("SELECT trigger_name as name, trigger_schema as schema, event_object_table as table, action_statement as value FROM information_schema.triggers", db.datname);
+				tmp.DOMAIN = [];
 
 				const domains = await this.runCommand("SELECT n.nspname AS SCHEMA, t.typname AS name, pg_catalog.format_type (t.typbasetype, t.typtypmod) AS underlying_type, t.typnotnull AS not_null, ( SELECT c.collname FROM pg_catalog.pg_collation c, pg_catalog.pg_type bt WHERE c.oid = t.typcollation AND bt.oid = t.typbasetype AND t.typcollation <> bt.typcollation ) AS COLLATION, t.typdefault AS DEFAULT, pg_catalog.array_to_string ( ARRAY( SELECT pg_catalog.pg_get_constraintdef (r.oid, TRUE) FROM pg_catalog.pg_constraint r WHERE t.oid = r.contypid ), ' ' ) AS check_constraints FROM pg_catalog.pg_type t LEFT JOIN pg_catalog.pg_namespace n ON n.oid = t.typnamespace WHERE t.typtype = 'd' AND n.nspname <> 'pg_catalog' AND n.nspname <> 'information_chema' AND pg_catalog.pg_type_is_visible (t.oid)", db.datname);
 				domains.map(domain => {

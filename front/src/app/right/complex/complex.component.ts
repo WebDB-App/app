@@ -38,7 +38,8 @@ export class ComplexComponent implements OnInit {
 		this.selectedDatabase = Database.getSelected();
 
 		for (const [type, complexes] of Object.entries(this.selectedServer.complexes)) {
-			this.complexes[type] = <EditableComplex[]>complexes.filter(complex => this.selectedDatabase!.name === complex.database);
+			const list = <EditableComplex[]>complexes.filter(complex => this.selectedDatabase!.name === complex.database);
+			this.complexes[type] = list.map(complex => { complex.newName = complex.name; return complex });
 		}
 	}
 

@@ -37,6 +37,7 @@ export class CellComponent implements OnInit {
 		if (this.value === undefined) {
 			return;
 		}
+		this.selectedServer = Server.getSelected();
 
 		if (Table.getSelected()) {
 			this.relations = Table.getRelations();
@@ -45,12 +46,10 @@ export class CellComponent implements OnInit {
 				this.blob = Column.isOfGroups(Server.getSelected().driver, col, [Group.Blob]);
 			}
 		}
-		this.blob = this.blob || this.value.length > 10_000;
+		this.blob = this.blob || (typeof this.value === "string" && this.value.length > 10_000);
 		if (this.blob) {
 			return;
 		}
-
-		this.selectedServer = Server.getSelected();
 
 		this.value = structuredClone(this.value);
 		this.nested = isNested(this.value);

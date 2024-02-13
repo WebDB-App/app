@@ -356,6 +356,7 @@ ${def[0]["VIEW_DEFINITION"]}`
 						column.COLUMN_DEFAULT = null;
 					}
 
+					column.EXTRA = column.EXTRA.replace("DEFAULT_GENERATED", "").trim();
 					column.EXTRA = column.EXTRA ? [column.EXTRA] : [];
 					struct[column.TABLE_SCHEMA].tables[column.TABLE_NAME].columns.push({
 						name: column.COLUMN_NAME,

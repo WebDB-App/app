@@ -161,11 +161,14 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 			if (col !== this.actionColum) {
 				obj[col] = null
 			}
-
 		});
 
 		const newRows = Array.from({length}, (_, k) => obj);
 		this.dataSource.data = this.dataSource.data.concat(newRows);
+
+		if (length < 2) {
+			this.editRow(this.dataSource.data.length - 1, obj);
+		}
 	}
 
 	async insert() {
@@ -185,8 +188,14 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 			const obj: any = {};
 			for (const [index, rand] of Object.entries(this.randomSource)) {
 				try {
-					const r = new Function("faker", "falso", "bson", "allFakers", rand.model)(faker, falso, bson, allFakers);
-					obj[rand.column.name] = typeof r === 'function' ? r() : r;
+					let value = new Function("faker", "falso", "bson", "allFakers", rand.model)(faker, falso, bson, allFakers);
+					if (typeof value === 'function') {
+						value = value();
+					}
+					if (typeof value === "bigint") {
+						value = value.toString();
+					}
+					obj[rand.column.name] = value;
 					this.randomSource[+index].error = "";
 				} catch (e) {
 					this.randomSource[+index].error = <string>e;
