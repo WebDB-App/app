@@ -67,10 +67,14 @@ export class BatchUpdateDialog {
 			for (const [key, val] of Object.entries(replacer)) {
 				new_data[key] = val;
 			}
-			await this.request.post('data/update', {
+			const r = await this.request.post('data/update', {
 				old_data,
 				new_data
 			}, this.selectedTable, this.selectedDatabase, this.selectedServer);
+			if (r.error) {
+				this.snackBar.open(`Error while updating: ${r.error}`, "⨉", {duration: 3000, panelClass: 'snack-error'});
+				return;
+			}
 		}
 
 		this.snackBar.open(`${nb} row(s) updated`, "⨉", {duration: 3000});

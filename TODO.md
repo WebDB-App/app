@@ -1,7 +1,10 @@
+- revoir default et null de actor avec mysql et maria
+
+
+
 - finir tests
 - tester export query: java/php
 - first level keyword (select, update, create, with, alter) + patch
-- revoir default et null de actor avec mysql et maria
 - blob
 
 
@@ -45,7 +48,7 @@
 - https://dbconvert.com/dbconvert-studio
 
 # SQL editor
-
+- SQL Window Functions
 - comprendre les columns retournées par les cte et subquery
 - function doc (generate from web scrap)
 - LLM on WebGPU ?

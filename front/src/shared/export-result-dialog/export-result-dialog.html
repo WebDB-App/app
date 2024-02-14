@@ -20,11 +20,17 @@
 			</mat-select>
 		</mat-form-field>
 	</div>
-	<ngx-monaco-editor
-		*ngIf="!isLoading"
-		[(ngModel)]="str"
-		[options]="editorOptions">
-	</ngx-monaco-editor>
+	<ng-container *ngIf="!isLoading">
+		<ngx-monaco-editor
+			*ngIf="str.length < 20000000"
+			[(ngModel)]="str"
+			[options]="editorOptions">
+		</ngx-monaco-editor>
+		<div *ngIf="str.length > 20000000"
+			 style="height: 100%; display: flex; justify-content: center; align-items: center;">
+			Preview not available
+		</div>
+	</ng-container>
 </div>
 <mat-dialog-actions>
 	<mat-button-toggle-group (change)="show(columnList.value)" [(ngModel)]="type">

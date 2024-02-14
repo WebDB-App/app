@@ -14,7 +14,7 @@ export class TypeData {
 	id!: string;
 	bold? = false;
 	description?: string;
-	toTimestamp?: (date: string) => string | number;
+	toTimestamp?: (date: string) => any;
 }
 
 export class TypeGroup {

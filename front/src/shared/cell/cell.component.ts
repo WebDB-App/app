@@ -44,11 +44,10 @@ export class CellComponent implements OnInit {
 			const col = Table.getSelected().columns.find(col => col.name === this.column);
 			if (col) {
 				this.blob = Column.isOfGroups(Server.getSelected().driver, col, [Group.Blob]);
+				if (this.blob) {
+					return;
+				}
 			}
-		}
-		this.blob = this.blob || (typeof this.value === "string" && this.value.length > 10_000);
-		if (this.blob) {
-			return;
 		}
 
 		this.value = structuredClone(this.value);

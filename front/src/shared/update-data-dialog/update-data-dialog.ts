@@ -58,6 +58,10 @@ export class UpdateDataDialog {
 				old_data: this.data.row,
 				new_data: n
 			}, this.selectedTable, this.selectedDatabase, this.selectedServer);
+			if (nb.error) {
+				this.snackBar.open(`Error while updating: ${nb.error}`, "⨉", {duration: 3000, panelClass: 'snack-error'});
+				return;
+			}
 			this.snackBar.open(`${nb} row(s) updated`, "⨉", {duration: 3000});
 		}
 		this.dialogRef.close(n);

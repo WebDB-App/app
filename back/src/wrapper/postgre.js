@@ -8,6 +8,10 @@ import version from "../shared/version.js";
 import {URL} from "url";
 import {sql_cleanQuery} from "../shared/helper.js";
 
+pg.types.setTypeParser(1114, v => v);
+pg.types.setTypeParser(1184, v => v);
+pg.types.setTypeParser(1082, v => v);
+
 const Pool = pg.Pool;
 const dirname = new URL(".", import.meta.url).pathname;
 
@@ -258,6 +262,18 @@ ${def[0]["pg_get_viewdef"]}`
 		}
 
 		return super.dropComplex(complex, type, database);
+	}
+
+	async update(db, table, old_data, new_data) {
+		const transform = (row) => {
+			for (const [index, obj] of Object.entries(row)) {
+				if (Array.isArray(obj)) {
+					row[index] = `{${JSON.stringify(obj).slice(1, -1)}}`;
+				}
+			}
+			return row;
+		};
+		return await super.update(db, table, transform(old_data), transform(new_data));
 	}
 
 	async insert(db, table, datas) {

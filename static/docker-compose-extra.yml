@@ -17,3 +17,12 @@ services:
         environment:
             YSQL_USER: root
             YSQL_PASSWORD: notSecureChangeMe
+
+    cockroach:
+        image: cockroachdb/cockroach
+        command: start-single-node --insecure
+        ports:
+            - "26257:26257"
+        environment:
+            COCKROACH_USER: 'root'
+            COCKROACH_PASSWORD: 'notSecureChangeMe'

@@ -263,7 +263,8 @@ export class QueryComponent implements OnInit, OnDestroy {
 		const data = await this.request.post('database/query', {
 			query: this.query,
 			pageSize: this.querySize,
-			page: 0
+			page: 0,
+			noLimit: 1
 		});
 		this.isLoading = false;
 		if (data.length > 0) {
