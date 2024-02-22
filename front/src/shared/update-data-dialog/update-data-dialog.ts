@@ -18,7 +18,7 @@ export class UpdateDataDialog {
 	selectedDatabase?: Database;
 	selectedTable?: Table;
 
-	updateSuggestions: { [key: string]: any[] } = {};
+	relationHelper: { [key: string]: any[] } = {};
 	datesHelper: { [key: string]: (date: string) => {} } = {};
 	str = "";
 	editorOptions = {
@@ -84,13 +84,13 @@ export class UpdateDataDialog {
 
 			const enums = this.selectedServer!.driver.extractEnum(col);
 			if (enums) {
-				this.updateSuggestions[col.name] = enums;
+				this.relationHelper[col.name] = enums;
 				continue;
 			}
 
 			const relation = relations.find(relation => relation.column_source === col.name);
 			if (relation) {
-				this.updateSuggestions[col.name] = await this.request.post('relation/exampleData', {
+				this.relationHelper[col.name] = await this.request.post('relation/exampleData', {
 					column: relation.column_dest,
 					table: relation.table_dest,
 					limit

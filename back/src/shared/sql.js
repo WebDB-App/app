@@ -29,10 +29,10 @@ export default class SQL extends Driver {
 		}
 
 		if (Object.keys(column).indexOf("defaut") >= 0) {
-			if (column.defaut && column.defaut !== "" && !column.defaut.endsWith(")")
+			/*if (column.defaut && column.defaut !== "" && !column.defaut.endsWith(")")
 				&& !["'", "\"", "`"].find(quote => column.defaut.startsWith(quote))) {
 				column.defaut = this.escapeValue(column.defaut);
-			}
+			}*/
 			cmd += `DEFAULT ${column.defaut || "NULL"} `;
 		}
 		return cmd;

@@ -355,6 +355,9 @@ ${def[0]["VIEW_DEFINITION"]}`
 					if (this.serverVersion === subWrapper.mariadb && column.COLUMN_DEFAULT === "NULL") {
 						column.COLUMN_DEFAULT = null;
 					}
+					if (column.COLUMN_DEFAULT && column.COLUMN_DEFAULT.endsWith(")")) {
+						column.COLUMN_DEFAULT = `(${column.COLUMN_DEFAULT})`;
+					}
 
 					column.EXTRA = column.EXTRA.replace("DEFAULT_GENERATED", "").trim();
 					column.EXTRA = column.EXTRA ? [column.EXTRA] : [];

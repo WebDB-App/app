@@ -2,12 +2,20 @@
 	<div *ngIf="form.get('old')" style="display: flex; align-items: center;">
 		<mat-card class="oldValues" formGroupName="old">
 			<mat-card-content>
-				<mat-form-field appearance="outline" style="width: 100%;">
-					<mat-label>Column Name</mat-label>
-					<input autocomplete="off"
-						   formControlName="name"
-						   matInput>
-				</mat-form-field>
+				<div>
+					<mat-form-field appearance="outline" style="width: 100%;">
+						<mat-label>Column Name</mat-label>
+						<input autocomplete="off"
+							   formControlName="name"
+							   matInput>
+					</mat-form-field>
+
+					<mat-slide-toggle
+						formControlName="nullable"
+						color="primary">
+						Nullable
+					</mat-slide-toggle>
+				</div>
 
 				<div>
 					<mat-form-field appearance="outline">
@@ -43,18 +51,26 @@
 				  [formGroupName]="i">
 
 			<mat-card-content>
-				<mat-form-field appearance="outline" style="width: 100%;">
-					<mat-label>Column Name</mat-label>
-					<input autocomplete="off"
-						   formControlName="name"
-						   matInput>
-					<mat-error *ngIf="column.get('name')?.errors && column.get('name')!.errors!['pattern']">
-						Prefer alpha, numeric and "_", "-" with 2 min chars
-					</mat-error>
-					<mat-error *ngIf="column.get('name')?.errors && column.get('name')!.errors!['unique']">
-						Name already used
-					</mat-error>
-				</mat-form-field>
+				<div>
+					<mat-form-field appearance="outline" style="width: 100%;">
+						<mat-label>Column Name</mat-label>
+						<input autocomplete="off"
+							   formControlName="name"
+							   matInput>
+						<mat-error *ngIf="column.get('name')?.errors && column.get('name')!.errors!['pattern']">
+							Prefer alpha, numeric and "_", "-" with 2 min chars
+						</mat-error>
+						<mat-error *ngIf="column.get('name')?.errors && column.get('name')!.errors!['unique']">
+							Name already used
+						</mat-error>
+					</mat-form-field>
+
+					<mat-slide-toggle
+						formControlName="nullable"
+						color="primary">
+						Nullable
+					</mat-slide-toggle>
+				</div>
 
 				<div>
 					<mat-form-field appearance="outline">
@@ -123,50 +139,34 @@
 				</div>
 
 				<div class="default">
-					<mat-button-toggle-group>
-						<mat-button-toggle
-							(click)="column.get('nullable')!.patchValue(false)"
-							*ngIf="isSQL(selectedServer)"
-							[checked]="!column.get('nullable')?.value">
-							Required
-						</mat-button-toggle>
-						<mat-button-toggle
-							(click)="column.get('nullable')!.patchValue(true); column.get('defaut')!.patchValue(null)"
-							[checked]="column.get('defaut')?.value === null">
-							On default:<br>
-							<span class="special">null</span>
-						</mat-button-toggle>
-						<mat-button-toggle
-							(click)="column.get('nullable')!.patchValue(true); column.get('defaut')!.patchValue('')"
-							[checked]="column.get('defaut')?.value === ''">
-							On default:<br>
-							<span class="special">empty string</span>
-						</mat-button-toggle>
-						<mat-button-toggle
-							(click)="column.get('nullable')!.patchValue(true); column.get('defaut')!.patchValue('Example')"
-							[checked]="!!column.get('defaut')?.value">
-							On default:<br>
-							<span class="special">custom value</span>
-						</mat-button-toggle>
-						<mat-button-toggle
-							(click)="column.get('nullable')!.patchValue(true); fctSuggestion.open()"
-							*ngIf="selectedServer!.driver.language.fctAsDefault.length">
-							<mat-select
-								#fctSuggestion
-								class="hide">
-								<mat-option (click)="column.get('defaut')?.patchValue(fct)"
-											*ngFor="let fct of selectedServer!.driver.language.fctAsDefault">
-									{{ fct }}
-								</mat-option>
-							</mat-select>
-							<span class="material-symbols-outlined notranslate">
-								function
-							</span>
-						</mat-button-toggle>
-					</mat-button-toggle-group>
+					<mat-form-field appearance="fill" style="margin-bottom: -1.25em">
+						<mat-label>Default Value</mat-label>
+						<mat-select>
+							<mat-option
+								(click)="column.get('defaut')!.patchValue(false)"
+								*ngIf="isSQL(selectedServer)">
+								Nothing
+							</mat-option>
+							<mat-option (click)="column.get('defaut')!.patchValue(null)">
+								<span class="special">NULL</span>
+							</mat-option>
+							<mat-option
+								(click)="column.get('defaut')!.patchValue('\'\'')">
+								Empty String
+							</mat-option>
+							<mat-option (click)="column.get('defaut')!.patchValue('\'Custom\'')">
+								Custom
+							</mat-option>
+							<mat-option
+								(click)="column.get('defaut')?.patchValue(fct)"
+								*ngFor="let fct of selectedServer!.driver.language.fctAsDefault">
+								{{ fct }}
+							</mat-option>
+						</mat-select>
+					</mat-form-field>
 
 					<mat-form-field
-						[hidden]="column.get('nullable')?.value === false || column.get('defaut')?.value === null"
+						[hidden]="column.get('defaut')?.value === false || column.get('defaut')?.value === null"
 						style="margin-bottom: -1.25em">
 						<textarea
 							cdkTextareaAutosize

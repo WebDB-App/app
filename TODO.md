@@ -1,22 +1,18 @@
-- revoir default et null de actor avec mysql et maria
-
-
-
 - finir tests
 - tester export query: java/php
 - first level keyword (select, update, create, with, alter) + patch
-- blob
 
 
 
 
 # Doc
-- numérotation de version + cycle de dev + ci/cd
+- numérotation de version
+- for contribution: cycle de dev + ci/cd
 - nosql default column
 - gpt4
 - expliquer code .js, .ts
 - dire que si la requete n'est pas un select, la reponse raw est affiché
-- expliquer le multi select des checkbox et le multi select des cellsdans le press papier
+- expliquer le multi select des checkbox et le multi select des cells dans le press papier
 - https://chat.openai.com/c/eae4f88e-e100-45de-9502-8708f7f48bf8
 
 
@@ -77,9 +73,7 @@
 - show migration queries
 
 # Mongo
-
-- free: relation avec array: l427 mongodb.js
-- https://www.mongodb.com/docs/manual/reference/operator/aggregation/lookup/#use--lookup-with-an-array
+- option to full scan structure just one table like compass
+- free: relation avec array: l427 mongodb.js: https://www.mongodb.com/docs/manual/reference/operator/aggregation/lookup/#use--lookup-with-an-array
 - columns with array > 2 : harmonize to one of the type (attention deep)
-- obj column update
-- harmonizer obj > 2
+- deep object object: update field

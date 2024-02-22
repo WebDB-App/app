@@ -34,7 +34,7 @@ export class MySQL extends SQL {
 		this.language = {
 			...this.language,
 			arrayType: false,
-			fctAsDefault: [],
+			fctAsDefault: ['CURRENT_TIMESTAMP', '(CURRENT_DATE)', '(RAND())', '(UUID())', '(Point(0,0))', '(UUID_TO_BIN(UUID()))'],
 			extraAttributes: ['auto_increment', 'on update CURRENT_TIMESTAMP'],
 			keywords: this.language.keywords.concat([
 				'AUTO_INCREMENT',
@@ -77,7 +77,7 @@ export class MySQL extends SQL {
 					name: Group.String,
 					list: [
 						{
-							id: "binary(size)",
+							id: "binary(size?)",
 							description: 'Where size is the number of binary characters to store. Fixed-length strings. Space padded on right to equal size characters.'
 						},
 						{
@@ -143,21 +143,21 @@ export class MySQL extends SQL {
 							description: "Very small integer value that is equivalent to TINYINT(1).\nSigned values range from -128 to 127. unsigned values range from 0 to 255."
 						},
 						{
-							id: "decimal(m, d)",
+							id: "decimal(m?, d?)",
 							bold: true,
 							description: 'Unpacked fixed point number.\nm defaults to 10, if not specified.\nd defaults to 0, if not specified.\nWhere m is the total digits and d is the number of digits after the decimal.'
 						},
 						{
-							id: "double(m, d)",
+							id: "double(m?, d?)",
 							bold: true,
 							description: "Double precision floating point number.\nWhere m is the total digits and d is the number of digits after the decimal."
 						},
 						{
-							id: "float(m, d)",
+							id: "float(m?, d?)",
 							description: "Single precision floating point number.\nWhere m is the total digits and d is the number of digits after the decimal."
 						},
 						{
-							id: "float(precision)",
+							id: "float(precision?)",
 							description: "Floating point number.\nWhere p is the precision."
 						},
 						{
@@ -221,7 +221,7 @@ export class MySQL extends SQL {
 							toTimestamp: (date: string) => { return new Date(date).toISOString().split('T')[0] }
 						},
 						{
-							id: "datetime(precision)",
+							id: "datetime(precision?)",
 							description: "Values range from '1000-01-01 00:00:00' to '9999-12-31 23:59:59'.\nDisplayed as 'YYYY-MM-DD HH:MM:SS'.",
 							toTimestamp: (date: string) => { return new Date(date).toISOString().slice(0, 19).replace('T', ' ') }
 						},
@@ -230,7 +230,7 @@ export class MySQL extends SQL {
 							description: "Values range from '-838:59:59' to '838:59:59'.\nDisplayed as 'HH:MM:SS'."
 						},
 						{
-							id: "timestamp(precision)",
+							id: "timestamp(precision?)",
 							bold: true,
 							description: "Values range from '1970-01-01 00:00:01' UTC to '2038-01-19 03:14:07' UTC.\nDisplayed as 'YYYY-MM-DD HH:MM:SS'.",
 							toTimestamp: (date: string) => { return new Date(date).toISOString().slice(0, 19).replace('T', ' ') }

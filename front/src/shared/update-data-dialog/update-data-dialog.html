@@ -9,9 +9,9 @@
 	</button>
 </div>
 <div mat-dialog-content>
-	<div *ngIf="Object.keys(updateSuggestions).length > 0 || Object.keys(datesHelper).length > 0"
+	<div *ngIf="Object.keys(relationHelper).length > 0 || Object.keys(datesHelper).length > 0"
 		 style="display: flex; justify-content: space-between; padding: 12px 12px 0px 12px; gap: 20px;">
-		<div *ngFor="let column of updateSuggestions | keyvalue" style="flex: 1;">
+		<div *ngFor="let column of relationHelper | keyvalue" style="flex: 1;">
 			<mat-form-field appearance="fill" style="width: 100%">
 				<mat-label>{{ column.key }}</mat-label>
 				<input
