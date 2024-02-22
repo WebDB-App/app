@@ -64,6 +64,15 @@ prepare:
         paths:
             - ./front/dist/webdb/
 
+clean:
+    <<: *common
+    stage: prepare
+    image: node:alpine
+    script:
+        - docker container prune -f
+        - docker volume prune --all -f
+        - docker system prune --all --volumes -f
+
 
 #-----------------------------------------
 
@@ -109,6 +118,7 @@ compatibility:
         - npm install --prod --frozen-lockfile
         - npm run test:app
         - npm run test:docker || echo
+
     artifacts:
         paths:
             - ./compatibility/report.xml
