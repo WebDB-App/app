@@ -69,7 +69,9 @@ clean:
     stage: prepare
     image: node:alpine
     script:
-        - bash -c 'docker container prune -f; docker volume prune --all -f; docker system prune --all --volumes -f'
+        - docker container prune -f
+        - docker volume prune --all -f
+        - docker system prune --all --volumes -f
 
 
 #-----------------------------------------
