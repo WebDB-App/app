@@ -45,4 +45,3 @@ eslint:
     script:
         - (cd back && eslint --color .)
         - (cd compatibility && eslint --color .)
-
