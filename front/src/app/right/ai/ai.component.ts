@@ -196,7 +196,6 @@ export class AiComponent implements OnInit, OnDestroy {
 				{shortName: "gpt-3.5-turbo-16k", fullName: "gpt-3.5-turbo-16k"},
 				{shortName: "gpt-3.5-turbo-1106", fullName: "gpt-3.5-turbo-1106"},
 				{shortName: "gpt-3.5-turbo-instruct", fullName: "gpt-3.5-turbo-instruct"},
-
 			];
 		}
 
