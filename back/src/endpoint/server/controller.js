@@ -61,19 +61,23 @@ class Controller {
 		];
 
 		if (+req.query.full) {
-			promises.push(
-				(final.complexes = await driver.getComplexes()),
-				(final.indexes = await driver.getIndexes()),
-			);
+			promises.push(new Promise(async resolve => {
+				final.complexes = await driver.getComplexes();
+				final.indexes = await driver.getIndexes();
+				resolve();
+			}));
 		}
 
-		await Promise.all(promises);
-
-		if (+req.query.full) {
-			final.relations = await driver.getRelations(final.dbs, +req.query.size);
+		try {
+			await Promise.all(promises);
+			if (+req.query.full) {
+				final.relations = await driver.getRelations(final.dbs, +req.query.size);
+			}
+			res.send(final);
+		} catch (e) {
+			console.error(e);
+			res.send(e);
 		}
-
-		res.send(final);
 	}
 
 	async load(req, res) {

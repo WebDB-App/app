@@ -73,3 +73,11 @@ function exit() {
 
 process.on("SIGINT", exit);
 process.on("SIGTERM", exit);
+process.on("uncaughtException", (error) => {
+	console.error(error);
+	exit();
+});
+process.on("unhandledRejection", (error) => {
+	console.error(error);
+	exit();
+});
