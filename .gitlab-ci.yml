@@ -4,8 +4,6 @@ stages:
     - release
     - compatibility
 
-include:
-    -   template: Security/Secret-Detection.gitlab-ci.yml
 
 
 #-----------------------------------------
