@@ -4,11 +4,9 @@ stages:
     - release
     - compatibility
 
-include:
-    -   template: Security/Secret-Detection.gitlab-ci.yml
-
 
 #-----------------------------------------
+
 
 
 .common: &common
@@ -108,18 +106,13 @@ compatibility:
     stage: compatibility
     image: docker:latest
     rules:
-        -   if: $CI_COMMIT_TAG
-            when: on_success
-        -   if: $CI_COMMIT_BRANCH == "main"
-            when: on_success
-        -   if: $CI_COMMIT_BRANCH == "dev"
+        -   if: $CI_COMMIT_TAG || $CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "dev"
             when: on_success
     script:
         - cd compatibility
         - npm install --prod --frozen-lockfile
         - npm run test:app
         - npm run test:docker || echo
-
     artifacts:
         paths:
             - ./compatibility/report.xml
