@@ -23,7 +23,8 @@ class Bash {
 			database,
 			port
 		};
-		console.info(`${port} ${database} ${command}`);
+		// Log Forging vulnerability fixed by sanitizing input to remove new lines (Powered by Mobb)
+		console.info(`${port} ${database} ${String(command).replace(/\n|\r/g, "")}`);
 		return cid;
 	}
 
