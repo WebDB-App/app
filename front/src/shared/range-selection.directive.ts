@@ -1,4 +1,5 @@
 import { Directive, ElementRef, HostListener, Input } from '@angular/core';
+import {Clipboard} from '@angular/cdk/clipboard';
 
 @Directive({
 	selector: 'table[range-selection]',
@@ -13,7 +14,10 @@ export class RangeSelectionDirective {
 	private range = new Set<HTMLTableCellElement>();
 	private cellIndices = new Map<HTMLTableCellElement, { row: number; column: number }>();
 
-	constructor(elementRef: ElementRef<HTMLTableElement>) {
+	constructor(
+		private clipboard: Clipboard,
+		private elementRef: ElementRef<HTMLTableElement>
+	) {
 		this.table = elementRef.nativeElement;
 
 		document.addEventListener('mouseup', (event) => {
@@ -30,9 +34,6 @@ export class RangeSelectionDirective {
 		}
 	}
 
-	//press papier
-	//ajouter icone keyboard avec tooltip qui explique
-
 	@HostListener('window:keyup', ['$event'])
 	handleKeyUp(event: KeyboardEvent) {
 		if (event.key === 'Shift') {
@@ -44,7 +45,7 @@ export class RangeSelectionDirective {
 		let text = '';
 		this.range.forEach(cell => text += cell.innerText + '\t');
 		if (text) {
-			navigator.clipboard.writeText(text);
+			this.clipboard.copy(text);
 		}
 	}
 

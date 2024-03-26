@@ -498,6 +498,10 @@ ngx-monaco-editor {
 	background: rgba(174, 174, 174, 0.5);
 }
 
+.mat-menu-panel {
+	min-height: 58px !important;
+}
+
 @media (max-width: 1200px) {
 	.mat-card {
 		margin: 14px 8px;
