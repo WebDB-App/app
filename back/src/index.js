@@ -7,7 +7,7 @@ import bash from "./shared/bash.js";
 import {join} from "path";
 import Sentry from "@sentry/node";
 import compression from "compression";
-import * as serveStatic from "serve-static";
+import mime from "mime";
 
 const dirname = new URL(".", import.meta.url).pathname;
 dotenv.config({path: dirname + "/../.env"});
@@ -35,11 +35,9 @@ if (process.env.NODE_ENV === "production") {
 	app.use(Sentry.Handlers.errorHandler());
 }
 
-
-const cached = ["text/html", "text/css", "text/javascript", "image/svg+xml", "font/ttf", "font/woff2"];
-
 function setCustomCacheControl(res, path) {
-	if (cached.indexOf(serveStatic.mime.lookup(path)) >= 0) {
+	const cached = ["text/html", "text/css", "text/javascript", "image/svg+xml", "font/ttf", "font/woff2"];
+	if (cached.indexOf(mime.lookup(path)) >= 0) {
 		res.setHeader("Cache-Control", "public, max-age=7200");
 	}
 }

@@ -15,11 +15,11 @@
 		"express": "latest",
 		"mongodb": "latest",
 		"multer": "latest",
+		"mime": "latest",
 		"mysql2": "latest",
 		"node-port-scanner": "latest",
 		"node-rsa": "latest",
 		"pg": "latest",
-		"serve-static": "latest",
 		"simple-git": "latest",
 		"tedious": "latest"
 	},
