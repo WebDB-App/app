@@ -1,8 +1,7 @@
 <div cdkFocusInitial mat-dialog-content>
-	<mat-tab-group (selectedTabChange)="$event.index === 2 ? dialogRef.close() : undefined">
+	<mat-tab-group (selectedTabChange)="$event.index === 3 ? dialogRef.close() : undefined">
 		<mat-tab label="Parameters">
-			<table style="padding: 20px">
-
+			<table class="settings">
 				<ng-container *ngFor="let cat of Object.keys(configuration.configs)">
 					<tr *ngIf="cat.length">
 						<td colspan="100%">
@@ -30,6 +29,22 @@
 					</tr>
 				</ng-container>
 			</table>
+		</mat-tab>
+		<mat-tab label="Shortcuts">
+			<div class="shortcuts" *ngFor="let cat of Object.keys(shortcuts)">
+				<h4 *ngIf="cat.length">
+					<mat-divider style="flex: 1;"></mat-divider>
+					<span style="margin: 12px;">{{ cat }}</span>
+					<mat-divider style="flex: 1;"></mat-divider>
+				</h4>
+
+				<div class="keys" *ngFor="let shortcut of Object.keys(shortcuts[cat])">
+					<span>{{ shortcut }}</span>
+					<div *ngFor="let keys of shortcuts[cat][shortcut]">
+						{{ keys }}
+					</div>
+				</div>
+			</div>
 		</mat-tab>
 		<mat-tab label="About">
 			<div style="text-align: center">
@@ -60,21 +75,22 @@
 					<a href="https://patreon.com/WebDB?utm_medium=unknown&utm_source=join_link&utm_campaign=creatorshare_creator&utm_content=copyLink"
 					   mat-button
 					   target="_blank">
-						<span class="material-symbols-outlined notranslate">
-							credit_card_heart
-						</span>
+						<mat-icon svgIcon="patreon"></mat-icon>
+						Sponsor
 					</a>
 
 					<a href="https://github.com/WebDB-App/app"
 					   mat-button
 					   target="_blank">
 						<mat-icon svgIcon="github"></mat-icon>
+						Sources
 					</a>
 
 					<a href="https://hub.docker.com/r/webdb/app"
 					   mat-button
 					   target="_blank">
 						<mat-icon svgIcon="docker"></mat-icon>
+						Docker
 					</a>
 
 					<a href="https://webdb.app"
@@ -83,6 +99,7 @@
 						<span class="material-symbols-outlined notranslate">
 							public
 						</span>
+						Website
 					</a>
 
 					<a href="mailto:main.webdb@gmail.com"
@@ -91,6 +108,7 @@
 						<span class="material-symbols-outlined notranslate">
 							mail
 						</span>
+						Contact
 					</a>
 				</div>
 

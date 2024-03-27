@@ -23,6 +23,19 @@ export class ConfigDialog implements OnInit {
 	protected readonly packageJson = packageJson;
 	protected readonly Object = Object;
 
+	shortcuts: { [key: string]: {[key: string]: string[]} } = {
+		'Query Editor': {
+			'Trigger autocomplete': ['Alt + Space'],
+			'Run query': ['Ctrl + Enter', '⌘ + Enter'],
+			'Find and / or replace': ['Ctrl + f', '⌘ + f'],
+			'Format query': ['Alt + Maj + f']
+		},
+		'Table': {
+			'Copy one cell to clipboard': ['⇧ + click'],
+			'Copy cell range to clipboard': ['⇧ + drag over cells'],
+		}
+	}
+
 	constructor(
 		public dialogRef: MatDialogRef<ConfigDialog>,
 		private http: HttpClient,

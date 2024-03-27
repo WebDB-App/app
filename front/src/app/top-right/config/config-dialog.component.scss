@@ -1,5 +1,6 @@
-table {
+.settings {
 	width: 100%;
+	padding: 20px;
 
 	.mat-button-toggle-group {
 		margin-left: 15px;
@@ -7,6 +8,28 @@ table {
 
 		.mat-button-toggle {
 			flex: 1;
+		}
+	}
+}
+
+.shortcuts {
+	width: 92%;
+	margin: 12px auto 30px;
+	display: flex;
+	flex-wrap: wrap;
+
+	h4 {
+		display: flex;
+		width: 100%;
+		align-items: center;
+		margin-bottom: 0;
+	}
+
+	.keys {
+		min-width: 33%;
+
+		> div {
+			color: #1de9b6;
 		}
 	}
 }
