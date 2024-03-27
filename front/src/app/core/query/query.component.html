@@ -93,14 +93,7 @@
 				Create view from query
 			</button>
 			<button (click)="exportQuery()" [disabled]="query.length < 1" mat-menu-item>Export query</button>
-			<button [matMenuTriggerFor]="shortcuts" mat-menu-item>Shortcuts</button>
 			<button [matMenuTriggerFor]="disclaimer" mat-menu-item>Disclaimer</button>
-		</mat-menu>
-		<mat-menu #shortcuts="matMenu">
-			<button mat-menu-item>Alt + Space → <span style="color: #2196f3">Autocomplete</span></button>
-			<button mat-menu-item>Ctrl / ⌘ + Enter → <span style="color: #2196f3">Run query</span></button>
-			<button mat-menu-item>Ctrl / ⌘ + f → <span style="color: #2196f3">Find and / or replace</span></button>
-			<button mat-menu-item>Alt + Maj + f → <span style="color: #2196f3">Format query</span></button>
 		</mat-menu>
 		<mat-menu #disclaimer="matMenu">
 			<ul style="color: white;">
