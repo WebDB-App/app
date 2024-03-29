@@ -93,6 +93,7 @@ export class SQL implements Driver {
 			'EXISTS',
 			'IS NULL',
 			'IS NOT NULL',
+			'DEFAULT',
 			'PRIVILEGES',
 			'GRANT',
 			'CHARACTER',

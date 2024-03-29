@@ -12,6 +12,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { UpdateDataDialog } from "../../../shared/update-data-dialog/update-data-dialog";
 import { ExportResultDialog } from "../../../shared/export-result-dialog/export-result-dialog";
 import { BatchUpdateDialog } from "../../../shared/batch-update-dialog/batch-update-dialog";
+import { Column } from "../../../classes/column";
 
 @Component({
 	selector: 'app-explore',
@@ -161,10 +162,12 @@ export class ExploreComponent implements OnInit, OnDestroy {
 			return;
 		}
 
-		this.params.chips += this.selectedServer?.driver.quickSearch(
-			this.selectedServer!.driver,
-			this.selectedTable?.columns.find(col => col.name === column)!,
-			value) + ';';
+		let col = this.selectedTable?.columns.find(col => col.name === column);
+		if (!col) {
+			col = <Column>{name: column, type: "string"};
+		}
+
+		this.params.chips += this.selectedServer?.driver.quickSearch(this.selectedServer!.driver, col, value) + ';';
 		this.params.page = 0;
 		event.chipInput!.clear();
 		await this.refreshData();

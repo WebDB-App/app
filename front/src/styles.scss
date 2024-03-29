@@ -502,6 +502,10 @@ ngx-monaco-editor {
 	min-height: 58px !important;
 }
 
+input[type="datetime-local"]::after {
+	display: none;
+}
+
 @media (max-width: 1200px) {
 	.mat-card {
 		margin: 14px 8px;

@@ -9,35 +9,58 @@
 		</span>
 	</button>
 </ng-container>
+
 <ng-container *ngIf="!blob">
-	<ng-container *ngIf="fkLink">
-		<a [routerLink]="[fkLink, fkParams]">
-			{{ value }}
-		</a>
+	<ng-container *ngIf="value === undefined">
+		<span style="color: grey">undefined</span>
+	</ng-container>
+	<ng-container *ngIf="value === null">
+		<span style="color: grey">null</span>
+	</ng-container>
+	<ng-container *ngIf="['true', 'Y', 'YES', 'Yes', true].indexOf(value) >= 0">
+		<span [matTooltip]="value" matTooltipPosition="right" style="font-size: 12px">✅</span>
+	</ng-container>
+	<ng-container *ngIf="['false', 'N', 'NO', 'No', false].indexOf(value) >= 0">
+		<span [matTooltip]="value" matTooltipPosition="right" style="font-size: 10px">❌</span>
 	</ng-container>
 
-	<ng-container *ngIf="!fkLink">
-		<ng-container *ngIf="nested">
-			<ng-container *ngIf="expand">
-				<ngx-json-viewer
-					[expanded]="false"
-					[json]="value">
-				</ngx-json-viewer>
-			</ng-container>
-			<ng-container *ngIf="!expand">
-				<button
-					(click)="expand = true; ref.nativeElement.style.resize = 'both'"
-					mat-icon-button>
-					<span class="material-symbols-outlined">
-						folder_open
-					</span>
-				</button>
-			</ng-container>
+	<ng-container *ngIf="[undefined, null, 'true', 'Y', 'YES', 'Yes', true, 'false', 'N', 'NO', 'No', false].indexOf(value) < 0">
+		<ng-container *ngIf="fkLink">
+
+			<a [routerLink]="[fkLink, fkParams]">
+				{{ value }}
+			</a>
+
 		</ng-container>
-		<ng-container
-			*ngIf="!nested">
-			{{ value }}
+
+		<ng-container *ngIf="!fkLink">
+			<ng-container *ngIf="nested">
+				<ng-container *ngIf="expand">
+
+					<ngx-json-viewer
+						[expanded]="false"
+						[json]="value">
+					</ngx-json-viewer>
+
+				</ng-container>
+				<ng-container *ngIf="!expand">
+
+					<button
+						(click)="expand = true; ref.nativeElement.style.resize = 'both'"
+						mat-icon-button>
+						<span class="material-symbols-outlined">
+							folder_open
+						</span>
+					</button>
+
+				</ng-container>
+			</ng-container>
+			<ng-container
+				*ngIf="!nested">
+
+				{{ value }}
+
+			</ng-container>
 		</ng-container>
 	</ng-container>
-
 </ng-container>
