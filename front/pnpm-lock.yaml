@@ -32,9 +32,6 @@ dependencies:
   '@angular/core':
     specifier: ^14.3.0
     version: 14.3.0(rxjs@7.8.1)(zone.js@0.12.0)
-  '@angular/flex-layout':
-    specifier: ^14.0.0-beta.41
-    version: 14.0.0-beta.41(@angular/cdk@14.2.7)(@angular/common@14.3.0)(@angular/core@14.3.0)(@angular/platform-browser@14.3.0)(rxjs@7.8.1)
   '@angular/forms':
     specifier: ^14.3.0
     version: 14.3.0(@angular/common@14.3.0)(@angular/core@14.3.0)(@angular/platform-browser@14.3.0)(rxjs@7.8.1)
@@ -491,24 +488,6 @@ packages:
       rxjs: 7.8.1
       tslib: 2.6.2
       zone.js: 0.12.0
-    dev: false
-
-  /@angular/flex-layout@14.0.0-beta.41(@angular/cdk@14.2.7)(@angular/common@14.3.0)(@angular/core@14.3.0)(@angular/platform-browser@14.3.0)(rxjs@7.8.1):
-    resolution: {integrity: sha512-x1YcxqkdFlcbVXEy9ebCgW/F+7n/MXkEkwEcVEIPf5v5qn7HZsjQxgIj35Lf0amvMyF7h35prpoxO1uX5+ntFg==}
-    deprecated: This package has been deprecated. Please see https://blog.angular.io/modern-css-in-angular-layouts-4a259dca9127
-    peerDependencies:
-      '@angular/cdk': ^14.0.0
-      '@angular/common': ^14.0.0
-      '@angular/core': ^14.0.0
-      '@angular/platform-browser': ^14.0.0
-      rxjs: ^6.5.3 || ^7.4.0
-    dependencies:
-      '@angular/cdk': 14.2.7(@angular/common@14.3.0)(@angular/core@14.3.0)(rxjs@7.8.1)
-      '@angular/common': 14.3.0(@angular/core@14.3.0)(rxjs@7.8.1)
-      '@angular/core': 14.3.0(rxjs@7.8.1)(zone.js@0.12.0)
-      '@angular/platform-browser': 14.3.0(@angular/animations@14.3.0)(@angular/common@14.3.0)(@angular/core@14.3.0)
-      rxjs: 7.8.1
-      tslib: 2.6.2
     dev: false
 
   /@angular/forms@14.3.0(@angular/common@14.3.0)(@angular/core@14.3.0)(@angular/platform-browser@14.3.0)(rxjs@7.8.1):

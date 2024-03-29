@@ -5,7 +5,6 @@ import { AdvancedComponent, DropDatabaseDialog } from "./advanced/advanced.compo
 import { RelationsComponent } from "./relations/relations.component";
 import { LoadComponent } from "./load/load.component";
 import { DumpComponent } from "./dump/dump.component";
-import { FlexModule, GridModule } from "@angular/flex-layout";
 import { MatButtonModule } from "@angular/material/button";
 import { MatInputModule } from "@angular/material/input";
 import { MatSelectModule } from "@angular/material/select";
@@ -67,7 +66,6 @@ import { MatTabsModule } from "@angular/material/tabs";
 	imports: [
 		CommonModule,
 		MonacoEditorModule,
-		FlexModule,
 		RightRoutingModule,
 		MatButtonModule,
 		HighlightModule,
@@ -85,7 +83,6 @@ import { MatTabsModule } from "@angular/material/tabs";
 		MatButtonToggleModule,
 		MatProgressBarModule,
 		MatTableModule,
-		GridModule,
 		MatAutocompleteModule,
 		ReactiveFormsModule,
 		DragDropModule,

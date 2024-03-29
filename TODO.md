@@ -1,6 +1,5 @@
-- tester tout les default + extra
+- tester tout les default + extra + postgre
 - finir complex edit
-- docker extension (git history)
 
 
 # Advanced auth

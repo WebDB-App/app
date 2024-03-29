@@ -1,10 +1,9 @@
 <div *ngIf="selectedTable" style="height: calc(100vh - 104px)">
 
-	<div fxFlexFill fxLayout="column" fxLayoutAlign="space-between center">
+	<div class="flexFill" style="place-content: center space-between; align-items: center;">
 
 		<mat-toolbar
-			fxLayout="row"
-			fxLayoutAlign="space-between center"
+			class="spaceBetweenCenter"
 			style="padding: 20px">
 
 			<span>
@@ -27,18 +26,17 @@
 
 		</mat-toolbar>
 
-		<div fxLayout="column" fxLayoutAlign="center none" style="width: 400px;">
-
+		<div style="width: 500px;">
 			<ng-container *ngIf="!selectedTable.view">
 
-				<div *ngIf="stats" fxLayout="row" fxLayoutAlign="space-between center">
+				<div *ngIf="stats" class="spaceBetweenCenter">
 					<span>Index Size : {{ +stats.index_length  | round }} Mb</span>
 					<span>Data Size : {{ +stats.data_length  | round }} Mb</span>
 				</div>
 
 				<mat-divider></mat-divider>
 
-				<div fxLayout="row" fxLayoutAlign="space-between center">
+				<div class="spaceBetweenCenter">
 					<mat-form-field>
 						<mat-label>Copy Name</mat-label>
 						<input
@@ -60,7 +58,7 @@
 
 				<mat-divider></mat-divider>
 
-				<div fxLayout="row" fxLayoutAlign="space-between center">
+				<div class="spaceBetweenCenter">
 					<mat-form-field>
 						<mat-label>New Name</mat-label>
 						<input

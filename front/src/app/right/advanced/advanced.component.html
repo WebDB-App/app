@@ -1,7 +1,6 @@
 <ng-container *ngIf="selectedServer && selectedDatabase">
 	<mat-toolbar
-		fxLayout="row"
-		fxLayoutAlign="space-between center"
+		class="spaceBetweenCenter"
 		style="padding: 20px">
 
 		<div>
@@ -30,7 +29,7 @@
 
 		<mat-divider></mat-divider>
 
-		<div *ngIf="stats" fxLayout="row" fxLayoutAlign="space-between center">
+		<div *ngIf="stats" class="spaceBetweenCenter">
 			<span>Total Index Size : {{ +stats.index_length | round }} Mb</span>
 			<span>Total Data Size : {{ +stats.data_length | round }} Mb</span>
 		</div>
@@ -38,7 +37,7 @@
 		<ng-container *ngIf="selectedServer?.wrapper === 'MySQL'">
 			<mat-divider></mat-divider>
 
-			<div fxLayout="row" fxLayoutAlign="space-between center">
+			<div class="spaceBetweenCenter">
 				<mat-form-field color="accent">
 					<mat-label>Collation</mat-label>
 					<mat-select #collation [value]="selectedDatabase!.collation" disableOptionCentering>
@@ -62,7 +61,7 @@
 
 		<mat-divider></mat-divider>
 
-		<div fxLayout="row" fxLayoutAlign="space-between center">
+		<div class="spaceBetweenCenter">
 			<button
 				(click)="snackBar.open('Command copied', '⨉', {duration: 3000})"
 				*ngIf="selectedServer.driver.terminalCmd()"
@@ -87,7 +86,7 @@
 
 		<mat-divider></mat-divider>
 
-		<div fxLayout="row" fxLayoutAlign="space-between center">
+		<div class="spaceBetweenCenter">
 			<mat-form-field>
 				<mat-label>Copy Name</mat-label>
 				<input

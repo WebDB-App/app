@@ -1,4 +1,4 @@
-<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
+<mat-toolbar class="spaceBetweenCenter">
 	<mat-form-field appearance="standard" class="searchField" style="width: 220px">
 		<input
 			#filter
@@ -93,8 +93,7 @@
 		</table>
 	</div>
 
-	<div *ngIf="isSQL()" fxLayout="row" fxLayoutAlign="center center">
-
+	<div *ngIf="isSQL()">
 		<table class="new">
 			<tr>
 				<td><h3>Source</h3></td>

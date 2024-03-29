@@ -6,7 +6,6 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatSelectModule } from "@angular/material/select";
 import { MatListModule } from "@angular/material/list";
 import { MatIconModule } from "@angular/material/icon";
-import { FlexModule } from "@angular/flex-layout";
 import { MatInputModule } from "@angular/material/input";
 import { MatButtonModule } from "@angular/material/button";
 import { MatToolbarModule } from "@angular/material/toolbar";
@@ -74,7 +73,6 @@ import { MonacoEditorModule } from "ngx-monaco-editor-v2";
         MatSelectModule,
         MatListModule,
         MatIconModule,
-        FlexModule,
         MatInputModule,
         MatButtonModule,
         MatToolbarModule,

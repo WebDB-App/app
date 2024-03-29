@@ -506,6 +506,26 @@ input[type="datetime-local"]::after {
 	display: none;
 }
 
+.spaceBetweenCenter {
+	flex-direction: row;
+	box-sizing: border-box;
+	display: flex;
+	place-content: center space-between;
+	align-items: center;
+}
+
+.flexFill {
+	height: 100%;
+	min-height: 100%;
+	min-width: 100%;
+	width: 100%;
+	flex-direction: column;
+	box-sizing: border-box;
+	display: flex;
+	place-content: stretch space-between;
+	align-items: stretch;
+}
+
 @media (max-width: 1200px) {
 	.mat-card {
 		margin: 14px 8px;

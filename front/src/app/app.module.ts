@@ -5,7 +5,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from "./app-routing.module";
 import { ContainerComponent } from './container/container.component';
 import { MatCardModule } from "@angular/material/card";
-import { FlexModule } from "@angular/flex-layout";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";
@@ -152,7 +151,6 @@ export const monacoConfig: NgxMonacoEditorConfig = {
         BrowserAnimationsModule,
         MonacoEditorModule.forRoot(monacoConfig),
         MatCardModule,
-        FlexModule,
         HighlightModule,
         MatToolbarModule,
         MatButtonModule,

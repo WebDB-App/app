@@ -5,7 +5,6 @@ import { CellComponent } from './cell/cell.component';
 import { NgxJsonViewerModule } from "ngx-json-viewer";
 import { RouterLink, RouterLinkWithHref } from "@angular/router";
 import { UpdateDataDialog } from './update-data-dialog/update-data-dialog';
-import { FlexModule } from "@angular/flex-layout";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatButtonModule } from "@angular/material/button";
 import { MatDialogModule } from "@angular/material/dialog";
@@ -59,7 +58,6 @@ import { RangeSelectionDirective } from "./range-selection.directive";
 		CommonModule,
 		NgxJsonViewerModule,
 		RouterLinkWithHref,
-		FlexModule,
 		MatAutocompleteModule,
 		MatButtonModule,
 		MatDialogModule,
