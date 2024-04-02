@@ -99,9 +99,7 @@
 	<div *ngIf="type === 'variable'">
 		<mat-form-field appearance="fill">
 			<mat-label>Server</mat-label>
-			<mat-select
-				disableOptionCentering
-				required>
+			<mat-select required>
 				<mat-option
 					(click)="side.server = server; side.database = undefined; side.table = undefined; side.query = undefined; side.columnsToHide = undefined; side.diff.code = ''; refreshSide(side)"
 					*ngFor="let server of servers"
@@ -119,9 +117,7 @@
 
 		<mat-form-field appearance="fill">
 			<mat-label>Database</mat-label>
-			<mat-select
-				disableOptionCentering
-				required>
+			<mat-select required>
 				<mat-optgroup
 					*ngFor="let server of servers"
 					[label]="server.name">
@@ -139,9 +135,7 @@
 		<div>
 			<mat-form-field appearance="outline">
 				<mat-label>Table</mat-label>
-				<mat-select
-					disableOptionCentering
-					required>
+				<mat-select required>
 					<mat-option
 						(click)="side.table = table; side.query = ''; side.columnsToHide = []; refreshSide(side)"
 						*ngFor="let table of side.database.tables"
@@ -153,7 +147,7 @@
 
 			<mat-form-field *ngIf="side.table" appearance="outline">
 				<mat-label>Hide columns</mat-label>
-				<mat-select [(ngModel)]="side.columnsToHide" disableOptionCentering multiple>
+				<mat-select [(ngModel)]="side.columnsToHide" multiple>
 					<mat-option
 						(click)="refreshSide(side)"
 						*ngFor="let column of side.table.columns"

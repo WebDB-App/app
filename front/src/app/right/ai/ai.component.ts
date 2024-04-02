@@ -189,12 +189,12 @@ export class AiComponent implements OnInit, OnDestroy {
 				{shortName: "gpt-4", fullName: "gpt-4"},
 				{shortName: "gpt-4-32k", fullName: "gpt-4-32k"},
 				{shortName: "gpt-4-32k-0613", fullName: "gpt-4-32k-0613"},
-				{shortName: "gpt-4-1106-preview", fullName: "gpt-4-1106-preview"},
+				{shortName: "gpt-4-0125-preview", fullName: "gpt-4-0125-preview"},
 				{shortName: "gpt-4-turbo-preview", fullName: "gpt-4-turbo-preview"},
 				{shortName: "gpt-4-vision-preview", fullName: "gpt-4-vision-preview"},
 				{shortName: "gpt-3.5-turbo", fullName: "gpt-3.5-turbo"},
 				{shortName: "gpt-3.5-turbo-16k", fullName: "gpt-3.5-turbo-16k"},
-				{shortName: "gpt-3.5-turbo-1106", fullName: "gpt-3.5-turbo-1106"},
+				{shortName: "gpt-3.5-turbo-0125", fullName: "gpt-3.5-turbo-0125"},
 				{shortName: "gpt-3.5-turbo-instruct", fullName: "gpt-3.5-turbo-instruct"},
 			];
 		}
@@ -203,57 +203,59 @@ export class AiComponent implements OnInit, OnDestroy {
 			this.models[Provider.together] = [
 				{shortName: "alpaca-7b", fullName: "togethercomputer/alpaca-7b"},
 				{shortName: "chronos-hermes-13b", fullName: "Austism/chronos-hermes-13b"},
-				{shortName: "CodeLlama-13b", fullName: "togethercomputer/CodeLlama-13b"},
-				{shortName: "CodeLlama-13b-Instruct", fullName: "togethercomputer/CodeLlama-13b-Instruct"},
-				{shortName: "CodeLlama-13b-Python", fullName: "togethercomputer/CodeLlama-13b-Python"},
-				{shortName: "CodeLlama-34b", fullName: "togethercomputer/CodeLlama-34b"},
-				{shortName: "CodeLlama-34b-Instruct", fullName: "togethercomputer/CodeLlama-34b-Instruct"},
-				{shortName: "CodeLlama-34b-Python", fullName: "togethercomputer/CodeLlama-34b-Python"},
-				{shortName: "CodeLlama-7b", fullName: "togethercomputer/CodeLlama-7b"},
-				{shortName: "CodeLlama-7b-Instruct", fullName: "togethercomputer/CodeLlama-7b-Instruct"},
-				{shortName: "CodeLlama-7b-Python", fullName: "togethercomputer/CodeLlama-7b-Python"},
-				{shortName: "DiscoLM-mixtral-8x7b-v2", fullName: "DiscoResearch/DiscoLM-mixtral-8x7b-v2"},
-				{shortName: "falcon-40b-instruct", fullName: "togethercomputer/falcon-40b-instruct"},
-				{shortName: "falcon-7b-instruct", fullName: "togethercomputer/falcon-7b-instruct"},
-				{shortName: "GPT-NeoXT-Chat-Base-20B", fullName: "togethercomputer/GPT-NeoXT-Chat-Base-20B"},
-				{shortName: "llama-2-13b-chat", fullName: "togethercomputer/llama-2-13b-chat"},
-				{shortName: "llama-2-70b-chat", fullName: "togethercomputer/llama-2-70b-chat"},
+				{shortName: "CodeLlama-13b-Instruct-hf", fullName: "codellama/CodeLlama-13b-Instruct-hf"},
+				{shortName: "CodeLlama-13b-Python-hf", fullName: "codellama/CodeLlama-13b-Python-hf"},
+				{shortName: "CodeLlama-34b-Instruct-hf", fullName: "codellama/CodeLlama-34b-Instruct-hf"},
+				{shortName: "CodeLlama-34b-Python-hf", fullName: "codellama/CodeLlama-34b-Python-hf"},
+				{shortName: "CodeLlama-70b-hf", fullName: "codellama/CodeLlama-70b-hf"},
+				{shortName: "CodeLlama-70b-Instruct-hf", fullName: "codellama/CodeLlama-70b-Instruct-hf"},
+				{shortName: "CodeLlama-70b-Python-hf", fullName: "codellama/CodeLlama-70b-Python-hf"},
+				{shortName: "CodeLlama-7b-Instruct-hf", fullName: "codellama/CodeLlama-7b-Instruct-hf"},
+				{shortName: "CodeLlama-7b-Python-hf", fullName: "codellama/CodeLlama-7b-Python-hf"},
+				{shortName: "deepseek-coder-33b-instruct", fullName: "deepseek-ai/deepseek-coder-33b-instruct"},
+				{shortName: "dolphin-2.5-mixtral-8x7b", fullName: "cognitivecomputations/dolphin-2.5-mixtral-8x7b"},
+				{shortName: "gemma-2b-it", fullName: "google/gemma-2b-it"},
+				{shortName: "gemma-7b-it", fullName: "google/gemma-7b-it"},
+				{shortName: "Llama-2-13b-chat-hf", fullName: "meta-llama/Llama-2-13b-chat-hf"},
+				{shortName: "Llama-2-70b-chat-hf", fullName: "meta-llama/Llama-2-70b-chat-hf"},
 				{shortName: "Llama-2-7B-32K-Instruct", fullName: "togethercomputer/Llama-2-7B-32K-Instruct"},
-				{shortName: "llama-2-7b-chat", fullName: "togethercomputer/llama-2-7b-chat"},
+				{shortName: "Llama-2-7b-chat-hf", fullName: "meta-llama/Llama-2-7b-chat-hf"},
 				{shortName: "Mistral-7B-Instruct-v0.1", fullName: "mistralai/Mistral-7B-Instruct-v0.1"},
 				{shortName: "Mistral-7B-Instruct-v0.2", fullName: "mistralai/Mistral-7B-Instruct-v0.2"},
 				{shortName: "Mistral-7B-OpenOrca", fullName: "Open-Orca/Mistral-7B-OpenOrca"},
 				{shortName: "Mixtral-8x7B-Instruct-v0.1", fullName: "mistralai/Mixtral-8x7B-Instruct-v0.1"},
 				{shortName: "MythoMax-L2-13b", fullName: "Gryphe/MythoMax-L2-13b"},
 				{shortName: "Nous-Capybara-7B-V1p9", fullName: "NousResearch/Nous-Capybara-7B-V1p9"},
+				{shortName: "Nous-Hermes-2-Mistral-7B-DPO", fullName: "NousResearch/Nous-Hermes-2-Mistral-7B-DPO"},
 				{shortName: "Nous-Hermes-2-Mixtral-8x7B-DPO", fullName: "NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO"},
 				{shortName: "Nous-Hermes-2-Mixtral-8x7B-SFT", fullName: "NousResearch/Nous-Hermes-2-Mixtral-8x7B-SFT"},
 				{shortName: "Nous-Hermes-2-Yi-34B", fullName: "NousResearch/Nous-Hermes-2-Yi-34B"},
 				{shortName: "Nous-Hermes-llama-2-7b", fullName: "NousResearch/Nous-Hermes-llama-2-7b"},
 				{shortName: "Nous-Hermes-Llama2-13b", fullName: "NousResearch/Nous-Hermes-Llama2-13b"},
-				{shortName: "Nous-Hermes-Llama2-70b", fullName: "NousResearch/Nous-Hermes-Llama2-70b"},
+				{shortName: "OLMo-7B-Instruct", fullName: "allenai/OLMo-7B-Instruct"},
 				{shortName: "openchat-3.5-1210", fullName: "openchat/openchat-3.5-1210"},
 				{shortName: "OpenHermes-2-Mistral-7B", fullName: "teknium/OpenHermes-2-Mistral-7B"},
 				{shortName: "OpenHermes-2p5-Mistral-7B", fullName: "teknium/OpenHermes-2p5-Mistral-7B"},
-				{shortName: "Phind-CodeLlama-34B-Python-v1", fullName: "Phind/Phind-CodeLlama-34B-Python-v1"},
 				{shortName: "Phind-CodeLlama-34B-v2", fullName: "Phind/Phind-CodeLlama-34B-v2"},
 				{shortName: "Platypus2-70B-instruct", fullName: "garage-bAInd/Platypus2-70B-instruct"},
-				{shortName: "Pythia-Chat-Base-7B-v0.16", fullName: "togethercomputer/Pythia-Chat-Base-7B-v0.16"},
-				{shortName: "Qwen-7B-Chat", fullName: "togethercomputer/Qwen-7B-Chat"},
+				{shortName: "Qwen1.5-0.5B-Chat", fullName: "Qwen/Qwen1.5-0.5B-Chat"},
+				{shortName: "Qwen1.5-1.8B-Chat", fullName: "Qwen/Qwen1.5-1.8B-Chat"},
+				{shortName: "Qwen1.5-14B-Chat", fullName: "Qwen/Qwen1.5-14B-Chat"},
+				{shortName: "Qwen1.5-4B-Chat", fullName: "Qwen/Qwen1.5-4B-Chat"},
+				{shortName: "Qwen1.5-72B-Chat", fullName: "Qwen/Qwen1.5-72B-Chat"},
+				{shortName: "Qwen1.5-7B-Chat", fullName: "Qwen/Qwen1.5-7B-Chat"},
 				{shortName: "RedPajama-INCITE-7B-Chat", fullName: "togethercomputer/RedPajama-INCITE-7B-Chat"},
 				{shortName: "RedPajama-INCITE-Chat-3B-v1", fullName: "togethercomputer/RedPajama-INCITE-Chat-3B-v1"},
 				{shortName: "ReMM-SLERP-L2-13B", fullName: "Undi95/ReMM-SLERP-L2-13B"},
 				{shortName: "Snorkel-Mistral-PairRM-DPO", fullName: "snorkelai/Snorkel-Mistral-PairRM-DPO"},
-				{shortName: "SOLAR-0-70b-16bit", fullName: "upstage/SOLAR-0-70b-16bit"},
 				{shortName: "SOLAR-10.7B-Instruct-v1.0", fullName: "upstage/SOLAR-10.7B-Instruct-v1.0"},
 				{shortName: "StripedHyena-Nous-7B", fullName: "togethercomputer/StripedHyena-Nous-7B"},
 				{shortName: "Toppy-M-7B", fullName: "Undi95/Toppy-M-7B"},
-				{shortName: "vicuna-13b-v1.5", fullName: "lmsys/vicuna-13b-v1.5"},
-				{shortName: "vicuna-13b-v1.5-16k", fullName: "lmsys/vicuna-13b-v1.5-16k"},
-				{shortName: "vicuna-7b-v1.5", fullName: "lmsys/vicuna-7b-v1.5"},
 				{shortName: "WizardCoder-15B-V1.0", fullName: "WizardLM/WizardCoder-15B-V1.0"},
 				{shortName: "WizardCoder-Python-34B-V1.0", fullName: "WizardLM/WizardCoder-Python-34B-V1.0"},
 				{shortName: "WizardLM-13B-V1.2", fullName: "WizardLM/WizardLM-13B-V1.2"},
+				{shortName: "vicuna-13b-v1.5", fullName: "lmsys/vicuna-13b-v1.5"},
+				{shortName: "vicuna-7b-v1.5", fullName: "lmsys/vicuna-7b-v1.5"},
 				{shortName: "Yi-34B-Chat", fullName: "zero-one-ai/Yi-34B-Chat"},
 			];
 		}
@@ -261,8 +263,8 @@ export class AiComponent implements OnInit, OnDestroy {
 		if (this.config.gemini) {
 			this.gemini = new GoogleGenerativeAI(this.config.gemini);
 			this.models[Provider.gemini] = [
-				{shortName: "gemini-pro", fullName: "gemini-pro"},
-				{shortName: "gemini-ultra", fullName: "gemini-ultra"},
+				{shortName: "gemini-1.0-pro", fullName: "gemini-1.0-pro"},
+				{shortName: "gemini-1.5-pro-latest", fullName: "gemini-1.5-pro-latest"},
 			];
 		}
 
@@ -314,6 +316,10 @@ export class AiComponent implements OnInit, OnDestroy {
 				provider = pro;
 				break;
 			}
+		}
+		if (!provider) {
+			this.chat.push(new Msg('Please select a available model', Role.System, true));
+			return;
 		}
 
 		this.stream = "Sending prompt ...";

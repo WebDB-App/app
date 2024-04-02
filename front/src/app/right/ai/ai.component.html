@@ -144,8 +144,7 @@
 				<mat-label>Model</mat-label>
 				<mat-select
 					(selectionChange)="configChange()"
-					[(ngModel)]="config.model"
-					disableOptionCentering>
+					[(ngModel)]="config.model">
 					<mat-optgroup
 						*ngFor="let provider of Object.keys(models)"
 						[label]="provider"

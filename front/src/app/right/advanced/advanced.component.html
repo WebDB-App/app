@@ -40,7 +40,7 @@
 			<div class="spaceBetweenCenter">
 				<mat-form-field color="accent">
 					<mat-label>Collation</mat-label>
-					<mat-select #collation [value]="selectedDatabase!.collation" disableOptionCentering>
+					<mat-select #collation [value]="selectedDatabase!.collation">
 						<mat-option *ngFor="let collation of collations"
 									[value]="collation">{{ collation }}
 						</mat-option>
