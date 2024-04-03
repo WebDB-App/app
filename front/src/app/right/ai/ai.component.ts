@@ -185,18 +185,18 @@ export class AiComponent implements OnInit, OnDestroy {
 				apiKey: this.config.openAI,
 				dangerouslyAllowBrowser: true
 			});
-			this.models[Provider.openai] = [
-				{shortName: "gpt-4", fullName: "gpt-4"},
-				{shortName: "gpt-4-32k", fullName: "gpt-4-32k"},
-				{shortName: "gpt-4-32k-0613", fullName: "gpt-4-32k-0613"},
-				{shortName: "gpt-4-0125-preview", fullName: "gpt-4-0125-preview"},
-				{shortName: "gpt-4-turbo-preview", fullName: "gpt-4-turbo-preview"},
-				{shortName: "gpt-4-vision-preview", fullName: "gpt-4-vision-preview"},
-				{shortName: "gpt-3.5-turbo", fullName: "gpt-3.5-turbo"},
-				{shortName: "gpt-3.5-turbo-16k", fullName: "gpt-3.5-turbo-16k"},
-				{shortName: "gpt-3.5-turbo-0125", fullName: "gpt-3.5-turbo-0125"},
-				{shortName: "gpt-3.5-turbo-instruct", fullName: "gpt-3.5-turbo-instruct"},
-			];
+			await new Promise(resolve => {
+				this.models[Provider.openai] = [];
+				this.openai!.models.list().then(models => {
+					models.data.map(model => {
+						if (model.id.startsWith('gpt-')) {
+							this.models[Provider.openai].push({shortName: model.id, fullName: model.id});
+						}
+					});
+					this.models[Provider.openai].sort((a, b) => a.shortName?.toLowerCase().localeCompare(b.shortName?.toLowerCase()));
+					resolve(true);
+				});
+			});
 		}
 
 		if (this.config.together) {

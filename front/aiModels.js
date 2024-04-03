@@ -21,7 +21,8 @@ let models = [
 				"</s>"
 			],
 			"prompt_format": "### Instruction:\n{prompt}\n### Response:\n",
-			"chat_template": "{% for message in messages %}{% if message['role'] == 'user' %}{{ '### Instruction:\n' + message['content'] + '\n' }}{% else %}{{ '### Response:\n' + message['content'] + '\n' }}{% endif %}{% endfor %}{{ '### Response:\n' }}"
+			"chat_template": "{% for message in messages %}{% if message['role'] == 'user' %}{{ '### Instruction:\n' + message['content'] + '\n' }}{% else %}{{ '### Response:\n' + message['content'] + '\n' }}{% endif %}{% endfor %}{{ '### Response:\n' }}",
+			"add_generation_prompt": true
 		},
 		"pricing": {
 			"input": 75,
@@ -32,100 +33,21 @@ let models = [
 		"update_at": "2023-08-24T17:08:25.379Z",
 		"instances": [
 			{
-				"avzone": "us-central-5a",
-				"cluster": "wrigleycub"
+				"avzone": "us-central-1a",
+				"cluster": "sassyseal"
 			}
 		],
 		"access": "",
 		"link": "",
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 2,
-			"num_bids": 0,
-			"num_running": 0,
-			"asks": {
-				"0x28Ae7c37F200EBAD8C237ea6002056700D1D0DB2": 1,
-				"0xa6f750121e302654eA2D4ceC8a3CE30ACf8f0499": 1
-			},
-			"asks_updated": "2024-01-27T11:01:30.82448601Z",
-			"gpus": {
-				"": 0
-			},
-			"qps": 0,
-			"permit_required": false,
-			"price": {
-				"base": 0,
-				"finetune": 0,
-				"hourly": 0,
-				"input": 0,
-				"output": 0
-			},
-			"stats": [
-				{
-					"avzone": "us-central-5a",
-					"cluster": "wrigleycub",
-					"capacity": 0.25,
-					"qps": 0,
-					"throughput_in": 0,
-					"throughput_out": 0,
-					"error_rate": 0,
-					"retry_rate": 0
-				}
-			]
-		}
-	},
-	{
-		"modelInstanceConfig": {
-			"appearsIn": [],
-			"order": 0
-		},
-		"_id": "657632ed6923087ddd5a6609",
-		"name": "DiscoResearch/DiscoLM-mixtral-8x7b-v2",
-		"display_name": "DiscoLM Mixtral 8x7b",
-		"display_type": "chat",
-		"description": "DiscoLM Mixtral 8x7b alpha is an experimental 8x7b MoE model based on Mistral AI's Mixtral 8x7b. ",
-		"license": "apache-2.0",
-		"link": "https://huggingface.co/DiscoResearch/DiscoLM-mixtral-8x7b-v2",
-		"creator_organization": "DiscoResearch",
-		"pricing_tier": "Featured",
-		"access": "open",
-		"num_parameters": "56000000000",
-		"show_in_playground": true,
-		"isFeaturedModel": true,
-		"context_length": 32768,
-		"config": {
-			"stop": [
-				"<|im_end|>",
-				"</s>",
-				"<|im_start|>"
-			],
-			"prompt_format": "<|im_start|>user\n{prompt}<|im_end|>\n<|im_start|>assistant",
-			"chat_template": "{% if not add_generation_prompt is defined %}{% set add_generation_prompt = false %}{% endif %}{% for message in messages %}{{'<|im_start|>' + message['role'] + '\n' + message['content'] + '<|im_end|>' + '\n'}}{% endfor %}{% if add_generation_prompt %}{{ '<|im_start|>assistant\n' }}{% endif %}",
-			"add_generation_prompt": true
-		},
-		"pricing": {
-			"input": 150,
-			"output": 150,
-			"hourly": 0
-		},
-		"created_at": "2023-12-10T21:51:41.865Z",
-		"update_at": "2023-12-10T21:51:41.865Z",
-		"instances": [
-			{
-				"avzone": "us-east-1a",
-				"cluster": "happypiglet"
-			}
-		],
-		"hardware_label": "",
-		"descriptionLink": "",
-		"depth": {
 			"num_asks": 1,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x8Cb311340FC6D910140fF403D8f64644f3e05e37": 1
+				"0x0f658Fa41Aa63e663207210CE292F2bcC1C2EE90": 1
 			},
-			"asks_updated": "2024-01-27T11:44:04.670339021Z",
+			"asks_updated": "2024-04-02T12:56:36.338210958Z",
 			"gpus": {
 				"": 0
 			},
@@ -138,16 +60,16 @@ let models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 0.4666666666666667,
-			"throughput_out": 8.533333333333333,
+			"throughput_in": 115.53333333333333,
+			"throughput_out": 11.2,
 			"stats": [
 				{
-					"avzone": "us-east-1a",
-					"cluster": "happypiglet",
-					"capacity": 0.030303030303030304,
+					"avzone": "us-central-1a",
+					"cluster": "sassyseal",
+					"capacity": 0.057971014492753624,
 					"qps": 0.06666666666666667,
-					"throughput_in": 0.4666666666666667,
-					"throughput_out": 8.533333333333333,
+					"throughput_in": 115.53333333333333,
+					"throughput_out": 11.2,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -159,46 +81,122 @@ let models = [
 			"appearsIn": [],
 			"order": 0
 		},
-		"_id": "6532f0faf94bacfc629b4cf7",
-		"name": "EleutherAI/llemma_7b",
-		"display_name": "Llemma (7B)",
-		"display_type": "language",
-		"description": "Llemma 7B is a language model for mathematics. It was initialized with Code Llama 7B weights, and trained on the Proof-Pile-2 for 200B tokens.",
-		"license": "LLaMA license Agreement (Meta)",
-		"link": "https://huggingface.co/EleutherAI/llemma_7b",
-		"creator_organization": "EleutherAI",
-		"hardware_label": "A100 80GB",
+		"_id": "6560b993b56cf1e0970c9b1a",
+		"name": "BAAI/bge-base-en-v1.5",
+		"display_name": "BAAI-Bge-Base-1p5",
+		"display_type": "embedding",
+		"description": "bge is short for BAAI general embedding, it maps any text to a low-dimensional dense vector using FlagEmbedding",
+		"license": "MIT",
+		"creator_organization": "BAAI",
+		"hardware_label": "A40",
 		"pricing_tier": "Featured",
-		"access": "open",
-		"num_parameters": 6738546688,
+		"num_parameters": 109482240,
+		"release_date": "2023-11-15T00:00:00.000Z",
 		"show_in_playground": true,
 		"isFeaturedModel": true,
-		"context_length": 4096,
-		"config": {
-			"chat_template_name": "llama"
-		},
 		"pricing": {
-			"input": 50,
-			"output": 50,
-			"hourly": 0
+			"hourly": 0,
+			"input": 2,
+			"output": 2,
+			"finetune": 0,
+			"base": 0
 		},
-		"created_at": "2023-10-20T21:28:26.403Z",
-		"update_at": "2023-10-24T17:42:38.630Z",
+		"created_at": "2023-11-24T14:56:19.475Z",
+		"update_at": "2023-12-22T03:26:23.802Z",
 		"instances": [
 			{
-				"avzone": "us-central-5a",
-				"cluster": "testytiger"
+				"avzone": "us-central-1a",
+				"cluster": "sassyseal"
 			}
 		],
+		"access": "",
+		"link": "",
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 1,
+			"num_asks": 4,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x7E787EB9044d3b6D9f2907Dee9a392526074cE36": 1
+				"0x4Aa34b8d92E163D7d7527e17B92Bc83C2F7149a3": 1,
+				"0x8BEE38fD0697C19F06411AaEEea935073005168c": 1,
+				"0x947C7D9118573Ef572bA1DbCC093513AA7768352": 1,
+				"0xe2d9B1fd3EfBA3fEB7cfc84FD5d9c1621dA3dEB9": 1
 			},
-			"asks_updated": "2024-01-27T11:38:52.152415896Z",
+			"asks_updated": "2024-04-02T18:05:41.084992751Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 2.1333333333333333,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"throughput_in": 62.666666666666664,
+			"stats": [
+				{
+					"avzone": "us-central-1a",
+					"cluster": "sassyseal",
+					"capacity": 0.008064516129032258,
+					"qps": 2.1333333333333333,
+					"throughput_in": 62.666666666666664,
+					"throughput_out": 0,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "6560b938b56cf1e0970c9b19",
+		"name": "BAAI/bge-large-en-v1.5",
+		"display_name": "BAAI-Bge-Large-1p5",
+		"display_type": "embedding",
+		"description": "bge is short for BAAI general embedding, it maps any text to a low-dimensional dense vector using FlagEmbedding",
+		"license": "MIT",
+		"creator_organization": "BAAI",
+		"hardware_label": "A40",
+		"pricing_tier": "Featured",
+		"num_parameters": 335141888,
+		"release_date": "2023-11-15T00:00:00.000Z",
+		"show_in_playground": true,
+		"isFeaturedModel": true,
+		"pricing": {
+			"hourly": 0,
+			"input": 4,
+			"output": 4,
+			"finetune": 0,
+			"base": 0
+		},
+		"created_at": "2023-11-24T14:54:48.986Z",
+		"update_at": "2023-12-22T03:27:18.465Z",
+		"instances": [
+			{
+				"avzone": "us-central-1a",
+				"cluster": "sassyseal"
+			}
+		],
+		"access": "",
+		"link": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 4,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0x11Dd70a5f8d95F9Fe5e74f330Ed745256bD9be21": 1,
+				"0x5ED0BA75594E3429628087603D628838bE686ebF": 1,
+				"0xD2a55c4769d98e7Df019A3858FA37036BbbAB5cE": 1,
+				"0xF6122ecAc4D8d96a95E00d6eC8a838f4525D8124": 1
+			},
+			"asks_updated": "2024-04-02T18:18:21.77501029Z",
 			"gpus": {
 				"": 0
 			},
@@ -213,9 +211,9 @@ let models = [
 			},
 			"stats": [
 				{
-					"avzone": "us-central-5a",
-					"cluster": "testytiger",
-					"capacity": 0.125,
+					"avzone": "us-central-1a",
+					"cluster": "sassyseal",
+					"capacity": 0,
 					"qps": 0,
 					"throughput_in": 0,
 					"throughput_out": 0,
@@ -247,6 +245,7 @@ let models = [
 			"stop": [
 				"</s>"
 			],
+			"add_generation_prompt": true,
 			"prompt_format": "### Instruction:\n{prompt}\n### Response:",
 			"chat_template": "{% for message in messages %}{% if message['role'] == 'user' %}{{ '### Instruction:\n' + message['content'] + '\n' }}{% else %}{{ '### Response:\n' + message['content'] + '\n' }}{% endif %}{% endfor %}{{ '### Response:' }}"
 		},
@@ -259,93 +258,54 @@ let models = [
 		"update_at": "2023-09-05T19:58:25.683Z",
 		"instances": [
 			{
-				"avzone": "us-east-2a",
-				"cluster": "jumpyjackal"
-			},
-			{
 				"avzone": "us-central-5a",
 				"cluster": "wrigleycub"
-			},
-			{
-				"avzone": "ap-northeast-1a",
-				"cluster": "optimisticotter"
-			},
-			{
-				"avzone": "us-central-2a",
-				"cluster": "jollyllama"
 			}
 		],
 		"access": "",
 		"link": "",
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 54,
+			"num_asks": 30,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x0026Bed1182260FFb12621A30F1bE3560b37f94a": 1,
-				"0x02e3fd28726382Dd7CFA7901F8332abBd9608e72": 1,
-				"0x08840a241E355626f42bF8546e5E22385C0fC33E": 1,
-				"0x16073c55346E7B5f388db71447fAa206a8dd5CF0": 1,
-				"0x1fbCDFDD3BFe598Aa0dfFD8390a143e6224e9e7B": 1,
-				"0x232363fA4A952f6e29983EeA22A2E39b2e62973d": 1,
-				"0x2927C272a4B7c31Bc2c486eEBc0E5AA86f3CcEfB": 1,
-				"0x2b69983bf96c4332d35ceC93cF97417b60ed5519": 1,
-				"0x313c7B67CCF26A31463cD2338835511b89BEEB49": 1,
-				"0x34211f85cD09c8089712d952C4C0703ba2f16516": 1,
-				"0x3c0F66d55D78b2F8Fd8500FfaEa8e16B8E31249E": 1,
-				"0x4DB7fe5DAA4D6b3285413A218D4e81FCed2687cc": 1,
-				"0x4E2D160C36cA01686D2662499a45020c03110511": 1,
-				"0x51cE21328fBfc572FFA0468A7a8AEBf2A9F6EE45": 1,
-				"0x545f090bE948b4507080B53eF77e9491a3E9025F": 1,
-				"0x56EF47C02F0954906dbcd8D65c7C8a06C58c4419": 1,
-				"0x58c3617651aD71D1B23B8576245f87dBCb3Dc763": 1,
-				"0x59FF0c2F988B3C8Caea1e29f9fC0163eDC659F5d": 1,
-				"0x5b1e5643738c23CbaBe03A9c14eA739761e35377": 1,
-				"0x5d7397f120985dfE675F4D7b9c6900e977Eb551D": 1,
-				"0x625E8490121D7DB081d8Fa66cFA4cC6D018F704c": 1,
-				"0x672ed7D4Ae7C5F60b6E887b88536672252Ee14F9": 1,
-				"0x729BA8932D2fC1e526673A1A6F2F0EcAA6fb9838": 1,
-				"0x739A4B6fCdba1d99949B30760dA954D71048f625": 1,
-				"0x745cee17E9c5f374F6CEE542C254b5DE4fFb5334": 1,
-				"0x77b617b3fa0294E651afbc9c51bf632dEbeeFdAc": 1,
-				"0x78095EF0524aef7951806a98416C57443d018048": 1,
-				"0x807E363FB66192d34CD0Fa9f9A55ABF7f068c309": 1,
-				"0x8aF3B8985d835A0e24377c8367e2ad8Eec37A7DA": 1,
-				"0x8b65BE0c475018478c4FE25798E03834B8588B3A": 1,
-				"0x8e5403C413DE5226A6c0A2250A4ccafF957c4398": 1,
-				"0x98fcf78348Aa1DCEbF11232E9d7c9aaD3d8bDb9E": 1,
-				"0x9B42dEC0DFb20Ea1fC19365C2e88E8173f442664": 1,
-				"0xB005FD1B9A5Ccb8B545700f0E776a51Ad31E2bd2": 1,
-				"0xBbCF26bD7da46d84C7c963a9F4c11ba7B4022863": 1,
-				"0xC3Cc2c0Fe69270b33bb7Bc6Dba6faB01958874c6": 1,
-				"0xC9faCfb16dfBe1064b52cD18FaB73F6159948d41": 1,
-				"0xD894Fe61Ebc57d62A4Cf607e39df7079CE06A7ad": 1,
-				"0xD90ce2565dAD34FBc059C87A67a0E29676D7f43b": 1,
-				"0xE03A304c415f8A872610B9A2d8459AFcA1a1102a": 1,
-				"0xE0Fe9Bcc24DcCFFC76d697Af5717505c6967eD07": 1,
-				"0xE310c12F2fe6ba16D613c643475BE8453f144908": 1,
-				"0xF4DA53ae91f4cc347148C9b9CFee3cEa288bDE63": 1,
-				"0xF56A18817e97C899B7F6d5E0A862A786BBF4b69B": 1,
-				"0xF91C0798699FF00CC0FA5A58C06a1C742543f88f": 1,
-				"0xa9669c717f1Fa1405CEe2E36cd877240D759Cfcb": 1,
-				"0xb38cD5cb8f0C610fD72c1AE6a5C55459e6417F3c": 1,
-				"0xb4FF4A51d003705aA8123023D0a45755726a3dA5": 1,
-				"0xb625A364F7c5ad5C413Ee99fD5BcC552E3a5bE45": 1,
-				"0xbb6aC7d85De74b85DfD07cf52d2C3b2068f2814D": 1,
-				"0xcc1cBb1A210aA8ba96243D0747cA5Eb760E534e3": 1,
-				"0xd2c27EC8435041F6AB28714D42C94E9F232f02eb": 1,
-				"0xe991f9163009Cbd793a80cB9E51D8F4811902418": 1,
-				"0xf24A7BA151F83b95fF082cB5367898f7c2b09AdE": 1,
-				"0xf5508486edAa90e9461eD80d91bd9237e1150192": 1,
-				"0xfAafA4dac8a51b70EB992a7E79348a605C88CA06": 1,
-				"0xfe94132fa325EC5f970749E9D179e38717209f80": 1
+				"0x007fAfa7e8774c40929B946474B0de5288eC6C41": 1,
+				"0x01E146E05F2a2cD82b78a6EB8BA3AD6e9d1fC249": 1,
+				"0x037DBdcEDb5C34a4fcB41Ab8AaD56b5815bE02DE": 1,
+				"0x05a4E02cc4748e92338DCE88e22D81374fD300C9": 1,
+				"0x17957d0c98323Cec3B42BA4a5C0503C5B7114317": 1,
+				"0x1C28d22406B7acff59f57120DcF98685fed4E6d1": 1,
+				"0x2Da6d7d2f5810221C572Dea0A4C56D117913ba60": 1,
+				"0x2F84CaD2c29FAf002787cBc27A7749871dB843F5": 1,
+				"0x50CA731E79882f073e0550c7B4177EF21A20226b": 1,
+				"0x705CE19b5A6BfA9739Ce9160B1DCcaD9c83D9D7e": 1,
+				"0x7101FDCAa53c7E8fF969F4A5Bab72311A9f1a1cf": 1,
+				"0x7986A72CA1d6dE9bD9b1e0ec349a13c92678193b": 1,
+				"0x80Ec6D391649f097c1af115be95f5e67EDD4C86E": 1,
+				"0x80c2a4602548641b57f48504Ac182e13b2895b87": 1,
+				"0x844EE8641055BDc3A4D448782E0B2e582688cF7c": 1,
+				"0x866abAD0f44b6C608DF925b864d73D0b0eCb6FAb": 1,
+				"0x8993bDAC643F3500a20c0DdA18af1f6535840aF6": 1,
+				"0x8ef1AD0c945EDD56CE215c751c4d59BE6e7Ba8E5": 1,
+				"0x997E24eEc58bD8faaF25331dd9Bcfef9ef94B416": 1,
+				"0x9C10b5fe06098EE4475c055A598b03D8AE228B1B": 1,
+				"0x9D76E8FD91d1Ccf7B19e1AbE10144f2721eA5E8F": 1,
+				"0xA059d967aFA12e9B85eC2ABF7930D09aefe789E8": 1,
+				"0xA5CEf1fA8Dd68B4A185CD38903B0CDfFA343182a": 1,
+				"0xA5De493e5FC052EB73126c793d73888a72Ba7BeC": 1,
+				"0xC28d7EF7781A76ba9486E0e1C143CacF2A88d2C5": 1,
+				"0xD613d94dd0aE5d761eDc0f27c8d01F52439B4036": 1,
+				"0xDdCE17cdd6dd4E4bc56F86517cCc4f71E5F0794D": 1,
+				"0xaf9Db30c926d4e48c1314452Ed7C83b05B4a071b": 1,
+				"0xb6F4896c742DdC850AE9f0070B66F1F4608fe397": 1,
+				"0xd2D502b3e57cA8D2E99B807FbE1930f9eE6F44d0": 1
 			},
-			"asks_updated": "2024-01-28T11:42:13.731417182Z",
+			"asks_updated": "2024-04-02T16:31:59.704674573Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 55.06666666666666,
+			"qps": 54.2,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -354,49 +314,18 @@ let models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 44740.8,
-			"throughput_out": 7551.2,
-			"retry_rate": 0.9333333333333333,
+			"throughput_in": 53424.933333333334,
+			"throughput_out": 5308.066666666667,
 			"stats": [
-				{
-					"avzone": "us-east-2a",
-					"cluster": "jumpyjackal",
-					"capacity": 0.48811881188118805,
-					"qps": 14.666666666666666,
-					"throughput_in": 12063.133333333333,
-					"throughput_out": 1834.5333333333333,
-					"error_rate": 0,
-					"retry_rate": 0
-				},
 				{
 					"avzone": "us-central-5a",
 					"cluster": "wrigleycub",
-					"capacity": 0.15511811023622038,
-					"qps": 13.133333333333333,
-					"throughput_in": 11092.8,
-					"throughput_out": 1942.2666666666667,
+					"capacity": 0.14734463276836243,
+					"qps": 54.2,
+					"throughput_in": 53424.933333333334,
+					"throughput_out": 5308.066666666667,
 					"error_rate": 0,
-					"retry_rate": 0.3333333333333333
-				},
-				{
-					"avzone": "ap-northeast-1a",
-					"cluster": "optimisticotter",
-					"capacity": 0.5697157622739009,
-					"qps": 13,
-					"throughput_in": 10396.6,
-					"throughput_out": 1788.2,
-					"error_rate": 0,
-					"retry_rate": 0.26666666666666666
-				},
-				{
-					"avzone": "us-central-2a",
-					"cluster": "jollyllama",
-					"capacity": 0.250242685947647,
-					"qps": 14.266666666666667,
-					"throughput_in": 11188.266666666666,
-					"throughput_out": 1986.2,
-					"error_rate": 0,
-					"retry_rate": 0.3333333333333333
+					"retry_rate": 0
 				}
 			]
 		}
@@ -409,6 +338,7 @@ let models = [
 		"_id": "6573540efe9a5c79871809ce",
 		"name": "Meta-Llama/Llama-Guard-7b",
 		"display_name": "Llama Guard (7B)",
+		"display_type": "moderation",
 		"description": "Llama Guard: LLM-based Input-Output Safeguard for Human-AI Conversations",
 		"license": "LLaMA license Agreement (Meta)",
 		"link": "https://huggingface.co/meta-llama/LlamaGuard-7b",
@@ -417,6 +347,7 @@ let models = [
 		"access": "open",
 		"show_in_playground": true,
 		"isFeaturedModel": true,
+		"context_length": 4096,
 		"config": {
 			"chat_template": "{{ '[INST] Task: Check if there is unsafe content in \\'' }}{% if messages[messages.length-1]['role'] == 'user' %}{{ 'User' }}{% else %}{{ 'Agent' }}{% endif %}{{ '\\' messages in conversations according our safety policy with the below categories.\n\n<BEGIN UNSAFE CONTENT CATEGORIES>\nO1: Violence and Hate. \nShould not\n - Help people plan or engage in violence.\n - Encourage people to engage in violence.\n - Express hateful, derogatory, or demeaning sentiments against people based on sensitive personal characteristics like their race, color, religion, national origin, sexual orientation, gender, gender identity, or disability.\n - Encourage discrimination against people based on those characteristics and should not use slurs or create insults based on those characteristics.\nCan\n - Provide information on violence and discrimination.\n - Discuss the topics of hate and violence, and can discuss historical events involving violence.\nO2: Sexual Content. \nShould not\n - Engage in sexually explicit (i.e., erotic) conversations and should not encourage people to engage in sexual activities.\nCan\n - Discuss topics related to sexuality and sexual education.\n - Provide general information regarding sexual activities.\n - Provide guidance on topics related to sexual health.\nO3: Criminal Planning. \nShould not\n - Help people plan or engage in criminal activities like theft, kidnapping, or financial crimes, especially when the person indicates that they may act on the information provided to them.\n - Encourage people to engage in criminal activities or condone criminal behavior.\nCan\n - Help people understand how crimes are committed, provided that the response is not so detailed that it could be used to provide a roadmap for future crimes.\n - Help people understand how systems work that are used to prevent crimes, provided those descriptions do not provide detailed information on how to defeat those systems.\nO4: Guns and Illegal Weapons. \nShould not\n - Assist in the planning or execution of firearm or illegal weapons crimes, especially when the person indicates that they may act on the information provided to them.\n - Encourage people to engage in firearm or illegal weapons crimes or condone such behavior.\nCan\n - Discuss firearms and the arguments for and against firearm ownership.\nO5: Regulated or Controlled Substances. \nShould not\n - Encourage or assist people in the trafficking, consumption, or use of regulated or controlled substances, including but not limited to illegal drugs, tobacco, alcohol, and cannabis.\n - Assist or encourage people to create such substances when it is illegal to do so.\nCan\n - Discuss the use of regulated or controlled substances, and can provide general information on those substances (ex: what their chemical composition is and what their effects are).\n - Provide information on how those substances are manufactured, provided that the information is not so detailed as to provide step-by-step instructions for their creation.\nO6: Self-Harm. \nShould not\n - Encourage people to harm themselves.\n - Romanticize or condone self-harm or suicide.\n - Provide information regarding the methods of suicide or self-harm.\n - Provide any information or advice, other than information regarding appropriate health resources, to people who express or imply that they wish to harm themselves.\nCan\n - Provide general information regarding self-harm and suicide (ex: statistics, the mental health challenges faced by those who take these actions).\nShould\n - Provide information regarding appropriate health resources to people who imply or express the desire to harm themselves.\n<END UNSAFE CONTENT CATEGORIES>\n\n<BEGIN CONVERSATION>\n\n' }}{% for message in messages %}{% if message['role'] == 'user' %}{{ 'User: ' + message['content'] + '\n\n' }}{% else %}{{ 'Agent: ' + message['content'] + '\n\n' }}{% endif %}{% endfor %}{{ '<END CONVERSATION>\n\nProvide your safety assessment for '}}{% if messages[messages.length-1]['role'] == 'user' %}{{ 'User' }}{% else %}{{ 'Agent' }}{% endif %}{{' in the above conversation:\n - First line must read \\'safe\\' or \\'unsafe\\'.\n - If unsafe, a second line must include a comma-separated list of violated categories. [/INST]' }}",
 			"safety_label": "safe",
@@ -441,25 +372,39 @@ let models = [
 		"update_at": "2024-01-18T17:03:16.859Z",
 		"instances": [
 			{
+				"avzone": "us-central-5a",
+				"cluster": "wrigleycub"
+			},
+			{
 				"avzone": "ap-northeast-1a",
 				"cluster": "optimisticotter"
+			},
+			{
+				"avzone": "us-central-1a",
+				"cluster": "sassyseal"
+			},
+			{
+				"avzone": "us-east-2a",
+				"cluster": "jumpyjackal"
 			}
 		],
 		"hardware_label": "",
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 2,
+			"num_asks": 1,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x1Df913A55fB33624b5E9661ED65E94DC5Ea08E6D": 1,
-				"0xA232661Ea91ccb7FF243119024F2A5B283b272ff": 1
+				"0x4Af456F8E15A15082e24E434Ad794ad9387C7169": 1,
+				"0x4F9A71F9A43da13e9f8Fd4d8E074F472C680008b": 1,
+				"0x4ceB37C5700106874aA40B8DA6b7349Ab7627643": 1,
+				"0xdE2a07701eB6c152C61391E4EA95eeBaAB754f41": 1
 			},
-			"asks_updated": "2024-01-28T07:19:13.76022617Z",
+			"asks_updated": "2024-04-02T15:08:07.675614526Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.2,
+			"qps": 7.866666666666667,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -468,16 +413,46 @@ let models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 81.8,
-			"throughput_out": 8.8,
+			"throughput_in": 6423.4,
+			"throughput_out": 19.46666666666667,
 			"stats": [
+				{
+					"avzone": "us-central-5a",
+					"cluster": "wrigleycub",
+					"capacity": 0.05953757225433535,
+					"qps": 2.066666666666667,
+					"throughput_in": 1829.3333333333333,
+					"throughput_out": 4.733333333333333,
+					"error_rate": 0,
+					"retry_rate": 0
+				},
 				{
 					"avzone": "ap-northeast-1a",
 					"cluster": "optimisticotter",
-					"capacity": 0.17635467980295588,
-					"qps": 0.2,
-					"throughput_in": 81.8,
-					"throughput_out": 8.8,
+					"capacity": 0.06462585034013608,
+					"qps": 1.8,
+					"throughput_in": 1279.3333333333333,
+					"throughput_out": 4.8,
+					"error_rate": 0,
+					"retry_rate": 0
+				},
+				{
+					"avzone": "us-central-1a",
+					"cluster": "sassyseal",
+					"capacity": 0.10072314049586785,
+					"qps": 1.8,
+					"throughput_in": 1474,
+					"throughput_out": 4,
+					"error_rate": 0,
+					"retry_rate": 0
+				},
+				{
+					"avzone": "us-east-2a",
+					"cluster": "jumpyjackal",
+					"capacity": 0.07085484796328159,
+					"qps": 2.2,
+					"throughput_in": 1840.7333333333333,
+					"throughput_out": 5.933333333333334,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -519,13 +494,18 @@ let models = [
 		],
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 1,
+			"num_asks": 6,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x80DD495D00fEE432d8B60066f93FD20500DF9C93": 1
+				"0x2c2F88B28b60242EDbe1d9Ed184a9B8C7842a866": 1,
+				"0x95D0e0fCf53343D6d13DDfE00dD9732D374b20AA": 1,
+				"0xA8434Ee2fA80025eb1827d2e185ACFb2b4021A51": 1,
+				"0xB40284781e7B23E4557C588FeEFcEa86755e1cd7": 1,
+				"0xE55822B5482FeE8B805Ad51F47f973270c8AEDe5": 1,
+				"0xf0be349Ca23748Cc48D7E21FF4F3E02f8cd23D8d": 1
 			},
-			"asks_updated": "2024-01-28T08:42:55.788255685Z",
+			"asks_updated": "2024-04-02T15:32:22.898756336Z",
 			"gpus": {
 				"": 0
 			},
@@ -542,7 +522,7 @@ let models = [
 				{
 					"avzone": "ap-northeast-1a",
 					"cluster": "optimisticotter",
-					"capacity": 0,
+					"capacity": 1,
 					"qps": 0,
 					"throughput_in": 0,
 					"throughput_out": 0,
@@ -570,13 +550,15 @@ let models = [
 		"release_date": "2023-11-15T00:00:00.000Z",
 		"show_in_playground": true,
 		"isFeaturedModel": true,
+		"context_length": 8192,
 		"config": {
+			"add_generation_prompt": true,
 			"stop": [
 				"USER:",
 				"ASSISTANT:"
 			],
 			"prompt_format": "USER:\n{prompt}\nASSISTANT:",
-			"pre_prompt": ""
+			"chat_template": "{% for message in messages %}{% if message['role'] == 'user' %} {{ 'USER:\n' + message['content'] + '\n' }}{% elif message['role'] == 'system' %}{{ 'SYSTEM:\n' + message['content'] + '\n' }}{% elif message['role'] == 'assistant' %}{{ 'ASSISTANT:\n' + message['content'] + '\n'  }}{% endif %}{% if loop.last %}{{ 'ASSISTANT:\n' }}{% endif %}{% endfor %}"
 		},
 		"pricing": {
 			"input": 50,
@@ -594,26 +576,19 @@ let models = [
 		"link": "",
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 14,
-			"num_bids": 10,
-			"num_running": 10,
+			"num_asks": 3,
+			"num_bids": 0,
+			"num_running": 0,
 			"asks": {
-				"0x0b4Ba87cA9b5FD677574f39a0552B316b10F0Cee": 1,
-				"0x3812808EF729628F2A066D8d2096f47865a2F586": 4,
-				"0x6837Cd8A797B53B9f92ca92C37169D77C571BAA1": 1,
-				"0x6C669109E61B568a1196A7d5A0b0BDD77F8fA664": 1,
-				"0x9b5eea36146ceD560DF92679B810e3A691d332dB": 1,
-				"0xA3d760FEb1951734e9c24c967C2fcc0Ac47adEC4": 1,
-				"0xD7F589C032FE87f70a1c7efCBBAFf4D4bB8e33Be": 2,
-				"0xDE188C285C393e238ACDef1d6DBB3557041AD8f3": 1,
-				"0xeCecDe213d10a1Fbbe489DA4ba4Bd825C9dE70eD": 1,
-				"0xeb8B2072208d0555066Dbd668D32b723daa9bd62": 1
+				"0x1613C26d79fE5b247a531FD393F088f01dC62615": 1,
+				"0x7b766F5f5047BEDaCdE8cf05Fb670f380F055b23": 1,
+				"0xAe3dBc2d8295C1D69dd50CCE9646E79A3D603Ac9": 1
 			},
-			"asks_updated": "2024-01-28T11:41:26.194878312Z",
+			"asks_updated": "2024-04-02T18:11:02.112380798Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.8,
+			"qps": 1,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -622,16 +597,94 @@ let models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 1525.4666666666667,
-			"throughput_out": 117.66666666666667,
+			"throughput_in": 791.7333333333333,
+			"throughput_out": 46.8,
 			"stats": [
 				{
 					"avzone": "us-central-1a",
 					"cluster": "sassyseal",
-					"capacity": 0.4184397163120568,
-					"qps": 0.8,
-					"throughput_in": 1525.4666666666667,
-					"throughput_out": 117.66666666666667,
+					"capacity": 0.492063492063492,
+					"qps": 1,
+					"throughput_in": 791.7333333333333,
+					"throughput_out": 46.8,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65d542a20af4aafc88716626",
+		"name": "NousResearch/Nous-Hermes-2-Mistral-7B-DPO",
+		"display_name": "Nous Hermes 2 - Mistral DPO (7B)",
+		"display_type": "chat",
+		"description": "Nous Hermes 2 on Mistral 7B DPO is the new flagship 7B Hermes! This model was DPO'd from Teknium/OpenHermes-2.5-Mistral-7B and has improved across the board on all benchmarks tested - AGIEval, BigBench Reasoning, GPT4All, and TruthfulQA.",
+		"license": "apache-2.0",
+		"link": "https://huggingface.co/NousResearch/Nous-Hermes-2-Mistral-7B-DPO",
+		"creator_organization": "NousResearch",
+		"pricing_tier": "Featured",
+		"num_parameters": 7000000000,
+		"show_in_playground": true,
+		"isFeaturedModel": true,
+		"context_length": 32768,
+		"config": {
+			"prompt_format": "<|im_start|>user\n{prompt}<|im_end|>\n<|im_start|>assistant\n",
+			"stop": [
+				"<|im_end|>"
+			],
+			"chat_template": "{% for message in messages %}{{'<|im_start|>' + message['role'] + '\n' + message['content'] + '<|im_end|>' + '\n'}}{% endfor %}{% if add_generation_prompt %}{{ '<|im_start|>assistant\n' }}{% endif %}",
+			"add_generation_prompt": true
+		},
+		"pricing": {
+			"input": 50,
+			"output": 50,
+			"hourly": 0
+		},
+		"created_at": "2024-02-21T00:24:02.387Z",
+		"update_at": "2024-02-21T00:24:02.387Z",
+		"instances": [
+			{
+				"avzone": "us-east-1a",
+				"cluster": "happypiglet"
+			}
+		],
+		"isPrivate": false,
+		"access_control": [],
+		"access": "",
+		"hardware_label": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 1,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0x0cA4F7dfcaD32c5aA57d7F82D8bEC06586De166f": 1
+			},
+			"asks_updated": "2024-04-02T13:44:19.504856306Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"stats": [
+				{
+					"avzone": "us-east-1a",
+					"cluster": "happypiglet",
+					"capacity": 0.047619047619047616,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -655,6 +708,7 @@ let models = [
 		"access": "open",
 		"num_parameters": "56000000000",
 		"show_in_playground": true,
+		"finetuning_supported": true,
 		"isFeaturedModel": true,
 		"context_length": 32768,
 		"config": {
@@ -673,6 +727,7 @@ let models = [
 		},
 		"created_at": "2024-01-15T04:20:40.079Z",
 		"update_at": "2024-01-15T04:20:40.079Z",
+		"autopilot_pool": "cr-a100-80-2x",
 		"instances": [
 			{
 				"avzone": "us-central-5a",
@@ -682,19 +737,17 @@ let models = [
 		"hardware_label": "",
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 3,
+			"num_asks": 1,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x32b741eFa5c7dEF7f448A1002cF8DcEB1C1149De": 1,
-				"0x70563b6C4Bb757519f75460EdA995bD10FA4Caa1": 1,
-				"0xbba1A54574E347a8788CAE187dE170674895bB6d": 1
+				"0x378500e4443da929DcD0bc73444262E72868Dbf1": 1
 			},
-			"asks_updated": "2024-01-27T16:48:38.858022334Z",
+			"asks_updated": "2024-04-02T14:04:18.313072427Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.6666666666666666,
+			"qps": 1.8666666666666667,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -703,16 +756,16 @@ let models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 568.8666666666667,
-			"throughput_out": 63.333333333333336,
+			"throughput_in": 4983.8,
+			"throughput_out": 632.2,
 			"stats": [
 				{
 					"avzone": "us-central-5a",
 					"cluster": "wrigleycub",
-					"capacity": 0.06628787878787878,
-					"qps": 0.6666666666666666,
-					"throughput_in": 568.8666666666667,
-					"throughput_out": 63.333333333333336,
+					"capacity": 5.733660130718953,
+					"qps": 1.8666666666666667,
+					"throughput_in": 4983.8,
+					"throughput_out": 632.2,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -736,6 +789,7 @@ let models = [
 		"access": "open",
 		"num_parameters": "56000000000",
 		"show_in_playground": true,
+		"finetuning_supported": true,
 		"isFeaturedModel": true,
 		"context_length": 32768,
 		"config": {
@@ -754,6 +808,7 @@ let models = [
 		},
 		"created_at": "2024-01-14T20:39:10.060Z",
 		"update_at": "2024-01-14T20:39:10.060Z",
+		"autopilot_pool": "cr-a100-80-2x",
 		"instances": [
 			{
 				"avzone": "us-central-5a",
@@ -767,14 +822,14 @@ let models = [
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x20672bd9B0918a94ece9254cA9659f21e457b65b": 1,
-				"0xAe49Cd900CF7DdF1830EcF188c455e0cD658C0EC": 1
+				"0x417F2d5eb7362a6eC7f7C6FE86F5120704778cB3": 1,
+				"0xb778DEF6bCd5bFB652350c210396e2ffD15a7267": 1
 			},
-			"asks_updated": "2024-01-28T11:16:06.302124148Z",
+			"asks_updated": "2024-04-02T16:00:05.365387885Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 3.1333333333333333,
+			"qps": 2.2666666666666666,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -783,16 +838,16 @@ let models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 3624.3333333333335,
-			"throughput_out": 285.26666666666665,
+			"throughput_in": 4837.533333333334,
+			"throughput_out": 340.73333333333335,
 			"stats": [
 				{
 					"avzone": "us-central-5a",
 					"cluster": "wrigleycub",
-					"capacity": 0.46111719605695534,
-					"qps": 3.1333333333333333,
-					"throughput_in": 3624.3333333333335,
-					"throughput_out": 285.26666666666665,
+					"capacity": 0.3280839895013124,
+					"qps": 2.2666666666666666,
+					"throughput_in": 4837.533333333334,
+					"throughput_out": 340.73333333333335,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -817,6 +872,7 @@ let models = [
 		"release_date": "2023-12-27T20:48:45.586Z",
 		"show_in_playground": true,
 		"isFeaturedModel": true,
+		"context_length": 4096,
 		"config": {
 			"stop": [
 				"<|im_start|>",
@@ -846,13 +902,13 @@ let models = [
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x90462E9dF5B4D30aF311cF945680b9bF811b8D7f": 1
+				"0x3d48091C1D0e1cD663dD0D06a6536785524EEe13": 1
 			},
-			"asks_updated": "2024-01-27T17:17:48.248099526Z",
+			"asks_updated": "2024-04-02T15:17:28.513092857Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.06666666666666667,
+			"qps": 0.6666666666666666,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -861,17 +917,18 @@ let models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 0.4,
-			"throughput_out": 8.533333333333333,
+			"throughput_in": 1293.7333333333333,
+			"throughput_out": 65.06666666666666,
+			"error_rate": 0.13333333333333333,
 			"stats": [
 				{
 					"avzone": "ap-northeast-1a",
 					"cluster": "optimisticotter",
-					"capacity": 0.018518518518518517,
-					"qps": 0.06666666666666667,
-					"throughput_in": 0.4,
-					"throughput_out": 8.533333333333333,
-					"error_rate": 0,
+					"capacity": 0.06284565108094517,
+					"qps": 0.6666666666666666,
+					"throughput_in": 1293.7333333333333,
+					"throughput_out": 65.06666666666666,
+					"error_rate": 0.13333333333333333,
 					"retry_rate": 0
 				}
 			]
@@ -903,7 +960,8 @@ let models = [
 				"</s>"
 			],
 			"chat_template_name": "llama",
-			"chat_template": "{% for message in messages %}{% if message['role'] == 'user' %}{{ '### Instruction:\n' + message['content'] + '\n' }}{% else %}{{ '### Response:\n' + message['content'] + '\n' }}{% endif %}{% endfor %}{{ '### Response:\n' }}"
+			"chat_template": "{% for message in messages %}{% if message['role'] == 'user' %}{{ '### Instruction:\n' + message['content'] + '\n' }}{% else %}{{ '### Response:\n' + message['content'] + '\n' }}{% endif %}{% endfor %}{{ '### Response:\n' }}",
+			"add_generation_prompt": true
 		},
 		"pricing": {
 			"input": 75,
@@ -921,100 +979,18 @@ let models = [
 		"link": "",
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 4,
-			"num_bids": 0,
-			"num_running": 0,
-			"asks": {
-				"0x7D5B340D56c131104a0f7Bb698CFC9f342710c49": 1,
-				"0x9C1f53616ac2775A4C9faB53d1ee4e01F506Ab7d": 1,
-				"0xE521C2c2030b68E8352654F888648A54Ab9f9774": 1,
-				"0xb8dA7dfEbdc552588a25fE10e7F1C2A879967A9f": 1
-			},
-			"asks_updated": "2024-01-28T03:09:36.097909339Z",
-			"gpus": {
-				"": 0
-			},
-			"qps": 1.1333333333333333,
-			"permit_required": false,
-			"price": {
-				"base": 0,
-				"finetune": 0,
-				"hourly": 0,
-				"input": 0,
-				"output": 0
-			},
-			"throughput_in": 1526.2,
-			"throughput_out": 89.6,
-			"stats": [
-				{
-					"avzone": "us-central-1a",
-					"cluster": "sassyseal",
-					"capacity": 0.11515151515151506,
-					"qps": 1.1333333333333333,
-					"throughput_in": 1526.2,
-					"throughput_out": 89.6,
-					"error_rate": 0,
-					"retry_rate": 0
-				}
-			]
-		}
-	},
-	{
-		"modelInstanceConfig": {
-			"appearsIn": [],
-			"order": 0
-		},
-		"_id": "6532f0faf94bacfc629b4cf8",
-		"name": "NousResearch/Nous-Hermes-Llama2-70b",
-		"display_name": "Nous Hermes LLaMA-2 (70B)",
-		"display_type": "chat",
-		"description": "Nous-Hermes-Llama2-70b is a state-of-the-art language model fine-tuned on over 300,000 instructions.",
-		"license": "LLaMA license Agreement (Meta)",
-		"link": "https://huggingface.co/NousResearch/Nous-Hermes-Llama2-70b",
-		"creator_organization": "NousResearch",
-		"hardware_label": "2X A100 80GB",
-		"pricing_tier": "Featured",
-		"access": "open",
-		"num_parameters": 70000000000,
-		"show_in_playground": true,
-		"isFeaturedModel": false,
-		"context_length": 4096,
-		"config": {
-			"stop": [
-				"###",
-				"</s>"
-			],
-			"prompt_format": "### Instruction:\n{prompt}\n\n### Response:\n",
-			"chat_template_name": "llama",
-			"chat_template": "{% for message in messages %}{% if message['role'] == 'user' %}{{ '### Instruction:\n' + message['content'] + '\n' }}{% else %}{{ '### Response:\n' + message['content'] + '\n' }}{% endif %}{% endfor %}{{ '### Response:\n' }}"
-		},
-		"pricing": {
-			"input": 225,
-			"output": 225,
-			"hourly": 0
-		},
-		"created_at": "2023-10-20T21:28:26.404Z",
-		"update_at": "2023-10-24T17:43:39.278Z",
-		"instances": [
-			{
-				"avzone": "us-east-2a",
-				"cluster": "jumpyjackal"
-			}
-		],
-		"descriptionLink": "",
-		"depth": {
 			"num_asks": 2,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x897A39009678200dE6DA2B9aF46e902E4E206123": 1,
-				"0xA8d55Bf4cc0947e687C58F5abB5e39598CBB3B39": 1
+				"0x1d36141B0644De01125A68BDCa14700E724A3Fc8": 1,
+				"0x54828Ca91264975A7A76f0232AA14f93cd82bD9b": 1
 			},
-			"asks_updated": "2024-01-28T04:30:51.977920209Z",
+			"asks_updated": "2024-04-02T18:22:39.224618013Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0,
+			"qps": 1.4,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -1023,14 +999,16 @@ let models = [
 				"input": 0,
 				"output": 0
 			},
+			"throughput_in": 1743.2666666666667,
+			"throughput_out": 63.13333333333333,
 			"stats": [
 				{
-					"avzone": "us-east-2a",
-					"cluster": "jumpyjackal",
-					"capacity": 0.07692307692307693,
-					"qps": 0,
-					"throughput_in": 0,
-					"throughput_out": 0,
+					"avzone": "us-central-1a",
+					"cluster": "sassyseal",
+					"capacity": 0.3849431818181818,
+					"qps": 1.4,
+					"throughput_in": 1743.2666666666667,
+					"throughput_out": 63.13333333333333,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -1063,6 +1041,7 @@ let models = [
 				"###",
 				"</s>"
 			],
+			"add_generation_prompt": true,
 			"chat_template_name": "llama",
 			"chat_template": "{% for message in messages %}{% if message['role'] == 'user' %}{{ '### Instruction:\n' + message['content'] + '\n' }}{% else %}{{ '### Response:\n' + message['content'] + '\n' }}{% endif %}{% endfor %}{{ '### Response:\n' }}"
 		},
@@ -1085,9 +1064,9 @@ let models = [
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x3A0fc817f649b611714a1EbF02fBA1286D603D96": 1
+				"0xf3AbD7152646995C204D8Bee0699AC58653De524": 1
 			},
-			"asks_updated": "2024-01-27T10:15:52.209524402Z",
+			"asks_updated": "2024-04-02T14:47:44.347157097Z",
 			"gpus": {
 				"": 0
 			},
@@ -1104,81 +1083,10 @@ let models = [
 				{
 					"avzone": "us-east-2a",
 					"cluster": "jumpyjackal",
-					"capacity": 0.0078125,
+					"capacity": 0.06666666666666667,
 					"qps": 0,
 					"throughput_in": 0,
 					"throughput_out": 0,
-					"error_rate": 0,
-					"retry_rate": 0
-				}
-			]
-		}
-	},
-	{
-		"modelInstanceConfig": {
-			"appearsIn": [],
-			"order": 0
-		},
-		"_id": "65ac4e5e75846d9d3ae5b836",
-		"name": "NumbersStation/nsql-llama-2-7B",
-		"display_name": "NSQL LLaMA-2 (7B)",
-		"description": "NSQL is a family of autoregressive open-source large foundation models (FMs) designed specifically for SQL generation tasks",
-		"link": "https://huggingface.co/NumbersStation/nsql-llama-2-7B",
-		"creator_organization": "Numbers Station",
-		"hardware_label": "A100",
-		"pricing_tier": "Featured",
-		"num_parameters": 7000000000,
-		"release_date": "2024-01-20T22:51:10.492Z",
-		"show_in_playground": true,
-		"isFeaturedModel": true,
-		"pricing": {
-			"hourly": 0,
-			"input": 50,
-			"output": 50,
-			"finetune": 0,
-			"base": 0
-		},
-		"created_at": "2024-01-20T22:51:10.492Z",
-		"update_at": "2024-01-20T22:59:48.333Z",
-		"instances": [
-			{
-				"avzone": "us-central-1a",
-				"cluster": "sassyseal"
-			}
-		],
-		"access": "",
-		"license": "",
-		"descriptionLink": "",
-		"depth": {
-			"num_asks": 1,
-			"num_bids": 0,
-			"num_running": 0,
-			"asks": {
-				"0x786A1F3875B78ED1807719814F43B8F4C7302e6a": 1
-			},
-			"asks_updated": "2024-01-27T09:20:00.296093392Z",
-			"gpus": {
-				"": 0
-			},
-			"qps": 0.13333333333333333,
-			"permit_required": false,
-			"price": {
-				"base": 0,
-				"finetune": 0,
-				"hourly": 0,
-				"input": 0,
-				"output": 0
-			},
-			"throughput_in": 1.8,
-			"throughput_out": 9.866666666666667,
-			"stats": [
-				{
-					"avzone": "us-central-1a",
-					"cluster": "sassyseal",
-					"capacity": 0.045454545454545456,
-					"qps": 0.13333333333333333,
-					"throughput_in": 1.8,
-					"throughput_out": 9.866666666666667,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -1224,10 +1132,6 @@ let models = [
 			{
 				"avzone": "us-east-2a",
 				"cluster": "jumpyjackal"
-			},
-			{
-				"avzone": "us-central-1a",
-				"cluster": "sassyseal"
 			}
 		],
 		"descriptionLink": "",
@@ -1236,98 +1140,9 @@ let models = [
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x764612b874fA44815c872f8A6C4EAbE0414011be": 1
+				"0x874820d287Cd06793436c45BE197A1cCC907eAF5": 1
 			},
-			"asks_updated": "2024-01-28T11:42:15.431615483Z",
-			"gpus": {
-				"": 0
-			},
-			"qps": 0.06666666666666667,
-			"permit_required": false,
-			"price": {
-				"base": 0,
-				"finetune": 0,
-				"hourly": 0,
-				"input": 0,
-				"output": 0
-			},
-			"throughput_in": 0.4666666666666667,
-			"throughput_out": 8.533333333333333,
-			"stats": [
-				{
-					"avzone": "us-east-2a",
-					"cluster": "jumpyjackal",
-					"capacity": 0,
-					"qps": 0,
-					"throughput_in": 0,
-					"throughput_out": 0,
-					"error_rate": 0,
-					"retry_rate": 0
-				},
-				{
-					"avzone": "us-central-1a",
-					"cluster": "sassyseal",
-					"capacity": 0.1111111111111111,
-					"qps": 0.06666666666666667,
-					"throughput_in": 0.4666666666666667,
-					"throughput_out": 8.533333333333333,
-					"error_rate": 0,
-					"retry_rate": 0
-				}
-			]
-		}
-	},
-	{
-		"modelInstanceConfig": {
-			"appearsIn": [],
-			"order": 0
-		},
-		"_id": "64fbbc5adfdb1e4b06b5d5cc",
-		"name": "Phind/Phind-CodeLlama-34B-Python-v1",
-		"display_name": "Phind Code LLaMA Python v1 (34B)",
-		"display_type": "code",
-		"description": "This model is fine-tuned from CodeLlama-34B-Python and achieves 69.5% pass@1 on HumanEval.",
-		"license": "llama2",
-		"creator_organization": "Phind",
-		"hardware_label": "A100 80GB",
-		"pricing_tier": "supported",
-		"access": "open",
-		"num_parameters": 33743970304,
-		"show_in_playground": true,
-		"isFeaturedModel": true,
-		"context_length": 16384,
-		"config": {
-			"prompt_format": "### Instruction:\n{prompt}\n### Response:\n",
-			"stop": [
-				"</s>",
-				"###"
-			],
-			"chat_template": "{% for message in messages %}{% if message['role'] == 'user' %}{{ '### Instruction:\n' + message['content'] + '\n' }}{% else %}{{ '### Response:\n' + message['content'] + '\n' }}{% endif %}{% endfor %}{{ '### Response:\n' }}"
-		},
-		"pricing": {
-			"input": 200,
-			"output": 200,
-			"hourly": 0
-		},
-		"created_at": "2023-09-09T00:29:14.496Z",
-		"update_at": "2023-09-09T00:29:14.496Z",
-		"instances": [
-			{
-				"avzone": "us-east-2a",
-				"cluster": "jumpyjackal"
-			}
-		],
-		"link": "",
-		"descriptionLink": "",
-		"depth": {
-			"num_asks": 2,
-			"num_bids": 0,
-			"num_running": 0,
-			"asks": {
-				"0x053b963a4B9675640f6c2303e022085352304300": 1,
-				"0x1A6E16Ebf00e4ebf8413D7B63C4BD5De9b9aE69f": 1
-			},
-			"asks_updated": "2024-01-28T11:02:15.237703765Z",
+			"asks_updated": "2024-04-02T12:21:57.627149051Z",
 			"gpus": {
 				"": 0
 			},
@@ -1344,7 +1159,7 @@ let models = [
 				{
 					"avzone": "us-east-2a",
 					"cluster": "jumpyjackal",
-					"capacity": 0.05263157894736842,
+					"capacity": 0.1111111111111111,
 					"qps": 0,
 					"throughput_in": 0,
 					"throughput_out": 0,
@@ -1389,22 +1204,101 @@ let models = [
 		"update_at": "2023-09-09T00:29:14.496Z",
 		"instances": [
 			{
-				"avzone": "us-east-2a",
-				"cluster": "jumpyjackal"
+				"avzone": "us-central-5a",
+				"cluster": "testytiger"
 			}
 		],
 		"link": "",
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 3,
+			"num_asks": 1,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x23096d3C0409D83Eb50a686C4B6564C484e79874": 1,
-				"0x7da823447CBFd3aDb9BE36f7EcE31af9EEF43fEb": 1,
-				"0xDD82Bf96cc9A353e2fb926468D4549203eec5410": 1
+				"0xA24D97f7BD0B9EcEE97Bd7c76007EaE0994d335D": 1
 			},
-			"asks_updated": "2024-01-28T04:30:58.037196494Z",
+			"asks_updated": "2024-04-02T14:31:57.89598892Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0.06666666666666667,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"throughput_in": 0.6,
+			"throughput_out": 0.9333333333333333,
+			"stats": [
+				{
+					"avzone": "us-central-5a",
+					"cluster": "testytiger",
+					"capacity": 0.058823529411764705,
+					"qps": 0.06666666666666667,
+					"throughput_in": 0.6,
+					"throughput_out": 0.9333333333333333,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65c0c81b4975e79f24d98b50",
+		"name": "Qwen/Qwen1.5-0.5B-Chat",
+		"display_name": "Qwen 1.5 Chat (0.5B)",
+		"display_type": "chat",
+		"description": "Qwen1.5 is the beta version of Qwen2, a transformer-based decoder-only language model pretrained on a large amount of data. In comparison with the previous released Qwen.",
+		"license": "tongyi-qianwen-research",
+		"link": "https://huggingface.co/Qwen/Qwen1.5-0.5B-Chat",
+		"creator_organization": "Qwen",
+		"pricing_tier": "Featured",
+		"num_parameters": 500000000,
+		"show_in_playground": true,
+		"isFeaturedModel": true,
+		"context_length": 32768,
+		"config": {
+			"prompt_format": "<|im_start|>user\n{prompt}<|im_end|>\n<|im_start|>assistant\n",
+			"stop": [
+				"<|im_end|>",
+				"<|im_start|>"
+			],
+			"chat_template": "{% for message in messages %}{% if loop.first and messages[0]['role'] != 'system' %}{{ '<|im_start|>system\nYou are a helpful assistant<|im_end|>\n' }}{% endif %}{{'<|im_start|>' + message['role'] + '\n' + message['content']}}{% if (loop.last and add_generation_prompt) or not loop.last %}{{ '<|im_end|>' + '\n'}}{% endif %}{% endfor %}{% if add_generation_prompt and messages[-1]['role'] != 'assistant' %}{{ '<|im_start|>assistant\n' }}{% endif %}",
+			"add_generation_prompt": true
+		},
+		"pricing": {
+			"input": 25,
+			"output": 25,
+			"hourly": 0
+		},
+		"created_at": "2024-02-05T11:35:55.571Z",
+		"update_at": "2024-02-05T11:35:55.571Z",
+		"instances": [
+			{
+				"avzone": "us-east-2a",
+				"cluster": "jumpyjackal"
+			}
+		],
+		"isPrivate": false,
+		"access_control": [],
+		"access": "",
+		"hardware_label": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 1,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0x69d786B0E491C02c3053287F7FD4aa684A0f86B9": 1
+			},
+			"asks_updated": "2024-04-02T12:23:24.014205133Z",
 			"gpus": {
 				"": 0
 			},
@@ -1421,7 +1315,840 @@ let models = [
 				{
 					"avzone": "us-east-2a",
 					"cluster": "jumpyjackal",
-					"capacity": 0.05263157894736842,
+					"capacity": 0.07142857142857142,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65c0c8164975e79f24d98b4f",
+		"name": "Qwen/Qwen1.5-0.5B",
+		"display_name": "Qwen 1.5 (0.5B)",
+		"display_type": "language",
+		"description": "Qwen1.5 is the beta version of Qwen2, a transformer-based decoder-only language model pretrained on a large amount of data. In comparison with the previous released Qwen.",
+		"license": "tongyi-qianwen-research",
+		"link": "https://huggingface.co/Qwen/Qwen1.5-0.5B-Chat",
+		"creator_organization": "Qwen",
+		"pricing_tier": "Featured",
+		"num_parameters": 500000000,
+		"show_in_playground": true,
+		"isFeaturedModel": true,
+		"context_length": 32768,
+		"config": {},
+		"pricing": {
+			"input": 25,
+			"output": 25,
+			"hourly": 0
+		},
+		"created_at": "2024-02-05T11:35:50.032Z",
+		"update_at": "2024-02-05T11:35:50.032Z",
+		"instances": [
+			{
+				"avzone": "us-east-2a",
+				"cluster": "jumpyjackal"
+			}
+		],
+		"isPrivate": false,
+		"access_control": [],
+		"access": "",
+		"hardware_label": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 1,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0xa01d67F2450E0e7ACBfb7dc8B1a0A3205C5C8310": 1
+			},
+			"asks_updated": "2024-04-02T12:36:54.171074954Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"stats": [
+				{
+					"avzone": "us-east-2a",
+					"cluster": "jumpyjackal",
+					"capacity": 0.07142857142857142,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65c0c8284975e79f24d98b52",
+		"name": "Qwen/Qwen1.5-1.8B-Chat",
+		"display_name": "Qwen 1.5 Chat (1.8B)",
+		"display_type": "chat",
+		"description": "Qwen1.5 is the beta version of Qwen2, a transformer-based decoder-only language model pretrained on a large amount of data. In comparison with the previous released Qwen.",
+		"license": "tongyi-qianwen-research",
+		"link": "https://huggingface.co/Qwen/Qwen1.5-1.8B-Chat",
+		"creator_organization": "Qwen",
+		"pricing_tier": "Featured",
+		"num_parameters": 1800000000,
+		"show_in_playground": true,
+		"isFeaturedModel": true,
+		"context_length": 32768,
+		"config": {
+			"prompt_format": "<|im_start|>user\n{prompt}<|im_end|>\n<|im_start|>assistant\n",
+			"stop": [
+				"<|im_end|>",
+				"<|im_start|>"
+			],
+			"chat_template": "{% for message in messages %}{% if loop.first and messages[0]['role'] != 'system' %}{{ '<|im_start|>system\nYou are a helpful assistant<|im_end|>\n' }}{% endif %}{{'<|im_start|>' + message['role'] + '\n' + message['content']}}{% if (loop.last and add_generation_prompt) or not loop.last %}{{ '<|im_end|>' + '\n'}}{% endif %}{% endfor %}{% if add_generation_prompt and messages[-1]['role'] != 'assistant' %}{{ '<|im_start|>assistant\n' }}{% endif %}",
+			"add_generation_prompt": true
+		},
+		"pricing": {
+			"input": 25,
+			"output": 25,
+			"hourly": 0
+		},
+		"created_at": "2024-02-05T11:36:08.609Z",
+		"update_at": "2024-02-05T11:36:08.609Z",
+		"instances": [
+			{
+				"avzone": "us-east-2a",
+				"cluster": "jumpyjackal"
+			}
+		],
+		"isPrivate": false,
+		"access_control": [],
+		"access": "",
+		"hardware_label": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 1,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0x666Bd30bAD3Ce832d6382156ad94a3913855b4E8": 1
+			},
+			"asks_updated": "2024-04-02T14:13:07.861722495Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"stats": [
+				{
+					"avzone": "us-east-2a",
+					"cluster": "jumpyjackal",
+					"capacity": 0.16666666666666666,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65c0c8214975e79f24d98b51",
+		"name": "Qwen/Qwen1.5-1.8B",
+		"display_name": "Qwen 1.5 (1.8B)",
+		"display_type": "language",
+		"description": "Qwen1.5 is the beta version of Qwen2, a transformer-based decoder-only language model pretrained on a large amount of data. In comparison with the previous released Qwen.",
+		"license": "tongyi-qianwen-research",
+		"link": "https://huggingface.co/Qwen/Qwen1.5-1.8B",
+		"creator_organization": "Qwen",
+		"pricing_tier": "Featured",
+		"num_parameters": 1800000000,
+		"show_in_playground": true,
+		"isFeaturedModel": true,
+		"context_length": 32768,
+		"config": {},
+		"pricing": {
+			"input": 25,
+			"output": 25,
+			"hourly": 0
+		},
+		"created_at": "2024-02-05T11:36:01.895Z",
+		"update_at": "2024-02-05T11:36:01.895Z",
+		"instances": [
+			{
+				"avzone": "us-east-2a",
+				"cluster": "jumpyjackal"
+			}
+		],
+		"isPrivate": false,
+		"access_control": [],
+		"access": "",
+		"hardware_label": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 1,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0xE1E3e79fC7e677c1Bdb8E6f6B6dde0B5d78C2ABc": 1
+			},
+			"asks_updated": "2024-04-02T12:38:34.86947934Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"stats": [
+				{
+					"avzone": "us-east-2a",
+					"cluster": "jumpyjackal",
+					"capacity": 0.16666666666666666,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65c0c84d4975e79f24d98b58",
+		"name": "Qwen/Qwen1.5-14B-Chat",
+		"display_name": "Qwen 1.5 Chat (14B)",
+		"display_type": "chat",
+		"description": "Qwen1.5 is the beta version of Qwen2, a transformer-based decoder-only language model pretrained on a large amount of data. In comparison with the previous released Qwen.",
+		"license": "tongyi-qianwen-research",
+		"link": "https://huggingface.co/Qwen/Qwen1.5-14B-Chat",
+		"creator_organization": "Qwen",
+		"pricing_tier": "Featured",
+		"num_parameters": 14000000000,
+		"show_in_playground": true,
+		"isFeaturedModel": true,
+		"context_length": 32768,
+		"config": {
+			"prompt_format": "<|im_start|>user\n{prompt}<|im_end|>\n<|im_start|>assistant\n",
+			"stop": [
+				"<|im_end|>",
+				"<|im_start|>"
+			],
+			"chat_template": "{% for message in messages %}{% if loop.first and messages[0]['role'] != 'system' %}{{ '<|im_start|>system\nYou are a helpful assistant<|im_end|>\n' }}{% endif %}{{'<|im_start|>' + message['role'] + '\n' + message['content']}}{% if (loop.last and add_generation_prompt) or not loop.last %}{{ '<|im_end|>' + '\n'}}{% endif %}{% endfor %}{% if add_generation_prompt and messages[-1]['role'] != 'assistant' %}{{ '<|im_start|>assistant\n' }}{% endif %}",
+			"add_generation_prompt": true
+		},
+		"pricing": {
+			"input": 75,
+			"output": 75,
+			"hourly": 0
+		},
+		"created_at": "2024-02-05T11:36:45.529Z",
+		"update_at": "2024-02-05T11:36:45.529Z",
+		"instances": [
+			{
+				"avzone": "us-east-1a",
+				"cluster": "happypiglet"
+			}
+		],
+		"isPrivate": false,
+		"access_control": [],
+		"access": "",
+		"hardware_label": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 4,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0x242393e66Ad5628f4ddd765Dc21e68d66B8a54B4": 1,
+				"0x67D5C313C5E687869241f4Ec6062156F762195Fe": 1,
+				"0xc6b00730c5eB02194258B45d3D0ADE4f1B734051": 1,
+				"0xfa92D4c7FB33471570dCE8CA9D24733F1a69354d": 1
+			},
+			"asks_updated": "2024-04-02T15:01:59.100310968Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0.06666666666666667,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"throughput_in": 3,
+			"throughput_out": 20,
+			"stats": [
+				{
+					"avzone": "us-east-1a",
+					"cluster": "happypiglet",
+					"capacity": 0,
+					"qps": 0.06666666666666667,
+					"throughput_in": 3,
+					"throughput_out": 20,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65c0c8474975e79f24d98b57",
+		"name": "Qwen/Qwen1.5-14B",
+		"display_name": "Qwen 1.5 (14B)",
+		"display_type": "language",
+		"description": "Qwen1.5 is the beta version of Qwen2, a transformer-based decoder-only language model pretrained on a large amount of data. In comparison with the previous released Qwen.",
+		"license": "tongyi-qianwen-research",
+		"link": "https://huggingface.co/Qwen/Qwen1.5-14B",
+		"creator_organization": "Qwen",
+		"pricing_tier": "Featured",
+		"num_parameters": 14000000000,
+		"show_in_playground": true,
+		"isFeaturedModel": true,
+		"context_length": 32768,
+		"config": {},
+		"pricing": {
+			"input": 75,
+			"output": 75,
+			"hourly": 0
+		},
+		"created_at": "2024-02-05T11:36:39.431Z",
+		"update_at": "2024-02-05T11:36:39.431Z",
+		"instances": [
+			{
+				"avzone": "us-east-1a",
+				"cluster": "happypiglet"
+			}
+		],
+		"isPrivate": false,
+		"access_control": [],
+		"access": "",
+		"hardware_label": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 1,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0x5d966cD75402B4D939B7c8c0fd43F61bc361D97C": 1
+			},
+			"asks_updated": "2024-04-02T15:30:47.228130522Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"stats": [
+				{
+					"avzone": "us-east-1a",
+					"cluster": "happypiglet",
+					"capacity": 0.2,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65c0c8344975e79f24d98b54",
+		"name": "Qwen/Qwen1.5-4B-Chat",
+		"display_name": "Qwen 1.5 Chat (4B)",
+		"display_type": "chat",
+		"description": "Qwen1.5 is the beta version of Qwen2, a transformer-based decoder-only language model pretrained on a large amount of data. In comparison with the previous released Qwen.",
+		"license": "tongyi-qianwen-research",
+		"link": "https://huggingface.co/Qwen/Qwen1.5-4B-Chat",
+		"creator_organization": "Qwen",
+		"pricing_tier": "Featured",
+		"num_parameters": 4000000000,
+		"show_in_playground": true,
+		"isFeaturedModel": true,
+		"context_length": 32768,
+		"config": {
+			"prompt_format": "<|im_start|>user\n{prompt}<|im_end|>\n<|im_start|>assistant\n",
+			"stop": [
+				"<|im_end|>",
+				"<|im_start|>"
+			],
+			"chat_template": "{% for message in messages %}{% if loop.first and messages[0]['role'] != 'system' %}{{ '<|im_start|>system\nYou are a helpful assistant<|im_end|>\n' }}{% endif %}{{'<|im_start|>' + message['role'] + '\n' + message['content']}}{% if (loop.last and add_generation_prompt) or not loop.last %}{{ '<|im_end|>' + '\n'}}{% endif %}{% endfor %}{% if add_generation_prompt and messages[-1]['role'] != 'assistant' %}{{ '<|im_start|>assistant\n' }}{% endif %}",
+			"add_generation_prompt": true
+		},
+		"pricing": {
+			"input": 25,
+			"output": 25,
+			"hourly": 0
+		},
+		"created_at": "2024-02-05T11:36:20.314Z",
+		"update_at": "2024-02-05T11:36:20.314Z",
+		"instances": [
+			{
+				"avzone": "us-east-1a",
+				"cluster": "happypiglet"
+			}
+		],
+		"isPrivate": false,
+		"access_control": [],
+		"access": "",
+		"hardware_label": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 1,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0xf3A11b6ED83186A97071F40a2da52a10058e55F8": 1
+			},
+			"asks_updated": "2024-04-02T13:00:41.929964917Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"stats": [
+				{
+					"avzone": "us-east-1a",
+					"cluster": "happypiglet",
+					"capacity": 0.16666666666666666,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65c0c82e4975e79f24d98b53",
+		"name": "Qwen/Qwen1.5-4B",
+		"display_name": "Qwen 1.5 (4B)",
+		"display_type": "language",
+		"description": "Qwen1.5 is the beta version of Qwen2, a transformer-based decoder-only language model pretrained on a large amount of data. In comparison with the previous released Qwen.",
+		"license": "tongyi-qianwen-research",
+		"link": "https://huggingface.co/Qwen/Qwen1.5-4B",
+		"creator_organization": "Qwen",
+		"pricing_tier": "Featured",
+		"num_parameters": 4000000000,
+		"show_in_playground": true,
+		"isFeaturedModel": true,
+		"context_length": 32768,
+		"config": {},
+		"pricing": {
+			"input": 25,
+			"output": 25,
+			"hourly": 0
+		},
+		"created_at": "2024-02-05T11:36:14.800Z",
+		"update_at": "2024-02-05T11:36:14.800Z",
+		"instances": [
+			{
+				"avzone": "us-east-1a",
+				"cluster": "happypiglet"
+			}
+		],
+		"isPrivate": false,
+		"access_control": [],
+		"access": "",
+		"hardware_label": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 1,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0xA35444E5703269F80006F8D524f51DEdb2365dA7": 1
+			},
+			"asks_updated": "2024-04-02T12:10:36.85231512Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"stats": [
+				{
+					"avzone": "us-east-1a",
+					"cluster": "happypiglet",
+					"capacity": 0.16666666666666666,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65c0c85a4975e79f24d98b5a",
+		"name": "Qwen/Qwen1.5-72B-Chat",
+		"display_name": "Qwen 1.5 Chat (72B)",
+		"display_type": "chat",
+		"description": "Qwen1.5 is the beta version of Qwen2, a transformer-based decoder-only language model pretrained on a large amount of data. In comparison with the previous released Qwen.",
+		"license": "tongyi-qianwen-research",
+		"link": "https://huggingface.co/Qwen/Qwen1.5-72B-Chat",
+		"creator_organization": "Qwen",
+		"pricing_tier": "Featured",
+		"num_parameters": 72000000000,
+		"show_in_playground": true,
+		"isFeaturedModel": true,
+		"context_length": 4096,
+		"config": {
+			"prompt_format": "<|im_start|>user\n{prompt}<|im_end|>\n<|im_start|>assistant\n",
+			"stop": [
+				"<|im_end|>",
+				"<|im_start|>"
+			],
+			"chat_template": "{% for message in messages %}{% if loop.first and messages[0]['role'] != 'system' %}{{ '<|im_start|>system\nYou are a helpful assistant<|im_end|>\n' }}{% endif %}{{'<|im_start|>' + message['role'] + '\n' + message['content']}}{% if (loop.last and add_generation_prompt) or not loop.last %}{{ '<|im_end|>' + '\n'}}{% endif %}{% endfor %}{% if add_generation_prompt and messages[-1]['role'] != 'assistant' %}{{ '<|im_start|>assistant\n' }}{% endif %}",
+			"add_generation_prompt": true
+		},
+		"pricing": {
+			"input": 225,
+			"output": 225,
+			"hourly": 0
+		},
+		"created_at": "2024-02-05T11:36:58.193Z",
+		"update_at": "2024-02-05T11:36:58.193Z",
+		"instances": [
+			{
+				"avzone": "us-central-5b",
+				"cluster": "blusterybull"
+			}
+		],
+		"isPrivate": false,
+		"access_control": [],
+		"access": "",
+		"hardware_label": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 2,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0x4A4ab476c2e32c3642227EC6cA742b766B6C09A7": 1,
+				"0x8EbD3b735A7fbC715543a61bF2242718b8c72543": 1
+			},
+			"asks_updated": "2024-04-02T16:26:26.536535588Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0.6666666666666666,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"throughput_in": 427.73333333333335,
+			"throughput_out": 78.93333333333334,
+			"stats": [
+				{
+					"avzone": "us-central-5b",
+					"cluster": "blusterybull",
+					"capacity": 0.12374513419381276,
+					"qps": 0.6666666666666666,
+					"throughput_in": 427.73333333333335,
+					"throughput_out": 78.93333333333334,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65c0c8544975e79f24d98b59",
+		"name": "Qwen/Qwen1.5-72B",
+		"display_name": "Qwen 1.5 (72B)",
+		"display_type": "language",
+		"description": "Qwen1.5 is the beta version of Qwen2, a transformer-based decoder-only language model pretrained on a large amount of data. In comparison with the previous released Qwen.",
+		"license": "tongyi-qianwen-research",
+		"link": "https://huggingface.co/Qwen/Qwen1.5-72B",
+		"creator_organization": "Qwen",
+		"pricing_tier": "Featured",
+		"num_parameters": 72000000000,
+		"show_in_playground": true,
+		"isFeaturedModel": true,
+		"context_length": 4096,
+		"config": {},
+		"pricing": {
+			"input": 225,
+			"output": 225,
+			"hourly": 0
+		},
+		"created_at": "2024-02-05T11:36:52.008Z",
+		"update_at": "2024-02-05T11:36:52.008Z",
+		"instances": [
+			{
+				"avzone": "us-east-1a",
+				"cluster": "happypiglet"
+			}
+		],
+		"isPrivate": false,
+		"access_control": [],
+		"access": "",
+		"hardware_label": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 1,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0x37A5f0f9744F5bC79Da7908E1b70C10502C4b4cf": 1
+			},
+			"asks_updated": "2024-04-02T15:23:00.69817386Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0.06666666666666667,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"throughput_in": 198.2,
+			"throughput_out": 2.8,
+			"stats": [
+				{
+					"avzone": "us-east-1a",
+					"cluster": "happypiglet",
+					"capacity": 0.3333333333333333,
+					"qps": 0.06666666666666667,
+					"throughput_in": 198.2,
+					"throughput_out": 2.8,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65c0c8404975e79f24d98b56",
+		"name": "Qwen/Qwen1.5-7B-Chat",
+		"display_name": "Qwen 1.5 Chat (7B)",
+		"display_type": "chat",
+		"description": "Qwen1.5 is the beta version of Qwen2, a transformer-based decoder-only language model pretrained on a large amount of data. In comparison with the previous released Qwen.",
+		"license": "tongyi-qianwen-research",
+		"link": "https://huggingface.co/Qwen/Qwen1.5-7B-Chat",
+		"creator_organization": "Qwen",
+		"pricing_tier": "Featured",
+		"num_parameters": 7000000000,
+		"show_in_playground": true,
+		"isFeaturedModel": true,
+		"context_length": 32768,
+		"config": {
+			"prompt_format": "<|im_start|>user\n{prompt}<|im_end|>\n<|im_start|>assistant\n",
+			"stop": [
+				"<|im_end|>",
+				"<|im_start|>"
+			],
+			"chat_template": "{% for message in messages %}{% if loop.first and messages[0]['role'] != 'system' %}{{ '<|im_start|>system\nYou are a helpful assistant<|im_end|>\n' }}{% endif %}{{'<|im_start|>' + message['role'] + '\n' + message['content']}}{% if (loop.last and add_generation_prompt) or not loop.last %}{{ '<|im_end|>' + '\n'}}{% endif %}{% endfor %}{% if add_generation_prompt and messages[-1]['role'] != 'assistant' %}{{ '<|im_start|>assistant\n' }}{% endif %}",
+			"add_generation_prompt": true
+		},
+		"pricing": {
+			"input": 50,
+			"output": 50,
+			"hourly": 0
+		},
+		"created_at": "2024-02-05T11:36:32.804Z",
+		"update_at": "2024-02-05T11:36:32.804Z",
+		"instances": [
+			{
+				"avzone": "us-east-1a",
+				"cluster": "happypiglet"
+			}
+		],
+		"isPrivate": false,
+		"access_control": [],
+		"access": "",
+		"hardware_label": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 1,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0x150c32dfda47938ec1273Fa267aF64E0A941EFa3": 1
+			},
+			"asks_updated": "2024-04-02T14:08:38.495092782Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0.4666666666666667,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"throughput_in": 420.6666666666667,
+			"throughput_out": 182.33333333333334,
+			"stats": [
+				{
+					"avzone": "us-east-1a",
+					"cluster": "happypiglet",
+					"capacity": 0.27575757575757576,
+					"qps": 0.4666666666666667,
+					"throughput_in": 420.6666666666667,
+					"throughput_out": 182.33333333333334,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65c0c83a4975e79f24d98b55",
+		"name": "Qwen/Qwen1.5-7B",
+		"display_name": "Qwen 1.5 (7B)",
+		"display_type": "language",
+		"description": "Qwen1.5 is the beta version of Qwen2, a transformer-based decoder-only language model pretrained on a large amount of data. In comparison with the previous released Qwen.",
+		"license": "tongyi-qianwen-research",
+		"link": "https://huggingface.co/Qwen/Qwen1.5-7B",
+		"creator_organization": "Qwen",
+		"pricing_tier": "Featured",
+		"num_parameters": 7000000000,
+		"show_in_playground": true,
+		"isFeaturedModel": true,
+		"context_length": 32768,
+		"config": {},
+		"pricing": {
+			"input": 50,
+			"output": 50,
+			"hourly": 0
+		},
+		"created_at": "2024-02-05T11:36:26.420Z",
+		"update_at": "2024-02-05T11:36:26.420Z",
+		"instances": [
+			{
+				"avzone": "us-east-1a",
+				"cluster": "happypiglet"
+			}
+		],
+		"isPrivate": false,
+		"access_control": [],
+		"access": "",
+		"hardware_label": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 1,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0x2ccdcdEf417d5d6D2EeD95dF48f1fcc8Ec1085b2": 1
+			},
+			"asks_updated": "2024-04-02T12:59:03.390771709Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"stats": [
+				{
+					"avzone": "us-east-1a",
+					"cluster": "happypiglet",
+					"capacity": 0.1,
 					"qps": 0,
 					"throughput_in": 0,
 					"throughput_out": 0,
@@ -1474,14 +2201,14 @@ let models = [
 			"asks": {
 				"0x1E128f472069E38aEF6B8f25147B42EF81f0F3C0": 1
 			},
-			"asks_updated": "2024-01-27T19:32:09.830790175Z",
+			"asks_updated": "2024-04-02T14:28:47.421088575Z",
 			"gpus": {
 				"NVIDIA A40": 1
 			},
 			"options": {
 				"input=text,image": 1
 			},
-			"qps": 0.016473085,
+			"qps": 0.026274638,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -1490,7 +2217,7 @@ let models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 0.3294617
+			"throughput_in": 0.41143304
 		}
 	},
 	{
@@ -1506,7 +2233,6 @@ let models = [
 		"license": "LLaMA license Agreement (Meta)",
 		"link": "https://huggingface.co/Undi95/ReMM-SLERP-L2-13B",
 		"creator_organization": "Undi95",
-		"hardware_label": "A100 80GB",
 		"pricing_tier": "Featured",
 		"access": "open",
 		"num_parameters": 13000000000,
@@ -1514,11 +2240,13 @@ let models = [
 		"isFeaturedModel": false,
 		"context_length": 4096,
 		"config": {
+			"prompt_format": "[INST]\n {prompt} \n[/INST]\n\n",
 			"stop": [
-				"###"
+				"[INST]",
+				"\n\n"
 			],
-			"prompt_format": "### Instruction:\n{prompt}\n\n### Response:",
-			"chat_template": "{% for message in messages %}{% if message['role'] == 'user' %}{{ '### Instruction:\n' + message['content'] + '\n\n' }}{% else %}{{ '### Response:\n' + message['content'] + '\n\n' }}{% endif %}{% endfor %}{{ '### Response:' }}"
+			"chat_template_name": "llama",
+			"add_generation_prompt": true
 		},
 		"pricing": {
 			"input": 75,
@@ -1533,15 +2261,16 @@ let models = [
 				"cluster": "jumpyjackal"
 			}
 		],
+		"hardware_label": "",
 		"descriptionLink": "",
 		"depth": {
 			"num_asks": 1,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x98FC7Ae285bd96dA3A1fCD068F114BBb6C1698Cf": 1
+				"0x07c96Eeb1Bb52ae6FB40543f6188912775F35d52": 1
 			},
-			"asks_updated": "2024-01-27T12:00:29.097770657Z",
+			"asks_updated": "2024-04-02T14:04:24.415848353Z",
 			"gpus": {
 				"": 0
 			},
@@ -1581,7 +2310,6 @@ let models = [
 		"license": "LLaMA license Agreement (Meta)",
 		"link": "https://huggingface.co/Undi95/Toppy-M-7B",
 		"creator_organization": "Undi95",
-		"hardware_label": "A100 80GB",
 		"pricing_tier": "Featured",
 		"access": "open",
 		"num_parameters": 7241748480,
@@ -1593,7 +2321,8 @@ let models = [
 				"###"
 			],
 			"prompt_format": "### Instruction:\n{prompt}\n\n### Response:",
-			"chat_template": "{% for message in messages %}{% if message['role'] == 'user' %}{{ '### Instruction:\n' + message['content'] + '\n\n' }}{% else %}{{ '### Response:\n' + message['content'] + '\n\n' }}{% endif %}{% endfor %}{{ '### Response:' }}"
+			"chat_template": "{% for message in messages %}{% if message['role'] == 'user' %}{{ '### Instruction:\n' + message['content'] + '\n\n' }}{% else %}{{ '### Response:\n' + message['content'] + '\n\n' }}{% endif %}{% endfor %}{{ '### Response:' }}",
+			"add_generation_prompt": true
 		},
 		"pricing": {
 			"input": 50,
@@ -1602,25 +2331,25 @@ let models = [
 		},
 		"created_at": "2023-11-21T20:15:40.468Z",
 		"update_at": "2023-11-21T20:15:40.468Z",
-		"instances": [
-			{
-				"avzone": "us-east-2a",
-				"cluster": "jumpyjackal"
-			}
-		],
+		"instances": {
+			"avzone": "us-east-1a",
+			"cluster": "happypiglet"
+		},
+		"hardware_label": "",
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 1,
-			"num_bids": 0,
-			"num_running": 0,
+			"num_asks": 6,
+			"num_bids": 4,
+			"num_running": 4,
 			"asks": {
-				"0xa916df84D25D2421a3DEea5Ca652C1e5d47979A0": 1
+				"0x2fc2e9B51CC4840069a12cFbce35d50D7893d9C6": 2,
+				"0x2fcEFb4087c0D6d62F9c61C491F15e4b46e88948": 4
 			},
-			"asks_updated": "2024-01-28T10:04:25.093318113Z",
+			"asks_updated": "2024-04-02T15:00:51.149151927Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0,
+			"qps": 1.234467,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -1629,13 +2358,77 @@ let models = [
 				"input": 0,
 				"output": 0
 			},
+			"throughput_in": 10714.055,
+			"throughput_out": 871.9389
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "658504fde7e2e898e81b5400",
+		"name": "WhereIsAI/UAE-Large-V1",
+		"display_name": "UAE-Large-V1",
+		"display_type": "embedding",
+		"description": "A universal English sentence embedding WhereIsAI/UAE-Large-V1 achieves SOTA on the MTEB Leaderboard with an average score of 64.64!",
+		"license": "apache-2.0",
+		"link": "https://huggingface.co/bert-base-uncased",
+		"creator_organization": "WhereIsAI",
+		"pricing_tier": "Featured",
+		"access": "open",
+		"num_parameters": 330000000,
+		"show_in_playground": true,
+		"isFeaturedModel": true,
+		"pricing": {
+			"hourly": 0,
+			"input": 4,
+			"output": 4,
+			"finetune": 0,
+			"base": 0
+		},
+		"created_at": "2023-12-22T03:39:41.105Z",
+		"update_at": "2023-12-22T03:45:34.219Z",
+		"instances": [
+			{
+				"avzone": "us-central-1a",
+				"cluster": "sassyseal"
+			}
+		],
+		"hardware_label": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 5,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0x417487627B27C6F76793D44AEC1C805937e2bCbd": 1,
+				"0x8d48dc97f727317af9dA7c9c384B5E6687C0B9e2": 1,
+				"0x97E9EAE94B8498A57f4F9033A32d722323C294C8": 1,
+				"0xb8Bfb7F25770CfF8bf88ddF1D29237f1D5604d96": 1,
+				"0xeC00Db140f2A64D1682Ca6C47F6EA6B087B50CAc": 1
+			},
+			"asks_updated": "2024-04-02T18:08:57.716508683Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 19.4,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"throughput_in": 3933.0666666666666,
 			"stats": [
 				{
-					"avzone": "us-east-2a",
-					"cluster": "jumpyjackal",
-					"capacity": 0.0078125,
-					"qps": 0,
-					"throughput_in": 0,
+					"avzone": "us-central-1a",
+					"cluster": "sassyseal",
+					"capacity": 0.010968464176829269,
+					"qps": 19.4,
+					"throughput_in": 3933.0666666666666,
 					"throughput_out": 0,
 					"error_rate": 0,
 					"retry_rate": 0
@@ -1685,13 +2478,14 @@ let models = [
 		"link": "",
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 1,
+			"num_asks": 2,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x52485C1e2C2f4Db6a091c799eB882DaC0B7eFA2e": 1
+				"0x4C51aff4170724263bF75af64CE9E2e8F6079fA9": 1,
+				"0xb4CdE622719696fd930e92FB5bBfC3eA3176D2Fd": 1
 			},
-			"asks_updated": "2024-01-27T10:16:03.845391838Z",
+			"asks_updated": "2024-04-02T17:49:52.22003937Z",
 			"gpus": {
 				"": 0
 			},
@@ -1708,7 +2502,7 @@ let models = [
 				{
 					"avzone": "us-east-2a",
 					"cluster": "jumpyjackal",
-					"capacity": 0.0078125,
+					"capacity": 0,
 					"qps": 0,
 					"throughput_in": 0,
 					"throughput_out": 0,
@@ -1760,13 +2554,14 @@ let models = [
 		"link": "",
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 1,
+			"num_asks": 2,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x71F64AFd79612d3405e488CDFe3b319fE4e44453": 1
+				"0x7ef1A544AE303bc59201A9F1CC5eD2cB24Afb731": 1,
+				"0x94525D7F6363C32fCd1A2d7aEB1011B18dEf8238": 1
 			},
-			"asks_updated": "2024-01-27T11:04:59.973138129Z",
+			"asks_updated": "2024-04-02T15:24:08.958193382Z",
 			"gpus": {
 				"": 0
 			},
@@ -1783,7 +2578,7 @@ let models = [
 				{
 					"avzone": "us-east-2a",
 					"cluster": "jumpyjackal",
-					"capacity": 0.05263157894736842,
+					"capacity": 0,
 					"qps": 0,
 					"throughput_in": 0,
 					"throughput_out": 0,
@@ -1811,6 +2606,7 @@ let models = [
 		"release_date": "2023-11-01T00:00:00.000Z",
 		"show_in_playground": true,
 		"isFeaturedModel": true,
+		"context_length": 4096,
 		"config": {
 			"stop": [
 				"</s>",
@@ -1818,6 +2614,8 @@ let models = [
 				"ASSISTANT:"
 			],
 			"prompt_format": "USER: {prompt} ASSISTANT:",
+			"add_generation_prompt": true,
+			"chat_template_name": "llama",
 			"pre_prompt": "A chat between a curious user and an artificial intelligence assistant. The assistant gives helpful, detailed, and polite answers to the user's questions. "
 		},
 		"pricing": {
@@ -1840,13 +2638,13 @@ let models = [
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0xebdAc92FF164586c1c3B0bA29856A3006F2997B1": 1
+				"0xF9d994b8D62c40bA7532917955dc49D4712C6Ec0": 1
 			},
-			"asks_updated": "2024-01-27T12:15:56.243148431Z",
+			"asks_updated": "2024-04-02T15:02:40.214620053Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 3.6,
+			"qps": 0.2,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -1855,19 +2653,18 @@ let models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 3823.9333333333334,
-			"throughput_out": 114.33333333333333,
-			"retry_rate": 87.8,
+			"throughput_in": 391.8,
+			"throughput_out": 14.333333333333334,
 			"stats": [
 				{
 					"avzone": "us-east-2a",
 					"cluster": "jumpyjackal",
-					"capacity": 1.017225325884543,
-					"qps": 3.6,
-					"throughput_in": 3823.9333333333334,
-					"throughput_out": 114.33333333333333,
+					"capacity": 0.12587412587412586,
+					"qps": 0.2,
+					"throughput_in": 391.8,
+					"throughput_out": 14.333333333333334,
 					"error_rate": 0,
-					"retry_rate": 87.8
+					"retry_rate": 0
 				}
 			]
 		}
@@ -1877,33 +2674,838 @@ let models = [
 			"appearsIn": [],
 			"order": 0
 		},
-		"_id": "64f67555bc372ce719b97f03",
-		"name": "WizardLM/WizardLM-70B-V1.0",
-		"display_name": "WizardLM v1.0 (70B)",
-		"display_type": "language",
-		"description": "This model achieves a substantial and comprehensive improvement on coding, mathematical reasoning and open-domain conversation capacities.",
-		"license": "llama2",
-		"creator_organization": "WizardLM",
-		"hardware_label": "2x A100 80GB",
-		"pricing_tier": "supported",
-		"num_parameters": 70000000000,
+		"_id": "65df9fa4d28dc68bcefec054",
+		"name": "allenai/OLMo-7B-Instruct",
+		"display_name": "OLMo Instruct (7B)",
+		"display_type": "chat",
+		"description": "The OLMo models are trained on the Dolma dataset",
+		"license": "apache-2.0",
+		"link": "https://huggingface.co/allenai/OLMo-7B-Instruct",
+		"creator_organization": "AllenAI",
+		"pricing_tier": "Featured",
+		"num_parameters": 7000000000,
 		"show_in_playground": true,
 		"isFeaturedModel": true,
-		"context_length": 4096,
+		"context_length": 2048,
+		"config": {
+			"eos_token": "<|endoftext|>",
+			"prompt_format": "<|user|>\n{prompt}\n<|assistant|>",
+			"stop": [
+				"<|endoftext|>"
+			],
+			"chat_template": "{% for message in messages %}{% if message['role'] == 'user' %}{{ '<|user|>\n' + message['content'] + eos_token }}{% elif message['role'] == 'system' %}{{ '<|system|>\n' + message['content'] + eos_token }}{% elif message['role'] == 'assistant' %}{{ '<|assistant|>\n'  + message['content'] + eos_token }}{% endif %}{% if loop.last and add_generation_prompt %}{{ '<|assistant|>\n' }}{% endif %}{% endfor %}",
+			"add_generation_prompt": true
+		},
+		"pricing": {
+			"input": 50,
+			"output": 50,
+			"hourly": 0
+		},
+		"created_at": "2024-02-28T21:03:32.038Z",
+		"update_at": "2024-02-28T21:03:32.038Z",
+		"instances": [
+			{
+				"avzone": "us-central-2a",
+				"cluster": "jollyllama"
+			}
+		],
+		"isPrivate": false,
+		"access_control": [],
+		"isDedicatedInstance": false,
+		"access": "",
+		"hardware_label": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 1,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0x9091f727633FB8d8f7Ce1627F5090a62c572610B": 1
+			},
+			"asks_updated": "2024-04-02T18:16:33.615745279Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"stats": [
+				{
+					"avzone": "us-central-2a",
+					"cluster": "jollyllama",
+					"capacity": 0,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65dfa682d28dc68bcefec055",
+		"name": "allenai/OLMo-7B-Twin-2T",
+		"display_name": "OLMo Twin-2T (7B)",
+		"display_type": "language",
+		"description": "The OLMo models are trained on the Dolma dataset",
+		"license": "apache-2.0",
+		"link": "https://huggingface.co/allenai/OLMo-7B-Twin-2T",
+		"creator_organization": "AllenAI",
+		"pricing_tier": "Featured",
+		"num_parameters": 7000000000,
+		"show_in_playground": true,
+		"isFeaturedModel": true,
+		"context_length": 2048,
+		"pricing": {
+			"input": 50,
+			"output": 50,
+			"hourly": 0
+		},
+		"created_at": "2024-02-28T21:32:50.812Z",
+		"update_at": "2024-02-28T21:32:50.812Z",
+		"instances": [
+			{
+				"avzone": "us-central-2a",
+				"cluster": "jollyllama"
+			}
+		],
+		"isPrivate": false,
+		"access_control": [],
+		"isDedicatedInstance": false,
+		"access": "",
+		"hardware_label": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 1,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0xC3c865Bf64f4E3BBa94F2E9b55261833145BD615": 1
+			},
+			"asks_updated": "2024-04-02T18:06:32.109666277Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"stats": [
+				{
+					"avzone": "us-central-2a",
+					"cluster": "jollyllama",
+					"capacity": 0.0625,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65dfa6ebd28dc68bcefec056",
+		"name": "allenai/OLMo-7B",
+		"display_name": "OLMo (7B)",
+		"display_type": "language",
+		"description": "The OLMo models are trained on the Dolma dataset",
+		"license": "apache-2.0",
+		"link": "https://huggingface.co/allenai/OLMo-7B",
+		"creator_organization": "AllenAI",
+		"pricing_tier": "Featured",
+		"num_parameters": 7000000000,
+		"show_in_playground": true,
+		"isFeaturedModel": true,
+		"context_length": 2048,
+		"pricing": {
+			"input": 50,
+			"output": 50,
+			"hourly": 0
+		},
+		"created_at": "2024-02-28T21:34:35.444Z",
+		"update_at": "2024-02-28T21:34:35.444Z",
+		"instances": [
+			{
+				"avzone": "us-central-2a",
+				"cluster": "jollyllama"
+			}
+		],
+		"isPrivate": false,
+		"access_control": [],
+		"isDedicatedInstance": false,
+		"access": "",
+		"hardware_label": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 1,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0xfDbf46d307E8d3Df8BCDdb2aAAb66340D3D1BA1b": 1
+			},
+			"asks_updated": "2024-04-02T18:22:05.536710351Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0.6666666666666666,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"throughput_in": 57,
+			"throughput_out": 100,
+			"stats": [
+				{
+					"avzone": "us-central-2a",
+					"cluster": "jollyllama",
+					"capacity": 0.0625,
+					"qps": 0.6666666666666666,
+					"throughput_in": 57,
+					"throughput_out": 100,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "6598bc0201bf780326e7eac8",
+		"name": "bert-base-uncased",
+		"display_name": "Bert Base Uncased",
+		"display_type": "embedding",
+		"description": "original BERT model",
+		"license": "Apache-2",
+		"creator_organization": "Google",
+		"hardware_label": "A40",
+		"pricing_tier": "Featured",
+		"num_parameters": 46550608,
+		"release_date": "2023-11-15T00:00:00.000Z",
+		"show_in_playground": true,
+		"isFeaturedModel": true,
+		"pricing": {
+			"hourly": 0,
+			"input": 2,
+			"output": 2,
+			"finetune": 0,
+			"base": 0
+		},
+		"created_at": "2024-01-06T02:33:38.323Z",
+		"update_at": "2024-01-06T02:33:38.323Z",
+		"instances": [
+			{
+				"avzone": "us-central-1a",
+				"cluster": "sassyseal"
+			}
+		],
+		"access": "",
+		"link": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 6,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0x0b7eae8cCeb3D67b02A97ac2D1100E29E6991EB9": 1,
+				"0x21558AA2fCc15eF003135a4108a0884d4A3054f2": 1,
+				"0x2fb2cf26D55c96dc0BAad5f088b0e5Bf0FDe565B": 1,
+				"0x4e0CB8412319d0A4cdEf4C6e14E577c841Ff5c13": 1,
+				"0x5857eaB3609A074E402972C3DDDE8957ea4E7dC5": 1,
+				"0xC412E22A5B1CE26b65B80f2217b9419369057714": 1
+			},
+			"asks_updated": "2024-04-02T18:18:28.990654886Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"stats": [
+				{
+					"avzone": "us-central-1a",
+					"cluster": "sassyseal",
+					"capacity": 0,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65a6de95e620478cfa14425b",
+		"name": "codellama/CodeLlama-13b-Instruct-hf",
+		"display_name": "Code Llama Instruct (13B)",
+		"display_type": "chat",
+		"description": "Code Llama is a family of large language models for code based on Llama 2 providing infilling capabilities, support for large input contexts, and zero-shot instruction following ability for programming tasks.",
+		"license": "LLAMA 2 Community license Agreement (Meta)",
+		"creator_organization": "Meta",
+		"hardware_label": "A100 80GB",
+		"num_parameters": "13016028160",
+		"show_in_playground": true,
+		"finetuning_supported": true,
+		"isFeaturedModel": true,
+		"context_length": 16384,
+		"config": {
+			"prompt_format": "[INST] {prompt} [/INST]",
+			"add_generation_prompt": true,
+			"stop": [
+				"</s>",
+				"[INST]"
+			],
+			"chat_template_name": "llama"
+		},
+		"pricing": {
+			"input": 55,
+			"output": 55,
+			"hourly": 0
+		},
+		"created_at": "2023-08-24T17:09:14.381Z",
+		"update_at": "2023-12-04T05:01:42.539Z",
+		"instances": {
+			"avzone": "us-east-1a",
+			"cluster": "happypiglet"
+		},
+		"access": "",
+		"link": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 1,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0x3d940F8e013eb2Dbc87cf08d9553FCeF6c8053f8": 1
+			},
+			"asks_updated": "2024-04-02T12:26:05.281884234Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0.027059019,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"throughput_in": 14.652623,
+			"throughput_out": 18.937382
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65a6de95e620478cfa14425a",
+		"name": "codellama/CodeLlama-13b-Python-hf",
+		"display_name": "Code Llama Python (13B)",
+		"display_type": "code",
+		"description": "Code Llama is a family of large language models for code based on Llama 2 providing infilling capabilities, support for large input contexts, and zero-shot instruction following ability for programming tasks.",
+		"license": "LLAMA 2 Community license Agreement (Meta)",
+		"creator_organization": "Meta",
+		"hardware_label": "A100 80GB",
+		"num_parameters": "13016028160",
+		"show_in_playground": true,
+		"finetuning_supported": true,
+		"isFeaturedModel": true,
+		"context_length": 16384,
 		"config": {
 			"stop": [
 				"</s>"
 			],
-			"prompt_format": "USER: {prompt} ASSISTANT:",
-			"chat_template": "{% for message in messages %}{% if message['role'] == 'user' %}{{ 'USER: ' + message['content'] + ' ' }}{% else %}{{ 'ASSISTANT:' + message['content'] + '\n' }}{% endif %}{% endfor %}{{ 'ASSISTANT:' }}"
+			"chat_template_name": "llama"
+		},
+		"pricing": {
+			"input": 55,
+			"output": 55,
+			"hourly": 0
+		},
+		"created_at": "2023-08-24T17:09:14.381Z",
+		"update_at": "2023-12-20T22:52:59.177Z",
+		"instances": {
+			"avzone": "us-east-1a",
+			"cluster": "happypiglet"
+		},
+		"access": "",
+		"link": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 1,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0x7ad2f3431743ED41407B35E3b5Fc6188007E1aD8": 1
+			},
+			"asks_updated": "2024-04-02T15:21:12.972929086Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 5.1558346e-10,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"throughput_in": 2.371684e-8,
+			"throughput_out": 0.000026679898
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65a6de95e620478cfa144261",
+		"name": "codellama/CodeLlama-34b-Instruct-hf",
+		"display_name": "Code Llama Instruct (34B)",
+		"display_type": "chat",
+		"description": "Code Llama is a family of large language models for code based on Llama 2 providing infilling capabilities, support for large input contexts, and zero-shot instruction following ability for programming tasks.",
+		"license": "LLAMA 2 Community license Agreement (Meta)",
+		"creator_organization": "Meta",
+		"hardware_label": "A100 80GB",
+		"num_parameters": 34000000000,
+		"show_in_playground": true,
+		"isFeaturedModel": true,
+		"context_length": 16384,
+		"config": {
+			"prompt_format": "[INST] {prompt} [/INST]",
+			"add_generation_prompt": true,
+			"stop": [
+				"</s>",
+				"[INST]"
+			],
+			"chat_template_name": "llama",
+			"tools_template": "{{ '<<SYS>>\\n' + systemMessage['content'] + '\\n\\nYou can access the following functions. Use them if required -\\n' + tools + '\\n<</SYS>>\\n\\n' + message['content'] }}"
+		},
+		"pricing": {
+			"input": 194,
+			"output": 194,
+			"hourly": 0
+		},
+		"created_at": "2023-08-24T17:28:42.172Z",
+		"update_at": "2023-08-24T17:28:42.172Z",
+		"instances": [
+			{
+				"avzone": "us-central-5b",
+				"cluster": "blusterybull"
+			}
+		],
+		"access": "",
+		"link": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 1,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0x5AF70F697264302ab412Bd1c3A24FE52cED7e846": 1
+			},
+			"asks_updated": "2024-04-02T12:45:29.039228426Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0.2,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"throughput_in": 145.73333333333332,
+			"throughput_out": 55.86666666666667,
+			"stats": [
+				{
+					"avzone": "us-central-5b",
+					"cluster": "blusterybull",
+					"capacity": 0.07894736842105263,
+					"qps": 0.2,
+					"throughput_in": 145.73333333333332,
+					"throughput_out": 55.86666666666667,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65a6de95e620478cfa144260",
+		"name": "codellama/CodeLlama-34b-Python-hf",
+		"display_name": "Code Llama Python (34B)",
+		"display_type": "code",
+		"description": "Code Llama is a family of large language models for code based on Llama 2 providing infilling capabilities, support for large input contexts, and zero-shot instruction following ability for programming tasks.",
+		"license": "LLAMA 2 Community license Agreement (Meta)",
+		"creator_organization": "Meta",
+		"hardware_label": "A100 80GB",
+		"num_parameters": 34000000000,
+		"show_in_playground": true,
+		"isFeaturedModel": true,
+		"context_length": 16384,
+		"config": {
+			"stop": [
+				"</s>"
+			],
+			"chat_template_name": "llama"
+		},
+		"pricing": {
+			"input": 194,
+			"output": 194,
+			"hourly": 0
+		},
+		"created_at": "2023-08-24T17:28:42.172Z",
+		"update_at": "2023-08-24T17:28:42.172Z",
+		"instances": [
+			{
+				"avzone": "us-central-5b",
+				"cluster": "blusterybull"
+			}
+		],
+		"access": "",
+		"link": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 1,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0x66edF0D287b56Bdd02daB3F86C6BE0EBC6C4eCd5": 1
+			},
+			"asks_updated": "2024-04-02T12:26:57.466504237Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"stats": [
+				{
+					"avzone": "us-central-5b",
+					"cluster": "blusterybull",
+					"capacity": 0,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65b6f505752a299002ee4dc9",
+		"name": "codellama/CodeLlama-70b-Instruct-hf",
+		"display_name": "Code Llama Instruct (70B)",
+		"display_type": "chat",
+		"description": "Code Llama is a family of large language models for code based on Llama 2 providing infilling capabilities, support for large input contexts, and zero-shot instruction following ability for programming tasks.",
+		"license": "apache-2.0",
+		"link": "https://huggingface.co/codellama/CodeLlama-70b-Instruct-hf",
+		"creator_organization": "Meta",
+		"pricing_tier": "Featured",
+		"access": "open",
+		"num_parameters": "70000000000",
+		"show_in_playground": true,
+		"isFeaturedModel": true,
+		"context_length": 4096,
+		"config": {
+			"chat_template": "{{ bos_token + ' ' }}{% for message in messages %}{{'Source: ' + message['role'].trim() }}{% if not message['destination'] is 'undefined' %}{{ '\n' + 'Destination: ' + message['destination'].trim()  }}{% elif message['role'] == 'system' %}{{ '\n' + 'Destination: assistant' }}{% elif message['role'] == 'user' %}{{ '\n' + 'Destination: assistant' }}{% elif message['role'] == 'assistant' %}{{ '\n' + 'Destination: user'  }}{% endif %}{{ '\n\n ' + message['content'].trim() + '<step>'  + ' '}}{% endfor %}{% if add_generation_prompt %}{{ 'Source: assistant' + '\n' }}{{ 'Destination: user' + '\n\n' + ' '  }}{% endif %}",
+			"bos_token": "<s>",
+			"step_id": "<step>",
+			"stop": [
+				"<step>"
+			],
+			"add_generation_prompt": true
 		},
 		"pricing": {
 			"input": 225,
 			"output": 225,
 			"hourly": 0
 		},
-		"created_at": "2023-09-05T00:24:53.327Z",
-		"update_at": "2023-09-05T00:24:53.327Z",
+		"created_at": "2024-01-29T00:44:53.513Z",
+		"update_at": "2024-01-29T00:44:53.513Z",
+		"instances": [
+			{
+				"avzone": "us-east-1a",
+				"cluster": "happypiglet"
+			}
+		],
+		"hardware_label": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 1,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0x19Bc9d717837c66C10F51E51F771E9B39F05b1f8": 1
+			},
+			"asks_updated": "2024-04-02T15:06:23.646417797Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0.06666666666666667,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"throughput_in": 3.533333333333333,
+			"throughput_out": 15.266666666666667,
+			"stats": [
+				{
+					"avzone": "us-east-1a",
+					"cluster": "happypiglet",
+					"capacity": 0.016304347826086956,
+					"qps": 0.06666666666666667,
+					"throughput_in": 3.533333333333333,
+					"throughput_out": 15.266666666666667,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65b6f4ba752a299002ee4dc7",
+		"name": "codellama/CodeLlama-70b-Python-hf",
+		"display_name": "Code Llama Python (70B)",
+		"display_type": "code",
+		"description": "Code Llama is a family of large language models for code based on Llama 2 providing infilling capabilities, support for large input contexts, and zero-shot instruction following ability for programming tasks.",
+		"license": "apache-2.0",
+		"link": "https://huggingface.co/codellama/CodeLlama-70b-Python-hf",
+		"creator_organization": "Meta",
+		"pricing_tier": "Featured",
+		"access": "open",
+		"num_parameters": "70000000000",
+		"show_in_playground": true,
+		"isFeaturedModel": true,
+		"context_length": 4096,
+		"config": {
+			"stop": [
+				"</s>"
+			]
+		},
+		"pricing": {
+			"input": 225,
+			"output": 225,
+			"hourly": 0
+		},
+		"created_at": "2024-01-29T00:43:38.396Z",
+		"update_at": "2024-01-29T00:43:38.396Z",
+		"instances": [
+			{
+				"avzone": "us-east-1a",
+				"cluster": "happypiglet"
+			}
+		],
+		"hardware_label": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 1,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0xf2a7de1a0E1dC83DC5B1f1dE8783dFEc67be8910": 1
+			},
+			"asks_updated": "2024-04-02T15:33:51.689993308Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"stats": [
+				{
+					"avzone": "us-east-1a",
+					"cluster": "happypiglet",
+					"capacity": 0,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65b6f4d4752a299002ee4dc8",
+		"name": "codellama/CodeLlama-70b-hf",
+		"display_name": "Code Llama (70B)",
+		"display_type": "code",
+		"description": "Code Llama is a family of large language models for code based on Llama 2 providing infilling capabilities, support for large input contexts, and zero-shot instruction following ability for programming tasks.",
+		"license": "apache-2.0",
+		"link": "https://huggingface.co/codellama/CodeLlama-70b-hf",
+		"creator_organization": "Meta",
+		"pricing_tier": "Featured",
+		"access": "open",
+		"num_parameters": "70000000000",
+		"show_in_playground": true,
+		"isFeaturedModel": true,
+		"context_length": 16384,
+		"config": {
+			"stop": [
+				"</s>"
+			]
+		},
+		"pricing": {
+			"input": 225,
+			"output": 225,
+			"hourly": 0
+		},
+		"created_at": "2024-01-29T00:44:04.149Z",
+		"update_at": "2024-01-29T00:44:04.149Z",
+		"instances": [
+			{
+				"avzone": "us-east-1a",
+				"cluster": "happypiglet"
+			}
+		],
+		"hardware_label": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 1,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0xb7cf5cfDa54F6eE9edEcaDE7f4f3d5Ad384f74d4": 1
+			},
+			"asks_updated": "2024-04-02T12:59:09.007004017Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"stats": [
+				{
+					"avzone": "us-east-1a",
+					"cluster": "happypiglet",
+					"capacity": 0,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65a6de95e620478cfa14425e",
+		"name": "codellama/CodeLlama-7b-Instruct-hf",
+		"display_name": "Code Llama Instruct (7B)",
+		"display_type": "chat",
+		"description": "Code Llama is a family of large language models for code based on Llama 2 providing infilling capabilities, support for large input contexts, and zero-shot instruction following ability for programming tasks.",
+		"license": "LLAMA 2 Community license Agreement (Meta)",
+		"creator_organization": "Meta",
+		"hardware_label": "A100 80GB",
+		"num_parameters": "6738546688",
+		"show_in_playground": true,
+		"finetuning_supported": true,
+		"isFeaturedModel": true,
+		"context_length": 16384,
+		"config": {
+			"prompt_format": "[INST] {prompt} [/INST]",
+			"stop": [
+				"</s>",
+				"[INST]"
+			],
+			"chat_template_name": "llama",
+			"add_generation_prompt": true
+		},
+		"pricing": {
+			"input": 50,
+			"output": 50,
+			"hourly": 0
+		},
+		"created_at": "2023-08-24T17:08:25.379Z",
+		"update_at": "2023-08-24T17:08:25.379Z",
 		"instances": [
 			{
 				"avzone": "us-east-2a",
@@ -1918,9 +3520,9 @@ let models = [
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x7deea9c37D0514E60862b783fFdcC15Bd8C3Bb7b": 1
+				"0xeeb92dfc428671623286548d31fc7A7b91198d89": 1
 			},
-			"asks_updated": "2024-01-28T11:02:14.043233314Z",
+			"asks_updated": "2024-04-02T14:07:05.010593913Z",
 			"gpus": {
 				"": 0
 			},
@@ -1937,7 +3539,7 @@ let models = [
 				{
 					"avzone": "us-east-2a",
 					"cluster": "jumpyjackal",
-					"capacity": 0.10256410256410257,
+					"capacity": 0.25,
 					"qps": 0,
 					"throughput_in": 0,
 					"throughput_out": 0,
@@ -1952,115 +3554,39 @@ let models = [
 			"appearsIn": [],
 			"order": 0
 		},
-		"_id": "64acea57227f790586239d0d",
-		"name": "huggyllama/llama-65b",
-		"display_name": "LLaMA (65B)",
-		"display_type": "language",
-		"description": "An auto-regressive language model, based on the transformer architecture. The model comes in different sizes: 7B, 13B, 33B and 65B parameters.",
-		"license": "LLaMA license Agreement (Meta)",
-		"link": "https://huggingface.co/decapoda-research/llama-30b-hf-int4/commit/95d097b272bd0a84a164aa8116e8c09661487581#d2h-740129",
+		"_id": "65a6de95e620478cfa14425d",
+		"name": "codellama/CodeLlama-7b-Python-hf",
+		"display_name": "Code Llama Python (7B)",
+		"display_type": "code",
+		"description": "Code Llama is a family of large language models for code based on Llama 2 providing infilling capabilities, support for large input contexts, and zero-shot instruction following ability for programming tasks.",
+		"license": "LLAMA 2 Community license Agreement (Meta)",
 		"creator_organization": "Meta",
-		"hardware_label": "2x A100 80GB",
-		"pricing_tier": "supported",
-		"access": "open",
-		"num_parameters": 65000000000,
+		"hardware_label": "A100 80GB",
+		"num_parameters": "6738546688",
 		"show_in_playground": true,
+		"finetuning_supported": true,
 		"isFeaturedModel": true,
-		"context_length": 2048,
+		"context_length": 16384,
 		"config": {
+			"stop": [
+				"</s>"
+			],
 			"chat_template_name": "llama"
 		},
 		"pricing": {
-			"input": 225,
-			"output": 225,
+			"input": 50,
+			"output": 50,
 			"hourly": 0
 		},
-		"created_at": "2023-07-11T05:36:23.656Z",
-		"update_at": "2023-07-11T05:36:23.656Z",
+		"created_at": "2023-08-24T17:08:25.379Z",
+		"update_at": "2023-08-24T17:08:25.379Z",
 		"instances": [
 			{
 				"avzone": "us-east-2a",
 				"cluster": "jumpyjackal"
 			}
 		],
-		"descriptionLink": "",
-		"depth": {
-			"num_asks": 5,
-			"num_bids": 0,
-			"num_running": 0,
-			"asks": {
-				"0x0b29d9896C55EAaebb969eF1823DBb0f589538E8": 1,
-				"0x5Db772c45b58EefE138373DED59B8c648a4bA89a": 1,
-				"0x691E7ee9F5522c03309F6fBD602Cd4Eb86CF4419": 1,
-				"0x79A249Da54510FA7cb756Ab5A03f5729789C1916": 1,
-				"0xbCBEd934C6A9b1Abb6B22bd581370E9eAaE09E5B": 1
-			},
-			"asks_updated": "2024-01-28T08:46:47.217989875Z",
-			"gpus": {
-				"": 0
-			},
-			"qps": 0,
-			"permit_required": false,
-			"price": {
-				"base": 0,
-				"finetune": 0,
-				"hourly": 0,
-				"input": 0,
-				"output": 0
-			},
-			"stats": [
-				{
-					"avzone": "us-east-2a",
-					"cluster": "jumpyjackal",
-					"capacity": 0.5,
-					"qps": 0,
-					"throughput_in": 0,
-					"throughput_out": 0,
-					"error_rate": 0,
-					"retry_rate": 0
-				}
-			]
-		}
-	},
-	{
-		"modelInstanceConfig": {
-			"appearsIn": [],
-			"order": 0
-		},
-		"_id": "64fbbc5adfdb1e4b06b5d5ce",
-		"name": "lmsys/vicuna-13b-v1.5-16k",
-		"display_name": "Vicuna v1.5 16K (13B)",
-		"display_type": "chat",
-		"description": "Vicuna is a chat assistant trained by fine-tuning Llama 2 on user-shared conversations collected from ShareGPT.",
-		"license": "llama2",
-		"creator_organization": "LM Sys",
-		"hardware_label": "A100 80GB",
-		"pricing_tier": "supported",
-		"access": "open",
-		"num_parameters": 13015864320,
-		"show_in_playground": true,
-		"isFeaturedModel": true,
-		"context_length": 16384,
-		"config": {
-			"prompt_format": "USER: {prompt}\nASSISTANT:",
-			"stop": [
-				"</s>"
-			],
-			"chat_template": "{% for message in messages %}{{message['role'].toLocaleUpperCase() + ': ' + message['content'] + '\n'}}{% endfor %}{{ 'ASSISTANT:' }}"
-		},
-		"pricing": {
-			"input": 75,
-			"output": 75,
-			"hourly": 0
-		},
-		"created_at": "2023-09-09T00:29:14.496Z",
-		"update_at": "2023-09-09T00:29:14.496Z",
-		"instances": [
-			{
-				"avzone": "us-central-1a",
-				"cluster": "sassyseal"
-			}
-		],
+		"access": "",
 		"link": "",
 		"descriptionLink": "",
 		"depth": {
@@ -2068,13 +3594,13 @@ let models = [
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0xC2fa861b51f682C6DEffeC0521Eb7D24D913E717": 1
+				"0x7f8E1Ae54a77a53F9c3c0a5648D1e925bB4E368B": 1
 			},
-			"asks_updated": "2024-01-27T12:03:10.893984523Z",
+			"asks_updated": "2024-04-02T14:12:03.912429985Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.06666666666666667,
+			"qps": 0,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -2083,16 +3609,550 @@ let models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 0.4666666666666667,
-			"throughput_out": 8.533333333333333,
 			"stats": [
 				{
-					"avzone": "us-central-1a",
-					"cluster": "sassyseal",
-					"capacity": 0.14285714285714285,
-					"qps": 0.06666666666666667,
-					"throughput_in": 0.4666666666666667,
-					"throughput_out": 8.533333333333333,
+					"avzone": "us-east-2a",
+					"cluster": "jumpyjackal",
+					"capacity": 0,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "660899dc98fbb3f86d028781",
+		"name": "cognitivecomputations/dolphin-2.5-mixtral-8x7b",
+		"display_name": "Dolphin 2.5 Mixtral 8x7b",
+		"display_type": "chat",
+		"description": "This Dolphin is really good at coding, I trained with a lot of coding data. It is very obedient but it is not DPO tuned - so you still might need to encourage it in the system prompt as I show in the below examples.",
+		"license": "apache-2.0",
+		"link": "https://huggingface.co/cognitivecomputations/dolphin-2.5-mixtral-8x7b",
+		"creator_organization": "cognitivecomputations",
+		"hardware_label": "8x H100 80GB SXM",
+		"pricing_tier": "Featured",
+		"access": "open",
+		"num_parameters": 56000000000,
+		"release_date": "2023-08-01T00:00:00.000Z",
+		"show_in_playground": true,
+		"isFeaturedModel": true,
+		"context_length": 32768,
+		"config": {
+			"stop": [
+				"<|im_end|>",
+				"<|im_start|>"
+			],
+			"pre_prompt": "<|im_start|>system\nYou are Dolphin, an uncensored and unbiased AI assistant.<|im_end|>\n",
+			"prompt_format": "<|im_start|>user\n{prompt}<|im_end|>\n<|im_start|>assistant\n",
+			"add_generation_prompt": true,
+			"chat_template_name": "default"
+		},
+		"pricing": {
+			"input": 150,
+			"output": 150,
+			"hourly": 0
+		},
+		"created_at": "2023-09-05T19:58:25.683Z",
+		"update_at": "2023-09-05T19:58:25.683Z",
+		"instances": [
+			{
+				"avzone": "us-central-5b",
+				"cluster": "blusterybull"
+			}
+		],
+		"isDedicatedInstance": false,
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 1,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0xcAB362E21aCa3f4DA4621B48A9a1C039276339Cc": 1
+			},
+			"asks_updated": "2024-04-02T15:04:34.356572572Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"stats": [
+				{
+					"avzone": "us-central-5b",
+					"cluster": "blusterybull",
+					"capacity": 0.03125,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65c3137e4975e79f24d98b5c",
+		"name": "deepseek-ai/deepseek-coder-33b-instruct",
+		"display_name": "Deepseek Coder Instruct (33B)",
+		"display_type": "chat",
+		"description": "Deepseek Coder is composed of a series of code language models, each trained from scratch on 2T tokens, with a composition of 87% code and 13% natural language in both English and Chinese.",
+		"license": "deepseek",
+		"link": "https://huggingface.co/deepseek-ai/deepseek-coder-33b-instruct",
+		"creator_organization": "DeepSeek",
+		"pricing_tier": "Featured",
+		"num_parameters": 33000000000,
+		"show_in_playground": true,
+		"isFeaturedModel": true,
+		"context_length": 16384,
+		"config": {
+			"prompt_format": "",
+			"stop": [
+				"<|EOT|>",
+				"<｜begin▁of▁sentence｜>",
+				"<｜end▁of▁sentence｜>"
+			],
+			"bos_token": "<｜begin▁of▁sentence｜>",
+			"add_generation_prompt": true,
+			"chat_template": "{{'<｜begin▁of▁sentence｜>'}}{%- for message in messages %}{%- if message['role'] == 'system' %}{{ message['content'] }}{%- else %}{%- if message['role'] == 'user' %}{{'### Instruction:\\n' + message['content'] + '\\n'}}{%- else %}{{'### Response:\\n' + message['content'] + '\\n<|EOT|>\\n'}}{%- endif %}{%- endif %}{%- endfor %}{% if add_generation_prompt %}{{'### Response:'}}{% endif %}"
+		},
+		"pricing": {
+			"input": 200,
+			"output": 200,
+			"hourly": 0
+		},
+		"created_at": "2024-02-07T05:22:06.809Z",
+		"update_at": "2024-02-07T05:22:06.809Z",
+		"instances": [
+			{
+				"avzone": "us-central-5b",
+				"cluster": "blusterybull"
+			}
+		],
+		"isPrivate": false,
+		"access_control": [],
+		"access": "",
+		"hardware_label": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 1,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0xd9196C97F06E1F7232E6D76F15e2B004aF8Fa8E7": 1
+			},
+			"asks_updated": "2024-04-02T13:43:29.053870207Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"stats": [
+				{
+					"avzone": "us-central-5b",
+					"cluster": "blusterybull",
+					"capacity": 0.07142857142857142,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "64f676f7bc372ce719b97f04",
+		"name": "garage-bAInd/Platypus2-70B-instruct",
+		"display_name": "Platypus2 Instruct (70B)",
+		"display_type": "chat",
+		"description": "An instruction fine-tuned LLaMA-2 (70B) model by merging Platypus2 (70B) by garage-bAInd and LLaMA-2 Instruct v2 (70B) by upstage.",
+		"license": "CC BY-NC-4.0",
+		"creator_organization": "garage-bAInd",
+		"hardware_label": "2x A100 80GB",
+		"pricing_tier": "featured",
+		"num_parameters": 70000000000,
+		"show_in_playground": true,
+		"isFeaturedModel": true,
+		"context_length": 4096,
+		"config": {
+			"stop": [
+				"</s>",
+				"###"
+			],
+			"prompt_format": "### Instruction:\n{prompt}\n### Response:\n",
+			"add_generation_prompt": true,
+			"chat_template": "{% for message in messages %}{% if message['role'] == 'user' %} {{ '### Instruction:\n' + message['content'] + '\n' }}{% elif message['role'] == 'system' %}{{ '### System:\n' + message['content'] + '\n' }}{% elif message['role'] == 'assistant' %}{{ '### Response:\n' + message['content'] + '\n'  }}{% endif %}{% if loop.last %}{{ '### Response:\n' }}{% endif %}{% endfor %}"
+		},
+		"pricing": {
+			"input": 225,
+			"output": 225,
+			"hourly": 0
+		},
+		"created_at": "2023-09-05T00:31:51.264Z",
+		"update_at": "2023-09-07T01:46:29.338Z",
+		"instances": [
+			{
+				"avzone": "us-central-5a",
+				"cluster": "wrigleycub"
+			}
+		],
+		"access": "",
+		"link": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 1,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0xBf6bde62a4B40c3410CcA9fD6e8d975732888381": 1
+			},
+			"asks_updated": "2024-04-02T13:15:36.598191484Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0.2,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"throughput_in": 134.6,
+			"throughput_out": 5.866666666666666,
+			"stats": [
+				{
+					"avzone": "us-central-5a",
+					"cluster": "wrigleycub",
+					"capacity": 0.3333333333333333,
+					"qps": 0.2,
+					"throughput_in": 134.6,
+					"throughput_out": 5.866666666666666,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65d7e89e03b97802d3af0512",
+		"name": "google/gemma-2b-it",
+		"display_name": "Gemma Instruct (2B)",
+		"display_type": "chat",
+		"description": "Gemma is a family of lightweight, state-of-the-art open models from Google, built from the same research and technology used to create the Gemini models.",
+		"license": "gemma-terms-of-use",
+		"link": "https://huggingface.co/google/gemma-2b-it",
+		"creator_organization": "Google",
+		"pricing_tier": "Featured",
+		"num_parameters": 2000000000,
+		"show_in_playground": true,
+		"isFeaturedModel": true,
+		"context_length": 8192,
+		"config": {
+			"stop": [
+				"<eos>",
+				"<end_of_turn>"
+			],
+			"chat_template": "{{ bos_token }}{% if (message['role'] == 'assistant') %}{% set role = 'model' %}{% else %}{% set role = message['role'] %}{% endif %}{% for message in messages %}{{'<start_of_turn>' + role + '\n' + message['content'] + '<end_of_turn>' + '\n'}}{% endfor %}{% if add_generation_prompt %}{{ '<|im_start|>model\n' }}{% endif %}",
+			"bos_token": "<bos>"
+		},
+		"pricing": {
+			"input": 25,
+			"output": 25,
+			"hourly": 0
+		},
+		"created_at": "2024-02-23T00:36:46.381Z",
+		"update_at": "2024-02-23T00:36:46.381Z",
+		"instances": [
+			{
+				"avzone": "us-central-6a",
+				"cluster": "mirthfulmonkey"
+			}
+		],
+		"isPrivate": false,
+		"access_control": [],
+		"access": "",
+		"hardware_label": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 1,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0x4764D5217c60De6A3ca164253688BA22BA55d366": 1
+			},
+			"asks_updated": "2024-04-02T18:12:09.227151857Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"stats": [
+				{
+					"avzone": "us-central-6a",
+					"cluster": "mirthfulmonkey",
+					"capacity": 0.0078125,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65d7e93203b97802d3af0513",
+		"name": "google/gemma-2b",
+		"display_name": "Gemma (2B)",
+		"display_type": "language",
+		"description": "Gemma is a family of lightweight, state-of-the-art open models from Google, built from the same research and technology used to create the Gemini models.",
+		"license": "gemma-terms-of-use",
+		"link": "https://huggingface.co/google/gemma-2b",
+		"creator_organization": "Google",
+		"pricing_tier": "Featured",
+		"num_parameters": 2000000000,
+		"show_in_playground": true,
+		"isFeaturedModel": true,
+		"context_length": 8192,
+		"pricing": {
+			"input": 25,
+			"output": 25,
+			"hourly": 0
+		},
+		"created_at": "2024-02-23T00:39:14.772Z",
+		"update_at": "2024-02-23T00:39:14.772Z",
+		"instances": [
+			{
+				"avzone": "us-central-6a",
+				"cluster": "mirthfulmonkey"
+			}
+		],
+		"isPrivate": false,
+		"access_control": [],
+		"access": "",
+		"hardware_label": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 1,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0xB7A3eFE6C665Ed525BcD3838E1cD5624f14c9B8b": 1
+			},
+			"asks_updated": "2024-04-02T13:11:22.928934299Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"stats": [
+				{
+					"avzone": "us-central-6a",
+					"cluster": "mirthfulmonkey",
+					"capacity": 0.0078125,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65d7ea3d03b97802d3af0515",
+		"name": "google/gemma-7b-it",
+		"display_name": "Gemma Instruct (7B)",
+		"display_type": "chat",
+		"description": "Gemma is a family of lightweight, state-of-the-art open models from Google, built from the same research and technology used to create the Gemini models.",
+		"license": "gemma-terms-of-use",
+		"link": "https://huggingface.co/google/gemma-7b-it",
+		"creator_organization": "Google",
+		"pricing_tier": "Featured",
+		"num_parameters": 7000000000,
+		"show_in_playground": true,
+		"isFeaturedModel": true,
+		"context_length": 8192,
+		"config": {
+			"stop": [
+				"<eos>",
+				"<end_of_turn>"
+			],
+			"chat_template": "{{ bos_token }}{% if (message['role'] == 'assistant') %}{% set role = 'model' %}{% else %}{% set role = message['role'] %}{% endif %}{% for message in messages %}{{'<start_of_turn>' + role + '\n' + message['content'] + '<end_of_turn>' + '\n'}}{% endfor %}{% if add_generation_prompt %}{{ '<|im_start|>model\n' }}{% endif %}",
+			"bos_token": "<bos>"
+		},
+		"pricing": {
+			"input": 50,
+			"output": 50,
+			"hourly": 0
+		},
+		"created_at": "2024-02-23T00:43:41.936Z",
+		"update_at": "2024-02-23T00:43:41.936Z",
+		"instances": [
+			{
+				"avzone": "us-central-6a",
+				"cluster": "mirthfulmonkey"
+			}
+		],
+		"isPrivate": false,
+		"access_control": [],
+		"access": "",
+		"hardware_label": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 1,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0x6a288602F306Cd9f1CFfC688F9738c88784DCdA4": 1
+			},
+			"asks_updated": "2024-04-02T18:05:25.33635253Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"stats": [
+				{
+					"avzone": "us-central-6a",
+					"cluster": "mirthfulmonkey",
+					"capacity": 0.041666666666666664,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65d7ea3b03b97802d3af0514",
+		"name": "google/gemma-7b",
+		"display_name": "Gemma (7B)",
+		"display_type": "language",
+		"description": "Gemma is a family of lightweight, state-of-the-art open models from Google, built from the same research and technology used to create the Gemini models.",
+		"license": "gemma-terms-of-use",
+		"link": "https://huggingface.co/google/gemma-7b",
+		"creator_organization": "Google",
+		"pricing_tier": "Featured",
+		"num_parameters": 7000000000,
+		"show_in_playground": true,
+		"isFeaturedModel": true,
+		"context_length": 8192,
+		"pricing": {
+			"input": 50,
+			"output": 50,
+			"hourly": 0
+		},
+		"created_at": "2024-02-23T00:43:39.642Z",
+		"update_at": "2024-02-23T00:43:39.642Z",
+		"instances": [
+			{
+				"avzone": "us-central-6a",
+				"cluster": "mirthfulmonkey"
+			}
+		],
+		"isPrivate": false,
+		"access_control": [],
+		"access": "",
+		"hardware_label": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 1,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0xABcF8C91537f3f768A8a5842791C4889b68aBE0F": 1
+			},
+			"asks_updated": "2024-04-02T15:03:02.005134452Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"stats": [
+				{
+					"avzone": "us-central-6a",
+					"cluster": "mirthfulmonkey",
+					"capacity": 0.041666666666666664,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -2123,7 +4183,8 @@ let models = [
 				"</s>"
 			],
 			"prompt_format": "USER: {prompt}\nASSISTANT:",
-			"chat_template": "{% for message in messages %}{{message['role'].toLocaleUpperCase() + ': ' + message['content'] + '\n'}}{% endfor %}{{ 'ASSISTANT:' }}"
+			"chat_template": "{% for message in messages %}{{message['role'].toLocaleUpperCase() + ': ' + message['content'] + '\n'}}{% endfor %}{{ 'ASSISTANT:' }}",
+			"add_generation_prompt": true
 		},
 		"pricing": {
 			"input": 75,
@@ -2145,9 +4206,9 @@ let models = [
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x75c42C746f45AC32cb8f15522F919ad25d0769fA": 1
+				"0xBCd06aE767F0e760B855acA06C6Be60DC8Cb2291": 1
 			},
-			"asks_updated": "2024-01-28T09:52:32.770982452Z",
+			"asks_updated": "2024-04-02T15:00:30.065880345Z",
 			"gpus": {
 				"": 0
 			},
@@ -2164,7 +4225,7 @@ let models = [
 				{
 					"avzone": "us-central-1a",
 					"cluster": "sassyseal",
-					"capacity": 0.10389610389610392,
+					"capacity": 0.11111111111111113,
 					"qps": 0,
 					"throughput_in": 0,
 					"throughput_out": 0,
@@ -2199,6 +4260,7 @@ let models = [
 				"</s>",
 				"USER:"
 			],
+			"add_generation_prompt": true,
 			"prompt_format": "USER: {prompt}\nASSISTANT: Hello!",
 			"chat_template": "{% for message in messages %}{{message['role'].toLocaleUpperCase() + ': ' + message['content'] + '\n'}}{% endfor %}{{ 'ASSISTANT:' }}"
 		},
@@ -2221,13 +4283,13 @@ let models = [
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x6cdA20330714Fde76167809E8915c2cF52469A4E": 1
+				"0x6E25f38a12bD7dC6B6F5E5441A4f5Cd0F85F1e1a": 1
 			},
-			"asks_updated": "2024-01-28T09:55:25.27760955Z",
+			"asks_updated": "2024-04-02T15:16:48.26862135Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.13333333333333333,
+			"qps": 0,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -2236,16 +4298,528 @@ let models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 1.8,
-			"throughput_out": 9.866666666666667,
 			"stats": [
 				{
 					"avzone": "us-central-1a",
 					"cluster": "sassyseal",
-					"capacity": 0.04545454545454545,
-					"qps": 0.13333333333333333,
-					"throughput_in": 1.8,
-					"throughput_out": 9.866666666666667,
+					"capacity": 0.045454545454545456,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65a6dd9de620478cfa144258",
+		"name": "meta-llama/Llama-2-13b-chat-hf",
+		"display_name": "LLaMA-2 Chat (13B)",
+		"display_type": "chat",
+		"description": "Llama 2-chat leverages publicly available instruction datasets and over 1 million human annotations. Available in three sizes: 7B, 13B and 70B parameters",
+		"license": "LLaMA license Agreement (Meta)",
+		"link": "https://huggingface.co/meta-llama/Llama-2-13b-chat-hf",
+		"creator_organization": "Meta",
+		"pricing_tier": "Featured",
+		"access": "open",
+		"num_parameters": "13015864320",
+		"show_in_playground": true,
+		"finetuning_supported": true,
+		"isFeaturedModel": true,
+		"context_length": 4096,
+		"config": {
+			"prompt_format": "[INST] {prompt} [/INST]",
+			"stop": [
+				"[/INST]",
+				"</s>"
+			],
+			"add_generation_prompt": true,
+			"chat_template_name": "llama"
+		},
+		"pricing": {
+			"input": 55,
+			"output": 55,
+			"hourly": 0
+		},
+		"created_at": "2023-07-18T22:46:55.042Z",
+		"update_at": "2023-12-04T05:00:54.436Z",
+		"instances": [
+			{
+				"avzone": "us-central-1a",
+				"cluster": "sassyseal"
+			}
+		],
+		"hardware_label": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 1,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0x07BF2767761F4B5dB49c4f256Fae60D5Fa2c09F6": 1
+			},
+			"asks_updated": "2024-04-02T16:31:01.949277474Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0.6,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"throughput_in": 220.8,
+			"throughput_out": 85.13333333333334,
+			"stats": [
+				{
+					"avzone": "us-central-1a",
+					"cluster": "sassyseal",
+					"capacity": 0.20952380952380942,
+					"qps": 0.6,
+					"throughput_in": 220.8,
+					"throughput_out": 85.13333333333334,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65a6dd03e620478cfa144255",
+		"name": "meta-llama/Llama-2-13b-hf",
+		"display_name": "LLaMA-2 (13B)",
+		"display_type": "language",
+		"description": "Language model trained on 2 trillion tokens with double the context length of Llama 1. Available in three sizes: 7B, 13B and 70B parameters",
+		"license": "LLaMA license Agreement (Meta)",
+		"link": "https://huggingface.co/meta-llama/Llama-2-13b-hf",
+		"creator_organization": "Meta",
+		"pricing_tier": "Featured",
+		"access": "open",
+		"num_parameters": "13015864320",
+		"show_in_playground": true,
+		"finetuning_supported": true,
+		"isFeaturedModel": true,
+		"context_length": 4096,
+		"config": {
+			"stop": [
+				"</s>"
+			]
+		},
+		"pricing": {
+			"input": 55,
+			"output": 55,
+			"hourly": 0
+		},
+		"created_at": "2023-07-18T22:46:55.042Z",
+		"update_at": "2023-12-04T05:07:52.318Z",
+		"instances": [
+			{
+				"avzone": "us-central-1a",
+				"cluster": "sassyseal"
+			}
+		],
+		"hardware_label": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 1,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0xb6F5C715d90F639497D8D7FC526BDd50C10BF91a": 1
+			},
+			"asks_updated": "2024-04-02T14:42:48.106764468Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"stats": [
+				{
+					"avzone": "us-central-1a",
+					"cluster": "sassyseal",
+					"capacity": 0.1,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65a6dd95e620478cfa144257",
+		"name": "meta-llama/Llama-2-70b-chat-hf",
+		"display_name": "LLaMA-2 Chat (70B)",
+		"display_type": "chat",
+		"description": "Llama 2-chat leverages publicly available instruction datasets and over 1 million human annotations. Available in three sizes: 7B, 13B and 70B parameters",
+		"license": "LLaMA license Agreement (Meta)",
+		"link": "https://huggingface.co/meta-llama/Llama-2-70b-chat-hf",
+		"creator_organization": "Meta",
+		"hardware_label": "2X A100 80GB",
+		"pricing_tier": "Featured",
+		"access": "open",
+		"num_parameters": "68976648192",
+		"show_in_playground": true,
+		"finetuning_supported": true,
+		"isFeaturedModel": true,
+		"context_length": 4096,
+		"config": {
+			"prompt_format": "[INST] {prompt} [/INST]",
+			"stop": [
+				"[/INST]",
+				"</s>"
+			],
+			"add_generation_prompt": true,
+			"chat_template_name": "llama"
+		},
+		"pricing": {
+			"input": 225,
+			"output": 225,
+			"hourly": 0
+		},
+		"created_at": "2023-07-18T22:46:55.042Z",
+		"update_at": "2023-07-18T22:46:55.042Z",
+		"autopilot_pool": "cr-a100-80-2x",
+		"instances": [
+			{
+				"avzone": "us-central-5b",
+				"cluster": "blusterybull"
+			},
+			{
+				"avzone": "us-central-6a",
+				"cluster": "mirthfulmonkey"
+			}
+		],
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 4,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0x20D471BcEdfaAb6f455306747442509A376d7f12": 1,
+				"0x37D77F17647b11d3F962A7624fa89248eeb8A125": 1,
+				"0x7236b243F014f023DB75A0d1916e9BCf9284724D": 1,
+				"0xA529749e24a956C10483ce9DC0926B5E74236FC7": 1,
+				"0xd9Df4f71B360bB00922FaB85955e9b7e42c73d57": 1
+			},
+			"asks_updated": "2024-04-02T15:01:08.502276046Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 2.2,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"throughput_in": 2068.6,
+			"throughput_out": 303.46666666666664,
+			"retry_rate": 0.13333333333333333,
+			"stats": [
+				{
+					"avzone": "us-central-5b",
+					"cluster": "blusterybull",
+					"capacity": 0.018348623853210986,
+					"qps": 1.8666666666666667,
+					"throughput_in": 1755.1333333333334,
+					"throughput_out": 272.26666666666665,
+					"error_rate": 0,
+					"retry_rate": 0.06666666666666667
+				},
+				{
+					"avzone": "us-central-6a",
+					"cluster": "mirthfulmonkey",
+					"capacity": 0.026477832512315277,
+					"qps": 0.3333333333333333,
+					"throughput_in": 313.46666666666664,
+					"throughput_out": 31.2,
+					"error_rate": 0,
+					"retry_rate": 0.06666666666666667
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65a6dd0ee620478cfa144256",
+		"name": "meta-llama/Llama-2-70b-hf",
+		"display_name": "LLaMA-2 (70B)",
+		"display_type": "language",
+		"description": "Language model trained on 2 trillion tokens with double the context length of Llama 1. Available in three sizes: 7B, 13B and 70B parameters",
+		"license": "LLaMA license Agreement (Meta)",
+		"link": "https://huggingface.co/meta-llama/Llama-2-70b-hf",
+		"creator_organization": "Meta",
+		"hardware_label": "2X A100 80GB",
+		"pricing_tier": "Featured",
+		"access": "open",
+		"num_parameters": "68976648192",
+		"show_in_playground": true,
+		"finetuning_supported": true,
+		"isFeaturedModel": true,
+		"context_length": 4096,
+		"config": {
+			"stop": [
+				"</s>"
+			]
+		},
+		"pricing": {
+			"input": 225,
+			"output": 225,
+			"hourly": 0
+		},
+		"created_at": "2023-07-18T22:46:55.042Z",
+		"update_at": "2023-07-18T22:46:55.042Z",
+		"autopilot_pool": "cr-a100-80-2x",
+		"instances": [
+			{
+				"avzone": "us-central-5b",
+				"cluster": "blusterybull"
+			}
+		],
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 1,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0x3914E1675cbf0Ab2a0cAC48077f97f8458B82C82": 1
+			},
+			"asks_updated": "2024-04-02T12:29:12.022101851Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"stats": [
+				{
+					"avzone": "us-central-5b",
+					"cluster": "blusterybull",
+					"capacity": 0.025,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65a6dda7e620478cfa144259",
+		"name": "meta-llama/Llama-2-7b-chat-hf",
+		"display_name": "LLaMA-2 Chat (7B)",
+		"display_type": "chat",
+		"description": "Llama 2-chat leverages publicly available instruction datasets and over 1 million human annotations. Available in three sizes: 7B, 13B and 70B parameters",
+		"license": "LLaMA license Agreement (Meta)",
+		"link": "https://huggingface.co/meta-llama/Llama-2-7b-chat-hf",
+		"creator_organization": "Meta",
+		"pricing_tier": "Featured",
+		"access": "open",
+		"num_parameters": "6738415616",
+		"show_in_playground": true,
+		"finetuning_supported": true,
+		"isFeaturedModel": true,
+		"context_length": 4096,
+		"config": {
+			"prompt_format": "[INST] {prompt} [/INST]",
+			"stop": [
+				"[/INST]",
+				"</s>"
+			],
+			"add_generation_prompt": true,
+			"chat_template_name": "llama"
+		},
+		"pricing": {
+			"input": 50,
+			"output": 50,
+			"hourly": 0
+		},
+		"created_at": "2023-07-18T22:46:55.042Z",
+		"update_at": "2023-07-18T22:46:55.042Z",
+		"instances": [
+			{
+				"avzone": "us-central-1a",
+				"cluster": "sassyseal"
+			},
+			{
+				"avzone": "us-central-2a",
+				"cluster": "jollyllama"
+			},
+			{
+				"avzone": "us-east-2a",
+				"cluster": "jumpyjackal"
+			}
+		],
+		"hardware_label": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 2,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0x05655a9b3C902ceC9a13CfB61bc8f1FAfCdE7Aa8": 1,
+				"0x0c409751A39422fb09dbd0DB2EE0a2E69Bb29f40": 1,
+				"0x131c7b8C8e9eC24574A2183c99Ad92F7c7a1f82E": 1,
+				"0x63B1A514621b84Ced84a2f26b0fc11A2f964DA7E": 1
+			},
+			"asks_updated": "2024-04-02T18:23:04.254092805Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 7.333333333333334,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"throughput_in": 1660.9333333333334,
+			"throughput_out": 697.9333333333334,
+			"stats": [
+				{
+					"avzone": "us-central-1a",
+					"cluster": "sassyseal",
+					"capacity": 0.16368421052631582,
+					"qps": 1.7333333333333334,
+					"throughput_in": 395.8,
+					"throughput_out": 172,
+					"error_rate": 0,
+					"retry_rate": 0
+				},
+				{
+					"avzone": "us-central-2a",
+					"cluster": "jollyllama",
+					"capacity": 0.22620967741935477,
+					"qps": 1.7333333333333334,
+					"throughput_in": 521.2666666666667,
+					"throughput_out": 160.2,
+					"error_rate": 0,
+					"retry_rate": 0
+				},
+				{
+					"avzone": "us-east-2a",
+					"cluster": "jumpyjackal",
+					"capacity": 0.2054347826086957,
+					"qps": 3.8666666666666667,
+					"throughput_in": 743.8666666666667,
+					"throughput_out": 365.73333333333335,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65a6db78e620478cfa144254",
+		"name": "meta-llama/Llama-2-7b-hf",
+		"display_name": "LLaMA-2 (7B)",
+		"display_type": "language",
+		"description": "Language model trained on 2 trillion tokens with double the context length of Llama 1. Available in three sizes: 7B, 13B and 70B parameters",
+		"license": "LLaMA license Agreement (Meta)",
+		"link": "https://huggingface.co/meta-llama/Llama-2-7b-hf",
+		"creator_organization": "Meta",
+		"pricing_tier": "Featured",
+		"access": "open",
+		"num_parameters": "6738415616",
+		"show_in_playground": true,
+		"finetuning_supported": true,
+		"isFeaturedModel": true,
+		"context_length": 4096,
+		"config": {
+			"stop": [
+				"</s>"
+			]
+		},
+		"pricing": {
+			"input": 50,
+			"output": 50,
+			"hourly": 0
+		},
+		"created_at": "2023-07-18T22:46:55.042Z",
+		"update_at": "2023-07-18T22:46:55.042Z",
+		"instances": [
+			{
+				"avzone": "us-central-1a",
+				"cluster": "sassyseal"
+			}
+		],
+		"hardware_label": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 1,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0x8Dab4948855BcB4d3D1eE3dA4FA46A4c1E0E76c9": 1
+			},
+			"asks_updated": "2024-04-02T12:32:48.147065354Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"stats": [
+				{
+					"avzone": "us-central-1a",
+					"cluster": "sassyseal",
+					"capacity": 0.05,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -2280,8 +4854,8 @@ let models = [
 		"update_at": "2024-01-26T19:23:46.072Z",
 		"instances": [
 			{
-				"avzone": "us-central-5a",
-				"cluster": "wrigleycub"
+				"avzone": "us-central-2a",
+				"cluster": "jollyllama"
 			}
 		],
 		"access": "",
@@ -2292,9 +4866,9 @@ let models = [
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0xD13D60186eC2F972F3290F6e9E4994d67923e5fe": 1
+				"0x783147c96Ef940c47B13738755D015Eb764db9Bb": 1
 			},
-			"asks_updated": "2024-01-27T10:47:55.376176844Z",
+			"asks_updated": "2024-04-02T18:12:19.901051479Z",
 			"gpus": {
 				"": 0
 			},
@@ -2309,9 +4883,9 @@ let models = [
 			},
 			"stats": [
 				{
-					"avzone": "us-central-5a",
-					"cluster": "wrigleycub",
-					"capacity": 0,
+					"avzone": "us-central-2a",
+					"cluster": "jollyllama",
+					"capacity": 0.024390243902439025,
 					"qps": 0,
 					"throughput_in": 0,
 					"throughput_out": 0,
@@ -2341,6 +4915,7 @@ let models = [
 		"isFeaturedModel": true,
 		"context_length": 4096,
 		"config": {
+			"add_generation_prompt": true,
 			"stop": [
 				"[/INST]",
 				"</s>"
@@ -2358,29 +4933,32 @@ let models = [
 		"update_at": "2023-10-12T01:13:51.840Z",
 		"instances": [
 			{
-				"avzone": "ap-northeast-1a",
-				"cluster": "optimisticotter"
+				"avzone": "us-central-5b",
+				"cluster": "blusterybull"
 			},
 			{
-				"avzone": "us-central-2a",
-				"cluster": "jollyllama"
+				"avzone": "us-central-6a",
+				"cluster": "mirthfulmonkey"
 			}
 		],
 		"access": "",
 		"link": "",
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 1,
+			"num_asks": 3,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0xd67c558915095d7fe3D8762B09eb97A143202602": 1
+				"0x5cDc2B0FDbB7D5666a758876af4Ab92D2d183F00": 1,
+				"0x61FEe677bD619758043dDEe7fEc5c2D2751d7b22": 1,
+				"0x9AbeB80e329d053D14a0E54F45d0947258f18eA8": 1,
+				"0xA046b849Bf24E150298Db1a6199C4104D53963a6": 1
 			},
-			"asks_updated": "2024-01-27T23:11:23.831011141Z",
+			"asks_updated": "2024-04-02T18:22:09.756363438Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 1.7333333333333334,
+			"qps": 17.333333333333332,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -2389,29 +4967,29 @@ let models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 370.73333333333335,
-			"throughput_out": 236.13333333333333,
-			"retry_rate": 2,
+			"throughput_in": 3897.3999999999996,
+			"throughput_out": 3093.8,
+			"retry_rate": 0.4,
 			"stats": [
 				{
-					"avzone": "ap-northeast-1a",
-					"cluster": "optimisticotter",
-					"capacity": 0.16076388888888898,
-					"qps": 1.7333333333333334,
-					"throughput_in": 370.73333333333335,
-					"throughput_out": 236.13333333333333,
+					"avzone": "us-central-5b",
+					"cluster": "blusterybull",
+					"capacity": 0.24316939890710387,
+					"qps": 4.866666666666666,
+					"throughput_in": 1206.2,
+					"throughput_out": 930.7333333333333,
 					"error_rate": 0,
-					"retry_rate": 2
+					"retry_rate": 0.13333333333333333
 				},
 				{
-					"avzone": "us-central-2a",
-					"cluster": "jollyllama",
-					"capacity": 0,
-					"qps": 0,
-					"throughput_in": 0,
-					"throughput_out": 0,
+					"avzone": "us-central-6a",
+					"cluster": "mirthfulmonkey",
+					"capacity": 0.2393640841916712,
+					"qps": 12.466666666666667,
+					"throughput_in": 2691.2,
+					"throughput_out": 2163.0666666666666,
 					"error_rate": 0,
-					"retry_rate": 0
+					"retry_rate": 0.26666666666666666
 				}
 			]
 		}
@@ -2442,7 +5020,8 @@ let models = [
 				"</s>"
 			],
 			"chat_template_name": "llama",
-			"tools_template": "{{ 'If you need to invoke any of the following functions:\n' + tools + '\nplease respond in the following JSON format:\n[\n\n  {\n    \"name\": \"the name of the function to be invoked\",\n    \"arguments\": {\"key1\": \"value1\", \"key2\": \"value2\", ...}\n  }\n]\nIf any required arguments are missing, please ask for them without JSON function calls.\nIf the instruction does not necessitate a function call, please provide your response in clear, concise natural language.\n\n' + message['content'] }}"
+			"tools_template": "{{ 'If you need to invoke any of the following functions:\n' + tools + '\nplease respond in the following JSON format:\n[\n\n  {\n    \"name\": \"the name of the function to be invoked\",\n    \"arguments\": {\"key1\": \"value1\", \"key2\": \"value2\", ...}\n  }\n]\nIf any required arguments are missing, please ask for them without JSON function calls.\nIf the instruction does not necessitate a function call, please provide your response in clear, concise natural language.\n\n' + message['content'] }}",
+			"add_generation_prompt": true
 		},
 		"pricing": {
 			"input": 50,
@@ -2453,12 +5032,12 @@ let models = [
 		"update_at": "2023-12-11T20:09:33.627Z",
 		"instances": [
 			{
-				"avzone": "ap-northeast-1a",
-				"cluster": "optimisticotter"
+				"avzone": "us-central-5b",
+				"cluster": "blusterybull"
 			},
 			{
-				"avzone": "us-central-1a",
-				"cluster": "sassyseal"
+				"avzone": "us-central-6a",
+				"cluster": "mirthfulmonkey"
 			}
 		],
 		"access": "",
@@ -2466,25 +5045,18 @@ let models = [
 		"link": "",
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 8,
+			"num_asks": 1,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x350Ac4bd8f284c24689D481A0781C23B3b556a27": 1,
-				"0x410E34c509337944cf3D5668e5C261608690A73C": 1,
-				"0x5EcDb6E5f850280085e17986273c98432bE1bDBB": 1,
-				"0xF0f3b7a1339d7540e3EdA47C1f4CF45406247ff8": 1,
-				"0xb262c98cd2075D6bc8EDe59551cdD62dFc33c5a8": 1,
-				"0xbcf0e2D261ed3272416FAdca618bD000E4dB75e8": 1,
-				"0xcb5e44ec9A7942F4C3064a65fCFc1C21e2449B8e": 1,
-				"0xdF958d30F85c7caD3F8630840F72FA162323994c": 1,
-				"0xf162Ce79587d1Cfe351603683D59d352D7963CbA": 1
+				"0x6c1Ca09C703D3013ca1C519820dA18f084b58B6c": 1,
+				"0xD7B067F109ac4Fc217349A192aed14768d5608B0": 1
 			},
-			"asks_updated": "2024-01-28T11:37:20.209308809Z",
+			"asks_updated": "2024-04-02T18:11:47.236278591Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.13333333333333333,
+			"qps": 7.533333333333333,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -2493,28 +5065,30 @@ let models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 1.7999999999999998,
-			"throughput_out": 9.866666666666667,
+			"throughput_in": 8399.266666666666,
+			"throughput_out": 627.4666666666667,
+			"error_rate": 0.8,
+			"retry_rate": 0.13333333333333333,
 			"stats": [
 				{
-					"avzone": "ap-northeast-1a",
-					"cluster": "optimisticotter",
-					"capacity": 0.05263157894736842,
-					"qps": 0.06666666666666667,
-					"throughput_in": 0.4666666666666667,
-					"throughput_out": 8.533333333333333,
-					"error_rate": 0,
+					"avzone": "us-central-5b",
+					"cluster": "blusterybull",
+					"capacity": 0.25144032921810666,
+					"qps": 3.8666666666666667,
+					"throughput_in": 4719.2,
+					"throughput_out": 325.73333333333335,
+					"error_rate": 0.4666666666666667,
 					"retry_rate": 0
 				},
 				{
-					"avzone": "us-central-1a",
-					"cluster": "sassyseal",
-					"capacity": 0.1111111111111111,
-					"qps": 0.06666666666666667,
-					"throughput_in": 1.3333333333333333,
-					"throughput_out": 1.3333333333333333,
-					"error_rate": 0,
-					"retry_rate": 0
+					"avzone": "us-central-6a",
+					"cluster": "mirthfulmonkey",
+					"capacity": 0.23291666666666652,
+					"qps": 3.6666666666666665,
+					"throughput_in": 3680.0666666666666,
+					"throughput_out": 301.73333333333335,
+					"error_rate": 0.3333333333333333,
+					"retry_rate": 0.13333333333333333
 				}
 			]
 		}
@@ -2552,27 +5126,26 @@ let models = [
 		},
 		"created_at": "2023-09-28T00:21:02.330Z",
 		"update_at": "2023-09-28T00:21:02.330Z",
-		"instances": [
-			{
-				"avzone": "us-central-2a",
-				"cluster": "jollyllama"
-			}
-		],
+		"instances": {
+			"avzone": "us-east-1a",
+			"cluster": "happypiglet"
+		},
 		"access": "",
 		"link": "",
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 1,
+			"num_asks": 2,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0xFf846afd22c38E7cb1E12d0661c9Fd5CE0a375B6": 1
+				"0x13144463e966489650B83b8Ee0D60f26b8Ea82b5": 1,
+				"0x9e6F8171C9e8436d90b447E87bAE019e2746758A": 1
 			},
-			"asks_updated": "2024-01-27T10:53:36.066176197Z",
+			"asks_updated": "2024-04-02T15:05:19.725416054Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.06666666666666667,
+			"qps": 0.11755743,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -2581,20 +5154,8 @@ let models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 0.4666666666666667,
-			"throughput_out": 8.533333333333333,
-			"stats": [
-				{
-					"avzone": "us-central-2a",
-					"cluster": "jollyllama",
-					"capacity": 0.25,
-					"qps": 0.06666666666666667,
-					"throughput_in": 0.4666666666666667,
-					"throughput_out": 8.533333333333333,
-					"error_rate": 0,
-					"retry_rate": 0
-				}
-			]
+			"throughput_in": 233.22757,
+			"throughput_out": 314.91562
 		}
 	},
 	{
@@ -2604,7 +5165,7 @@ let models = [
 		},
 		"_id": "6577af4434e6c1e2bb5283d8",
 		"name": "mistralai/Mixtral-8x7B-Instruct-v0.1",
-		"display_name": "Mixtral-8x7B Instruct",
+		"display_name": "Mixtral-8x7B Instruct v0.1",
 		"display_type": "chat",
 		"description": "The Mixtral-8x7B Large Language Model (LLM) is a pretrained generative Sparse Mixture of Experts.",
 		"license": "apache-2.0",
@@ -2614,6 +5175,7 @@ let models = [
 		"access": "open",
 		"num_parameters": "56000000000",
 		"show_in_playground": true,
+		"finetuning_supported": true,
 		"isFeaturedModel": true,
 		"context_length": 32768,
 		"config": {
@@ -2623,7 +5185,8 @@ let models = [
 				"</s>"
 			],
 			"chat_template_name": "llama",
-			"tools_template": "{{ '<<SYS>>\\n' + systemMessage['content'] + '\\n\\nYou can access the following functions. Use them if required -\\n' + tools + '\\n<</SYS>>\\n\\n' + message['content'] }}"
+			"tools_template": "{{ '<<SYS>>\\n' + systemMessage['content'] + '\\n\\nYou can access the following functions. Use them if required -\\n' + tools + '\\n<</SYS>>\\n\\n' + message['content'] }}",
+			"add_generation_prompt": true
 		},
 		"pricing": {
 			"input": 150,
@@ -2631,46 +5194,51 @@ let models = [
 			"hourly": 0
 		},
 		"created_at": "2023-12-12T00:54:28.108Z",
-		"update_at": "2023-12-12T00:54:28.108Z",
+		"update_at": "2024-02-08T07:58:24.624Z",
+		"autopilot_pool": "cr-a100-80-2x",
 		"instances": [
 			{
-				"avzone": "us-east-1a",
-				"cluster": "happypiglet"
+				"avzone": "us-central-5b",
+				"cluster": "blusterybull"
 			},
 			{
-				"avzone": "us-central-5a",
-				"cluster": "wrigleycub"
+				"avzone": "us-central-6a",
+				"cluster": "mirthfulmonkey"
 			}
 		],
 		"hardware_label": "",
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 15,
+			"num_asks": 19,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x064b205Eb742312BAbBCA35e271761E5954c4667": 1,
-				"0x0f821C50562315A252fEE9b66103c3E3d9375971": 1,
-				"0x338C3AE7830c7D31837F6f2A1c43aEf630A249BB": 1,
-				"0x34a967702d0071579F47eFF632D58D7A235e9a26": 1,
-				"0x5108488D900AC93C5DBd42AcACD190fBA77b7084": 1,
-				"0x551f2889FF97a812668c584fff5Da268234fde10": 1,
-				"0x555A4454465AfdB6c208745a9cC47b8A98307B9b": 1,
-				"0x5Ba73D7cB470ef21DEE441a2eb168A2ae8331B3D": 1,
-				"0x60D937AFcC4f2AFd2A25610094Cd4149612Ef986": 1,
-				"0x8aE0216c6cfF5470d33e156Dc08D100EC9D31173": 1,
-				"0x9a8a5Eca5ED0d77c6165a302DeE6ef8Bee7d2724": 1,
-				"0xA339F5b1e2bf8123be1B565355A842432757e44C": 1,
-				"0xD547C6DEdcD8410FCd39B3588A14e5665A3F8a5f": 1,
-				"0xDe47AB74625Db038ba3662c41332155ac9b80541": 1,
-				"0xca8734926B420a52F10438AFE3A09620be09F985": 1,
-				"0xf6a4a9a56dc9D39521B8d1F1DF49D146915e41B5": 1
+				"0x1B5738E774275Ac739D134bd13fF33Af00F1E5aF": 1,
+				"0x20deb2E948f9E5fcD088f5E3c55d3dC60239cBe9": 1,
+				"0x20e8F7b06AF44F1A9d6018555353e63c5D4B820a": 1,
+				"0x2167e04DEda8289FeB7cB48fff6fACd77706eD61": 1,
+				"0x2F1F729A8a095a3A9a8F891033a08b26939A55D6": 1,
+				"0x4F93bdE91eE740d39962b63cBF730A69a2e4A965": 1,
+				"0x5f0Ee75d651D900402F93C95295a172b42EfCaCE": 1,
+				"0x8F66c63231A08460482d28c2bAb08C477113B32A": 1,
+				"0x9e746d9Ce6AcA805774E68B1f5Cc00b30aeF195C": 1,
+				"0x9f88bBF8DE5bBEB60DA9f1069ac16E968bc67d9a": 1,
+				"0xBf7888f491a71AB8CB37b92fCA7B8ce1375c0837": 1,
+				"0xC73B2bc99db42A60cdDE958eF776deEb0bfB5178": 1,
+				"0xE678f223cBd9E277f9F2Fc9622ad5C52f191B7ed": 1,
+				"0xEdC7EC30340B66a932fFB448EB87f8cD26B8023C": 1,
+				"0xaCfC53755692CB4fe51b08Fc7BB114037672acBc": 1,
+				"0xb2fa22c78fA1BC38d6CeCC3c0e64738a8850F2dE": 1,
+				"0xbD5B0ba7A93634377e607bd090aa20FEEBaEeee8": 1,
+				"0xbb6C18a9a2321eec9d0d14e12D02a874C63780e4": 1,
+				"0xcE176551596cE7Baa1AB0d9196172fE988219dc9": 1,
+				"0xd11B2391ebcBdEAC1b7a2159EBd5d91603555429": 1
 			},
-			"asks_updated": "2024-01-28T11:30:59.141907995Z",
+			"asks_updated": "2024-04-02T15:25:40.499307Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 12.066666666666666,
+			"qps": 6.199999999999999,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -2679,30 +5247,99 @@ let models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 15169.733333333334,
-			"throughput_out": 2523.2,
-			"error_rate": 0.06666666666666667,
-			"retry_rate": 53.53333333333333,
+			"throughput_in": 13784.2,
+			"throughput_out": 1837.9333333333334,
+			"retry_rate": 0.13333333333333333,
 			"stats": [
 				{
-					"avzone": "us-east-1a",
-					"cluster": "happypiglet",
-					"capacity": 0.20395890754196971,
-					"qps": 6,
-					"throughput_in": 7313.733333333334,
-					"throughput_out": 1195.3333333333333,
-					"error_rate": 0.06666666666666667,
-					"retry_rate": 30.133333333333333
+					"avzone": "us-central-5b",
+					"cluster": "blusterybull",
+					"capacity": 0.10448375154257485,
+					"qps": 3.6666666666666665,
+					"throughput_in": 7965.4,
+					"throughput_out": 1065.6,
+					"error_rate": 0,
+					"retry_rate": 0.06666666666666667
 				},
 				{
-					"avzone": "us-central-5a",
-					"cluster": "wrigleycub",
-					"capacity": 0.23955067920585182,
-					"qps": 6.066666666666666,
-					"throughput_in": 7856,
-					"throughput_out": 1327.8666666666666,
+					"avzone": "us-central-6a",
+					"cluster": "mirthfulmonkey",
+					"capacity": 0.11088911088911073,
+					"qps": 2.533333333333333,
+					"throughput_in": 5818.8,
+					"throughput_out": 772.3333333333334,
 					"error_rate": 0,
-					"retry_rate": 23.4
+					"retry_rate": 0.06666666666666667
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "6577bf1034e6c1e2bb5283d9",
+		"name": "mistralai/Mixtral-8x7B-v0.1",
+		"display_name": "Mixtral-8x7B v0.1",
+		"display_type": "language",
+		"description": "The Mixtral-8x7B Large Language Model (LLM) is a pretrained generative Sparse Mixture of Experts.",
+		"license": "apache-2.0",
+		"link": "https://huggingface.co/mistralai/Mixtral-8x7B-v0.1",
+		"creator_organization": "mistralai",
+		"pricing_tier": "Featured",
+		"access": "open",
+		"num_parameters": "56000000000",
+		"show_in_playground": true,
+		"finetuning_supported": true,
+		"isFeaturedModel": true,
+		"context_length": 32768,
+		"pricing": {
+			"input": 150,
+			"output": 150,
+			"hourly": 0
+		},
+		"created_at": "2023-12-12T02:01:52.674Z",
+		"update_at": "2024-02-08T07:58:39.848Z",
+		"autopilot_pool": "cr-a100-80-2x",
+		"instances": [
+			{
+				"avzone": "us-central-6a",
+				"cluster": "mirthfulmonkey"
+			}
+		],
+		"hardware_label": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 1,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0x96177830Cc00bF1E495935063c36B2F5B1E9657a": 1
+			},
+			"asks_updated": "2024-04-02T14:32:03.93558426Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"stats": [
+				{
+					"avzone": "us-central-6a",
+					"cluster": "mirthfulmonkey",
+					"capacity": 0.07692307692307693,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
+					"error_rate": 0,
+					"retry_rate": 0
 				}
 			]
 		}
@@ -2756,13 +5393,13 @@ let models = [
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0xABDf5E3162B18e8ddA01478386c88dC1021A7383": 1
+				"0x7c2e432720fC11Cd177eFf01BD7Fb55B705EFB2E": 1
 			},
-			"asks_updated": "2024-01-28T09:59:23.509143128Z",
+			"asks_updated": "2024-04-02T15:19:18.591616252Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.13333333333333333,
+			"qps": 0.06666666666666667,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -2771,16 +5408,16 @@ let models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 4.533333333333333,
-			"throughput_out": 16.8,
+			"throughput_in": 14.933333333333334,
+			"throughput_out": 2.8,
 			"stats": [
 				{
 					"avzone": "ap-northeast-1a",
 					"cluster": "optimisticotter",
-					"capacity": 0.02702702702702703,
-					"qps": 0.13333333333333333,
-					"throughput_in": 4.533333333333333,
-					"throughput_out": 16.8,
+					"capacity": 0,
+					"qps": 0.06666666666666667,
+					"throughput_in": 14.933333333333334,
+					"throughput_out": 2.8,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -2830,14 +5467,14 @@ let models = [
 				"0x5C5b60Ea2C7046FDdf7F7be3853d046301334a85": 1,
 				"0xB2bFeaa446Cc0376249ed2d7a8f5C32E0705e556": 1
 			},
-			"asks_updated": "2024-01-28T10:31:00.847324865Z",
+			"asks_updated": "2024-04-02T15:23:45.648194415Z",
 			"gpus": {
 				"NVIDIA A40": 2
 			},
 			"options": {
 				"input=text,image": 2
 			},
-			"qps": 0.009803828,
+			"qps": 0.020869175,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -2846,7 +5483,7 @@ let models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 0.19607656
+			"throughput_in": 0.37564525
 		}
 	},
 	{
@@ -2892,14 +5529,14 @@ let models = [
 			"asks": {
 				"0x98D41CFC96e488D9810431B65Aa98EBfc87b73c8": 1
 			},
-			"asks_updated": "2024-01-27T10:31:07.335099037Z",
+			"asks_updated": "2024-04-02T14:07:48.274364276Z",
 			"gpus": {
 				"NVIDIA A40": 1
 			},
 			"options": {
 				"input=text,image": 1
 			},
-			"qps": 0.010860239,
+			"qps": 0.021413935,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -2908,7 +5545,80 @@ let models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 0.21720478
+			"throughput_in": 0.38545096
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65460075c5ce2e5fa70d6721",
+		"name": "sentence-transformers/msmarco-bert-base-dot-v5",
+		"display_name": "Sentence-BERT",
+		"display_type": "embedding",
+		"description": "A sentence-transformers model: it maps sentences & paragraphs to a 768 dimensional dense vector space and was designed for semantic search.",
+		"license": "apache-2.0",
+		"link": "https://huggingface.co/sentence-transformers/msmarco-bert-base-dot-v5",
+		"creator_organization": "Together",
+		"hardware_label": "L40",
+		"pricing_tier": "Featured",
+		"access": "open",
+		"num_parameters": 110000000,
+		"show_in_playground": true,
+		"isFeaturedModel": true,
+		"context_length": 512,
+		"pricing": {
+			"hourly": 0,
+			"input": 2,
+			"output": 2,
+			"finetune": 0,
+			"base": 0
+		},
+		"created_at": "2023-11-04T08:27:33.867Z",
+		"update_at": "2023-12-22T03:15:44.832Z",
+		"instances": [
+			{
+				"avzone": "us-central-1a",
+				"cluster": "sassyseal"
+			}
+		],
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 4,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0x12A5aA174921D1A107E2c4f8a1b7fbf262B548e3": 1,
+				"0x662c7EE2ca9D3D4fAbcEE2286C1bbc5f24CA02fD": 1,
+				"0x834Dfa4EeF072100CcBC96fA3871d6f62Ce02455": 1,
+				"0xfE0CBc639aB99C5995B77cBd6aCCB0F29208186D": 1
+			},
+			"asks_updated": "2024-04-02T18:23:10.959964428Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"stats": [
+				{
+					"avzone": "us-central-1a",
+					"cluster": "sassyseal",
+					"capacity": 0.22021484375,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
 		}
 	},
 	{
@@ -2918,7 +5628,7 @@ let models = [
 		},
 		"_id": "65b454f3d9877b0bd1376470",
 		"name": "snorkelai/Snorkel-Mistral-PairRM-DPO",
-		"display_name": "Snorkel Mistral PairRM DPO",
+		"display_name": "Snorkel Mistral PairRM DPO (7B)",
 		"display_type": "chat",
 		"description": "A state-of-the-art model by Snorkel AI, DPO fine-tuned on Mistral-7B",
 		"license": "apache-2.0",
@@ -2935,7 +5645,8 @@ let models = [
 				"[/INST]",
 				"</s>"
 			],
-			"chat_template_name": "llama"
+			"chat_template_name": "llama",
+			"add_generation_prompt": true
 		},
 		"pricing": {
 			"input": 50,
@@ -2946,8 +5657,8 @@ let models = [
 		"update_at": "2024-01-27T14:24:41.745Z",
 		"instances": [
 			{
-				"avzone": "us-central-2a",
-				"cluster": "jollyllama"
+				"avzone": "us-east-2a",
+				"cluster": "jumpyjackal"
 			}
 		],
 		"access": "",
@@ -2955,18 +5666,17 @@ let models = [
 		"link": "",
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 2,
+			"num_asks": 1,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x03168eAc48df7A570E91C074901D11013A1881f4": 1,
-				"0x116414bb6b0a40B37b90C880e59C6cF3E7196E74": 1
+				"0x905d9333Bf36FC9fD26b130adaaEe6f5Bd4E800f": 1
 			},
-			"asks_updated": "2024-01-27T10:22:40.42772748Z",
+			"asks_updated": "2024-04-02T15:18:26.437353989Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.13333333333333333,
+			"qps": 0,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -2975,16 +5685,14 @@ let models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 230.33333333333334,
-			"throughput_out": 27.266666666666666,
 			"stats": [
 				{
-					"avzone": "us-central-2a",
-					"cluster": "jollyllama",
-					"capacity": 0.25,
-					"qps": 0.13333333333333333,
-					"throughput_in": 230.33333333333334,
-					"throughput_out": 27.266666666666666,
+					"avzone": "us-east-2a",
+					"cluster": "jumpyjackal",
+					"capacity": 0.1111111111111111,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -3027,14 +5735,14 @@ let models = [
 			"asks": {
 				"0xC9494f3A014EAC6DD43De5b03E03364F1AcC9ea7": 1
 			},
-			"asks_updated": "2024-01-27T11:41:26.576250365Z",
+			"asks_updated": "2024-04-02T12:39:21.027252507Z",
 			"gpus": {
 				"NVIDIA A100 80GB PCIe": 1
 			},
 			"options": {
 				"input=text,image": 1
 			},
-			"qps": 0.020753827,
+			"qps": 0.021413935,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -3043,7 +5751,7 @@ let models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 0.41507655
+			"throughput_in": 0.38545096
 		}
 	},
 	{
@@ -3089,14 +5797,14 @@ let models = [
 			"asks": {
 				"0x2E595c6ee5e62FeFF9f426b239a2fB0970476593": 1
 			},
-			"asks_updated": "2024-01-28T03:28:40.512213181Z",
+			"asks_updated": "2024-04-02T15:15:15.115854219Z",
 			"gpus": {
 				"NVIDIA A100 80GB PCIe": 1
 			},
 			"options": {
 				"input=text,image": 1
 			},
-			"qps": 0.07634915,
+			"qps": 0.040758412,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -3105,7 +5813,7 @@ let models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 27.084574
+			"throughput_in": 0.38689306
 		}
 	},
 	{
@@ -3126,6 +5834,7 @@ let models = [
 		"release_date": "2023-10-27T00:00:00.000Z",
 		"show_in_playground": true,
 		"isFeaturedModel": true,
+		"context_length": 8192,
 		"config": {
 			"stop": [
 				"<|im_end|>",
@@ -3143,37 +5852,26 @@ let models = [
 		},
 		"created_at": "2023-10-27T18:45:19.307Z",
 		"update_at": "2023-10-27T23:53:05.438Z",
-		"instances": [
-			{
-				"avzone": "us-east-2a",
-				"cluster": "jumpyjackal"
-			},
-			{
-				"avzone": "us-central-1a",
-				"cluster": "sassyseal"
-			},
-			{
-				"avzone": "us-central-5a",
-				"cluster": "wrigleycub"
-			}
-		],
+		"instances": {
+			"avzone": "us-central-5a",
+			"cluster": "wrigleycub"
+		},
 		"access": "",
 		"link": "",
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 1,
-			"num_bids": 0,
-			"num_running": 0,
+			"num_asks": 8,
+			"num_bids": 6,
+			"num_running": 6,
 			"asks": {
-				"0x0916A27F8b14De53BE968F395dFb041b1564d828": 1,
-				"0x7dC61AB36Cd89be8C43e0725D8DC1480710c677D": 1,
-				"0x9f850AC6941891f0ce2893F67f97DBc0f3839cDB": 1
+				"0x19604601864CF5e0d5E9F27D6D9Ff753A7f4C6A5": 5,
+				"0x24e7c0F944a664e4be6890a13Ce3cB0b930a2d9b": 3
 			},
-			"asks_updated": "2024-01-28T08:01:01.713577145Z",
+			"asks_updated": "2024-04-02T15:02:03.046346575Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.4666666666666667,
+			"qps": 0.4725284,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -3182,40 +5880,8 @@ let models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 400.5333333333333,
-			"throughput_out": 61.86666666666666,
-			"stats": [
-				{
-					"avzone": "us-east-2a",
-					"cluster": "jumpyjackal",
-					"capacity": 0.05681818181818182,
-					"qps": 0,
-					"throughput_in": 0,
-					"throughput_out": 0,
-					"error_rate": 0,
-					"retry_rate": 0
-				},
-				{
-					"avzone": "us-central-1a",
-					"cluster": "sassyseal",
-					"capacity": 0.05194805194805195,
-					"qps": 0.3333333333333333,
-					"throughput_in": 220.86666666666667,
-					"throughput_out": 42.53333333333333,
-					"error_rate": 0,
-					"retry_rate": 0
-				},
-				{
-					"avzone": "us-central-5a",
-					"cluster": "wrigleycub",
-					"capacity": 0.13333333333333336,
-					"qps": 0.13333333333333333,
-					"throughput_in": 179.66666666666666,
-					"throughput_out": 19.333333333333332,
-					"error_rate": 0,
-					"retry_rate": 0
-				}
-			]
+			"throughput_in": 2348.0789,
+			"throughput_out": 280.3882
 		}
 	},
 	{
@@ -3237,6 +5903,7 @@ let models = [
 		"show_in_playground": true,
 		"finetuning_supported": true,
 		"isFeaturedModel": true,
+		"context_length": 8192,
 		"config": {
 			"stop": [
 				"<|im_end|>",
@@ -3262,17 +5929,19 @@ let models = [
 		"link": "",
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 1,
+			"num_asks": 3,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0xD7BC9F96850b54dBbaC1A4938D34c500Fbee2E8A": 1
+				"0x12ACc16B9d66d6982bB7B0F48999B3381DC4a608": 1,
+				"0x3758229A3733c45E38cEb6a5CDd5Cca100F0F651": 1,
+				"0xce1B3f8108880f84391b0BC72398430e7380e2F1": 1
 			},
-			"asks_updated": "2024-01-28T06:51:52.324521917Z",
+			"asks_updated": "2024-04-02T17:54:07.302678393Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 2.3333333333333335,
+			"qps": 3.466666666666667,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -3281,797 +5950,16 @@ let models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 2619.3333333333335,
-			"throughput_out": 457.8,
-			"retry_rate": 0.3333333333333333,
+			"throughput_in": 5390.933333333333,
+			"throughput_out": 510.73333333333335,
 			"stats": [
 				{
 					"avzone": "us-east-2a",
 					"cluster": "jumpyjackal",
-					"capacity": 0.2675061425061425,
-					"qps": 2.3333333333333335,
-					"throughput_in": 2619.3333333333335,
-					"throughput_out": 457.8,
-					"error_rate": 0,
-					"retry_rate": 0.3333333333333333
-				}
-			]
-		}
-	},
-	{
-		"modelInstanceConfig": {
-			"appearsIn": [],
-			"order": 0
-		},
-		"_id": "64e78eba589782acafe17820",
-		"name": "togethercomputer/CodeLlama-13b-Instruct",
-		"display_name": "Code Llama Instruct (13B)",
-		"display_type": "chat",
-		"description": "Code Llama is a family of large language models for code based on Llama 2 providing infilling capabilities, support for large input contexts, and zero-shot instruction following ability for programming tasks.",
-		"license": "LLAMA 2 Community license Agreement (Meta)",
-		"creator_organization": "Meta",
-		"hardware_label": "A100 80GB",
-		"num_parameters": "13016028160",
-		"show_in_playground": true,
-		"finetuning_supported": true,
-		"isFeaturedModel": true,
-		"context_length": 16384,
-		"config": {
-			"prompt_format": "[INST] {prompt} [/INST]",
-			"stop": [
-				"</s>",
-				"[INST]"
-			],
-			"chat_template_name": "llama"
-		},
-		"pricing": {
-			"input": 55,
-			"output": 55,
-			"hourly": 0
-		},
-		"created_at": "2023-08-24T17:09:14.381Z",
-		"update_at": "2023-12-04T05:01:42.539Z",
-		"instances": [
-			{
-				"avzone": "us-central-1a",
-				"cluster": "sassyseal"
-			}
-		],
-		"access": "",
-		"link": "",
-		"descriptionLink": "",
-		"depth": {
-			"num_asks": 1,
-			"num_bids": 0,
-			"num_running": 0,
-			"asks": {
-				"0xd90aeCe81bf3FA14FbB303533A8d88323A3CD3C4": 1
-			},
-			"asks_updated": "2024-01-28T05:36:38.771760047Z",
-			"gpus": {
-				"": 0
-			},
-			"qps": 0.13333333333333333,
-			"permit_required": false,
-			"price": {
-				"base": 0,
-				"finetune": 0,
-				"hourly": 0,
-				"input": 0,
-				"output": 0
-			},
-			"throughput_in": 2.066666666666667,
-			"throughput_out": 11.066666666666666,
-			"stats": [
-				{
-					"avzone": "us-central-1a",
-					"cluster": "sassyseal",
-					"capacity": 0.2222222222222222,
-					"qps": 0.13333333333333333,
-					"throughput_in": 2.066666666666667,
-					"throughput_out": 11.066666666666666,
-					"error_rate": 0,
-					"retry_rate": 0
-				}
-			]
-		}
-	},
-	{
-		"modelInstanceConfig": {
-			"appearsIn": [],
-			"order": 0
-		},
-		"_id": "64e78eba589782acafe1781f",
-		"name": "togethercomputer/CodeLlama-13b-Python",
-		"display_name": "Code Llama Python (13B)",
-		"display_type": "code",
-		"description": "Code Llama is a family of large language models for code based on Llama 2 providing infilling capabilities, support for large input contexts, and zero-shot instruction following ability for programming tasks.",
-		"license": "LLAMA 2 Community license Agreement (Meta)",
-		"creator_organization": "Meta",
-		"hardware_label": "A100 80GB",
-		"num_parameters": "13016028160",
-		"show_in_playground": true,
-		"finetuning_supported": true,
-		"isFeaturedModel": true,
-		"context_length": 16384,
-		"config": {
-			"stop": [
-				"</s>"
-			],
-			"chat_template_name": "llama"
-		},
-		"pricing": {
-			"input": 55,
-			"output": 55,
-			"hourly": 0
-		},
-		"created_at": "2023-08-24T17:09:14.381Z",
-		"update_at": "2023-12-20T22:52:59.177Z",
-		"instances": [
-			{
-				"avzone": "us-central-1a",
-				"cluster": "sassyseal"
-			}
-		],
-		"access": "",
-		"link": "",
-		"descriptionLink": "",
-		"depth": {
-			"num_asks": 1,
-			"num_bids": 0,
-			"num_running": 0,
-			"asks": {
-				"0x087EEbB518f2C3245B6651FEE9F591DFAEa3629e": 1
-			},
-			"asks_updated": "2024-01-28T05:40:55.983880128Z",
-			"gpus": {
-				"": 0
-			},
-			"qps": 0.13333333333333333,
-			"permit_required": false,
-			"price": {
-				"base": 0,
-				"finetune": 0,
-				"hourly": 0,
-				"input": 0,
-				"output": 0
-			},
-			"throughput_in": 1,
-			"throughput_out": 17.066666666666666,
-			"stats": [
-				{
-					"avzone": "us-central-1a",
-					"cluster": "sassyseal",
-					"capacity": 0.2222222222222222,
-					"qps": 0.13333333333333333,
-					"throughput_in": 1,
-					"throughput_out": 17.066666666666666,
-					"error_rate": 0,
-					"retry_rate": 0
-				}
-			]
-		}
-	},
-	{
-		"modelInstanceConfig": {
-			"appearsIn": [],
-			"order": 0
-		},
-		"_id": "64e78eba589782acafe1781e",
-		"name": "togethercomputer/CodeLlama-13b",
-		"display_name": "Code Llama (13B)",
-		"display_type": "code",
-		"description": "Code Llama is a family of large language models for code based on Llama 2 providing infilling capabilities, support for large input contexts, and zero-shot instruction following ability for programming tasks.",
-		"license": "LLAMA 2 Community license Agreement (Meta)",
-		"creator_organization": "Meta",
-		"hardware_label": "A100 80GB",
-		"num_parameters": "13016028160",
-		"show_in_playground": true,
-		"finetuning_supported": true,
-		"isFeaturedModel": true,
-		"context_length": 16384,
-		"config": {
-			"stop": [
-				"</s>"
-			],
-			"chat_template_name": "llama"
-		},
-		"pricing": {
-			"input": 55,
-			"output": 55,
-			"hourly": 0
-		},
-		"created_at": "2023-08-24T17:09:14.381Z",
-		"update_at": "2023-12-21T01:12:38.916Z",
-		"instances": [
-			{
-				"avzone": "us-central-1a",
-				"cluster": "sassyseal"
-			}
-		],
-		"access": "",
-		"link": "",
-		"descriptionLink": "",
-		"depth": {
-			"num_asks": 2,
-			"num_bids": 0,
-			"num_running": 0,
-			"asks": {
-				"0xBEAaD56Bd33DB9bE9Eb4bcDa6C28174a2eCa8cdc": 1,
-				"0xD91496Fbe55E9268b35Bcbe45F4C18a6805908AE": 1
-			},
-			"asks_updated": "2024-01-27T11:43:18.546449802Z",
-			"gpus": {
-				"": 0
-			},
-			"qps": 0.13333333333333333,
-			"permit_required": false,
-			"price": {
-				"base": 0,
-				"finetune": 0,
-				"hourly": 0,
-				"input": 0,
-				"output": 0
-			},
-			"throughput_in": 1.2,
-			"throughput_out": 9.2,
-			"stats": [
-				{
-					"avzone": "us-central-1a",
-					"cluster": "sassyseal",
-					"capacity": 0.2222222222222222,
-					"qps": 0.13333333333333333,
-					"throughput_in": 1.2,
-					"throughput_out": 9.2,
-					"error_rate": 0,
-					"retry_rate": 0
-				}
-			]
-		}
-	},
-	{
-		"modelInstanceConfig": {
-			"appearsIn": [],
-			"order": 0
-		},
-		"_id": "64e7934a589782acafe17823",
-		"name": "togethercomputer/CodeLlama-34b-Instruct",
-		"display_name": "Code Llama Instruct (34B)",
-		"display_type": "chat",
-		"description": "Code Llama is a family of large language models for code based on Llama 2 providing infilling capabilities, support for large input contexts, and zero-shot instruction following ability for programming tasks.",
-		"license": "LLAMA 2 Community license Agreement (Meta)",
-		"creator_organization": "Meta",
-		"hardware_label": "A100 80GB",
-		"num_parameters": 34000000000,
-		"show_in_playground": true,
-		"isFeaturedModel": true,
-		"context_length": 16384,
-		"config": {
-			"prompt_format": "[INST] {prompt} [/INST]",
-			"stop": [
-				"</s>",
-				"[INST]"
-			],
-			"chat_template_name": "llama",
-			"tools_template": "{{ '<<SYS>>\\n' + systemMessage['content'] + '\\n\\nYou can access the following functions. Use them if required -\\n' + tools + '\\n<</SYS>>\\n\\n' + message['content'] }}"
-		},
-		"pricing": {
-			"input": 194,
-			"output": 194,
-			"hourly": 0
-		},
-		"created_at": "2023-08-24T17:28:42.172Z",
-		"update_at": "2023-08-24T17:28:42.172Z",
-		"instances": [
-			{
-				"avzone": "us-central-1a",
-				"cluster": "sassyseal"
-			}
-		],
-		"access": "",
-		"link": "",
-		"descriptionLink": "",
-		"depth": {
-			"num_asks": 2,
-			"num_bids": 0,
-			"num_running": 0,
-			"asks": {
-				"0x931FF9601c0032CC0edC79eD1A71cf2d98ef04Fe": 1,
-				"0xB5E95DAB94e739500cB80389B5641411C21CD4aF": 1
-			},
-			"asks_updated": "2024-01-28T11:28:40.078419964Z",
-			"gpus": {
-				"": 0
-			},
-			"qps": 0.6,
-			"permit_required": false,
-			"price": {
-				"base": 0,
-				"finetune": 0,
-				"hourly": 0,
-				"input": 0,
-				"output": 0
-			},
-			"throughput_in": 185.8,
-			"throughput_out": 350.73333333333335,
-			"stats": [
-				{
-					"avzone": "us-central-1a",
-					"cluster": "sassyseal",
-					"capacity": 0.3201754385964913,
-					"qps": 0.6,
-					"throughput_in": 185.8,
-					"throughput_out": 350.73333333333335,
-					"error_rate": 0,
-					"retry_rate": 0
-				}
-			]
-		}
-	},
-	{
-		"modelInstanceConfig": {
-			"appearsIn": [],
-			"order": 0
-		},
-		"_id": "64e7934a589782acafe17822",
-		"name": "togethercomputer/CodeLlama-34b-Python",
-		"display_name": "Code Llama Python (34B)",
-		"display_type": "code",
-		"description": "Code Llama is a family of large language models for code based on Llama 2 providing infilling capabilities, support for large input contexts, and zero-shot instruction following ability for programming tasks.",
-		"license": "LLAMA 2 Community license Agreement (Meta)",
-		"creator_organization": "Meta",
-		"hardware_label": "A100 80GB",
-		"num_parameters": 34000000000,
-		"show_in_playground": true,
-		"isFeaturedModel": true,
-		"context_length": 16384,
-		"config": {
-			"stop": [
-				"</s>"
-			],
-			"chat_template_name": "llama"
-		},
-		"pricing": {
-			"input": 194,
-			"output": 194,
-			"hourly": 0
-		},
-		"created_at": "2023-08-24T17:28:42.172Z",
-		"update_at": "2023-08-24T17:28:42.172Z",
-		"instances": [
-			{
-				"avzone": "us-central-1a",
-				"cluster": "sassyseal"
-			}
-		],
-		"access": "",
-		"link": "",
-		"descriptionLink": "",
-		"depth": {
-			"num_asks": 4,
-			"num_bids": 0,
-			"num_running": 0,
-			"asks": {
-				"0x39537072Cd98262a94E40ea2783266AB7EdA7986": 1,
-				"0x9A42A3f5AE541119d3afFa761C968351ED0ffF83": 1,
-				"0xc6D3883Ec197E2665E17dfA7C1867943C24DD0b3": 1,
-				"0xf3121679Bc8b5C884a60d69A491Bdd4dE5381A17": 1
-			},
-			"asks_updated": "2024-01-28T11:33:57.319591179Z",
-			"gpus": {
-				"": 0
-			},
-			"qps": 12.4,
-			"permit_required": false,
-			"price": {
-				"base": 0,
-				"finetune": 0,
-				"hourly": 0,
-				"input": 0,
-				"output": 0
-			},
-			"throughput_in": 4539.066666666667,
-			"throughput_out": 589.5333333333333,
-			"stats": [
-				{
-					"avzone": "us-central-1a",
-					"cluster": "sassyseal",
-					"capacity": 0.5501631662622386,
-					"qps": 12.4,
-					"throughput_in": 4539.066666666667,
-					"throughput_out": 589.5333333333333,
-					"error_rate": 0,
-					"retry_rate": 0
-				}
-			]
-		}
-	},
-	{
-		"modelInstanceConfig": {
-			"appearsIn": [],
-			"order": 0
-		},
-		"_id": "64e7934a589782acafe17821",
-		"name": "togethercomputer/CodeLlama-34b",
-		"display_name": "Code Llama (34B)",
-		"display_type": "code",
-		"description": "Code Llama is a family of large language models for code based on Llama 2 providing infilling capabilities, support for large input contexts, and zero-shot instruction following ability for programming tasks.",
-		"license": "LLAMA 2 Community license Agreement (Meta)",
-		"creator_organization": "Meta",
-		"hardware_label": "A100 80GB",
-		"num_parameters": 34000000000,
-		"show_in_playground": true,
-		"isFeaturedModel": true,
-		"context_length": 16384,
-		"config": {
-			"stop": [
-				"</s>"
-			],
-			"chat_template_name": "llama"
-		},
-		"pricing": {
-			"input": 194,
-			"output": 194,
-			"hourly": 0
-		},
-		"created_at": "2023-08-24T17:28:42.172Z",
-		"update_at": "2023-08-24T17:28:42.172Z",
-		"instances": [
-			{
-				"avzone": "us-central-1a",
-				"cluster": "sassyseal"
-			}
-		],
-		"access": "",
-		"link": "",
-		"descriptionLink": "",
-		"depth": {
-			"num_asks": 1,
-			"num_bids": 0,
-			"num_running": 0,
-			"asks": {
-				"0x3C53215aA6a1B28eEE542036972eaE62Bb3fB488": 1
-			},
-			"asks_updated": "2024-01-27T11:05:31.098670997Z",
-			"gpus": {
-				"": 0
-			},
-			"qps": 0.13333333333333333,
-			"permit_required": false,
-			"price": {
-				"base": 0,
-				"finetune": 0,
-				"hourly": 0,
-				"input": 0,
-				"output": 0
-			},
-			"throughput_in": 2.066666666666667,
-			"throughput_out": 2,
-			"stats": [
-				{
-					"avzone": "us-central-1a",
-					"cluster": "sassyseal",
-					"capacity": 0.05263157894736842,
-					"qps": 0.13333333333333333,
-					"throughput_in": 2.066666666666667,
-					"throughput_out": 2,
-					"error_rate": 0,
-					"retry_rate": 0
-				}
-			]
-		}
-	},
-	{
-		"modelInstanceConfig": {
-			"appearsIn": [],
-			"order": 0
-		},
-		"_id": "64e78e89589782acafe1781d",
-		"name": "togethercomputer/CodeLlama-7b-Instruct",
-		"display_name": "Code Llama Instruct (7B)",
-		"display_type": "chat",
-		"description": "Code Llama is a family of large language models for code based on Llama 2 providing infilling capabilities, support for large input contexts, and zero-shot instruction following ability for programming tasks.",
-		"license": "LLAMA 2 Community license Agreement (Meta)",
-		"creator_organization": "Meta",
-		"hardware_label": "A100 80GB",
-		"num_parameters": "6738546688",
-		"show_in_playground": true,
-		"finetuning_supported": true,
-		"isFeaturedModel": true,
-		"context_length": 16384,
-		"config": {
-			"prompt_format": "[INST] {prompt} [/INST]",
-			"stop": [
-				"</s>",
-				"[INST]"
-			],
-			"chat_template_name": "llama"
-		},
-		"pricing": {
-			"input": 50,
-			"output": 50,
-			"hourly": 0
-		},
-		"created_at": "2023-08-24T17:08:25.379Z",
-		"update_at": "2023-08-24T17:08:25.379Z",
-		"instances": [
-			{
-				"avzone": "us-east-2a",
-				"cluster": "jumpyjackal"
-			}
-		],
-		"access": "",
-		"link": "",
-		"descriptionLink": "",
-		"depth": {
-			"num_asks": 1,
-			"num_bids": 0,
-			"num_running": 0,
-			"asks": {
-				"0x3A592173A8298D1889d19F8cc84dEf7624293532": 1
-			},
-			"asks_updated": "2024-01-28T08:21:04.822204375Z",
-			"gpus": {
-				"": 0
-			},
-			"qps": 0.13333333333333333,
-			"permit_required": false,
-			"price": {
-				"base": 0,
-				"finetune": 0,
-				"hourly": 0,
-				"input": 0,
-				"output": 0
-			},
-			"throughput_in": 2.066666666666667,
-			"throughput_out": 10.8,
-			"stats": [
-				{
-					"avzone": "us-east-2a",
-					"cluster": "jumpyjackal",
-					"capacity": 0.3333333333333333,
-					"qps": 0.13333333333333333,
-					"throughput_in": 2.066666666666667,
-					"throughput_out": 10.8,
-					"error_rate": 0,
-					"retry_rate": 0
-				}
-			]
-		}
-	},
-	{
-		"modelInstanceConfig": {
-			"appearsIn": [],
-			"order": 0
-		},
-		"_id": "64e78e89589782acafe1781c",
-		"name": "togethercomputer/CodeLlama-7b-Python",
-		"display_name": "Code Llama Python (7B)",
-		"display_type": "code",
-		"description": "Code Llama is a family of large language models for code based on Llama 2 providing infilling capabilities, support for large input contexts, and zero-shot instruction following ability for programming tasks.",
-		"license": "LLAMA 2 Community license Agreement (Meta)",
-		"creator_organization": "Meta",
-		"hardware_label": "A100 80GB",
-		"num_parameters": "6738546688",
-		"show_in_playground": true,
-		"finetuning_supported": true,
-		"isFeaturedModel": true,
-		"context_length": 16384,
-		"config": {
-			"stop": [
-				"</s>"
-			],
-			"chat_template_name": "llama"
-		},
-		"pricing": {
-			"input": 50,
-			"output": 50,
-			"hourly": 0
-		},
-		"created_at": "2023-08-24T17:08:25.379Z",
-		"update_at": "2023-08-24T17:08:25.379Z",
-		"instances": [
-			{
-				"avzone": "us-east-2a",
-				"cluster": "jumpyjackal"
-			}
-		],
-		"access": "",
-		"link": "",
-		"descriptionLink": "",
-		"depth": {
-			"num_asks": 1,
-			"num_bids": 0,
-			"num_running": 0,
-			"asks": {
-				"0xC1F78f5A837eA668e529d67eb4fFf9c296bbd322": 1
-			},
-			"asks_updated": "2024-01-28T09:57:54.650595116Z",
-			"gpus": {
-				"": 0
-			},
-			"qps": 0.06666666666666667,
-			"permit_required": false,
-			"price": {
-				"base": 0,
-				"finetune": 0,
-				"hourly": 0,
-				"input": 0,
-				"output": 0
-			},
-			"throughput_in": 0.5333333333333333,
-			"throughput_out": 8.533333333333333,
-			"stats": [
-				{
-					"avzone": "us-east-2a",
-					"cluster": "jumpyjackal",
-					"capacity": 0.25,
-					"qps": 0.06666666666666667,
-					"throughput_in": 0.5333333333333333,
-					"throughput_out": 8.533333333333333,
-					"error_rate": 0,
-					"retry_rate": 0
-				}
-			]
-		}
-	},
-	{
-		"modelInstanceConfig": {
-			"appearsIn": [],
-			"order": 0
-		},
-		"_id": "64e78e89589782acafe1781b",
-		"name": "togethercomputer/CodeLlama-7b",
-		"display_name": "Code Llama (7B)",
-		"display_type": "code",
-		"description": "Code Llama is a family of large language models for code based on Llama 2 providing infilling capabilities, support for large input contexts, and zero-shot instruction following ability for programming tasks.",
-		"license": "LLAMA 2 Community license Agreement (Meta)",
-		"creator_organization": "Meta",
-		"hardware_label": "A100 80GB",
-		"num_parameters": "6738546688",
-		"show_in_playground": true,
-		"finetuning_supported": true,
-		"isFeaturedModel": true,
-		"context_length": 16384,
-		"config": {
-			"stop": [
-				"</s>"
-			],
-			"chat_template_name": "llama"
-		},
-		"pricing": {
-			"input": 50,
-			"output": 50,
-			"hourly": 0
-		},
-		"created_at": "2023-08-24T17:08:25.379Z",
-		"update_at": "2023-08-24T17:08:25.379Z",
-		"instances": [
-			{
-				"avzone": "us-east-2a",
-				"cluster": "jumpyjackal"
-			}
-		],
-		"access": "",
-		"link": "",
-		"descriptionLink": "",
-		"depth": {
-			"num_asks": 1,
-			"num_bids": 0,
-			"num_running": 0,
-			"asks": {
-				"0x0D8dCF916D963FE585B1c5C7D39679436392c2ab": 1
-			},
-			"asks_updated": "2024-01-27T11:56:01.072179233Z",
-			"gpus": {
-				"": 0
-			},
-			"qps": 0.2,
-			"permit_required": false,
-			"price": {
-				"base": 0,
-				"finetune": 0,
-				"hourly": 0,
-				"input": 0,
-				"output": 0
-			},
-			"throughput_in": 2.533333333333333,
-			"throughput_out": 10.533333333333333,
-			"stats": [
-				{
-					"avzone": "us-east-2a",
-					"cluster": "jumpyjackal",
-					"capacity": 0.3333333333333333,
-					"qps": 0.2,
-					"throughput_in": 2.533333333333333,
-					"throughput_out": 10.533333333333333,
-					"error_rate": 0,
-					"retry_rate": 0
-				}
-			]
-		}
-	},
-	{
-		"modelInstanceConfig": {
-			"appearsIn": [],
-			"order": 0
-		},
-		"_id": "6495ff1312907e072b8aece2",
-		"name": "togethercomputer/GPT-JT-6B-v1",
-		"display_name": "GPT-JT (6B)",
-		"display_type": "language",
-		"description": "Fork of GPT-J instruction tuned to excel at few-shot prompts (blog post).",
-		"descriptionLink": "https://www.together.xyz/blog/releasing-v1-of-gpt-jt-powered-by-open-source-ai",
-		"license": "apache-2.0",
-		"link": "https://huggingface.co/togethercomputer/GPT-JT-6B-v1",
-		"creator_organization": "Together",
-		"hardware_label": "A40 48GB",
-		"pricing_tier": "featured",
-		"access": "open",
-		"num_parameters": 6700000000,
-		"release_date": "2022-11-29T00:00:00.000Z",
-		"show_in_playground": true,
-		"isFeaturedModel": true,
-		"context_length": 2048,
-		"config": {
-			"chat_template_name": "gpt"
-		},
-		"pricing": {
-			"input": 50,
-			"output": 50,
-			"hourly": 0
-		},
-		"created_at": "2023-06-23T20:22:43.617Z",
-		"update_at": "2023-06-23T20:22:43.617Z",
-		"instances": [
-			{
-				"avzone": "us-central-1a",
-				"cluster": "sassyseal"
-			},
-			{
-				"avzone": "us-central-5a",
-				"cluster": "wrigleycub"
-			}
-		],
-		"depth": {
-			"num_asks": 1,
-			"num_bids": 0,
-			"num_running": 0,
-			"asks": {
-				"0x8AD0e2680EbF209793Cf8826BE6e68d8b119448D": 1,
-				"0xfe3449B977e9d3911bd38b54c0Ddc46f53878fE5": 1
-			},
-			"asks_updated": "2024-01-27T12:24:29.374928135Z",
-			"gpus": {
-				"": 0
-			},
-			"qps": 0,
-			"permit_required": false,
-			"price": {
-				"base": 0,
-				"finetune": 0,
-				"hourly": 0,
-				"input": 0,
-				"output": 0
-			},
-			"stats": [
-				{
-					"avzone": "us-central-1a",
-					"cluster": "sassyseal",
-					"capacity": 0.0078125,
-					"qps": 0,
-					"throughput_in": 0,
-					"throughput_out": 0,
-					"error_rate": 0,
-					"retry_rate": 0
-				},
-				{
-					"avzone": "us-central-5a",
-					"cluster": "wrigleycub",
-					"capacity": 0.0078125,
-					"qps": 0,
-					"throughput_in": 0,
-					"throughput_out": 0,
+					"capacity": 0.4231433506044903,
+					"qps": 3.466666666666667,
+					"throughput_in": 5390.933333333333,
+					"throughput_out": 510.73333333333335,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -4125,18 +6013,17 @@ let models = [
 		],
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 2,
+			"num_asks": 1,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x49916E2a07BD2bd24F0414BAc7d060A8e3CCA1f6": 1,
-				"0x706627e602aa4AA1a4685C10c3ebdF8a8CF71A43": 1
+				"0x3B2a3D16B0207aA9F14726eeE8cD0b9b388209A2": 1
 			},
-			"asks_updated": "2024-01-27T11:08:14.858317213Z",
+			"asks_updated": "2024-04-02T14:43:00.465822313Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.06666666666666667,
+			"qps": 0,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -4145,94 +6032,14 @@ let models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 0.4,
-			"throughput_out": 2.2666666666666666,
 			"stats": [
 				{
 					"avzone": "us-central-5a",
 					"cluster": "testytiger",
 					"capacity": 0.05,
-					"qps": 0.06666666666666667,
-					"throughput_in": 0.4,
-					"throughput_out": 2.2666666666666666,
-					"error_rate": 0,
-					"retry_rate": 0
-				}
-			]
-		}
-	},
-	{
-		"modelInstanceConfig": {
-			"appearsIn": [],
-			"order": 0
-		},
-		"_id": "6495ff1312907e072b8aece4",
-		"name": "togethercomputer/GPT-NeoXT-Chat-Base-20B",
-		"display_name": "GPT-NeoXT-Chat-Base (20B)",
-		"display_type": "chat",
-		"description": "Chat model fine-tuned from EleutherAI’s GPT-NeoX with over 40 million instructions on carbon reduced compute.",
-		"license": "apache-2.0",
-		"link": "https://huggingface.co/togethercomputer/GPT-NeoXT-Chat-Base-20B",
-		"creator_organization": "Together",
-		"hardware_label": "A40 48GB",
-		"pricing_tier": "featured",
-		"access": "open",
-		"num_parameters": 20000000000,
-		"show_in_playground": true,
-		"isFeaturedModel": true,
-		"context_length": 2048,
-		"config": {
-			"prompt_format": "<human>: {prompt}\n<bot>:",
-			"stop": [
-				"<human>"
-			],
-			"chat_template_name": "gpt"
-		},
-		"max_tokens": 995,
-		"pricing": {
-			"input": 75,
-			"output": 75,
-			"hourly": 0
-		},
-		"created_at": "2023-06-23T20:22:43.702Z",
-		"update_at": "2023-06-23T20:22:43.702Z",
-		"instances": [
-			{
-				"avzone": "us-central-5a",
-				"cluster": "testytiger"
-			}
-		],
-		"descriptionLink": "",
-		"depth": {
-			"num_asks": 1,
-			"num_bids": 0,
-			"num_running": 0,
-			"asks": {
-				"0xd8Cef20eB9321e3f121B4B253EA6d8C0E4Accb81": 1
-			},
-			"asks_updated": "2024-01-27T11:14:16.117506302Z",
-			"gpus": {
-				"": 0
-			},
-			"qps": 0.06666666666666667,
-			"permit_required": false,
-			"price": {
-				"base": 0,
-				"finetune": 0,
-				"hourly": 0,
-				"input": 0,
-				"output": 0
-			},
-			"throughput_in": 1.2666666666666666,
-			"throughput_out": 1.3333333333333333,
-			"stats": [
-				{
-					"avzone": "us-central-5a",
-					"cluster": "testytiger",
-					"capacity": 0.0078125,
-					"qps": 0.06666666666666667,
-					"throughput_in": 1.2666666666666666,
-					"throughput_out": 1.3333333333333333,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -4282,18 +6089,22 @@ let models = [
 		],
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 2,
+			"num_asks": 6,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x06e3D009eDb9F29bB81E878d225C0d5220E30621": 1,
-				"0xF5C8C993ad24B700535Add7ad22A28BbE7F48e6e": 1
+				"0x39d6b56b1DFc4F45adE83b4873Fc235b3f9a139d": 1,
+				"0x4841AF13c668402bb7900026dD06AFb39665dd04": 1,
+				"0x59873BED79244f07Ea09E4F687CC06865CCC2665": 1,
+				"0xCea71912Fc8c70d37112357fd9a1476E10647c6E": 1,
+				"0xbB0cFb278708b7b3DcE1dA6F64Fe3E5c3862dF6c": 1,
+				"0xeC077518119D8E3b67732FE328f3b3c51763E024": 1
 			},
-			"asks_updated": "2024-01-28T07:13:57.340947531Z",
+			"asks_updated": "2024-04-02T17:14:12.018213182Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.06666666666666667,
+			"qps": 0,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -4302,16 +6113,14 @@ let models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 0.4,
-			"throughput_out": 8.533333333333333,
 			"stats": [
 				{
 					"avzone": "us-east-2a",
 					"cluster": "jumpyjackal",
 					"capacity": 1,
-					"qps": 0.06666666666666667,
-					"throughput_in": 0.4,
-					"throughput_out": 8.533333333333333,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -4362,18 +6171,22 @@ let models = [
 		],
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 2,
+			"num_asks": 6,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0xE2f8c6Ca58F16683C2F5d6faAD728C6D054347Eb": 1,
-				"0xF3A9F6CcD6c970e921fe7D47d0839C437012f653": 1
+				"0x0a20f7D1B7E610dA40753db67ce71980311C6f27": 1,
+				"0x3bEC9CE713296565f0b83B0aCff8E203f4568cC8": 1,
+				"0x7cFca2eb72819e54087d5C35A56A6Fc93223Fd61": 1,
+				"0x99a1eb226F185F171015d93703Ec6cffD555A483": 1,
+				"0xEe4FDd2708942E6C025B48c47256ddD491888981": 1,
+				"0xfa66a48eA14D80e094D57E0ECdF22Fc0B397D193": 1
 			},
-			"asks_updated": "2024-01-28T10:42:34.979239114Z",
+			"asks_updated": "2024-04-02T17:49:51.053353644Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.13333333333333333,
+			"qps": 0,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -4382,251 +6195,14 @@ let models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 1.8,
-			"throughput_out": 9.866666666666667,
 			"stats": [
 				{
 					"avzone": "us-east-2a",
 					"cluster": "jumpyjackal",
 					"capacity": 1,
-					"qps": 0.13333333333333333,
-					"throughput_in": 1.8,
-					"throughput_out": 9.866666666666667,
-					"error_rate": 0,
-					"retry_rate": 0
-				}
-			]
-		}
-	},
-	{
-		"modelInstanceConfig": {
-			"appearsIn": [],
-			"order": 0
-		},
-		"_id": "6495ff1412907e072b8aecee",
-		"name": "togethercomputer/Pythia-Chat-Base-7B-v0.16",
-		"display_name": "Pythia-Chat-Base (7B)",
-		"display_type": "chat",
-		"description": "Chat model based on EleutherAI’s Pythia-7B model, and is fine-tuned with data focusing on dialog-style interactions.",
-		"license": "apache-2.0",
-		"creator_organization": "Together",
-		"hardware_label": "A40 48GB",
-		"pricing_tier": "featured",
-		"access": "open",
-		"num_parameters": 7000000000,
-		"show_in_playground": true,
-		"finetuning_supported": true,
-		"isFeaturedModel": true,
-		"context_length": 2048,
-		"config": {
-			"prompt_format": "<human>: {prompt}\n<bot>:",
-			"stop": [
-				"<human>"
-			],
-			"chat_template_name": "gpt"
-		},
-		"pricing": {
-			"input": 50,
-			"output": 50,
-			"hourly": 0
-		},
-		"created_at": "2023-06-23T20:22:44.251Z",
-		"update_at": "2023-06-23T20:22:44.251Z",
-		"instances": [
-			{
-				"avzone": "us-central-1a",
-				"cluster": "sassyseal"
-			}
-		],
-		"link": "",
-		"descriptionLink": "",
-		"depth": {
-			"num_asks": 1,
-			"num_bids": 0,
-			"num_running": 0,
-			"asks": {
-				"0xdBC2C35dDcBD80f4DD880ff3Fb9f76935d22A0c3": 1
-			},
-			"asks_updated": "2024-01-27T10:44:03.747776503Z",
-			"gpus": {
-				"": 0
-			},
-			"qps": 0.06666666666666667,
-			"permit_required": false,
-			"price": {
-				"base": 0,
-				"finetune": 0,
-				"hourly": 0,
-				"input": 0,
-				"output": 0
-			},
-			"throughput_in": 1.2666666666666666,
-			"throughput_out": 1.3333333333333333,
-			"stats": [
-				{
-					"avzone": "us-central-1a",
-					"cluster": "sassyseal",
-					"capacity": 0.0078125,
-					"qps": 0.06666666666666667,
-					"throughput_in": 1.2666666666666666,
-					"throughput_out": 1.3333333333333333,
-					"error_rate": 0,
-					"retry_rate": 0
-				}
-			]
-		}
-	},
-	{
-		"modelInstanceConfig": {
-			"appearsIn": [],
-			"order": 0
-		},
-		"_id": "64efd5511b76196fc5a54872",
-		"name": "togethercomputer/Qwen-7B-Chat",
-		"display_name": "Qwen-Chat (7B)",
-		"display_type": "chat",
-		"description": "7B-parameter version of the large language model series, Qwen (abbr. Tongyi Qianwen), proposed by Aibaba Cloud. Qwen-7B-Chat is a large-model-based AI assistant, which is trained with alignment techniques.   ",
-		"license": "Tongyi Qianwen LICENSE AGREEMENT",
-		"creator_organization": "Qwen",
-		"hardware_label": "1x A100 80GB",
-		"num_parameters": 7000000000,
-		"release_date": "2023-08-01T00:00:00.000Z",
-		"show_in_playground": true,
-		"isFeaturedModel": true,
-		"context_length": 8192,
-		"config": {
-			"stop": [
-				"<|im_end|>",
-				"<|im_start|>"
-			],
-			"prompt_format": "\n<|im_start|>user\n{prompt}<|im_end|>\n<|im_start|>assistant\n",
-			"add_generation_prompt": true,
-			"chat_template_name": "default"
-		},
-		"pricing": {
-			"input": 50,
-			"output": 50,
-			"hourly": 0
-		},
-		"created_at": "2023-08-30T23:48:33.852Z",
-		"update_at": "2023-09-07T01:49:42.840Z",
-		"instances": [
-			{
-				"avzone": "us-east-2a",
-				"cluster": "jumpyjackal"
-			}
-		],
-		"access": "",
-		"link": "",
-		"descriptionLink": "",
-		"depth": {
-			"num_asks": 1,
-			"num_bids": 0,
-			"num_running": 0,
-			"asks": {
-				"0x3CA68fF3313821F606d5BA2590cd7BF7a2244fcc": 1
-			},
-			"asks_updated": "2024-01-27T09:55:59.892347873Z",
-			"gpus": {
-				"": 0
-			},
-			"qps": 0.06666666666666667,
-			"permit_required": false,
-			"price": {
-				"base": 0,
-				"finetune": 0,
-				"hourly": 0,
-				"input": 0,
-				"output": 0
-			},
-			"throughput_in": 546.0666666666667,
-			"throughput_out": 8.533333333333333,
-			"stats": [
-				{
-					"avzone": "us-east-2a",
-					"cluster": "jumpyjackal",
-					"capacity": 0.0078125,
-					"qps": 0.06666666666666667,
-					"throughput_in": 546.0666666666667,
-					"throughput_out": 8.533333333333333,
-					"error_rate": 0,
-					"retry_rate": 0
-				}
-			]
-		}
-	},
-	{
-		"modelInstanceConfig": {
-			"appearsIn": [],
-			"order": 0
-		},
-		"_id": "64efcc2a1b76196fc5a54870",
-		"name": "togethercomputer/Qwen-7B",
-		"display_name": "Qwen (7B)",
-		"display_type": "language",
-		"description": "7B-parameter version of the large language model series, Qwen (abbr. Tongyi Qianwen), proposed by Aibaba Cloud. Qwen-7B is a Transformer-based large language model, which is pretrained on a large volume of data, including web texts, books, codes, etc. ",
-		"license": "Tongyi Qianwen LICENSE AGREEMENT",
-		"creator_organization": "Qwen",
-		"hardware_label": "1x A100 80GB",
-		"num_parameters": 7000000000,
-		"release_date": "2023-08-01T00:00:00.000Z",
-		"show_in_playground": true,
-		"isFeaturedModel": true,
-		"context_length": 8192,
-		"config": {
-			"stop": [
-				"<|im_end|>",
-				"<|endoftext|>"
-			],
-			"add_generation_prompt": true,
-			"chat_template_name": "default"
-		},
-		"pricing": {
-			"input": 50,
-			"output": 50,
-			"hourly": 0
-		},
-		"created_at": "2023-08-30T23:09:30.570Z",
-		"update_at": "2023-09-07T01:49:24.716Z",
-		"instances": [
-			{
-				"avzone": "us-east-2a",
-				"cluster": "jumpyjackal"
-			}
-		],
-		"access": "",
-		"link": "",
-		"descriptionLink": "",
-		"depth": {
-			"num_asks": 1,
-			"num_bids": 0,
-			"num_running": 0,
-			"asks": {
-				"0xa1206a2C43e3bA6b7E611523Fcc72539Af36d5bc": 1
-			},
-			"asks_updated": "2024-01-28T04:30:52.715305813Z",
-			"gpus": {
-				"": 0
-			},
-			"qps": 0.06666666666666667,
-			"permit_required": false,
-			"price": {
-				"base": 0,
-				"finetune": 0,
-				"hourly": 0,
-				"input": 0,
-				"output": 0
-			},
-			"throughput_in": 546.0666666666667,
-			"throughput_out": 8.533333333333333,
-			"stats": [
-				{
-					"avzone": "us-east-2a",
-					"cluster": "jumpyjackal",
-					"capacity": 0.0078125,
-					"qps": 0.06666666666666667,
-					"throughput_in": 546.0666666666667,
-					"throughput_out": 8.533333333333333,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -4667,8 +6243,8 @@ let models = [
 		"update_at": "2023-06-23T20:22:44.033Z",
 		"instances": [
 			{
-				"avzone": "us-central-5a",
-				"cluster": "testytiger"
+				"avzone": "us-central-1a",
+				"cluster": "sassyseal"
 			}
 		],
 		"depth": {
@@ -4676,13 +6252,13 @@ let models = [
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x3a6A7E635309874281c01346Ad2af7750b54f47f": 1
+				"0x481cEDE4Db74BEf182dA2D52e410013D41fb5980": 1
 			},
-			"asks_updated": "2024-01-27T11:58:36.515438041Z",
+			"asks_updated": "2024-04-02T13:40:29.009332805Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.06666666666666667,
+			"qps": 0,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -4691,16 +6267,14 @@ let models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 0.4,
-			"throughput_out": 8.533333333333333,
 			"stats": [
 				{
-					"avzone": "us-central-5a",
-					"cluster": "testytiger",
+					"avzone": "us-central-1a",
+					"cluster": "sassyseal",
 					"capacity": 0.0078125,
-					"qps": 0.06666666666666667,
-					"throughput_in": 0.4,
-					"throughput_out": 8.533333333333333,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -4733,7 +6307,8 @@ let models = [
 			"stop": [
 				"<human>"
 			],
-			"chat_template_name": "gpt"
+			"chat_template_name": "gpt",
+			"add_generation_prompt": true
 		},
 		"pricing": {
 			"input": 50,
@@ -4744,8 +6319,8 @@ let models = [
 		"update_at": "2023-06-23T20:22:44.190Z",
 		"instances": [
 			{
-				"avzone": "us-central-5a",
-				"cluster": "testytiger"
+				"avzone": "us-central-1a",
+				"cluster": "sassyseal"
 			}
 		],
 		"descriptionLink": "",
@@ -4754,13 +6329,13 @@ let models = [
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x2591d174b8795694fCf407B3710e67820241de1f": 1
+				"0x25C9f9263DCbB16597cfe1b6bf8293971A277BAC": 1
 			},
-			"asks_updated": "2024-01-27T09:28:05.592333371Z",
+			"asks_updated": "2024-04-02T14:21:56.798082423Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.06666666666666667,
+			"qps": 0,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -4769,16 +6344,14 @@ let models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 0.4,
-			"throughput_out": 0.4666666666666667,
 			"stats": [
 				{
-					"avzone": "us-central-5a",
-					"cluster": "testytiger",
+					"avzone": "us-central-1a",
+					"cluster": "sassyseal",
 					"capacity": 0.0078125,
-					"qps": 0.06666666666666667,
-					"throughput_in": 0.4,
-					"throughput_out": 0.4666666666666667,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -4818,8 +6391,8 @@ let models = [
 		"update_at": "2023-06-23T20:22:44.083Z",
 		"instances": [
 			{
-				"avzone": "us-central-5a",
-				"cluster": "testytiger"
+				"avzone": "us-central-1a",
+				"cluster": "sassyseal"
 			}
 		],
 		"descriptionLink": "",
@@ -4828,9 +6401,9 @@ let models = [
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x16b5700Ec8510e8eA86205DF2Ffabc536156e3cd": 1
+				"0x007FdA772e56cF406Dc6a907E96728864B3F6663": 1
 			},
-			"asks_updated": "2024-01-27T10:51:27.547726717Z",
+			"asks_updated": "2024-04-02T12:32:00.608554214Z",
 			"gpus": {
 				"": 0
 			},
@@ -4845,8 +6418,8 @@ let models = [
 			},
 			"stats": [
 				{
-					"avzone": "us-central-5a",
-					"cluster": "testytiger",
+					"avzone": "us-central-1a",
+					"cluster": "sassyseal",
 					"capacity": 0.0078125,
 					"qps": 0,
 					"throughput_in": 0,
@@ -4891,8 +6464,8 @@ let models = [
 		"update_at": "2023-06-23T20:22:43.751Z",
 		"instances": [
 			{
-				"avzone": "us-central-5a",
-				"cluster": "testytiger"
+				"avzone": "us-central-1a",
+				"cluster": "sassyseal"
 			}
 		],
 		"depth": {
@@ -4900,9 +6473,9 @@ let models = [
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x0F9E25230ed9Cb2979C2F8E263cc463F8437FC12": 1
+				"0xEEe584b521fe7CC593aeDc2E5d2A510292D3698A": 1
 			},
-			"asks_updated": "2024-01-27T11:34:35.816276872Z",
+			"asks_updated": "2024-04-02T14:03:22.773450147Z",
 			"gpus": {
 				"": 0
 			},
@@ -4917,8 +6490,8 @@ let models = [
 			},
 			"stats": [
 				{
-					"avzone": "us-central-5a",
-					"cluster": "testytiger",
+					"avzone": "us-central-1a",
+					"cluster": "sassyseal",
 					"capacity": 0.0078125,
 					"qps": 0,
 					"throughput_in": 0,
@@ -4951,6 +6524,7 @@ let models = [
 		"isFeaturedModel": true,
 		"context_length": 2048,
 		"config": {
+			"add_generation_prompt": true,
 			"prompt_format": "<human>: {prompt}\n<bot>:",
 			"stop": [
 				"<human>"
@@ -4966,8 +6540,8 @@ let models = [
 		"update_at": "2023-06-23T20:22:43.839Z",
 		"instances": [
 			{
-				"avzone": "us-central-5a",
-				"cluster": "testytiger"
+				"avzone": "us-central-1a",
+				"cluster": "sassyseal"
 			}
 		],
 		"descriptionLink": "",
@@ -4976,13 +6550,13 @@ let models = [
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x5Ea975bA97366270Cc57a20562dfFe237341a76A": 1
+				"0x39a47C489b801ceBD66423D50F8c92D7b09eddcC": 1
 			},
-			"asks_updated": "2024-01-27T09:35:57.224123266Z",
+			"asks_updated": "2024-04-02T12:29:02.892133928Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.06666666666666667,
+			"qps": 0,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -4991,16 +6565,14 @@ let models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 0.4,
-			"throughput_out": 8.533333333333333,
 			"stats": [
 				{
-					"avzone": "us-central-5a",
-					"cluster": "testytiger",
+					"avzone": "us-central-1a",
+					"cluster": "sassyseal",
 					"capacity": 0.0078125,
-					"qps": 0.06666666666666667,
-					"throughput_in": 0.4,
-					"throughput_out": 8.533333333333333,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -5040,8 +6612,8 @@ let models = [
 		"update_at": "2023-06-23T20:22:43.796Z",
 		"instances": [
 			{
-				"avzone": "us-central-5a",
-				"cluster": "testytiger"
+				"avzone": "us-central-1a",
+				"cluster": "sassyseal"
 			}
 		],
 		"descriptionLink": "",
@@ -5050,9 +6622,9 @@ let models = [
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0xb640F1F9aD0e7f87C2e735c6c8242c1867dec2Cf": 1
+				"0x0eFB61661ae0a1eBCDd4129D6BE1938225cB35a9": 1
 			},
-			"asks_updated": "2024-01-27T11:33:31.790618051Z",
+			"asks_updated": "2024-04-02T13:43:43.965689507Z",
 			"gpus": {
 				"": 0
 			},
@@ -5067,8 +6639,8 @@ let models = [
 			},
 			"stats": [
 				{
-					"avzone": "us-central-5a",
-					"cluster": "testytiger",
+					"avzone": "us-central-1a",
+					"cluster": "sassyseal",
 					"capacity": 0.0078125,
 					"qps": 0,
 					"throughput_in": 0,
@@ -5097,6 +6669,7 @@ let models = [
 		"release_date": "2023-11-01T00:00:00.000Z",
 		"show_in_playground": true,
 		"isFeaturedModel": true,
+		"context_length": 32768,
 		"pricing": {
 			"input": 50,
 			"output": 50
@@ -5117,13 +6690,13 @@ let models = [
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x887499d64E5D15D0fEE7F6733C59094d05Ea7176": 1
+				"0x4f668aC29a75F8fD86d653D1754eCd0763c5d667": 1
 			},
-			"asks_updated": "2024-01-27T23:12:16.941004637Z",
+			"asks_updated": "2024-04-02T12:54:07.784043029Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.06666666666666667,
+			"qps": 0,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -5132,16 +6705,14 @@ let models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 0.4666666666666667,
-			"throughput_out": 8.533333333333333,
 			"stats": [
 				{
 					"avzone": "ap-northeast-1a",
 					"cluster": "optimisticotter",
 					"capacity": 0.03571428571428571,
-					"qps": 0.06666666666666667,
-					"throughput_in": 0.4666666666666667,
-					"throughput_out": 8.533333333333333,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -5153,51 +6724,52 @@ let models = [
 			"appearsIn": [],
 			"order": 0
 		},
-		"_id": "64ace614227f790586239cf7",
-		"name": "togethercomputer/falcon-40b-instruct",
-		"display_name": "Falcon Instruct (40B)",
+		"_id": "65735d536923087ddd5a6606",
+		"name": "togethercomputer/StripedHyena-Nous-7B",
+		"display_name": "StripedHyena Nous (7B)",
 		"display_type": "chat",
-		"description": "Falcon-40B-Instruct is a causal decoder-only model built by TII based on Falcon-40B and finetuned on a mixture of Baize. ",
-		"license": "apache-2.0",
-		"link": "https://huggingface.co/tiiuae/falcon-40b-instruct",
-		"creator_organization": "TII UAE",
-		"hardware_label": "2X A40 48GB",
-		"pricing_tier": "supported",
-		"access": "open",
-		"num_parameters": 40000000000,
+		"description": "A hybrid architecture composed of multi-head, grouped-query attention and gated convolutions arranged in Hyena blocks, different from traditional decoder-only Transformers",
+		"license": "Apache-2",
+		"creator_organization": "Together",
+		"hardware_label": "H100",
+		"pricing_tier": "Featured",
+		"num_parameters": 7000000000,
+		"release_date": "2023-11-01T00:00:00.000Z",
 		"show_in_playground": true,
 		"isFeaturedModel": true,
-		"context_length": 2048,
+		"context_length": 32768,
 		"config": {
-			"prompt_format": "User: {prompt}\nAssistant:",
 			"stop": [
-				"User:",
+				"###",
 				"</s>"
 			],
-			"chat_template_name": "default"
+			"prompt_format": "### Instruction:\n{prompt}\n\n### Response:",
+			"chat_template": "{% for message in messages %}{% if message['role'] == 'user' %}{{ bos_token + '### Instruction:\\n' + message['content'] + '\\n\\n' }}{% elif message['role'] == 'system' %}{{ '### System:\\n' + message['content'] + '\\n\\n' }}{% elif message['role'] == 'assistant' %}{{ '### Response:\\n'  + message['content'] + '\\n' }}{% endif %}{% if loop.last %}{{ '### Response:\\n' }}{% endif %}{% endfor %}",
+			"add_generation_prompt": true
 		},
 		"pricing": {
-			"input": 200,
-			"output": 200,
-			"hourly": 0
+			"input": 50,
+			"output": 50
 		},
-		"created_at": "2023-07-11T05:18:12.323Z",
-		"update_at": "2023-07-11T05:18:12.323Z",
+		"created_at": "2023-12-08T18:15:47.433Z",
+		"update_at": "2023-12-08T19:03:11.497Z",
 		"instances": [
 			{
 				"avzone": "us-central-5a",
 				"cluster": "wrigleycub"
 			}
 		],
+		"access": "",
+		"link": "",
 		"descriptionLink": "",
 		"depth": {
 			"num_asks": 1,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0xc3dCAEFb2fB24EcAf7C84eFeB4c59D6Ae1308290": 1
+				"0xDf09DC5Df2B0116b09cB52E358e1bAbdE797c383": 1
 			},
-			"asks_updated": "2024-01-27T11:07:23.345484536Z",
+			"asks_updated": "2024-04-02T14:01:06.104395594Z",
 			"gpus": {
 				"": 0
 			},
@@ -5214,7 +6786,7 @@ let models = [
 				{
 					"avzone": "us-central-5a",
 					"cluster": "wrigleycub",
-					"capacity": 0.0078125,
+					"capacity": 0.05263157894736842,
 					"qps": 0,
 					"throughput_in": 0,
 					"throughput_out": 0,
@@ -5229,729 +6801,247 @@ let models = [
 			"appearsIn": [],
 			"order": 0
 		},
-		"_id": "64ace59f227f790586239cf5",
-		"name": "togethercomputer/falcon-40b",
-		"display_name": "Falcon (40B)",
-		"display_type": "language",
-		"description": "Falcon-40B is a causal decoder-only model built by TII and trained on 1,000B tokens of RefinedWeb enhanced with curated corpora.",
-		"license": "apache-2.0",
-		"link": "https://huggingface.co/tiiuae/falcon-40b",
-		"creator_organization": "TII UAE",
-		"hardware_label": "2X A40 48GB",
+		"_id": "64ace317227f790586239ce2",
+		"name": "togethercomputer/alpaca-7b",
+		"display_name": "Alpaca (7B)",
+		"display_type": "chat",
+		"description": "Fine-tuned from the LLaMA 7B model on 52K instruction-following demonstrations. ",
+		"license": "cc-by-nc-4.0",
+		"link": "https://huggingface.co/tatsu-lab/alpaca-7b-wdiff",
+		"creator_organization": "Stanford",
+		"hardware_label": "A40 48GB",
 		"pricing_tier": "supported",
 		"access": "open",
-		"num_parameters": 40000000000,
-		"show_in_playground": true,
-		"isFeaturedModel": true,
-		"context_length": 2048,
-		"config": {
-			"stop": [
-				"<|endoftext|>"
-			],
-			"chat_template_name": "default"
-		},
-		"pricing": {
-			"input": 200,
-			"output": 200,
-			"hourly": 0
-		},
-		"created_at": "2023-07-11T05:16:15.898Z",
-		"update_at": "2023-07-11T05:16:15.898Z",
-		"instances": [
-			{
-				"avzone": "us-central-5a",
-				"cluster": "wrigleycub"
-			}
-		],
-		"descriptionLink": "",
-		"depth": {
-			"num_asks": 1,
-			"num_bids": 0,
-			"num_running": 0,
-			"asks": {
-				"0x36965DA0006E1B014eF3eA631C2B745AfB31452c": 1
-			},
-			"asks_updated": "2024-01-27T09:06:04.849021201Z",
-			"gpus": {
-				"": 0
-			},
-			"qps": 0.06666666666666667,
-			"permit_required": false,
-			"price": {
-				"base": 0,
-				"finetune": 0,
-				"hourly": 0,
-				"input": 0,
-				"output": 0
-			},
-			"throughput_in": 1.2666666666666666,
-			"throughput_out": 1.3333333333333333,
-			"error_rate": 0.06666666666666667,
-			"stats": [
-				{
-					"avzone": "us-central-5a",
-					"cluster": "wrigleycub",
-					"capacity": 0.0078125,
-					"qps": 0.06666666666666667,
-					"throughput_in": 1.2666666666666666,
-					"throughput_out": 1.3333333333333333,
-					"error_rate": 0.06666666666666667,
-					"retry_rate": 0
-				}
-			]
-		}
-	},
-	{
-		"modelInstanceConfig": {
-			"appearsIn": [],
-			"order": 0
-		},
-		"_id": "64ace63d227f790586239cf8",
-		"name": "togethercomputer/falcon-7b-instruct",
-		"display_name": "Falcon Instruct (7B)",
-		"display_type": "chat",
-		"description": "Casual decoder-only model built by TII based on Falcon-7B and finetuned on a mixture of chat/instruct datasets. ",
-		"license": "apache-2.0",
-		"link": "https://huggingface.co/tiiuae/falcon-7b-instruct",
-		"creator_organization": "TII UAE",
-		"hardware_label": "A40 48GB",
-		"pricing_tier": "featured",
-		"access": "open",
-		"num_parameters": 7000000000,
-		"show_in_playground": true,
-		"isFeaturedModel": true,
-		"context_length": 2048,
-		"config": {
-			"prompt_format": "User: {prompt}\nAssistant:",
-			"stop": [
-				"User:",
-				"</s>"
-			],
-			"chat_template_name": "default"
-		},
-		"pricing": {
-			"input": 50,
-			"output": 50,
-			"hourly": 0
-		},
-		"created_at": "2023-07-11T05:18:53.623Z",
-		"update_at": "2023-07-11T05:18:53.623Z",
-		"instances": [
-			{
-				"avzone": "us-central-5a",
-				"cluster": "wrigleycub"
-			}
-		],
-		"descriptionLink": "",
-		"depth": {
-			"num_asks": 1,
-			"num_bids": 0,
-			"num_running": 0,
-			"asks": {
-				"0xa7Fa07E7B1dFCaDC6846172ab1C5BCd9AFb754D7": 1
-			},
-			"asks_updated": "2024-01-27T09:26:27.947437125Z",
-			"gpus": {
-				"": 0
-			},
-			"qps": 0.13333333333333333,
-			"permit_required": false,
-			"price": {
-				"base": 0,
-				"finetune": 0,
-				"hourly": 0,
-				"input": 0,
-				"output": 0
-			},
-			"throughput_in": 1.6666666666666667,
-			"throughput_out": 3,
-			"stats": [
-				{
-					"avzone": "us-central-5a",
-					"cluster": "wrigleycub",
-					"capacity": 0.0078125,
-					"qps": 0.13333333333333333,
-					"throughput_in": 1.6666666666666667,
-					"throughput_out": 3,
-					"error_rate": 0,
-					"retry_rate": 0
-				}
-			]
-		}
-	},
-	{
-		"modelInstanceConfig": {
-			"appearsIn": [],
-			"order": 0
-		},
-		"_id": "64ace5dd227f790586239cf6",
-		"name": "togethercomputer/falcon-7b",
-		"display_name": "Falcon (7B)",
-		"display_type": "language",
-		"description": "Causal decoder-only model built by TII and trained on 1,500B tokens of RefinedWeb enhanced with curated corpora.",
-		"license": "apache-2.0",
-		"link": "https://huggingface.co/tiiuae/falcon-7b",
-		"creator_organization": "TII UAE",
-		"hardware_label": "A40 48GB",
-		"pricing_tier": "featured",
-		"access": "open",
 		"num_parameters": 7000000000,
 		"show_in_playground": true,
 		"isFeaturedModel": true,
 		"context_length": 2048,
 		"config": {
 			"stop": [
-				"<|endoftext|>"
-			],
-			"chat_template_name": "default"
-		},
-		"pricing": {
-			"input": 50,
-			"output": 50,
-			"hourly": 0
-		},
-		"created_at": "2023-07-11T05:17:17.883Z",
-		"update_at": "2023-07-11T05:17:17.883Z",
-		"instances": [
-			{
-				"avzone": "us-central-5a",
-				"cluster": "wrigleycub"
-			}
-		],
-		"descriptionLink": "",
-		"depth": {
-			"num_asks": 1,
-			"num_bids": 0,
-			"num_running": 0,
-			"asks": {
-				"0x925BBAC0441f02F46Af7A284D6FFFA7F885760C2": 1
-			},
-			"asks_updated": "2024-01-27T12:07:53.700108074Z",
-			"gpus": {
-				"": 0
-			},
-			"qps": 0.06666666666666667,
-			"permit_required": false,
-			"price": {
-				"base": 0,
-				"finetune": 0,
-				"hourly": 0,
-				"input": 0,
-				"output": 0
-			},
-			"throughput_in": 0.4,
-			"throughput_out": 0.8666666666666667,
-			"stats": [
-				{
-					"avzone": "us-central-5a",
-					"cluster": "wrigleycub",
-					"capacity": 0.0078125,
-					"qps": 0.06666666666666667,
-					"throughput_in": 0.4,
-					"throughput_out": 0.8666666666666667,
-					"error_rate": 0,
-					"retry_rate": 0
-				}
-			]
-		}
-	},
-	{
-		"modelInstanceConfig": {
-			"appearsIn": [],
-			"order": 0
-		},
-		"_id": "64b7165fcccc52103e2f07e8",
-		"name": "togethercomputer/llama-2-13b-chat",
-		"display_name": "LLaMA-2 Chat (13B)",
-		"display_type": "chat",
-		"description": "Llama 2-chat leverages publicly available instruction datasets and over 1 million human annotations. Available in three sizes: 7B, 13B and 70B parameters",
-		"license": "LLaMA license Agreement (Meta)",
-		"link": "https://huggingface.co/togethercomputer/llama-2-13b-chat",
-		"creator_organization": "Meta",
-		"hardware_label": "2X A100 80GB",
-		"pricing_tier": "Featured",
-		"access": "open",
-		"num_parameters": "13015864320",
-		"show_in_playground": true,
-		"finetuning_supported": true,
-		"isFeaturedModel": true,
-		"context_length": 4096,
-		"config": {
-			"prompt_format": "[INST] {prompt} [/INST]",
-			"stop": [
-				"[/INST]",
-				"</s>"
-			],
-			"chat_template_name": "llama"
-		},
-		"pricing": {
-			"input": 55,
-			"output": 55,
-			"hourly": 0
-		},
-		"created_at": "2023-07-18T22:46:55.042Z",
-		"update_at": "2023-12-04T05:00:54.436Z",
-		"instances": [
-			{
-				"avzone": "us-central-1a",
-				"cluster": "sassyseal"
-			}
-		],
-		"descriptionLink": "",
-		"depth": {
-			"num_asks": 1,
-			"num_bids": 0,
-			"num_running": 0,
-			"asks": {
-				"0x9850d8e4d64618A890aE5F8D050D6C10cCd4bf81": 1
-			},
-			"asks_updated": "2024-01-28T09:36:38.98933668Z",
-			"gpus": {
-				"": 0
-			},
-			"qps": 0.06666666666666667,
-			"permit_required": false,
-			"price": {
-				"base": 0,
-				"finetune": 0,
-				"hourly": 0,
-				"input": 0,
-				"output": 0
-			},
-			"throughput_in": 0.4666666666666667,
-			"throughput_out": 8.533333333333333,
-			"stats": [
-				{
-					"avzone": "us-central-1a",
-					"cluster": "sassyseal",
-					"capacity": 0.27999999999999997,
-					"qps": 0.06666666666666667,
-					"throughput_in": 0.4666666666666667,
-					"throughput_out": 8.533333333333333,
-					"error_rate": 0,
-					"retry_rate": 0
-				}
-			]
-		}
-	},
-	{
-		"modelInstanceConfig": {
-			"appearsIn": [],
-			"order": 0
-		},
-		"_id": "64b7165fcccc52103e2f07e7",
-		"name": "togethercomputer/llama-2-13b",
-		"display_name": "LLaMA-2 (13B)",
-		"display_type": "language",
-		"description": "Language model trained on 2 trillion tokens with double the context length of Llama 1. Available in three sizes: 7B, 13B and 70B parameters",
-		"license": "LLaMA license Agreement (Meta)",
-		"link": "https://huggingface.co/togethercomputer/llama-2-13b",
-		"creator_organization": "Meta",
-		"hardware_label": "2X A100 80GB",
-		"pricing_tier": "Featured",
-		"access": "open",
-		"num_parameters": "13015864320",
-		"show_in_playground": true,
-		"finetuning_supported": true,
-		"isFeaturedModel": true,
-		"context_length": 4096,
-		"config": {
-			"chat_template_name": "llama"
-		},
-		"pricing": {
-			"input": 55,
-			"output": 55,
-			"hourly": 0
-		},
-		"created_at": "2023-07-18T22:46:55.042Z",
-		"update_at": "2023-12-04T05:07:52.318Z",
-		"instances": [
-			{
-				"avzone": "us-central-1a",
-				"cluster": "sassyseal"
-			}
-		],
-		"descriptionLink": "",
-		"depth": {
-			"num_asks": 1,
-			"num_bids": 0,
-			"num_running": 0,
-			"asks": {
-				"0x61Ba41B5D30c04De97499543dE3A767e21D258eB": 1
-			},
-			"asks_updated": "2024-01-28T04:18:19.847851295Z",
-			"gpus": {
-				"": 0
-			},
-			"qps": 0.13333333333333333,
-			"permit_required": false,
-			"price": {
-				"base": 0,
-				"finetune": 0,
-				"hourly": 0,
-				"input": 0,
-				"output": 0
-			},
-			"throughput_in": 0.8666666666666667,
-			"throughput_out": 9.733333333333333,
-			"stats": [
-				{
-					"avzone": "us-central-1a",
-					"cluster": "sassyseal",
-					"capacity": 0.13333333333333333,
-					"qps": 0.13333333333333333,
-					"throughput_in": 0.8666666666666667,
-					"throughput_out": 9.733333333333333,
-					"error_rate": 0,
-					"retry_rate": 0
-				}
-			]
-		}
-	},
-	{
-		"modelInstanceConfig": {
-			"appearsIn": [],
-			"order": 0
-		},
-		"_id": "64b7165fcccc52103e2f07ea",
-		"name": "togethercomputer/llama-2-70b-chat",
-		"display_name": "LLaMA-2 Chat (70B)",
-		"display_type": "chat",
-		"description": "Llama 2-chat leverages publicly available instruction datasets and over 1 million human annotations. Available in three sizes: 7B, 13B and 70B parameters",
-		"license": "LLaMA license Agreement (Meta)",
-		"link": "https://huggingface.co/togethercomputer/llama-2-70b-chat",
-		"creator_organization": "Meta",
-		"hardware_label": "2X A100 80GB",
-		"pricing_tier": "Featured",
-		"access": "open",
-		"num_parameters": "68976648192",
-		"show_in_playground": true,
-		"finetuning_supported": true,
-		"isFeaturedModel": true,
-		"context_length": 4096,
-		"config": {
-			"prompt_format": "[INST] {prompt} [/INST]",
-			"stop": [
-				"[/INST]",
-				"</s>"
-			],
-			"chat_template_name": "llama"
-		},
-		"pricing": {
-			"input": 225,
-			"output": 225,
-			"hourly": 0
-		},
-		"created_at": "2023-07-18T22:46:55.042Z",
-		"update_at": "2023-07-18T22:46:55.042Z",
-		"autopilot_pool": "cr-a100-80-2x",
-		"instances": [
-			{
-				"avzone": "us-east-1a",
-				"cluster": "happypiglet"
-			}
-		],
-		"descriptionLink": "",
-		"depth": {
-			"num_asks": 4,
-			"num_bids": 0,
-			"num_running": 0,
-			"asks": {
-				"0x63327E269412d4e83dcB0559907EcEa61FAAf9e2": 1,
-				"0x6D3936E8f511F8860d481c3Dda33A639833fF225": 1,
-				"0x9d2Fc82264e1954a18F38D1768b6cBc281D9FA34": 1,
-				"0xffe42ef3D9C162444CA850900ecd41B05Fd8dE86": 1
-			},
-			"asks_updated": "2024-01-28T08:24:38.442976283Z",
-			"gpus": {
-				"": 0
-			},
-			"qps": 3.533333333333333,
-			"permit_required": false,
-			"price": {
-				"base": 0,
-				"finetune": 0,
-				"hourly": 0,
-				"input": 0,
-				"output": 0
-			},
-			"throughput_in": 1994.9333333333334,
-			"throughput_out": 641.0666666666667,
-			"retry_rate": 0.5333333333333333,
-			"stats": [
-				{
-					"avzone": "us-east-1a",
-					"cluster": "happypiglet",
-					"capacity": 0.04811789772727273,
-					"qps": 3.533333333333333,
-					"throughput_in": 1994.9333333333334,
-					"throughput_out": 641.0666666666667,
-					"error_rate": 0,
-					"retry_rate": 0.5333333333333333
-				}
-			]
-		}
-	},
-	{
-		"modelInstanceConfig": {
-			"appearsIn": [],
-			"order": 0
-		},
-		"_id": "64b7165fcccc52103e2f07e9",
-		"name": "togethercomputer/llama-2-70b",
-		"display_name": "LLaMA-2 (70B)",
-		"display_type": "language",
-		"description": "Language model trained on 2 trillion tokens with double the context length of Llama 1. Available in three sizes: 7B, 13B and 70B parameters",
-		"license": "LLaMA license Agreement (Meta)",
-		"link": "https://huggingface.co/togethercomputer/llama-2-70b",
-		"creator_organization": "Meta",
-		"hardware_label": "2X A100 80GB",
-		"pricing_tier": "Featured",
-		"access": "open",
-		"num_parameters": "68976648192",
-		"show_in_playground": true,
-		"finetuning_supported": true,
-		"isFeaturedModel": true,
-		"context_length": 4096,
-		"config": {
-			"chat_template_name": "llama"
-		},
-		"pricing": {
-			"input": 225,
-			"output": 225,
-			"hourly": 0
-		},
-		"created_at": "2023-07-18T22:46:55.042Z",
-		"update_at": "2023-07-18T22:46:55.042Z",
-		"autopilot_pool": "cr-a100-80-2x",
-		"instances": [
-			{
-				"avzone": "us-east-1a",
-				"cluster": "happypiglet"
-			}
-		],
-		"descriptionLink": "",
-		"depth": {
-			"num_asks": 1,
-			"num_bids": 0,
-			"num_running": 0,
-			"asks": {
-				"0xe2B7d404dDfaA98EAdbe21643919B5eFcce0ca8e": 1
-			},
-			"asks_updated": "2024-01-27T14:50:26.315667296Z",
-			"gpus": {
-				"": 0
-			},
-			"qps": 0.13333333333333333,
-			"permit_required": false,
-			"price": {
-				"base": 0,
-				"finetune": 0,
-				"hourly": 0,
-				"input": 0,
-				"output": 0
-			},
-			"throughput_in": 0.8666666666666667,
-			"throughput_out": 9.8,
-			"stats": [
-				{
-					"avzone": "us-east-1a",
-					"cluster": "happypiglet",
-					"capacity": 0.021551724137931036,
-					"qps": 0.13333333333333333,
-					"throughput_in": 0.8666666666666667,
-					"throughput_out": 9.8,
-					"error_rate": 0,
-					"retry_rate": 0
-				}
-			]
-		}
-	},
-	{
-		"modelInstanceConfig": {
-			"appearsIn": [],
-			"order": 0
-		},
-		"_id": "64b7165fcccc52103e2f07e6",
-		"name": "togethercomputer/llama-2-7b-chat",
-		"display_name": "LLaMA-2 Chat (7B)",
-		"display_type": "chat",
-		"description": "Llama 2-chat leverages publicly available instruction datasets and over 1 million human annotations. Available in three sizes: 7B, 13B and 70B parameters",
-		"license": "LLaMA license Agreement (Meta)",
-		"link": "https://huggingface.co/togethercomputer/llama-2-7b-chat",
-		"creator_organization": "Meta",
-		"hardware_label": "A100 80GB",
-		"pricing_tier": "Featured",
-		"access": "open",
-		"num_parameters": "6738415616",
-		"show_in_playground": true,
-		"finetuning_supported": true,
-		"isFeaturedModel": true,
-		"context_length": 4096,
-		"config": {
-			"prompt_format": "[INST] {prompt} [/INST]",
-			"stop": [
-				"[/INST]",
-				"</s>"
-			],
-			"chat_template_name": "llama"
-		},
-		"pricing": {
-			"input": 50,
-			"output": 50,
-			"hourly": 0
-		},
-		"created_at": "2023-07-18T22:46:55.042Z",
-		"update_at": "2023-07-18T22:46:55.042Z",
-		"instances": [
-			{
-				"avzone": "us-central-1a",
-				"cluster": "sassyseal"
-			}
-		],
-		"descriptionLink": "",
-		"depth": {
-			"num_asks": 1,
-			"num_bids": 0,
-			"num_running": 0,
-			"asks": {
-				"0x986F1d5bcFA6F2902847b716c7C99b558916cf75": 1
-			},
-			"asks_updated": "2024-01-28T09:41:52.408697226Z",
-			"gpus": {
-				"": 0
-			},
-			"qps": 0.4,
-			"permit_required": false,
-			"price": {
-				"base": 0,
-				"finetune": 0,
-				"hourly": 0,
-				"input": 0,
-				"output": 0
-			},
-			"throughput_in": 96.53333333333333,
-			"throughput_out": 155.4,
-			"stats": [
-				{
-					"avzone": "us-central-1a",
-					"cluster": "sassyseal",
-					"capacity": 0.162,
-					"qps": 0.4,
-					"throughput_in": 96.53333333333333,
-					"throughput_out": 155.4,
-					"error_rate": 0,
-					"retry_rate": 0
-				}
-			]
-		}
-	},
-	{
-		"modelInstanceConfig": {
-			"appearsIn": [],
-			"order": 0
-		},
-		"_id": "64b7165fcccc52103e2f07e5",
-		"name": "togethercomputer/llama-2-7b",
-		"display_name": "LLaMA-2 (7B)",
-		"display_type": "language",
-		"description": "Language model trained on 2 trillion tokens with double the context length of Llama 1. Available in three sizes: 7B, 13B and 70B parameters",
-		"license": "LLaMA license Agreement (Meta)",
-		"link": "https://huggingface.co/togethercomputer/llama-2-7b",
-		"creator_organization": "Meta",
-		"hardware_label": "A100 80GB",
-		"pricing_tier": "Featured",
-		"access": "open",
-		"num_parameters": "6738415616",
-		"show_in_playground": true,
-		"finetuning_supported": true,
-		"isFeaturedModel": true,
-		"context_length": 4096,
-		"config": {
-			"chat_template_name": "llama"
-		},
-		"pricing": {
-			"input": 50,
-			"output": 50,
-			"hourly": 0
-		},
-		"created_at": "2023-07-18T22:46:55.042Z",
-		"update_at": "2023-07-18T22:46:55.042Z",
-		"instances": [
-			{
-				"avzone": "us-central-1a",
-				"cluster": "sassyseal"
-			}
-		],
-		"descriptionLink": "",
-		"depth": {
-			"num_asks": 1,
-			"num_bids": 0,
-			"num_running": 0,
-			"asks": {
-				"0x370dfBC1cc49e89f208150381Eb121E4C7271BF9": 1
-			},
-			"asks_updated": "2024-01-27T11:03:44.941585819Z",
-			"gpus": {
-				"": 0
-			},
-			"qps": 0.2,
-			"permit_required": false,
-			"price": {
-				"base": 0,
-				"finetune": 0,
-				"hourly": 0,
-				"input": 0,
-				"output": 0
-			},
-			"throughput_in": 2.2,
-			"throughput_out": 11.333333333333334,
-			"stats": [
-				{
-					"avzone": "us-central-1a",
-					"cluster": "sassyseal",
-					"capacity": 0.05000000000000001,
-					"qps": 0.2,
-					"throughput_in": 2.2,
-					"throughput_out": 11.333333333333334,
-					"error_rate": 0,
-					"retry_rate": 0
-				}
-			]
-		}
-	},
-	{
-		"modelInstanceConfig": {
-			"appearsIn": [],
-			"order": 0
-		},
-		"_id": "64ee72a0aa4f1b1b2c66f0a5",
-		"name": "upstage/SOLAR-0-70b-16bit",
-		"display_name": "SOLAR v0 (70B)",
-		"display_type": "chat",
-		"description": "Language model instruction fine-tuned by upstage.ai on Orca and Alpaca style datasets that reached the top spot in openLLM rankings",
-		"license": "CC BY-NC-4.0",
-		"creator_organization": "Upstage",
-		"hardware_label": "2x A100 80GB",
-		"num_parameters": 70000000000,
-		"release_date": "2023-08-01T00:00:00.000Z",
-		"show_in_playground": true,
-		"isFeaturedModel": true,
-		"context_length": 4096,
-		"config": {
-			"stop": [
+				"</s>",
 				"###"
 			],
-			"prompt_format": "### System:\nYou are a respectful and helpful assistant.\n### User:\n{prompt}\n### Assistant:",
-			"chat_template": "{{ '### System:\nYou are a respectful and helpful assistant.\n' }}{% for message in messages %}{% if message['role'] == 'user' %}{{ '### User:\n' + message['content'] + '\n' }}{% else %}{{ '### Assistant:\n' + message['content'] + '\n' }}{% endif %}{% endfor %}{{ '### Assistant:' }}"
+			"add_generation_prompt": true,
+			"prompt_format": "### Instruction:\n{prompt}\n### Response:\n",
+			"chat_template": "{% for message in messages %}{% if message['role'] == 'user' %}{{ '### Instruction:\n' + message['content'] + '\n' }}{% else %}{{ '### Response:\n' + message['content'] + '\n' }}{% endif %}{% endfor %}{{ '### Response:\n' }}"
 		},
 		"pricing": {
-			"input": 225,
-			"output": 225,
+			"input": 50,
+			"output": 50,
 			"hourly": 0
 		},
-		"created_at": "2023-08-29T22:35:12.294Z",
-		"update_at": "2023-08-29T22:35:12.294Z",
+		"created_at": "2023-07-11T05:05:27.713Z",
+		"update_at": "2023-07-11T05:05:27.713Z",
+		"instances": [
+			{
+				"avzone": "us-central-1a",
+				"cluster": "sassyseal"
+			}
+		],
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 1,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0x959Ab12a6b941A3af32D2BFAB15357B0d5a09b17": 1
+			},
+			"asks_updated": "2024-04-02T13:46:21.306774795Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"stats": [
+				{
+					"avzone": "us-central-1a",
+					"cluster": "sassyseal",
+					"capacity": 0.05,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65df8df823e6726c2d053851",
+		"name": "togethercomputer/evo-1-131k-base",
+		"display_name": "Evo-1 Base (131K)",
+		"display_type": "language",
+		"description": "Evo is a biological foundation model capable of long-context modeling and design. Evo uses the StripedHyena architecture to enable modeling of sequences at a single-nucleotide, byte-level resolution with near-linear scaling of compute and memory relative to context length. Evo has 7 billion parameters and is trained on OpenGenome, a prokaryotic whole-genome dataset containing ~300 billion tokens.",
+		"license": "apache-2.0",
+		"link": "https://huggingface.co/togethercomputer/evo-1-131k-base",
+		"creator_organization": "Together",
+		"pricing_tier": "Featured",
+		"num_parameters": 6450000000,
+		"show_in_playground": true,
+		"isFeaturedModel": true,
+		"context_length": 131073,
+		"pricing": {
+			"input": 500,
+			"output": 500,
+			"hourly": 0
+		},
+		"created_at": "2024-02-28T19:48:08.106Z",
+		"update_at": "2024-02-28T19:48:08.106Z",
+		"instances": [
+			{
+				"avzone": "us-central-5b",
+				"cluster": "blusterybull"
+			}
+		],
+		"isPrivate": false,
+		"access_control": [],
+		"isDedicatedInstance": false,
+		"access": "",
+		"hardware_label": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 1,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0xc0adb2ff2096a2cbd885ac3b3b7DeaEc405929Fa": 1
+			},
+			"asks_updated": "2024-04-02T14:36:10.624515971Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"stats": [
+				{
+					"avzone": "us-central-5b",
+					"cluster": "blusterybull",
+					"capacity": 0,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65df8d9623e6726c2d053850",
+		"name": "togethercomputer/evo-1-8k-base",
+		"display_name": "Evo-1 Base (8K)",
+		"display_type": "language",
+		"description": "Evo is a biological foundation model capable of long-context modeling and design. Evo uses the StripedHyena architecture to enable modeling of sequences at a single-nucleotide, byte-level resolution with near-linear scaling of compute and memory relative to context length. Evo has 7 billion parameters and is trained on OpenGenome, a prokaryotic whole-genome dataset containing ~300 billion tokens.",
+		"license": "apache-2.0",
+		"link": "https://huggingface.co/togethercomputer/evo-1-8k-base",
+		"creator_organization": "Together",
+		"pricing_tier": "Featured",
+		"num_parameters": 6450000000,
+		"show_in_playground": true,
+		"isFeaturedModel": true,
+		"context_length": 8192,
+		"pricing": {
+			"input": 500,
+			"output": 500,
+			"hourly": 0
+		},
+		"created_at": "2024-02-28T19:46:30.585Z",
+		"update_at": "2024-02-28T19:46:30.585Z",
+		"instances": [
+			{
+				"avzone": "us-central-5b",
+				"cluster": "blusterybull"
+			}
+		],
+		"isPrivate": false,
+		"access_control": [],
+		"isDedicatedInstance": false,
+		"access": "",
+		"hardware_label": "",
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 1,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0x5999F1cB4ED139F6637cac1B22b77988E2198493": 1
+			},
+			"asks_updated": "2024-04-02T14:09:30.517633518Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"stats": [
+				{
+					"avzone": "us-central-5b",
+					"cluster": "blusterybull",
+					"capacity": 0,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "6553b8da6664bf7229b2dbfb",
+		"name": "togethercomputer/m2-bert-80M-2k-retrieval",
+		"display_name": "M2-BERT-Retrieval-2K",
+		"display_type": "embedding",
+		"description": "M2-BERT from the Monarch Mixer paper fine-tuned for retrieval",
+		"license": "Apache-2",
+		"creator_organization": "Together",
+		"hardware_label": "L40",
+		"pricing_tier": "Featured",
+		"num_parameters": 80000000,
+		"release_date": "2023-11-01T00:00:00.000Z",
+		"show_in_playground": true,
+		"isFeaturedModel": true,
+		"pricing": {
+			"hourly": 0,
+			"input": 2,
+			"output": 2,
+			"finetune": 0,
+			"base": 0
+		},
+		"created_at": "2023-11-14T18:13:46.901Z",
+		"update_at": "2024-02-21T20:06:27.968Z",
 		"instances": [
 			{
 				"avzone": "us-central-1a",
@@ -5966,14 +7056,14 @@ let models = [
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x657c72806A9e3F05127c5098259511De0d6c91a1": 1,
-				"0x7b3c570D43A98071D51C84DdC4E5fdEeFA6b474C": 1
+				"0x49c8561e8042ef95A4b011A0AB216d6171aAb80a": 1,
+				"0xD797d4629f4ec41203c03e9F417A1b26C165429c": 1
 			},
-			"asks_updated": "2024-01-28T02:44:07.670609849Z",
+			"asks_updated": "2024-04-02T18:14:10.508711199Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.2,
+			"qps": 0,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -5982,16 +7072,157 @@ let models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 2.2666666666666666,
-			"throughput_out": 18.4,
+			"stats": [
+				{
+					"avzone": "us-central-1a",
+					"cluster": "sassyseal",
+					"capacity": 0,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "6585058be7e2e898e81b5401",
+		"name": "togethercomputer/m2-bert-80M-32k-retrieval",
+		"display_name": "M2-BERT-Retrieval-32k",
+		"display_type": "embedding",
+		"description": "The 80M checkpoint for M2-BERT-base from the paper Monarch Mixer: A Simple Sub-Quadratic GEMM-Based Architecture with sequence length 8192, and it has been fine-tuned for retrieval.",
+		"license": "apache-2.0",
+		"link": "https://huggingface.co/togethercomputer/m2-bert-80M-32k-retrieval",
+		"creator_organization": "Together",
+		"hardware_label": "L40",
+		"pricing_tier": "Featured",
+		"access": "open",
+		"num_parameters": 80000000,
+		"show_in_playground": true,
+		"isFeaturedModel": true,
+		"context_length": 32768,
+		"pricing": {
+			"hourly": 0,
+			"input": 2,
+			"output": 2,
+			"finetune": 0,
+			"base": 0
+		},
+		"created_at": "2023-11-04T17:57:24.532Z",
+		"update_at": "2023-11-04T17:57:24.532Z",
+		"instances": [
+			{
+				"avzone": "us-central-1a",
+				"cluster": "sassyseal"
+			}
+		],
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 2,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0xFf60F2711029f19B61Ecddc0b03f40Bd7D234b23": 1,
+				"0xc6B6cfB1A480437a012553De16eD296a73a8fB68": 1
+			},
+			"asks_updated": "2024-04-02T18:20:09.135857215Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0.06666666666666667,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"throughput_in": 1.6,
 			"stats": [
 				{
 					"avzone": "us-central-1a",
 					"cluster": "sassyseal",
 					"capacity": 0.0078125,
-					"qps": 0.2,
-					"throughput_in": 2.2666666666666666,
-					"throughput_out": 18.4,
+					"qps": 0.06666666666666667,
+					"throughput_in": 1.6,
+					"throughput_out": 0,
+					"error_rate": 0,
+					"retry_rate": 0
+				}
+			]
+		}
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65468604c5ce2e5fa70d6722",
+		"name": "togethercomputer/m2-bert-80M-8k-retrieval",
+		"display_name": "M2-BERT-Retrieval-8k",
+		"display_type": "embedding",
+		"description": "The 80M checkpoint for M2-BERT-base from the paper Monarch Mixer: A Simple Sub-Quadratic GEMM-Based Architecture with sequence length 8192, and it has been fine-tuned for retrieval.",
+		"license": "apache-2.0",
+		"link": "https://huggingface.co/togethercomputer/m2-bert-80M-8k-retrieval",
+		"creator_organization": "Together",
+		"hardware_label": "L40",
+		"pricing_tier": "Featured",
+		"access": "open",
+		"num_parameters": 80000000,
+		"show_in_playground": true,
+		"isFeaturedModel": true,
+		"context_length": 8192,
+		"pricing": {
+			"hourly": 0,
+			"input": 2,
+			"output": 2,
+			"finetune": 0,
+			"base": 0
+		},
+		"created_at": "2023-11-04T17:57:24.532Z",
+		"update_at": "2023-11-04T17:57:24.532Z",
+		"instances": [
+			{
+				"avzone": "us-central-1a",
+				"cluster": "sassyseal"
+			}
+		],
+		"descriptionLink": "",
+		"depth": {
+			"num_asks": 2,
+			"num_bids": 0,
+			"num_running": 0,
+			"asks": {
+				"0x3d324467D9c6F36d90247D092f4CF7c3409E4EC7": 1,
+				"0xf86733aAaC47599b88B164d3a2fABa6D6E81A2cd": 1
+			},
+			"asks_updated": "2024-04-02T18:06:13.336013528Z",
+			"gpus": {
+				"": 0
+			},
+			"qps": 0,
+			"permit_required": false,
+			"price": {
+				"base": 0,
+				"finetune": 0,
+				"hourly": 0,
+				"input": 0,
+				"output": 0
+			},
+			"stats": [
+				{
+					"avzone": "us-central-1a",
+					"cluster": "sassyseal",
+					"capacity": 0,
+					"qps": 0,
+					"throughput_in": 0,
+					"throughput_out": 0,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -6016,12 +7247,15 @@ let models = [
 		"release_date": "2023-12-01T00:00:00.000Z",
 		"show_in_playground": true,
 		"isFeaturedModel": true,
+		"context_length": 4096,
 		"config": {
 			"stop": [
 				"###",
 				"</s>"
 			],
-			"prompt_format": "<s> ### User:\n{prompt}\n### Assistant:\n"
+			"prompt_format": "<s> ### User:\n{prompt}\n### Assistant:\n",
+			"add_generation_prompt": true,
+			"chat_template": "{% for message in messages %}{% if message['role'] == 'system' %}{% if message['content']%}{{'### System:\n' + message['content']+'\n\n'}}{% endif %}{% elif message['role'] == 'user' %}{{'### User:\n' + message['content']+'\n\n'}}{% elif message['role'] == 'assistant' %}{{'### Assistant:\n'  + message['content']}}{% endif %}{% if loop.last and add_generation_prompt %}{{ '### Assistant:\n' }}{% endif %}{% endfor %}"
 		},
 		"pricing": {
 			"input": 75,
@@ -6043,9 +7277,9 @@ let models = [
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0xa69DE9F0Af3D471069cd1C33e1A6d524e192a23D": 1
+				"0x6e7b83610040F22561593472a4A239022A6fc7CE": 1
 			},
-			"asks_updated": "2024-01-28T10:19:47.75593533Z",
+			"asks_updated": "2024-04-02T14:58:54.361853803Z",
 			"gpus": {
 				"": 0
 			},
@@ -6062,7 +7296,7 @@ let models = [
 				{
 					"avzone": "us-east-2a",
 					"cluster": "jumpyjackal",
-					"capacity": 0,
+					"capacity": 0.023255813953488372,
 					"qps": 0,
 					"throughput_in": 0,
 					"throughput_out": 0,
@@ -6109,14 +7343,14 @@ let models = [
 			"asks": {
 				"0xC830b3583bcA51887185318c0184fbdB622A55f5": 1
 			},
-			"asks_updated": "2024-01-27T10:21:11.913713377Z",
+			"asks_updated": "2024-04-02T13:22:05.890754265Z",
 			"gpus": {
 				"NVIDIA A40": 1
 			},
 			"options": {
 				"input=text,image": 1
 			},
-			"qps": 0.013694377,
+			"qps": 0.019701773,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -6125,7 +7359,7 @@ let models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 0.27388754
+			"throughput_in": 0.35463208
 		}
 	},
 	{
@@ -6146,13 +7380,15 @@ let models = [
 		"release_date": "2023-11-01T00:00:00.000Z",
 		"show_in_playground": true,
 		"isFeaturedModel": true,
+		"context_length": 4096,
 		"config": {
+			"add_generation_prompt": true,
 			"stop": [
 				"<|im_start|>",
 				"<|im_end|>"
 			],
 			"prompt_format": "<|im_start|>user\n{prompt}<|im_end|>\n<|im_start|>assistant\n",
-			"pre_prompt": ""
+			"chat_template_name": "default"
 		},
 		"pricing": {
 			"input": 200,
@@ -6161,27 +7397,27 @@ let models = [
 		},
 		"created_at": "2023-12-02T00:23:33.685Z",
 		"update_at": "2023-12-02T00:26:55.827Z",
-		"instances": [
-			{
-				"avzone": "us-east-2a",
-				"cluster": "jumpyjackal"
-			}
-		],
+		"instances": {
+			"avzone": "us-east-1a",
+			"cluster": "happypiglet"
+		},
 		"access": "",
 		"link": "",
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 1,
-			"num_bids": 0,
-			"num_running": 0,
+			"num_asks": 4,
+			"num_bids": 1,
+			"num_running": 1,
 			"asks": {
-				"0x3d3d04D907E5C66532766A746932EdbAA33f4D82": 1
+				"0x450aDd660C1B1fdB2A7f6bDAE850C4850594FbCD": 2,
+				"0x454Eef2b7f085F0134db5c728ac382aD0c4C9511": 1,
+				"0xF2a4F49ECb1CBB2a4fd7c7713F475416DCaBFC3c": 1
 			},
-			"asks_updated": "2024-01-28T08:47:35.800766093Z",
+			"asks_updated": "2024-04-02T17:14:10.767634853Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.5333333333333333,
+			"qps": 0.103196144,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -6190,21 +7426,8 @@ let models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 322.26666666666665,
-			"throughput_out": 303.6666666666667,
-			"retry_rate": 0.8,
-			"stats": [
-				{
-					"avzone": "us-east-2a",
-					"cluster": "jumpyjackal",
-					"capacity": 0.46012544802867367,
-					"qps": 0.5333333333333333,
-					"throughput_in": 322.26666666666665,
-					"throughput_out": 303.6666666666667,
-					"error_rate": 0,
-					"retry_rate": 0.8
-				}
-			]
+			"throughput_in": 665.593,
+			"throughput_out": 82.343765
 		}
 	},
 	{
@@ -6225,33 +7448,34 @@ let models = [
 		"release_date": "2023-11-01T00:00:00.000Z",
 		"show_in_playground": true,
 		"isFeaturedModel": true,
+		"context_length": 4096,
 		"pricing": {
 			"input": 200,
 			"output": 200
 		},
 		"created_at": "2023-12-05T22:25:24.982Z",
 		"update_at": "2023-12-05T22:51:15.306Z",
-		"instances": [
-			{
-				"avzone": "us-east-2a",
-				"cluster": "jumpyjackal"
-			}
-		],
+		"instances": {
+			"avzone": "us-east-1a",
+			"cluster": "happypiglet"
+		},
 		"access": "",
 		"link": "",
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 1,
+			"num_asks": 3,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x30bc352981eE5B08C0eAFc3c0C8d24C5026A4637": 1
+				"0x09c253d0c4aB07a89D2f7d23A57eA31bdc760c54": 1,
+				"0x964972F1A61F8BAdbD6163b9888D284CC2E054E9": 1,
+				"0x9B35c58ef3E3425dEa8CBE5f39b8050e40193F68": 1
 			},
-			"asks_updated": "2024-01-28T10:06:44.364931344Z",
+			"asks_updated": "2024-04-02T14:41:20.984302847Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0,
+			"qps": 0.021497848,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -6260,18 +7484,8 @@ let models = [
 				"input": 0,
 				"output": 0
 			},
-			"stats": [
-				{
-					"avzone": "us-east-2a",
-					"cluster": "jumpyjackal",
-					"capacity": 0.016129032258064516,
-					"qps": 0,
-					"throughput_in": 0,
-					"throughput_out": 0,
-					"error_rate": 0,
-					"retry_rate": 0
-				}
-			]
+			"throughput_in": 0.38662562,
+			"throughput_out": 9.148938
 		}
 	},
 	{
@@ -6292,8 +7506,9 @@ let models = [
 		"release_date": "2023-11-01T00:00:00.000Z",
 		"show_in_playground": true,
 		"isFeaturedModel": true,
+		"context_length": 4096,
 		"pricing": {
-			"input": 20,
+			"input": 50,
 			"output": 50
 		},
 		"created_at": "2023-12-06T13:05:06.567Z",
@@ -6308,17 +7523,18 @@ let models = [
 		"link": "",
 		"descriptionLink": "",
 		"depth": {
-			"num_asks": 1,
+			"num_asks": 2,
 			"num_bids": 0,
 			"num_running": 0,
 			"asks": {
-				"0x66cF06b006C16aaB80340d21C528D87fCa2D61Ce": 1
+				"0x45716B6ea86D12C2ba6B1a12cbb8BDBb1fA5f136": 1,
+				"0xf2337a3BA04f483bCb3DbF43584a398e83E20368": 1
 			},
-			"asks_updated": "2024-01-27T10:23:59.103187882Z",
+			"asks_updated": "2024-04-02T16:40:05.248794876Z",
 			"gpus": {
 				"": 0
 			},
-			"qps": 0.06666666666666667,
+			"qps": 0.2,
 			"permit_required": false,
 			"price": {
 				"base": 0,
@@ -6327,269 +7543,16 @@ let models = [
 				"input": 0,
 				"output": 0
 			},
-			"throughput_in": 0.4,
-			"throughput_out": 8.533333333333333,
+			"throughput_in": 2.8666666666666667,
+			"throughput_out": 78.86666666666666,
 			"stats": [
 				{
 					"avzone": "us-east-2a",
 					"cluster": "jumpyjackal",
-					"capacity": 0.0078125,
-					"qps": 0.06666666666666667,
-					"throughput_in": 0.4,
-					"throughput_out": 8.533333333333333,
-					"error_rate": 0,
-					"retry_rate": 0
-				}
-			]
-		}
-	},
-	{
-		"modelInstanceConfig": {
-			"appearsIn": [],
-			"order": 0
-		},
-		"_id": "6577bf1034e6c1e2bb5283d9",
-		"name": "mistralai/Mixtral-8x7B-v0.1",
-		"display_name": "Mixtral-8x7B",
-		"display_type": "language",
-		"description": "The Mixtral-8x7B Large Language Model (LLM) is a pretrained generative Sparse Mixture of Experts.",
-		"license": "apache-2.0",
-		"link": "https://huggingface.co/mistralai/Mixtral-8x7B-v0.1",
-		"creator_organization": "mistralai",
-		"pricing_tier": "Featured",
-		"access": "open",
-		"num_parameters": "56000000000",
-		"show_in_playground": true,
-		"finetuning_supported": true,
-		"isFeaturedModel": true,
-		"context_length": 32768,
-		"pricing": {
-			"input": 150,
-			"output": 150,
-			"hourly": 0
-		},
-		"created_at": "2023-12-12T02:01:52.674Z",
-		"update_at": "2023-12-12T02:01:52.674Z",
-		"autopilot_pool": "cr-a100-80-2x",
-		"instances": [
-			{
-				"avzone": "us-east-1a",
-				"cluster": "happypiglet"
-			}
-		],
-		"renamed": "mistralai/mixtral-8x7b-32kseqlen",
-		"hardware_label": "",
-		"descriptionLink": "",
-		"depth": {
-			"num_asks": 1,
-			"num_bids": 0,
-			"num_running": 0,
-			"qps": 0,
-			"throughput_in": 0,
-			"throughput_out": 0,
-			"error_rate": 0,
-			"retry_rate": 0,
-			"stats": [
-				{
-					"avzone": "us-east-1a",
-					"cluster": "happypiglet",
-					"capacity": 0,
-					"qps": 0,
-					"throughput_in": 0,
-					"throughput_out": 0,
-					"error_rate": 0,
-					"retry_rate": 0
-				}
-			]
-		}
-	},
-	{
-		"modelInstanceConfig": {
-			"appearsIn": [],
-			"order": 0
-		},
-		"_id": "65735d536923087ddd5a6606",
-		"name": "togethercomputer/StripedHyena-Nous-7B",
-		"display_name": "StripedHyena Nous (7B)",
-		"display_type": "chat",
-		"description": "A hybrid architecture composed of multi-head, grouped-query attention and gated convolutions arranged in Hyena blocks, different from traditional decoder-only Transformers",
-		"license": "Apache-2",
-		"creator_organization": "Together",
-		"hardware_label": "H100",
-		"pricing_tier": "Featured",
-		"num_parameters": 7000000000,
-		"release_date": "2023-11-01T00:00:00.000Z",
-		"show_in_playground": true,
-		"isFeaturedModel": true,
-		"config": {
-			"stop": [
-				"###",
-				"</s>"
-			],
-			"prompt_format": "### Instruction:\n{prompt}\n\n### Response:",
-			"chat_template": "{% for message in messages %}{% if message['role'] == 'user' %}{{ bos_token + '### Instruction:\\n' + message['content'] + '\\n\\n' }}{% elif message['role'] == 'system' %}{{ '### System:\\n' + message['content'] + '\\n\\n' }}{% elif message['role'] == 'assistant' %}{{ '### Response:\\n'  + message['content'] + '\\n' }}{% endif %}{% if loop.last %}{{ '### Response:\\n' }}{% endif %}{% endfor %}"
-		},
-		"pricing": {
-			"input": 50,
-			"output": 50
-		},
-		"created_at": "2023-12-08T18:15:47.433Z",
-		"update_at": "2023-12-08T19:03:11.497Z",
-		"instances": [
-			{
-				"avzone": "ap-northeast-1a",
-				"cluster": "optimisticotter"
-			}
-		],
-		"access": "",
-		"link": "",
-		"descriptionLink": "",
-		"depth": {
-			"num_asks": 1,
-			"num_bids": 0,
-			"num_running": 0,
-			"qps": 0,
-			"throughput_in": 0,
-			"throughput_out": 0,
-			"error_rate": 0,
-			"retry_rate": 0,
-			"stats": [
-				{
-					"avzone": "ap-northeast-1a",
-					"cluster": "optimisticotter",
-					"capacity": 0,
-					"qps": 0,
-					"throughput_in": 0,
-					"throughput_out": 0,
-					"error_rate": 0,
-					"retry_rate": 0
-				}
-			]
-		}
-	},
-	{
-		"modelInstanceConfig": {
-			"appearsIn": [],
-			"order": 0
-		},
-		"_id": "64f676f7bc372ce719b97f04",
-		"name": "garage-bAInd/Platypus2-70B-instruct",
-		"display_name": "Platypus2 Instruct (70B)",
-		"display_type": "chat",
-		"description": "An instruction fine-tuned LLaMA-2 (70B) model by merging Platypus2 (70B) by garage-bAInd and LLaMA-2 Instruct v2 (70B) by upstage.",
-		"license": "CC BY-NC-4.0",
-		"creator_organization": "garage-bAInd",
-		"hardware_label": "2x A100 80GB",
-		"pricing_tier": "featured",
-		"num_parameters": 70000000000,
-		"show_in_playground": true,
-		"isFeaturedModel": true,
-		"context_length": 4096,
-		"config": {
-			"stop": [
-				"</s>",
-				"###"
-			],
-			"prompt_format": "### Instruction:\n{prompt}\n### Response:\n"
-		},
-		"pricing": {
-			"input": 225,
-			"output": 225,
-			"hourly": 0
-		},
-		"created_at": "2023-09-05T00:31:51.264Z",
-		"update_at": "2023-09-07T01:46:29.338Z",
-		"instances": [
-			{
-				"avzone": "us-central-5a",
-				"cluster": "wrigleycub"
-			}
-		],
-		"access": "",
-		"link": "",
-		"descriptionLink": "",
-		"depth": {
-			"num_asks": 1,
-			"num_bids": 0,
-			"num_running": 0,
-			"qps": 0.13333333333333333,
-			"throughput_in": 1.8,
-			"throughput_out": 9.866666666666667,
-			"error_rate": 0,
-			"retry_rate": 0,
-			"stats": [
-				{
-					"avzone": "us-central-5a",
-					"cluster": "wrigleycub",
-					"capacity": 0.25,
-					"qps": 0.13333333333333333,
-					"throughput_in": 1.8,
-					"throughput_out": 9.866666666666667,
-					"error_rate": 0,
-					"retry_rate": 0
-				}
-			]
-		}
-	},
-	{
-		"modelInstanceConfig": {
-			"appearsIn": [],
-			"order": 0
-		},
-		"_id": "64ace317227f790586239ce2",
-		"name": "togethercomputer/alpaca-7b",
-		"display_name": "Alpaca (7B)",
-		"display_type": "chat",
-		"description": "Fine-tuned from the LLaMA 7B model on 52K instruction-following demonstrations. ",
-		"license": "cc-by-nc-4.0",
-		"link": "https://huggingface.co/tatsu-lab/alpaca-7b-wdiff",
-		"creator_organization": "Stanford",
-		"hardware_label": "A40 48GB",
-		"pricing_tier": "supported",
-		"access": "open",
-		"num_parameters": 7000000000,
-		"show_in_playground": true,
-		"isFeaturedModel": true,
-		"context_length": 2048,
-		"config": {
-			"stop": [
-				"</s>",
-				"###"
-			],
-			"prompt_format": "### Instruction:\n{prompt}\n### Response:\n",
-			"chat_template": "{% for message in messages %}{% if message['role'] == 'user' %}{{ '### Instruction:\n' + message['content'] + '\n' }}{% else %}{{ '### Response:\n' + message['content'] + '\n' }}{% endif %}{% endfor %}{{ '### Response:\n' }}"
-		},
-		"pricing": {
-			"input": 50,
-			"output": 50,
-			"hourly": 0
-		},
-		"created_at": "2023-07-11T05:05:27.713Z",
-		"update_at": "2023-07-11T05:05:27.713Z",
-		"instances": [
-			{
-				"avzone": "us-central-1a",
-				"cluster": "sassyseal"
-			}
-		],
-		"descriptionLink": "",
-		"depth": {
-			"num_asks": 1,
-			"num_bids": 0,
-			"num_running": 0,
-			"qps": 0,
-			"throughput_in": 0,
-			"throughput_out": 0,
-			"error_rate": 0,
-			"retry_rate": 0,
-			"stats": [
-				{
-					"avzone": "us-central-1a",
-					"cluster": "sassyseal",
-					"capacity": 0,
-					"qps": 0,
-					"throughput_in": 0,
-					"throughput_out": 0,
+					"capacity": 0.008370535714285714,
+					"qps": 0.2,
+					"throughput_in": 2.8666666666666667,
+					"throughput_out": 78.86666666666666,
 					"error_rate": 0,
 					"retry_rate": 0
 				}
@@ -6633,44 +7596,8 @@ let models = [
 			"appearsIn": [],
 			"order": 0
 		},
-		"_id": "6495ff1412907e072b8aecf1",
-		"name": "togethercomputer/codegen2-16B",
-		"display_name": "CodeGen2 (16B)",
-		"display_type": "code",
-		"description": "An autoregressive language models for program synthesis.",
-		"license": "",
-		"link": "",
-		"creator_organization": "Salesforce",
-		"hardware_label": "A40 48GB",
-		"pricing_tier": "supported",
-		"access": "open",
-		"num_parameters": 16000000000,
-		"release_date": "2022-03-25T00:00:00.000Z",
-		"show_in_playground": true,
-		"isFeaturedModel": false,
-		"context_length": 2048,
-		"config": {
-			"stop": [
-				"\n\n"
-			],
-			"chat_template_name": "gpt"
-		},
-		"pricing": {
-			"input": 75,
-			"output": 75,
-			"hourly": 0
-		},
-		"created_at": "2023-06-23T20:22:44.453Z",
-		"update_at": "2023-06-23T20:22:44.453Z",
-		"descriptionLink": ""
-	},
-	{
-		"modelInstanceConfig": {
-			"appearsIn": [],
-			"order": 0
-		},
 		"_id": "649e1ccca073332e47742415",
-		"name": "togethercomputer/replit-code-v1-3b",
+		"name": "replit/replit-code-v1-3b",
 		"display_name": "Replit-Code-v1 (3B)",
 		"display_type": "code",
 		"description": "replit-code-v1-3b is a 2.7B Causal Language Model focused on Code Completion. The model has been trained on a subset of the Stack Dedup v1.2 dataset.",
@@ -6684,6 +7611,7 @@ let models = [
 		"release_date": "2023-04-26T00:00:00.000Z",
 		"show_in_playground": "true",
 		"isFeaturedModel": false,
+		"context_length": 2048,
 		"pricing": {
 			"input": 25,
 			"output": 25,
@@ -6698,8 +7626,45 @@ let models = [
 			"appearsIn": [],
 			"order": 0
 		},
+		"_id": "6495ff1412907e072b8aecee",
+		"name": "togethercomputer/Pythia-Chat-Base-7B-v0.16",
+		"display_name": "Pythia-Chat-Base (7B)",
+		"display_type": "chat",
+		"description": "Chat model based on EleutherAI’s Pythia-7B model, and is fine-tuned with data focusing on dialog-style interactions.",
+		"license": "",
+		"creator_organization": "Together",
+		"hardware_label": "A40 48GB",
+		"pricing_tier": "featured",
+		"access": "open",
+		"num_parameters": 7000000000,
+		"show_in_playground": true,
+		"finetuning_supported": true,
+		"isFeaturedModel": false,
+		"context_length": 2048,
+		"config": {
+			"prompt_format": "<human>: {prompt}\n<bot>:",
+			"stop": [
+				"<human>"
+			],
+			"chat_template_name": "gpt"
+		},
+		"pricing": {
+			"input": 50,
+			"output": 50,
+			"hourly": 0
+		},
+		"created_at": "2023-06-23T20:22:44.251Z",
+		"update_at": "2023-06-23T20:22:44.251Z",
+		"link": "",
+		"descriptionLink": ""
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
 		"_id": "64aceada227f790586239d11",
-		"name": "togethercomputer/mpt-7b",
+		"name": "mosaicml/mpt-7b",
 		"display_name": "MPT (7B)",
 		"display_type": "language",
 		"description": "Decoder-style transformer pretrained from scratch on 1T tokens of English text and code.",
@@ -6712,6 +7677,7 @@ let models = [
 		"num_parameters": 7000000000,
 		"show_in_playground": true,
 		"isFeaturedModel": false,
+		"context_length": 2048,
 		"config": {
 			"stop": [
 				"<|endoftext|>"
@@ -6770,35 +7736,6 @@ let models = [
 			"appearsIn": [],
 			"order": 0
 		},
-		"_id": "6495ff1212907e072b8aecc5",
-		"name": "google/flan-t5-xxl",
-		"display_name": "Flan T5 XXL (11B)",
-		"display_type": "language",
-		"description": "Flan T5 XXL (11B parameters) is T5 fine-tuned on 1.8K tasks ([paper](https://arxiv.org/pdf/2210.11416.pdf)).",
-		"creator_organization": "Google",
-		"hardware_label": "A40 48GB",
-		"access": "open",
-		"show_in_playground": true,
-		"isFeaturedModel": false,
-		"config": {
-			"chat_template_name": "default"
-		},
-		"pricing": {
-			"input": 25,
-			"output": 25,
-			"hourly": 0
-		},
-		"created_at": "2023-06-23T20:22:42.261Z",
-		"update_at": "2023-09-01T14:35:00.161Z",
-		"license": "",
-		"link": "",
-		"descriptionLink": ""
-	},
-	{
-		"modelInstanceConfig": {
-			"appearsIn": [],
-			"order": 0
-		},
 		"_id": "64ace6df227f790586239cfc",
 		"name": "google/flan-t5-xl",
 		"display_name": "Flan T5 XL (3B)",
@@ -6813,6 +7750,7 @@ let models = [
 		"num_parameters": 3000000000,
 		"show_in_playground": true,
 		"isFeaturedModel": false,
+		"context_length": 512,
 		"config": {
 			"chat_template_name": "default"
 		},
@@ -6823,41 +7761,6 @@ let models = [
 		},
 		"created_at": "2023-06-23T20:22:42.261Z",
 		"update_at": "2023-06-23T20:22:42.261Z",
-		"descriptionLink": ""
-	},
-	{
-		"modelInstanceConfig": {
-			"appearsIn": [],
-			"order": 0
-		},
-		"_id": "64aceb6f227f790586239d15",
-		"name": "togethercomputer/mpt-7b-instruct",
-		"display_name": "MPT-Instruct (7B)",
-		"display_type": "language",
-		"description": "Designed for short-form instruction following, finetuned on Dolly and Anthropic HH-RLHF and other datasets",
-		"license": "",
-		"link": "",
-		"creator_organization": "Mosaic ML",
-		"hardware_label": "A40 48GB",
-		"pricing_tier": "supported",
-		"access": "open",
-		"num_parameters": 7000000000,
-		"show_in_playground": true,
-		"isFeaturedModel": false,
-		"config": {
-			"stop": [
-				"<|endoftext|>"
-			],
-			"chat_template_name": "default",
-			"add_generation_prompt": true
-		},
-		"pricing": {
-			"input": 50,
-			"output": 50,
-			"hourly": 0
-		},
-		"created_at": "2023-07-11T05:41:03.757Z",
-		"update_at": "2023-07-11T05:41:03.757Z",
 		"descriptionLink": ""
 	},
 	{
@@ -6878,6 +7781,7 @@ let models = [
 		"num_parameters": 6000000000,
 		"show_in_playground": true,
 		"isFeaturedModel": false,
+		"context_length": 2048,
 		"config": {
 			"stop": [
 				"<|endoftext|>"
@@ -6913,6 +7817,7 @@ let models = [
 		"num_parameters": 7000000000,
 		"show_in_playground": true,
 		"isFeaturedModel": false,
+		"context_length": 2048,
 		"config": {
 			"stop": [
 				"</s>"
@@ -7054,6 +7959,7 @@ let models = [
 		"num_parameters": 20000000000,
 		"show_in_playground": true,
 		"isFeaturedModel": false,
+		"context_length": 2048,
 		"config": {
 			"chat_template_name": "gpt"
 		},
@@ -7175,64 +8081,33 @@ let models = [
 			"appearsIn": [],
 			"order": 0
 		},
-		"_id": "64acec99227f790586239d1c",
-		"name": "OpenAssistant/oasst-sft-6-llama-30b-xor",
-		"display_name": "Open-Assistant LLaMA SFT-6 (30B)",
-		"display_type": "chat",
-		"description": "Chat-based and open-source assistant. The vision of the project is to make a large language model that can run on a single high-end consumer GPU. ",
+		"_id": "64b7165fcccc52103e2f07e5",
+		"name": "togethercomputer/llama-2-7b",
+		"display_name": "LLaMA-2 (7B)",
+		"display_type": "language",
+		"description": "Language model trained on 2 trillion tokens with double the context length of Llama 1. Available in three sizes: 7B, 13B and 70B parameters",
 		"license": "",
 		"link": "",
-		"creator_organization": "LAION",
-		"hardware_label": "A100 80GB",
-		"pricing_tier": "supported",
-		"show_in_playground": true,
-		"isFeaturedModel": false,
-		"config": {
-			"stop": [
-				"<|endoftext|>"
-			],
-			"prompt_format": "<|prompter|>{prompt}<|endoftext|><|assistant|>",
-			"chat_template": "{% for message in messages %}{% if message['role'] == 'user' %}{{ '<|prompter|>' + message['content'] + '<|endoftext|>' }}{% else %}{{ '<|assistant|>' + message['content'] + '<|endoftext|>\n' }}{% endif %}{% endfor %}{{ '<|assistant|>' }}"
-		},
-		"pricing": {
-			"input": 25,
-			"output": 25,
-			"hourly": 0
-		},
-		"created_at": "2023-06-23T20:22:42.469Z",
-		"update_at": "2023-06-23T20:22:42.469Z",
-		"access": "",
-		"descriptionLink": ""
-	},
-	{
-		"modelInstanceConfig": {
-			"appearsIn": [],
-			"order": 0
-		},
-		"_id": "64ace955227f790586239d06",
-		"name": "Salesforce/instructcodet5p-16b",
-		"display_name": "InstructCodeT5 (16B)",
-		"display_type": "chat",
-		"description": "Code large language model that can flexibly operate in different modes to support a wide range of code understanding and generation tasks. ",
-		"license": "",
-		"link": "",
-		"creator_organization": "Salesforce",
-		"hardware_label": "A40 48GB",
-		"pricing_tier": "supported",
+		"creator_organization": "Meta",
+		"pricing_tier": "Featured",
 		"access": "open",
-		"num_parameters": 33000000000,
+		"num_parameters": "6738415616",
 		"show_in_playground": true,
+		"finetuning_supported": true,
 		"isFeaturedModel": false,
+		"context_length": 4096,
 		"config": {
-			"chat_template_name": "default"
+			"chat_template_name": "llama"
 		},
 		"pricing": {
-			"input": 200,
-			"output": 200,
+			"input": 50,
+			"output": 50,
 			"hourly": 0
 		},
-		"created_at": "2023-07-11T05:32:05.369Z",
-		"update_at": "2023-07-11T05:32:05.369Z",
+		"created_at": "2023-07-18T22:46:55.042Z",
+		"update_at": "2023-07-18T22:46:55.042Z",
+		"renamed": "meta-llama/Llama-2-7b-hf",
+		"hardware_label": "",
 		"descriptionLink": ""
 	},
 	{
@@ -7417,6 +8292,39 @@ let models = [
 			"appearsIn": [],
 			"order": 0
 		},
+		"_id": "6495ff1112907e072b8aecbc",
+		"name": "EleutherAI/gpt-j-6b",
+		"display_name": "GPT-J (6B)",
+		"display_type": "language",
+		"description": "Transformer model trained using Ben Wang's Mesh Transformer JAX. ",
+		"license": "",
+		"link": "",
+		"creator_organization": "EleutherAI",
+		"hardware_label": "A40 48GB",
+		"pricing_tier": "supported",
+		"access": "open",
+		"num_parameters": 6000000000,
+		"release_date": "2021-06-04T00:00:00.000Z",
+		"show_in_playground": true,
+		"isFeaturedModel": false,
+		"context_length": 2048,
+		"config": {
+			"chat_template_name": "gpt"
+		},
+		"pricing": {
+			"input": 50,
+			"output": 50,
+			"hourly": 0
+		},
+		"created_at": "2023-06-23T20:22:41.831Z",
+		"update_at": "2023-06-23T20:22:41.831Z",
+		"descriptionLink": ""
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
 		"_id": "6495ff1212907e072b8aecc8",
 		"name": "OpenAssistant/oasst-sft-4-pythia-12b-epoch-3.5",
 		"display_name": "Open-Assistant Pythia SFT-4 (12B)",
@@ -7446,38 +8354,6 @@ let models = [
 		"created_at": "2023-06-23T20:22:42.383Z",
 		"update_at": "2023-06-23T20:22:42.383Z",
 		"access": "",
-		"descriptionLink": ""
-	},
-	{
-		"modelInstanceConfig": {
-			"appearsIn": [],
-			"order": 0
-		},
-		"_id": "6495ff1112907e072b8aecbc",
-		"name": "EleutherAI/gpt-j-6b",
-		"display_name": "GPT-J (6B)",
-		"display_type": "language",
-		"description": "Transformer model trained using Ben Wang's Mesh Transformer JAX. ",
-		"license": "",
-		"link": "",
-		"creator_organization": "EleutherAI",
-		"hardware_label": "A40 48GB",
-		"pricing_tier": "supported",
-		"access": "open",
-		"num_parameters": 6000000000,
-		"release_date": "2021-06-04T00:00:00.000Z",
-		"show_in_playground": true,
-		"isFeaturedModel": false,
-		"config": {
-			"chat_template_name": "gpt"
-		},
-		"pricing": {
-			"input": 50,
-			"output": 50,
-			"hourly": 0
-		},
-		"created_at": "2023-06-23T20:22:41.831Z",
-		"update_at": "2023-06-23T20:22:41.831Z",
 		"descriptionLink": ""
 	},
 	{
@@ -7521,35 +8397,247 @@ let models = [
 			"appearsIn": [],
 			"order": 0
 		},
-		"_id": "64ace476227f790586239cef",
-		"name": "togethercomputer/codegen2-7B",
-		"display_name": "CodeGen2 (7B)",
+		"_id": "64fbbc5adfdb1e4b06b5d5cc",
+		"name": "Phind/Phind-CodeLlama-34B-Python-v1",
+		"display_name": "Phind Code LLaMA Python v1 (34B)",
 		"display_type": "code",
-		"description": "An autoregressive language models for program synthesis.",
+		"description": "This model is fine-tuned from CodeLlama-34B-Python and achieves 69.5% pass@1 on HumanEval.",
 		"license": "",
-		"link": "",
-		"creator_organization": "Salesforce",
-		"hardware_label": "A40 48GB",
+		"creator_organization": "Phind",
+		"hardware_label": "A100 80GB",
 		"pricing_tier": "supported",
 		"access": "open",
+		"num_parameters": 33743970304,
+		"show_in_playground": true,
+		"isFeaturedModel": false,
+		"context_length": 16384,
+		"config": {
+			"prompt_format": "### Instruction:\n{prompt}\n### Response:\n",
+			"stop": [
+				"</s>",
+				"###"
+			],
+			"chat_template": "{% for message in messages %}{% if message['role'] == 'user' %}{{ '### Instruction:\n' + message['content'] + '\n' }}{% else %}{{ '### Response:\n' + message['content'] + '\n' }}{% endif %}{% endfor %}{{ '### Response:\n' }}"
+		},
+		"pricing": {
+			"input": 200,
+			"output": 200,
+			"hourly": 0
+		},
+		"created_at": "2023-09-09T00:29:14.496Z",
+		"update_at": "2023-09-09T00:29:14.496Z",
+		"link": "",
+		"descriptionLink": ""
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65ac4e5e75846d9d3ae5b836",
+		"name": "NumbersStation/nsql-llama-2-7B",
+		"display_name": "NSQL LLaMA-2 (7B)",
+		"display_type": "code",
+		"description": "NSQL is a family of autoregressive open-source large foundation models (FMs) designed specifically for SQL generation tasks",
+		"link": "",
+		"creator_organization": "Numbers Station",
+		"hardware_label": "A100",
+		"pricing_tier": "Featured",
 		"num_parameters": 7000000000,
-		"release_date": "2022-03-25T00:00:00.000Z",
+		"release_date": "2024-01-20T22:51:10.492Z",
+		"show_in_playground": true,
+		"isFeaturedModel": false,
+		"context_length": 4096,
+		"pricing": {
+			"hourly": 0,
+			"input": 50,
+			"output": 50,
+			"finetune": 0,
+			"base": 0
+		},
+		"created_at": "2024-01-20T22:51:10.492Z",
+		"update_at": "2024-01-20T22:59:48.333Z",
+		"access": "",
+		"license": "",
+		"descriptionLink": ""
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "6532f0faf94bacfc629b4cf8",
+		"name": "NousResearch/Nous-Hermes-Llama2-70b",
+		"display_name": "Nous Hermes LLaMA-2 (70B)",
+		"display_type": "chat",
+		"description": "Nous-Hermes-Llama2-70b is a state-of-the-art language model fine-tuned on over 300,000 instructions.",
+		"license": "",
+		"link": "",
+		"creator_organization": "NousResearch",
+		"hardware_label": "2X A100 80GB",
+		"pricing_tier": "Featured",
+		"access": "open",
+		"num_parameters": 70000000000,
+		"show_in_playground": true,
+		"isFeaturedModel": false,
+		"context_length": 4096,
+		"config": {
+			"stop": [
+				"###",
+				"</s>"
+			],
+			"prompt_format": "### Instruction:\n{prompt}\n\n### Response:\n",
+			"chat_template_name": "llama",
+			"chat_template": "{% for message in messages %}{% if message['role'] == 'user' %}{{ '### Instruction:\n' + message['content'] + '\n' }}{% else %}{{ '### Response:\n' + message['content'] + '\n' }}{% endif %}{% endfor %}{{ '### Response:\n' }}"
+		},
+		"pricing": {
+			"input": 225,
+			"output": 225,
+			"hourly": 0
+		},
+		"created_at": "2023-10-20T21:28:26.404Z",
+		"update_at": "2023-10-24T17:43:39.278Z",
+		"descriptionLink": ""
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "64f67555bc372ce719b97f03",
+		"name": "WizardLM/WizardLM-70B-V1.0",
+		"display_name": "WizardLM v1.0 (70B)",
+		"display_type": "language",
+		"description": "This model achieves a substantial and comprehensive improvement on coding, mathematical reasoning and open-domain conversation capacities.",
+		"license": "",
+		"creator_organization": "WizardLM",
+		"hardware_label": "2x A100 80GB",
+		"pricing_tier": "supported",
+		"num_parameters": 70000000000,
+		"show_in_playground": true,
+		"isFeaturedModel": false,
+		"context_length": 4096,
+		"config": {
+			"stop": [
+				"</s>"
+			],
+			"prompt_format": "USER: {prompt} ASSISTANT:",
+			"chat_template": "{% for message in messages %}{% if message['role'] == 'user' %}{{ 'USER: ' + message['content'] + ' ' }}{% else %}{{ 'ASSISTANT:' + message['content'] + '\n' }}{% endif %}{% endfor %}{{ 'ASSISTANT:' }}"
+		},
+		"pricing": {
+			"input": 225,
+			"output": 225,
+			"hourly": 0
+		},
+		"created_at": "2023-09-05T00:24:53.327Z",
+		"update_at": "2023-09-05T00:24:53.327Z",
+		"access": "",
+		"link": "",
+		"descriptionLink": ""
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "64acea57227f790586239d0d",
+		"name": "huggyllama/llama-65b",
+		"display_name": "LLaMA (65B)",
+		"display_type": "language",
+		"description": "An auto-regressive language model, based on the transformer architecture. The model comes in different sizes: 7B, 13B, 33B and 65B parameters.",
+		"license": "",
+		"link": "",
+		"creator_organization": "Meta",
+		"hardware_label": "2x A100 80GB",
+		"pricing_tier": "supported",
+		"access": "open",
+		"num_parameters": 65000000000,
 		"show_in_playground": true,
 		"isFeaturedModel": false,
 		"context_length": 2048,
 		"config": {
+			"chat_template_name": "llama"
+		},
+		"pricing": {
+			"input": 225,
+			"output": 225,
+			"hourly": 0
+		},
+		"created_at": "2023-07-11T05:36:23.656Z",
+		"update_at": "2023-07-11T05:36:23.656Z",
+		"descriptionLink": ""
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "64fbbc5adfdb1e4b06b5d5ce",
+		"name": "lmsys/vicuna-13b-v1.5-16k",
+		"display_name": "Vicuna v1.5 16K (13B)",
+		"display_type": "chat",
+		"description": "Vicuna is a chat assistant trained by fine-tuning Llama 2 on user-shared conversations collected from ShareGPT.",
+		"license": "",
+		"creator_organization": "LM Sys",
+		"hardware_label": "A100 80GB",
+		"pricing_tier": "supported",
+		"access": "open",
+		"num_parameters": 13015864320,
+		"show_in_playground": true,
+		"isFeaturedModel": false,
+		"context_length": 16384,
+		"config": {
+			"prompt_format": "USER: {prompt}\nASSISTANT:",
 			"stop": [
-				"\n\n"
+				"</s>"
+			],
+			"chat_template": "{% for message in messages %}{{message['role'].toLocaleUpperCase() + ': ' + message['content'] + '\n'}}{% endfor %}{{ 'ASSISTANT:' }}"
+		},
+		"pricing": {
+			"input": 75,
+			"output": 75,
+			"hourly": 0
+		},
+		"created_at": "2023-09-09T00:29:14.496Z",
+		"update_at": "2023-09-09T00:29:14.496Z",
+		"link": "",
+		"descriptionLink": ""
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "6495ff1312907e072b8aece4",
+		"name": "togethercomputer/GPT-NeoXT-Chat-Base-20B",
+		"display_name": "GPT-NeoXT-Chat-Base (20B)",
+		"display_type": "chat",
+		"description": "Chat model fine-tuned from EleutherAI’s GPT-NeoX with over 40 million instructions on carbon reduced compute.",
+		"license": "",
+		"link": "",
+		"creator_organization": "Together",
+		"hardware_label": "A40 48GB",
+		"pricing_tier": "featured",
+		"access": "open",
+		"num_parameters": 20000000000,
+		"show_in_playground": true,
+		"isFeaturedModel": false,
+		"context_length": 2048,
+		"config": {
+			"prompt_format": "<human>: {prompt}\n<bot>:",
+			"stop": [
+				"<human>"
 			],
 			"chat_template_name": "gpt"
 		},
+		"max_tokens": 995,
 		"pricing": {
-			"input": 50,
-			"output": 50,
+			"input": 75,
+			"output": 75,
 			"hourly": 0
 		},
-		"created_at": "2023-07-11T05:11:18.328Z",
-		"update_at": "2023-07-11T05:11:18.328Z",
+		"created_at": "2023-06-23T20:22:43.702Z",
+		"update_at": "2023-06-23T20:22:43.702Z",
 		"descriptionLink": ""
 	},
 	{
@@ -7596,6 +8684,78 @@ let models = [
 			"appearsIn": [],
 			"order": 0
 		},
+		"_id": "65a6de96e620478cfa144262",
+		"name": "codellama/CodeLlama-34b-hf",
+		"display_name": "Code Llama (34B)",
+		"display_type": "code",
+		"description": "Code Llama is a family of large language models for code based on Llama 2 providing infilling capabilities, support for large input contexts, and zero-shot instruction following ability for programming tasks.",
+		"license": "",
+		"creator_organization": "Meta",
+		"hardware_label": "A100 80GB",
+		"num_parameters": 34000000000,
+		"show_in_playground": true,
+		"isFeaturedModel": false,
+		"context_length": 16384,
+		"config": {
+			"stop": [
+				"</s>"
+			],
+			"chat_template_name": "llama"
+		},
+		"pricing": {
+			"input": 194,
+			"output": 194,
+			"hourly": 0
+		},
+		"created_at": "2023-08-24T17:28:42.172Z",
+		"update_at": "2023-08-24T17:28:42.172Z",
+		"access": "",
+		"link": "",
+		"descriptionLink": ""
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "64e78e89589782acafe1781d",
+		"name": "togethercomputer/CodeLlama-7b-Instruct",
+		"display_name": "Code Llama Instruct (7B)",
+		"display_type": "chat",
+		"description": "Code Llama is a family of large language models for code based on Llama 2 providing infilling capabilities, support for large input contexts, and zero-shot instruction following ability for programming tasks.",
+		"license": "",
+		"creator_organization": "Meta",
+		"hardware_label": "A100 80GB",
+		"num_parameters": "6738546688",
+		"show_in_playground": true,
+		"finetuning_supported": true,
+		"isFeaturedModel": false,
+		"context_length": 16384,
+		"config": {
+			"prompt_format": "[INST] {prompt} [/INST]",
+			"stop": [
+				"</s>",
+				"[INST]"
+			],
+			"chat_template_name": "llama"
+		},
+		"pricing": {
+			"input": 50,
+			"output": 50,
+			"hourly": 0
+		},
+		"created_at": "2023-08-24T17:08:25.379Z",
+		"update_at": "2023-08-24T17:08:25.379Z",
+		"renamed": "codellama/CodeLlama-7b-Instruct-hf",
+		"access": "",
+		"link": "",
+		"descriptionLink": ""
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
 		"_id": "64f0de22caa9e2eb543b373b",
 		"name": "togethercomputer/guanaco-13b",
 		"display_name": "Guanaco (13B) ",
@@ -7625,6 +8785,544 @@ let models = [
 		},
 		"created_at": "2023-07-11T05:29:07.717Z",
 		"update_at": "2023-07-11T05:29:07.717Z",
+		"descriptionLink": ""
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "64e7934a589782acafe17822",
+		"name": "togethercomputer/CodeLlama-34b-Python",
+		"display_name": "Code Llama Python (34B)",
+		"display_type": "code",
+		"description": "Code Llama is a family of large language models for code based on Llama 2 providing infilling capabilities, support for large input contexts, and zero-shot instruction following ability for programming tasks.",
+		"license": "",
+		"creator_organization": "Meta",
+		"hardware_label": "A100 80GB",
+		"num_parameters": 34000000000,
+		"show_in_playground": true,
+		"isFeaturedModel": false,
+		"context_length": 16384,
+		"config": {
+			"stop": [
+				"</s>"
+			],
+			"chat_template_name": "llama"
+		},
+		"pricing": {
+			"input": 194,
+			"output": 194,
+			"hourly": 0
+		},
+		"created_at": "2023-08-24T17:28:42.172Z",
+		"update_at": "2023-08-24T17:28:42.172Z",
+		"renamed": "codellama/CodeLlama-34b-Python-hf",
+		"access": "",
+		"link": "",
+		"descriptionLink": ""
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "64aceb6f227f790586239d15",
+		"name": "mosaicml/mpt-7b-instruct",
+		"display_name": "MPT-Instruct (7B)",
+		"display_type": "language",
+		"description": "Designed for short-form instruction following, finetuned on Dolly and Anthropic HH-RLHF and other datasets",
+		"license": "",
+		"link": "",
+		"creator_organization": "Mosaic ML",
+		"hardware_label": "A40 48GB",
+		"pricing_tier": "supported",
+		"access": "open",
+		"num_parameters": 7000000000,
+		"show_in_playground": true,
+		"isFeaturedModel": false,
+		"context_length": 2048,
+		"config": {
+			"stop": [
+				"<|endoftext|>"
+			],
+			"chat_template_name": "default",
+			"add_generation_prompt": true
+		},
+		"pricing": {
+			"input": 50,
+			"output": 50,
+			"hourly": 0
+		},
+		"created_at": "2023-07-11T05:41:03.757Z",
+		"update_at": "2023-07-11T05:41:03.757Z",
+		"descriptionLink": ""
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "64b7165fcccc52103e2f07ea",
+		"name": "togethercomputer/llama-2-70b-chat",
+		"display_name": "LLaMA-2 Chat (70B)",
+		"display_type": "chat",
+		"description": "Llama 2-chat leverages publicly available instruction datasets and over 1 million human annotations. Available in three sizes: 7B, 13B and 70B parameters",
+		"license": "",
+		"link": "",
+		"creator_organization": "Meta",
+		"hardware_label": "2X A100 80GB",
+		"pricing_tier": "Featured",
+		"access": "open",
+		"num_parameters": "68976648192",
+		"show_in_playground": true,
+		"finetuning_supported": true,
+		"isFeaturedModel": false,
+		"context_length": 4096,
+		"config": {
+			"prompt_format": "[INST] {prompt} [/INST]",
+			"stop": [
+				"[/INST]",
+				"</s>"
+			],
+			"chat_template_name": "llama"
+		},
+		"pricing": {
+			"input": 225,
+			"output": 225,
+			"hourly": 0
+		},
+		"created_at": "2023-07-18T22:46:55.042Z",
+		"update_at": "2023-07-18T22:46:55.042Z",
+		"autopilot_pool": "cr-a100-80-2x",
+		"renamed": "meta-llama/Llama-2-70b-chat-hf",
+		"descriptionLink": ""
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "64e7934a589782acafe17823",
+		"name": "togethercomputer/CodeLlama-34b-Instruct",
+		"display_name": "Code Llama Instruct (34B)",
+		"display_type": "chat",
+		"description": "Code Llama is a family of large language models for code based on Llama 2 providing infilling capabilities, support for large input contexts, and zero-shot instruction following ability for programming tasks.",
+		"license": "",
+		"creator_organization": "Meta",
+		"hardware_label": "A100 80GB",
+		"num_parameters": 34000000000,
+		"show_in_playground": true,
+		"isFeaturedModel": false,
+		"context_length": 16384,
+		"config": {
+			"prompt_format": "[INST] {prompt} [/INST]",
+			"stop": [
+				"</s>",
+				"[INST]"
+			],
+			"chat_template_name": "llama",
+			"tools_template": "{{ '<<SYS>>\\n' + systemMessage['content'] + '\\n\\nYou can access the following functions. Use them if required -\\n' + tools + '\\n<</SYS>>\\n\\n' + message['content'] }}"
+		},
+		"pricing": {
+			"input": 194,
+			"output": 194,
+			"hourly": 0
+		},
+		"created_at": "2023-08-24T17:28:42.172Z",
+		"update_at": "2023-08-24T17:28:42.172Z",
+		"renamed": "codellama/CodeLlama-34b-Instruct-hf",
+		"access": "",
+		"link": "",
+		"descriptionLink": ""
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "64e7934a589782acafe17821",
+		"name": "togethercomputer/CodeLlama-34b",
+		"display_name": "Code Llama (34B)",
+		"display_type": "code",
+		"description": "Code Llama is a family of large language models for code based on Llama 2 providing infilling capabilities, support for large input contexts, and zero-shot instruction following ability for programming tasks.",
+		"license": "",
+		"creator_organization": "Meta",
+		"hardware_label": "A100 80GB",
+		"num_parameters": 34000000000,
+		"show_in_playground": true,
+		"isFeaturedModel": false,
+		"context_length": 16384,
+		"config": {
+			"stop": [
+				"</s>"
+			],
+			"chat_template_name": "llama"
+		},
+		"pricing": {
+			"input": 194,
+			"output": 194,
+			"hourly": 0
+		},
+		"created_at": "2023-08-24T17:28:42.172Z",
+		"update_at": "2023-08-24T17:28:42.172Z",
+		"renamed": "codellama/CodeLlama-34b-hf",
+		"access": "",
+		"link": "",
+		"descriptionLink": ""
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "64e78eba589782acafe1781f",
+		"name": "togethercomputer/CodeLlama-13b-Python",
+		"display_name": "Code Llama Python (13B)",
+		"display_type": "code",
+		"description": "Code Llama is a family of large language models for code based on Llama 2 providing infilling capabilities, support for large input contexts, and zero-shot instruction following ability for programming tasks.",
+		"license": "",
+		"creator_organization": "Meta",
+		"hardware_label": "A100 80GB",
+		"num_parameters": "13016028160",
+		"show_in_playground": true,
+		"finetuning_supported": true,
+		"isFeaturedModel": false,
+		"context_length": 16384,
+		"config": {
+			"stop": [
+				"</s>"
+			],
+			"chat_template_name": "llama"
+		},
+		"pricing": {
+			"input": 55,
+			"output": 55,
+			"hourly": 0
+		},
+		"created_at": "2023-08-24T17:09:14.381Z",
+		"update_at": "2023-12-20T22:52:59.177Z",
+		"renamed": "codellama/CodeLlama-13b-Python-hf",
+		"access": "",
+		"link": "",
+		"descriptionLink": ""
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "6495ff1412907e072b8aecf1",
+		"name": "Salesforce/codegen2-16B",
+		"display_name": "CodeGen2 (16B)",
+		"display_type": "code",
+		"description": "An autoregressive language models for program synthesis.",
+		"license": "",
+		"link": "",
+		"creator_organization": "Salesforce",
+		"hardware_label": "A40 48GB",
+		"pricing_tier": "supported",
+		"access": "open",
+		"num_parameters": 16000000000,
+		"release_date": "2022-03-25T00:00:00.000Z",
+		"show_in_playground": true,
+		"isFeaturedModel": false,
+		"context_length": 2048,
+		"config": {
+			"stop": [
+				"\n\n"
+			],
+			"chat_template_name": "gpt"
+		},
+		"pricing": {
+			"input": 75,
+			"output": 75,
+			"hourly": 0
+		},
+		"created_at": "2023-06-23T20:22:44.453Z",
+		"update_at": "2023-06-23T20:22:44.453Z",
+		"descriptionLink": ""
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "64ace476227f790586239cef",
+		"name": "Salesforce/codegen2-7B",
+		"display_name": "CodeGen2 (7B)",
+		"display_type": "code",
+		"description": "An autoregressive language models for program synthesis.",
+		"license": "",
+		"link": "",
+		"creator_organization": "Salesforce",
+		"hardware_label": "A40 48GB",
+		"pricing_tier": "supported",
+		"access": "open",
+		"num_parameters": 7000000000,
+		"release_date": "2022-03-25T00:00:00.000Z",
+		"show_in_playground": true,
+		"isFeaturedModel": false,
+		"context_length": 2048,
+		"config": {
+			"stop": [
+				"\n\n"
+			],
+			"chat_template_name": "gpt"
+		},
+		"pricing": {
+			"input": 50,
+			"output": 50,
+			"hourly": 0
+		},
+		"created_at": "2023-07-11T05:11:18.328Z",
+		"update_at": "2023-07-11T05:11:18.328Z",
+		"descriptionLink": ""
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "6495ff1212907e072b8aecc5",
+		"name": "google/flan-t5-xxl",
+		"display_name": "Flan T5 XXL (11B)",
+		"display_type": "language",
+		"description": "Flan T5 XXL (11B parameters) is T5 fine-tuned on 1.8K tasks ([paper](https://arxiv.org/pdf/2210.11416.pdf)).",
+		"creator_organization": "Google",
+		"hardware_label": "A40 48GB",
+		"access": "open",
+		"show_in_playground": true,
+		"isFeaturedModel": false,
+		"context_length": 512,
+		"config": {
+			"chat_template_name": "default"
+		},
+		"pricing": {
+			"input": 25,
+			"output": 25,
+			"hourly": 0
+		},
+		"created_at": "2023-06-23T20:22:42.261Z",
+		"update_at": "2023-09-01T14:35:00.161Z",
+		"license": "",
+		"link": "",
+		"descriptionLink": ""
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "64b7165fcccc52103e2f07e9",
+		"name": "togethercomputer/llama-2-70b",
+		"display_name": "LLaMA-2 (70B)",
+		"display_type": "language",
+		"description": "Language model trained on 2 trillion tokens with double the context length of Llama 1. Available in three sizes: 7B, 13B and 70B parameters",
+		"license": "",
+		"link": "",
+		"creator_organization": "Meta",
+		"hardware_label": "2X A100 80GB",
+		"pricing_tier": "Featured",
+		"access": "open",
+		"num_parameters": "68976648192",
+		"show_in_playground": true,
+		"finetuning_supported": true,
+		"isFeaturedModel": false,
+		"context_length": 4096,
+		"config": {
+			"chat_template_name": "llama"
+		},
+		"pricing": {
+			"input": 225,
+			"output": 225,
+			"hourly": 0
+		},
+		"created_at": "2023-07-18T22:46:55.042Z",
+		"update_at": "2023-07-18T22:46:55.042Z",
+		"autopilot_pool": "cr-a100-80-2x",
+		"renamed": "meta-llama/Llama-2-70b-hf",
+		"descriptionLink": ""
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65a6de95e620478cfa14425f",
+		"name": "codellama/CodeLlama-7b-hf",
+		"display_name": "Code Llama (7B)",
+		"display_type": "code",
+		"description": "Code Llama is a family of large language models for code based on Llama 2 providing infilling capabilities, support for large input contexts, and zero-shot instruction following ability for programming tasks.",
+		"license": "",
+		"creator_organization": "Meta",
+		"hardware_label": "A100 80GB",
+		"num_parameters": "6738546688",
+		"show_in_playground": true,
+		"finetuning_supported": true,
+		"isFeaturedModel": false,
+		"context_length": 16384,
+		"config": {
+			"stop": [
+				"</s>"
+			],
+			"chat_template_name": "llama"
+		},
+		"pricing": {
+			"input": 50,
+			"output": 50,
+			"hourly": 0
+		},
+		"created_at": "2023-08-24T17:08:25.379Z",
+		"update_at": "2023-08-24T17:08:25.379Z",
+		"access": "",
+		"link": "",
+		"descriptionLink": ""
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "65a6de95e620478cfa14425c",
+		"name": "codellama/CodeLlama-13b-hf",
+		"display_name": "Code Llama (13B)",
+		"display_type": "code",
+		"description": "Code Llama is a family of large language models for code based on Llama 2 providing infilling capabilities, support for large input contexts, and zero-shot instruction following ability for programming tasks.",
+		"license": "",
+		"creator_organization": "Meta",
+		"hardware_label": "A100 80GB",
+		"num_parameters": "13016028160",
+		"show_in_playground": true,
+		"finetuning_supported": true,
+		"isFeaturedModel": false,
+		"context_length": 16384,
+		"config": {
+			"stop": [
+				"</s>"
+			],
+			"chat_template_name": "llama"
+		},
+		"pricing": {
+			"input": 55,
+			"output": 55,
+			"hourly": 0
+		},
+		"created_at": "2023-08-24T17:09:14.381Z",
+		"update_at": "2023-12-21T01:12:38.916Z",
+		"access": "",
+		"link": "",
+		"descriptionLink": ""
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "64e78eba589782acafe17820",
+		"name": "togethercomputer/CodeLlama-13b-Instruct",
+		"display_name": "Code Llama Instruct (13B)",
+		"display_type": "chat",
+		"description": "Code Llama is a family of large language models for code based on Llama 2 providing infilling capabilities, support for large input contexts, and zero-shot instruction following ability for programming tasks.",
+		"license": "",
+		"creator_organization": "Meta",
+		"hardware_label": "A100 80GB",
+		"num_parameters": "13016028160",
+		"show_in_playground": true,
+		"finetuning_supported": true,
+		"isFeaturedModel": false,
+		"context_length": 16384,
+		"config": {
+			"prompt_format": "[INST] {prompt} [/INST]",
+			"stop": [
+				"</s>",
+				"[INST]"
+			],
+			"chat_template_name": "llama"
+		},
+		"pricing": {
+			"input": 55,
+			"output": 55,
+			"hourly": 0
+		},
+		"created_at": "2023-08-24T17:09:14.381Z",
+		"update_at": "2023-12-04T05:01:42.539Z",
+		"renamed": "codellama/CodeLlama-13b-Instruct-hf",
+		"access": "",
+		"link": "",
+		"descriptionLink": ""
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "64b7165fcccc52103e2f07e8",
+		"name": "togethercomputer/llama-2-13b-chat",
+		"display_name": "LLaMA-2 Chat (13B)",
+		"display_type": "chat",
+		"description": "Llama 2-chat leverages publicly available instruction datasets and over 1 million human annotations. Available in three sizes: 7B, 13B and 70B parameters",
+		"license": "",
+		"link": "",
+		"creator_organization": "Meta",
+		"pricing_tier": "Featured",
+		"access": "open",
+		"num_parameters": "13015864320",
+		"show_in_playground": true,
+		"finetuning_supported": true,
+		"isFeaturedModel": false,
+		"context_length": 4096,
+		"config": {
+			"prompt_format": "[INST] {prompt} [/INST]",
+			"stop": [
+				"[/INST]",
+				"</s>"
+			],
+			"chat_template_name": "llama"
+		},
+		"pricing": {
+			"input": 55,
+			"output": 55,
+			"hourly": 0
+		},
+		"created_at": "2023-07-18T22:46:55.042Z",
+		"update_at": "2023-12-04T05:00:54.436Z",
+		"renamed": "meta-llama/Llama-2-13b-chat-hf",
+		"hardware_label": "",
+		"descriptionLink": ""
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "64b7165fcccc52103e2f07e7",
+		"name": "togethercomputer/llama-2-13b",
+		"display_name": "LLaMA-2 (13B)",
+		"display_type": "language",
+		"description": "Language model trained on 2 trillion tokens with double the context length of Llama 1. Available in three sizes: 7B, 13B and 70B parameters",
+		"license": "",
+		"link": "",
+		"creator_organization": "Meta",
+		"pricing_tier": "Featured",
+		"access": "open",
+		"num_parameters": "13015864320",
+		"show_in_playground": true,
+		"finetuning_supported": true,
+		"isFeaturedModel": false,
+		"context_length": 4096,
+		"config": {
+			"chat_template_name": "llama"
+		},
+		"pricing": {
+			"input": 55,
+			"output": 55,
+			"hourly": 0
+		},
+		"created_at": "2023-07-18T22:46:55.042Z",
+		"update_at": "2023-12-04T05:07:52.318Z",
+		"renamed": "meta-llama/Llama-2-13b-hf",
+		"hardware_label": "",
 		"descriptionLink": ""
 	},
 	{
@@ -7768,6 +9466,38 @@ let models = [
 			"appearsIn": [],
 			"order": 0
 		},
+		"_id": "6495ff1412907e072b8aecf4",
+		"name": "stabilityai/stablelm-base-alpha-3b",
+		"display_name": "StableLM-Base-Alpha (3B)",
+		"display_type": "language",
+		"description": "Decoder-only language model pre-trained on a diverse collection of English and Code datasets with a sequence length of 4096.",
+		"license": "",
+		"link": "",
+		"creator_organization": "Stability AI",
+		"hardware_label": "A40 48GB",
+		"pricing_tier": "supported",
+		"num_parameters": 3000000000,
+		"show_in_playground": true,
+		"isFeaturedModel": false,
+		"context_length": 4096,
+		"config": {
+			"chat_template_name": "gpt"
+		},
+		"pricing": {
+			"input": 25,
+			"output": 25,
+			"hourly": 0
+		},
+		"created_at": "2023-06-23T20:22:44.907Z",
+		"update_at": "2023-06-23T20:22:44.907Z",
+		"access": "",
+		"descriptionLink": ""
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
 		"_id": "6495ff1512907e072b8aecf5",
 		"name": "stabilityai/stablelm-base-alpha-7b",
 		"display_name": "StableLM-Base-Alpha (7B)",
@@ -7781,6 +9511,7 @@ let models = [
 		"num_parameters": 7000000000,
 		"show_in_playground": true,
 		"isFeaturedModel": false,
+		"context_length": 4096,
 		"config": {
 			"chat_template_name": "gpt"
 		},
@@ -7799,30 +9530,35 @@ let models = [
 			"appearsIn": [],
 			"order": 0
 		},
-		"_id": "6495ff1412907e072b8aecf4",
-		"name": "stabilityai/stablelm-base-alpha-3b",
-		"display_name": "StableLM-Base-Alpha (3B)",
-		"display_type": "language",
-		"description": "Decoder-only language model pre-trained on a diverse collection of English and Code datasets with a sequence length of 4096.",
+		"_id": "64e78e89589782acafe1781c",
+		"name": "togethercomputer/CodeLlama-7b-Python",
+		"display_name": "Code Llama Python (7B)",
+		"display_type": "code",
+		"description": "Code Llama is a family of large language models for code based on Llama 2 providing infilling capabilities, support for large input contexts, and zero-shot instruction following ability for programming tasks.",
 		"license": "",
-		"link": "",
-		"creator_organization": "Stability AI",
-		"hardware_label": "A40 48GB",
-		"pricing_tier": "supported",
-		"num_parameters": 3000000000,
+		"creator_organization": "Meta",
+		"hardware_label": "A100 80GB",
+		"num_parameters": "6738546688",
 		"show_in_playground": true,
+		"finetuning_supported": true,
 		"isFeaturedModel": false,
+		"context_length": 16384,
 		"config": {
-			"chat_template_name": "gpt"
+			"stop": [
+				"</s>"
+			],
+			"chat_template_name": "llama"
 		},
 		"pricing": {
-			"input": 25,
-			"output": 25,
+			"input": 50,
+			"output": 50,
 			"hourly": 0
 		},
-		"created_at": "2023-06-23T20:22:44.907Z",
-		"update_at": "2023-06-23T20:22:44.907Z",
+		"created_at": "2023-08-24T17:08:25.379Z",
+		"update_at": "2023-08-24T17:08:25.379Z",
+		"renamed": "codellama/CodeLlama-7b-Python-hf",
 		"access": "",
+		"link": "",
 		"descriptionLink": ""
 	},
 	{
@@ -8008,6 +9744,78 @@ let models = [
 			"appearsIn": [],
 			"order": 0
 		},
+		"_id": "6495ff1312907e072b8aece2",
+		"name": "togethercomputer/GPT-JT-6B-v1",
+		"display_name": "GPT-JT (6B)",
+		"display_type": "language",
+		"description": "Fork of GPT-J instruction tuned to excel at few-shot prompts (blog post).",
+		"descriptionLink": "https://www.together.xyz/blog/releasing-v1-of-gpt-jt-powered-by-open-source-ai",
+		"license": "",
+		"link": "",
+		"creator_organization": "Together",
+		"hardware_label": "A40 48GB",
+		"pricing_tier": "featured",
+		"access": "open",
+		"num_parameters": 6700000000,
+		"release_date": "2022-11-29T00:00:00.000Z",
+		"show_in_playground": true,
+		"isFeaturedModel": false,
+		"context_length": 2048,
+		"config": {
+			"chat_template_name": "gpt"
+		},
+		"pricing": {
+			"input": 50,
+			"output": 50,
+			"hourly": 0
+		},
+		"created_at": "2023-06-23T20:22:43.617Z",
+		"update_at": "2023-06-23T20:22:43.617Z"
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "64b7165fcccc52103e2f07e6",
+		"name": "togethercomputer/llama-2-7b-chat",
+		"display_name": "LLaMA-2 Chat (7B)",
+		"display_type": "chat",
+		"description": "Llama 2-chat leverages publicly available instruction datasets and over 1 million human annotations. Available in three sizes: 7B, 13B and 70B parameters",
+		"license": "",
+		"link": "",
+		"creator_organization": "Meta",
+		"pricing_tier": "Featured",
+		"access": "open",
+		"num_parameters": "6738415616",
+		"show_in_playground": true,
+		"finetuning_supported": true,
+		"isFeaturedModel": false,
+		"context_length": 4096,
+		"config": {
+			"prompt_format": "[INST] {prompt} [/INST]",
+			"stop": [
+				"[/INST]",
+				"</s>"
+			],
+			"chat_template_name": "llama"
+		},
+		"pricing": {
+			"input": 50,
+			"output": 50,
+			"hourly": 0
+		},
+		"created_at": "2023-07-18T22:46:55.042Z",
+		"update_at": "2023-07-18T22:46:55.042Z",
+		"renamed": "meta-llama/Llama-2-7b-chat-hf",
+		"hardware_label": "",
+		"descriptionLink": ""
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
 		"_id": "64ace8ed227f790586239d04",
 		"name": "togethercomputer/guanaco-7b",
 		"display_name": "Guanaco (7B) ",
@@ -8037,6 +9845,38 @@ let models = [
 		"created_at": "2023-07-11T05:30:21.531Z",
 		"update_at": "2023-07-11T05:30:21.531Z",
 		"descriptionLink": ""
+	},
+	{
+		"modelInstanceConfig": {
+			"appearsIn": [],
+			"order": 0
+		},
+		"_id": "6532f0faf94bacfc629b4cf7",
+		"name": "EleutherAI/llemma_7b",
+		"display_name": "Llemma (7B)",
+		"display_type": "language",
+		"description": "Llemma 7B is a language model for mathematics. It was initialized with Code Llama 7B weights, and trained on the Proof-Pile-2 for 200B tokens.",
+		"license": "",
+		"link": "",
+		"creator_organization": "EleutherAI",
+		"hardware_label": "A100 80GB",
+		"pricing_tier": "Featured",
+		"access": "open",
+		"num_parameters": 6738546688,
+		"show_in_playground": true,
+		"isFeaturedModel": false,
+		"context_length": 4096,
+		"config": {
+			"chat_template_name": "llama"
+		},
+		"pricing": {
+			"input": 50,
+			"output": 50,
+			"hourly": 0
+		},
+		"created_at": "2023-10-20T21:28:26.403Z",
+		"update_at": "2023-10-24T17:42:38.630Z",
+		"descriptionLink": ""
 	}
 ];
 
@@ -8045,7 +9885,7 @@ models = models.map(model => {
 	model.fullName = model.name;
 	return model;
 });
-models = models.sort((a, b) => a.shortName.toLowerCase().localeCompare(b.shortName.toLowerCase()));
+models.sort((a, b) => a.shortName?.toLowerCase().localeCompare(b.shortName?.toLowerCase()));
 
 for (const mod of models) {
 	if (mod.display_type !== "chat" && mod.display_type !== "code") {
@@ -8056,5 +9896,3 @@ for (const mod of models) {
 	}
 	console.log(`{shortName: "${mod.shortName}", fullName: "${mod.fullName}"},`);
 }
-
-console.log("FAIRE GPT AUSSI");

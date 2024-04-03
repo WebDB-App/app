@@ -26,7 +26,7 @@ class Controller {
 		const [wrapper, database] = await http.getLoggedDriver(req);
 
 		let txt = `I'm WebDB, a database IDE.
-There is a database called "${database}" on a ${wrapper.constructor.name} server.
+There is a database called "${database}" on a ${wrapper.constructor.name} server containing following entities:
 `;
 
 		const tables = await wrapper.sampleDatabase(database, req.body.preSent);
@@ -48,9 +48,9 @@ There is a database called "${database}" on a ${wrapper.constructor.name} server
 					}
 				}
 			}
-			txt += `There is a entity with structure : \`\`\`${table.structure}\`\`\``;
+			txt += `— \`\`\`${table.structure}\`\`\``;
 			if (table.data) {
-				txt += `and with this associated data : \`\`\`${JSON.stringify(table.data)}\`\`\``;
+				txt += `\n with this data: \`\`\`${JSON.stringify(table.data)}\`\`\``;
 			}
 			txt += ".\n\n";
 		}

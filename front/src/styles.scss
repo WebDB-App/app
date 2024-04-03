@@ -383,6 +383,8 @@ code, .hljs {
 	padding: 2px 12px;
 	border-radius: 4px;
 	display: inline-flex;
+	max-width: 100%;
+	overflow: auto;
 }
 
 .hljs {

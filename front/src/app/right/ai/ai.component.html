@@ -41,7 +41,7 @@
 		</div>
 	</mat-toolbar>
 
-	<div #settings hidden>
+	<div #settings hidden class="container">
 
 		<mat-card style="display: flex; flex-direction: column; padding: 0px">
 			<div style="display: flex;">
@@ -260,7 +260,7 @@
 
 	<div></div>
 
-	<div #scrollContainer (scroll)="onScroll($event)" id="container">
+	<div #scrollContainer (scroll)="onScroll($event)" class="container">
 
 		<div *ngIf="!config.openAI && !config.gemini" style="margin-bottom: 30vh">
 			<br><br>

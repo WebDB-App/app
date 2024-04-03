@@ -109,7 +109,7 @@ export class LoadComponent {
 			this.snackBar.open("No file format supported", "⨉", {panelClass: 'snack-error'})
 			return;
 		}
-		files = files.sort((a, b) => a.name.localeCompare(b.name));
+		files.sort((a, b) => a.name.localeCompare(b.name));
 		files = files.map(async file => {
 			return new Loads(file.name, await file.text(), file);
 		});
