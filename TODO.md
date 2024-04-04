@@ -19,7 +19,6 @@
 
 # Autre
 - finir tests
-- tester export query: java/php
 - first level keyword (select, update, create, with, alter) + patch[local_history.patch](local_history.patch)
 
 
@@ -37,14 +36,6 @@
 ----------------------------------------------------------------------
 
 
-
-# Comparator
-- Generate script to migrate + opt to run it
-- https://documentation.red-gate.com/flyway/quickstart-how-flyway-works
-- pgAdmin
-- https://dbconvert.com/dbconvert-studio
-
-
 # SQL editor
 - ast ?
 - SQL Window Functions
@@ -52,6 +43,13 @@
 - function doc (generate from web scrap)
 - LLM on WebGPU ?
 - handle subquery and cte like table (propose column from)
+
+
+# Comparator
+- Generate script to migrate + opt to run it
+- https://documentation.red-gate.com/flyway/quickstart-how-flyway-works
+- inspi: pgAdmin
+- https://dbconvert.com/dbconvert-studio
 
 
 # Profiling
@@ -80,11 +78,3 @@
 - free: relation avec array: l427 mongodb.js: https://www.mongodb.com/docs/manual/reference/operator/aggregation/lookup/#use--lookup-with-an-array
 - option to full scan structure just one table like compass ET columns with array > 2 : harmonize to one of the type (attention deep) ET remove hidden harmonize btn
 - alter column: possibilité de update one object field
-
-
-# Doc +
-- numérotation de version
-- for contribution: cycle de dev + ci/cd
-- gpt4
-- expliquer code .js, .ts
-- https://chat.openai.com/c/eae4f88e-e100-45de-9502-8708f7f48bf8

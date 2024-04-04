@@ -67,7 +67,7 @@ export default {
 	},*/
 	mongo: {
 		internal_port: 27017,
-		external_port: 27017,
+		external_port: 27018,
 		docker: {
 			exclusions: ["windowsservercore", "nanoserver"],
 			name: "library/mongo",
@@ -82,7 +82,7 @@ export default {
 	},
 	postgres: {
 		internal_port: 5432,
-		external_port: 5432,
+		external_port: 5433,
 		base: base.PostgreSQL,
 		wrapper: "PostgreSQL",
 		docker: {
@@ -92,7 +92,7 @@ export default {
 	},
 	cockroachdb: {
 		internal_port: 26257,
-		external_port: 26257,
+		external_port: 26258,
 		base: base.PostgreSQL,
 		wrapper: "CockroachDB",
 		docker: {
