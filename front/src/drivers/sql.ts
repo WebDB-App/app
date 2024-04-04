@@ -251,8 +251,6 @@ export class SQL implements Driver {
 		},
 	};
 
-	nodeLib = (query: QueryParams) => "";
-
 	async loadExtraLib(http: HttpClient) {
 	}
 
@@ -298,51 +296,6 @@ export class SQL implements Driver {
 		}
 
 		return false
-	}
-
-	extractConditionParams(query: string): QueryParams {
-		if (query.toLowerCase().indexOf("where") < 0) {
-			return <QueryParams>{
-				query,
-				params: []
-			};
-		}
-
-		const result = <QueryParams>{
-			query: singleLine(query.toLowerCase()),
-			params: []
-		};
-
-		const availableComparator = this.language.comparators.map(comp => comp.symbol.toLowerCase()).sort((a, b) => b.length - a.length)
-		let condition = result.query.substring(result.query.indexOf("where") + "where".length).trim();
-
-		availableComparator.map(comparator => {
-			const nextValue = [
-				comparator + " ([(].*?[)])",
-				comparator + ` \'(.*?)\'`,
-				comparator + ` \"(.*?)\"`,
-				comparator + ` ([0-9.]+) `,
-			];
-
-			nextValue.map(nextV => {
-				const reg = new RegExp(nextV, "g");
-				const array = [...condition.matchAll(reg)];
-
-				array.map(match => {
-					if (match[1] && match[1].length > 0 && match.index) {
-						condition = condition.replaceAll(reg, `${comparator} ?`)
-						result.params[match.index] = +match[1] ? match[1] : `"${match[1]}"`;
-					}
-				});
-			});
-		});
-
-		result.query = result.query.substring(0, result.query.indexOf("where"));
-		result.query = result.query.replaceAll('`', '');
-		result.query += " WHERE " + condition
-		result.query = "\n" + this.format(result.query);
-		result.params = Object.values(result.params);
-		return result;
 	}
 
 	setCase(configId: string, value: string) {

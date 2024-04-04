@@ -304,34 +304,6 @@ export class PostgreSQL extends SQL {
 		return false;
 	}
 
-	override nodeLib = (query: QueryParams) => {
-		let prepared = query.query;
-		let inc = 0;
-
-		prepared = prepared.replace(/\?/g, () => {
-			return "$" + ++inc;
-		});
-
-
-		return `//with pg lib
-import pg from "pg";
-
-const pool = new pg.Pool({
-	user: '${Server.getSelected().user}',
-	host: '${Server.getSelected().host}',
-	password: '${Server.getSelected().password}',
-	port: '${Server.getSelected().port}',
-	database: '${Database.getSelected().name.split(' | ')[0]}'
-})
-
-async function main() {
-	const [rows] = await pool.query({
-	  text: \`${prepared}\`,
-	  values: [${query.params.join(', ')}],
-	});
-}`;
-	};
-
 	override format = (code: string) => {
 		try {
 			code = format(code, {

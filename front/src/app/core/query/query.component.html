@@ -91,11 +91,10 @@
 			<button (click)="addView()" *ngIf="!selectedTable?.view" [disabled]="!isQuerySelect()" mat-menu-item>
 				Create view from query
 			</button>
-			<button (click)="exportQuery()" [disabled]="query.length < 1" mat-menu-item>Export query</button>
 			<button [matMenuTriggerFor]="disclaimer" mat-menu-item>Disclaimer</button>
 		</mat-menu>
 		<mat-menu #disclaimer="matMenu">
-			<ul style="color: white;">
+			<ul style="color: white; margin: 0; padding: 0px 22px; font-size: 12px;">
 				<li>
 					<pre>Only most keyword/function are proposed in autocomplete</pre>
 				</li>

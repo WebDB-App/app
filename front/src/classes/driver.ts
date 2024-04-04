@@ -74,13 +74,11 @@ export interface Driver {
 		extendedJSONDoc: string
 	}
 
-	nodeLib: (queryParams: QueryParams) => string;
 	loadExtraLib: (http: HttpClient) => Promise<void>;
 	terminalCmd: () => string;
 
 	extractForView: (query: string) => string | false;
 	extractEnum: (col: Column) => string[] | false;
-	extractConditionParams: (query: string) => QueryParams;
 	format: (code: string) => string;
 	wrapValue: (type: any, value: string) => string;
 	quickSearch: (driver: Driver, column: Column, value: string) => string;

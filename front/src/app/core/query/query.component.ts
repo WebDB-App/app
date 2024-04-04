@@ -1,4 +1,4 @@
-import { Component, HostBinding, HostListener, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, Inject, OnDestroy, OnInit } from '@angular/core';
 import { Table } from "../../../classes/table";
 import { ActivatedRoute, Router } from "@angular/router";
 import { DiffEditorModel } from "ngx-monaco-editor-v2";
@@ -250,14 +250,6 @@ export class QueryComponent implements OnInit, OnDestroy {
 		}
 	}
 
-	exportQuery() {
-		this.dialog.open(ExportQueryDialog, {
-			data: removeComment(this.query),
-			id: this.selectedTable?.name,
-			hasBackdrop: false
-		});
-	}
-
 	async exportResult() {
 		this.isLoading = true;
 		const data = await this.request.post('database/query', {
@@ -305,77 +297,6 @@ export class QueryComponent implements OnInit, OnDestroy {
 		if (this.autoFormat) {
 			setTimeout(() => this.editors.map(editor => editor.trigger("editor", "editor.action.formatDocument")), 1);
 		}
-	}
-}
-
-@Component({
-	templateUrl: 'export-query-dialog.html',
-})
-export class ExportQueryDialog {
-
-	str!: string;
-	framework = "NODE";
-	isLoading = true;
-	editorOptions = {
-		language: ""
-	};
-	protected readonly initBaseEditor = initBaseEditor;
-
-	constructor(
-		@Inject(MAT_DIALOG_DATA) public data: string,
-	) {
-		this.show();
-	}
-
-	show() {
-		this.isLoading = true;
-
-		setTimeout(() => {
-			const queryParams = Server.getSelected().driver.extractConditionParams(this.data);
-
-			switch (this.framework) {
-				case "JDBC":
-					this.str = `//with JDBC lib
-
-import java.sql.*;
-
-class MysqlCon {
-	public static void main(String args[]){
-	try {
-		Class.forName("com.${Server.getSelected().wrapper.toLowerCase()}.Driver");
-		Connection con = DriverManager.getConnection("jdbc:${Server.getSelected().wrapper.toLowerCase()}://${Server.getSelected().host}:${Server.getSelected().port}/${Database.getSelected().name}", "${Server.getSelected().user}", "${Server.getSelected().password}");
-
-		String query = """
-			${queryParams.query}
-		"""
-		PreparedStatement pstmt = connection.prepareStatement( query );
-
-		ResultSet results = pstmt.executeQuery( );
-		con.close();
-	} catch(Exception e) {}
-}`;
-					this.editorOptions.language = "java";
-					break;
-				case "NODE":
-					this.str = Server.getSelected().driver.nodeLib(queryParams);
-					this.editorOptions.language = "javascript";
-					break;
-				case "PDO":
-					this.str = `//with PDO lib
-<?php
-
-	$pdo = new PDO("${Server.getSelected().wrapper.toLowerCase()}:host=${Server.getSelected().host};port=${Server.getSelected().port};dbname=${Database.getSelected().name};user=${Server.getSelected().user};password=${Server.getSelected().password}");
-
-	$query = $pdo->prepare(\`${queryParams.query}\`);
-	$query->execute([]);
-	$results = $query->fetchAll();
-
-?>`;
-					this.editorOptions.language = "php";
-					break;
-			}
-			this.isLoading = false;
-		});
 	}
 }
 

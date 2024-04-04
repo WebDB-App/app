@@ -191,24 +191,6 @@ db.collection("${table.name}").aggregate([
 		},
 	};
 
-	nodeLib(query: QueryParams) {
-		return `import {MongoClient} from "mongodb";
-
-async function main() {
-	const db = (await new MongoClient(
-		"mongodb://${Server.getSelected().user}:${Server.getSelected().password}@${Server.getSelected().host}:${Server.getSelected().port}}/"
-	)).db("${Database.getSelected().name}");
-
-	await ${query.query}
-}`;
-	};
-
-	extractConditionParams(query: string): QueryParams {
-		return <QueryParams>{
-			query
-		};
-	}
-
 	async loadExtraLib(http: HttpClient) {
 		await loadLibAsset(http, ['mongo.d.ts', 'bson.d.ts']);
 		monaco.languages.typescript.javascriptDefaults.addExtraLib(

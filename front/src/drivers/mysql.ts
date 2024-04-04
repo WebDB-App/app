@@ -320,22 +320,6 @@ export class MySQL extends SQL {
 		};
 	}
 
-	override nodeLib = (query: QueryParams) => {
-		return `//with mysql2 lib
-import mysql from "mysql2/promise.js";
-
-async function main() {
-	const connection = await mysql.createConnection({
-		user: '${Server.getSelected().user}',
-		host: '${Server.getSelected().host}',
-		password: '${Server.getSelected().password}',
-		port: '${Server.getSelected().port}',
-		database: '${Database.getSelected().name}'
-	});
-	const [rows, fields] = await connection.execute(\`${query.query}\`, [${query.params.join(', ')}]);
-}`;
-	};
-
 	override terminalCmd = () => {
 		return `docker exec -it $(docker ps -a -q --filter ancestor=webdb/app) mysql ` + Server.getSelected().uri;
 	}

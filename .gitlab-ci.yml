@@ -115,5 +115,6 @@ compatibility:
         - npm run test:app
         - npm run test:docker || echo
     artifacts:
+        expire_in: never
         paths:
             - ./compatibility/report.xml
