@@ -3,7 +3,9 @@
 
 		<div class="spaceBetweenCenter"
 			 style="height: 52px">
-			<mat-form-field appearance="legacy" class="searchField" style="margin-bottom: -1.25em">
+			<h2 style="font-size: 18px;" *ngIf="showSettings">Settings</h2>
+
+			<mat-form-field *ngIf="!showSettings" appearance="legacy" class="searchField" style="margin-bottom: -1.25em">
 				<input
 					#filter
 					(keyup)="filterChanged(filter.value)"
@@ -30,8 +32,8 @@
 					</span>
 				</button>
 				<button
-					(click)="settings.toggleAttribute('hidden'); scrollContainer.toggleAttribute('hidden'); sendInput.toggleAttribute('hidden')"
-					[class.mat-flat-button]="settings.getAttribute('hidden') === null"
+					(click)="showSettings = !showSettings;"
+					[class.mat-flat-button]="showSettings"
 					mat-stroked-button>
 					<span class="material-symbols-outlined notranslate">
 						page_info
@@ -41,7 +43,7 @@
 		</div>
 	</mat-toolbar>
 
-	<div #settings hidden class="container">
+	<div [hidden]="!showSettings" class="container">
 
 		<mat-card style="display: flex; flex-direction: column; padding: 0px">
 			<div style="display: flex;">
@@ -260,7 +262,7 @@
 
 	<div></div>
 
-	<div #scrollContainer (scroll)="onScroll($event)" class="container">
+	<div [hidden]="showSettings" (scroll)="onScroll($event)" class="container">
 
 		<div *ngIf="!config.openAI && !config.gemini" style="margin-bottom: 30vh">
 			<br><br>
@@ -406,7 +408,7 @@
 		</ng-container>
 	</div>
 
-	<div #sendInput id="sendInput">
+	<div [hidden]="showSettings" id="sendInput">
 		<mat-form-field
 			appearance="fill"
 			color="accent">

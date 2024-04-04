@@ -72,6 +72,7 @@ class Msg {
 })
 export class AiComponent implements OnInit, OnDestroy {
 
+	showSettings = false;
 	drawerObs!: Subscription
 	selectedServer?: Server;
 	selectedDatabase?: Database;
