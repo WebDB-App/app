@@ -89,7 +89,7 @@ export declare interface BinaryExtendedLegacy {
 /** @public */
 export declare type BinarySequence = Uint8Array | number[];
 export declare namespace BSON {
-	export { setInternalBufferSize, serialize, serializeWithBufferAndIndex, deserialize, calculateObjectSize, deserializeStream, UUIDExtended, BinaryExtended, BinaryExtendedLegacy, BinarySequence, CodeExtended, DBRefLike, Decimal128Extended, DoubleExtended, EJSONOptions, Int32Extended, LongExtended, MaxKeyExtended, MinKeyExtended, ObjectIdExtended, ObjectIdLike, BSONRegExpExtended, BSONRegExpExtendedLegacy, BSONSymbolExtended, LongWithoutOverrides, TimestampExtended, TimestampOverrides, LongWithoutOverridesClass, SerializeOptions, DeserializeOptions, Code, BSONSymbol, DBRef, Binary, ObjectId, UUID, Long, Timestamp, Double, Int32, MinKey, MaxKey, BSONRegExp, Decimal128, BSONValue, BSONError, BSONVersionError, BSONRuntimeError, BSONType, EJSON, onDemand, Document$1, CalculateObjectSizeOptions };
+	export { setInternalBufferSize, serialize, serializeWithBufferAndIndex, deserialize, calculateObjectSize, deserializeStream, UUIDExtended, BinaryExtended, BinaryExtendedLegacy, BinarySequence, CodeExtended, DBRefLike, Decimal128Extended, DoubleExtended, EJSONOptions, Int32Extended, LongExtended, MaxKeyExtended, MinKeyExtended, ObjectIdExtended, ObjectIdLike, BSONRegExpExtended, BSONRegExpExtendedLegacy, BSONSymbolExtended, LongWithoutOverrides, TimestampExtended, TimestampOverrides, LongWithoutOverridesClass, SerializeOptions, DeserializeOptions, Code, BSONSymbol, DBRef, Binary, ObjectId, UUID, Long, Timestamp, Double, Int32, MinKey, MaxKey, BSONRegExp, Decimal128, BSONValue, BSONError, BSONVersionError, BSONRuntimeError, BSONOffsetError, BSONType, EJSON, onDemand, OnDemand, Document$1, CalculateObjectSizeOptions };
 }
 /**
  * @public
@@ -127,10 +127,21 @@ export declare class BSONError extends Error {
 	 */
 	static isBSONError(value: unknown): value is BSONError;
 }
-declare class BSONOffsetError extends BSONError {
+/**
+ * @public
+ * @category Error
+ *
+ * @experimental
+ *
+ * An error generated when BSON bytes are invalid.
+ * Reports the offset the parser was able to reach before encountering the error.
+ */
+export declare class BSONOffsetError extends BSONError {
 	get name(): "BSONOffsetError";
 	offset: number;
-	constructor(message: string, offset: number);
+	constructor(message: string, offset: number, options?: {
+		cause?: unknown;
+	});
 }
 /**
  * A class representation of the BSON RegExp type.
@@ -244,6 +255,46 @@ export declare class BSONVersionError extends BSONError {
 	get name(): "BSONVersionError";
 	constructor();
 }
+/**
+ * @public
+ * @experimental
+ *
+ * A collection of functions that help work with data in a Uint8Array.
+ * ByteUtils is configured at load time to use Node.js or Web based APIs for the internal implementations.
+ */
+export declare type ByteUtils = {
+	/** Transforms the input to an instance of Buffer if running on node, otherwise Uint8Array */
+	toLocalBufferType: (buffer: Uint8Array | ArrayBufferView | ArrayBuffer) => Uint8Array;
+	/** Create empty space of size */
+	allocate: (size: number) => Uint8Array;
+	/** Create empty space of size, use pooled memory when available */
+	allocateUnsafe: (size: number) => Uint8Array;
+	/** Check if two Uint8Arrays are deep equal */
+	equals: (a: Uint8Array, b: Uint8Array) => boolean;
+	/** Check if two Uint8Arrays are deep equal */
+	fromNumberArray: (array: number[]) => Uint8Array;
+	/** Create a Uint8Array from a base64 string */
+	fromBase64: (base64: string) => Uint8Array;
+	/** Create a base64 string from bytes */
+	toBase64: (buffer: Uint8Array) => string;
+	/** **Legacy** binary strings are an outdated method of data transfer. Do not add public API support for interpreting this format */
+	fromISO88591: (codePoints: string) => Uint8Array;
+	/** **Legacy** binary strings are an outdated method of data transfer. Do not add public API support for interpreting this format */
+	toISO88591: (buffer: Uint8Array) => string;
+	/** Create a Uint8Array from a hex string */
+	fromHex: (hex: string) => Uint8Array;
+	/** Create a lowercase hex string from bytes */
+	toHex: (buffer: Uint8Array) => string;
+	/** Create a string from utf8 code units, fatal=true will throw an error if UTF-8 bytes are invalid, fatal=false will insert replacement characters */
+	toUTF8: (buffer: Uint8Array, start: number, end: number, fatal: boolean) => string;
+	/** Get the utf8 code unit count from a string if it were to be transformed to utf8 */
+	utf8ByteLength: (input: string) => number;
+	/** Encode UTF8 bytes generated from `source` string into `destination` at byteOffset. Returns the number of bytes encoded. */
+	encodeUTF8Into: (destination: Uint8Array, source: string, byteOffset: number) => number;
+	/** Generate a Uint8Array filled with random bytes with byteLength */
+	randomBytes: (byteLength: number) => Uint8Array;
+};
+/* Excluded declaration from this release type: ByteUtils */
 /**
  * Calculate the bson size for a passed in Javascript object.
  *
@@ -891,6 +942,28 @@ export declare interface MinKeyExtended {
 	$minKey: 1;
 }
 /**
+ * @experimental
+ * @public
+ *
+ * A collection of functions that get or set various numeric types and bit widths from a Uint8Array.
+ */
+export declare type NumberUtils = {
+	/**
+	 * Parses a signed int32 at offset. Throws a `RangeError` if value is negative.
+	 */
+	getNonnegativeInt32LE: (source: Uint8Array, offset: number) => number;
+	getInt32LE: (source: Uint8Array, offset: number) => number;
+	getUint32LE: (source: Uint8Array, offset: number) => number;
+	getUint32BE: (source: Uint8Array, offset: number) => number;
+	getBigInt64LE: (source: Uint8Array, offset: number) => bigint;
+	getFloat64LE: (source: Uint8Array, offset: number) => number;
+	setInt32BE: (destination: Uint8Array, offset: number, value: number) => 4;
+	setInt32LE: (destination: Uint8Array, offset: number, value: number) => 4;
+	setBigInt64LE: (destination: Uint8Array, offset: number, value: bigint) => 8;
+	setFloat64LE: (destination: Uint8Array, offset: number, value: number) => 8;
+};
+declare const NumberUtils: NumberUtils;
+/**
  * A class representation of the BSON ObjectId type.
  * @public
  * @category BSONType
@@ -1018,11 +1091,10 @@ export declare interface ObjectIdLike {
  * A new set of BSON APIs that are currently experimental and not intended for production use.
  */
 export declare type OnDemand = {
-	BSONOffsetError: {
-		new (message: string, offset: number): BSONOffsetError;
-		isBSONError(value: unknown): value is BSONError;
-	};
 	parseToElements: (this: void, bytes: Uint8Array, startOffset?: number) => Iterable<BSONElement>;
+	BSONElement: BSONElement;
+	ByteUtils: ByteUtils;
+	NumberUtils: NumberUtils;
 };
 /**
  * @experimental
