@@ -11,7 +11,7 @@ import { getStorageKey, isSQL, scrollToBottom } from "../../../shared/helper";
 import { Subscription } from "rxjs";
 import { Table } from "../../../classes/table";
 import { Router } from "@angular/router";
-import { ChatCompletionCreateParamsStreaming } from "openai/src/resources/chat/completions";
+import { ChatCompletionCreateParamsStreaming } from "openai/src/resources/chat";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const localKeyConfig = 'ia-config';
@@ -20,6 +20,7 @@ enum Provider {
 	openai = "OpenAI",
 	gemini = "Gemini",
 	together = "TogetherAI",
+	gorq = "Gorq"
 }
 
 enum Role {
@@ -95,6 +96,7 @@ export class AiComponent implements OnInit, OnDestroy {
 	localKeyPreSent!: string;
 	chat: Msg[] = [];
 	openai?: OpenAI;
+	gorq?: OpenAI;
 	gemini?: GoogleGenerativeAI;
 	isLoading = true;
 	editorOptions = {
@@ -102,10 +104,11 @@ export class AiComponent implements OnInit, OnDestroy {
 	};
 	sample = "";
 	config = {
-		model: "gpt-3.5-turbo-16k",
+		model: "",
 		openAI: '',
 		gemini: '',
 		together: '',
+		gorq: '',
 		temperature: 1,
 		top_p: 1
 	};
@@ -199,68 +202,26 @@ export class AiComponent implements OnInit, OnDestroy {
 				});
 			});
 		}
-
-		if (this.config.together) {
-			this.models[Provider.together] = [
-				{shortName: "alpaca-7b", fullName: "togethercomputer/alpaca-7b"},
-				{shortName: "chronos-hermes-13b", fullName: "Austism/chronos-hermes-13b"},
-				{shortName: "CodeLlama-13b-Instruct-hf", fullName: "codellama/CodeLlama-13b-Instruct-hf"},
-				{shortName: "CodeLlama-13b-Python-hf", fullName: "codellama/CodeLlama-13b-Python-hf"},
-				{shortName: "CodeLlama-34b-Instruct-hf", fullName: "codellama/CodeLlama-34b-Instruct-hf"},
-				{shortName: "CodeLlama-34b-Python-hf", fullName: "codellama/CodeLlama-34b-Python-hf"},
-				{shortName: "CodeLlama-70b-hf", fullName: "codellama/CodeLlama-70b-hf"},
-				{shortName: "CodeLlama-70b-Instruct-hf", fullName: "codellama/CodeLlama-70b-Instruct-hf"},
-				{shortName: "CodeLlama-70b-Python-hf", fullName: "codellama/CodeLlama-70b-Python-hf"},
-				{shortName: "CodeLlama-7b-Instruct-hf", fullName: "codellama/CodeLlama-7b-Instruct-hf"},
-				{shortName: "CodeLlama-7b-Python-hf", fullName: "codellama/CodeLlama-7b-Python-hf"},
-				{shortName: "deepseek-coder-33b-instruct", fullName: "deepseek-ai/deepseek-coder-33b-instruct"},
-				{shortName: "dolphin-2.5-mixtral-8x7b", fullName: "cognitivecomputations/dolphin-2.5-mixtral-8x7b"},
-				{shortName: "gemma-2b-it", fullName: "google/gemma-2b-it"},
-				{shortName: "gemma-7b-it", fullName: "google/gemma-7b-it"},
-				{shortName: "Llama-2-13b-chat-hf", fullName: "meta-llama/Llama-2-13b-chat-hf"},
-				{shortName: "Llama-2-70b-chat-hf", fullName: "meta-llama/Llama-2-70b-chat-hf"},
-				{shortName: "Llama-2-7B-32K-Instruct", fullName: "togethercomputer/Llama-2-7B-32K-Instruct"},
-				{shortName: "Llama-2-7b-chat-hf", fullName: "meta-llama/Llama-2-7b-chat-hf"},
-				{shortName: "Mistral-7B-Instruct-v0.1", fullName: "mistralai/Mistral-7B-Instruct-v0.1"},
-				{shortName: "Mistral-7B-Instruct-v0.2", fullName: "mistralai/Mistral-7B-Instruct-v0.2"},
-				{shortName: "Mistral-7B-OpenOrca", fullName: "Open-Orca/Mistral-7B-OpenOrca"},
-				{shortName: "Mixtral-8x7B-Instruct-v0.1", fullName: "mistralai/Mixtral-8x7B-Instruct-v0.1"},
-				{shortName: "MythoMax-L2-13b", fullName: "Gryphe/MythoMax-L2-13b"},
-				{shortName: "Nous-Capybara-7B-V1p9", fullName: "NousResearch/Nous-Capybara-7B-V1p9"},
-				{shortName: "Nous-Hermes-2-Mistral-7B-DPO", fullName: "NousResearch/Nous-Hermes-2-Mistral-7B-DPO"},
-				{shortName: "Nous-Hermes-2-Mixtral-8x7B-DPO", fullName: "NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO"},
-				{shortName: "Nous-Hermes-2-Mixtral-8x7B-SFT", fullName: "NousResearch/Nous-Hermes-2-Mixtral-8x7B-SFT"},
-				{shortName: "Nous-Hermes-2-Yi-34B", fullName: "NousResearch/Nous-Hermes-2-Yi-34B"},
-				{shortName: "Nous-Hermes-llama-2-7b", fullName: "NousResearch/Nous-Hermes-llama-2-7b"},
-				{shortName: "Nous-Hermes-Llama2-13b", fullName: "NousResearch/Nous-Hermes-Llama2-13b"},
-				{shortName: "OLMo-7B-Instruct", fullName: "allenai/OLMo-7B-Instruct"},
-				{shortName: "openchat-3.5-1210", fullName: "openchat/openchat-3.5-1210"},
-				{shortName: "OpenHermes-2-Mistral-7B", fullName: "teknium/OpenHermes-2-Mistral-7B"},
-				{shortName: "OpenHermes-2p5-Mistral-7B", fullName: "teknium/OpenHermes-2p5-Mistral-7B"},
-				{shortName: "Phind-CodeLlama-34B-v2", fullName: "Phind/Phind-CodeLlama-34B-v2"},
-				{shortName: "Platypus2-70B-instruct", fullName: "garage-bAInd/Platypus2-70B-instruct"},
-				{shortName: "Qwen1.5-0.5B-Chat", fullName: "Qwen/Qwen1.5-0.5B-Chat"},
-				{shortName: "Qwen1.5-1.8B-Chat", fullName: "Qwen/Qwen1.5-1.8B-Chat"},
-				{shortName: "Qwen1.5-14B-Chat", fullName: "Qwen/Qwen1.5-14B-Chat"},
-				{shortName: "Qwen1.5-4B-Chat", fullName: "Qwen/Qwen1.5-4B-Chat"},
-				{shortName: "Qwen1.5-72B-Chat", fullName: "Qwen/Qwen1.5-72B-Chat"},
-				{shortName: "Qwen1.5-7B-Chat", fullName: "Qwen/Qwen1.5-7B-Chat"},
-				{shortName: "RedPajama-INCITE-7B-Chat", fullName: "togethercomputer/RedPajama-INCITE-7B-Chat"},
-				{shortName: "RedPajama-INCITE-Chat-3B-v1", fullName: "togethercomputer/RedPajama-INCITE-Chat-3B-v1"},
-				{shortName: "ReMM-SLERP-L2-13B", fullName: "Undi95/ReMM-SLERP-L2-13B"},
-				{shortName: "Snorkel-Mistral-PairRM-DPO", fullName: "snorkelai/Snorkel-Mistral-PairRM-DPO"},
-				{shortName: "SOLAR-10.7B-Instruct-v1.0", fullName: "upstage/SOLAR-10.7B-Instruct-v1.0"},
-				{shortName: "StripedHyena-Nous-7B", fullName: "togethercomputer/StripedHyena-Nous-7B"},
-				{shortName: "Toppy-M-7B", fullName: "Undi95/Toppy-M-7B"},
-				{shortName: "WizardCoder-15B-V1.0", fullName: "WizardLM/WizardCoder-15B-V1.0"},
-				{shortName: "WizardCoder-Python-34B-V1.0", fullName: "WizardLM/WizardCoder-Python-34B-V1.0"},
-				{shortName: "WizardLM-13B-V1.2", fullName: "WizardLM/WizardLM-13B-V1.2"},
-				{shortName: "vicuna-13b-v1.5", fullName: "lmsys/vicuna-13b-v1.5"},
-				{shortName: "vicuna-7b-v1.5", fullName: "lmsys/vicuna-7b-v1.5"},
-				{shortName: "Yi-34B-Chat", fullName: "zero-one-ai/Yi-34B-Chat"},
-			];
+		if (this.config.gorq) {
+			this.gorq = new OpenAI({
+				baseURL: "https://api.groq.com/openai/v1/",
+				apiKey: this.config.gorq,
+				dangerouslyAllowBrowser: true,
+			});
+			await new Promise(resolve => {
+				this.models[Provider.gorq] = [];
+				this.gorq!.models.list().then(models => {
+					models.data.map(model => {
+						this.models[Provider.gorq].push({shortName: model.id, fullName: model.id});
+					});
+					this.models[Provider.gorq].sort((a, b) => a.shortName?.toLowerCase().localeCompare(b.shortName?.toLowerCase()));
+					resolve(true);
+				});
+			});
 		}
-
+		if (this.config.together) {
+			this.models[Provider.together] = await this.request.post('ai/togetherModels', {key: this.config.together});
+		}
 		if (this.config.gemini) {
 			this.gemini = new GoogleGenerativeAI(this.config.gemini);
 			this.models[Provider.gemini] = [
@@ -349,11 +310,9 @@ export class AiComponent implements OnInit, OnDestroy {
 			return this.stream = '';
 		}
 
-		if (provider === Provider.openai) {
-			const stream = this.openai!.chat.completions.create(<ChatCompletionCreateParamsStreaming>body);
-
+		const askOpenAI = async (stream: any) => {
 			this.chat.push(await new Promise<Msg>(resolve => {
-				stream.then(async str => {
+				stream.then(async (str: any) => {
 					streamReady();
 					for await (const part of str) {
 						if (this.abort) {
@@ -368,10 +327,18 @@ export class AiComponent implements OnInit, OnDestroy {
 						}
 					}
 					resolve(new Msg(this.stream!, Role.Assistant, false, body));
-				}).catch(error => {
-					resolve(new Msg(error.message || `An error occurred during OpenAI request: ` + error, Role.Assistant, true));
+				}).catch((error: any) => {
+					resolve(new Msg(error.message || `An error occurred during request: ` + error, Role.Assistant, true));
 				});
 			}));
+		}
+
+		if (provider === Provider.openai) {
+			const stream = this.openai!.chat.completions.create(<ChatCompletionCreateParamsStreaming>body);
+			await askOpenAI(stream);
+		} else if (provider === Provider.gorq) {
+			const stream = this.gorq!.chat.completions.create(<ChatCompletionCreateParamsStreaming>body);
+			await askOpenAI(stream);
 		} else if (provider === Provider.together) {
 			this.chat.push(await new Promise<Msg>(async resolve => {
 				const decoder = new TextDecoder();
@@ -505,6 +472,13 @@ export class AiComponent implements OnInit, OnDestroy {
 			return true;
 		}
 		return !!this.config.together.match(/^[a-zA-Z0-9]{64,}$/);
+	}
+
+	goodGorqKey() {
+		if (!this.config.gorq) {
+			return true;
+		}
+		return !!this.config.gorq.match(/^gsk_[a-zA-Z0-9]{52}$/);
 	}
 
 	onScroll(event: any) {

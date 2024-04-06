@@ -75,7 +75,7 @@
 									Swapped data
 								</mat-option>
 								<mat-option [value]="2">
-									Fake data
+									Type instead of data
 								</mat-option>
 							</mat-select>
 						</mat-form-field>
@@ -216,6 +216,24 @@
 							Bad key format
 						</mat-error>
 					</div>
+					<div>
+						<a href="https://console.groq.com/keys"
+						   mat-button
+						   target="_blank">
+							<mat-icon style="width: 70px" svgIcon="gorq"></mat-icon>
+						</a>
+
+						<mat-form-field appearance="standard">
+							<mat-label>Key</mat-label>
+							<input
+								(change)="goodGorqKey() ? configChange() : undefined"
+								[(ngModel)]="config.gorq"
+								matInput>
+						</mat-form-field>
+						<mat-error *ngIf="!goodGorqKey()">
+							Bad key format
+						</mat-error>
+					</div>
 				</div>
 
 				<div class="centered" style="min-width: 150px;">
@@ -299,8 +317,8 @@
 						color="accent"
 						mat-flat-button
 						mat-icon-button
-						style="float: left; top: -10px; margin-right: 10px;">
-						<span class="material-symbols-outlined notranslate">
+						style="float: left; top: -8px; width: 34px; height: 34px; line-height: 34px; margin-right: 10px;">
+						<span class="material-symbols-outlined notranslate" style="font-size: 18px">
 							edit
 						</span>
 					</button>

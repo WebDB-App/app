@@ -385,11 +385,11 @@ code, .hljs {
 	display: inline-flex;
 	max-width: 100%;
 	overflow: auto;
+	background-color: rgba(0, 0, 0, 0.25);
 }
 
 .hljs {
 	tab-size: 34px;
-	background-color: rgba(0, 0, 0, 0.25);
 	display: block;
 	transition: box-shadow 0.1s linear;
 	margin: 8px 0px;
