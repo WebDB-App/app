@@ -144,21 +144,28 @@
 				color="accent"
 				style="padding: 10px 14px 0px; flex: 1;">
 				<mat-label>Model</mat-label>
-				<mat-select
-					(selectionChange)="configChange()"
-					[(ngModel)]="config.model">
+				<input
+					#filter
+					[(ngModel)]="config.model"
+					[matAutocomplete]="auto"
+					matInput>
+				<mat-autocomplete
+					(optionSelected)="configChange()"
+					#auto="matAutocomplete">
 					<mat-optgroup
 						*ngFor="let provider of Object.keys(models)"
 						[label]="provider"
 						class="hasBold">
-						<mat-option
-							*ngFor="let model of models[provider]"
-							[class.bold]="true"
-							[value]="model.fullName">
-							{{ model.shortName }}
-						</mat-option>
+						<ng-container *ngFor="let model of models[provider]">
+							<mat-option
+								*ngIf="JSON.stringify(model.fullName).indexOf(filter.value) >= 0"
+								[class.bold]="true"
+								[value]="model.fullName">
+								{{ model.shortName }}
+							</mat-option>
+						</ng-container>
 					</mat-optgroup>
-				</mat-select>
+				</mat-autocomplete>
 			</mat-form-field>
 			<div style="display: flex;">
 				<div id="tokens">

@@ -123,9 +123,11 @@
 							   [matAutocomplete]="autoGroup"
 							   [matChipInputFor]="chipList"
 							   matInput>
-						<mat-autocomplete #autoGroup="matAutocomplete">
+						<mat-autocomplete
+							(optionSelected)="filter[column] = $event.option.value"
+							#autoGroup="matAutocomplete">
 							<mat-option
-								(click)="filter[column] = comp.symbol + ' ' + comp.example"
+								[value]="comp.symbol + ' ' + comp.example"
 								*ngFor="let comp of selectedServer!.driver.language.comparators"
 								[matTooltip]="comp.definition"
 								matTooltipPosition="right">

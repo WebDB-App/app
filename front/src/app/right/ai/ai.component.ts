@@ -183,13 +183,14 @@ export class AiComponent implements OnInit, OnDestroy {
 	async configChange(snack = true) {
 		localStorage.setItem(localKeyConfig, JSON.stringify(this.config));
 		this.models = {};
+		const promises = [];
 
 		if (this.config.openAI) {
-			this.openai = new OpenAI({
-				apiKey: this.config.openAI,
-				dangerouslyAllowBrowser: true
-			});
-			await new Promise(resolve => {
+			promises.push(new Promise(resolve => {
+				this.openai = new OpenAI({
+					apiKey: this.config.openAI,
+					dangerouslyAllowBrowser: true
+				});
 				this.models[Provider.openai] = [];
 				this.openai!.models.list().then(models => {
 					models.data.map(model => {
@@ -200,15 +201,15 @@ export class AiComponent implements OnInit, OnDestroy {
 					this.models[Provider.openai].sort((a, b) => a.shortName?.toLowerCase().localeCompare(b.shortName?.toLowerCase()));
 					resolve(true);
 				});
-			});
+			}));
 		}
 		if (this.config.gorq) {
-			this.gorq = new OpenAI({
-				baseURL: "https://api.groq.com/openai/v1/",
-				apiKey: this.config.gorq,
-				dangerouslyAllowBrowser: true,
-			});
-			await new Promise(resolve => {
+			promises.push(new Promise(resolve => {
+				this.gorq = new OpenAI({
+					baseURL: "https://api.groq.com/openai/v1/",
+					apiKey: this.config.gorq,
+					dangerouslyAllowBrowser: true,
+				});
 				this.models[Provider.gorq] = [];
 				this.gorq!.models.list().then(models => {
 					models.data.map(model => {
@@ -217,19 +218,25 @@ export class AiComponent implements OnInit, OnDestroy {
 					this.models[Provider.gorq].sort((a, b) => a.shortName?.toLowerCase().localeCompare(b.shortName?.toLowerCase()));
 					resolve(true);
 				});
-			});
+			}));
 		}
 		if (this.config.together) {
-			this.models[Provider.together] = await this.request.post('ai/togetherModels', {key: this.config.together});
+			promises.push(new Promise(async resolve => {
+				this.models[Provider.together] = await this.request.post('ai/togetherModels', {key: this.config.together});
+				resolve(true);
+			}));
 		}
 		if (this.config.gemini) {
-			this.gemini = new GoogleGenerativeAI(this.config.gemini);
-			this.models[Provider.gemini] = [
-				{shortName: "gemini-1.0-pro", fullName: "gemini-1.0-pro"},
-				{shortName: "gemini-1.5-pro-latest", fullName: "gemini-1.5-pro-latest"},
-			];
+			promises.push(new Promise(resolve => {
+				this.gemini = new GoogleGenerativeAI(this.config.gemini);
+				this.models[Provider.gemini] = [
+					{shortName: "gemini-1.0-pro", fullName: "gemini-1.0-pro"},
+					{shortName: "gemini-1.5-pro-latest", fullName: "gemini-1.5-pro-latest"},
+				];
+				resolve(true);
+			}));
 		}
-
+		await Promise.any(promises);
 		if (snack) {
 			this.snackBar.open("Settings saved", "⨉", {duration: 3000});
 		}

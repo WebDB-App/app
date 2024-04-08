@@ -18,12 +18,13 @@
 					#filter
 					[matAutocomplete]="auto"
 					matInput>
-				<mat-autocomplete #auto="matAutocomplete">
+				<mat-autocomplete
+					(optionSelected)="setValue(column.key, $event.option.value)"
+					#auto="matAutocomplete">
 					<ng-container *ngFor="let suggestion of column.value">
 						<mat-option
-							(click)="setValue(column.key, suggestion)"
 							*ngIf="JSON.stringify(suggestion).indexOf(filter.value) >= 0"
-							[value]="JSON.stringify(suggestion)">
+							[value]="suggestion">
 							{{ suggestion | json }}
 						</mat-option>
 					</ng-container>
