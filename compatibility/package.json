@@ -11,6 +11,6 @@
 		"fetch-to-curl": "latest"
 	},
 	"devDependencies": {
-		"eslint": "latest"
+		"eslint": "^8.57.0"
 	}
 }

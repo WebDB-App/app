@@ -39,11 +39,10 @@ stages:
 eslint:
     stage: test
     interruptible: true
-    image: registry.gitlab.com/pipeline-components/eslint:latest
+    image: registry.gitlab.com/pipeline-components/eslint:0.72.0
     script:
         - (cd back && eslint --color .)
         - (cd compatibility && eslint --color .)
-
 
 
 #-----------------------------------------

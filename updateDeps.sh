@@ -3,21 +3,24 @@
 
 cd back
 
-rm -fr ./node_modules package-lock.json
+rm -fr ./node_modules || echo
+rm -fr package-lock.json
 npm i
 
 ###############
 
 cd ../compatibility
 
-rm -fr ./node_modules package-lock.json
+rm -fr ./node_modules || echo
+rm -fr package-lock.json
 npm i
 
 ###############
 
 cd ../front
 
-rm -fr ./node_modules pnpm-lock.yaml
+rm -fr ./node_modules || echo
+rm -fr pnpm-lock.yaml
 pnpm i
 
 cd ./node_modules/mongodb/ && dts-bundle-generator ./mongodb.d.ts && cp -fr mongodb.d.d.ts ../../../../../src/assets/libs/mongo.d.ts &

@@ -20,7 +20,7 @@
 # Autre
 - finir tests
 - first level keyword (select, update, create, with, alter) + patch[local_history.patch](local_history.patch)
-
+- polar.sh
 
 # reorder columns
 - pg: dump -> rename in file -> load
