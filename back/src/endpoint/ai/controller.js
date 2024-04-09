@@ -30,7 +30,7 @@ class Controller {
 				}
 				finals.push({shortName: mod.shortName, fullName: mod.fullName});
 			}
-		} catch (e) {}
+		} catch (e) { /* empty */ }
 
 		res.send(finals);
 	}
