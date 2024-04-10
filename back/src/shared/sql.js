@@ -201,12 +201,12 @@ export default class SQL extends Driver {
 	}
 
 	async runPagedQuery(query, page, pageSize, database) {
-		if (sql_isSelect(query)
-			&& query.toLowerCase().indexOf(" offset ") < 0
-			&& query.toLowerCase().indexOf(" limit ") < 0) {
-
-			query = query.endsWith(";") ? query.trim().slice(0, -1) : query;
-			query = `${query} LIMIT ${pageSize} OFFSET ${page * pageSize}`;
+		if (sql_isSelect(query)) {
+			const cleaned = sql_cleanQuery(query);
+			if (cleaned.indexOf(" offset ") < 0 && cleaned.indexOf(" limit ") < 0) {
+				query = query.endsWith(";") ? query.trim().slice(0, -1) : query;
+				query = `${query} LIMIT ${pageSize} OFFSET ${page * pageSize}`;
+			}
 		}
 
 		return await this.runCommand(query, database);
