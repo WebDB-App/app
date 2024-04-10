@@ -594,7 +594,7 @@ export default class MongoDB extends Driver {
 
 	// eslint-disable-next-line no-unused-vars
 	async tableDDL(database, table) {
-		return false;
+		return {defintion: false};
 	}
 
 	async sampleDatabase(name, {count, deep, tables}) {

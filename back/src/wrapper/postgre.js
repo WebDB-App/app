@@ -42,14 +42,25 @@ ${def[0]["pg_get_viewdef"]}`
 		};
 	}
 
-	async tableDDL(database, table) {
-		return bash.runBash(`pg_dump ${this.makeUri(database)} ${database} -t ${table} --schema-only`);
+	async tableDDL(dbSchema, table) {
+		const [database, schema] = dbSchema.split(this.dbToSchemaDelimiter);
+		const res = bash.runBash(`pg_dump ${this.makeUri(database)} -n ${schema} -t ${table} --schema-only`);
+		if (res.error) {
+			return res;
+		}
+
+		let definition = res.result.substring(res.result.indexOf("--\n\nCREATE ") + 4);
+		definition = definition.replace(/^.* OWNER TO .*$/mg, "");
+		definition = definition.replace(/^--.*$/mg, "");
+		definition = definition.replace(/\n\s*\n/g, "\n");
+
+		return {definition};
 	}
 
 	async sampleDatabase(name, {count, tables}) {
 		const getSample = async (table) => {
 			return {
-				structure: await this.tableDDL(table, name),
+				structure: (await this.tableDDL(table, name)).definition,
 				data: await this.runCommand(`SELECT * FROM ${this.escapeId(table)} LIMIT ${count}`, name)
 			};
 		};

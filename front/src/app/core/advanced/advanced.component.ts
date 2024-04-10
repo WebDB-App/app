@@ -38,11 +38,11 @@ export class TableAdvancedComponent implements OnDestroy {
 			this.selectedTable = Table.getSelected();
 
 			this.ddl = undefined;
-			this.ngOnInit();
+			this.reloadData();
 		});
 	}
 
-	async ngOnInit() {
+	async reloadData() {
 		this.stats = await this.request.post('stats/tableSize', undefined);
 		this.ddl = (await this.request.post('table/ddl', undefined)).definition;
 

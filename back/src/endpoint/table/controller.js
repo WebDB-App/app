@@ -5,7 +5,7 @@ class Controller {
 	async ddl(req, res) {
 		const [driver, database, table] = await http.getLoggedDriver(req);
 
-		res.send({definition: await driver.tableDDL(database, table)});
+		res.send(await driver.tableDDL(database, table));
 	}
 
 	async create(req, res) {

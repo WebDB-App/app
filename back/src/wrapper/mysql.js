@@ -50,7 +50,7 @@ ${def[0]["VIEW_DEFINITION"]}`
 		let create = await this.runCommand(`SHOW CREATE TABLE ${this.escapeId(table)}`, database);
 		create = create[0];
 
-		return create["Create View"] || create["Create Table"];
+		return {definition: create["Create View"] || create["Create Table"]};
 	}
 
 	async sampleDatabase(name, {count, tables}) {
@@ -58,7 +58,7 @@ ${def[0]["VIEW_DEFINITION"]}`
 		for (const table of tables) {
 			promises.push(async () => {
 				return {
-					structure: await this.tableDDL(table, name),
+					structure: (await this.tableDDL(table, name)).definition,
 					data: await this.runCommand(`SELECT * FROM ${this.escapeId(table)} LIMIT ${count}`, name)
 				};
 			});
