@@ -130,10 +130,7 @@ export function sql_cleanQuery(query: string, lowerCase = true) {
 
 export function scrollToBottom(scrollContainer: ElementRef) {
 	setTimeout(() => {
-		if (!scrollContainer) {
-			return;
-		}
-		scrollContainer.nativeElement.scrollTop = scrollContainer.nativeElement.scrollHeight
+		scrollContainer.nativeElement.scrollTop = scrollContainer.nativeElement.scrollHeight;
 	}, 10);
 }
 

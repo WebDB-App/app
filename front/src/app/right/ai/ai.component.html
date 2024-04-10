@@ -158,7 +158,7 @@
 						class="hasBold">
 						<ng-container *ngFor="let model of models[provider]">
 							<mat-option
-								*ngIf="JSON.stringify(model.fullName).indexOf(filter.value) >= 0"
+								*ngIf="JSON.stringify(model.fullName.toLowerCase()).indexOf(filter.value.toLowerCase()) >= 0"
 								[class.bold]="true"
 								[value]="model.fullName">
 								{{ model.shortName }}
@@ -287,7 +287,7 @@
 
 	<div></div>
 
-	<div [hidden]="showSettings" (scroll)="onScroll($event)" class="container">
+	<div #scrollContainer [hidden]="showSettings" (scroll)="onScroll($event)" class="container">
 
 		<div *ngIf="!config.openAI && !config.gemini" style="margin-bottom: 30vh">
 			<br><br>
@@ -406,29 +406,39 @@
 				</mat-card-content>
 			</mat-card>
 			<mat-card *ngIf="stream !== undefined">
-				<mat-card-content>
-					<div [innerHTML]="stream"></div>
-				</mat-card-content>
-				<mat-card-actions style="display: flex; justify-content: space-evenly;">
-					<button
-						(click)="abort = true; alternative()"
+
+				<ng-container *ngIf="!stream">
+					<mat-progress-bar
+						mode="indeterminate"
 						color="accent"
-						mat-stroked-button>
-						<span class="material-symbols-outlined notranslate">
-							change_circle
-						</span>
-						Alternative
-					</button>
-					<button
-						(click)="abort = true"
-						color="warn"
-						mat-button>
-						<span class="material-symbols-outlined notranslate">
-							stop_circle
-						</span>
-						Abort
-					</button>
-				</mat-card-actions>
+					></mat-progress-bar>
+				</ng-container>
+
+				<ng-container *ngIf="stream">
+					<mat-card-content>
+						<div [innerHTML]="stream"></div>
+					</mat-card-content>
+					<mat-card-actions style="display: flex; justify-content: space-evenly;">
+						<button
+							(click)="abort = true; alternative()"
+							color="accent"
+							mat-stroked-button>
+							<span class="material-symbols-outlined notranslate">
+								change_circle
+							</span>
+							Alternative
+						</button>
+						<button
+							(click)="abort = true"
+							color="warn"
+							mat-button>
+							<span class="material-symbols-outlined notranslate">
+								stop_circle
+							</span>
+							Abort
+						</button>
+					</mat-card-actions>
+				</ng-container>
 			</mat-card>
 		</ng-container>
 	</div>
@@ -440,15 +450,16 @@
 			<mat-label>Ask anything about <i>{{ selectedDatabase?.name }}</i></mat-label>
 			<textarea
 				#message
-				(keydown.enter)="sendMessage(message.value); message.value = ''"
+				(keydown.enter)="sendMessage(message.value); resetInput(message)"
 				cdkFocusInitial
 				cdkTextareaAutosize
 				matInput
 				style="max-height: 60vh;"></textarea>
-			<button (click)="sendMessage(message.value); message.value = ''"
-					[disabled]="!message.value"
-					mat-icon-button
-					matSuffix>
+			<button
+				(click)="sendMessage(message.value); resetInput(message)"
+				[disabled]="!message.value"
+				mat-icon-button
+				matSuffix>
 				<span class="material-symbols-outlined notranslate">
 					send
 				</span>

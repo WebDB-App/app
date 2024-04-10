@@ -118,7 +118,7 @@ export class AiComponent implements OnInit, OnDestroy {
 		count: 5,
 		anonymize: 0
 	}
-	stream?: string;
+	stream?: string | null;
 	abort = false;
 	showPrompt = false;
 	atBottom = true;
@@ -291,7 +291,7 @@ export class AiComponent implements OnInit, OnDestroy {
 			return;
 		}
 
-		this.stream = "Sending prompt ...";
+		this.stream = null;
 		const body = {
 			model: this.config.model,
 			messages: [
@@ -314,7 +314,7 @@ export class AiComponent implements OnInit, OnDestroy {
 
 	async askLLM(provider: string, body: any) {
 		const streamReady = () => {
-			return this.stream = '';
+			this.stream = '';
 		}
 
 		const askOpenAI = async (stream: any) => {
@@ -326,9 +326,7 @@ export class AiComponent implements OnInit, OnDestroy {
 							this.abort = false;
 							str.controller.abort();
 						}
-
 						this.stream += part.choices[0]?.delta?.content || '';
-
 						if (this.atBottom) {
 							scrollToBottom(this.scrollContainer);
 						}
@@ -489,6 +487,12 @@ export class AiComponent implements OnInit, OnDestroy {
 	}
 
 	onScroll(event: any) {
-		this.atBottom = event.target.offsetHeight + event.target.scrollTop >= event.target.scrollHeight;
+		this.atBottom = (event.target.offsetHeight + event.target.scrollTop) >= event.target.scrollHeight;
+	}
+
+	resetInput(message: HTMLTextAreaElement) {
+		setTimeout(() => {
+			message.value = '';
+		}, 10);
 	}
 }

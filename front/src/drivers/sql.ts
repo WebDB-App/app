@@ -365,7 +365,7 @@ export class SQL implements Driver {
 		Database.getSelected()?.tables.map(table => {
 			suggestions.push({
 				label: `${table.name}`,
-				kind: monaco.languages.CompletionItemKind.Struct,
+				kind: monaco.languages.CompletionItemKind.Folder,
 				insertText: `${table.name}`
 			});
 		});
@@ -401,7 +401,7 @@ export class SQL implements Driver {
 			db.tables.map(table => {
 				suggestions.push({
 					label: `${table.name}`,
-					kind: monaco.languages.CompletionItemKind.Struct,
+					kind: monaco.languages.CompletionItemKind.Folder,
 					insertText: `${table.name} `
 				});
 			});
@@ -449,7 +449,7 @@ export class SQL implements Driver {
 
 			suggestions.push({
 				label: `${table.name}`,
-				kind: monaco.languages.CompletionItemKind.Struct,
+				kind: monaco.languages.CompletionItemKind.Folder,
 				insertText: `${table.name}`
 			});
 
@@ -602,7 +602,7 @@ export class SQL implements Driver {
 		[...allText.matchAll(/ \S+ as ([a-zA-Z0-9_`"]+)/gmi)]?.map(match => {
 			suggestions.push({
 				label: match[1],
-				kind: monaco.languages.CompletionItemKind.Struct,
+				kind: monaco.languages.CompletionItemKind.Folder,
 				insertText: match[1]
 			});
 		});
@@ -610,7 +610,7 @@ export class SQL implements Driver {
 		[...allText.matchAll(/ ([a-zA-Z0-9_`"]+) as \(/gmi)]?.map(match => {
 			suggestions.push({
 				label: match[1],
-				kind: monaco.languages.CompletionItemKind.Struct,
+				kind: monaco.languages.CompletionItemKind.Folder,
 				insertText: match[1]
 			});
 		});
