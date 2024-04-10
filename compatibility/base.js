@@ -105,7 +105,7 @@ export function initCityNumber() {
 }
 
 export async function checkCityNumber(config) {
-	const query = await post("database/query", {
+	const query = await post("query/run", {
 		query: selectCitiesNumber[config.base],
 		page: 0,
 		pageSize: 100,

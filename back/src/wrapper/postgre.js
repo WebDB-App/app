@@ -42,13 +42,14 @@ ${def[0]["pg_get_viewdef"]}`
 		};
 	}
 
-	async sampleDatabase(name, {count, tables}) {
-		let structure = await this.getStructure(true);
-		structure = Object.values(structure).find(db => db.name === name);
+	async tableDDL(database, table) {
+		return bash.runBash(`pg_dump ${this.makeUri(database)} ${database} -t ${table} --schema-only`);
+	}
 
+	async sampleDatabase(name, {count, tables}) {
 		const getSample = async (table) => {
 			return {
-				structure: JSON.stringify(structure.tables[table]),
+				structure: await this.tableDDL(table, name),
 				data: await this.runCommand(`SELECT * FROM ${this.escapeId(table)} LIMIT ${count}`, name)
 			};
 		};

@@ -163,12 +163,12 @@ export class QueryComponent implements OnInit, OnDestroy {
 
 		try {
 			await Promise.all([
-				result = await this.request.post('database/query', {
+				result = await this.request.post('query/run', {
 					query: this.query,
 					pageSize: this.pageSize,
 					page: this.page
 				}),
-				this.querySize = await this.request.post('database/querySize', {query: this.query})
+				this.querySize = await this.request.post('query/size', {query: this.query})
 			]);
 		} catch (result: any) {
 			addMonacoError(this.query, this.editors[0], result.error);
@@ -207,14 +207,14 @@ export class QueryComponent implements OnInit, OnDestroy {
 		const run = async (query: string, editor: any) => {
 			let data;
 			try {
-				data = await this.request.post('database/query', {
+				data = await this.request.post('query/run', {
 					query,
 					pageSize: this.pageSize,
 					page: this.page
 				});
 				this.history.addLocal(new Query(query, data.length));
 
-				const size = await this.request.post('database/querySize', {query: this.query});
+				const size = await this.request.post('query/size', {query: this.query});
 				if (this.querySize === null) {
 					this.querySize = Object.values(data).length;
 				} else if (this.querySize < 1 && Object.values(data).length) {
@@ -252,7 +252,7 @@ export class QueryComponent implements OnInit, OnDestroy {
 
 	async exportResult() {
 		this.isLoading = true;
-		const data = await this.request.post('database/query', {
+		const data = await this.request.post('query/run', {
 			query: this.query,
 			pageSize: this.querySize,
 			page: 0,

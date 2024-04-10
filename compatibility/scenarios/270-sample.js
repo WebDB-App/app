@@ -6,7 +6,7 @@ import {tableCity} from "../base.js";
 // eslint-disable-next-line no-unused-vars
 async function run(config) {
 	const longEnough = 100;
-	const sample = await post("database/sample", {
+	const sample = await post("ai/sample", {
 		preSent: {
 			tables: [tableCity.Table],
 			deep: 2,

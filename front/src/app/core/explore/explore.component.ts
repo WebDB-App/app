@@ -127,7 +127,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 			query = this.selectedServer?.driver.basicSort(query, this.params.field, <"asc" | "desc">this.params.direction)!;
 		}
 
-		const result: any[] = await this.request.post('database/query', {
+		const result: any[] = await this.request.post('query/run', {
 			query,
 			pageSize: this.params.pageSize,
 			page: this.params.page
@@ -143,7 +143,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 	}
 
 	async getQuerySize() {
-		this.querySize = await this.request.post('database/querySize', {query: this.query});
+		this.querySize = await this.request.post('query/size', {query: this.query});
 	}
 
 	filterToWhere(): string {

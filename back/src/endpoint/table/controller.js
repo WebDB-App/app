@@ -2,6 +2,12 @@ import http from "../../shared/http.js";
 
 class Controller {
 
+	async ddl(req, res) {
+		const [driver, database, table] = await http.getLoggedDriver(req);
+
+		res.send({definition: await driver.tableDDL(database, table)});
+	}
+
 	async create(req, res) {
 		const [driver, database] = await http.getLoggedDriver(req);
 

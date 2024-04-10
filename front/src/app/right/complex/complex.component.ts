@@ -59,7 +59,7 @@ export class ComplexComponent implements OnInit {
 
 	async rename(complex: EditableComplex, type: string) {
 		const query = this.selectedServer!.driver.renameComplex(complex, type, this.selectedDatabase!.name);
-		await this.request.post('database/query', { query });
+		await this.request.post('query/run', { query });
 
 		this.snackBar.open(`Rename ${complex.name} to ${complex.newName}`, "⨉", {duration: 3000});
 		complex.name = complex.newName!;

@@ -139,6 +139,7 @@
 
 		<mat-card style="padding: 10px 0px; display: flex; flex-direction: column;">
 			<mat-form-field
+				class="searchField"
 				*ngIf="Object.keys(models).length"
 				appearance="fill"
 				color="accent"
@@ -149,6 +150,14 @@
 					[(ngModel)]="config.model"
 					[matAutocomplete]="auto"
 					matInput>
+				<button
+					(click)="config.model = '';"
+					*ngIf="config.model"
+					aria-label="Clear"
+					mat-icon-button
+					matSuffix>
+					<span class="material-symbols-outlined notranslate">close</span>
+				</button>
 				<mat-autocomplete
 					(optionSelected)="configChange()"
 					#auto="matAutocomplete">

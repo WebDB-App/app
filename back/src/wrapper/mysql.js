@@ -46,26 +46,22 @@ ${def[0]["VIEW_DEFINITION"]}`
 		};
 	}
 
+	async tableDDL(database, table) {
+		let create = await this.runCommand(`SHOW CREATE TABLE ${this.escapeId(table)}`, database);
+		create = create[0];
+
+		return create["Create View"] || create["Create Table"];
+	}
+
 	async sampleDatabase(name, {count, tables}) {
-		const getSample = async (table) => {
-			let create = await this.runCommand(`SHOW CREATE TABLE ${this.escapeId(table)}`, name);
-			create = create[0];
-
-			if (create && create["Create View"]) {
-				return {
-					structure: create["Create View"],
-					data: []
-				};
-			}
-			return {
-				structure: create["Create Table"],
-				data: await this.runCommand(`SELECT * FROM ${this.escapeId(table)} LIMIT ${count}`, name)
-			};
-		};
-
 		const promises = [];
 		for (const table of tables) {
-			promises.push(getSample(table));
+			promises.push(async () => {
+				return {
+					structure: await this.tableDDL(table, name),
+					data: await this.runCommand(`SELECT * FROM ${this.escapeId(table)} LIMIT ${count}`, name)
+				};
+			});
 		}
 
 		return await Promise.all(promises);

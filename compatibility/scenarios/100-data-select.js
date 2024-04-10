@@ -15,7 +15,7 @@ async function run(config) {
 	//--------------------------------------------
 
 
-	const querySize = await post("database/querySize", {
+	const querySize = await post("query/size", {
 		query: selectCitiesNumber[config.base],
 	});
 	await test("[data] Select has good size", () => {

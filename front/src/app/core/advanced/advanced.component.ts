@@ -22,6 +22,7 @@ export class TableAdvancedComponent implements OnDestroy {
 
 	interval?: NodeJS.Timer;
 	stats?: Stats;
+	ddl?: string | false;
 	protected readonly isSQL = isSQL;
 
 	constructor(
@@ -35,14 +36,21 @@ export class TableAdvancedComponent implements OnDestroy {
 			this.selectedServer = Server.getSelected();
 			this.selectedDatabase = Database.getSelected();
 			this.selectedTable = Table.getSelected();
+
+			this.ddl = undefined;
+			this.ngOnInit();
 		});
 	}
 
 	async ngOnInit() {
 		this.stats = await this.request.post('stats/tableSize', undefined);
-		this.interval = setInterval(async () => {
-			this.stats = await this.request.post('stats/tableSize', undefined);
-		}, 2000);
+		this.ddl = (await this.request.post('table/ddl', undefined)).definition;
+
+		if (!this.interval) {
+			this.interval = setInterval(async () => {
+				this.stats = await this.request.post('stats/tableSize', undefined);
+			}, 2000);
+		}
 	}
 
 	ngOnDestroy() {

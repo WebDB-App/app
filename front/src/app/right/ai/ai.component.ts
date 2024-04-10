@@ -86,9 +86,10 @@ export class AiComponent implements OnInit, OnDestroy {
 		'I need to store a new entity called licence, with "1,1" relation with user, give me the plan to do it',
 		'Give me, in SQL, the CRUD queries for user',
 		'Explain me the purpose of my database',
-		'How to find the last inserted row in Entity Framework ?', 'Can you optimize : `SELECT * FROM users WHERE email LIKE ?`',
+		'How to find the last inserted row in Entity Framework ?',
+		'Can you optimize : `SELECT * FROM users WHERE email LIKE ?`',
 		'Create a trigger checking password strength before inserting',
-		'Here is, with PDO, the query to insert ... can you help me fixing it',
+		'Give me lines to populate my database',
 		'Give me, with Mongoose the listing of all user',
 		'Optimize the performance of my server, you can asked me query or command to run for this'
 	]
@@ -247,7 +248,7 @@ export class AiComponent implements OnInit, OnDestroy {
 		if (this.preSent.tables[0] === "") {
 			this.preSent.tables = this.selectedDatabase?.tables.map(table => table.name)!;
 		}
-		this.sample = (await this.request.post('database/sample', {preSent: this.preSent}, undefined)).txt;
+		this.sample = (await this.request.post('ai/sample', {preSent: this.preSent}, undefined)).txt;
 	}
 
 	saveChat() {
@@ -424,7 +425,7 @@ export class AiComponent implements OnInit, OnDestroy {
 
 	async runQuery(query: string) {
 		try {
-			const result = await this.request.post('database/query', {
+			const result = await this.request.post('query/run', {
 				query: query,
 				pageSize: 15,
 				page: 0

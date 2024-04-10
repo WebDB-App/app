@@ -94,7 +94,7 @@ export class MigrateComponent implements OnInit {
 			if (!side.query) {
 				side.query = side.server!.driver.basicFilter(side.table, [], 'AND');
 			}
-			const result = await this.request.post('database/query', {
+			const result = await this.request.post('query/run', {
 				query: side.query,
 				pageSize: this.pageSize,
 				page: this.page
@@ -111,7 +111,7 @@ export class MigrateComponent implements OnInit {
 			side.diff.code = side.diff.code.replaceAll("{\n\t\t", "{ ");
 			side.diff.code = side.diff.code.replaceAll("\n\t}", " }");
 
-			side.querySize = await this.request.post('database/querySize', {query: side.query}, side.table, side.database, side.server);
+			side.querySize = await this.request.post('query/size', {query: side.query}, side.table, side.database, side.server);
 			if (side.querySize === null) {
 				side.querySize = Object.values(result).length;
 			} else if (side.querySize! < 1 && Object.values(result).length) {
