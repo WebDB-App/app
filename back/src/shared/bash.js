@@ -1,7 +1,7 @@
-import {execSync} from "child_process";
 import {appendFileSync, writeFileSync} from "fs";
 import {randomUUID} from "crypto";
 import {finishedPath, singleLine} from "./helper.js";
+import {exec} from "child_process";
 
 class Bash {
 	commands = {};
@@ -38,21 +38,22 @@ class Bash {
 		delete this.commands[cid];
 	}
 
-	runBash(cmd) {
-		let lght = -1;
-		let cid;
+	async runBash(cmd) {
+		const cid = this.startCommand(cmd, "", "sh");
 
-		try {
-			cid = this.startCommand(cmd, "bash", "");
-			const result = execSync(cmd, {shell: "/bin/bash"}).toString();
-			lght = result.length;
-			return {result};
-		} catch (e) {
-			console.error(e);
-			return {error: e.stderr.toString() ? e.stderr.toString() : e.message};
-		} finally {
-			this.endCommand(cid, lght);
-		}
+		return new Promise(async (resolve) => {
+			exec(cmd, {shell: "/bin/bash"}, (err, stdout, stderr) => {
+				const lght = stdout.length || -1;
+				const error = err || stderr;
+				if (error) {
+					console.error(error);
+					resolve({error: error.message ? error.message : error});
+				} else {
+					resolve({result: stdout});
+				}
+				this.endCommand(cid, lght);
+			});
+		});
 	}
 }
 

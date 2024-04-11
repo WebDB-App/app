@@ -57,7 +57,7 @@ export default class MongoDB extends Driver {
 			path = `${path}.gz`;
 			frontPath += ".gz";
 
-			const result = bash.runBash(`mongodump --uri="${this.makeUri()}" --db=${database} --archive=${path} ${options}`);
+			const result = await bash.runBash(`mongodump --uri="${this.makeUri()}" --db=${database} --archive=${path} ${options}`);
 			if (result.error) {
 				return result;
 			}
@@ -66,7 +66,7 @@ export default class MongoDB extends Driver {
 	}
 
 	async saveState(path, database) {
-		return bash.runBash(`mongodump --uri="${this.makeUri()}" --db=${database} --out=${path.slice(0, path.lastIndexOf("/"))}`);
+		return await bash.runBash(`mongodump --uri="${this.makeUri()}" --db=${database} --out=${path.slice(0, path.lastIndexOf("/"))}`);
 	}
 
 	readDiff(database, diff) {
@@ -76,7 +76,7 @@ export default class MongoDB extends Driver {
 	async load(files, database) {
 		const folder = files.find(file => file.originalname.endsWith(".metadata.json"));
 		if (folder) {
-			const r = bash.runBash(`mongorestore --uri="${this.makeUri()}" --db="${database}" ${files[0].destination}`);
+			const r = await bash.runBash(`mongorestore --uri="${this.makeUri()}" --db="${database}" ${files[0].destination}`);
 			return r.error ? r : {ok: true};
 		}
 
@@ -84,12 +84,12 @@ export default class MongoDB extends Driver {
 			if (file.originalname.endsWith(".csv") ||
 				file.originalname.endsWith(".json") ||
 				file.originalname.endsWith(".tsv")) {
-				const r = bash.runBash(`mongoimport --uri="${this.makeUri()}" --db="${database}" --file "${file.path}" --collection ${file.originalname.split(".")[0]}`);
+				const r = await bash.runBash(`mongoimport --uri="${this.makeUri()}" --db="${database}" --file "${file.path}" --collection ${file.originalname.split(".")[0]}`);
 				if (r.error) {
 					return r;
 				}
 			} else {
-				const r = bash.runBash(`mongorestore --uri="${this.makeUri()}" --nsFrom="*" --nsTo="${database}.*" --gzip --archive="${file.path}"`);
+				const r = await bash.runBash(`mongorestore --uri="${this.makeUri()}" --nsFrom="*" --nsTo="${database}.*" --gzip --archive="${file.path}"`);
 				if (r.error) {
 					return r;
 				}

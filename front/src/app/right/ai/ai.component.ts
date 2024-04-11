@@ -99,7 +99,7 @@ export class AiComponent implements OnInit, OnDestroy {
 	openai?: OpenAI;
 	gorq?: OpenAI;
 	gemini?: GoogleGenerativeAI;
-	isLoading = true;
+	loadingCount = 0;
 	editorOptions = {
 		language: "plaintext"
 	};
@@ -173,8 +173,6 @@ export class AiComponent implements OnInit, OnDestroy {
 			this.configChange(false),
 			this.preSentChange(),
 		]);
-
-		this.isLoading = false;
 	}
 
 	ngOnDestroy() {
@@ -182,6 +180,8 @@ export class AiComponent implements OnInit, OnDestroy {
 	}
 
 	async configChange(snack = true) {
+		this.loadingCount++;
+
 		localStorage.setItem(localKeyConfig, JSON.stringify(this.config));
 		this.models = {};
 		const promises = [];
@@ -241,14 +241,19 @@ export class AiComponent implements OnInit, OnDestroy {
 		if (snack) {
 			this.snackBar.open("Settings saved", "⨉", {duration: 3000});
 		}
+		this.loadingCount--;
 	}
 
 	async preSentChange() {
+		this.loadingCount++;
+
 		localStorage.setItem(this.localKeyPreSent, JSON.stringify(this.preSent));
 		if (this.preSent.tables[0] === "") {
 			this.preSent.tables = this.selectedDatabase?.tables.map(table => table.name)!;
 		}
 		this.sample = (await this.request.post('ai/sample', {preSent: this.preSent}, undefined)).txt;
+
+		this.loadingCount--;
 	}
 
 	saveChat() {
@@ -288,7 +293,7 @@ export class AiComponent implements OnInit, OnDestroy {
 			}
 		}
 		if (!provider) {
-			this.chat.push(new Msg('Please select a available model', Role.System, true));
+			this.chat.push(new Msg('No model selected or unavailable', Role.System, true));
 			return;
 		}
 

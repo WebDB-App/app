@@ -75,7 +75,7 @@ ${def[0]["VIEW_DEFINITION"]}`
 			const cmd = `mysqldump --user='${this.user}' --port=${this.port} --password='${this.password}' --host='${this.host}' ${database} `;
 			const dbOpts = (tables === false || tables.length >= total[0].total) ? "" : ` ${tables.join(" ")}`;
 
-			const result = bash.runBash(`${cmd} ${dbOpts} ${options} > ${path}`);
+			const result = await bash.runBash(`${cmd} ${dbOpts} ${options} > ${path}`);
 			if (result.error) {
 				return result;
 			}
@@ -96,12 +96,12 @@ ${def[0]["VIEW_DEFINITION"]}`
 	}
 
 	async saveState(path, database) {
-		return bash.runBash(`mysqldump --single-transaction --skip-comments --extended-insert --net-buffer-length=100000000 --routines --events --user='${this.user}' --port=${this.port} --password='${this.password}' --host='${this.host}' ${database} | sed 's$VALUES ($VALUES\\n($g' | sed 's$),($),\\n($g' > ${join(path, database)}`);
+		return await bash.runBash(`mysqldump --single-transaction --skip-comments --extended-insert --net-buffer-length=100000000 --routines --events --user='${this.user}' --port=${this.port} --password='${this.password}' --host='${this.host}' ${database} | sed 's$VALUES ($VALUES\\n($g' | sed 's$),($),\\n($g' > ${join(path, database)}`);
 	}
 
 	async load(files, database) {
 		for (const file of files) {
-			const r = bash.runBash(`mysql --user='${this.user}' --port=${this.port} --password='${this.password}' --host='${this.host}' ${database} < ${file.path}`);
+			const r = await bash.runBash(`mysql --user='${this.user}' --port=${this.port} --password='${this.password}' --host='${this.host}' ${database} < ${file.path}`);
 			if (r.error) {
 				return r;
 			}

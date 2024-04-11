@@ -43,6 +43,12 @@
 		</div>
 	</mat-toolbar>
 
+	<mat-progress-bar
+		*ngIf="loadingCount > 0"
+		mode="indeterminate"
+		color="accent">
+	</mat-progress-bar>
+
 	<div [hidden]="!showSettings" class="container">
 
 		<mat-card style="display: flex; flex-direction: column; padding: 0px">
@@ -298,14 +304,7 @@
 
 	<div #scrollContainer [hidden]="showSettings" (scroll)="onScroll($event)" class="container">
 
-		<div *ngIf="!config.openAI && !config.gemini" style="margin-bottom: 30vh">
-			<br><br>
-			<h3 style="text-align: center; border-bottom: 1px dashed grey">
-				Enter a key to use assistant ↗
-			</h3>
-		</div>
-
-		<div *ngIf="!chat.length && (config.openAI || config.gemini)">
+		<div *ngIf="!chat.length && config.model">
 			<br><br>
 			<h3 style="text-align: center; border-bottom: 1px dashed grey">Some examples</h3>
 			<div id="examples">

@@ -44,7 +44,8 @@ ${def[0]["pg_get_viewdef"]}`
 
 	async tableDDL(dbSchema, table) {
 		const [database, schema] = dbSchema.split(this.dbToSchemaDelimiter);
-		const res = bash.runBash(`pg_dump ${this.makeUri(database)} -n ${schema} -t ${table} --schema-only`);
+
+		const res = await bash.runBash(`pg_dump ${this.makeUri(database)} -n ${schema} -t ${table} --schema-only`);
 		if (res.error) {
 			return res;
 		}
@@ -122,7 +123,7 @@ ${def[0]["pg_get_viewdef"]}`
 			const cmd = `pg_dump ${this.makeUri(database)}`;
 			const dbOpts = (tables === false || tables.length.toString() === total[0].total) ? "" : `${tables.map(table => `-t '${table}'`).join(" ")}`;
 
-			const result = bash.runBash(`${cmd} ${dbOpts} ${options} -n ${schema} > ${path}`);
+			const result = await bash.runBash(`${cmd} ${dbOpts} ${options} -n ${schema} > ${path}`);
 			if (result.error) {
 				return result;
 			}
@@ -144,7 +145,7 @@ ${def[0]["pg_get_viewdef"]}`
 
 	async saveState(path, dbSchema) {
 		const [database] = dbSchema.split(this.dbToSchemaDelimiter);
-		return bash.runBash(`pg_dump ${this.makeUri(database)} > ${join(path, database)}`);
+		return await bash.runBash(`pg_dump ${this.makeUri(database)} > ${join(path, database)}`);
 	}
 
 	makeUri(database = false) {
@@ -155,7 +156,7 @@ ${def[0]["pg_get_viewdef"]}`
 		const [database] = dbSchema.split(this.dbToSchemaDelimiter);
 
 		for (const file of files) {
-			const r = bash.runBash(`psql ${this.makeUri(database)} < ${file.path}`);
+			const r = await bash.runBash(`psql ${this.makeUri(database)} < ${file.path}`);
 			if (r.error) {
 				return r;
 			}

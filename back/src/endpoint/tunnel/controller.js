@@ -42,9 +42,9 @@ class Controller {
 
 		if (test) {
 			if (connection.ssh.password) {
-				return bash.runBash(`sshpass -p "${connection.ssh.password}" ${common} ${uri} true`);
+				return await bash.runBash(`sshpass -p "${connection.ssh.password}" ${common} ${uri} true`);
 			} else {
-				return bash.runBash(common + `-i ${privateKey} ${uri} true`);
+				return await bash.runBash(common + `-i ${privateKey} ${uri} true`);
 			}
 		}
 
@@ -59,9 +59,9 @@ class Controller {
 		let forward;
 		common += `-f -N -L ${freePort}:${connection.host}:${connection.port} `;
 		if (connection.ssh.password) {
-			forward = bash.runBash(`sshpass -p "${connection.ssh.password}" ${common} ${uri}`);
+			forward = await bash.runBash(`sshpass -p "${connection.ssh.password}" ${common} ${uri}`);
 		} else {
-			forward = bash.runBash(common + `-i ${privateKey} ${uri}`);
+			forward = await bash.runBash(common + `-i ${privateKey} ${uri}`);
 		}
 		if (forward.error) {
 			return forward;

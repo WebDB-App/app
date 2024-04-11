@@ -36,7 +36,7 @@ class Version {
 			return {error: "Directory does not exist"};
 		}
 
-		const r = bash.runBash(`cd ${dir} && git reset --hard ${hash}`);
+		const r = await bash.runBash(`cd ${dir} && git reset --hard ${hash}`);
 		if (r.error) {
 			return r;
 		}
@@ -122,7 +122,7 @@ class Version {
 
 		const dir = this.getPath(database, driver);
 		if (!existsSync(dir)) {
-			const r = bash.runBash(`mkdir -p ${dir} && cd ${dir} && git init --initial-branch=main && git config user.email "main.webdb@gmail.com" && git config user.name "WebDB"`);
+			const r = await bash.runBash(`mkdir -p ${dir} && cd ${dir} && git init --initial-branch=main && git config user.email "main.webdb@gmail.com" && git config user.name "WebDB"`);
 			if (r.error) {
 				return;
 			}
@@ -133,7 +133,7 @@ class Version {
 			console.error(state.error);
 			return;
 		}
-		const commit = bash.runBash(`cd ${dir} && git add --all && (git commit -m '${(new Date()).getTime()}' || echo)`);
+		const commit = await bash.runBash(`cd ${dir} && git add --all && (git commit -m '${(new Date()).getTime()}' || echo)`);
 		if (commit.error) {
 			return;
 		}
