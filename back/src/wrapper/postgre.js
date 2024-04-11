@@ -60,7 +60,7 @@ ${def[0]["pg_get_viewdef"]}`
 	async sampleDatabase(name, {count, tables}) {
 		const getSample = async (table) => {
 			return {
-				structure: (await this.tableDDL(table, name)).definition,
+				structure: (await this.tableDDL(name, table)).definition,
 				data: await this.runCommand(`SELECT * FROM ${this.escapeId(table)} LIMIT ${count}`, name)
 			};
 		};

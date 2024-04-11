@@ -58,7 +58,7 @@ ${def[0]["VIEW_DEFINITION"]}`
 		for (const table of tables) {
 			promises.push(async () => {
 				return {
-					structure: (await this.tableDDL(table, name)).definition,
+					structure: (await this.tableDDL(name, table)).definition,
 					data: await this.runCommand(`SELECT * FROM ${this.escapeId(table)} LIMIT ${count}`, name)
 				};
 			});
