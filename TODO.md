@@ -1,4 +1,5 @@
 - tester tout les default + extra + postgre
+- bug time machine
 - finir complex edit
 
 

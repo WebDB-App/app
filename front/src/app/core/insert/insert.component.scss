@@ -1,3 +1,14 @@
+#docToggle {
+	::ng-deep .mat-button-toggle-label-content {
+		line-height: 36px;
+	}
+
+	img, .mat-icon {
+		height: 22px;
+		width: 22px;
+	}
+}
+
 .random {
 	::ng-deep .tab-error {
 		background-color: #f44336;

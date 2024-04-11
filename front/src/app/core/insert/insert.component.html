@@ -16,13 +16,14 @@
 
 		<div>
 			<mat-button-toggle-group
+				id="docToggle"
 				(change)="iframe = $event.value ? sanitizer.bypassSecurityTrustResourceUrl($event.value) : undefined">
-				<mat-button-toggle style="font-size: 16px;" value='https://ngneat.github.io/falso/docs/getting-started'>
-					<img src="/assets/falso.png" style="height: 22px; width: 22px;"/>
+				<mat-button-toggle value='https://ngneat.github.io/falso/docs/getting-started'>
+					<img src="/assets/falso.png" />
 					Falso
 				</mat-button-toggle>
-				<mat-button-toggle style="font-size: 16px;" value='https://v7.fakerjs.dev/api/'>
-					<mat-icon style="height: 22px; width: 22px;" svgIcon="faker"></mat-icon>
+				<mat-button-toggle value='https://fakerjs.dev/api/'>
+					<mat-icon svgIcon="faker"></mat-icon>
 					FakerJS
 				</mat-button-toggle>
 				<mat-button-toggle value=''>
