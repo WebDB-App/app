@@ -82,16 +82,13 @@ export class AiComponent implements OnInit, OnDestroy {
 	models: { [key: string]: { shortName: string; fullName: string }[] } = {};
 	Role = Role;
 	examples = [
-		'Adapt this query to retrieve "registering_date" : `SELECT email, password FROM users WHERE email LIKE ?`',
 		'I need to store a new entity called licence, with "1,1" relation with user, give me the plan to do it',
-		'Give me, in SQL, the CRUD queries for user',
 		'Explain me the purpose of my database',
-		'How to find the last inserted row in Entity Framework ?',
-		'Can you optimize : `SELECT * FROM users WHERE email LIKE ?`',
 		'Create a trigger checking password strength before inserting',
-		'Give me lines to populate my database',
+		'Give me queries to populate my database',
 		'Give me, with Mongoose the listing of all user',
-		'Optimize the performance of my server, you can asked me query or command to run for this'
+		'Optimize the performance of my server, you can asked me query or command to run for this',
+		'Give me the query which list the most active users'
 	]
 	localKeyChatHistory!: string;
 	localKeyPreSent!: string;

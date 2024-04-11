@@ -56,12 +56,12 @@ ${def[0]["VIEW_DEFINITION"]}`
 	async sampleDatabase(name, {count, tables}) {
 		const promises = [];
 		for (const table of tables) {
-			promises.push(async () => {
-				return {
+			promises.push(new Promise(async resolve => {
+				resolve({
 					structure: (await this.tableDDL(name, table)).definition,
 					data: await this.runCommand(`SELECT * FROM ${this.escapeId(table)} LIMIT ${count}`, name)
-				};
-			});
+				});
+			}));
 		}
 
 		return await Promise.all(promises);
@@ -96,7 +96,7 @@ ${def[0]["VIEW_DEFINITION"]}`
 	}
 
 	async saveState(path, database) {
-		return await bash.runBash(`mysqldump --single-transaction --skip-comments --extended-insert --net-buffer-length=100000000 --routines --events --user='${this.user}' --port=${this.port} --password='${this.password}' --host='${this.host}' ${database} | sed 's$VALUES ($VALUES\\n($g' | sed 's$),($),\\n($g' > ${join(path, database)}`);
+		return await bash.runBash(`mysqldump --single-transaction --skip-comments --extended-insert --net-buffer-length=16777216 --routines --events --user='${this.user}' --port=${this.port} --password='${this.password}' --host='${this.host}' ${database} | sed 's$VALUES ($VALUES\\n($g' | sed 's$),($),\\n($g' > ${join(path, database)}`);
 	}
 
 	async load(files, database) {

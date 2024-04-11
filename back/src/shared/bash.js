@@ -44,11 +44,13 @@ class Bash {
 		return new Promise(async (resolve) => {
 			exec(cmd, {shell: "/bin/bash"}, (err, stdout, stderr) => {
 				const lght = stdout.length || -1;
-				const error = err || stderr;
-				if (error) {
-					console.error(error);
-					resolve({error: error.message ? error.message : error});
+				if (err) {
+					console.error(err);
+					resolve({error: err.message ? err.message : err});
 				} else {
+					if (stderr) {
+						console.info(stderr);
+					}
 					resolve({result: stdout});
 				}
 				this.endCommand(cid, lght);

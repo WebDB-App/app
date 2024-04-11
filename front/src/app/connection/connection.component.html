@@ -45,9 +45,10 @@
 
 		<ng-container *ngIf="loading === LoadingStatus.LOADING">
 			<mat-spinner
+				[diameter]="60"
 				mode="indeterminate"
 				style="margin: 0px auto;"></mat-spinner>
-			<h2 style="color: #2196f3">Scanning Connections</h2>
+			<h3 style="color: #2196f3">Scanning Connections</h3>
 		</ng-container>
 
 		<app-unreachable

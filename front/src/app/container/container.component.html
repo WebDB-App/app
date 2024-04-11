@@ -54,10 +54,11 @@
 			<div style="align-self: center;">
 				<ng-container *ngIf="loading === LoadingStatus.LOADING">
 					<mat-spinner
+						[diameter]="60"
 						color="accent"
 						mode="indeterminate"
 						style="margin: 0px auto;"></mat-spinner>
-					<h2 style="color: #1de9b6">Loading {{ activatedRoute.snapshot.paramMap.get('database') }}</h2>
+					<h3 style="color: #1de9b6">Loading {{ activatedRoute.snapshot.paramMap.get('database') }}</h3>
 				</ng-container>
 
 				<app-unreachable

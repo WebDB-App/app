@@ -82,7 +82,10 @@
 	<div style="height: calc(100vh - 220px)">
 
 		<div *ngIf="isComparing" class="loader" style="height: calc(100vh - 220px);">
-			<mat-spinner mode="indeterminate"></mat-spinner>
+			<mat-spinner
+				[diameter]="60"
+				mode="indeterminate"
+			></mat-spinner>
 		</div>
 
 		<ngx-monaco-diff-editor
