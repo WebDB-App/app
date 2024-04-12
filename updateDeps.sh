@@ -2,22 +2,30 @@
 #npm i -g dts-bundle-generator
 
 cd back
-
 rm -fr ./node_modules || echo
 rm -fr package-lock.json
 npm i
+cd ../
 
 ###############
 
-cd ../compatibility
-
+cd compatibility
 rm -fr ./node_modules || echo
 rm -fr package-lock.json
 npm i
+cd ../
 
 ###############
 
-cd ../front
+cd static/world-populator
+rm -fr ./node_modules || echo
+rm -fr package-lock.json
+npm i
+cd ../../
+
+###############
+
+cd front
 
 rm -fr ./node_modules || echo
 rm -fr pnpm-lock.yaml
