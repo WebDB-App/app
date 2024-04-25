@@ -1,6 +1,6 @@
-import { Entity, ForeignKeyReference, ParseResult } from './types'
+import { Entity, ForeignKeyReference, ParseResult } from './types';
 
-const {abs, sign} = Math
+const {abs, sign, min, max} = Math;
 
 type Rect = {
 	left: number
@@ -568,94 +568,125 @@ class LineController {
 		const fromRect = fromDiv.getBoundingClientRect()
 		const toRect = toDiv.getBoundingClientRect()
 
-		type Config = {
-			from: number
-			to: number
-			distance: number
-		}
+		const barRadius = this.diagram.barRadius
+		const gap = barRadius / 2
+		const margin = gap * 2
 
-		function toConfig(from: number, to: number): Config {
-			return {
-				from,
-				to,
-				distance: abs(from - to),
+		const from_y = fromRect.top + fromRect.height / 2 - diagramRect.top
+		const to_y = toRect.top + toRect.height / 2 - diagramRect.top
+
+		let from_x: number
+		let to_x: number
+
+		let from_bar_x: number
+		let from_margin_x: number
+		let to_margin_x: number
+		let to_bar_x: number
+
+		let from_bar_border_x: number
+		let to_bar_border_x: number
+
+		if (fromRect.right + gap < toRect.left - gap) {
+			/**
+			 * [from]---[to]
+			 */
+			from_x = fromRect.right - diagramRect.left
+			to_x = toRect.left - diagramRect.left
+
+			from_bar_x = from_x + gap
+			from_margin_x = from_x + margin
+			to_margin_x = to_x - margin
+			to_bar_x = to_x - gap
+
+			from_bar_border_x = from_x + gap
+			to_bar_border_x = to_x - gap
+		} else if (toRect.right + gap < fromRect.left - gap) {
+			/**
+			 * [to]---[from]
+			 */
+			from_x = fromRect.left - diagramRect.left
+			to_x = toRect.right - diagramRect.left
+
+			from_bar_x = from_x - gap
+			from_margin_x = from_x - margin
+			to_margin_x = to_x + margin
+			to_bar_x = to_x + gap
+
+			from_bar_border_x = from_x - gap
+			to_bar_border_x = to_x + gap
+		} else {
+			const right_dist = abs(fromRect.right - toRect.right)
+			const left_dist = abs(fromRect.left - toRect.left)
+			if (right_dist < left_dist) {
+				/**
+				 * [from]-
+				 *        \
+				 *        |
+				 *        /
+				 *   [to]-
+				 */
+				from_x = fromRect.right - diagramRect.left
+				to_x = toRect.right - diagramRect.left
+
+				const edge_x = max(from_x, to_x)
+
+				from_bar_x = edge_x + gap
+				from_margin_x = edge_x + margin
+				to_margin_x = edge_x + margin
+				to_bar_x = edge_x + gap
+
+				from_bar_border_x = from_x + gap
+				to_bar_border_x = to_x + gap
+			} else {
+				/**
+				 *  -[from]
+				 * /
+				 * |
+				 * \
+				 *  -[to]
+				 */
+				from_x = fromRect.left - diagramRect.left
+				to_x = toRect.left - diagramRect.left
+
+				const edge_x = min(from_x, to_x)
+
+				from_bar_x = edge_x - gap
+				from_margin_x = edge_x - margin
+				to_margin_x = edge_x - margin
+				to_bar_x = edge_x - gap
+
+				from_bar_border_x = from_x - gap
+				to_bar_border_x = to_x - gap
 			}
 		}
 
-		const config_list: Config[] = [
-			toConfig(fromRect.left, toRect.left),
-			toConfig(fromRect.right, toRect.right),
-			toConfig(fromRect.left, toRect.right),
-			toConfig(fromRect.right, toRect.left),
-		]
+		let path = ''
 
-		const {from, to} = config_list.sort((a, b) => a.distance - b.distance)[0]
+		// from field
+		path += ` M ${from_x} ${from_y}`
+		path += ` L ${from_bar_x} ${from_y}`
 
+		// relation link
+		path += `C ${from_margin_x} ${from_y}`
+		path += `  ${to_margin_x} ${to_y}`
+		path += `  ${to_bar_x} ${to_y}`
 
-		const f_x = from - diagramRect.left
-		const f_y = fromRect.top + fromRect.height / 2 - diagramRect.top
+		// to field
+		path += ` L ${to_x} ${to_y}`
 
+		this.line.setAttributeNS(null, 'd', path.trim())
 
-		const t_x = to - diagramRect.left
-		const t_y = toRect.top + toRect.height / 2 - diagramRect.top
-
-		let f_b_x: number
-		let f_b2_x: number
-		let f_m_x: number
-
-		const barRatio = 1 / 2
-		const marginRatio = barRatio * 2
-		const barRadius = this.diagram.barRadius
-
-		if (from === fromRect.left) {
-
-			f_b_x = f_x - barRadius * barRatio
-			f_b2_x = f_x - (barRadius * barRatio) / 3
-			f_m_x = f_x - barRadius * marginRatio
-		} else {
-
-			f_b_x = f_x + barRadius * barRatio
-			f_b2_x = f_x + (barRadius * barRatio) / 3
-			f_m_x = f_x + barRadius * marginRatio
-		}
-
-		let t_b_x: number
-		let t_b2_x: number
-		let t_m_x: number
-		if (to === toRect.left) {
-
-			t_b_x = t_x - barRadius * barRatio
-			t_b2_x = t_x - (barRadius * barRatio) / 3
-			t_m_x = t_x - barRadius * marginRatio
-		} else {
-
-			t_b_x = t_x + barRadius * barRatio
-			t_b2_x = t_x + (barRadius * barRatio) / 3
-			t_m_x = t_x + barRadius * marginRatio
-		}
-
-		const first = this.relation.type[0]
-		const last = this.relation.type[this.relation.type.length - 1]
-		const skipHead = this.relation.type.startsWith('>0') || first === '0'
-		const skipTail = this.relation.type.endsWith('0<') || last === '0'
-		{
-			const headPath = skipHead
-				? `M ${f_x} ${f_y} L ${f_b2_x} ${f_y} M ${f_b_x} ${f_y}`
-				: `M ${f_x} ${f_y} L ${f_b_x} ${f_y}`
-			const linePath = `C ${f_m_x} ${f_y} ${t_m_x} ${t_y} ${t_b_x} ${t_y}`
-			const tailPath = skipTail
-				? `M ${t_b2_x} ${t_y} L ${t_x} ${t_y}`
-				: `L ${t_x} ${t_y}`
-			this.line.setAttributeNS(null, 'd', `${headPath} ${linePath} ${tailPath}`)
-		}
+		const relation = this.relation
+		const first = relation.type[0]
+		const last = relation.type[this.relation.type.length - 1]
 
 		renderRelationBar({
 			path: this.head,
-			from_x: f_x,
-			from_y: f_y,
-			border_x: f_b_x,
-			barRadius: barRadius,
-			type: this.relation.type.startsWith('>0')
+			from_x,
+			from_y,
+			border_x: from_bar_border_x,
+			barRadius,
+			type: relation.type.startsWith('>0')
 				? 'zero-or-many'
 				: first === '>'
 					? 'many'
@@ -668,11 +699,11 @@ class LineController {
 
 		renderRelationBar({
 			path: this.tail,
-			from_x: t_x,
-			from_y: t_y,
-			border_x: t_b_x,
-			barRadius: barRadius,
-			type: this.relation.type.endsWith('0<')
+			from_x: to_x,
+			from_y: to_y,
+			border_x: to_bar_border_x,
+			barRadius,
+			type: relation.type.endsWith('0<')
 				? 'zero-or-many'
 				: last === '<'
 					? 'many'
@@ -702,7 +733,7 @@ function renderRelationBar({
 	barRadius: number
 	type: RelationBarType
 }) {
-
+	// arrow
 	const a_x = b_x - (b_x - f_x) / 3
 	const a_t = f_y - barRadius / 4
 	const a_b = f_y + barRadius / 4
