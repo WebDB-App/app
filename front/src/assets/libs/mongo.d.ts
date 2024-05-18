@@ -345,6 +345,20 @@ export declare class AggregationCursor<TSchema = any> extends AbstractCursor<TSc
 	/* Excluded from this release type: _initialize */
 	/** Execute the explain for the cursor */
 	explain(verbosity?: ExplainVerbosityLike): Promise<Document>;
+	/** Add a stage to the aggregation pipeline
+	 * @example
+	 * ```
+	 * const documents = await users.aggregate().addStage({ $match: { name: /Mike/ } }).toArray();
+	 * ```
+	 * @example
+	 * ```
+	 * const documents = await users.aggregate()
+	 *   .addStage<{ name: string }>({ $project: { name: true } })
+	 *   .toArray(); // type of documents is { name: string }[]
+	 * ```
+	 */
+	addStage(stage: Document): this;
+	addStage<T = Document>(stage: Document): AggregationCursor<T>;
 	/** Add a group stage to the aggregation pipeline */
 	group<T = TSchema>($group: Document): AggregationCursor<T>;
 	/** Add a limit stage to the aggregation pipeline */
@@ -994,7 +1008,7 @@ export declare class ChangeStream<TSchema extends Document = Document, TChange e
 /**
  * Only present when the `showExpandedEvents` flag is enabled.
  * @public
- * @see https://www.mongodb.com/docs/manual/reference/change-events/
+ * @see https://www.mongodb.com/docs/manual/reference/change-events/modify/#mongodb-data-modify
  */
 export declare interface ChangeStreamCollModDocument extends ChangeStreamDocumentCommon, ChangeStreamDocumentCollectionUUID {
 	/** Describes the type of operation represented in this change notification */
@@ -1002,7 +1016,7 @@ export declare interface ChangeStreamCollModDocument extends ChangeStreamDocumen
 }
 /**
  * @public
- * @see https://www.mongodb.com/docs/manual/reference/change-events/
+ * @see https://www.mongodb.com/docs/manual/reference/change-events/create/#mongodb-data-create
  */
 export declare interface ChangeStreamCreateDocument extends ChangeStreamDocumentCommon, ChangeStreamDocumentCollectionUUID {
 	/** Describes the type of operation represented in this change notification */
@@ -1011,7 +1025,7 @@ export declare interface ChangeStreamCreateDocument extends ChangeStreamDocument
 /**
  * Only present when the `showExpandedEvents` flag is enabled.
  * @public
- * @see https://www.mongodb.com/docs/manual/reference/change-events/
+ * @see https://www.mongodb.com/docs/manual/reference/change-events/createIndexes/#mongodb-data-createIndexes
  */
 export declare interface ChangeStreamCreateIndexDocument extends ChangeStreamDocumentCommon, ChangeStreamDocumentCollectionUUID, ChangeStreamDocumentOperationDescription {
 	/** Describes the type of operation represented in this change notification */
@@ -1135,7 +1149,7 @@ export declare interface ChangeStreamDropDocument extends ChangeStreamDocumentCo
 /**
  * Only present when the `showExpandedEvents` flag is enabled.
  * @public
- * @see https://www.mongodb.com/docs/manual/reference/change-events/
+ * @see https://www.mongodb.com/docs/manual/reference/change-events/dropIndexes/#mongodb-data-dropIndexes
  */
 export declare interface ChangeStreamDropIndexDocument extends ChangeStreamDocumentCommon, ChangeStreamDocumentCollectionUUID, ChangeStreamDocumentOperationDescription {
 	/** Describes the type of operation represented in this change notification */
@@ -1244,7 +1258,7 @@ export declare interface ChangeStreamOptions extends Omit<AggregateOptions, "wri
 }
 /**
  * @public
- * @see https://www.mongodb.com/docs/manual/reference/change-events/
+ * @see https://www.mongodb.com/docs/manual/reference/change-events/refineCollectionShardKey/#mongodb-data-refineCollectionShardKey
  */
 export declare interface ChangeStreamRefineCollectionShardKeyDocument extends ChangeStreamDocumentCommon, ChangeStreamDocumentCollectionUUID, ChangeStreamDocumentOperationDescription {
 	/** Describes the type of operation represented in this change notification */
@@ -1287,7 +1301,7 @@ export declare interface ChangeStreamReplaceDocument<TSchema extends Document = 
 }
 /**
  * @public
- * @see https://www.mongodb.com/docs/manual/reference/change-events/
+ * @see https://www.mongodb.com/docs/manual/reference/change-events/reshardCollection/#mongodb-data-reshardCollection
  */
 export declare interface ChangeStreamReshardCollectionDocument extends ChangeStreamDocumentCommon, ChangeStreamDocumentCollectionUUID, ChangeStreamDocumentOperationDescription {
 	/** Describes the type of operation represented in this change notification */
@@ -1295,7 +1309,7 @@ export declare interface ChangeStreamReshardCollectionDocument extends ChangeStr
 }
 /**
  * @public
- * @see https://www.mongodb.com/docs/manual/reference/change-events/
+ * @see https://www.mongodb.com/docs/manual/reference/change-events/shardCollection/#mongodb-data-shardCollection
  */
 export declare interface ChangeStreamShardCollectionDocument extends ChangeStreamDocumentCommon, ChangeStreamDocumentCollectionUUID, ChangeStreamDocumentOperationDescription {
 	/** Describes the type of operation represented in this change notification */
@@ -1835,6 +1849,7 @@ export declare class ClientSession extends TypedEventEmitter<ClientSessionEvents
 	/* Excluded from this release type: [kSnapshotEnabled] */
 	/* Excluded from this release type: [kPinnedConnection] */
 	/* Excluded from this release type: [kTxnNumberIncrement] */
+	/* Excluded from this release type: timeoutMS */
 	/* Excluded from this release type: __constructor */
 	/** The server id associated with this session */
 	get id(): ServerSessionId | undefined;
@@ -1902,17 +1917,25 @@ export declare class ClientSession extends TypedEventEmitter<ClientSessionEvents
 	/**
 	 * Starts a transaction and runs a provided function, ensuring the commitTransaction is always attempted when all operations run in the function have completed.
 	 *
-	 * **IMPORTANT:** This method requires the user to return a Promise, and `await` all operations.
+	 * **IMPORTANT:** This method requires the function passed in to return a Promise. That promise must be made by `await`-ing all operations in such a way that rejections are propagated to the returned promise.
 	 *
 	 * @remarks
-	 * This function:
-	 * - If all operations successfully complete and the `commitTransaction` operation is successful, then this function will return the result of the provided function.
-	 * - If the transaction is unable to complete or an error is thrown from within the provided function, then this function will throw an error.
+	 * - If all operations successfully complete and the `commitTransaction` operation is successful, then the provided function will return the result of the provided function.
+	 * - If the transaction is unable to complete or an error is thrown from within the provided function, then the provided function will throw an error.
 	 *   - If the transaction is manually aborted within the provided function it will not throw.
-	 * - May be called multiple times if the driver needs to attempt to retry the operations.
+	 * - If the driver needs to attempt to retry the operations, the provided function may be called multiple times.
 	 *
 	 * Checkout a descriptive example here:
 	 * @see https://www.mongodb.com/blog/post/quick-start-nodejs--mongodb--how-to-implement-transactions
+	 *
+	 * If a command inside withTransaction fails:
+	 * - It may cause the transaction on the server to be aborted.
+	 * - This situation is normally handled transparently by the driver.
+	 * - However, if the application catches such an error and does not rethrow it, the driver will not be able to determine whether the transaction was aborted or not.
+	 * - The driver will then retry the transaction indefinitely.
+	 *
+	 * To avoid this situation, the application must not silently handle errors within the provided function.
+	 * If the application needs to handle errors within, it must await all operations such that if an operation is rejected it becomes the rejection of the callback function passed into withTransaction.
 	 *
 	 * @param fn - callback to run within a transaction
 	 * @param options - optional settings for the transaction
@@ -1950,10 +1973,16 @@ export declare interface ClusteredCollectionOptions extends Document {
 	key: Document;
 	unique: boolean;
 }
-/** @public */
+/**
+ * @public
+ * Gossiped in component for the cluster time tracking the state of user databases
+ * across the cluster. It may optionally include a signature identifying the process that
+ * generated such a value.
+ */
 export declare interface ClusterTime {
 	clusterTime: Timestamp;
-	signature: {
+	/** Used to validate the identity of a request or response's ClusterTime. */
+	signature?: {
 		hash: Binary;
 		keyId: Long;
 	};
@@ -2250,13 +2279,20 @@ export declare class Collection<TSchema extends Document = Document> {
 	 * @param indexes - One or more index names to check.
 	 * @param options - Optional settings for the command
 	 */
-	indexExists(indexes: string | string[], options?: IndexInformationOptions): Promise<boolean>;
+	indexExists(indexes: string | string[], options?: ListIndexesOptions): Promise<boolean>;
 	/**
 	 * Retrieves this collections index info.
 	 *
 	 * @param options - Optional settings for the command
 	 */
-	indexInformation(options?: IndexInformationOptions): Promise<Document>;
+	indexInformation(options: IndexInformationOptions & {
+		full: true;
+	}): Promise<IndexDescriptionInfo[]>;
+	indexInformation(options: IndexInformationOptions & {
+		full?: false;
+	}): Promise<IndexDescriptionCompact>;
+	indexInformation(options: IndexInformationOptions): Promise<IndexDescriptionCompact | IndexDescriptionInfo[]>;
+	indexInformation(): Promise<IndexDescriptionCompact>;
 	/**
 	 * Gets an estimate of the count of documents in a collection using collection metadata.
 	 * This will always run a count command on all server versions.
@@ -2315,7 +2351,14 @@ export declare class Collection<TSchema extends Document = Document> {
 	 *
 	 * @param options - Optional settings for the command
 	 */
-	indexes(options?: IndexInformationOptions): Promise<Document[]>;
+	indexes(options: IndexInformationOptions & {
+		full?: true;
+	}): Promise<IndexDescriptionInfo[]>;
+	indexes(options: IndexInformationOptions & {
+		full: false;
+	}): Promise<IndexDescriptionCompact>;
+	indexes(options: IndexInformationOptions): Promise<IndexDescriptionCompact | IndexDescriptionInfo[]>;
+	indexes(options?: ListIndexesOptions): Promise<IndexDescriptionInfo[]>;
 	/**
 	 * Find a document and delete it in one atomic operation. Requires a write lock for the duration of the operation.
 	 *
@@ -2921,6 +2964,7 @@ export declare const CURSOR_FLAGS: readonly [
 ];
 /** @public */
 export declare type CursorFlag = (typeof CURSOR_FLAGS)[number];
+/* Excluded from this release type: CursorResponse */
 /** @public */
 export declare interface CursorStreamOptions {
 	/** A transformation method applied to each document emitted by the stream */
@@ -3133,7 +3177,14 @@ export declare class Db {
 	 * @param name - The name of the collection.
 	 * @param options - Optional settings for the command
 	 */
-	indexInformation(name: string, options?: IndexInformationOptions): Promise<Document>;
+	indexInformation(name: string, options: IndexInformationOptions & {
+		full: true;
+	}): Promise<IndexDescriptionInfo[]>;
+	indexInformation(name: string, options: IndexInformationOptions & {
+		full?: false;
+	}): Promise<IndexDescriptionCompact>;
+	indexInformation(name: string, options: IndexInformationOptions): Promise<IndexDescriptionCompact | IndexDescriptionInfo[]>;
+	indexInformation(name: string): Promise<IndexDescriptionCompact>;
 	/**
 	 * Create a new Change Stream, watching for new changes (insertions, updates,
 	 * replacements, deletions, and invalidations) in this database. Will ignore all
@@ -3978,12 +4029,43 @@ export declare interface IndexDescription extends Pick<CreateIndexesOptions, "ba
 	} | Map<string, IndexDirection>;
 }
 /** @public */
+export declare type IndexDescriptionCompact = Record<string, [
+	name: string,
+	direction: IndexDirection
+][]>;
+/**
+ * @public
+ * The index information returned by the listIndexes command. https://www.mongodb.com/docs/manual/reference/command/listIndexes/#mongodb-dbcommand-dbcmd.listIndexes
+ */
+export declare type IndexDescriptionInfo = Omit<IndexDescription, "key" | "version"> & {
+	key: {
+		[key: string]: IndexDirection;
+	};
+	v?: IndexDescription["version"];
+} & Document;
+/** @public */
 export declare type IndexDirection = -1 | 1 | "2d" | "2dsphere" | "text" | "geoHaystack" | "hashed" | number;
 /** @public */
-export declare interface IndexInformationOptions {
+export declare interface IndexInformationOptions extends ListIndexesOptions {
+	/**
+	 * When `true`, an array of index descriptions is returned.
+	 * When `false`, the driver returns an object that with keys corresponding to index names with values
+	 * corresponding to the entries of the indexes' key.
+	 *
+	 * For example, the given the following indexes:
+	 * ```
+	 * [ { name: 'a_1', key: { a: 1 } }, { name: 'b_1_c_1' , key: { b: 1, c: 1 } }]
+	 * ```
+	 *
+	 * When `full` is `true`, the above array is returned.  When `full` is `false`, the following is returned:
+	 * ```
+	 * {
+	 *   'a_1': [['a', 1]],
+	 *   'b_1_c_1': [['b', 1], ['c', 1]],
+	 * }
+	 * ```
+	 */
 	full?: boolean;
-	readPreference?: ReadPreference;
-	session?: ClientSession;
 }
 /** @public */
 export declare type IndexSpecification = OneOrMore<string | [
@@ -4044,6 +4126,7 @@ export declare type Join<T extends unknown[], D extends string> = T extends [
 	string | number,
 	...infer R
 ] ? `${T[0]}${D}${Join<R, D>}` : string;
+/* Excluded from this release type: JSTypeOf */
 /* Excluded from this release type: kBeforeHandshake */
 /* Excluded from this release type: kBuiltOptions */
 /* Excluded from this release type: kCancellationToken */
@@ -4186,7 +4269,6 @@ export declare interface KMSProviders {
 /* Excluded from this release type: kPipeline */
 /* Excluded from this release type: kPoolState */
 /* Excluded from this release type: kProcessingWaitQueue */
-/* Excluded from this release type: kRoundTripTime */
 /* Excluded from this release type: kServer */
 /* Excluded from this release type: kServer_2 */
 /* Excluded from this release type: kServer_3 */
@@ -4274,17 +4356,14 @@ export declare class ListIndexesCursor extends AbstractCursor {
 	clone(): ListIndexesCursor;
 }
 /** @public */
-export declare interface ListIndexesOptions extends Omit<CommandOperationOptions, "writeConcern"> {
-	/** The batchSize for the returned command cursor or if pre 2.8 the systems batch collection */
-	batchSize?: number;
-}
+export declare type ListIndexesOptions = AbstractCursorOptions;
 /** @public */
 export declare class ListSearchIndexesCursor extends AggregationCursor<{
 	name: string;
 }> {
 }
 /** @public */
-export declare type ListSearchIndexesOptions = AggregateOptions;
+export declare type ListSearchIndexesOptions = Omit<AggregateOptions, "readConcern" | "writeConcern">;
 /** @public */
 export declare type MatchKeysAndValues<TSchema> = Readonly<Partial<TSchema>> & Record<string, any>;
 /** @public */
@@ -4367,7 +4446,9 @@ export declare class MongoAWSError extends MongoRuntimeError {
 	 *
 	 * @public
 	 **/
-	constructor(message: string);
+	constructor(message: string, options?: {
+		cause?: Error;
+	});
 	get name(): string;
 }
 /**
@@ -4981,6 +5062,8 @@ export declare class MongoDBNamespace {
 	withCollection(collection: string): MongoDBCollectionNamespace;
 	static fromString(namespace?: string): MongoDBNamespace;
 }
+/* Excluded from this release type: MongoDBResponse */
+/* Excluded from this release type: MongoDBResponseConstructor */
 /**
  * An error generated when the driver fails to decompress
  * data received from the server.
@@ -5230,6 +5313,9 @@ export declare class MongoMissingCredentialsError extends MongoAPIError {
  * @category Error
  */
 export declare class MongoMissingDependencyError extends MongoAPIError {
+	dependencyName: string;
+	/** @remarks This property is assigned in the `Error` constructor. */
+	cause: Error;
 	/**
 	 * **Do not use this constructor!**
 	 *
@@ -5241,8 +5327,9 @@ export declare class MongoMissingDependencyError extends MongoAPIError {
 	 *
 	 * @public
 	 **/
-	constructor(message: string, options?: {
-		cause?: Error;
+	constructor(message: string, options: {
+		cause: Error;
+		dependencyName: string;
 	});
 	get name(): string;
 }
@@ -5774,10 +5861,11 @@ export declare type OIDCRefreshFunction = (info: IdPServerInfo, context: OIDCCal
  * @experimental
  */
 export declare type OIDCRequestFunction = (info: IdPServerInfo, context: OIDCCallbackContext) => Promise<IdPServerResponse>;
+/* Excluded from this release type: OnDemandDocument */
 /** @public */
 export declare type OneOrMore<T> = T | ReadonlyArray<T>;
 /** @public */
-export declare type OnlyFieldsOfType<TSchema, FieldType = any, AssignableType = FieldType> = IsAny<TSchema[keyof TSchema], Record<string, FieldType>, AcceptedFields<TSchema, FieldType, AssignableType> & NotAcceptedFields<TSchema, FieldType> & Record<string, AssignableType>>;
+export declare type OnlyFieldsOfType<TSchema, FieldType = any, AssignableType = FieldType> = IsAny<TSchema[keyof TSchema], AssignableType extends FieldType ? Record<string, FieldType> : Record<string, AssignableType>, AcceptedFields<TSchema, FieldType, AssignableType> & NotAcceptedFields<TSchema, FieldType> & Record<string, AssignableType>>;
 /* Excluded from this release type: OpCompressedRequest */
 /** @public */
 export declare interface OperationOptions extends BSONSerializeOptions {
@@ -5801,8 +5889,7 @@ export declare type OperationTime = Timestamp;
 /* Excluded from this release type: OpMsgResponse */
 /* Excluded from this release type: OpQueryOptions */
 /* Excluded from this release type: OpQueryRequest */
-/* Excluded from this release type: OpQueryResponse */
-/* Excluded from this release type: OpResponseOptions */
+/* Excluded from this release type: OpReply */
 /**
  * Add an optional _id field to an object shaped type
  * @public
@@ -6104,6 +6191,7 @@ export declare interface RootFilterOperators<TSchema> extends Document {
 }
 /* Excluded from this release type: RTTPinger */
 /* Excluded from this release type: RTTPingerOptions */
+/* Excluded from this release type: RTTSampler */
 /** @public */
 export declare class RunCommandCursor extends AbstractCursor {
 	readonly command: Readonly<Record<string, any>>;
@@ -6159,11 +6247,13 @@ export declare type SchemaMember<T, V> = {
 /**
  * @public
  */
-export declare interface SearchIndexDescription {
+export declare interface SearchIndexDescription extends Document {
 	/** The name of the index. */
 	name?: string;
 	/** The index definition. */
 	definition: Document;
+	/** The type of the index.  Currently `search` or `vectorSearch` are supported. */
+	type?: string;
 }
 /** @public */
 export declare interface SelectServerOptions {
@@ -6240,6 +6330,8 @@ export declare class ServerDescription {
 	minWireVersion: number;
 	maxWireVersion: number;
 	roundTripTime: number;
+	/** The minimum measurement of the last 10 measurements of roundTripTime that have been collected */
+	minRoundTripTime: number;
 	lastUpdateTime: number;
 	lastWriteDate: number;
 	me: string | null;
@@ -6527,7 +6619,7 @@ export declare type SupportedTLSSocketOptions = Pick<TLSSocketOptions, Extract<k
 export declare type TagSet = {
 	[key: string]: string;
 };
-/* Excluded from this release type: TimeoutController */
+/* Excluded from this release type: Timeout */
 /* Excluded from this release type: TimerQueue */
 /** @public
  * Configuration options for timeseries collections
@@ -6576,7 +6668,7 @@ export declare class TopologyDescription {
 	constructor(topologyType: TopologyType, serverDescriptions?: Map<string, ServerDescription> | null, setName?: string | null, maxSetVersion?: number | null, maxElectionId?: ObjectId | null, commonWireVersion?: number | null, options?: TopologyDescriptionOptions | null);
 	/* Excluded from this release type: updateFromSrvPollingEvent */
 	/* Excluded from this release type: update */
-	get error(): MongoServerError | null;
+	get error(): MongoError | null;
 	/**
 	 * Determines if the topology description has any known servers
 	 */
@@ -6585,6 +6677,14 @@ export declare class TopologyDescription {
 	 * Determines if this topology description has a data-bearing server available.
 	 */
 	get hasDataBearingServers(): boolean;
+	/* Excluded from this release type: hasServer */
+	/**
+	 * Returns a JSON-serializable representation of the TopologyDescription.  This is primarily
+	 * intended for use with JSON.stringify().
+	 *
+	 * This method will not throw.
+	 */
+	toJSON(): Document;
 }
 /**
  * Emitted when topology description changes.
