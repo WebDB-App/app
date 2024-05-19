@@ -1,8 +1,9 @@
 stages:
     - test
     - prepare
-    - release
+    - build
     - compatibility
+    - release
 
 
 #-----------------------------------------
@@ -75,12 +76,12 @@ clean:
 #-----------------------------------------
 
 
-docker:
+build:
     <<: *common
     <<: *make_app
     dependencies:
         - prepare
-    stage: release
+    stage: build
     image: docker:latest
     variables:
         IMAGE_NAME: webdb/app
@@ -89,12 +90,7 @@ docker:
         - cd back
         - docker login -u 'aleluff' -p $DOCKER_PASS
         - docker buildx create --use
-        - >
-            if [ "$CI_COMMIT_REF_NAME" == "main" ]; then
-                docker buildx build --cache-from $IMAGE_NAME:$CI_COMMIT_REF_NAME --platform linux/arm64,linux/amd64 --sbom=true --provenance=true -t $IMAGE_NAME:$CI_COMMIT_REF_NAME -t $IMAGE_NAME:$TAG -t $IMAGE_NAME --push .
-            else
-                docker buildx build --cache-from $IMAGE_NAME:$CI_COMMIT_REF_NAME --platform linux/arm64,linux/amd64 --sbom=true --provenance=true -t $IMAGE_NAME:$CI_COMMIT_REF_NAME --push .
-            fi
+        - docker buildx build --cache-from $IMAGE_NAME:$CI_COMMIT_REF_NAME --platform linux/arm64,linux/amd64 --sbom=true --provenance=true -t $IMAGE_NAME:$CI_PIPELINE_ID --push .
         - docker rm -f $(docker ps -a -q --filter ancestor=moby/buildkit:buildx-stable-1)
 
 
@@ -113,7 +109,30 @@ compatibility:
         - npm install --prod --frozen-lockfile
         - npm run test:app
         - npm run test:docker || echo
+        - npm run fail:junit
     artifacts:
         expire_in: never
         paths:
             - ./compatibility/report.xml
+
+
+#-----------------------------------------
+
+
+release:
+    <<: *common
+    dependencies:
+        - compatibility
+    stage: release
+    image: docker:latest
+    variables:
+        IMAGE_NAME: webdb/app
+    script:
+        - docker login -u 'aleluff' -p $DOCKER_PASS
+        - docker tag $IMAGE_NAME:$CI_COMMIT_REF_NAME $IMAGE_NAME:$CI_PIPELINE_ID
+        - >
+            if [ "$CI_COMMIT_REF_NAME" == "main" ]; then
+                docker tag $IMAGE_NAME:$TAG $IMAGE_NAME:$CI_PIPELINE_ID
+                docker tag $IMAGE_NAME:latest $IMAGE_NAME:$CI_PIPELINE_ID
+            fi
+        - docker push $IMAGE_NAME:$CI_PIPELINE_ID
