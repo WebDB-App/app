@@ -121,6 +121,7 @@ compatibility:
 
 release:
     <<: *common
+    <<: *make_app
     dependencies:
         - compatibility
     stage: release
@@ -129,6 +130,7 @@ release:
         IMAGE_NAME: webdb/app
     script:
         - docker login -u 'aleluff' -p $DOCKER_PASS
+        - docker pull $IMAGE_NAME:$CI_PIPELINE_ID
         - docker tag $IMAGE_NAME:$CI_COMMIT_REF_NAME $IMAGE_NAME:$CI_PIPELINE_ID
         - >
             if [ "$CI_COMMIT_REF_NAME" == "main" ]; then
