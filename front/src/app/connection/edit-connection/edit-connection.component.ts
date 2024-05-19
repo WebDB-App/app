@@ -51,7 +51,11 @@ export class EditConnectionComponent implements OnChanges {
 	}
 
 	saveParams() {
-		this.server.params = JSON.parse(this.params);
+		try {
+			this.server.params = JSON.parse(this.params);
+		} catch (e) {
+			console.error(e);
+		}
 	}
 
 	useDefault() {

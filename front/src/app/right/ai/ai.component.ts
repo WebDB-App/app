@@ -234,7 +234,9 @@ export class AiComponent implements OnInit, OnDestroy {
 				resolve(true);
 			}));
 		}
-		await Promise.any(promises);
+		if (promises.length) {
+			await Promise.any(promises);
+		}
 		if (snack) {
 			this.snackBar.open("Settings saved", "⨉", {duration: 3000});
 		}
