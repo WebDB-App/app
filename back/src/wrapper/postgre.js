@@ -479,11 +479,11 @@ ${def[0]["pg_get_viewdef"]}`
 				let [schemas, tables, columns] = await Promise.all([
 					this.runCommand("SELECT * FROM information_schema.schemata", db.datname),
 					this.runCommand("SELECT table_schema, table_name, table_type FROM information_schema.tables", db.datname),
-					(full ? this.runCommand("SELECT table_schema, table_name, column_name, character_maximum_length, ordinal_position, column_default, is_nullable, udt_name::regtype as data_type FROM information_schema.columns ORDER BY ordinal_position", db.datname) : undefined)
+					(full ? this.runCommand("SELECT table_schema, table_name, column_name, character_maximum_length, ordinal_position, column_default, is_nullable, udt_name, data_type FROM information_schema.columns ORDER BY ordinal_position", db.datname) : undefined)
 				]);
 
 				if (!Array.isArray(schemas)) {
-					console.error(`Can't read schemas of ${db.datname}`);
+					console.error(`Problem retrieving schemas of ${db.datname}`);
 					return resolve();
 				}
 
@@ -494,6 +494,11 @@ ${def[0]["pg_get_viewdef"]}`
 						collation: db.datcollate,
 						tables: {}
 					};
+
+					if (!Array.isArray(tables)) {
+						console.error(`Problem retrieving tables of ${dbPath}`);
+						continue;
+					}
 
 					for (const table of tables) {
 						if (table.table_schema !== schema.schema_name) {
@@ -508,10 +513,25 @@ ${def[0]["pg_get_viewdef"]}`
 							continue;
 						}
 
+						if (!Array.isArray(columns)) {
+							console.error(`Problem retrieving columns of ${table.table_name}`);
+							continue;
+						}
+
 						for (const column of columns) {
 							if (column.table_schema !== schema.schema_name ||
 								column.table_name !== table.table_name) {
 								continue;
+							}
+
+							if (column.data_type === "ARRAY") {
+								if (column.udt_name.startsWith("_")) {
+									column.data_type = column.udt_name.slice(1) + "[]";
+								} else {
+									column.data_type = column.udt_name;
+								}
+							} else if (column.data_type === "USER-DEFINED") {
+								column.data_type = column.udt_name;
 							}
 
 							if (Number.isInteger(column.character_maximum_length)) {

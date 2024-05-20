@@ -1,7 +1,7 @@
 - tester tout les default + extra + postgre
 - bug time machine
 - finir complex edit
-- Ms sql a la place de cassandra
+- Ms sql
 
 
 # Advanced auth

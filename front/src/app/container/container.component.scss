@@ -30,6 +30,7 @@ mat-drawer {
 #server {
 	display: flex;
 	align-items: center;
+	padding-left: 20px;
 
 	> div {
 		font-weight: 400;
@@ -37,7 +38,7 @@ mat-drawer {
 
 		span {
 			vertical-align: middle;
-			margin: 0px 10px;
+			margin-left: 4x;
 		}
 	}
 }
