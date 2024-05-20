@@ -1,6 +1,5 @@
-- tester tout les default + extra + postgre
-- bug time machine
 - finir complex edit
+- tester tout les default + extra + postgre
 - Ms sql
 
 

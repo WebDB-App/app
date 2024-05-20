@@ -96,13 +96,15 @@ class Version {
 
 		const git = simpleGit(dir);
 
-		const commits = await git.log(["--max-count=200"]);
-		return commits.all.slice(1).map(commit => {
-			return {
-				time: commit.message,
-				hash: commit.hash,
-			};
-		});
+		const finals = [];
+		const tmp = (await git.log(["--max-count=200"])).all;
+		for (let i = 0; i < tmp.length - 1; i++) {
+			finals.push({
+				time: tmp[i].message,
+				hash: tmp[i + 1].hash,
+			});
+		}
+		return finals;
 	}
 
 	async saveChanges(database, driver) {
