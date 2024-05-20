@@ -20,7 +20,7 @@ stages:
         -   changes:
                 - front/**/*
                 - back/**/*
-            when: manual
+            when: on_success
     before_script:
         - export TAG=$(date '+%Y.%m.%d')
         - printenv
