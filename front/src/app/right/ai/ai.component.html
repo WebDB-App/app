@@ -199,11 +199,14 @@
 								matInput>
 						</mat-form-field>
 						<mat-error *ngIf="!goodGemini()">
-							Bad key format
+							Key doesn't work
+						</mat-error>
+						<mat-error *ngIf="config.gemini && models[Provider.gemini] && models[Provider.gemini].length < 1">
+							Models cannot be retrieved
 						</mat-error>
 					</div>
 					<div>
-						<a href="https://platform.openai.com/account"
+						<a href="https://platform.openai.com/api-keys"
 						   mat-button
 						   target="_blank">
 							<mat-icon style="width: 70px" svgIcon="openai"></mat-icon>
@@ -218,6 +221,9 @@
 						</mat-form-field>
 						<mat-error *ngIf="!goodOpenAIKey()">
 							Bad key format
+						</mat-error>
+						<mat-error *ngIf="config.openAI && models[Provider.openai] && models[Provider.openai].length < 1">
+							Models cannot be retrieved
 						</mat-error>
 					</div>
 					<div>
@@ -237,6 +243,9 @@
 						<mat-error *ngIf="!goodTogetherKey()">
 							Bad key format
 						</mat-error>
+						<mat-error *ngIf="config.together && models[Provider.together] && models[Provider.together].length < 1">
+							Models cannot be retrieved
+						</mat-error>
 					</div>
 					<div>
 						<a href="https://console.groq.com/keys"
@@ -254,6 +263,9 @@
 						</mat-form-field>
 						<mat-error *ngIf="!goodGorqKey()">
 							Bad key format
+						</mat-error>
+						<mat-error *ngIf="config.gorq && models[Provider.gorq] && models[Provider.gorq].length < 1">
+							Models cannot be retrieved
 						</mat-error>
 					</div>
 				</div>

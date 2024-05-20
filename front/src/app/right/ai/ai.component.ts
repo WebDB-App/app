@@ -13,6 +13,7 @@ import { Table } from "../../../classes/table";
 import { Router } from "@angular/router";
 import { ChatCompletionCreateParamsStreaming } from "openai/src/resources/chat";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import Model = OpenAI.Model;
 
 const localKeyConfig = 'ia-config';
 
@@ -184,38 +185,44 @@ export class AiComponent implements OnInit, OnDestroy {
 		const promises = [];
 
 		if (this.config.openAI) {
-			promises.push(new Promise(resolve => {
+			promises.push(new Promise(async resolve => {
 				this.openai = new OpenAI({
 					apiKey: this.config.openAI,
 					dangerouslyAllowBrowser: true
 				});
+				const list: Model[] = await new Promise(resolve1 => {
+					this.openai!.models.list().then(models => resolve1(models.data)).catch(() => resolve1([]));
+				});
 				this.models[Provider.openai] = [];
-				this.openai!.models.list().then(models => {
-					models.data.map(model => {
+				if (list) {
+					list.map(model => {
 						if (model.id.startsWith('gpt-')) {
 							this.models[Provider.openai].push({shortName: model.id, fullName: model.id});
 						}
 					});
 					this.models[Provider.openai].sort((a, b) => a.shortName?.toLowerCase().localeCompare(b.shortName?.toLowerCase()));
-					resolve(true);
-				});
+				}
+				resolve(true);
 			}));
 		}
 		if (this.config.gorq) {
-			promises.push(new Promise(resolve => {
+			promises.push(new Promise(async resolve => {
 				this.gorq = new OpenAI({
 					baseURL: "https://api.groq.com/openai/v1/",
 					apiKey: this.config.gorq,
 					dangerouslyAllowBrowser: true,
 				});
+				const list: Model[] = await new Promise(resolve1 => {
+					this.gorq!.models.list().then(models => resolve1(models.data)).catch(() => resolve1([]));
+				});
 				this.models[Provider.gorq] = [];
-				this.gorq!.models.list().then(models => {
-					models.data.map(model => {
+				if (list) {
+					list.map(model => {
 						this.models[Provider.gorq].push({shortName: model.id, fullName: model.id});
 					});
 					this.models[Provider.gorq].sort((a, b) => a.shortName?.toLowerCase().localeCompare(b.shortName?.toLowerCase()));
-					resolve(true);
-				});
+				}
+				resolve(true);
 			}));
 		}
 		if (this.config.together) {
@@ -225,10 +232,13 @@ export class AiComponent implements OnInit, OnDestroy {
 			}));
 		}
 		if (this.config.gemini) {
+			this.models[Provider.gemini] = [];
+
 			promises.push(new Promise(resolve => {
 				this.gemini = new GoogleGenerativeAI(this.config.gemini);
 				this.models[Provider.gemini] = [
 					{shortName: "gemini-1.0-pro", fullName: "gemini-1.0-pro"},
+					{shortName: "gemini-1.5-flash-latest", fullName: "gemini-1.5-flash-latest"},
 					{shortName: "gemini-1.5-pro-latest", fullName: "gemini-1.5-pro-latest"},
 				];
 				resolve(true);
@@ -467,7 +477,7 @@ export class AiComponent implements OnInit, OnDestroy {
 		if (!this.config.openAI) {
 			return true;
 		}
-		return !!this.config.openAI.match(/^sk-[a-zA-Z0-9]{32,}$/);
+		return !!this.config.openAI.match(/^sk-[a-zA-Z0-9-]{32,}$/);
 	}
 
 	goodGemini() {
@@ -500,4 +510,6 @@ export class AiComponent implements OnInit, OnDestroy {
 			message.value = '';
 		}, 10);
 	}
+
+	protected readonly Provider = Provider;
 }

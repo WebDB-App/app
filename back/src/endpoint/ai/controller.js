@@ -5,14 +5,19 @@ class Controller {
 	async togetherModels(req, res) {
 		const finals = [];
 
+		const controller = new AbortController();
+		const timeoutId = setTimeout(() => controller.abort(), 2000);
+
 		try {
 			const stream = await fetch("https://api.together.xyz/api/models", {
 				method: "GET",
+				signal: controller.signal,
 				headers: {
 					"content-type": "application/json",
 					authorization: "Bearer " + req.body.key
 				},
 			});
+			clearTimeout(timeoutId);
 			let models = await stream.json();
 
 			models = models.map(model => {
