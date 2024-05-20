@@ -1,4 +1,4 @@
-- finir complex edit
+- finir complex edit (enum postgre)
 - tester tout les default + extra + postgre
 - Ms sql
 
