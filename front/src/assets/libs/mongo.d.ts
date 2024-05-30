@@ -478,7 +478,6 @@ export declare const AuthMechanism: Readonly<{
 	readonly MONGODB_SCRAM_SHA1: "SCRAM-SHA-1";
 	readonly MONGODB_SCRAM_SHA256: "SCRAM-SHA-256";
 	readonly MONGODB_X509: "MONGODB-X509";
-	/** @experimental */
 	readonly MONGODB_OIDC: "MONGODB-OIDC";
 }>;
 /** @public */
@@ -490,16 +489,16 @@ export declare interface AuthMechanismProperties extends Document {
 	SERVICE_REALM?: string;
 	CANONICALIZE_HOST_NAME?: GSSAPICanonicalizationValue;
 	AWS_SESSION_TOKEN?: string;
-	/** @experimental */
-	REQUEST_TOKEN_CALLBACK?: OIDCRequestFunction;
-	/** @experimental */
-	REFRESH_TOKEN_CALLBACK?: OIDCRefreshFunction;
-	/** @experimental */
-	PROVIDER_NAME?: "aws" | "azure";
-	/** @experimental */
+	/** A user provided OIDC machine callback function. */
+	OIDC_CALLBACK?: OIDCCallbackFunction;
+	/** A user provided OIDC human interacted callback function. */
+	OIDC_HUMAN_CALLBACK?: OIDCCallbackFunction;
+	/** The OIDC environment. Note that 'test' is for internal use only. */
+	ENVIRONMENT?: "test" | "azure" | "gcp";
+	/** Allowed hosts that OIDC auth can connect to. */
 	ALLOWED_HOSTS?: string[];
-	/** @experimental */
-	TOKEN_AUDIENCE?: string;
+	/** The resource token for OIDC auth in Azure and GCP. */
+	TOKEN_RESOURCE?: string;
 }
 /* Excluded from this release type: AuthProvider */
 /* Excluded from this release type: AutoEncrypter */
@@ -1899,6 +1898,11 @@ export declare class ClientSession extends TypedEventEmitter<ClientSessionEvents
 	/**
 	 * Starts a new transaction with the given options.
 	 *
+	 * @remarks
+	 * **IMPORTANT**: Running operations in parallel is not supported during a transaction. The use of `Promise.all`,
+	 * `Promise.allSettled`, `Promise.race`, etc to parallelize operations inside a transaction is
+	 * undefined behaviour.
+	 *
 	 * @param options - Options for the transaction
 	 */
 	startTransaction(options?: TransactionOptions): void;
@@ -1918,6 +1922,11 @@ export declare class ClientSession extends TypedEventEmitter<ClientSessionEvents
 	 * Starts a transaction and runs a provided function, ensuring the commitTransaction is always attempted when all operations run in the function have completed.
 	 *
 	 * **IMPORTANT:** This method requires the function passed in to return a Promise. That promise must be made by `await`-ing all operations in such a way that rejections are propagated to the returned promise.
+	 *
+	 * **IMPORTANT:** Running operations in parallel is not supported during a transaction. The use of `Promise.all`,
+	 * `Promise.allSettled`, `Promise.race`, etc to parallelize operations inside a transaction is
+	 * undefined behaviour.
+	 *
 	 *
 	 * @remarks
 	 * - If all operations successfully complete and the `commitTransaction` operation is successful, then the provided function will return the result of the provided function.
@@ -4003,21 +4012,32 @@ export declare class HostAddress {
 	};
 }
 /**
+ * The information returned by the server on the IDP server.
  * @public
- * @experimental
  */
-export declare interface IdPServerInfo {
+export declare interface IdPInfo {
+	/**
+	 * A URL which describes the Authentication Server. This identifier should
+	 * be the iss of provided access tokens, and be viable for RFC8414 metadata
+	 * discovery and RFC9207 identification.
+	 */
 	issuer: string;
+	/** A unique client ID for this OIDC client. */
 	clientId: string;
+	/** A list of additional scopes to request from IdP. */
 	requestScopes?: string[];
 }
 /**
+ * The response from the IdP server with the access token and
+ * optional expiration time and refresh token.
  * @public
- * @experimental
  */
 export declare interface IdPServerResponse {
+	/** The OIDC access token. */
 	accessToken: string;
+	/** The time when the access token expires. For future use. */
 	expiresInSeconds?: number;
+	/** The refresh token, if applicable, to be used by the callback to request a new token from the issuer. */
 	refreshToken?: string;
 }
 /** @public */
@@ -4458,7 +4478,7 @@ export declare class MongoAWSError extends MongoRuntimeError {
  * @public
  * @category Error
  */
-export declare class MongoAzureError extends MongoRuntimeError {
+export declare class MongoAzureError extends MongoOIDCError {
 	/**
 	 * **Do not use this constructor!**
 	 *
@@ -5192,6 +5212,28 @@ export declare class MongoExpiredSessionError extends MongoAPIError {
 	get name(): string;
 }
 /**
+ * A error generated when the user attempts to authenticate
+ * via GCP, but fails.
+ *
+ * @public
+ * @category Error
+ */
+export declare class MongoGCPError extends MongoOIDCError {
+	/**
+	 * **Do not use this constructor!**
+	 *
+	 * Meant for internal use only.
+	 *
+	 * @remarks
+	 * This class is only meant to be constructed within the driver. This constructor is
+	 * not subject to semantic versioning compatibility guarantees and may change at any time.
+	 *
+	 * @public
+	 **/
+	constructor(message: string);
+	get name(): string;
+}
+/**
  * An error generated when a malformed or invalid chunk is
  * encountered when reading from a GridFSStream.
  *
@@ -5406,6 +5448,28 @@ export declare class MongoNotConnectedError extends MongoAPIError {
 	get name(): string;
 }
 /**
+ * A error generated when the user attempts to authenticate
+ * via OIDC callbacks, but fails.
+ *
+ * @public
+ * @category Error
+ */
+export declare class MongoOIDCError extends MongoRuntimeError {
+	/**
+	 * **Do not use this constructor!**
+	 *
+	 * Meant for internal use only.
+	 *
+	 * @remarks
+	 * This class is only meant to be constructed within the driver. This constructor is
+	 * not subject to semantic versioning compatibility guarantees and may change at any time.
+	 *
+	 * @public
+	 **/
+	constructor(message: string);
+	get name(): string;
+}
+/**
  * Parsed Mongo Client Options.
  *
  * User supplied options are documented by `MongoClientOptions`.
@@ -5440,6 +5504,7 @@ export declare interface MongoOptions extends Required<Pick<MongoClientOptions, 
 	metadata: ClientMetadata;
 	/* Excluded from this release type: extendedMetadata */
 	/* Excluded from this release type: autoEncrypter */
+	/* Excluded from this release type: tokenCache */
 	proxyHost?: string;
 	proxyPort?: number;
 	proxyUsername?: string;
@@ -5842,25 +5907,44 @@ export declare type NotAcceptedFields<TSchema, FieldType> = {
 /** @public */
 export declare type NumericType = IntegerType | Decimal128 | Double;
 /**
+ * The signature of the human or machine callback functions.
  * @public
- * @experimental
  */
-export declare interface OIDCCallbackContext {
+export declare type OIDCCallbackFunction = (params: OIDCCallbackParams) => Promise<OIDCResponse>;
+/**
+ * The parameters that the driver provides to the user supplied
+ * human or machine callback.
+ *
+ * The version number is used to communicate callback API changes that are not breaking but that
+ * users may want to know about and review their implementation. Users may wish to check the version
+ * number and throw an error if their expected version number and the one provided do not match.
+ * @public
+ */
+export declare interface OIDCCallbackParams {
+	/** Optional username. */
+	username?: string;
+	/** The context in which to timeout the OIDC callback. */
+	timeoutContext: AbortSignal;
+	/** The current OIDC API version. */
+	version: 1;
+	/** The IdP information returned from the server. */
+	idpInfo?: IdPInfo;
+	/** The refresh token, if applicable, to be used by the callback to request a new token from the issuer. */
 	refreshToken?: string;
-	timeoutSeconds?: number;
-	timeoutContext?: AbortSignal;
-	version: number;
 }
 /**
+ * The response required to be returned from the machine or
+ * human callback workflows' callback.
  * @public
- * @experimental
  */
-export declare type OIDCRefreshFunction = (info: IdPServerInfo, context: OIDCCallbackContext) => Promise<IdPServerResponse>;
-/**
- * @public
- * @experimental
- */
-export declare type OIDCRequestFunction = (info: IdPServerInfo, context: OIDCCallbackContext) => Promise<IdPServerResponse>;
+export declare interface OIDCResponse {
+	/** The OIDC access token. */
+	accessToken: string;
+	/** The time when the access token expires. For future use. */
+	expiresInSeconds?: number;
+	/** The refresh token, if applicable, to be used by the callback to request a new token from the issuer. */
+	refreshToken?: string;
+}
 /* Excluded from this release type: OnDemandDocument */
 /** @public */
 export declare type OneOrMore<T> = T | ReadonlyArray<T>;
@@ -6632,6 +6716,7 @@ export declare interface TimeSeriesCollectionOptions extends Document {
 	bucketMaxSpanSeconds?: number;
 	bucketRoundingSeconds?: number;
 }
+/* Excluded from this release type: TokenCache */
 /* Excluded from this release type: Topology */
 /* Excluded from this release type: TOPOLOGY_CLOSED */
 /* Excluded from this release type: TOPOLOGY_DESCRIPTION_CHANGED */
@@ -7006,6 +7091,7 @@ export declare type WithoutId<TSchema> = Omit<TSchema, "_id">;
 export declare type WithSessionCallback<T = unknown> = (session: ClientSession) => Promise<T>;
 /** @public */
 export declare type WithTransactionCallback<T = any> = (session: ClientSession) => Promise<T>;
+/* Excluded from this release type: Workflow */
 /**
  * A MongoDB WriteConcern, which describes the level of acknowledgement
  * requested from MongoDB for write operations.

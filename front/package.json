@@ -1,7 +1,7 @@
 {
 	"version": "PACKAGE_VERSION",
 	"scripts": {
-		"dev:front": "ng serve --host 0.0.0.0",
+		"dev:front": "ng serve --host 0.0.0.0 --disable-host-check",
 		"build": "ng build",
 		"updateLibs": "./extraLibs.sh",
 		"watch": "ng build --watch --configuration development"
