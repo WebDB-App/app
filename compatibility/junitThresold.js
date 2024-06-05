@@ -14,10 +14,10 @@ const getTestCoverage = (junitFilePath) => {
 const main = (junitFilePath) => {
 	const testCoverage = getTestCoverage(junitFilePath);
 	if (testCoverage < threshold) {
-		console.error(`Test coverage is ${testCoverage}%, which is below the minimum threshold of ${threshold}%.`);
+		console.error(`Test success is ${testCoverage}%, which is below the minimum threshold of ${threshold}%.`);
 		process.exit(1);
 	} else {
-		console.log(`Test coverage is ${testCoverage}%.`);
+		console.log(`Test success is ${testCoverage}%.`);
 	}
 };
 
