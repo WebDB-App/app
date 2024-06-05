@@ -12,6 +12,15 @@
 - ssl-mode: DISABLED PREFERRED REQUIRED VERIFY_CA VERIFY_IDENTITY
 
 
+# SQL editor
+- ast ?
+- SQL Window Functions
+- comprendre les columns retournées par les cte et subquery
+- function doc (generate from web scrap)
+- LLM on WebGPU ?
+- handle subquery and cte like table (propose column from)
+
+
 # Doc
 - nosql default column
 - dire que si la requete n'est pas un select, la reponse raw est affiché
@@ -35,15 +44,6 @@
 
 
 ----------------------------------------------------------------------
-
-
-# SQL editor
-- ast ?
-- SQL Window Functions
-- comprendre les columns retournées par les cte et subquery
-- function doc (generate from web scrap)
-- LLM on WebGPU ?
-- handle subquery and cte like table (propose column from)
 
 
 # Comparator
@@ -79,3 +79,7 @@
 - free: relation avec array: l427 mongodb.js: https://www.mongodb.com/docs/manual/reference/operator/aggregation/lookup/#use--lookup-with-an-array
 - option to full scan structure just one table like compass ET columns with array > 2 : harmonize to one of the type (attention deep) ET remove hidden harmonize btn
 - alter column: possibilité de update one object field
+
+
+# Multi inference provider interface
+- add perplexity and https://www.npmjs.com/package/@huggingface/inference to the list of 4

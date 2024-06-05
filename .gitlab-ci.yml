@@ -131,10 +131,11 @@ release:
     script:
         - docker login -u 'aleluff' -p $DOCKER_PASS
         - docker pull $IMAGE_NAME:$CI_PIPELINE_ID
-        - docker tag $IMAGE_NAME:$CI_PIPELINE_ID $CI_COMMIT_REF_NAME
+        - docker tag $IMAGE_NAME:$CI_PIPELINE_ID $CI_COMMIT_REF_NAME && docker push $IMAGE_NAME -a
         - >
             if [ "$CI_COMMIT_REF_NAME" == "main" ]; then
                 docker tag $IMAGE_NAME:$CI_PIPELINE_ID $TAG
+                docker push $IMAGE_NAME -a
                 docker tag $IMAGE_NAME:$CI_PIPELINE_ID latest
+                docker push $IMAGE_NAME -a
             fi
-        - docker push $IMAGE_NAME -a
