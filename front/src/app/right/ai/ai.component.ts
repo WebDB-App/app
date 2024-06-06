@@ -244,6 +244,7 @@ export class AiComponent implements OnInit, OnDestroy {
 				resolve(true);
 			}));
 		}
+
 		if (promises.length) {
 			await Promise.any(promises);
 		}
