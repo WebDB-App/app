@@ -182,7 +182,8 @@ export class AiComponent implements OnInit, OnDestroy {
 
 		localStorage.setItem(localKeyConfig, JSON.stringify(this.config));
 		this.models = {};
-		const promises = [];
+		const promises: Promise<any>[] = [];
+		console.log(promises);
 
 		if (this.config.openAI) {
 			promises.push(new Promise(async resolve => {
