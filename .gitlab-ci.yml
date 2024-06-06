@@ -130,11 +130,12 @@ release:
         IMAGE_NAME: webdb/app
     script:
         - docker login -u 'aleluff' -p $DOCKER_PASS
+        - docker rmi $(docker images -q $IMAGE_NAME)
         - docker pull $IMAGE_NAME:$CI_PIPELINE_ID
-        - docker image tag $IMAGE_NAME $IMAGE_NAME:$CI_COMMIT_REF_NAME
+        - docker image tag $IMAGE_NAME:$CI_PIPELINE_ID $IMAGE_NAME:$CI_COMMIT_REF_NAME
         - >
             if [ "$CI_COMMIT_REF_NAME" == "main" ]; then
-                docker image tag $IMAGE_NAME $IMAGE_NAME:$TAG
-                docker image tag $IMAGE_NAME $IMAGE_NAME:latest
+                docker image tag $IMAGE_NAME:$CI_PIPELINE_ID $IMAGE_NAME:$TAG
+                docker image tag $IMAGE_NAME:$CI_PIPELINE_ID $IMAGE_NAME
             fi
         - docker image push --all-tags $IMAGE_NAME
