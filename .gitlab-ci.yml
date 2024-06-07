@@ -88,10 +88,7 @@ build:
     script:
         - cp -fr ./front/dist/webdb/* ./back/static/
         - cd back
-        - docker login -u 'aleluff' -p $DOCKER_PASS
-        - docker buildx create --use
-        - docker buildx build --cache-from $IMAGE_NAME:$CI_COMMIT_REF_NAME --platform linux/arm64,linux/amd64 --sbom=true --provenance=true -t $IMAGE_NAME:$CI_PIPELINE_ID --push .
-        - docker rm -f $(docker ps -a -q --filter ancestor=moby/buildkit:buildx-stable-1)
+        - npm run docker:build
 
 
 #-----------------------------------------
@@ -130,12 +127,11 @@ release:
         IMAGE_NAME: webdb/app
     script:
         - docker login -u 'aleluff' -p $DOCKER_PASS
-        - docker rmi $(docker images -q $IMAGE_NAME)
-        - docker pull $IMAGE_NAME:$CI_PIPELINE_ID
-        - docker image tag $IMAGE_NAME:$CI_PIPELINE_ID $IMAGE_NAME:$CI_COMMIT_REF_NAME
+        - docker buildx create --use
         - >
             if [ "$CI_COMMIT_REF_NAME" == "main" ]; then
-                docker image tag $IMAGE_NAME:$CI_PIPELINE_ID $IMAGE_NAME:$TAG
-                docker image tag $IMAGE_NAME:$CI_PIPELINE_ID $IMAGE_NAME
+                docker buildx build --cache-from $IMAGE_NAME --platform linux/arm64,linux/amd64 --sbom=true --provenance=true -t $IMAGE_NAME:$CI_COMMIT_REF_NAME -t $IMAGE_NAME:$TAG -t $IMAGE_NAME --push .
+            else
+                docker buildx build --cache-from $IMAGE_NAME --platform linux/arm64,linux/amd64 --sbom=true --provenance=true -t $IMAGE_NAME:$CI_COMMIT_REF_NAME --push .
             fi
-        - docker image push --all-tags $IMAGE_NAME
+        - docker rm -f $(docker ps -a -q --filter ancestor=moby/buildkit:buildx-stable-1)
