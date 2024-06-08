@@ -400,29 +400,20 @@ export class AiComponent implements OnInit, OnDestroy {
 			}));
 		}
 
-		if (pEnum === ProviderEnum.openai) {
-			const stream = this.openai!.chat.completions.create(<ChatCompletionCreateParamsStreaming>body);
-			await askOpenAI(stream);
-		} else if (pEnum === ProviderEnum.gorq) {
-			const stream = this.gorq!.chat.completions.create(<ChatCompletionCreateParamsStreaming>body);
-			await askOpenAI(stream);
-		} else if (pEnum === ProviderEnum.huggingface) {
-			const stream = this.huggingface!.chat.completions.create(<ChatCompletionCreateParamsStreaming>body);
-			await askOpenAI(stream);
-		} else if (pEnum === ProviderEnum.together) {
+		const askNative = async (url: string, pEnum: string) => {
 			this.chat.push(await new Promise<Msg>(async resolve => {
 				const decoder = new TextDecoder();
 				const options = {
 					method: 'POST',
 					headers: {
 						'content-type': 'application/json',
-						authorization: 'Bearer ' + this.config[ProviderEnum.together]
+						authorization: 'Bearer ' + this.config[pEnum]
 					},
 					body: JSON.stringify(body)
 				};
 
 				try {
-					const stream = await fetch('https://api.together.xyz/api/inference', options);
+					const stream = await fetch(url, options);
 					const reader = stream.body!.getReader();
 					if (!stream.ok) {
 						throw decoder.decode((await reader.read()).value);
@@ -433,11 +424,16 @@ export class AiComponent implements OnInit, OnDestroy {
 						for (let chunk of decoder.decode(chunks).split('data: ')) {
 							try {
 								const msg = JSON.parse(chunk);
-								this.stream += msg.choices[0]?.text || '';
+								if (msg.choices && msg.choices[0]) {
+									this.stream += msg.choices[0]?.text || msg.choices[0]?.delta.content;
+								} else if (chunk) {
+									this.stream += chunk;
+								}
 								if (this.atBottom) {
 									scrollToBottom(this.scrollContainer);
 								}
 							} catch (e) {
+								//console.error(e);
 							}
 						}
 						if (this.abort) {
@@ -448,9 +444,21 @@ export class AiComponent implements OnInit, OnDestroy {
 
 					resolve(new Msg(this.stream!, Role.Assistant, false, body));
 				} catch (error: any) {
-					resolve(new Msg(error.error || `An error occurred during Together request: ` + error, Role.Assistant, true));
+					resolve(new Msg(error.error || `An error occurred during request: ` + error, Role.Assistant, true));
 				}
 			}));
+		}
+
+		if (pEnum === ProviderEnum.openai) {
+			const stream = this.openai!.chat.completions.create(<ChatCompletionCreateParamsStreaming>body);
+			await askOpenAI(stream);
+		} else if (pEnum === ProviderEnum.gorq) {
+			const stream = this.gorq!.chat.completions.create(<ChatCompletionCreateParamsStreaming>body);
+			await askOpenAI(stream);
+		} else if (pEnum === ProviderEnum.huggingface) {
+			await askNative(`https://api-inference.huggingface.co/models/${body.model}/v1/chat/completions`, ProviderEnum.huggingface);
+		} else if (pEnum === ProviderEnum.together) {
+			await askNative('https://api.together.xyz/api/inference', ProviderEnum.together);
 		} else if (pEnum === ProviderEnum.gemini) {
 			const model = this.gemini!.getGenerativeModel({
 				model: this.config.model,

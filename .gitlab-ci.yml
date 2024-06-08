@@ -31,7 +31,6 @@ stages:
         - >
             if [ "$CI_COMMIT_REF_NAME" == "main" ]; then
                 docker buildx build \
-                    --cache-from="webdb_local" \
                     --platform linux/arm64,linux/amd64 \
                     --sbom=true \
                     --provenance=true \
@@ -41,7 +40,6 @@ stages:
                     --push .
             else
                 docker buildx build \
-                    --cache-from="webdb_local" \
                     --platform linux/arm64,linux/amd64 \
                     --sbom=true \
                     --provenance=true \

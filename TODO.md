@@ -83,4 +83,5 @@
 
 
 # Multi inference provider interface
-- add perplexity and https://www.npmjs.com/package/@huggingface/inference to the list of 4
+- add perplexity to the list
+- add custom
