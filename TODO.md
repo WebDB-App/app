@@ -22,6 +22,7 @@
 
 
 # Doc
+- add AI section with anonymization part
 - nosql default column
 - dire que si la requete n'est pas un select, la reponse raw est affiché
 - expliquer le multi select des checkbox et le multi select des cells dans le press papier

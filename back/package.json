@@ -2,8 +2,8 @@
 	"version": "PACKAGE_VERSION",
 	"scripts": {
 		"dev:back": "node --watch src/index.js",
-		"docker:dev": "docker build -t dev_back . && (docker rm -f $(docker ps -a -q --filter ancestor=webdb/app) webdb || echo) && docker run --name webdb -it -p 127.0.0.1:22070:22071 dev_back",
-		"docker:build": "(docker rm -f $(docker ps -a -q --filter ancestor=webdb/app) webdb || echo) && docker build -t webdb/app .",
+		"docker:dev": "npm run docker:build && docker run --rm --name webdb_dev -it -p 127.0.0.1:22075:22071 webdb_local",
+		"docker:build": "docker build -t webdb_local .",
 		"lint": "eslint . --fix"
 	},
 	"type": "module",

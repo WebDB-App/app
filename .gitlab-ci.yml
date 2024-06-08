@@ -1,37 +1,54 @@
 stages:
     - test
-    - prepare
-    - build
     - compatibility
     - release
-
-
-#-----------------------------------------
-
 
 
 .common: &common
     tags:
         - shell
     interruptible: true
-
-.make_app: &make_app
-    rules:
-        -   changes:
-                - front/**/*
-                - back/**/*
-            when: on_success
     before_script:
         - export TAG=$(date '+%Y.%m.%d')
         - printenv
+
+.release: &release
+    <<: *common
+    image: docker:latest
+    variables:
+        IMAGE_NAME: webdb/app
+    script:
+        - sed -i "s/PACKAGE_VERSION/${TAG}/g" back/package.json
+        - sed -i "s/PACKAGE_VERSION/${TAG}/g" front/package.json
+        - cd front
+        - pnpm install --prod --frozen-lockfile
+        - pnpm run build
+        - ./changelog.js ./dist/webdb/changelog.html
+        - cp -fr ./dist/webdb/* ../back/static/
+        - cd ../back
+        - docker login -u 'aleluff' -p $DOCKER_PASS
+        - docker buildx create --use
         - >
-            if [ $(uname) == "Darwin" ]; then
-            	sed -i '' "s/PACKAGE_VERSION/${TAG}/g" ./back/package.json
-            	sed -i '' "s/PACKAGE_VERSION/${TAG}/g" front/package.json
+            if [ "$CI_COMMIT_REF_NAME" == "main" ]; then
+                docker buildx build \
+                    --cache-from="webdb_local" \
+                    --platform linux/arm64,linux/amd64 \
+                    --sbom=true \
+                    --provenance=true \
+                    -t $IMAGE_NAME:$CI_COMMIT_REF_NAME \
+                    -t $IMAGE_NAME:$TAG \
+                    -t $IMAGE_NAME \
+                    --push .
             else
-            	sed -i "s/PACKAGE_VERSION/${TAG}/g" back/package.json
-            	sed -i "s/PACKAGE_VERSION/${TAG}/g" front/package.json
+                docker buildx build \
+                    --cache-from="webdb_local" \
+                    --platform linux/arm64,linux/amd64 \
+                    --sbom=true \
+                    --provenance=true \
+                    -t $IMAGE_NAME:$CI_COMMIT_REF_NAME \
+                    --push .
             fi
+        - docker rm -f $(docker ps -a -q --filter ancestor=moby/buildkit:buildx-stable-1)
 
 
 #-----------------------------------------
@@ -45,50 +62,14 @@ eslint:
         - (cd back && eslint --color .)
         - (cd compatibility && eslint --color .)
 
-
-#-----------------------------------------
-
-
-prepare:
-    <<: *common
-    <<: *make_app
-    stage: prepare
-    image: node:alpine
-    script:
-        - cd front
-        - pnpm install --prod --frozen-lockfile
-        - pnpm run build
-        - ./changelog.js ./dist/webdb/changelog.html
-    artifacts:
-        paths:
-            - ./front/dist/webdb/
-
 clean:
     <<: *common
-    stage: prepare
+    stage: test
     image: node:alpine
     script:
         - docker container prune -f
         - docker volume prune --all -f
         - docker system prune --all --volumes -f
-
-
-#-----------------------------------------
-
-
-build:
-    <<: *common
-    <<: *make_app
-    dependencies:
-        - prepare
-    stage: build
-    image: docker:latest
-    variables:
-        IMAGE_NAME: webdb/app
-    script:
-        - cp -fr ./front/dist/webdb/* ./back/static/
-        - cd back
-        - npm run docker:build
 
 
 #-----------------------------------------
@@ -102,6 +83,7 @@ compatibility:
         -   if: $CI_COMMIT_TAG || $CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "dev"
             when: on_success
     script:
+        - (cd back && npm run docker:build)
         - cd compatibility
         - npm install --prod --frozen-lockfile
         - npm run test:app
@@ -113,25 +95,17 @@ compatibility:
             - ./compatibility/report.xml
 
 
+release_manual:
+    <<: *release
+    stage: compatibility
+    when: manual
+
+
 #-----------------------------------------
 
 
 release:
-    <<: *common
-    <<: *make_app
+    <<: *release
+    stage: release
     dependencies:
         - compatibility
-    stage: release
-    image: docker:latest
-    variables:
-        IMAGE_NAME: webdb/app
-    script:
-        - docker login -u 'aleluff' -p $DOCKER_PASS
-        - docker buildx create --use
-        - >
-            if [ "$CI_COMMIT_REF_NAME" == "main" ]; then
-                docker buildx build --cache-from $IMAGE_NAME --platform linux/arm64,linux/amd64 --sbom=true --provenance=true -t $IMAGE_NAME:$CI_COMMIT_REF_NAME -t $IMAGE_NAME:$TAG -t $IMAGE_NAME --push .
-            else
-                docker buildx build --cache-from $IMAGE_NAME --platform linux/arm64,linux/amd64 --sbom=true --provenance=true -t $IMAGE_NAME:$CI_COMMIT_REF_NAME --push .
-            fi
-        - docker rm -f $(docker ps -a -q --filter ancestor=moby/buildkit:buildx-stable-1)
