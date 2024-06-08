@@ -2160,7 +2160,7 @@ export declare class Collection<TSchema extends Document = Document> {
 	 * @remarks
 	 * This operation does not inherit options from the Db or MongoClient.
 	 *
-	 * @param newName - New name of of the collection.
+	 * @param newName - New name of the collection.
 	 * @param options - Optional settings for the command
 	 */
 	rename(newName: string, options?: RenameOptions): Promise<Collection>;
@@ -3129,7 +3129,7 @@ export declare class Db {
 	 * This operation does not inherit options from the MongoClient.
 	 *
 	 * @param fromCollection - Name of current collection to rename
-	 * @param toCollection - New name of of the collection
+	 * @param toCollection - New name of the collection
 	 * @param options - Optional settings for the command
 	 */
 	renameCollection<TSchema extends Document = Document>(fromCollection: string, toCollection: string, options?: RenameOptions): Promise<Collection<TSchema>>;
