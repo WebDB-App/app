@@ -17,12 +17,36 @@ import Model = OpenAI.Model;
 
 const localKeyConfig = 'ia-config';
 
-enum Provider {
-	openai = "OpenAI",
-	gemini = "Gemini",
-	together = "TogetherAI",
-	gorq = "Gorq"
+enum ProviderEnum {
+	openai = "openai",
+	gemini = "gemini",
+	huggingface = "huggingface",
+	together = "together",
+	gorq = "gorq"
 }
+
+const ProvidersDetail: {[key: string]: { name: string; url: string }} = {
+	[ProviderEnum.openai]: {
+		name: "OpenAI",
+		url: "https://platform.openai.com/api-keys"
+	},
+	[ProviderEnum.huggingface]: {
+		url: "https://huggingface.co/settings/tokens",
+		name: "HuggingFace",
+	},
+	[ProviderEnum.gemini]: {
+		url: "https://makersuite.google.com/app/apikey",
+		name: "Gemini",
+	},
+	[ProviderEnum.together]: {
+		url: "https://api.together.xyz/settings/api-keys",
+		name: "TogetherAI",
+	},
+	[ProviderEnum.gorq]: {
+		url: "https://console.groq.com/keys",
+		name: "Gorq",
+	}
+};
 
 enum Role {
 	System = 'system',
@@ -79,7 +103,7 @@ export class AiComponent implements OnInit, OnDestroy {
 	selectedServer?: Server;
 	selectedDatabase?: Database;
 	configuration: Configuration = new Configuration();
-	initialized = false
+	initialized = false;
 	models: { [key: string]: { shortName: string; fullName: string }[] } = {};
 	Role = Role;
 	examples = [
@@ -96,6 +120,7 @@ export class AiComponent implements OnInit, OnDestroy {
 	chat: Msg[] = [];
 	openai?: OpenAI;
 	gorq?: OpenAI;
+	huggingface?: OpenAI;
 	gemini?: GoogleGenerativeAI;
 	loadingCount = 0;
 	editorOptions = {
@@ -104,10 +129,11 @@ export class AiComponent implements OnInit, OnDestroy {
 	sample = "";
 	config = {
 		model: "",
-		openAI: '',
-		gemini: '',
-		together: '',
-		gorq: '',
+		[ProviderEnum.openai]: '',
+		[ProviderEnum.together]: '',
+		[ProviderEnum.gorq]: '',
+		[ProviderEnum.gemini]: '',
+		[ProviderEnum.huggingface]: '',
 		temperature: 1,
 		top_p: 1
 	};
@@ -184,59 +210,79 @@ export class AiComponent implements OnInit, OnDestroy {
 		this.models = {};
 		const promises = [];
 
-		if (this.config.openAI) {
+		if (this.config[ProviderEnum.openai]) {
 			promises.push(new Promise(async resolve => {
 				this.openai = new OpenAI({
-					apiKey: this.config.openAI,
+					apiKey: this.config[ProviderEnum.openai],
 					dangerouslyAllowBrowser: true
 				});
 				const list: Model[] = await new Promise(resolve1 => {
 					this.openai!.models.list().then(models => resolve1(models.data)).catch(() => resolve1([]));
 				});
-				this.models[Provider.openai] = [];
+				this.models[ProviderEnum.openai] = [];
 				if (list) {
 					list.map(model => {
 						if (model.id.startsWith('gpt-')) {
-							this.models[Provider.openai].push({shortName: model.id, fullName: model.id});
+							this.models[ProviderEnum.openai].push({shortName: model.id, fullName: model.id});
 						}
 					});
-					this.models[Provider.openai].sort((a, b) => a.shortName?.toLowerCase().localeCompare(b.shortName?.toLowerCase()));
+					this.models[ProviderEnum.openai].sort((a, b) => a.shortName?.toLowerCase().localeCompare(b.shortName?.toLowerCase()));
 				}
 				resolve(true);
 			}));
 		}
-		if (this.config.gorq) {
+		if (this.config[ProviderEnum.gorq]) {
 			promises.push(new Promise(async resolve => {
 				this.gorq = new OpenAI({
 					baseURL: "https://api.groq.com/openai/v1/",
-					apiKey: this.config.gorq,
+					apiKey: this.config[ProviderEnum.gorq],
 					dangerouslyAllowBrowser: true,
 				});
 				const list: Model[] = await new Promise(resolve1 => {
 					this.gorq!.models.list().then(models => resolve1(models.data)).catch(() => resolve1([]));
 				});
-				this.models[Provider.gorq] = [];
+				this.models[ProviderEnum.gorq] = [];
 				if (list) {
 					list.map(model => {
-						this.models[Provider.gorq].push({shortName: model.id, fullName: model.id});
+						this.models[ProviderEnum.gorq].push({shortName: model.id, fullName: model.id});
 					});
-					this.models[Provider.gorq].sort((a, b) => a.shortName?.toLowerCase().localeCompare(b.shortName?.toLowerCase()));
+					this.models[ProviderEnum.gorq].sort((a, b) => a.shortName?.toLowerCase().localeCompare(b.shortName?.toLowerCase()));
 				}
 				resolve(true);
 			}));
 		}
-		if (this.config.together) {
+		if (this.config[ProviderEnum.huggingface]) {
 			promises.push(new Promise(async resolve => {
-				this.models[Provider.together] = await this.request.post('ai/togetherModels', {key: this.config.together});
+				this.huggingface = new OpenAI({
+					baseURL: "https://huggingface.co/api/",
+					apiKey: this.config[ProviderEnum.huggingface],
+					dangerouslyAllowBrowser: true,
+				});
+				const list: Model[] = await new Promise(resolve1 => {
+					fetch("https://huggingface.co/api/models?limit=80&sort=downloads&filter[]=text-generation").then(res => resolve1(res.json())).catch(() => resolve1([]));
+				});
+				this.models[ProviderEnum.huggingface] = [];
+				if (list) {
+					list.map(model => {
+						this.models[ProviderEnum.huggingface].push({shortName: model.id, fullName: model.id});
+					});
+					this.models[ProviderEnum.huggingface].sort((a, b) => a.shortName?.toLowerCase().localeCompare(b.shortName?.toLowerCase()));
+				}
 				resolve(true);
 			}));
 		}
-		if (this.config.gemini) {
-			this.models[Provider.gemini] = [];
+		if (this.config[ProviderEnum.together]) {
+			promises.push(new Promise(async resolve => {
+				this.models[ProviderEnum.together] = await this.request.post('ai/togetherModels', {key: this.config[ProviderEnum.together]});
+				resolve(true);
+			}));
+		}
+		if (this.config[ProviderEnum.gemini]) {
+			this.models[ProviderEnum.gemini] = [];
 
 			promises.push(new Promise(resolve => {
-				this.gemini = new GoogleGenerativeAI(this.config.gemini);
-				this.models[Provider.gemini] = [
+				this.gemini = new GoogleGenerativeAI(this.config[ProviderEnum.gemini]);
+				this.models[ProviderEnum.gemini] = [
 					{shortName: "gemini-1.0-pro", fullName: "gemini-1.0-pro"},
 					{shortName: "gemini-1.5-flash-latest", fullName: "gemini-1.5-flash-latest"},
 					{shortName: "gemini-1.5-pro-latest", fullName: "gemini-1.5-pro-latest"},
@@ -295,14 +341,14 @@ export class AiComponent implements OnInit, OnDestroy {
 		this.chat.push(new Msg(txt, Role.User));
 		scrollToBottom(this.scrollContainer);
 
-		let provider = "";
-		for (const [pro, models] of Object.entries(this.models)) {
+		let pEnum = "";
+		for (const [key, models] of Object.entries(this.models)) {
 			if (models.map(model => model.fullName).indexOf(this.config.model) >= 0) {
-				provider = pro;
+				pEnum = key;
 				break;
 			}
 		}
-		if (!provider) {
+		if (!pEnum) {
 			this.chat.push(new Msg('No model selected or unavailable', Role.System, true));
 			return;
 		}
@@ -321,14 +367,14 @@ export class AiComponent implements OnInit, OnDestroy {
 			top_p: this.config.top_p
 		};
 
-		await this.askLLM(provider, body);
+		await this.askLLM(pEnum, body);
 
 		this.stream = undefined;
 		scrollToBottom(this.scrollContainer);
 		this.saveChat();
 	}
 
-	async askLLM(provider: string, body: any) {
+	async askLLM(pEnum: string, body: any) {
 		const streamReady = () => {
 			this.stream = '';
 		}
@@ -354,20 +400,23 @@ export class AiComponent implements OnInit, OnDestroy {
 			}));
 		}
 
-		if (provider === Provider.openai) {
+		if (pEnum === ProviderEnum.openai) {
 			const stream = this.openai!.chat.completions.create(<ChatCompletionCreateParamsStreaming>body);
 			await askOpenAI(stream);
-		} else if (provider === Provider.gorq) {
+		} else if (pEnum === ProviderEnum.gorq) {
 			const stream = this.gorq!.chat.completions.create(<ChatCompletionCreateParamsStreaming>body);
 			await askOpenAI(stream);
-		} else if (provider === Provider.together) {
+		} else if (pEnum === ProviderEnum.huggingface) {
+			const stream = this.huggingface!.chat.completions.create(<ChatCompletionCreateParamsStreaming>body);
+			await askOpenAI(stream);
+		} else if (pEnum === ProviderEnum.together) {
 			this.chat.push(await new Promise<Msg>(async resolve => {
 				const decoder = new TextDecoder();
 				const options = {
 					method: 'POST',
 					headers: {
 						'content-type': 'application/json',
-						authorization: 'Bearer ' + this.config.together
+						authorization: 'Bearer ' + this.config[ProviderEnum.together]
 					},
 					body: JSON.stringify(body)
 				};
@@ -402,7 +451,7 @@ export class AiComponent implements OnInit, OnDestroy {
 					resolve(new Msg(error.error || `An error occurred during Together request: ` + error, Role.Assistant, true));
 				}
 			}));
-		} else if (provider === Provider.gemini) {
+		} else if (pEnum === ProviderEnum.gemini) {
 			const model = this.gemini!.getGenerativeModel({
 				model: this.config.model,
 				generationConfig: {
@@ -474,32 +523,25 @@ export class AiComponent implements OnInit, OnDestroy {
 		this.sendMessage(this.chat.reverse().find(chat => chat.user === Role.User)!.txt);
 	}
 
-	goodOpenAIKey() {
-		if (!this.config.openAI) {
+	goodKey(provider: any) {
+		// @ts-ignore
+		const key = this.config[provider];
+		if (!key) {
 			return true;
 		}
-		return !!this.config.openAI.match(/^sk-[a-zA-Z0-9-]{32,}$/);
-	}
-
-	goodGemini() {
-		if (!this.config.gemini) {
-			return true;
+		switch (provider) {
+			case ProviderEnum.gemini:
+				return !!key.match(/^[a-zA-Z0-9-_]{39,}$/);
+			case ProviderEnum.together:
+				return !!key.match(/^[a-zA-Z0-9]{64,}$/);
+			case ProviderEnum.openai:
+				return !!key.match(/^sk-[a-zA-Z0-9-]{32,}$/);
+			case ProviderEnum.gorq:
+				return !!key.match(/^gsk_[a-zA-Z0-9]{52}$/);
+			case ProviderEnum.huggingface:
+				return !!key.match(/^hf_[a-zA-Z0-9]{34,}$/);
 		}
-		return !!this.config.gemini.match(/^[a-zA-Z0-9-_]{39,}$/);
-	}
-
-	goodTogetherKey() {
-		if (!this.config.together) {
-			return true;
-		}
-		return !!this.config.together.match(/^[a-zA-Z0-9]{64,}$/);
-	}
-
-	goodGorqKey() {
-		if (!this.config.gorq) {
-			return true;
-		}
-		return !!this.config.gorq.match(/^gsk_[a-zA-Z0-9]{52}$/);
+		return false;
 	}
 
 	onScroll(event: any) {
@@ -512,5 +554,5 @@ export class AiComponent implements OnInit, OnDestroy {
 		}, 10);
 	}
 
-	protected readonly Provider = Provider;
+	protected readonly ProvidersDetail = ProvidersDetail;
 }
