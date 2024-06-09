@@ -1,6 +1,8 @@
 - finir complex edit (enum postgre)
 - tester tout les default + extra + postgre
-- Ms sql
+
+
+- mssql
 
 
 # Advanced auth
@@ -32,6 +34,7 @@
 - finir tests
 - first level keyword (select, update, create, with, alter) + patch[local_history.patch](local_history.patch)
 - polar.sh
+
 
 # reorder columns
 - pg: dump -> rename in file -> load
@@ -82,6 +85,6 @@
 - alter column: possibilité de update one object field
 
 
-# Multi inference provider interface
-- add perplexity to the list
+# Create "AI  " : Multi inference provider interface
+- add perplexity
 - add custom

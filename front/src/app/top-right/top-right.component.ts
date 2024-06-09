@@ -5,7 +5,7 @@ import { DomSanitizer } from "@angular/platform-browser";
 import Convert from "ansi-to-html";
 import { environment } from "../../environments/environment";
 import { ConfigDialog } from "./config/config-dialog.component";
-import { isSQL, scrollToBottom } from "../../shared/helper";
+import { checkUptoDate, isSQL, scrollToBottom } from "../../shared/helper";
 import { firstValueFrom } from "rxjs";
 import { Router } from "@angular/router";
 import { Server } from "../../classes/server";
@@ -21,6 +21,8 @@ import { VariableDialogComponent } from "../variable/variable-dialog.component";
 })
 export class TopRightComponent {
 
+	upToDate = true;
+
 	protected readonly isSQL = isSQL;
 	protected readonly environment = environment;
 	protected readonly Server = Server;
@@ -28,12 +30,16 @@ export class TopRightComponent {
 	constructor(
 		private dialog: MatDialog,
 		public router: Router,
-		public request: RequestService
+		public request: RequestService,
+		private http: HttpClient
 	) {
+		checkUptoDate(this.http).then(upToDate => {
+			this.upToDate = upToDate;
+		});
 	}
 
 	showSettings() {
-		this.dialog.open(ConfigDialog);
+		this.dialog.open(ConfigDialog, {data: {upToDate: this.upToDate}});
 	}
 
 	showLogs() {

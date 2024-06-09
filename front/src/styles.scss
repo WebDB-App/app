@@ -516,6 +516,14 @@ input[type="datetime-local"]::after {
 	align-items: center;
 }
 
+.notification {
+	position: absolute;
+	color: mat.get-color-from-palette($angular-primary, default);
+	top: -12px;
+	font-size: 18px;
+	right: 0px;
+}
+
 .flexFill {
 	height: 100%;
 	min-height: 100%;

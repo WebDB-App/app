@@ -4,6 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import { firstValueFrom } from "rxjs";
 import { Database } from "../classes/database";
 import { ElementRef } from "@angular/core";
+import { environment } from "../environments/environment";
 
 declare var monaco: any;
 
@@ -12,6 +13,21 @@ export function isSQL(server = Server.getSelected()): boolean | undefined {
 		return undefined;
 	}
 	return server.driver instanceof SQL;
+}
+
+export async function checkUptoDate(http: HttpClient) {
+	if (!environment.production) {
+		return true;
+	}
+
+	try {
+		const local = await firstValueFrom(http.get(`${environment.rootUrl}changelog.html`, {responseType: 'text'}))
+		const remote = await firstValueFrom(http.get(`https://demo.webdb.app/changelog.html`, {responseType: 'text'}));
+		return local.length >= remote.length;
+	} catch (e) {
+		console.error(e);
+		return true;
+	}
 }
 
 export function addMonacoError(query: string, editor: any, error: any) {
