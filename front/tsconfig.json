@@ -12,6 +12,7 @@
 		"noPropertyAccessFromIndexSignature": true,
 		"noImplicitReturns": true,
 		"suppressImplicitAnyIndexErrors": true,
+		"ignoreDeprecations": "5.0",
 		"noFallthroughCasesInSwitch": true,
 		"sourceMap": true,
 		"declaration": false,
