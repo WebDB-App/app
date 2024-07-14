@@ -578,7 +578,11 @@ export default class MongoDB extends Driver {
 
 		try {
 			if (database) {
-				db = await this.connection.db(database);
+				try {
+					db = await this.connection.db(database);
+				} catch (e) {
+					console.table(this.connection);
+				}
 			}
 			const fct = new Function("db", "bson", "mongo", command);
 			const res = await fct(db, BSON, MongoClient);
@@ -751,7 +755,7 @@ export default class MongoDB extends Driver {
 
 			return connection;
 		} catch (e) {
-			return {error: e.message};
+			return {error: e.message || "Unknown error"};
 		}
 	}
 

@@ -570,9 +570,17 @@ ${def[0]["pg_get_viewdef"]}`
 			if (co.error) {
 				return co;
 			}
-			connection = await co.connect();
+			try {
+				connection = await co.connect();
+			} catch (e) {
+				console.table(co);
+			}
 		} else {
-			connection = await this.connection.connect();
+			try {
+				connection = await this.connection.connect();
+			} catch (e) {
+				console.table(this.connection);
+			}
 		}
 
 		const cid = bash.startCommand(sql_cleanQuery(command), (database || "") + (schema ? `,${schema}` : ""), this.port);
@@ -614,7 +622,7 @@ ${def[0]["pg_get_viewdef"]}`
 
 			return pool;
 		} catch (e) {
-			return {error: e.message};
+			return {error: e.message || "Unknown error"};
 		}
 	}
 }

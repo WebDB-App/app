@@ -379,7 +379,13 @@ ${def[0]["VIEW_DEFINITION"]}`
 
 	async runCommand(command, database = false) {
 		const cid = bash.startCommand(sql_cleanQuery(command), database, this.port);
-		const connection = await this.connection.promise().getConnection();
+		let connection;
+		try {
+			connection = await this.connection.promise().getConnection();
+		} catch (e) {
+			console.table(this.connection);
+		}
+
 		let lgth = -1;
 
 		try {
@@ -457,7 +463,7 @@ ${def[0]["VIEW_DEFINITION"]}`
 
 			return pool;
 		} catch (e) {
-			return {error: e.sqlMessage || e.message};
+			return {error: e.sqlMessage || e.message || e.code || "Unknown error"};
 		}
 	}
 
