@@ -129,8 +129,8 @@ dependencies:
     specifier: latest
     version: 2.1.3
   openai:
-    specifier: latest
-    version: 4.55.4
+    specifier: 4.54.0
+    version: 4.54.0
   rxjs:
     specifier: ~7.8.1
     version: 7.8.1
@@ -1835,9 +1835,9 @@ packages:
     peerDependencies:
       postcss: ^8.2
     dependencies:
-      '@csstools/selector-specificity': 2.2.0(postcss-selector-parser@6.1.1)
+      '@csstools/selector-specificity': 2.2.0(postcss-selector-parser@6.1.2)
       postcss: 8.4.31
-      postcss-selector-parser: 6.1.1
+      postcss-selector-parser: 6.1.2
     dev: false
 
   /@csstools/postcss-color-function@1.1.1(postcss@8.4.31):
@@ -1888,9 +1888,9 @@ packages:
     peerDependencies:
       postcss: ^8.2
     dependencies:
-      '@csstools/selector-specificity': 2.2.0(postcss-selector-parser@6.1.1)
+      '@csstools/selector-specificity': 2.2.0(postcss-selector-parser@6.1.2)
       postcss: 8.4.31
-      postcss-selector-parser: 6.1.1
+      postcss-selector-parser: 6.1.2
     dev: false
 
   /@csstools/postcss-nested-calc@1.0.0(postcss@8.4.31):
@@ -1973,13 +1973,13 @@ packages:
       postcss: 8.4.31
     dev: false
 
-  /@csstools/selector-specificity@2.2.0(postcss-selector-parser@6.1.1):
+  /@csstools/selector-specificity@2.2.0(postcss-selector-parser@6.1.2):
     resolution: {integrity: sha512-+OJ9konv95ClSTOJCmMZqpd5+YGsB2S+x6w3E1oaM8UuR5j8nTNHYSz8c9BEPGDOCMQYIEEGlVPj/VY64iTbGw==}
     engines: {node: ^14 || ^16 || >=18}
     peerDependencies:
       postcss-selector-parser: ^6.0.10
     dependencies:
-      postcss-selector-parser: 6.1.1
+      postcss-selector-parser: 6.1.2
     dev: false
 
   /@discoveryjs/json-ext@0.5.7:
@@ -3513,7 +3513,7 @@ packages:
       postcss: ^8.4
     dependencies:
       postcss: 8.4.31
-      postcss-selector-parser: 6.1.1
+      postcss-selector-parser: 6.1.2
     dev: false
 
   /css-has-pseudo@3.0.4(postcss@8.4.31):
@@ -3524,7 +3524,7 @@ packages:
       postcss: ^8.4
     dependencies:
       postcss: 8.4.31
-      postcss-selector-parser: 6.1.1
+      postcss-selector-parser: 6.1.2
     dev: false
 
   /css-loader@6.7.1(webpack@5.76.1):
@@ -5866,14 +5866,9 @@ packages:
       is-wsl: 2.2.0
     dev: false
 
-  /openai@4.55.4:
-    resolution: {integrity: sha512-TEC75Y6U/OKIJp9fHao3zkTYfKLYGqXdD2TI+xN2Zd5W8KNKvv6E4/OBTOW7jg7fySfrBrhy5fYzBbyBcdHEtQ==}
+  /openai@4.54.0:
+    resolution: {integrity: sha512-e/12BdtTtj+tXs7iHm+Dm7H7WjEWnw7O52B2wSfCQ6lD5F6cvjzo7cANXy5TJ1Q3/qc8YRPT5wBTTFtP5sBp1g==}
     hasBin: true
-    peerDependencies:
-      zod: ^3.23.8
-    peerDependenciesMeta:
-      zod:
-        optional: true
     dependencies:
       '@types/node': 18.19.44
       '@types/node-fetch': 2.6.11
@@ -6116,7 +6111,7 @@ packages:
       postcss: ^8.2
     dependencies:
       postcss: 8.4.31
-      postcss-selector-parser: 6.1.1
+      postcss-selector-parser: 6.1.2
     dev: false
 
   /postcss-clamp@4.1.0(postcss@8.4.31):
@@ -6186,7 +6181,7 @@ packages:
       postcss: ^8.3
     dependencies:
       postcss: 8.4.31
-      postcss-selector-parser: 6.1.1
+      postcss-selector-parser: 6.1.2
     dev: false
 
   /postcss-dir-pseudo-class@6.0.5(postcss@8.4.31):
@@ -6196,7 +6191,7 @@ packages:
       postcss: ^8.2
     dependencies:
       postcss: 8.4.31
-      postcss-selector-parser: 6.1.1
+      postcss-selector-parser: 6.1.2
     dev: false
 
   /postcss-double-position-gradients@3.1.2(postcss@8.4.31):
@@ -6227,7 +6222,7 @@ packages:
       postcss: ^8.4
     dependencies:
       postcss: 8.4.31
-      postcss-selector-parser: 6.1.1
+      postcss-selector-parser: 6.1.2
     dev: false
 
   /postcss-focus-within@5.0.4(postcss@8.4.31):
@@ -6237,7 +6232,7 @@ packages:
       postcss: ^8.4
     dependencies:
       postcss: 8.4.31
-      postcss-selector-parser: 6.1.1
+      postcss-selector-parser: 6.1.2
     dev: false
 
   /postcss-font-variant@5.0.0(postcss@8.4.31):
@@ -6347,7 +6342,7 @@ packages:
     dependencies:
       icss-utils: 5.1.0(postcss@8.4.31)
       postcss: 8.4.31
-      postcss-selector-parser: 6.1.1
+      postcss-selector-parser: 6.1.2
       postcss-value-parser: 4.2.0
     dev: false
 
@@ -6358,7 +6353,7 @@ packages:
       postcss: ^8.1.0
     dependencies:
       postcss: 8.4.31
-      postcss-selector-parser: 6.1.1
+      postcss-selector-parser: 6.1.2
     dev: false
 
   /postcss-modules-values@4.0.0(postcss@8.4.31):
@@ -6377,9 +6372,9 @@ packages:
     peerDependencies:
       postcss: ^8.2
     dependencies:
-      '@csstools/selector-specificity': 2.2.0(postcss-selector-parser@6.1.1)
+      '@csstools/selector-specificity': 2.2.0(postcss-selector-parser@6.1.2)
       postcss: 8.4.31
-      postcss-selector-parser: 6.1.1
+      postcss-selector-parser: 6.1.2
     dev: false
 
   /postcss-opacity-percentage@1.1.3(postcss@8.4.31):
@@ -6484,7 +6479,7 @@ packages:
       postcss: ^8.2
     dependencies:
       postcss: 8.4.31
-      postcss-selector-parser: 6.1.1
+      postcss-selector-parser: 6.1.2
     dev: false
 
   /postcss-replace-overflow-wrap@4.0.0(postcss@8.4.31):
@@ -6502,11 +6497,11 @@ packages:
       postcss: ^8.2
     dependencies:
       postcss: 8.4.31
-      postcss-selector-parser: 6.1.1
+      postcss-selector-parser: 6.1.2
     dev: false
 
-  /postcss-selector-parser@6.1.1:
-    resolution: {integrity: sha512-b4dlw/9V8A71rLIDsSwVmak9z2DuBUB7CA1/wSdelNEzqsjoSPeADTWNO09lpH49Diy3/JIZ2bSPB1dI3LJCHg==}
+  /postcss-selector-parser@6.1.2:
+    resolution: {integrity: sha512-Q8qQfPiZ+THO/3ZrOrO0cJJKfpYCagtMUkXbnEfmgUjwXg6z/WBeOyS9APBBPCTSiDV+s4SwQGu8yFsiMRIudg==}
     engines: {node: '>=4'}
     dependencies:
       cssesc: 3.0.0

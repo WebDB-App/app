@@ -49,7 +49,7 @@
 		"ngx-json-viewer": "latest",
 		"ngx-monaco-editor-v2": "^14.0.4",
 		"node-emoji": "latest",
-		"openai": "latest",
+		"openai": "4.54.0",
 		"rxjs": "~7.8.1",
 		"sql-formatter": "latest",
 		"sqlstring": "latest",
