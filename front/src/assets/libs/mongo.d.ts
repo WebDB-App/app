@@ -9,20 +9,27 @@ import { ConnectionOptions as ConnectionOptions_2, TLSSocket, TLSSocketOptions }
 
 /** @public */
 export declare abstract class AbstractCursor<TSchema = any, CursorEvents extends AbstractCursorEvents = AbstractCursorEvents> extends TypedEventEmitter<CursorEvents> {
-	/* Excluded from this release type: [kId] */
-	/* Excluded from this release type: [kSession] */
-	/* Excluded from this release type: [kServer] */
-	/* Excluded from this release type: [kNamespace] */
-	/* Excluded from this release type: [kDocuments] */
-	/* Excluded from this release type: [kClient] */
-	/* Excluded from this release type: [kTransform] */
-	/* Excluded from this release type: [kInitialized] */
-	/* Excluded from this release type: [kClosed] */
-	/* Excluded from this release type: [kKilled] */
-	/* Excluded from this release type: [kOptions] */
+	/* Excluded from this release type: cursorId */
+	/* Excluded from this release type: cursorSession */
+	/* Excluded from this release type: selectedServer */
+	/* Excluded from this release type: cursorNamespace */
+	/* Excluded from this release type: documents */
+	/* Excluded from this release type: cursorClient */
+	/* Excluded from this release type: transform */
+	/* Excluded from this release type: initialized */
+	/* Excluded from this release type: isClosed */
+	/* Excluded from this release type: isKilled */
+	/* Excluded from this release type: cursorOptions */
 	/** @event */
 	static readonly CLOSE: "close";
 	/* Excluded from this release type: __constructor */
+	/**
+	 * The cursor has no id until it receives a response from the initial cursor creating command.
+	 *
+	 * It is non-zero for as long as the database has an open cursor.
+	 *
+	 * The initiating command may receive a zero id if the entire result is in the `firstBatch`.
+	 */
 	get id(): Long | undefined;
 	/* Excluded from this release type: isDead */
 	/* Excluded from this release type: client */
@@ -32,8 +39,14 @@ export declare abstract class AbstractCursor<TSchema = any, CursorEvents extends
 	get readConcern(): ReadConcern | undefined;
 	/* Excluded from this release type: session */
 	/* Excluded from this release type: session */
-	/* Excluded from this release type: cursorOptions */
+	/**
+	 * The cursor is closed and all remaining locally buffered documents have been iterated.
+	 */
 	get closed(): boolean;
+	/**
+	 * A `killCursors` command was attempted on this cursor.
+	 * This is performed if the cursor id is non zero.
+	 */
 	get killed(): boolean;
 	get loadBalanced(): boolean;
 	/** Returns current buffered documents length */
@@ -336,10 +349,9 @@ export declare interface AggregateOptions extends CommandOperationOptions {
  * @public
  */
 export declare class AggregationCursor<TSchema = any> extends AbstractCursor<TSchema> {
-	/* Excluded from this release type: [kPipeline] */
-	/* Excluded from this release type: [kOptions] */
+	readonly pipeline: Document[];
+	/* Excluded from this release type: aggregateOptions */
 	/* Excluded from this release type: __constructor */
-	get pipeline(): Document[];
 	clone(): AggregationCursor<TSchema>;
 	map<T>(transform: (doc: TSchema) => T): AggregationCursor<T>;
 	/* Excluded from this release type: _initialize */
@@ -696,6 +708,22 @@ export declare interface AWSEncryptionKeyOptions {
 	 */
 	endpoint?: string | undefined;
 }
+/** @public */
+export declare interface AWSKMSProviderConfiguration {
+	/**
+	 * The access key used for the AWS KMS provider
+	 */
+	accessKeyId: string;
+	/**
+	 * The secret access key used for the AWS KMS provider
+	 */
+	secretAccessKey: string;
+	/**
+	 * An optional AWS session token that will be used as the
+	 * X-Amz-Security-Token header for AWS requests.
+	 */
+	sessionToken?: string;
+}
 /**
  * @public
  * Configuration options for making an Azure encryption key
@@ -714,6 +742,33 @@ export declare interface AzureEncryptionKeyOptions {
 	 */
 	keyVersion?: string | undefined;
 }
+/** @public */
+export declare type AzureKMSProviderConfiguration = {
+	/**
+	 * The tenant ID identifies the organization for the account
+	 */
+	tenantId: string;
+	/**
+	 * The client ID to authenticate a registered application
+	 */
+	clientId: string;
+	/**
+	 * The client secret to authenticate a registered application
+	 */
+	clientSecret: string;
+	/**
+	 * If present, a host with optional port. E.g. "example.com" or "example.com:443".
+	 * This is optional, and only needed if customer is using a non-commercial Azure instance
+	 * (e.g. a government or China account, which use different URLs).
+	 * Defaults to "login.microsoftonline.com"
+	 */
+	identityPlatformEndpoint?: string | undefined;
+} | {
+	/**
+	 * If present, an access token to authenticate with Azure.
+	 */
+	accessToken: string;
+};
 /**
  * Keeps the state of a unordered batch so we can rewrite the results
  * correctly after command execution
@@ -1003,7 +1058,6 @@ export declare class ChangeStream<TSchema extends Document = Document, TChange e
 	 */
 	stream(options?: CursorStreamOptions): Readable & AsyncIterable<TChange>;
 }
-/* Excluded from this release type: ChangeStreamAggregateRawResult */
 /**
  * Only present when the `showExpandedEvents` flag is enabled.
  * @public
@@ -1654,7 +1708,7 @@ export declare interface ClientEncryptionCreateDataKeyProviderOptions {
 	/**
 	 * Identifies a new KMS-specific key used to encrypt the new data key
 	 */
-	masterKey?: AWSEncryptionKeyOptions | AzureEncryptionKeyOptions | GCPEncryptionKeyOptions | undefined;
+	masterKey?: AWSEncryptionKeyOptions | AzureEncryptionKeyOptions | GCPEncryptionKeyOptions | KMIPEncryptionKeyOptions | undefined;
 	/**
 	 * An optional list of string alternate names used to reference a key.
 	 * If a key is created with alternate names, then encryption may refer to the key by the unique alternate name instead of by _id.
@@ -1665,8 +1719,15 @@ export declare interface ClientEncryptionCreateDataKeyProviderOptions {
 }
 /**
  * @public
+ *
+ * A data key provider.  Allowed values:
+ *
+ * - aws, gcp, local, kmip or azure
+ * - (`mongodb-client-encryption>=6.0.1` only) a named key, in the form of:
+ *    `aws:<name>`, `gcp:<name>`, `local:<name>`, `kmip:<name>`, `azure:<name>`
+ *  where `name` is an alphanumeric string, underscores allowed.
  */
-export declare type ClientEncryptionDataKeyProvider = "aws" | "azure" | "gcp" | "local" | "kmip";
+export declare type ClientEncryptionDataKeyProvider = keyof KMSProviders;
 /**
  * @public
  * Options to provide when encrypting data.
@@ -1755,15 +1816,7 @@ export declare interface ClientEncryptionOptions {
  */
 export declare interface ClientEncryptionRewrapManyDataKeyProviderOptions {
 	provider: ClientEncryptionDataKeyProvider;
-	masterKey?: AWSEncryptionKeyOptions | AzureEncryptionKeyOptions | GCPEncryptionKeyOptions | undefined;
-}
-/**
- * @public
- * @experimental
- */
-export declare interface ClientEncryptionRewrapManyDataKeyProviderOptions {
-	provider: ClientEncryptionDataKeyProvider;
-	masterKey?: AWSEncryptionKeyOptions | AzureEncryptionKeyOptions | GCPEncryptionKeyOptions | undefined;
+	masterKey?: AWSEncryptionKeyOptions | AzureEncryptionKeyOptions | GCPEncryptionKeyOptions | KMIPEncryptionKeyOptions | undefined;
 }
 /**
  * @public
@@ -2861,7 +2914,7 @@ export declare interface ConnectOptions {
 export declare interface CountDocumentsOptions extends AggregateOptions {
 	/** The number of documents to skip. */
 	skip?: number;
-	/** The maximum amounts to count before aborting. */
+	/** The maximum amount of documents to consider. */
 	limit?: number;
 }
 /** @public */
@@ -2961,6 +3014,7 @@ export declare type CSFLEKMSTlsOptions = {
 	kmip?: ClientEncryptionTlsOptions;
 	local?: ClientEncryptionTlsOptions;
 	azure?: ClientEncryptionTlsOptions;
+	[key: string]: ClientEncryptionTlsOptions | undefined;
 };
 /** @public */
 export declare const CURSOR_FLAGS: readonly [
@@ -3340,7 +3394,6 @@ export declare type EventEmitterWithState = {};
  * @public
  */
 export declare type EventsDescription = Record<string, GenericListener>;
-/* Excluded from this release type: ExecutionResult */
 /* Excluded from this release type: Explain */
 /** @public */
 export declare interface ExplainOptions {
@@ -3414,9 +3467,9 @@ export declare interface FilterOperators<TValue> extends NonObjectIdLikeDocument
 }
 /** @public */
 export declare class FindCursor<TSchema = any> extends AbstractCursor<TSchema> {
-	/* Excluded from this release type: [kFilter] */
-	/* Excluded from this release type: [kNumReturned] */
-	/* Excluded from this release type: [kBuiltOptions] */
+	/* Excluded from this release type: cursorFilter */
+	/* Excluded from this release type: numReturned */
+	/* Excluded from this release type: findOptions */
 	/* Excluded from this release type: __constructor */
 	clone(): FindCursor<TSchema>;
 	map<T>(transform: (doc: TSchema) => T): FindCursor<T>;
@@ -3734,6 +3787,27 @@ export declare interface GCPEncryptionKeyOptions {
 	 */
 	endpoint?: string | undefined;
 }
+/** @public */
+export declare type GCPKMSProviderConfiguration = {
+	/**
+	 * The service account email to authenticate
+	 */
+	email: string;
+	/**
+	 * A PKCS#8 encrypted key. This can either be a base64 string or a binary representation
+	 */
+	privateKey: string | Buffer;
+	/**
+	 * If present, a host with optional port. E.g. "example.com" or "example.com:443".
+	 * Defaults to "oauth2.googleapis.com"
+	 */
+	endpoint?: string | undefined;
+} | {
+	/**
+	 * If present, an access token to authenticate with GCP.
+	 */
+	accessToken: string;
+};
 /** @public */
 export declare type GenericListener = (...args: any[]) => void;
 /**
@@ -4100,6 +4174,7 @@ export declare type InferIdType<TSchema> = TSchema extends {
 } ? Record<any, never> extends IdType ? never : IdType : TSchema extends {
 	_id?: infer IdType;
 } ? unknown extends IdType ? ObjectId : IdType : ObjectId;
+/* Excluded from this release type: InitialCursorResponse */
 /** @public */
 export declare interface InsertManyResult<TSchema = Document> {
 	/** Indicates whether this write result was acknowledged. If not, then all other members of this result will be undefined */
@@ -4148,20 +4223,16 @@ export declare type Join<T extends unknown[], D extends string> = T extends [
 ] ? `${T[0]}${D}${Join<R, D>}` : string;
 /* Excluded from this release type: JSTypeOf */
 /* Excluded from this release type: kBeforeHandshake */
-/* Excluded from this release type: kBuiltOptions */
 /* Excluded from this release type: kCancellationToken */
 /* Excluded from this release type: kCancellationToken_2 */
 /* Excluded from this release type: kCancelled */
 /* Excluded from this release type: kCancelled_2 */
 /* Excluded from this release type: kCheckedOut */
-/* Excluded from this release type: kClient */
 /* Excluded from this release type: kClosed */
-/* Excluded from this release type: kClosed_2 */
 /* Excluded from this release type: kConnectionCounter */
 /* Excluded from this release type: kConnections */
 /* Excluded from this release type: kCursorStream */
 /* Excluded from this release type: kDecorateResult */
-/* Excluded from this release type: kDocuments */
 /* Excluded from this release type: kErrorLabels */
 /** @public */
 export declare type KeysOfAType<TSchema, Type> = {
@@ -4171,135 +4242,89 @@ export declare type KeysOfAType<TSchema, Type> = {
 export declare type KeysOfOtherType<TSchema, Type> = {
 	[key in keyof TSchema]: NonNullable<TSchema[key]> extends Type ? never : key;
 }[keyof TSchema];
-/* Excluded from this release type: kFilter */
 /* Excluded from this release type: kGeneration */
-/* Excluded from this release type: kId */
-/* Excluded from this release type: kInit */
-/* Excluded from this release type: kInitialized */
 /* Excluded from this release type: kInternalClient */
-/* Excluded from this release type: kKilled */
 /* Excluded from this release type: kMetrics */
 /* Excluded from this release type: kMinPoolSizeTimer */
+/**
+ * @public
+ * Configuration options for making a KMIP encryption key
+ */
+export declare interface KMIPEncryptionKeyOptions {
+	/**
+	 * keyId is the KMIP Unique Identifier to a 96 byte KMIP Secret Data managed object.
+	 *
+	 * If keyId is omitted, a random 96 byte KMIP Secret Data managed object will be created.
+	 */
+	keyId?: string;
+	/**
+	 * Host with optional port.
+	 */
+	endpoint?: string;
+	/**
+	 * If true, this key should be decrypted by the KMIP server.
+	 *
+	 * Requires `mongodb-client-encryption>=6.0.1`.
+	 */
+	delegated?: boolean;
+}
+/** @public */
+export declare interface KMIPKMSProviderConfiguration {
+	/**
+	 * The output endpoint string.
+	 * The endpoint consists of a hostname and port separated by a colon.
+	 * E.g. "example.com:123". A port is always present.
+	 */
+	endpoint?: string;
+}
 /* Excluded from this release type: kMode */
 /* Excluded from this release type: kMonitorId */
 /**
  * @public
  * Configuration options that are used by specific KMS providers during key generation, encryption, and decryption.
+ *
+ * Named KMS providers _are not supported_ for automatic KMS credential fetching.
  */
 export declare interface KMSProviders {
 	/**
 	 * Configuration options for using 'aws' as your KMS provider
 	 */
-	aws?: {
-		/**
-		 * The access key used for the AWS KMS provider
-		 */
-		accessKeyId: string;
-		/**
-		 * The secret access key used for the AWS KMS provider
-		 */
-		secretAccessKey: string;
-		/**
-		 * An optional AWS session token that will be used as the
-		 * X-Amz-Security-Token header for AWS requests.
-		 */
-		sessionToken?: string;
-	} | Record<string, never>;
+	aws?: AWSKMSProviderConfiguration | Record<string, never>;
+	[key: `aws:${string}`]: AWSKMSProviderConfiguration;
 	/**
 	 * Configuration options for using 'local' as your KMS provider
 	 */
-	local?: {
-		/**
-		 * The master key used to encrypt/decrypt data keys.
-		 * A 96-byte long Buffer or base64 encoded string.
-		 */
-		key: Buffer | string;
-	};
+	local?: LocalKMSProviderConfiguration;
+	[key: `local:${string}`]: LocalKMSProviderConfiguration;
 	/**
 	 * Configuration options for using 'kmip' as your KMS provider
 	 */
-	kmip?: {
-		/**
-		 * The output endpoint string.
-		 * The endpoint consists of a hostname and port separated by a colon.
-		 * E.g. "example.com:123". A port is always present.
-		 */
-		endpoint?: string;
-	};
+	kmip?: KMIPKMSProviderConfiguration;
+	[key: `kmip:${string}`]: KMIPKMSProviderConfiguration;
 	/**
 	 * Configuration options for using 'azure' as your KMS provider
 	 */
-	azure?: {
-		/**
-		 * The tenant ID identifies the organization for the account
-		 */
-		tenantId: string;
-		/**
-		 * The client ID to authenticate a registered application
-		 */
-		clientId: string;
-		/**
-		 * The client secret to authenticate a registered application
-		 */
-		clientSecret: string;
-		/**
-		 * If present, a host with optional port. E.g. "example.com" or "example.com:443".
-		 * This is optional, and only needed if customer is using a non-commercial Azure instance
-		 * (e.g. a government or China account, which use different URLs).
-		 * Defaults to "login.microsoftonline.com"
-		 */
-		identityPlatformEndpoint?: string | undefined;
-	} | {
-		/**
-		 * If present, an access token to authenticate with Azure.
-		 */
-		accessToken: string;
-	} | Record<string, never>;
+	azure?: AzureKMSProviderConfiguration | Record<string, never>;
+	[key: `azure:${string}`]: AzureKMSProviderConfiguration;
 	/**
 	 * Configuration options for using 'gcp' as your KMS provider
 	 */
-	gcp?: {
-		/**
-		 * The service account email to authenticate
-		 */
-		email: string;
-		/**
-		 * A PKCS#8 encrypted key. This can either be a base64 string or a binary representation
-		 */
-		privateKey: string | Buffer;
-		/**
-		 * If present, a host with optional port. E.g. "example.com" or "example.com:443".
-		 * Defaults to "oauth2.googleapis.com"
-		 */
-		endpoint?: string | undefined;
-	} | {
-		/**
-		 * If present, an access token to authenticate with GCP.
-		 */
-		accessToken: string;
-	} | Record<string, never>;
+	gcp?: GCPKMSProviderConfiguration | Record<string, never>;
+	[key: `gcp:${string}`]: GCPKMSProviderConfiguration;
 }
-/* Excluded from this release type: kNamespace */
-/* Excluded from this release type: kNumReturned */
 /* Excluded from this release type: kOptions */
-/* Excluded from this release type: kOptions_2 */
-/* Excluded from this release type: kOptions_3 */
 /* Excluded from this release type: kPending */
 /* Excluded from this release type: kPinnedConnection */
-/* Excluded from this release type: kPipeline */
 /* Excluded from this release type: kPoolState */
 /* Excluded from this release type: kProcessingWaitQueue */
 /* Excluded from this release type: kServer */
 /* Excluded from this release type: kServer_2 */
-/* Excluded from this release type: kServer_3 */
 /* Excluded from this release type: kServerError */
 /* Excluded from this release type: kServerSession */
 /* Excluded from this release type: kServiceGenerations */
 /* Excluded from this release type: kSession */
-/* Excluded from this release type: kSession_2 */
 /* Excluded from this release type: kSnapshotEnabled */
 /* Excluded from this release type: kSnapshotTime */
-/* Excluded from this release type: kTransform */
 /* Excluded from this release type: kTxnNumberIncrement */
 /* Excluded from this release type: kWaitQueue */
 /* Excluded from this release type: kWaitQueue_2 */
@@ -4384,6 +4409,14 @@ export declare class ListSearchIndexesCursor extends AggregationCursor<{
 }
 /** @public */
 export declare type ListSearchIndexesOptions = Omit<AggregateOptions, "readConcern" | "writeConcern">;
+/** @public */
+export declare interface LocalKMSProviderConfiguration {
+	/**
+	 * The master key used to encrypt/decrypt data keys.
+	 * A 96-byte long Buffer or base64 encoded string.
+	 */
+	key: Binary | Uint8Array | string;
+}
 /** @public */
 export declare type MatchKeysAndValues<TSchema> = Readonly<Partial<TSchema>> & Record<string, any>;
 /** @public */
@@ -5787,7 +5820,9 @@ export declare class MongoUnexpectedServerResponseError extends MongoRuntimeErro
 	 *
 	 * @public
 	 **/
-	constructor(message: string);
+	constructor(message: string, options?: {
+		cause?: Error;
+	});
 	get name(): string;
 }
 /**
@@ -5796,8 +5831,8 @@ export declare class MongoUnexpectedServerResponseError extends MongoRuntimeErro
  * @category Error
  */
 export declare class MongoWriteConcernError extends MongoServerError {
-	/** The result document (provided if ok: 1) */
-	result?: Document;
+	/** The result document */
+	result: Document;
 	/**
 	 * **Do not use this constructor!**
 	 *
@@ -5809,7 +5844,15 @@ export declare class MongoWriteConcernError extends MongoServerError {
 	 *
 	 * @public
 	 **/
-	constructor(message: ErrorDescription, result?: Document);
+	constructor(result: {
+		writeConcernError: {
+			code: number;
+			errmsg: string;
+			codeName?: string;
+			errInfo?: Document;
+		};
+		errorLabels?: string[];
+	});
 	get name(): string;
 }
 /* Excluded from this release type: Monitor */
