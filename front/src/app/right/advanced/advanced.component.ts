@@ -22,6 +22,7 @@ export class AdvancedComponent implements OnDestroy {
 
 	drawerObs!: Subscription;
 	duplicateLoading = false;
+	changeColLoading = false;
 	collations: string[] = [];
 	stats?: Stats;
 	str = "";
@@ -100,9 +101,11 @@ export class AdvancedComponent implements OnDestroy {
 	}
 
 	async changeCollation(collation: string) {
+		this.changeColLoading = true;
 		await this.request.post('database/setCollations', {collation});
 
 		await this.request.reloadServer();
+		this.changeColLoading = false;
 		this.snackBar.open(`Switched collation to ${collation}`, "⨉", {duration: 3000});
 	}
 
