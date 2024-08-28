@@ -47,10 +47,18 @@
 					</mat-select>
 				</mat-form-field>
 
-				<button (click)="changeCollation(collation.value)"
-						[disabled]="!collation.value"
-						color="accent"
-						mat-stroked-button>
+				<mat-spinner
+					*ngIf="changeColLoading"
+					[diameter]="30"
+					color="primary"
+				></mat-spinner>
+
+				<button
+					(click)="changeCollation(collation.value)"
+					[disabled]="!collation.value"
+					*ngIf="!changeColLoading"
+					color="accent"
+					mat-stroked-button>
 					<span class="material-symbols-outlined notranslate">
 						glyphs
 					</span>

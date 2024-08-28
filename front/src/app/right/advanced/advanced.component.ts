@@ -21,6 +21,7 @@ export class AdvancedComponent implements OnDestroy {
 	selectedDatabase?: Database;
 
 	drawerObs!: Subscription;
+	changeColLoading = false;
 	duplicateLoading = false;
 	collations: string[] = [];
 	stats?: Stats;
@@ -43,6 +44,7 @@ export class AdvancedComponent implements OnDestroy {
 			}
 			await this.refreshData();
 		});
+		this.refreshData();
 	}
 
 	ngOnDestroy() {
@@ -100,9 +102,11 @@ export class AdvancedComponent implements OnDestroy {
 	}
 
 	async changeCollation(collation: string) {
+		this.changeColLoading = true;
 		await this.request.post('database/setCollations', {collation});
 
 		await this.request.reloadServer();
+		this.changeColLoading = false;
 		this.snackBar.open(`Switched collation to ${collation}`, "⨉", {duration: 3000});
 	}
 

@@ -20,7 +20,7 @@ export class Column {
 		const tags = Index.getSymbol(indexes);
 
 		if (relation) {
-			tags.push('📎');
+			tags.push('🖇️');
 		}
 		if (column.nullable) {
 			tags.push('❔');
