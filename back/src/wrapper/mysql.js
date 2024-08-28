@@ -280,7 +280,16 @@ ${def[0]["VIEW_DEFINITION"]}`
 			FROM information_schema.KEY_COLUMN_USAGE key_column
 			INNER JOIN information_schema.REFERENTIAL_CONSTRAINTS ON information_schema.REFERENTIAL_CONSTRAINTS.CONSTRAINT_NAME = key_column.CONSTRAINT_NAME
 			WHERE
-				key_column.REFERENCED_TABLE_NAME IS NOT NULL;`);
+				key_column.REFERENCED_TABLE_NAME IS NOT NULL
+			GROUP BY
+				name,
+				\`database\`,
+				table_source,
+				column_source,
+				table_dest,
+				column_dest,
+				update_rule,
+				delete_rule`);
 	}
 
 	async addIndex(database, table, name, type, columns) {
