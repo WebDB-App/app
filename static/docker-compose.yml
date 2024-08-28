@@ -3,7 +3,7 @@ version: '3.8'
 services:
     mysql:
         image: mysql
-        command: mysqld --default-authentication-plugin=mysql_native_password
+        command: mysqld
         ports:
             - "3307:3306"
         environment:

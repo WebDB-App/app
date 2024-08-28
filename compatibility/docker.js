@@ -11,7 +11,7 @@ export default {
 		docker: {
 			name: "library/mysql",
 			env: ["MYSQL_ROOT_PASSWORD=notSecureChangeMe"],
-			cmd: "mysqld --default-authentication-plugin=mysql_native_password"
+			cmd: "mysqld"
 		},
 		base: base.MySQL,
 		wrapper: "MySQL",
