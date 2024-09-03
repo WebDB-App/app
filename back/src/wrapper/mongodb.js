@@ -16,7 +16,7 @@ export default class MongoDB extends Driver {
 	systemDbs = ["admin", "config", "local"];
 
 	async scan() {
-		return super.scan(this.host, 27010, 27030);
+		return super.scan(this.host, 27017, 27030);
 	}
 
 	async getViewCode(database, view) {

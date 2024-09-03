@@ -102,13 +102,15 @@ export class ConnectionComponent implements OnInit {
 			}
 			return local;
 		});
+
+		const servers = await this.request.loadServers(await Promise.all(locals.map(server => this.request.connectServer(server))), false);
+
 		for (const scan of scans) {
-			if (locals.findIndex(server => server.name === scan.name) < 0) {
-				locals.push(scan);
+			if (servers.findIndex(server => server.name === scan.name) < 0) {
+				servers.push(scan);
 			}
 		}
 
-		const servers = await this.request.loadServers(await Promise.all(locals.map(server => this.request.connectServer(server))), false);
 		this.servers = servers.sort((a, b) => {
 			return Number(a.port) - Number(b.port)
 		});

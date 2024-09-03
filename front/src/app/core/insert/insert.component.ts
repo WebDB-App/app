@@ -265,6 +265,9 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 
 	saveCode() {
 		for (const random of this.randomSource) {
+			if (!random.column.name) {
+				continue;
+			}
 			this.codes[this.selectedTable!.name][random.column.name] = random.model;
 		}
 
