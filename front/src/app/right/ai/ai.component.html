@@ -144,6 +144,11 @@
 		</mat-card>
 
 		<mat-card style="padding: 10px 0px; display: flex; flex-direction: column;">
+			<h3 *ngIf="Object.keys(models).length < 1"
+				style="margin-bottom: 8px; text-align: center; color: #ff9800">
+				Please fill a provider key before selecting a model
+			</h3>
+
 			<mat-form-field
 				class="searchField"
 				*ngIf="Object.keys(models).length"
@@ -182,6 +187,9 @@
 					</mat-optgroup>
 				</mat-autocomplete>
 			</mat-form-field>
+
+			<mat-divider style="position: relative;"></mat-divider>
+
 			<div style="display: flex;">
 				<div id="tokens">
 					<div *ngFor="let provider of ProvidersDetail | keyvalue">

@@ -164,6 +164,7 @@ export class AiComponent implements OnInit, OnDestroy {
 		if (local) {
 			this.config = JSON.parse(local);
 		}
+		this.showSettings = !this.config.model;
 	}
 
 	async ngOnInit() {
