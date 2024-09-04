@@ -27,7 +27,6 @@ class Controller {
 			});
 			models.sort((a, b) => a.shortName?.toLowerCase().localeCompare(b.shortName?.toLowerCase()));
 
-
 			for (const mod of models) {
 				if (mod.display_type !== "chat" && mod.display_type !== "code") {
 					continue;
