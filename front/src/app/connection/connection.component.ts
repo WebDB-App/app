@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { environment } from "../../environments/environment";
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
@@ -27,7 +27,7 @@ enum ServerStatus {
 	templateUrl: './connection.component.html',
 	styleUrls: ['./connection.component.scss']
 })
-export class ConnectionComponent implements OnInit {
+export class ConnectionComponent implements OnInit, OnDestroy {
 
 	servers: Server[] = [];
 	showPassword = false;
@@ -38,6 +38,7 @@ export class ConnectionComponent implements OnInit {
 	selectedIndex = 0;
 	defaultPass = "";
 	defaultUser = "";
+	isComponentDestroyed = true;
 	demo = window.location.hostname === "demo.webdb.app";
 
 	protected readonly Status = ServerStatus;
@@ -127,9 +128,16 @@ export class ConnectionComponent implements OnInit {
 		}
 	}
 
+	ngOnDestroy(): void {
+		this.isComponentDestroyed = true;
+	}
+
 	async postLogged(localServer: Server, remoteServer: Server) {
 		Server.add(<Server>{...localServer, ...remoteServer});
-		await this.ngOnInit();
+
+		if (!this.isComponentDestroyed) {
+			await this.ngOnInit();
+		}
 	}
 
 	async guess(srv: Server, user: string, password: string) {
