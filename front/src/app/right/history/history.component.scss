@@ -1,5 +1,5 @@
 .mat-card {
-	padding: 2px;
+	padding: 1px;
 	box-shadow: none;
 
 	.mat-card-actions {
@@ -11,6 +11,11 @@
 
 	.mat-card-content {
 		margin-bottom: 0px;
+
+		.actions {
+			right: 1px;
+			top: 1px;
+		}
 	}
 
 	h4 {

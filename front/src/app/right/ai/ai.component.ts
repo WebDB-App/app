@@ -120,7 +120,6 @@ export class AiComponent implements OnInit, OnDestroy {
 	chat: Msg[] = [];
 	openai?: OpenAI;
 	gorq?: OpenAI;
-	huggingface?: OpenAI;
 	gemini?: GoogleGenerativeAI;
 	loadingCount = 0;
 	editorOptions = {
@@ -254,11 +253,6 @@ export class AiComponent implements OnInit, OnDestroy {
 		}
 		if (this.config[ProviderEnum.huggingface]) {
 			promises.push(new Promise(async resolve => {
-				this.huggingface = new OpenAI({
-					baseURL: "https://huggingface.co/api/",
-					apiKey: this.config[ProviderEnum.huggingface],
-					dangerouslyAllowBrowser: true,
-				});
 				const list: Model[] = await new Promise(resolve1 => {
 					fetch("https://huggingface.co/api/models?limit=80&sort=downloads&filter[]=text-generation").then(res => resolve1(res.json())).catch(() => resolve1([]));
 				});

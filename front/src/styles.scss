@@ -351,12 +351,15 @@ pre {
 		display: none;
 		position: absolute;
 		z-index: 10000;
-		right: 5px;
-		top: 5px;
+		right: 0px;
+		top: 0px;
 		background-color: rgba(30, 30, 30, 0.9);
-		border: 1px solid #1de9b6;
+		border: transparent;
+		border-bottom: 1px solid mat.get-color-from-palette($angular-accent, default);
+		border-left: 1px solid mat.get-color-from-palette($angular-accent, default);
 		flex-direction: column;
-		border-radius: 20px;
+		border-bottom-left-radius: 4px;
+		border-top-right-radius: 4px;
 	}
 }
 
@@ -464,7 +467,7 @@ ngx-monaco-editor {
 
 	code, .hljs {
 		&:hover {
-			box-shadow: 0px 0px 0px 2px mat.get-color-from-palette($angular-accent, default);
+			box-shadow: 0px 0px 0px 1px mat.get-color-from-palette($angular-accent, default);
 		}
 	}
 }
