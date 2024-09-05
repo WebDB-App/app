@@ -454,13 +454,13 @@ ${def[0]["pg_get_viewdef"]}`
 	}
 
 	async dropDatabase(name, associated = false) {
-		const schema = name.split(this.dbToSchemaDelimiter)[1];
+		const [database, schema] = name.split(this.dbToSchemaDelimiter);
 
-		await this.runCommand(`DROP SCHEMA ${this.escapeId(schema)} CASCADE`);
-		await this.runCommand(`CREATE SCHEMA ${this.escapeId(schema)}`);
+		await this.runCommand(`DROP SCHEMA ${this.escapeId(schema)} CASCADE`, database);
+		await this.runCommand(`CREATE SCHEMA ${this.escapeId(schema)}`, database);
 
 		if (associated) {
-			version.deleteDatabase(this, name.split(this.dbToSchemaDelimiter)[0]);
+			version.deleteDatabase(this, database);
 		}
 		return {ok: true};
 	}
