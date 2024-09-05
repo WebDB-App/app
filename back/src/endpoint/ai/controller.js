@@ -31,7 +31,7 @@ class Controller {
 				if (mod.display_type !== "chat" && mod.display_type !== "code") {
 					continue;
 				}
-				if (!mod.instances) {
+				if (!mod.instances || mod.instances.length < 1) {
 					continue;
 				}
 				finals.push({shortName: mod.shortName, fullName: mod.fullName});
