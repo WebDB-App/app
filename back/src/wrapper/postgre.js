@@ -415,7 +415,11 @@ ${def[0]["pg_get_viewdef"]}`
 		if (name === "PRIMARY") {
 			return await this.runCommand(`ALTER TABLE ${table} DROP PRIMARY KEY;`, database);
 		} else {
-			return await this.runCommand(`DROP INDEX ${name}`, database);
+			const index = await this.runCommand(`DROP INDEX ${name}`, database)
+			if (index.error) {
+				return await this.runCommand(`ALTER TABLE ${table} DROP CONSTRAINT ${name}`, database);;
+			}
+			return index;
 		}
 	}
 

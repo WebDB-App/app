@@ -36,7 +36,7 @@ async function run(config) {
 	const droppedCheck = await getCountryRelation(config);
 	await test("[relation] Drop ok", () => {
 		assert.strictEqual(dropped.error, undefined);
-		assert.strictEqual(droppedCheck.error, undefined);
+		assert.strictEqual(droppedCheck, undefined);
 	});
 
 

@@ -26,7 +26,7 @@ async function runScenarios(server) {
 			continue;
 		}
 
-		/*if (tags[0] !== "5") {
+		/*if (tags[0] !== "16") {
 			continue;
 		}*/
 
@@ -61,5 +61,4 @@ if (process.env.CI) {
 	}
 } else {
 	await runScenarios(list.postgres);
-	process.exit();
 }

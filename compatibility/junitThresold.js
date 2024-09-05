@@ -1,7 +1,7 @@
 import {JSDOM} from "jsdom";
 import fs from "fs";
 
-const threshold = 90;
+const threshold = 95;
 
 const getTestCoverage = (junitFilePath) => {
 	const dom = new JSDOM(fs.readFileSync(junitFilePath, "utf8")).window.document;

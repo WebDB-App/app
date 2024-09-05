@@ -85,7 +85,7 @@ compatibility:
         - cd compatibility
         - npm install --prod --frozen-lockfile
         - npm run test:app
-        - npm run test:docker || echo
+        - npm run test:report || echo
         - npm run fail:junit
     artifacts:
         expire_in: never
