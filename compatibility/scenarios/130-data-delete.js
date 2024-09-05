@@ -14,7 +14,7 @@ async function run(config) {
 
 	const updated = await post("data/delete", data, tableCity);
 	await test("[data] Delete ok", () => {
-		assert.ok(!updated.error);
+		assert.strictEqual(updated.error, undefined);
 	});
 
 

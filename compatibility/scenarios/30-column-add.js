@@ -8,13 +8,9 @@ async function run(config) {
 	const columns = columnsForTests[config.base].slice(1);
 
 	const created = await post("column/add", {columns}, tableForStruct);
-	await test("[column] Creation ok", () => {
-		assert.ok(!created.error);
-	});
 
-	if (created.error) {
-		throw new Error();
-	}
+	assert.strictEqual(created.error, undefined);
+	await test("[column] Creation ok");
 
 	//--------------------------------------------
 

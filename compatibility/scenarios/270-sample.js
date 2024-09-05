@@ -15,7 +15,7 @@ async function run(config) {
 		}
 	}, tableCity);
 	await test(`[sample] Found ${tableCity.Table} table and have at least ${longEnough} chars`, () => {
-		assert.ok(!sample.error);
+		assert.strictEqual(sample.error, undefined);
 		assert.ok(sample.txt.length > longEnough);
 		assert.ok(sample.txt.indexOf(tableCity.Table) > 0);
 	});

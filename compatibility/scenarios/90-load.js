@@ -13,12 +13,9 @@ async function run(config) {
 	}
 
 	const loaded = await multipart("server/load", form_data);
-	await test("[load] Load native dataset", async () => {
-		assert.ok(loaded.ok);
-	});
-	if (!loaded.ok) {
-		throw new Error();
-	}
+
+	assert.ok(loaded.ok);
+	await test("[load] Load native dataset");
 
 	const structure = await post("server/structure?full=0&size=50", config.credentials);
 	await test("[load] Loaded dataset is present in structure", () => {

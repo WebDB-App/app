@@ -35,8 +35,8 @@ async function run(config) {
 	const dropped = await post("relation/drop", {relation: countryRelation});
 	const droppedCheck = await getCountryRelation(config);
 	await test("[relation] Drop ok", () => {
-		assert.ok(!dropped.error);
-		assert.ok(!droppedCheck);
+		assert.strictEqual(dropped.error, undefined);
+		assert.strictEqual(droppedCheck.error, undefined);
 	});
 
 
@@ -46,7 +46,7 @@ async function run(config) {
 	const added = await post("relation/add", {relation: countryRelation});
 	const addedCheck = await getCountryRelation(config);
 	await test("[relation] Add ok", () => {
-		assert.ok(!added.error);
+		assert.strictEqual(added.error, undefined);
 		assert.ok(addedCheck);
 	});
 }

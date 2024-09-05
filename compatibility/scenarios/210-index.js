@@ -31,7 +31,7 @@ async function run(config) {
 	const dropped = await post("index/drop", {name: name_index.name}, tableCountry);
 	const droppedCheck = await getCountryIndexes(config);
 	await test("[index] Drop ok", () => {
-		assert.ok(!dropped.error);
+		assert.strictEqual(dropped.error, undefined);
 		assert.ok(!droppedCheck.find(index => index.name === "unique_country_name"));
 	});
 
@@ -46,7 +46,7 @@ async function run(config) {
 	}, tableCountry);
 	const addedCheck = await getCountryIndexes(config);
 	await test("[index] Add ok", () => {
-		assert.ok(!added.error);
+		assert.strictEqual(added.error, undefined);
 		assert.ok(addedCheck.find(index => index.name === "unique_country_name"));
 	});
 }

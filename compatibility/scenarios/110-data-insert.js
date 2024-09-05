@@ -34,7 +34,7 @@ async function run(config) {
 
 	const insert = await post("data/insert", insertCity[config.base], tableCity);
 	await test("[data] Insert ok", () => {
-		assert.ok(!insert.error);
+		assert.strictEqual(insert.error, undefined);
 	});
 
 

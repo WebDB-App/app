@@ -9,7 +9,7 @@ async function run(config) {
 
 	const dropped = await post("column/drop", {column: name}, tableForStruct);
 	await test("[column] Drop ok", () => {
-		assert.ok(!dropped.error);
+		assert.strictEqual(dropped.error, undefined);
 	});
 
 	//--------------------------------------------

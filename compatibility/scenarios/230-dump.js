@@ -40,7 +40,7 @@ async function run(config) {
 
 	const dump = await post("server/dump", defaultParams[config.base]);
 	await test("[dump] Dump world ok", () => {
-		assert.ok(!dump.error);
+		assert.strictEqual(dump.error, undefined);
 		assert.ok(dump.path);
 	});
 

@@ -10,12 +10,9 @@ async function run(config) {
 	};
 
 	const created = await post("table/create", table);
-	await test("[table] Creation ok", () => {
-		assert.ok(!created.error);
-	});
-	if (created.error) {
-		throw new Error();
-	}
+
+	assert.strictEqual(created.error, undefined);
+	await test("[table] Creation ok");
 
 	//--------------------------------------------
 
@@ -34,7 +31,7 @@ async function run(config) {
 	const oldTable = structuredClone(tableForStruct);
 	const duplicate = await post("table/duplicate", {new_name: "tableTest02"}, oldTable);
 	await test("[table] Duplication ok", () => {
-		assert.ok(!duplicate.error);
+		assert.strictEqual(duplicate.error, undefined);
 	});
 	if (duplicate.error) {
 		return;
@@ -45,7 +42,7 @@ async function run(config) {
 	oldTable.Table = "tableTest02";
 	const renamed = await post("table/rename", {new_name: "tableTest03"}, oldTable);
 	await test("[table] Rename ok", () => {
-		assert.ok(!renamed.error);
+		assert.strictEqual(renamed.error, undefined);
 	});
 	if (renamed.error) {
 		return;
@@ -56,7 +53,7 @@ async function run(config) {
 	oldTable.Table = "tableTest03";
 	const truncated = await post("table/truncate", {}, oldTable);
 	await test("[table] Truncate ok", () => {
-		assert.ok(!truncated.error);
+		assert.strictEqual(truncated.error, undefined);
 	});
 	if (truncated.error) {
 		return;
@@ -66,7 +63,7 @@ async function run(config) {
 
 	const dropped = await post("table/drop", {}, oldTable);
 	await test("[table] Drop ok", () => {
-		assert.ok(!dropped.error);
+		assert.strictEqual(dropped.error, undefined);
 	});
 }
 

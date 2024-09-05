@@ -17,7 +17,7 @@ async function run(config) {
 		columns: [after]
 	}, tableForStruct);
 	await test("[column] Rename ok", () => {
-		assert.ok(!updatedName.error);
+		assert.strictEqual(updatedName.error, undefined);
 	});
 	if (updatedName.error) {
 		return;
@@ -34,7 +34,7 @@ async function run(config) {
 		columns: [after]
 	}, tableForStruct);
 	await test(`[column] Cast from ${before.type} to ${after.type} ok`, () => {
-		assert.ok(!updatedType.error);
+		assert.strictEqual(updatedType.error, undefined);
 	});
 	if (updatedType.error) {
 		return;
@@ -51,7 +51,7 @@ async function run(config) {
 		columns: [after]
 	}, tableForStruct);
 	await test("[column] Set nullable", () => {
-		assert.ok(!updatedNullable.error);
+		assert.strictEqual(updatedNullable.error, undefined);
 	});
 	before.nullable = after.nullable;
 
@@ -65,7 +65,7 @@ async function run(config) {
 		columns: [after]
 	}, tableForStruct);
 	await test("[column] Set default to \"Example\"", () => {
-		assert.ok(!updatedDefault.error);
+		assert.strictEqual(updatedDefault.error, undefined);
 	});
 
 

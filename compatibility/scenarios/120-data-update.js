@@ -62,7 +62,7 @@ async function run(config) {
 		new_data: new_data[config.base]
 	}, tableCity);
 	await test("[data] Update ok", () => {
-		assert.ok(!updated.error);
+		assert.strictEqual(updated.error, undefined);
 	});
 
 

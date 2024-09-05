@@ -6,7 +6,7 @@ import {post} from "../api.js";
 async function run(config) {
 	const versions = await post("version/list", {});
 	await test("[version] List ok", () => {
-		assert.ok(!versions.error);
+		assert.strictEqual(versions.error, undefined);
 	});
 }
 

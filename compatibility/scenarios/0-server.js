@@ -5,24 +5,16 @@ import {get, post} from "../api.js";
 async function run(config) {
 
 	const scan = await get("server/scan");
-	const check_scan = scan.find(sc => sc.port === config.credentials.port);
-	await test("[server] Scan found docker port", () => {
-		assert.ok(check_scan);
-	});
-	if (!check_scan) {
-		throw new Error();
-	}
+
+	assert.ok(scan.find(sc => sc.port === config.credentials.port));
+	await test("[server] Scan found docker port");
 
 	//--------------------------------------------
 
 	const goodConnect = await post("server/connect", config.credentials);
-	const check_goodConnect = goodConnect.user && goodConnect.password;
-	await test("[server] Connect with hard coded credentials", () => {
-		assert.ok(check_goodConnect);
-	});
-	if (!check_goodConnect) {
-		throw new Error();
-	}
+
+	assert.ok(goodConnect.user && goodConnect.password);
+	await test("[server] Connect with hard coded credentials");
 
 	const currentWithoutCreds = structuredClone(config.credentials);
 	currentWithoutCreds.user = "";
@@ -58,24 +50,16 @@ async function run(config) {
 	//--------------------------------------------
 
 	const preview = await post("server/structure?full=0&size=50", config.credentials);
-	const check_preview = preview.dbs.length >= 1;
-	await test("[server] Peview structure", () => {
-		assert.ok(check_preview);
-	});
-	if (!check_preview) {
-		throw new Error();
-	}
+
+	assert.ok(preview.dbs.length >= 1);
+	await test("[server] Peview structure");
 
 	//--------------------------------------------
 
 	const full = await post("server/structure?full=1&size=50", config.credentials);
-	const check_full = full.dbs.length >= 1 && full.indexes.length >= 0 && full.relations.length >= 0;
-	await test("[server] Full structure", () => {
-		assert.ok(check_full);
-	});
-	if (!check_full) {
-		throw new Error();
-	}
+
+	assert.ok(full.dbs.length >= 1 && full.indexes.length >= 0 && full.relations.length >= 0);
+	await test("[server] Full structure");
 }
 
 /*

@@ -5,21 +5,14 @@ import {post} from "../api.js";
 
 async function run(config) {
 	const created = await post("database/create", {name: config.database.replace(" | public", "")});
-	await test("[database] Creation ok", () => {
-		assert.ok(!created.error);
-	});
-	if (created.error) {
-		throw new Error();
-	}
+
+	assert.strictEqual(created.error, undefined);
+	await test("[database] Creation ok");
 
 	const structure = await post("server/structure?full=0&size=50", config.credentials);
-	const check_structure = getDatabase(structure.dbs, config.database);
-	await test("[database] Created is present in structure", () => {
-		assert.ok(check_structure);
-	});
-	if (!check_structure) {
-		throw new Error();
-	}
+
+	assert.ok(getDatabase(structure.dbs, config.database));
+	await test("[database] Created is present in structure");
 }
 
 /*
