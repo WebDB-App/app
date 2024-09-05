@@ -60,6 +60,6 @@ if (process.env.CI) {
 		await runScenarios(server);
 	}
 } else {
-	await runScenarios(list.mysql);
+	await runScenarios(list.postgres);
 	process.exit();
 }

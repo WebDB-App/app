@@ -59,7 +59,7 @@ async function run(config) {
 	//--------------------------------------------
 
 
-	after.defaut = "Example";
+	after.defaut = "'Example'";
 	const updatedDefault = await post("column/modify", {
 		old: before,
 		columns: [after]
@@ -67,7 +67,6 @@ async function run(config) {
 	await test("[column] Set default to \"Example\"", () => {
 		assert.ok(!updatedDefault.error);
 	});
-	before.defaut = after.defaut;
 
 
 	//--------------------------------------------
@@ -85,7 +84,10 @@ async function run(config) {
 
 		if (config.base !== base.MongoDB) {
 			assert.equal(final.nullable, after.nullable);
-			final.defaut = final.defaut.replaceAll("'", "").replace("::character varying", "");
+
+			final.defaut = final.defaut.replace("::character varying", "");
+			final.defaut = final.defaut.replaceAll("'", "");
+			after.defaut = after.defaut.replaceAll("'", "");
 			assert.equal(final.defaut, after.defaut);
 		}
 	});

@@ -1,11 +1,11 @@
 import assert from "node:assert";
 import {test} from "node:test";
 import {post} from "../api.js";
-import {tableCity} from "../base.js";
+import {tableCountry} from "../base.js";
 
 async function run(config) {
 
-	const table = await post("stats/tableSize", {}, tableCity);
+	const table = await post("stats/tableSize", {}, tableCountry);
 	await test("[monitoring] Table stats ok", () => {
 		assert.ok(!table.error);
 		assert.ok(table.data_length > 0);

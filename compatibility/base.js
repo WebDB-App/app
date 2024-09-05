@@ -7,6 +7,9 @@ export const tableForStruct = {
 export const tableCity = {
 	Table: "city"
 };
+export const tableCountry = {
+	Table: "country"
+};
 
 export const columnsForTests = {
 	[base.MySQL]: [

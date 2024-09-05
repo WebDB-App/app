@@ -1,13 +1,12 @@
 import assert from "node:assert";
 import {test} from "node:test";
 import {post} from "../api.js";
-
-const table = "country";
+import {tableCountry} from "../base.js";
 
 async function getCountryIndexes(config) {
 	const structure = await post("server/structure?full=1&size=50", config.credentials);
 	return structure.indexes.filter(index => {
-		if (index.table !== table) {
+		if (index.table !== tableCountry.Table) {
 			return false;
 		}
 		return index.database === config.database;
@@ -29,7 +28,7 @@ async function run(config) {
 	//--------------------------------------------
 
 
-	const dropped = await post("index/drop", {name: name_index.name}, {Table: table});
+	const dropped = await post("index/drop", {name: name_index.name}, tableCountry);
 	const droppedCheck = await getCountryIndexes(config);
 	await test("[index] Drop ok", () => {
 		assert.ok(!dropped.error);
@@ -44,7 +43,7 @@ async function run(config) {
 		name: "unique_country_name",
 		type: "UNIQUE",
 		columns: ["name"]
-	}, {Table: table});
+	}, tableCountry);
 	const addedCheck = await getCountryIndexes(config);
 	await test("[index] Add ok", () => {
 		assert.ok(!added.error);

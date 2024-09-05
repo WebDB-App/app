@@ -2,11 +2,12 @@ import assert from "node:assert";
 import {test} from "node:test";
 import {post} from "../api.js";
 import {base} from "../docker.js";
+import {tableCountry} from "../base.js";
 
 async function getCountryRelation(config) {
 	const structure = await post("server/structure?full=1&size=50", config.credentials);
 	return structure.relations.find(relation => {
-		if (relation.table_source !== "country") {
+		if (relation.table_source !== tableCountry.Table) {
 			return false;
 		}
 		return relation.database === config.database;
