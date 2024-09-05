@@ -38,7 +38,7 @@ export class ConnectionComponent implements OnInit, OnDestroy {
 	selectedIndex = 0;
 	defaultPass = "";
 	defaultUser = "";
-	isComponentDestroyed = true;
+	isComponentDestroyed = false;
 	demo = window.location.hostname === "demo.webdb.app";
 
 	protected readonly Status = ServerStatus;
