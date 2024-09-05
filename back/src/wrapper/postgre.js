@@ -417,7 +417,7 @@ ${def[0]["pg_get_viewdef"]}`
 		} else {
 			const index = await this.runCommand(`DROP INDEX ${name}`, database);
 			if (index.error) {
-				return await this.runCommand(`ALTER TABLE ${table} DROP CONSTRAINT ${name}`, database);;
+				return await this.runCommand(`ALTER TABLE ${table} DROP CONSTRAINT ${name}`, database);
 			}
 			return index;
 		}
