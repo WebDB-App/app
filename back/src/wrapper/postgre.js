@@ -325,7 +325,7 @@ ${def[0]["pg_get_viewdef"]}`
 	}
 
 	async setCollation(database, collate) {
-		console.error("Feature not yet available", database, collate);
+		console.log("Feature not yet available", database, collate);
 		return true;
 	}
 

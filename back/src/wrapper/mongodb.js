@@ -322,7 +322,7 @@ export default class MongoDB extends Driver {
 	}
 
 	async setCollation(database, collate) {
-		console.error("Feature not yet available", database, collate);
+		console.log("Feature not yet available", database, collate);
 		return true;
 	}
 

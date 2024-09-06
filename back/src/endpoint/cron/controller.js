@@ -13,7 +13,14 @@ class FileCleanup {
 	}
 
 	checkAndCleanup() {
-		const files = readdirSync(this.folderPath).filter(file => !file.startsWith("."));
+		let files;
+		try {
+			files = readdirSync(this.folderPath).filter(file => !file.startsWith("."));
+		} catch (err) {
+			console.log(this.folderPath + " missing");
+			return;
+		}
+
 		const fileStats = files.map((file) => ({
 			name: file,
 			size: statSync(join(this.folderPath, file)).size,
