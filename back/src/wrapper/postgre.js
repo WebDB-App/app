@@ -74,19 +74,19 @@ ${def[0]["pg_get_viewdef"]}`
 		return await Promise.all(promises);
 	}
 
-	async modifyColumn(database, table, old, column) {
+	async modifyColumn(database, table, old, column, prefix = "") {
 		if (old.name !== column.name) {
-			const r = await this.runCommand(`ALTER TABLE ${this.escapeId(table)} RENAME COLUMN ${this.escapeId(old.name)} TO ${this.escapeId(column.name)}`, database);
+			const r = await this.runCommand(`${prefix} ALTER TABLE ${this.escapeId(table)} RENAME COLUMN ${this.escapeId(old.name)} TO ${this.escapeId(column.name)}`, database);
 			if (r.error) {
 				return r;
 			}
 		}
 		if (old.type !== column.type) {
-			let r = await this.runCommand(`ALTER TABLE ${this.escapeId(table)} ALTER COLUMN ${this.escapeId(column.name)} TYPE ${column.type}`, database);
+			let r = await this.runCommand(`${prefix} ALTER TABLE ${this.escapeId(table)} ALTER COLUMN ${this.escapeId(column.name)} TYPE ${column.type}`, database);
 			if (r.error) {
 				const match = /"(USING .*)"/.exec(r.error);
 				if (match?.length > 0) {
-					r = await this.runCommand(`ALTER TABLE ${this.escapeId(table)} ALTER COLUMN ${this.escapeId(column.name)} TYPE ${column.type} ${match[1]}`, database);
+					r = await this.runCommand(`${prefix} ALTER TABLE ${this.escapeId(table)} ALTER COLUMN ${this.escapeId(column.name)} TYPE ${column.type} ${match[1]}`, database);
 				}
 				if (r.error) {
 					return r;
@@ -94,7 +94,7 @@ ${def[0]["pg_get_viewdef"]}`
 			}
 		}
 		if (old.nullable !== column.nullable) {
-			const r = await this.runCommand(`ALTER TABLE ${this.escapeId(table)} ALTER COLUMN ${this.escapeId(column.name)} ${column.nullable ? "DROP NOT NULL" : "SET NOT NULL"}`, database);
+			const r = await this.runCommand(`${prefix} ALTER TABLE ${this.escapeId(table)} ALTER COLUMN ${this.escapeId(column.name)} ${column.nullable ? "DROP NOT NULL" : "SET NOT NULL"}`, database);
 			if (r.error) {
 				return r;
 			}
@@ -105,7 +105,7 @@ ${def[0]["pg_get_viewdef"]}`
 				column.defaut = this.escapeValue(column.defaut);
 			}
 
-			const r = await this.runCommand(`ALTER TABLE ${this.escapeId(table)} ALTER COLUMN ${this.escapeId(column.name)} SET DEFAULT ${column.defaut || "NULL"}`, database);
+			const r = await this.runCommand(`${prefix} ALTER TABLE ${this.escapeId(table)} ALTER COLUMN ${this.escapeId(column.name)} SET DEFAULT ${column.defaut || "NULL"}`, database);
 			if (r.error) {
 				return r;
 			}

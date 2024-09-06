@@ -33,8 +33,6 @@ export default class CockroachDB extends PostgreSQL {
 	}
 
 	async modifyColumn(database, table, old, column) {
-		await this.runCommand("SET enable_experimental_alter_column_type_general = true;");
-
-		return await super.modifyColumn(database, table, old, column);
+		return await super.modifyColumn(database, table, old, column, "SET enable_experimental_alter_column_type_general = true;");
 	}
 }
