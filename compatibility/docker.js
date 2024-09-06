@@ -97,7 +97,7 @@ export default {
 		wrapper: "CockroachDB",
 		docker: {
 			name: "cockroachdb/cockroach",
-			env: ["COCKROACH_USER=root", "COCKROACH_PASSWORD=notSecureChangeMe"],
+			env: ["COCKROACH_USER=root", "COCKROACH_PASSWORD=notSecureChangeMe", "enable_experimental_alter_column_type_general=true"],
 			cmd: "start-single-node --insecure"
 		}
 	}
