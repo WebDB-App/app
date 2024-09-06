@@ -84,6 +84,7 @@ if (environment.production) {
 declare var monaco: any;
 
 export const monacoConfig: NgxMonacoEditorConfig = {
+	baseUrl: window.location.origin + "/assets",
 	defaultOptions: {
 		padding: {top: 10},
 		minimap: {enabled: false},

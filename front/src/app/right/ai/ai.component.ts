@@ -536,13 +536,13 @@ export class AiComponent implements OnInit, OnDestroy {
 			case ProviderEnum.gemini:
 				return !!key.match(/^[a-zA-Z0-9-_]{39,}$/);
 			case ProviderEnum.together:
-				return !!key.match(/^[a-zA-Z0-9]{64,}$/);
+				return !!key.match(/^[a-zA-Z0-9-_]{64,}$/);
 			case ProviderEnum.openai:
-				return !!key.match(/^sk-[a-zA-Z0-9-]{32,}$/);
+				return !!key.match(/^sk-[a-zA-Z0-9-_]{32,}$/);
 			case ProviderEnum.gorq:
-				return !!key.match(/^gsk_[a-zA-Z0-9]{52}$/);
+				return !!key.match(/^gsk_[a-zA-Z0-9-_]{52}$/);
 			case ProviderEnum.huggingface:
-				return !!key.match(/^hf_[a-zA-Z0-9]{34,}$/);
+				return !!key.match(/^hf_[a-zA-Z0-9-_]{34,}$/);
 		}
 		return false;
 	}

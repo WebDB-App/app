@@ -29,6 +29,7 @@
 	<button
 		class="hideOnMobile"
 		mat-button
+		[disabled]="getServerByStatus(Status.Connected).length < 1"
 		routerLink="/migrate">
 		<span class="material-symbols-outlined notranslate">
 			compare

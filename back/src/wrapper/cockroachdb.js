@@ -31,4 +31,10 @@ export default class CockroachDB extends PostgreSQL {
 	async process() {
 		return await this.runCommand("WITH x AS ( SHOW CLUSTER STATEMENTS ) SELECT query_id AS pid, query, ROUND( EXTRACT( epoch FROM NOW() - x.start ) * 1000 ) AS duration FROM x");
 	}
+
+	async modifyColumn(database, table, old, column) {
+		await this.runCommand("SET enable_experimental_alter_column_type_general = true;");
+
+		return await super.modifyColumn(database, table, old, column);
+	}
 }
