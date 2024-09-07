@@ -31,10 +31,6 @@ if (process.env.NODE_ENV === "production") {
 	app.use(Sentry.Handlers.errorHandler());
 }
 
-app.get("/debug-sentry", function mainHandler(req, res) {
-	throw new Error("My first Sentry error!");
-});
-
 app.use(compression());
 app.use(cors({origin: "*"}));
 app.use(express.json({limit: "50mb"}));
