@@ -75,6 +75,9 @@ release:
     dependencies:
         - short_compatibility
     stage: release
+    rules:
+        -   if: $CI_PIPELINE_SOURCE != "schedule"
+            when: on_success
     image: docker:latest
     variables:
         IMAGE_NAME: webdb/app
