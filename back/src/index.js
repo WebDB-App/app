@@ -29,8 +29,7 @@ if (process.env.NODE_ENV === "production") {
 			new Sentry.Integrations.Express({app}),
 			nodeProfilingIntegration()
 		],
-		tracesSampleRate: 1,
-		profilesSampleRate: 1
+		tracesSampleRate: 1
 	});
 	app.use(Sentry.Handlers.requestHandler());
 	app.use(Sentry.Handlers.tracingHandler());
@@ -45,7 +44,6 @@ app.use(express.static(join(dirname, "../static/"), {
 		const cached = ["text/html", "text/css", "text/javascript", "image/svg+xml", "font/ttf", "font/woff2"];
 		if (cached.indexOf(mime.getType(path)) >= 0) {
 			res.setHeader("Cache-Control", "public, max-age=7200");
-			res.set("Document-Policy", "js-profiling");
 		}
 	}
 }));
