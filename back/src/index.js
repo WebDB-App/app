@@ -6,8 +6,10 @@ import {promises as fsp} from "fs";
 import bash from "./shared/bash.js";
 import {join} from "path";
 import Sentry from "@sentry/node";
+import {nodeProfilingIntegration} from "@sentry/profiling-node";
 import compression from "compression";
 import mime from "mime";
+import {version} from "../package.json";
 
 const dirname = new URL(".", import.meta.url).pathname;
 dotenv.config({path: dirname + "/../.env"});
@@ -17,14 +19,16 @@ const port = Number(process.env.API_PORT);
 
 if (process.env.NODE_ENV === "production") {
 	Sentry.init({
-		dsn: "https://glet_4aa313505f2ab7f4bb992102d99bbc1b@observe.gitlab.com:443/errortracking/api/v1/projects/42963773",
+		dsn: "https://e843f879c58b6761baea7c081204bae4@o4507908014473216.ingest.de.sentry.io/4507908019388496",
+		release: version,
 		integrations: [
 			new Sentry.Integrations.Http({tracing: true}),
 			new Sentry.Integrations.Express({app}),
-			Sentry.captureConsoleIntegration(["error"])
+			Sentry.captureConsoleIntegration(["error"]),
+			nodeProfilingIntegration
 		],
 		tracesSampleRate: 1,
-		profilesSampleRate: 1,
+		profilesSampleRate: 1
 	});
 	app.use(Sentry.Handlers.requestHandler());
 	app.use(Sentry.Handlers.tracingHandler());
