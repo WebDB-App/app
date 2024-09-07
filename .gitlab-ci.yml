@@ -47,6 +47,7 @@ clean:
         - npm install --prod --frozen-lockfile
         - npm run test:app
         - npm run test:report || echo
+        - npm run fail:junit
 
 short_compatibility:
     <<: *compatibility
@@ -61,8 +62,6 @@ full_compatibility:
     rules:
         -   if: $CI_PIPELINE_SOURCE == "schedule"
             when: on_success
-    script:
-        - npm run fail:junit
     artifacts:
         expire_in: never
         paths:
@@ -76,6 +75,9 @@ release:
     dependencies:
         - compatibility
     stage: release
+    rules:
+        -   if: $CI_PIPELINE_SOURCE != "schedule"
+            when: on_success
     image: docker:latest
     variables:
         IMAGE_NAME: webdb/app
