@@ -41,7 +41,7 @@ clean:
     <<: *common
     stage: compatibility
     image: docker:latest
-    before_script:
+    script:
         - (cd back && npm run docker:build)
         - cd compatibility
         - npm install --prod --frozen-lockfile
