@@ -15,11 +15,6 @@ dotenv.config({path: dirname + "/../.env"});
 const app = express();
 const port = Number(process.env.API_PORT);
 
-app.use(function (req, res, next) {
-	req.startTime = (new Date()).getTime();
-	next();
-});
-
 if (process.env.NODE_ENV === "production") {
 	Sentry.init({
 		dsn: "https://glet_4aa313505f2ab7f4bb992102d99bbc1b@observe.gitlab.com:443/errortracking/api/v1/projects/42963773",
@@ -28,25 +23,34 @@ if (process.env.NODE_ENV === "production") {
 			new Sentry.Integrations.Express({app}),
 			Sentry.captureConsoleIntegration(["error"])
 		],
-		tracesSampleRate: 0.2,
-		profilesSampleRate: 0.2,
+		tracesSampleRate: 1,
+		profilesSampleRate: 1,
 	});
 	app.use(Sentry.Handlers.requestHandler());
 	app.use(Sentry.Handlers.tracingHandler());
 	app.use(Sentry.Handlers.errorHandler());
 }
 
-function setCustomCacheControl(res, path) {
-	const cached = ["text/html", "text/css", "text/javascript", "image/svg+xml", "font/ttf", "font/woff2"];
-	if (cached.indexOf(mime.getType(path)) >= 0) {
-		res.setHeader("Cache-Control", "public, max-age=7200");
-	}
-}
+app.get("/debug-sentry", function mainHandler(req, res) {
+	throw new Error("My first Sentry error!");
+});
 
 app.use(compression());
 app.use(cors({origin: "*"}));
 app.use(express.json({limit: "50mb"}));
-app.use(express.static(join(dirname, "../static/"), {setHeaders: setCustomCacheControl}));
+app.use(express.static(join(dirname, "../static/"), {
+	setHeaders: function (res, path) {
+		const cached = ["text/html", "text/css", "text/javascript", "image/svg+xml", "font/ttf", "font/woff2"];
+		if (cached.indexOf(mime.getType(path)) >= 0) {
+			res.setHeader("Cache-Control", "public, max-age=7200");
+			res.set("Document-Policy", "js-profiling");
+		}
+	}
+}));
+app.use(function (req, res, next) {
+	req.startTime = (new Date()).getTime();
+	next();
+});
 
 (async () => {
 	const endpointPath = join(dirname, "./endpoint/");

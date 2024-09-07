@@ -2,9 +2,10 @@
 	"version": "PACKAGE_VERSION",
 	"scripts": {
 		"dev:front": "ng serve --host 0.0.0.0 --disable-host-check",
-		"build": "ng build",
+		"build": "ng build && pnpm sentry:sourcemaps",
 		"updateLibs": "./extraLibs.sh",
-		"watch": "ng build --watch --configuration development"
+		"watch": "ng build --watch --configuration development",
+		"sentry:sourcemaps": "sentry-cli sourcemaps inject --org webdb --project javascript-angular ./dist/webdb && sentry-cli sourcemaps upload --org webdb --project javascript-angular ./dist/webdb"
 	},
 	"type": "module",
 	"dependencies": {
@@ -25,7 +26,8 @@
 		"@faker-js/faker": "latest",
 		"@google/generative-ai": "latest",
 		"@ngneat/falso": "latest",
-		"@sentry/angular-ivy": "latest",
+		"@sentry/angular": "latest",
+		"@sentry/cli": "^2.35.0",
 		"@types/file-saver-es": "latest",
 		"@types/js-beautify": "latest",
 		"@types/marked": "^5.0.0",
