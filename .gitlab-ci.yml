@@ -56,7 +56,7 @@ short_compatibility:
             when: on_success
 
 full_compatibility:
-    <<: *common
+    <<: *compatibility
     stage: compatibility
     image: docker:latest
     rules:
