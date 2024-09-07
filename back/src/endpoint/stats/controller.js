@@ -1,4 +1,5 @@
 import http from "../../shared/http.js";
+import Log from "../../shared/log.js";
 
 class Controller {
 
@@ -8,7 +9,7 @@ class Controller {
 		try {
 			res.send(await driver.statsDatabase(database));
 		} catch (e) {
-			console.error(e);
+			Log.error(e);
 			res.send({});
 		}
 	}

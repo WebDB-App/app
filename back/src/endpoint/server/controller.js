@@ -6,6 +6,7 @@ import Tunnel from "../tunnel/controller.js";
 import {join} from "path";
 import version from "../../shared/version.js";
 import {URL} from "url";
+import Log from "../../shared/log.js";
 
 const dirname = new URL(".", import.meta.url).pathname;
 
@@ -75,7 +76,7 @@ class Controller {
 			}
 			res.send(final);
 		} catch (e) {
-			console.error(e);
+			Log.error(e);
 			res.send(e);
 		}
 	}

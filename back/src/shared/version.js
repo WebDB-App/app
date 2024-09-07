@@ -4,6 +4,7 @@ import bash from "./bash.js";
 import {URL} from "url";
 import {simpleGit} from "simple-git";
 import {alterStructure} from "./helper.js";
+import Log from "./log.js";
 
 const dirname = new URL(".", import.meta.url).pathname;
 const rootPath = join(dirname, "../../static/version/");
@@ -118,7 +119,7 @@ class Version {
 				return;
 			}
 		} catch (e) {
-			console.error(e);
+			Log.error(e);
 			return;
 		}
 
@@ -132,7 +133,7 @@ class Version {
 
 		const state = await driver.saveState(dir, database);
 		if (state.error) {
-			console.error(state.error);
+			Log.error(state.error);
 			return;
 		}
 		const commit = await bash.runBash(`cd ${dir} && git add --all && (git commit -m '${(new Date()).getTime()}' || echo)`);

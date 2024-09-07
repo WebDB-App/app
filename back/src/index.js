@@ -6,10 +6,10 @@ import {promises as fsp} from "fs";
 import bash from "./shared/bash.js";
 import {join} from "path";
 import Sentry from "@sentry/node";
-import {nodeProfilingIntegration} from "@sentry/profiling-node";
 import compression from "compression";
 import mime from "mime";
 import { createRequire } from "node:module";
+import Log from "./shared/log.js";
 
 const require = createRequire(import.meta.url);
 const { version } = require("../package.json");
@@ -27,7 +27,6 @@ if (process.env.NODE_ENV === "production") {
 		integrations: [
 			new Sentry.Integrations.Http({tracing: true}),
 			new Sentry.Integrations.Express({app}),
-			nodeProfilingIntegration()
 		],
 		tracesSampleRate: 1
 	});
@@ -77,10 +76,10 @@ function exit() {
 process.on("SIGINT", exit);
 process.on("SIGTERM", exit);
 process.on("uncaughtException", (error) => {
-	console.error(error);
+	Log.error(error);
 	exit();
 });
 process.on("unhandledRejection", (error) => {
-	console.error(error);
+	Log.error(error);
 	exit();
 });

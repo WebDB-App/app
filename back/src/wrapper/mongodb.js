@@ -7,6 +7,7 @@ import {loadData} from "../shared/buffer.js";
 import version from "../shared/version.js";
 import {URL} from "url";
 import {complex, mongo_injectAggregate, removeComment} from "../shared/helper.js";
+import Log from "../shared/log.js";
 
 const dirname = new URL(".", import.meta.url).pathname;
 
@@ -45,7 +46,7 @@ export default class MongoDB extends Driver {
 				try {
 					results[table] = loadData(await this.connection.db(database).collection(table).find().toArray());
 				} catch (e) {
-					console.error(e);
+					Log.error(e);
 				}
 			}
 			writeFileSync(path, JSON.stringify({
@@ -103,7 +104,7 @@ export default class MongoDB extends Driver {
 					try {
 						await this.renameTable(database, table.name, table.name.split(".")[1]);
 					} catch (e) {
-						console.error(e);
+						Log.error(e);
 					}
 				}
 			}
@@ -721,7 +722,7 @@ export default class MongoDB extends Driver {
 						try {
 							samples = await coll.aggregate([{$sample: {size: sampleSize}}]).toArray();
 						} catch (e) {
-							//console.error(e);
+							//Log.error(e);
 						}
 						struct[database.name].tables[coll.collectionName].columns = this.inferColumn(samples);
 					}

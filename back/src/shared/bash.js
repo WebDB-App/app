@@ -2,7 +2,7 @@ import {appendFileSync, writeFileSync} from "fs";
 import {randomUUID} from "crypto";
 import {finishedPath, singleLine} from "./helper.js";
 import {exec} from "child_process";
-import Sentry from "@sentry/node";
+import Log from "./log.js";
 
 class Bash {
 	commands = {};
@@ -46,11 +46,7 @@ class Bash {
 			exec(cmd, {shell: "/bin/bash"}, (err, stdout, stderr) => {
 				const lght = stdout.length || -1;
 				if (err) {
-					console.error(err);
-					Sentry.captureMessage(err.message ? err.message : err, {
-						level: "error",
-						contexts: { trace: { data: { cmd } } }
-					});
+					Log.error(err, cmd);
 					resolve({error: err.message ? err.message : err});
 				} else {
 					if (stderr) {

@@ -1,6 +1,7 @@
 import {readdirSync, statSync, unlink} from "fs";
 import {join} from "path";
 import {URL} from "url";
+import Log from "../../shared/log.js";
 
 const dirname = new URL(".", import.meta.url).pathname;
 const frontPath = join(dirname, "../../../static/");
@@ -52,7 +53,7 @@ class FileCleanup {
 			const filePath = join(this.folderPath, file);
 			unlink(filePath, (err) => {
 				if (err) {
-					console.error(`Error deleting ${file}:`, err);
+					Log.error(`Error deleting ${file}:`, err);
 				}
 			});
 		});
