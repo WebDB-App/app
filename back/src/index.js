@@ -27,7 +27,6 @@ if (process.env.NODE_ENV === "production") {
 		integrations: [
 			new Sentry.Integrations.Http({tracing: true}),
 			new Sentry.Integrations.Express({app}),
-			Sentry.captureConsoleIntegration(["error"]),
 			nodeProfilingIntegration()
 		],
 		tracesSampleRate: 1,
