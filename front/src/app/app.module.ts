@@ -1,4 +1,6 @@
-import { ErrorHandler, NgModule, Provider } from '@angular/core';
+import { APP_INITIALIZER, ErrorHandler, NgModule, Provider } from "@angular/core";
+import { Router } from "@angular/router";
+import * as Sentry from "@sentry/angular";
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -37,7 +39,6 @@ import { CreateTableDialog, TablesComponent } from "./tables/tables.component";
 import { ConfigDialog } from "./top-right/config/config-dialog.component";
 import { SharedModule } from "../shared/shared.module";
 import { LogsDialog, TopRightComponent } from './top-right/top-right.component';
-import { createErrorHandler } from "@sentry/angular-ivy";
 import { environment } from '../environments/environment';
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { EditConnectionComponent } from './connection/edit-connection/edit-connection.component';
@@ -52,7 +53,7 @@ import { CustomPaginatorIntl } from "../shared/paginator.transform";
 import { VariableDialogComponent } from "./variable/variable-dialog.component";
 import { CoreModule } from "./core/core.module";
 
-const providers: Provider[] = [
+let providers: Provider[] = [
 	{
 		provide: HIGHLIGHT_OPTIONS,
 		useValue: <HighlightOptions>{
@@ -73,12 +74,23 @@ const providers: Provider[] = [
 	}
 ];
 if (environment.production) {
-	providers.push({
-		provide: ErrorHandler,
-		useValue: createErrorHandler({
-			showDialog: false,
-		}),
-	});
+	providers = providers.concat([
+		{
+			provide: ErrorHandler,
+			useValue: Sentry.createErrorHandler({
+				showDialog: false,
+			}),
+		}, {
+			provide: Sentry.TraceService,
+			deps: [Router],
+		},
+		{
+			provide: APP_INITIALIZER,
+			useFactory: () => () => {},
+			deps: [Sentry.TraceService],
+			multi: true,
+		}
+	]);
 }
 
 declare var monaco: any;

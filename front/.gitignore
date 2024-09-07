@@ -19,3 +19,6 @@ yarn-error.log
 /libpeerconnection.log
 testem.log
 /typings
+
+# Sentry Config File
+.sentryclirc

@@ -8,7 +8,8 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@sentry/node": "^7.116.0",
+		"@sentry/node": "^7.119.0",
+		"@sentry/profiling-node": "^7.119.0",
 		"compression": "latest",
 		"cors": "latest",
 		"crypto-js": "latest",
