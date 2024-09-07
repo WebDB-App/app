@@ -9,7 +9,10 @@ import Sentry from "@sentry/node";
 import {nodeProfilingIntegration} from "@sentry/profiling-node";
 import compression from "compression";
 import mime from "mime";
-import {version} from "../package.json";
+import { createRequire } from "node:module";
+
+const require = createRequire(import.meta.url);
+const { version } = require("../package.json");
 
 const dirname = new URL(".", import.meta.url).pathname;
 dotenv.config({path: dirname + "/../.env"});
@@ -25,7 +28,7 @@ if (process.env.NODE_ENV === "production") {
 			new Sentry.Integrations.Http({tracing: true}),
 			new Sentry.Integrations.Express({app}),
 			Sentry.captureConsoleIntegration(["error"]),
-			nodeProfilingIntegration
+			nodeProfilingIntegration()
 		],
 		tracesSampleRate: 1,
 		profilesSampleRate: 1

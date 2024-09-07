@@ -3,7 +3,6 @@
 	"scripts": {
 		"dev:front": "ng serve --host 0.0.0.0 --disable-host-check",
 		"build": "ng build && pnpm sentry:sourcemaps",
-		"updateLibs": "./extraLibs.sh",
 		"watch": "ng build --watch --configuration development",
 		"sentry:sourcemaps": "sentry-cli sourcemaps inject --org webdb --project javascript-angular ./dist/webdb && sentry-cli sourcemaps upload --org webdb --project javascript-angular ./dist/webdb"
 	},
