@@ -26,7 +26,7 @@
 		"@google/generative-ai": "latest",
 		"@ngneat/falso": "latest",
 		"@sentry/angular": "latest",
-		"@sentry/cli": "^2.35.0",
+		"@sentry/cli": "latest",
 		"@types/file-saver-es": "latest",
 		"@types/js-beautify": "latest",
 		"@types/marked": "^5.0.0",
