@@ -72,6 +72,7 @@ full_compatibility:
 
 
 release:
+    <<: *common
     dependencies:
         - short_compatibility
     stage: release
