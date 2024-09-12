@@ -7,8 +7,12 @@ export function runWebDB() {
 	if (!process.env.CI) {
 		return;
 	}
-	runBash(`docker rm -f webdb_comp; docker run --name webdb_comp -d --restart=always --add-host="host.docker.internal:host-gateway" -p 22070:22071 webdb_local`);
-	runBash("sleep 1");
+	runBash(`docker rm -f webdb_comp;
+		docker run --name webdb_comp
+			-d --restart=always
+			--add-host="host.docker.internal:host-gateway"
+			-p 22070:22071 webdb_local;
+		sleep 1`);
 }
 
 export function getDatabase(dbs, dbName) {

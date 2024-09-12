@@ -28,7 +28,6 @@
 		*ngFor="let type of Object.keys(complexes)"
 		[label]="'[' + Object.values(complexes[type]).length + '] ' + type.charAt(0).toUpperCase() + type.slice(1).toLowerCase().replace('_', ' ')">
 
-
 		<mat-card *ngFor="let complex of complexes[type]" [hidden]="complex.hide" class="complex">
 			<mat-card-header>
 				<ng-container *ngIf="complex.rename">
