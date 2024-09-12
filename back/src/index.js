@@ -20,7 +20,7 @@ dotenv.config({path: dirname + "/../.env"});
 const app = express();
 const port = Number(process.env.API_PORT);
 
-if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === "production" && process.env.PRIVATE_MODE !== "true") {
 	Sentry.init({
 		dsn: "https://e843f879c58b6761baea7c081204bae4@o4507908014473216.ingest.de.sentry.io/4507908019388496",
 		release: version,

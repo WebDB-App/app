@@ -7,7 +7,6 @@ import {join} from "path";
 import version from "../shared/version.js";
 import {URL} from "url";
 import {sql_cleanQuery} from "../shared/helper.js";
-import Log from "../shared/log.js";
 
 pg.types.setTypeParser(1114, v => v);
 pg.types.setTypeParser(1184, v => v);
@@ -488,7 +487,7 @@ ${def[0]["pg_get_viewdef"]}`
 				]);
 
 				if (!Array.isArray(schemas)) {
-					Log.error(`Problem retrieving schemas of ${db.datname}`);
+					console.error(`Problem retrieving schemas of ${db.datname}`);
 					return resolve();
 				}
 
@@ -501,7 +500,7 @@ ${def[0]["pg_get_viewdef"]}`
 					};
 
 					if (!Array.isArray(tables)) {
-						Log.error(`Problem retrieving tables of ${dbPath}`);
+						console.error(`Problem retrieving tables of ${dbPath}`);
 						continue;
 					}
 
@@ -519,7 +518,7 @@ ${def[0]["pg_get_viewdef"]}`
 						}
 
 						if (!Array.isArray(columns)) {
-							Log.error(`Problem retrieving columns of ${table.table_name}`);
+							console.error(`Problem retrieving columns of ${table.table_name}`);
 							continue;
 						}
 
