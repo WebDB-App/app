@@ -4,6 +4,7 @@ import { MatIconRegistry } from "@angular/material/icon";
 import * as Sentry from "@sentry/angular";
 import packageJson from "../../package.json";
 import { Configuration } from "../classes/configuration";
+import { environment } from "../environments/environment";
 
 @Component({
 	selector: 'app-root',
@@ -25,7 +26,7 @@ export class AppComponent {
 			);
 		}
 
-		if (this.configuration.getByName('sentry')?.value) {
+		if (this.configuration.getByName('sentry')?.value && environment.production) {
 			Sentry.init({
 				dsn: "https://954e737cc190477288dcf04938b42877@o4507908014473216.ingest.de.sentry.io/4507910411780176",
 				release: packageJson.version,
