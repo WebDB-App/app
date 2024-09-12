@@ -16,7 +16,7 @@
 						(keyup)="filterChanged(filter.value)"
 						autocomplete="off"
 						matInput
-						placeholder="Search table | column | type">
+						placeholder="Filter table / column / type">
 					<button
 						(click)="filter.value=''; filterChanged(filter.value)"
 						*ngIf="filter.value"

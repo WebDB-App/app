@@ -5,7 +5,7 @@
 			   (keyup)="filterChanged(filter.value)"
 			   autocomplete="off"
 			   matInput
-			   placeholder="Search complex or table">
+			   placeholder="Filter complex or table">
 		<button (click)="filterChanged('')"
 				*ngIf="filter.value"
 				aria-label="Clear" mat-icon-button
@@ -23,19 +23,14 @@
 	</a>
 </mat-toolbar>
 
-<mat-accordion multi>
-	<mat-expansion-panel *ngFor="let type of Object.keys(complexes)">
-		<mat-expansion-panel-header>
-			<mat-panel-title>
-				{{ Object.values(complexes[type]).length }}
-			</mat-panel-title>
-			<mat-panel-description>
-				{{ type.charAt(0).toUpperCase() + type.slice(1).toLowerCase().replace("_", " ") }}
-			</mat-panel-description>
-		</mat-expansion-panel-header>
+<mat-tab-group>
+	<mat-tab
+		*ngFor="let type of Object.keys(complexes)"
+		[label]="'[' + Object.values(complexes[type]).length + '] ' + type.charAt(0).toUpperCase() + type.slice(1).toLowerCase().replace('_', ' ')">
 
-		<div *ngFor="let complex of complexes[type]" [hidden]="complex.hide" class="complex">
-			<div>
+
+		<mat-card *ngFor="let complex of complexes[type]" [hidden]="complex.hide" class="complex">
+			<mat-card-header>
 				<ng-container *ngIf="complex.rename">
 					<div>
 						<mat-form-field appearance="legacy" style="width: 200px; margin-bottom: -1.25em">
@@ -72,20 +67,23 @@
 							<span *ngIf="complex.column">.{{ complex.column }}</span>
 						</div>
 					</div>
-					<div>
+					<div style="display: flex; gap: 8px;">
 						<button
 							(click)="alter(complex, type)"
+							mat-stroked-button
 							mat-button>
 							Alter
 						</button>
 						<button
 							*ngIf="selectedServer!.driver.renameComplex(complex, type, selectedDatabase!.name)"
 							(click)="complex.rename = true"
+							mat-stroked-button
 							mat-button>
 							Rename
 						</button>
 						<button
 							(click)="drop(complex, type)"
+							mat-stroked-button
 							color="warn"
 							mat-icon-button>
 							<span class="material-symbols-outlined notranslate">
@@ -94,12 +92,12 @@
 						</button>
 					</div>
 				</ng-container>
-			</div>
+			</mat-card-header>
 
 			<pre *ngIf="complex.value"><code
 				[highlight]="complex.value"
 				[languages]="[selectedServer?.driver!.language.id, 'JSON']">
 			</code></pre>
-		</div>
-	</mat-expansion-panel>
-</mat-accordion>
+		</mat-card>
+	</mat-tab>
+</mat-tab-group>

@@ -5,7 +5,7 @@
 			(keyup)="filterChanged(filter.value)"
 			autocomplete="off"
 			matInput
-			placeholder="Search server | database">
+			placeholder="Filter server / database">
 		<button
 			(click)="filter.value=''; filterChanged(filter.value)"
 			*ngIf="filter.value"

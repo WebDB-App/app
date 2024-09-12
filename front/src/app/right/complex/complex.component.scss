@@ -1,34 +1,19 @@
-.mat-accordion {
-	margin: 8px 6px;
-	display: block;
-
-	::ng-deep .mat-expansion-panel-body {
-		padding: 0 12px 16px;
-	}
-}
-
 .complex {
-	margin-bottom: 24px;
+	padding: 0px;
 
-	&:hover {
-		button {
-			opacity: 1 !important;
-		}
-	}
-
-	> div {
+	.mat-card-header {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 		gap: 20px;
-		padding: 0px 10px;
-
-		button {
-			opacity: 0.2;
-		}
+		padding: 8px 20px;
 
 		h4 {
 			margin-bottom: 0px;
 		}
+	}
+
+	.hljs {
+		margin: 0px;
 	}
 }
