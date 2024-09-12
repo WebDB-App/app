@@ -18,6 +18,7 @@ export class UpdateDataDialog {
 	selectedDatabase?: Database;
 	selectedTable?: Table;
 
+	data: any;
 	relationHelper: { [key: string]: any[] } = {};
 	datesHelper: { [key: string]: (date: string) => {} } = {};
 	str = "";
@@ -31,19 +32,19 @@ export class UpdateDataDialog {
 		private dialogRef: MatDialogRef<UpdateDataDialog>,
 		public snackBar: MatSnackBar,
 		private request: RequestService,
-		@Inject(MAT_DIALOG_DATA) public data: {
+		@Inject(MAT_DIALOG_DATA) public original: {
 			row: any,
 			updateInPlace: boolean
 		},
 	) {
-		data.row = structuredClone(data.row);
-		for (const col of Object.keys(data.row)) {
+		this.data = structuredClone(original.row);
+		for (const col of Object.keys(this.data)) {
 			if (Column.isOfGroups(Server.getSelected().driver, Table.getSelected().columns.find(c => c.name === col)!, [Group.Blob])) {
-				delete data.row[col];
+				delete this.data[col];
 			}
 		}
 
-		this.str = JSON.stringify(data.row, null, "\t");
+		this.str = JSON.stringify(this.data, null, "\t");
 		this.selectedServer = Server.getSelected();
 		this.selectedDatabase = Database.getSelected();
 		this.selectedTable = Table.getSelected();
@@ -53,9 +54,9 @@ export class UpdateDataDialog {
 	async update() {
 		const n = JSON.parse(this.str);
 
-		if (this.data.updateInPlace) {
+		if (this.original.updateInPlace) {
 			const nb = await this.request.post('data/update', {
-				old_data: this.data.row,
+				old_data: this.data,
 				new_data: n
 			}, this.selectedTable, this.selectedDatabase, this.selectedServer);
 			if (nb.error) {
@@ -68,7 +69,7 @@ export class UpdateDataDialog {
 	}
 
 	isTouched() {
-		return JSON.stringify(this.data.row, null, "\t") !== this.str;
+		return JSON.stringify(this.data, null, "\t") !== this.str;
 	}
 
 	async loadHelper() {
@@ -103,6 +104,10 @@ export class UpdateDataDialog {
 		const row = JSON.parse(this.str);
 		row[column] = value;
 		this.str = JSON.stringify(row, null, "\t");
+	}
+
+	revert() {
+		this.str = JSON.stringify(this.data, null, "\t");
 	}
 
 	strError() {

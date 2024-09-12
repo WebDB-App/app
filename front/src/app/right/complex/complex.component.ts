@@ -61,7 +61,7 @@ export class ComplexComponent implements OnInit {
 		const query = this.selectedServer!.driver.renameComplex(complex, type, this.selectedDatabase!.name);
 		await this.request.post('query/run', { query });
 
-		this.snackBar.open(`Rename ${complex.name} to ${complex.newName}`, "⨉", {duration: 3000});
+		this.snackBar.open(`Renamed ${complex.name} to ${complex.newName}`, "⨉", {duration: 3000});
 		complex.name = complex.newName!;
 		complex.rename = false;
 	}
