@@ -1,4 +1,4 @@
-import {suite} from "node:test";
+import {describe} from "node:test";
 import {loadConfig, runBash} from "./api.js";
 import list from "./docker.js";
 import {getScenarios, getTags, runWebDB} from "./helper.js";
@@ -37,7 +37,7 @@ async function runScenarios(server) {
 
 		for (const scenario of scenarios) {
 			const r = await new Promise(async resolve => {
-				await suite(config.docker.name + ":" + tags[0], {}, async () => {
+				await describe(config.docker.name + ":" + tags[0], {}, async () => {
 					try {
 						await scenario(config);
 						resolve(true);

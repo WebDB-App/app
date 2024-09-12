@@ -1,10 +1,10 @@
-import {suite, test} from "node:test";
+import {describe, test} from "node:test";
 import assert from "node:assert";
 import {runWebDB} from "./helper.js";
 
 runWebDB();
 
-await suite("webdb:app", async () => {
+await describe("webdb:app", async () => {
 
 	const logs = await (await fetch("http://localhost:22070/logs/finished.log", {
 		"method": "GET",

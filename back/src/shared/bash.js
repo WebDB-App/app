@@ -46,7 +46,11 @@ class Bash {
 			exec(cmd, {shell: "/bin/bash"}, (err, stdout, stderr) => {
 				const lght = stdout.length || -1;
 				if (err) {
-					Log.error(err, cmd);
+					if (process.env.PRIVATE_MODE === "true") {
+						Log.error(err, cmd);
+					} else {
+						console.error(err);
+					}
 					resolve({error: err.message ? err.message : err});
 				} else {
 					if (stderr) {
