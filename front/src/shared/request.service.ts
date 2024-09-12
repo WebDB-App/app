@@ -73,15 +73,17 @@ export class RequestService {
 		return result;
 	}
 
-	async connectServer(server: Server) {
+	async initServer(server: Server, connect = true) {
 		// @ts-ignore
 		server.driver = new drivers[server.wrapper];
 		server.params = server.params || server.driver.connection.defaultParams;
 
-		const connect = await firstValueFrom(this.http.post<any>(environment.apiRootUrl + 'server/connect', Server.getShallow(server)));
+		if (connect) {
+			const co = await firstValueFrom(this.http.post<any>(environment.apiRootUrl + 'server/connect', Server.getShallow(server)));
+			server.connected = !co.error;
+			server.uri = co.uri;
+		}
 
-		server.connected = !connect.error;
-		server.uri = connect.uri;
 		return server;
 	}
 

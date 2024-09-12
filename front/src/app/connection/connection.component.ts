@@ -104,11 +104,11 @@ export class ConnectionComponent implements OnInit, OnDestroy {
 			return local;
 		});
 
-		const servers = await this.request.loadServers(await Promise.all(locals.map(server => this.request.connectServer(server))), false);
+		const servers = await this.request.loadServers(await Promise.all(locals.map(server => this.request.initServer(server))), false);
 
 		for (const scan of scans) {
 			if (servers.findIndex(server => server.name === scan.name) < 0) {
-				servers.push(scan);
+				servers.push(await this.request.initServer(scan, false));
 			}
 		}
 

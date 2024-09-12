@@ -65,7 +65,7 @@ export class MigrateComponent implements OnInit {
 		this.titleService.setTitle("WebDB – Migration");
 		this.loading = LoadingStatus.LOADING;
 
-		const servers = await Promise.all(Server.getAll().map(server => this.request.connectServer(server)));
+		const servers = await Promise.all(Server.getAll().map(server => this.request.initServer(server)));
 		this.servers = await this.request.loadServers(servers.filter(server => server.connected), true);
 	}
 
