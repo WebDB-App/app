@@ -172,6 +172,12 @@
 						</span>
 						{{ server.wrapper }} driver references
 					</a>
+
+					<mat-error
+						*ngIf="strError() !== null"
+						style="width: 250px">
+						<div [innerHtml]="strError()"></div>
+					</mat-error>
 				</div>
 			</div>
 		</mat-step>

@@ -96,7 +96,13 @@ ${def[0]["VIEW_DEFINITION"]}`
 	}
 
 	async saveState(path, database) {
-		return await bash.runBash(`mysqldump --single-transaction --skip-comments --extended-insert --net-buffer-length=16777216 --routines --events --user='${this.user}' --port=${this.port} --password='${this.password}' --host='${this.host}' ${database} | sed 's$VALUES ($VALUES\\n($g' | sed 's$),($),\\n($g' > ${join(path, database)}`);
+		const common = `--single-transaction --skip-comments --extended-insert --net-buffer-length=16777216 --routines --events --user='${this.user}' --port=${this.port} --password='${this.password}' --host='${this.host}' ${database} | sed 's$VALUES ($VALUES\\n($g' | sed 's$),($),\\n($g' > ${join(path, database)}`;
+
+		if (process.platform === "darwin") {
+			return await bash.runBash(`LC_ALL=C mysqldump --column-statistics=0 ${common}`);
+		} else {
+			return await bash.runBash(`mysqldump ${common}`);
+		}
 	}
 
 	async load(files, database) {

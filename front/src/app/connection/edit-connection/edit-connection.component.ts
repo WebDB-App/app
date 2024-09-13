@@ -110,4 +110,13 @@ export class EditConnectionComponent implements OnChanges {
 		Server.add(this.server);
 		this.edited.emit();
 	}
+
+	strError() {
+		try {
+			JSON.parse(this.params);
+		} catch (e) {
+			return e;
+		}
+		return null;
+	}
 }
