@@ -10,7 +10,7 @@ stages:
     interruptible: true
     before_script:
         - export TAG=$(date '+%Y.%m.%d')
-        - printenv
+#        - printenv
 
 
 #-----------------------------------------
