@@ -50,6 +50,9 @@
 					},
 					"configurations": {
 						"production": {
+							"sourceMap": {
+								"scripts": true
+							},
 							"budgets": [
 								{
 									"type": "initial",

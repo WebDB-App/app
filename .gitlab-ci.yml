@@ -88,6 +88,7 @@ release:
         - cd front
         - pnpm install --prod --frozen-lockfile
         - pnpm run build
+        - rm -rf dist/webdb/*.map
         - ./changelog.js ./dist/webdb/changelog.html
         - cp -fr ./dist/webdb/* ../back/static/
         - cd ../back
