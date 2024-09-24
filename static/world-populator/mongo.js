@@ -2,7 +2,7 @@ import {MongoClient} from 'mongodb';
 import countries from './countries.js';
 import cities from "./cities.json" assert {type: "json"};
 
-const client = new MongoClient("mongodb://root:notSecureChangeMe@127.0.0.1:27017/?serverSelectionTimeoutMS=2000&authSource=admin", {
+const client = new MongoClient("mongodb://root:pass#();@127.0.0.1:27017/?serverSelectionTimeoutMS=2000&authSource=admin", {
 	useNewUrlParser: true,
 	useUnifiedTopology: true
 });

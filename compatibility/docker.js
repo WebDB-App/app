@@ -10,7 +10,7 @@ export default {
 		external_port: 3307,
 		docker: {
 			name: "library/mysql",
-			env: ["MYSQL_ROOT_PASSWORD=notSecureChangeMe"],
+			env: ["MYSQL_ROOT_PASSWORD=pass#();"],
 			cmd: "mysqld"
 		},
 		base: base.MySQL,
@@ -27,7 +27,7 @@ export default {
 		external_port: 3308,
 		docker: {
 			name: "library/mariadb",
-			env: ["MYSQL_ROOT_PASSWORD=notSecureChangeMe"],
+			env: ["MYSQL_ROOT_PASSWORD=pass#();"],
 		},
 		base: base.MySQL,
 		wrapper: "MySQL",
@@ -44,7 +44,7 @@ export default {
 		docker: {
 			exclusions: ["psmdb-"],
 			name: "library/percona",
-			env: ["MYSQL_ROOT_PASSWORD=notSecureChangeMe"],
+			env: ["MYSQL_ROOT_PASSWORD=pass#();"],
 		},
 		base: base.MySQL,
 		wrapper: "MySQL",
@@ -61,7 +61,7 @@ export default {
 		base: "PostgreSQL",
 		docker: {
 			name: "yugabytedb/yugabyte",
-			env: ["YSQL_USER=root", "YSQL_PASSWORD=notSecureChangeMe"],
+			env: ["YSQL_USER=root", "YSQL_PASSWORD=pass#();"],
 			cmd: "bin/yugabyted start --daemon=false"
 		}
 	},*/
@@ -71,7 +71,7 @@ export default {
 		docker: {
 			exclusions: ["windowsservercore", "nanoserver"],
 			name: "library/mongo",
-			env: ["MONGO_INITDB_ROOT_USERNAME=root", "MONGO_INITDB_ROOT_PASSWORD=notSecureChangeMe"],
+			env: ["MONGO_INITDB_ROOT_USERNAME=root", "MONGO_INITDB_ROOT_PASSWORD=pass#();"],
 		},
 		base: base.MongoDB,
 		wrapper: "MongoDB",
@@ -87,7 +87,7 @@ export default {
 		wrapper: "PostgreSQL",
 		docker: {
 			name: "library/postgres",
-			env: ["POSTGRES_USER=root", "POSTGRES_PASSWORD=notSecureChangeMe"]
+			env: ["POSTGRES_USER=root", "POSTGRES_PASSWORD=pass#();"]
 		},
 	},
 	cockroachdb: {
@@ -97,7 +97,7 @@ export default {
 		wrapper: "CockroachDB",
 		docker: {
 			name: "cockroachdb/cockroach",
-			env: ["COCKROACH_USER=root", "COCKROACH_PASSWORD=notSecureChangeMe"],
+			env: ["COCKROACH_USER=root", "COCKROACH_PASSWORD=pass#();"],
 			cmd: "start-single-node --insecure"
 		}
 	}

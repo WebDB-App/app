@@ -5,7 +5,7 @@ import {base} from "./docker.js";
 export const basicConf = {
 	credentials: {
 		user: "root",
-		password: "notSecureChangeMe"
+		password: "pass#();"
 	}
 };
 

@@ -58,7 +58,7 @@ export class ConnectionComponent implements OnInit, OnDestroy {
 
 		if (this.demo) {
 			this.defaultUser = "root";
-			this.defaultPass = "notSecureChangeMe";
+			this.defaultPass = "pass#();";
 
 			if (!localStorage.getItem("firstVisit")) {
 				localStorage.setItem("firstVisit", "true");
