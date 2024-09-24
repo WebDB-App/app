@@ -51,9 +51,13 @@ export class Server {
 		delete newData.scanned;
 		newData.name = Server.setName(newData);
 
-		servers.push(newData);
+		const existing = servers.findIndex((server: Server) => server.name === newData.name);
+		if (existing >= 0) {
+			servers[existing] = newData;
+		} else {
+			servers.push(newData);
+		}
 		localStorage.setItem(localStorageName, JSON.stringify(servers));
-
 		return newData;
 	}
 
