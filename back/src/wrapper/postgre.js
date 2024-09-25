@@ -612,16 +612,16 @@ ${def[0]["pg_get_viewdef"]}`
 	}
 
 	async establish(database = false) {
-		try {
-			const creds = {
-				host: this.host,
-				port: this.port,
-				user: this.user,
-				password: this.password,
-				database: database || "postgres",
-				...this.params
-			};
+		const creds = {
+			host: this.host,
+			port: this.port,
+			user: this.user,
+			password: this.password,
+			database: database || "postgres",
+			...this.params
+		};
 
+		try {
 			const pool = new Pool(creds);
 			const connection = await pool.connect();
 			connection.release();
