@@ -756,7 +756,7 @@ export default class MongoDB extends Driver {
 
 			return connection;
 		} catch (e) {
-			return {error: e.message || "Unknown error"};
+			return {error: e.message || "Unknown error of " + this.makeUri(false)};
 		}
 	}
 

@@ -480,7 +480,7 @@ ${def[0]["VIEW_DEFINITION"]}`
 
 			return pool;
 		} catch (e) {
-			return {error: e.sqlMessage || e.message || e.code || "Unknown error"};
+			return {error: e.sqlMessage || e.message || e.code || "Unknown error of " + JSON.stringify(params)};
 		}
 	}
 

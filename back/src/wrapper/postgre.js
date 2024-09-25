@@ -628,7 +628,7 @@ ${def[0]["pg_get_viewdef"]}`
 
 			return pool;
 		} catch (e) {
-			return {error: e.message || "Unknown error"};
+			return {error: e.message || "Unknown error of " + JSON.stringify(creds)};
 		}
 	}
 }
