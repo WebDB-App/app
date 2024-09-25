@@ -49,6 +49,7 @@ class Wrapper {
 			const forwardPort = await Tunnel.handleSsh(connection);
 			if (forwardPort) {
 				connection.port = forwardPort;
+				connection.host = "127.0.0.1";
 			}
 		} catch (error) {
 			return false;

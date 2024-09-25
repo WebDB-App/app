@@ -168,6 +168,7 @@ class Controller {
 			const forwardPort = await Tunnel.handleSsh(req.body);
 			if (forwardPort) {
 				req.body.port = forwardPort;
+				req.body.host = "127.0.0.1";
 			}
 		} catch (error) {
 			return res.send(error);
