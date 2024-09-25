@@ -737,8 +737,8 @@ export default class MongoDB extends Driver {
 
 	makeUri(withParams = true) {
 		let url = (this.user && this.password) ?
-			`mongodb://${this.user}:${this.password}@${this.host}:${this.port}/` :
-			`mongodb://${this.host}:${this.port}/`;
+			`mongodb://${encodeURIComponent(this.user)}:${encodeURIComponent(this.password)}@${encodeURIComponent(this.host)}:${this.port}/` :
+			`mongodb://${encodeURIComponent(this.host)}:${this.port}/`;
 
 		if (withParams) {
 			url += "?" + (new URLSearchParams(this.params)).toString();

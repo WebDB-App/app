@@ -72,7 +72,7 @@ ${def[0]["VIEW_DEFINITION"]}`
 		const total = await this.runCommand(`SELECT COUNT(DISTINCT TABLE_NAME) as total FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = ${this.escapeValue(database)}`);
 
 		if (exportType === "sql") {
-			const cmd = `mysqldump --user='${this.user}' --port=${this.port} --password='${this.password}' --host='${this.host}' ${database} `;
+			const cmd = `mysqldump --user="${bash.shellEscape(this.user, true)}" --port=${this.port} --password="${bash.shellEscape(this.password, true)}" --host="${bash.shellEscape(this.host, true)}" ${bash.shellEscape(database)} `;
 			const dbOpts = (tables === false || tables.length >= total[0].total) ? "" : ` ${tables.join(" ")}`;
 
 			const result = await bash.runBash(`${cmd} ${dbOpts} ${options} > ${path}`);
@@ -415,7 +415,9 @@ ${def[0]["VIEW_DEFINITION"]}`
 			return this.foundErrorPos({error: e.sqlMessage}, command);
 		} finally {
 			bash.endCommand(cid, lgth);
-			connection.release();
+			if (connection) {
+				connection.release();
+			}
 		}
 	}
 

@@ -27,7 +27,7 @@ class Version {
 	}
 
 	getPath(database, driver) {
-		return join(rootPath, driver.port.toString(), database);
+		return join(rootPath, `${driver.user}@${driver.host}:${driver.port}`, database);
 	}
 
 	async reset(dbSchema, driver, hash) {

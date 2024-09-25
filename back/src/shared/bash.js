@@ -39,6 +39,13 @@ class Bash {
 		delete this.commands[cid];
 	}
 
+	shellEscape(arg, doubleQuoted = false) {
+		if (doubleQuoted) {
+			return arg.replace(/(["])/g, "\\$1");
+		}
+		return arg.replace(/([$!'"();`*?{}[\]<>&%#~@\\])/g, "\\$1");
+	}
+
 	async runBash(cmd) {
 		const cid = this.startCommand(cmd, "", "sh");
 

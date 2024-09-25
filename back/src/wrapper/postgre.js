@@ -149,7 +149,7 @@ ${def[0]["pg_get_viewdef"]}`
 	}
 
 	makeUri(database = false) {
-		return `postgresql://${this.user}:${this.password}@${this.host}:${this.port}` + (database ? ("/" + database) : "");
+		return `postgresql://${encodeURIComponent(this.user)}:${encodeURIComponent(this.password)}@${encodeURIComponent(this.host)}:${this.port}` + (database ? ("/" + database) : "");
 	}
 
 	async load(files, dbSchema) {
@@ -601,7 +601,9 @@ ${def[0]["pg_get_viewdef"]}`
 			return {error: e.message + ". " + (e.hint || ""), position: e.position};
 		} finally {
 			bash.endCommand(cid, lgth);
-			connection.release();
+			if (connection) {
+				connection.release();
+			}
 		}
 	}
 
