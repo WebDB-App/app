@@ -56,9 +56,6 @@
 						style="max-height: 100px;">
 						</textarea>
 				</mat-form-field>
-				<span style="margin-bottom: 1.25em;">
-					OR
-				</span>
 				<mat-form-field appearance="outline">
 					<mat-label>Password</mat-label>
 					<input [(ngModel)]="server.ssh.password"
@@ -73,39 +70,24 @@
 						{{ !showPassword ? 'visibility' : 'visibility_off' }}
 					</span>
 				</mat-form-field>
-			</div>
+				<div style="display: flex; gap: 4px">
+					<button
+						(click)="testSSH()"
+						[disabled]="!server.ssh.host || !server.ssh.port || !server.ssh.user"
+						[ngClass]="{'mat-flat-button' : sshStatus === 'notConnected'}"
+						color="accent"
+						mat-button
+						style="width: 200px;">
+						Test SSH
+					</button>
 
-			<div style="display: flex; gap: 4px">
-				<button
-					(click)="snackBar.open('Code copied', '⨉', {duration: 3000})"
-					[cdkCopyToClipboard]="'cat ~/.ssh/id_rsa'"
-					mat-button
-					style="width: 160px">
-					cat ~/.ssh/id_rsa
-				</button>
-				<button
-					(click)="snackBar.open('Code copied', '⨉', {duration: 3000})"
-					[cdkCopyToClipboard]='"ssh-keygen -t rsa -N \"\" -f ~/.ssh/id_rsa"'
-					mat-button
-					style="width: 160px">
-					ssh-keygen
-				</button>
-				<button
-					(click)="testSSH()"
-					[disabled]="!server.ssh.host || !server.ssh.port || !server.ssh.user"
-					[ngClass]="{'mat-flat-button' : sshStatus === 'notConnected'}"
-					color="accent"
-					mat-button
-					style="width: 200px;">
-					Test SSH
-				</button>
-
-				<mat-progress-spinner
-					*ngIf="sshStatus === 'loading'"
-					[diameter]="30"
-					color="accent"
-					mode="indeterminate">
-				</mat-progress-spinner>
+					<mat-progress-spinner
+						*ngIf="sshStatus === 'loading'"
+						[diameter]="30"
+						color="accent"
+						mode="indeterminate">
+					</mat-progress-spinner>
+				</div>
 			</div>
 		</mat-step>
 		<mat-step *ngIf="server.wrapper">

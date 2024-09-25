@@ -38,13 +38,14 @@ class Controller {
 			const pk = connection.ssh.privateKey.trim() + "\n";
 			fs.writeFileSync(privateKey, pk);
 			fs.chmodSync(privateKey, 0o700);
+			common += `-i ${privateKey} `;
 		}
 
 		if (test) {
 			if (connection.ssh.password) {
 				return await bash.runBash(`sshpass -p "${bash.shellEscape(connection.ssh.password, true)}" ${common} ${uri} true`);
 			} else {
-				return await bash.runBash(common + `-i ${privateKey} ${uri} true`);
+				return await bash.runBash(common + `${uri} true`);
 			}
 		}
 
@@ -61,7 +62,7 @@ class Controller {
 		if (connection.ssh.password) {
 			forward = await bash.runBash(`sshpass -p "${bash.shellEscape(connection.ssh.password, true)}" ${common} ${uri}`);
 		} else {
-			forward = await bash.runBash(common + `-i ${privateKey} ${uri}`);
+			forward = await bash.runBash(common + uri);
 		}
 		if (forward.error) {
 			return forward;
