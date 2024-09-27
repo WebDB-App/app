@@ -55,7 +55,7 @@ export async function getTags(docker) {
 		digests[tag.digest].push(tag.name);
 	});
 
-	return Object.values(digests).slice(0, process.env.CI_PIPELINE_SOURCE === "schedule" ? 5 : 1).map(values => {
+	return Object.values(digests).slice(0, process.env.CI_PIPELINE_SOURCE === "schedule" ? 8 : 1).map(values => {
 		return values.sort();
 	});
 }
