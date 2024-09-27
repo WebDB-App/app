@@ -64,7 +64,7 @@ app.use(function (req, res, next) {
 	});
 
 	app.listen(port, () => {
-		bash.endCommand(bash.startCommand("WebDB App running", "database", port), "rows", "ping_");
+		bash.endCommand(bash.startCommand("WebDB App running", "database", 0), "rows", "ping_");
 	});
 })();
 

@@ -2,7 +2,7 @@
 	"version": "PACKAGE_VERSION",
 	"scripts": {
 		"dev:back": "node --watch src/index.js",
-		"docker:dev": "npm run docker:build && docker run --rm --name webdb_dev -it -p 127.0.0.1:22075:22071 webdb_local",
+		"docker:dev": "docker run --rm --name webdb_dev -it -p 127.0.0.1:22070:22071 webdb_local",
 		"docker:build": "docker build -t webdb_local .",
 		"lint": "eslint . --fix"
 	},

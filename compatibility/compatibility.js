@@ -13,18 +13,17 @@ async function runDocker(database, tag) {
 	let ready = "0";
 	let tries = 0;
 	do {
-		ready = runBash(`sleep 2; docker exec ${id} ${database.waitCmd} 2> /dev/null || echo 0`).trim();
-	} while (ready === "0" && ++tries < 10);
+		ready = runBash(`sleep 1; docker exec ${id} ${database.waitCmd} 2> /dev/null || echo 0`).trim();
+	} while (ready === "0" && ++tries < 40);
 
 	return id;
 }
 
 async function runScenarios(server) {
 	const digests = await getTags(server.docker);
+	runWebDB();
 
 	for (const tags of digests) {
-		runWebDB();
-
 		const config = await loadConfig(server);
 		if (!config) {
 			continue;
@@ -46,7 +45,7 @@ async function runScenarios(server) {
 						await scenario(config);
 						resolve(true);
 					} catch (e) {
-						console.error(e.message);
+						console.error(e);
 						resolve(false);
 					}
 				});

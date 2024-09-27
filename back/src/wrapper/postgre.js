@@ -577,13 +577,13 @@ ${def[0]["pg_get_viewdef"]}`
 			try {
 				connection = await co.connect();
 			} catch (e) {
-				console.table(co);
+				console.info("Loose connection to " + this.makeUri(database));
 			}
 		} else {
 			try {
 				connection = await this.connection.connect();
 			} catch (e) {
-				console.table(this.connection);
+				console.info("Loose connection to " + this.makeUri());
 			}
 		}
 

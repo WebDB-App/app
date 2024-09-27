@@ -582,7 +582,7 @@ export default class MongoDB extends Driver {
 				try {
 					db = await this.connection.db(database);
 				} catch (e) {
-					console.table(this.connection);
+					console.info("Loose connection to " + this.makeUri(database));
 				}
 			}
 			const fct = new Function("db", "bson", "mongo", command);

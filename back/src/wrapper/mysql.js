@@ -398,7 +398,7 @@ ${def[0]["VIEW_DEFINITION"]}`
 		try {
 			connection = await this.connection.promise().getConnection();
 		} catch (e) {
-			console.table(this.connection);
+			console.info("Loose connection to " + this.makeUri(database));
 		}
 
 		let lgth = -1;
