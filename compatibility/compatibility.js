@@ -8,10 +8,14 @@ const scenarios = await getScenarios();
 async function runDocker(database, tag) {
 	runBash(`docker rm -f $(docker container ls --format="{{.ID}}\t{{.Ports}}" | grep ${database.credentials.port} | awk '{print $1}') 2> /dev/null || echo`);
 	runBash(`docker pull ${database.docker.name}:${tag} --quiet`);
-	const id = runBash(`docker run -d -p ${database.credentials.port}:${database.internal_port} ${database.docker.env.map(env => ` -e ${env}`).join(" ")} ${database.docker.name}:${tag} ${database.docker.cmd || ""}`);
-	await new Promise(resolve => {
-		setTimeout(resolve, 15_000);
-	});
+	const id = runBash(`docker run -d -p ${database.credentials.port}:${database.internal_port} ${database.docker.env.map(env => ` -e ${env}`).join(" ")} ${database.docker.name}:${tag} ${database.docker.cmd || ""}`).trim();
+
+	let ready;
+	let tries = 0;
+	do {
+		ready = runBash(`sleep 2; docker exec ${id} ${database.waitCmd} && echo 1`);
+	} while (!ready && ++tries < 10);
+
 	return id;
 }
 
