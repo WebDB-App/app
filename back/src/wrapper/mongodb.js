@@ -569,22 +569,22 @@ export default class MongoDB extends Driver {
 
 	async runCommand(command, database = false) {
 		let db = this.connection;
-		let lgth = -1;
+		if (database) {
+			try {
+				db = await this.connection.db(database);
+			} catch (e) {
+				console.info("Loose connection to " + this.makeUri(database));
+				return {error: "Loose connection to server"};
+			}
+		}
 
+		let lgth = -1;
 		command = removeComment(command);
 		if (!command.trim().startsWith("return")) {
 			command = `return ${command}`;
 		}
 		const cid = bash.startCommand(command, database, this.port);
-
 		try {
-			if (database) {
-				try {
-					db = await this.connection.db(database);
-				} catch (e) {
-					console.info("Loose connection to " + this.makeUri(database));
-				}
-			}
 			const fct = new Function("db", "bson", "mongo", command);
 			const res = await fct(db, BSON, MongoClient);
 			lgth = res.length;

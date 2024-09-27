@@ -393,16 +393,16 @@ ${def[0]["VIEW_DEFINITION"]}`
 	}
 
 	async runCommand(command, database = false) {
-		const cid = bash.startCommand(sql_cleanQuery(command), database, this.port);
 		let connection;
 		try {
 			connection = await this.connection.promise().getConnection();
 		} catch (e) {
 			console.info("Loose connection to " + this.makeUri(database));
+			return {error: "Loose connection to server"};
 		}
 
+		const cid = bash.startCommand(sql_cleanQuery(command), database, this.port);
 		let lgth = -1;
-
 		try {
 			if (database) {
 				await connection.query(`USE ${this.escapeId(database)}`);

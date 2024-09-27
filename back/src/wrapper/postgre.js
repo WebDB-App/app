@@ -566,8 +566,6 @@ ${def[0]["pg_get_viewdef"]}`
 
 	async runCommand(command, database = false) {
 		let schema, connection;
-		let lgth = -1;
-
 		if (database) {
 			[database, schema] = database.split(this.dbToSchemaDelimiter);
 			const co = await this.getConnectionOfDatabase(database);
@@ -578,15 +576,18 @@ ${def[0]["pg_get_viewdef"]}`
 				connection = await co.connect();
 			} catch (e) {
 				console.info("Loose connection to " + this.makeUri(database));
+				return {error: "Loose connection to server"};
 			}
 		} else {
 			try {
 				connection = await this.connection.connect();
 			} catch (e) {
 				console.info("Loose connection to " + this.makeUri());
+				return {error: "Loose connection to server"};
 			}
 		}
 
+		let lgth = -1;
 		const cid = bash.startCommand(sql_cleanQuery(command), (database || "") + (schema ? `,${schema}` : ""), this.port);
 		try {
 			if (schema) {
