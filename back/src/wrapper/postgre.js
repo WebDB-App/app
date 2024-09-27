@@ -45,7 +45,7 @@ ${def[0]["pg_get_viewdef"]}`
 	async tableDDL(dbSchema, table) {
 		const [database, schema] = dbSchema.split(this.dbToSchemaDelimiter);
 
-		const res = await bash.runBash(`pg_dump ${this.makeUri(database)} -n ${schema} -t ${table} --schema-only`);
+		const res = await bash.runBash(`pg_dump "${this.makeUri(database)}" -n ${schema} -t ${table} --schema-only`);
 		if (res.error) {
 			return res;
 		}
@@ -120,7 +120,7 @@ ${def[0]["pg_get_viewdef"]}`
 		const total = await this.runCommand(`SELECT COUNT(DISTINCT TABLE_NAME) as total FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = ${this.escapeValue(schema)}`, database);
 
 		if (exportType === "sql") {
-			const cmd = `pg_dump ${this.makeUri(database)}`;
+			const cmd = `pg_dump "${this.makeUri(database)}"`;
 			const dbOpts = (tables === false || tables.length.toString() === total[0].total) ? "" : `${tables.map(table => `-t '${table}'`).join(" ")}`;
 
 			const result = await bash.runBash(`${cmd} ${dbOpts} ${options} -n ${schema} > ${path}`);
@@ -145,7 +145,7 @@ ${def[0]["pg_get_viewdef"]}`
 
 	async saveState(path, dbSchema) {
 		const [database] = dbSchema.split(this.dbToSchemaDelimiter);
-		return await bash.runBash(`pg_dump ${this.makeUri(database)} > ${join(path, database)}`);
+		return await bash.runBash(`pg_dump "${this.makeUri(database)}" > ${join(path, database)}`);
 	}
 
 	makeUri(database = false) {
