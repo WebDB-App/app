@@ -10,11 +10,11 @@ async function runDocker(database, tag) {
 	runBash(`docker pull ${database.docker.name}:${tag} --quiet`);
 	const id = runBash(`docker run -d -p ${database.credentials.port}:${database.internal_port} ${database.docker.env.map(env => ` -e ${env}`).join(" ")} ${database.docker.name}:${tag} ${database.docker.cmd || ""}`).trim();
 
-	let ready;
+	let ready = "0";
 	let tries = 0;
 	do {
-		ready = runBash(`sleep 2; docker exec ${id} ${database.waitCmd} 2> /dev/null && echo 1`);
-	} while (!ready && ++tries < 10);
+		ready = runBash(`sleep 2; docker exec ${id} ${database.waitCmd} 2> /dev/null || echo 0`).trim();
+	} while (ready === "0" && ++tries < 10);
 
 	return id;
 }
