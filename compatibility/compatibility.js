@@ -13,7 +13,7 @@ async function runDocker(database, tag) {
 	let ready;
 	let tries = 0;
 	do {
-		ready = runBash(`sleep 2; docker exec ${id} ${database.waitCmd} && echo 1`);
+		ready = runBash(`sleep 2; docker exec ${id} ${database.waitCmd} 2> /dev/null && echo 1`);
 	} while (!ready && ++tries < 10);
 
 	return id;
