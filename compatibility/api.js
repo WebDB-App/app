@@ -66,7 +66,7 @@ async function runFetch(url, init) {
 			const response = await fetch(url, init);
 			succeed = true;
 			return await response.json();
-		} catch (e) {}
+		} catch (e) { /* empty */ }
 	} while (++tries < 3 && !succeed);
 }
 
