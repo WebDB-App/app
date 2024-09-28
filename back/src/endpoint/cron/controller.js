@@ -1,4 +1,4 @@
-import {readdirSync, statSync, unlink} from "fs";
+import {readdirSync, statSync, unlinkSync} from "fs";
 import {join} from "path";
 import {URL} from "url";
 import Log from "../../shared/log.js";
@@ -49,14 +49,14 @@ class FileCleanup {
 	}
 
 	deleteFiles(filesToDelete) {
-		filesToDelete.forEach((file) => {
+		for (const file of filesToDelete) {
 			const filePath = join(this.folderPath, file);
-			unlink(filePath, (err) => {
-				if (err) {
-					Log.error(`Error deleting ${file}:`, err);
-				}
-			});
-		});
+			try {
+				unlinkSync(filePath);
+			} catch (e) {
+				Log.error(`Error deleting ${file}`);
+			}
+		}
 	}
 }
 
