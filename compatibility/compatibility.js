@@ -22,9 +22,10 @@ async function runDocker(database, tag) {
 
 async function runScenarios(server) {
 	const digests = await getTags(server.docker);
-	runWebDB();
 
 	for (const tags of digests) {
+		runWebDB();
+
 		const config = await loadConfig(server);
 		if (!config) {
 			continue;
