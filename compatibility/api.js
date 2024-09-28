@@ -30,9 +30,17 @@ export async function loadConfig(server) {
 	const conf = {...basicConf, ...server};
 	conf.database = "world" + (conf.base === base.PostgreSQL ? " | public" : "");
 	conf.credentials.wrapper = conf.wrapper;
-	conf.credentials.host = process.env.CI ? "host.docker.internal" : "127.0.0.1";
 	conf.credentials.port = conf.external_port;
 	conf.credentials.params = conf.params || {};
+
+	conf.credentials.host = "127.0.0.1";
+	if (process.env.DEV_DOCKER === "true") {
+		conf.credentials.host = "host.docker.internal";
+	} else if (process.env.DEV_LOCAL === "true") {
+		conf.credentials.host = "127.0.0.1";
+	} else if (process.env.CI) {
+		conf.credentials.host = "host.docker.internal";
+	}
 
 	globalHeaders["Server"] = JSON.stringify(conf.credentials);
 	globalHeaders["Database"] = conf.database;
@@ -45,8 +53,21 @@ async function runFetch(url, init) {
 	if (!process.env.CI) {
 		console.log(fetchToCurl(url, init));
 	}
+
+	/*
 	const response = await fetch(url, init);
 	return await response.json();
+	 */
+	//TODO fix when node ready
+	let succeed = false;
+	let tries = 0;
+	do {
+		try {
+			const response = await fetch(url, init);
+			succeed = true;
+			return await response.json();
+		} catch (e) {}
+	} while (++tries < 3 && !succeed);
 }
 
 export async function get(url) {

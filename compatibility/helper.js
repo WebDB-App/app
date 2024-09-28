@@ -4,7 +4,7 @@ import {URL} from "url";
 import {runBash} from "./api.js";
 
 export function runWebDB() {
-	if (!process.env.CI) {
+	if (!process.env.CI || process.env.DEV_DOCKER === "true" || process.env.DEV_LOCAL === "true") {
 		return;
 	}
 	runBash("docker rm -f webdb_comp; docker run --name webdb_comp -d --restart=always --add-host=\"host.docker.internal:host-gateway\" -p 22070:22071 webdb_local");
