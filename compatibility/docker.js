@@ -5,15 +5,14 @@ export const base = {
 };
 
 export default {
-	mysql: {
+	mariadb: {
 		internal_port: 3306,
-		external_port: 3307,
+		external_port: 3308,
 		docker: {
-			name: "library/mysql",
+			name: "library/mariadb",
 			env: ["MYSQL_ROOT_PASSWORD=\"pass#();\""],
-			cmd: "mysqld"
 		},
-		waitCmd: "mysql --user=\"root\" --password=\"pass#();\" --host=\"127.0.0.1\" --port=\"3306\"",
+		waitCmd: "mariadb --user=\"root\" --password=\"pass#();\" --host=\"127.0.0.1\" --port=\"3306\"",
 		base: base.MySQL,
 		wrapper: "MySQL",
 		params: {
@@ -23,12 +22,13 @@ export default {
 			bigNumberStrings: true
 		}
 	},
-	mariadb: {
+	mysql: {
 		internal_port: 3306,
-		external_port: 3308,
+		external_port: 3307,
 		docker: {
-			name: "library/mariadb",
+			name: "library/mysql",
 			env: ["MYSQL_ROOT_PASSWORD=\"pass#();\""],
+			cmd: "mysqld"
 		},
 		waitCmd: "mysql --user=\"root\" --password=\"pass#();\" --host=\"127.0.0.1\" --port=\"3306\"",
 		base: base.MySQL,

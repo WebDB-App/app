@@ -14,8 +14,8 @@ async function runDocker(database, tag) {
 	let ready = "0";
 	let tries = 0;
 	do {
-		ready = runBash(`sleep 1; docker exec ${id} ${database.waitCmd} 2> /dev/null || echo 0`).trim();
-	} while (ready === "0" && ++tries < maxTries);
+		ready = runBash(`sleep 1; docker exec ${id} ${database.waitCmd} 2> /dev/null && echo 1 || echo 0`);
+	} while (ready?.trim() !== "1" && ++tries < maxTries);
 
 	return id;
 }
@@ -60,10 +60,6 @@ async function runScenarios(server) {
 	}
 }
 
-if (process.env.CI) {
-	for (const server of Object.values(list)) {
-		await runScenarios(server);
-	}
-} else {
-	await runScenarios(list.mysql);
+for (const server of Object.values(list)) {
+	await runScenarios(server);
 }
