@@ -57,6 +57,7 @@ short_compatibility:
 
 full_compatibility:
     <<: *compatibility
+    timeout: 2h
     stage: compatibility
     image: docker:latest
     rules:
