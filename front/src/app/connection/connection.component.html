@@ -27,9 +27,9 @@
 	</button>
 
 	<button
+		[disabled]="getServerByStatus(Status.Connected).length < 1"
 		class="hideOnMobile"
 		mat-button
-		[disabled]="getServerByStatus(Status.Connected).length < 1"
 		routerLink="/migrate">
 		<span class="material-symbols-outlined notranslate">
 			compare
@@ -298,10 +298,10 @@
 		[multiple]="false">
 		<ng-container *ngFor="let database of server.dbs">
 			<mat-list-option
-				*ngIf="database.system === system"
-				[hidden]="database.hide"
 				(keyup.enter)="goTo(server, database)"
 				(keyup.space)="goTo(server, database)"
+				*ngIf="database.system === system"
+				[hidden]="database.hide"
 				[style.opacity]="database.system ? '0.5' : 1">
 				<a [href]="'/#/' + server.name + '/' + database.name">
 					<span

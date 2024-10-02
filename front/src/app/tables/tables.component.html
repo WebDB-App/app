@@ -23,8 +23,8 @@
 						aria-label="Clear" mat-icon-button
 						matSuffix>
 						<span
-							style="margin-top: 14px"
-							class="material-symbols-outlined notranslate">
+							class="material-symbols-outlined notranslate"
+							style="margin-top: 14px">
 							close
 						</span>
 					</button>
@@ -55,10 +55,10 @@
 							</button>
 						</div>
 						<mat-list-option
-							[class.mat-list-single-selected-option]="selectedTable?.name === table.name"
-							[style.font-style]="table.view ? 'italic' : 'normal'"
 							(keyup.enter)="goTo(table.name)"
 							(keyup.space)="goTo(table.name)"
+							[class.mat-list-single-selected-option]="selectedTable?.name === table.name"
+							[style.font-style]="table.view ? 'italic' : 'normal'"
 							[value]="table.name">
 							<a href="{{changeTable(table.name)}}">
 								{{ table.name }}
@@ -90,7 +90,7 @@
 		</mat-list>
 	</mat-sidenav>
 
-	<div id="core" *ngIf="selectedDatabase">
+	<div *ngIf="selectedDatabase" id="core">
 		<ng-container *ngIf="selectedDatabase.tables.length >= 1">
 			<nav [tabPanel]="tabPanel" mat-tab-nav-bar style="border-bottom: none;">
 				<a *ngFor="let tab of tabs"

@@ -160,7 +160,7 @@
 	style="position: absolute; left: 0px; right: 0px; z-index: 10000000">
 </mat-progress-bar>
 
-<div id="container" [class.diff]="diff">
+<div [class.diff]="diff" id="container">
 
 	<ngx-monaco-editor
 		(onInit)="initEditor($event, 0)"

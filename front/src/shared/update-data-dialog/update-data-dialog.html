@@ -20,8 +20,8 @@
 					[value]="data[column.key]"
 					matInput>
 				<mat-autocomplete
-					(optionSelected)="setValue(column.key, $event.option.value)"
-					#auto="matAutocomplete">
+					#auto="matAutocomplete"
+					(optionSelected)="setValue(column.key, $event.option.value)">
 					<ng-container *ngFor="let suggestion of column.value">
 						<mat-option
 							*ngIf="JSON.stringify(suggestion).indexOf(filter.value) >= 0"
@@ -36,11 +36,11 @@
 			<mat-form-field appearance="fill" style="width: 100%">
 				<mat-label>{{ column.key }}</mat-label>
 				<input
-					matInput
-					type="datetime-local"
 					#time
+					(change)="setValue(column.key, column.value(time.value))"
 					[value]="data[column.key]"
-					(change)="setValue(column.key, column.value(time.value))">
+					matInput
+					type="datetime-local">
 			</mat-form-field>
 		</div>
 	</div>

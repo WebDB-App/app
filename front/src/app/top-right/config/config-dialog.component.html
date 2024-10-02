@@ -31,14 +31,14 @@
 			</table>
 		</mat-tab>
 		<mat-tab label="Shortcuts">
-			<div class="shortcuts" *ngFor="let cat of Object.keys(shortcuts)">
+			<div *ngFor="let cat of Object.keys(shortcuts)" class="shortcuts">
 				<h4 *ngIf="cat.length">
 					<mat-divider style="flex: 1;"></mat-divider>
 					<span style="margin: 12px;">{{ cat }}</span>
 					<mat-divider style="flex: 1;"></mat-divider>
 				</h4>
 
-				<div class="keys" *ngFor="let shortcut of Object.keys(shortcuts[cat])">
+				<div *ngFor="let shortcut of Object.keys(shortcuts[cat])" class="keys">
 					<span>{{ shortcut }}</span>
 					<div *ngFor="let keys of shortcuts[cat][shortcut]">
 						{{ keys }}

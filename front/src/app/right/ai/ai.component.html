@@ -3,7 +3,7 @@
 
 		<div class="spaceBetweenCenter"
 			 style="height: 52px">
-			<h2 style="font-size: 18px;" *ngIf="showSettings">Settings</h2>
+			<h2 *ngIf="showSettings" style="font-size: 18px;">Settings</h2>
 
 			<mat-form-field *ngIf="!showSettings" class="searchField" style="margin-bottom: -1.25em">
 				<input
@@ -45,8 +45,8 @@
 
 	<mat-progress-bar
 		*ngIf="loadingCount > 0"
-		mode="indeterminate"
-		color="accent">
+		color="accent"
+		mode="indeterminate">
 	</mat-progress-bar>
 
 	<div [hidden]="!showSettings" class="container">
@@ -98,9 +98,9 @@
 							min="5"
 							step="1">
 							<input
-								matSliderThumb
 								(change)="preSentChange()"
-								[(ngModel)]="preSent.count">
+								[(ngModel)]="preSent.count"
+								matSliderThumb>
 						</mat-slider>
 					</div>
 
@@ -115,9 +115,9 @@
 							min="0"
 							step="1">
 							<input
-								matSliderThumb
 								(change)="preSentChange()"
-								[(ngModel)]="preSent.deep">
+								[(ngModel)]="preSent.deep"
+								matSliderThumb>
 						</mat-slider>
 					</div>
 
@@ -152,9 +152,9 @@
 			</h3>
 
 			<mat-form-field
-				class="searchField"
 				*ngIf="Object.keys(models).length"
 				appearance="fill"
+				class="searchField"
 				color="accent"
 				style="padding: 10px 14px 0px; flex: 1;">
 				<mat-label>Model</mat-label>
@@ -172,8 +172,8 @@
 					<span class="material-symbols-outlined notranslate">close</span>
 				</button>
 				<mat-autocomplete
-					(optionSelected)="configChange()"
-					#auto="matAutocomplete">
+					#auto="matAutocomplete"
+					(optionSelected)="configChange()">
 					<mat-optgroup
 						*ngFor="let pEnum of Object.keys(models)"
 						[label]="ProvidersDetail[pEnum].name"
@@ -198,7 +198,7 @@
 						<a [href]="provider.value.url"
 						   mat-button
 						   target="_blank">
-							<mat-icon style="width: 70px" [svgIcon]="provider.key"></mat-icon>
+							<mat-icon [svgIcon]="provider.key" style="width: 70px"></mat-icon>
 						</a>
 
 						<mat-form-field appearance="outline">
@@ -211,7 +211,8 @@
 						<mat-error *ngIf="!goodKey(provider.key)">
 							Key doesn't work
 						</mat-error>
-						<mat-error *ngIf="config[provider.key] && models[provider.key] && models[provider.key].length < 1">
+						<mat-error
+							*ngIf="config[provider.key] && models[provider.key] && models[provider.key].length < 1">
 							Models cannot be retrieved
 						</mat-error>
 					</div>
@@ -231,9 +232,9 @@
 							min="0"
 							step="0.1">
 							<input
-								matSliderThumb
 								(change)="configChange()"
-								[(ngModel)]="config.temperature">
+								[(ngModel)]="config.temperature"
+								matSliderThumb>
 						</mat-slider>
 					</div>
 
@@ -251,9 +252,9 @@
 							min="0"
 							step="0.1">
 							<input
-								matSliderThumb
 								(change)="configChange()"
-								[(ngModel)]="config.top_p">
+								[(ngModel)]="config.top_p"
+								matSliderThumb>
 						</mat-slider>
 					</div>
 				</div>
@@ -263,7 +264,7 @@
 
 	<div></div>
 
-	<div #scrollContainer [hidden]="showSettings" (scroll)="onScroll($event)" class="container">
+	<div #scrollContainer (scroll)="onScroll($event)" [hidden]="showSettings" class="container">
 
 		<div *ngIf="!chat.length && config.model">
 			<br><br>
@@ -377,8 +378,8 @@
 
 				<ng-container *ngIf="!stream">
 					<mat-progress-bar
-						mode="indeterminate"
 						color="accent"
+						mode="indeterminate"
 					></mat-progress-bar>
 				</ng-container>
 

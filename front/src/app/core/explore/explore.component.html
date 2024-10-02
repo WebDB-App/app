@@ -111,8 +111,8 @@
 			matColumnDef="{{column}}"
 		>
 			<th *matHeaderCellDef
-				class="resizeColumn"
 				[style.min-width]="column.length * 8 + 'px'"
+				class="resizeColumn"
 				mat-header-cell>
 
 				<ng-container *ngIf="column !== actionColum">
@@ -124,12 +124,12 @@
 							   [matChipInputFor]="chipList"
 							   matInput>
 						<mat-autocomplete
-							(optionSelected)="filter[column] = $event.option.value"
-							#autoGroup="matAutocomplete">
+							#autoGroup="matAutocomplete"
+							(optionSelected)="filter[column] = $event.option.value">
 							<mat-option
-								[value]="comp.symbol + ' ' + comp.example"
 								*ngFor="let comp of selectedServer!.driver.language.comparators"
 								[matTooltip]="comp.definition"
+								[value]="comp.symbol + ' ' + comp.example"
 								matTooltipPosition="right">
 								{{ comp.symbol }}
 							</mat-option>
@@ -137,7 +137,8 @@
 					</mat-form-field>
 				</ng-container>
 
-				<div *ngIf="column === actionColum && dataSource.data.length" style="display: flex; flex-direction: column; align-items: center;">
+				<div *ngIf="column === actionColum && dataSource.data.length"
+					 style="display: flex; flex-direction: column; align-items: center;">
 					<div>
 						<button
 							[disabled]="selection.isEmpty()"

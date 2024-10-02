@@ -16,10 +16,10 @@
 
 		<div>
 			<mat-button-toggle-group
-				id="docToggle"
-				(change)="iframe = $event.value ? sanitizer.bypassSecurityTrustResourceUrl($event.value) : undefined">
+				(change)="iframe = $event.value ? sanitizer.bypassSecurityTrustResourceUrl($event.value) : undefined"
+				id="docToggle">
 				<mat-button-toggle value='https://ngneat.github.io/falso/docs/getting-started'>
-					<img src="/assets/falso.png" />
+					<img src="/assets/falso.png"/>
 					Falso
 				</mat-button-toggle>
 				<mat-button-toggle value='https://fakerjs.dev/api/'>
@@ -255,8 +255,8 @@
 				</ng-container>
 				<ng-container *ngIf="column !== actionColum">
 					<th *matHeaderCellDef
-						class="resizeColumn"
 						[style.min-width]="column.length * 8 + 'px'"
+						class="resizeColumn"
 						mat-header-cell>
 						{{ column }}
 					</th>

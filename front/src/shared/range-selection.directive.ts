@@ -1,5 +1,5 @@
 import { Directive, ElementRef, HostListener, Input } from '@angular/core';
-import {Clipboard} from '@angular/cdk/clipboard';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 @Directive({
 	selector: 'table[range-selection]',

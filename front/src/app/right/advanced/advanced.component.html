@@ -55,8 +55,8 @@
 
 				<button
 					(click)="changeCollation(collation.value)"
-					[disabled]="!collation.value"
 					*ngIf="!changeColLoading"
+					[disabled]="!collation.value"
 					color="accent"
 					mat-stroked-button>
 					<span class="material-symbols-outlined notranslate">

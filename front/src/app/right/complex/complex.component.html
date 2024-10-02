@@ -69,22 +69,22 @@
 					<div style="display: flex; gap: 8px;">
 						<button
 							(click)="alter(complex, type)"
-							mat-stroked-button
-							mat-button>
+							mat-button
+							mat-stroked-button>
 							Alter
 						</button>
 						<button
-							*ngIf="selectedServer!.driver.renameComplex(complex, type, selectedDatabase!.name)"
 							(click)="complex.rename = true"
-							mat-stroked-button
-							mat-button>
+							*ngIf="selectedServer!.driver.renameComplex(complex, type, selectedDatabase!.name)"
+							mat-button
+							mat-stroked-button>
 							Rename
 						</button>
 						<button
 							(click)="drop(complex, type)"
-							mat-stroked-button
 							color="warn"
-							mat-icon-button>
+							mat-icon-button
+							mat-stroked-button>
 							<span class="material-symbols-outlined notranslate">
 								delete
 							</span>

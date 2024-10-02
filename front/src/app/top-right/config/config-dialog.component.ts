@@ -1,4 +1,4 @@
-import { Component, Inject, Input } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { Configuration } from "../../../classes/configuration";
 import { RequestService } from "../../../shared/request.service";
 import { Server } from "../../../classes/server";
@@ -13,10 +13,7 @@ export class ConfigDialog {
 
 	configuration: Configuration = new Configuration();
 	currentYear = new Date().getFullYear();
-	protected readonly packageJson = packageJson;
-	protected readonly Object = Object;
-
-	shortcuts: { [key: string]: {[key: string]: string[]} } = {
+	shortcuts: { [key: string]: { [key: string]: string[] } } = {
 		'Query Editor': {
 			'Trigger autocomplete': ['Alt + Space'],
 			'Run query': ['Ctrl + Enter', '⌘ + Enter'],
@@ -28,6 +25,8 @@ export class ConfigDialog {
 			'Copy cell range to clipboard': ['⇧ + drag over cells'],
 		}
 	}
+	protected readonly packageJson = packageJson;
+	protected readonly Object = Object;
 
 	constructor(
 		public dialogRef: MatDialogRef<ConfigDialog>,
@@ -35,7 +34,8 @@ export class ConfigDialog {
 		@Inject(MAT_DIALOG_DATA) public data: {
 			upToDate: boolean
 		}
-	) {}
+	) {
+	}
 
 	async update(name: string, value: string) {
 		this.configuration.update(name, value);

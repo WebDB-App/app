@@ -1,5 +1,5 @@
 import { SQL } from "./sql";
-import { Group, QueryParams } from "../classes/driver";
+import { Group } from "../classes/driver";
 import { Server } from "../classes/server";
 import { Database } from "../classes/database";
 import { format } from "sql-formatter";
@@ -172,7 +172,9 @@ export class PostgreSQL extends SQL {
 						{
 							id: "date",
 							description: "Displayed as 'YYYY-MM-DD'.",
-							toTimestamp: (date: string) => { return new Date(date).toISOString().split('T')[0] }
+							toTimestamp: (date: string) => {
+								return new Date(date).toISOString().split('T')[0]
+							}
 						},
 						{
 							id: "time",
@@ -189,18 +191,24 @@ export class PostgreSQL extends SQL {
 						{
 							id: "timestamp",
 							description: "Displayed as 'YYYY-MM-DD HH:MM:SS'.",
-							toTimestamp: (date: string) => { return new Date(date).toISOString().slice(0, 19).replace('T', ' ') }
+							toTimestamp: (date: string) => {
+								return new Date(date).toISOString().slice(0, 19).replace('T', ' ')
+							}
 						},
 						{
 							id: "timestamp with time zone",
 							bold: true,
 							description: "Displayed as 'YYYY-MM-DD HH:MM:SS-TZ'.\nEquivalent to timestamptz.",
-							toTimestamp: (date: string) => { return new Date(date).toISOString().slice(0, 19).replace('T', ' ') }
+							toTimestamp: (date: string) => {
+								return new Date(date).toISOString().slice(0, 19).replace('T', ' ')
+							}
 						},
 						{
 							id: "timestamp without time zone",
 							description: "Displayed as 'YYYY-MM-DD HH:MM:SS'.",
-							toTimestamp: (date: string) => { return new Date(date).toISOString().slice(0, 19).replace('T', ' ') }
+							toTimestamp: (date: string) => {
+								return new Date(date).toISOString().slice(0, 19).replace('T', ' ')
+							}
 						},
 					]
 				}, {

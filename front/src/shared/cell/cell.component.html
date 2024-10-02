@@ -1,9 +1,9 @@
 <ng-container *ngIf="blob && value">
 	<button
-		[matTooltip]="value.substring(0, 100)"
 		(click)="download()"
-		matTooltipPosition="left"
-		mat-icon-button>
+		[matTooltip]="value.substring(0, 100)"
+		mat-icon-button
+		matTooltipPosition="left">
 		<span class="material-symbols-outlined">
 			download
 		</span>
@@ -24,7 +24,8 @@
 		<span [matTooltip]="value" matTooltipPosition="right" style="font-size: 10px">❌</span>
 	</ng-container>
 
-	<ng-container *ngIf="[undefined, null, 'true', 'Y', 'YES', 'Yes', true, 'false', 'N', 'NO', 'No', false].indexOf(value) < 0">
+	<ng-container
+		*ngIf="[undefined, null, 'true', 'Y', 'YES', 'Yes', true, 'false', 'N', 'NO', 'No', false].indexOf(value) < 0">
 		<ng-container *ngIf="fkLink">
 
 			<a [routerLink]="[fkLink, fkParams]">
