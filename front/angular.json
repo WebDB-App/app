@@ -88,10 +88,10 @@
 					"builder": "@angular-builders/custom-webpack:dev-server",
 					"configurations": {
 						"production": {
-							"browserTarget": "webdb:build:production"
+							"buildTarget": "webdb:build:production"
 						},
 						"development": {
-							"browserTarget": "webdb:build:development"
+							"buildTarget": "webdb:build:development"
 						}
 					},
 					"defaultConfiguration": "development"
@@ -99,7 +99,7 @@
 				"extract-i18n": {
 					"builder": "@angular/build:extract-i18n",
 					"options": {
-						"browserTarget": "webdb:build"
+						"buildTarget": "webdb:build"
 					}
 				}
 			}

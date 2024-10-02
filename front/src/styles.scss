@@ -1,19 +1,22 @@
 @use '@angular/material' as mat;
 
-@import "@angular/material/theming";
 @import 'highlight.js/scss/base16/materia';
 
 @include mat.core();
 
-$angular-primary: mat.define-palette(mat.$blue-palette, 500, 100, 900);
-$angular-accent: mat.define-palette(mat.$teal-palette, A400, A100, A700);
-$angular-warn: mat.define-palette(mat.$orange-palette);
-
-$angular-dark-theme: mat.define-dark-theme((
+$angular-dark-theme: mat.define-theme((
 	color: (
-		primary: $angular-primary,
-		accent: $angular-accent,
-		warn: $angular-warn,
+		primary: mat.$blue-palette,
+		accent: mat.$green-palette,
+		warn: mat.mat.$orange-palette,
+	),
+	color: (
+		theme-type: dark,
+		primary: mat.$violet-palette,
+	),
+	typography: (
+		brand-family: 'Roboto',
+		bold-weight: 400
 	),
 	density: -2,
 ));
@@ -56,7 +59,7 @@ body {
 		height: 45px;
 
 		.mat-header-cell {
-			color: mat.get-color-from-palette($angular-primary, default);
+			color: #2196f3;
 			font-size: 15px;
 			border: none;
 
@@ -135,7 +138,7 @@ body {
 }
 
 a {
-	color: mat.get-color-from-palette($angular-accent, default);
+	color: #1de9b6;
 }
 
 .mat-bottom-sheet-container, .snack-error {
@@ -355,8 +358,8 @@ pre {
 		top: 0px;
 		background-color: rgba(30, 30, 30, 0.9);
 		border: transparent;
-		border-bottom: 1px solid mat.get-color-from-palette($angular-accent, default);
-		border-left: 1px solid mat.get-color-from-palette($angular-accent, default);
+		border-bottom: 1px solid #1de9b6;
+		border-left: 1px solid #1de9b6;
 		flex-direction: column;
 		border-bottom-left-radius: 4px;
 		border-top-right-radius: 4px;
@@ -406,7 +409,7 @@ code, .hljs {
 	}
 
 	&:hover {
-		box-shadow: 0px 0px 0px 2px mat.get-color-from-palette($angular-primary, default);
+		box-shadow: 0px 0px 0px 2px #2196f3;
 
 		.hljs-ln-numbers {
 			opacity: 0.6;
@@ -461,13 +464,13 @@ ngx-monaco-editor {
 
 	.table {
 		.mat-header-cell {
-			color: mat.get-color-from-palette($angular-accent, default);
+			color: #1de9b6;
 		}
 	}
 
 	code, .hljs {
 		&:hover {
-			box-shadow: 0px 0px 0px 1px mat.get-color-from-palette($angular-accent, default);
+			box-shadow: 0px 0px 0px 1px #1de9b6;
 		}
 	}
 }
@@ -521,7 +524,7 @@ input[type="datetime-local"]::after {
 
 .notification {
 	position: absolute;
-	color: mat.get-color-from-palette($angular-primary, default);
+	color: #2196f3;
 	top: -12px;
 	font-size: 18px;
 	right: 0px;

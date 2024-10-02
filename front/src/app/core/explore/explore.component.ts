@@ -24,7 +24,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 	configuration: Configuration = new Configuration();
 	selectedTable?: Table;
 	selectedServer?: Server;
-	interval!: NodeJS.Timer;
+	interval!: NodeJS.Timeout | number;
 
 	querySize = 0;
 	params = {

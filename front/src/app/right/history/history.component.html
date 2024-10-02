@@ -7,7 +7,7 @@
 			   matInput
 			   placeholder="Filter history">
 		<button (click)="filter=''" *ngIf="filter" aria-label="Clear"
-				mat-button mat-icon-button
+				mat-icon-button
 				matSuffix>
 			<span class="material-symbols-outlined notranslate">close</span>
 		</button>
@@ -90,8 +90,8 @@
 				</button>
 			</div>
 			<pre><code [highlight]="his.query"
-					   [languages]="[selectedServer.driver!.language.id]"
-					   [lineNumbers]="true">
+					   [language]="selectedServer.driver!.language.id"
+					   lineNumbers>
 			</code></pre>
 		</mat-card-content>
 

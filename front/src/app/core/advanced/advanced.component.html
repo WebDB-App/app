@@ -83,8 +83,8 @@
 
 			<ng-container *ngIf="ddl">
 				<pre><code [highlight]="ddl"
-						   [languages]="[selectedServer!.driver!.language.id]"
-						   [lineNumbers]="true">
+						   lineNumbers
+						   [language]="selectedServer!.driver!.language.id">
 				</code></pre>
 			</ng-container>
 		</div>

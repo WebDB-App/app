@@ -82,7 +82,7 @@ export class LogsDialog implements OnDestroy {
 	str: any = "";
 	strFiltered: any = "";
 	filter = "";
-	interval?: NodeJS.Timer;
+	interval?: NodeJS.Timeout | number;
 	atBottom = true;
 	protected readonly environment = environment;
 	@ViewChild('scrollContainer') private scrollContainer!: ElementRef;

@@ -83,8 +83,7 @@
 						<button
 							(click)="drop(complex, type)"
 							color="warn"
-							mat-icon-button
-							mat-stroked-button>
+							mat-mini-fab>
 							<span class="material-symbols-outlined notranslate">
 								delete
 							</span>
@@ -94,7 +93,7 @@
 			</mat-card-header>
 
 			<pre *ngIf="complex.value"><code
-				[highlight]="complex.value"
+				[highlightAuto]="complex.value"
 				[languages]="[selectedServer?.driver!.language.id, 'JSON']">
 			</code></pre>
 		</mat-card>

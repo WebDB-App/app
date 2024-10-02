@@ -292,7 +292,7 @@
 						(click)="message.value = ch.txt"
 						*ngIf="ch.user === Role.User"
 						color="accent"
-						mat-icon-button
+						mat-mini-fab
 						style="float: left; top: -8px; width: 34px; height: 34px; line-height: 34px; margin-right: 10px;">
 						<span class="material-symbols-outlined notranslate" style="font-size: 18px">
 							edit
@@ -366,7 +366,7 @@
 									</span>
 								</button>
 							</div>
-							<pre><code [highlight]="mrk.code" [lineNumbers]="true"></code></pre>
+						<pre><code [highlightAuto]="mrk.code" lineNumbers></code></pre>
 						</div>
 
 						<div [innerHTML]="mrk.html"></div>

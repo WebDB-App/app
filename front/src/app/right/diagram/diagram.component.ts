@@ -23,7 +23,7 @@ export class DiagramComponent implements OnDestroy {
 	@ViewChild('scrollable') scrollable!: ElementRef;
 	@ViewChild('fullScreen') fullScreen!: ElementRef;
 
-	interval?: NodeJS.Timer;
+	interval?: NodeJS.Timeout | number;
 	drawerObs!: Subscription;
 
 	selectedServer!: Server;

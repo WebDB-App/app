@@ -44,6 +44,7 @@ import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { HighlightModule } from "ngx-highlightjs";
 import { OverlayModule } from "@angular/cdk/overlay";
 import { MonacoEditorModule } from "ngx-monaco-editor-v2";
+import { HighlightLineNumbers } from "ngx-highlightjs/line-numbers";
 
 
 @NgModule({
@@ -64,43 +65,44 @@ import { MonacoEditorModule } from "ngx-monaco-editor-v2";
 	exports: [
 		QueryComponent
 	],
-	imports: [
-		CommonModule,
-		CoreRoutingModule,
-		MatSidenavModule,
-		MatFormFieldModule,
-		MatSelectModule,
-		MatListModule,
-		MatIconModule,
-		MatInputModule,
-		MatButtonModule,
-		MatToolbarModule,
-		MatPaginatorModule,
-		MatTableModule,
-		MatSortModule,
-		MatCheckboxModule,
-		MatTooltipModule,
-		MatTabsModule,
-		MatProgressSpinnerModule,
-		MatProgressBarModule,
-		MatButtonToggleModule,
-		MatDialogModule,
-		MatSlideToggleModule,
-		FormsModule,
-		MatCardModule,
-		MatChipsModule,
-		MatExpansionModule,
-		ClipboardModule,
-		MatMenuModule,
-		DragDropModule,
-		SharedModule,
-		NgxJsonViewerModule,
-		MatAutocompleteModule,
-		HighlightModule,
-		OverlayModule,
-		MonacoEditorModule,
-		ReactiveFormsModule
-	]
+    imports: [
+        CommonModule,
+        CoreRoutingModule,
+        MatSidenavModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatListModule,
+        MatIconModule,
+        MatInputModule,
+        MatButtonModule,
+        MatToolbarModule,
+        MatPaginatorModule,
+        MatTableModule,
+        MatSortModule,
+        MatCheckboxModule,
+        MatTooltipModule,
+        MatTabsModule,
+        MatProgressSpinnerModule,
+        MatProgressBarModule,
+        MatButtonToggleModule,
+        MatDialogModule,
+        MatSlideToggleModule,
+        FormsModule,
+        MatCardModule,
+        MatChipsModule,
+        MatExpansionModule,
+        ClipboardModule,
+        MatMenuModule,
+        DragDropModule,
+        SharedModule,
+        NgxJsonViewerModule,
+        MatAutocompleteModule,
+        HighlightModule,
+        OverlayModule,
+        MonacoEditorModule,
+        ReactiveFormsModule,
+        HighlightLineNumbers
+    ]
 })
 export class CoreModule {
 }
