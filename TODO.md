@@ -1,7 +1,6 @@
 - finir complex edit (enum postgre)
 - tester tout les default + extra + postgre
 - tout tester avec user qui n'as pas de droit
-- angulr 18
 
 # MsSQL
 
