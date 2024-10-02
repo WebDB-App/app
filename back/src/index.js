@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import {URL} from "url";
 import express from "express";
+import {} from "express-async-errors";
 import cors from "cors";
 import {promises as fsp} from "fs";
 import bash from "./shared/bash.js";
@@ -58,6 +59,13 @@ app.use(function (req, res, next) {
 		const router = await import(`${endpointPath}/${entry}/route.js`);
 		app.use(`/api/${entry}`, router.default);
 	}
+
+	app.use((err, req, res, next) => {
+		if (err) {
+			res.send({ error: err.message });
+		}
+		next(err);
+	});
 
 	app.all("*", (req, res) => {
 		res.status(404).send("Not Found");

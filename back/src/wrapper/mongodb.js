@@ -573,8 +573,7 @@ export default class MongoDB extends Driver {
 			try {
 				db = await this.connection.db(database);
 			} catch (e) {
-				console.info("Loose connection to " + this.makeUri(database));
-				return {error: "Loose connection to server"};
+				throw new Error("Loose connection to " + this.makeUri(database));
 			}
 		}
 

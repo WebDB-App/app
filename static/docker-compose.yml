@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
     mysql:
         image: mysql
@@ -32,12 +30,12 @@ services:
             MONGO_INITDB_ROOT_USERNAME: root
             MONGO_INITDB_ROOT_PASSWORD: "pass#();"
 
-    cassandra:
-        image: cassandra
-        ports:
-            - "9042:9042"
-        environment:
-            - CASSANDRA_CLUSTER_NAME=cloudinfra
+#    cassandra:
+#        image: cassandra
+#        ports:
+#            - "9042:9042"
+#        environment:
+#            - CASSANDRA_CLUSTER_NAME=cloudinfra
 
 #    sqldata:
 #        image: mcr.microsoft.com/mssql/server:2022-latest

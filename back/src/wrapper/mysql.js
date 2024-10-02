@@ -397,8 +397,7 @@ ${def[0]["VIEW_DEFINITION"]}`
 		try {
 			connection = await this.connection.promise().getConnection();
 		} catch (e) {
-			console.info("Loose connection to " + this.makeUri(database));
-			return {error: "Loose connection to server"};
+			throw new Error("Loose connection to " + this.makeUri(database));
 		}
 
 		const cid = bash.startCommand(sql_cleanQuery(command), database, this.port);

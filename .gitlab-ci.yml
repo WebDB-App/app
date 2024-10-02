@@ -41,13 +41,6 @@ clean:
     <<: *common
     stage: compatibility
     image: docker:latest
-    artifacts:
-        expire_in: never
-        reports:
-            junit: ./compatibility/report.xml
-        paths:
-            - ./compatibility/report.xml
-
     script:
         - (cd back && npm run docker:build)
         - cd compatibility
@@ -70,6 +63,10 @@ full_compatibility:
     rules:
         -   if: $CI_PIPELINE_SOURCE == "schedule"
             when: on_success
+    artifacts:
+        expire_in: never
+        paths:
+            - ./compatibility/report.xml
 
 
 #-----------------------------------------
