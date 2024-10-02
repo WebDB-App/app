@@ -126,7 +126,7 @@ export class AiComponent implements OnInit, OnDestroy {
 		language: "plaintext"
 	};
 	sample = "";
-	config = {
+	config: any = {
 		model: "",
 		[ProviderEnum.openai]: '',
 		[ProviderEnum.together]: '',
