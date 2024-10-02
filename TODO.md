@@ -2,7 +2,12 @@
 - tester tout les default + extra + postgre
 - tout tester avec user qui n'as pas de droit
 
-# MsSQL
+
+
+
+https://stackoverflow.com/questions/53684763/how-to-remove-space-bottom-mat-form-field
+package.json -> latest
+
 
 
 # Advanced auth
@@ -12,6 +17,9 @@
 - tls
 - SCRAM, X.509, Kerberos, LDAP, proxy
 - ssl-mode: DISABLED PREFERRED REQUIRED VERIFY_CA VERIFY_IDENTITY
+
+
+# MsSQL
 
 
 ----------------------------------------------------------------------

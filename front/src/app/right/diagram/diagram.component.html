@@ -58,12 +58,14 @@
 					<span>{{ Math.floor(diagramController.fontSize * 100) }}</span>
 				</div>
 				<mat-slider
-					(input)="diagramController.fontSize = $event.value!; diagramController.applyFontSize()"
-					[value]="diagramController.fontSize"
 					color="accent"
 					max="1.5"
 					min="0.1"
 					step="0.05">
+					<input
+						matSliderThumb
+						(change)="diagramController.applyFontSize()"
+						[(ngModel)]="diagramController.fontSize">
 				</mat-slider>
 			</div>
 

@@ -43,14 +43,14 @@
 		</button>
 	</div>
 
-	<mat-chip-list #chipList style="font-size: 12px;">
+	<mat-chip-grid #chipList style="font-size: 12px;">
 		<ng-container
 			*ngFor="let chips of params.chips.split(';'); let i = index">
 			<ng-container *ngIf="chips">
 				<mat-chip
 					(removed)="removeChips(chips)"
 					color="primary"
-					selected>
+					highlighted>
 					{{ chips }}
 					<button matChipRemove>
 						<span class="material-symbols-outlined notranslate" style="font-size: 18px">
@@ -63,10 +63,10 @@
 				</ng-container>
 			</ng-container>
 		</ng-container>
-	</mat-chip-list>
+	</mat-chip-grid>
 
 	<div>
-		<mat-form-field appearance="standard">
+		<mat-form-field appearance="outline">
 			<mat-label>Sort By</mat-label>
 			<mat-select
 				(selectionChange)="refreshData()"
@@ -116,7 +116,7 @@
 				mat-header-cell>
 
 				<ng-container *ngIf="column !== actionColum">
-					<mat-form-field appearance="legacy">
+					<mat-form-field>
 						<mat-label>{{ column }}</mat-label>
 						<input (matChipInputTokenEnd)="addChips(column, $event)"
 							   [(ngModel)]="filter[column]"
@@ -168,7 +168,7 @@
 				<ng-container *ngIf="column === actionColum">
 					<button
 						(click)="editRow(i, row)"
-						disableRipple
+						[disableRipple]="true"
 						mat-icon-button>
 						<span class="material-symbols-outlined notranslate">
 							edit
@@ -179,8 +179,8 @@
 						(change)="$event ? selection.toggle(row) : null"
 						(click)="shiftCheckBox($event, row); $event.stopPropagation();"
 						[checked]="selection.isSelected(row)"
-						color="primary"
-						disableRipple>
+						[disableRipple]="true"
+						color="primary">
 					</mat-checkbox>
 				</ng-container>
 

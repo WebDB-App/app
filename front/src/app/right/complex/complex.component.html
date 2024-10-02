@@ -1,6 +1,6 @@
 <mat-toolbar
 	class="spaceBetweenCenter">
-	<mat-form-field appearance="legacy" class="searchField" style="width: 250px; margin-bottom: -1.25em">
+	<mat-form-field class="searchField" style="width: 250px; margin-bottom: -1.25em">
 		<input #filter
 			   (keyup)="filterChanged(filter.value)"
 			   autocomplete="off"
@@ -32,7 +32,7 @@
 			<mat-card-header>
 				<ng-container *ngIf="complex.rename">
 					<div>
-						<mat-form-field appearance="legacy" style="width: 200px; margin-bottom: -1.25em">
+						<mat-form-field style="width: 200px; margin-bottom: -1.25em">
 							<input
 								[(ngModel)]="complex.newName"
 								autocomplete="off"

@@ -5,7 +5,7 @@
 			 style="height: 52px">
 			<h2 style="font-size: 18px;" *ngIf="showSettings">Settings</h2>
 
-			<mat-form-field *ngIf="!showSettings" appearance="legacy" class="searchField" style="margin-bottom: -1.25em">
+			<mat-form-field *ngIf="!showSettings" class="searchField" style="margin-bottom: -1.25em">
 				<input
 					#filter
 					(keyup)="filterChanged(filter.value)"
@@ -93,13 +93,14 @@
 							<span>{{ preSent.count }}</span>
 						</div>
 						<mat-slider
-							(change)="preSentChange()"
-							(input)="preSent.count = $event.value!.valueOf()"
-							[value]="preSent.count"
 							color="accent"
 							max="200"
 							min="5"
 							step="1">
+							<input
+								matSliderThumb
+								(change)="preSentChange()"
+								[(ngModel)]="preSent.count">
 						</mat-slider>
 					</div>
 
@@ -109,13 +110,14 @@
 							<span>{{ preSent.deep }}</span>
 						</div>
 						<mat-slider
-							(change)="preSentChange()"
-							(input)="preSent.deep = $event.value!.valueOf()"
-							[value]="preSent.deep"
 							color="accent"
 							max="15"
 							min="0"
 							step="1">
+							<input
+								matSliderThumb
+								(change)="preSentChange()"
+								[(ngModel)]="preSent.deep">
 						</mat-slider>
 					</div>
 
@@ -199,7 +201,7 @@
 							<mat-icon style="width: 70px" [svgIcon]="provider.key"></mat-icon>
 						</a>
 
-						<mat-form-field appearance="standard">
+						<mat-form-field appearance="outline">
 							<mat-label>Key</mat-label>
 							<input
 								(change)="goodKey(provider.key) ? configChange() : undefined"
@@ -224,13 +226,14 @@
 							<span>{{ config.temperature }}</span>
 						</div>
 						<mat-slider
-							(change)="configChange()"
-							(input)="config.temperature = $event.value!.valueOf()"
-							[value]="config.temperature"
 							color="accent"
 							max="2"
 							min="0"
 							step="0.1">
+							<input
+								matSliderThumb
+								(change)="configChange()"
+								[(ngModel)]="config.temperature">
 						</mat-slider>
 					</div>
 
@@ -243,13 +246,14 @@
 							<span>{{ config.top_p }}</span>
 						</div>
 						<mat-slider
-							(change)="configChange()"
-							(input)="config.top_p = $event.value!.valueOf()"
-							[value]="config.top_p"
 							color="accent"
 							max="2"
 							min="0"
 							step="0.1">
+							<input
+								matSliderThumb
+								(change)="configChange()"
+								[(ngModel)]="config.top_p">
 						</mat-slider>
 					</div>
 				</div>
@@ -287,7 +291,6 @@
 						(click)="message.value = ch.txt"
 						*ngIf="ch.user === Role.User"
 						color="accent"
-						mat-flat-button
 						mat-icon-button
 						style="float: left; top: -8px; width: 34px; height: 34px; line-height: 34px; margin-right: 10px;">
 						<span class="material-symbols-outlined notranslate" style="font-size: 18px">
