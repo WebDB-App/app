@@ -24,7 +24,7 @@ import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogConfig, MatDialogModule } from "@angular/material/dialog";
 import { MatSelectModule } from "@angular/material/select";
-import { HttpClientModule } from "@angular/common/http";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { MonacoEditorModule, NgxMonacoEditorConfig } from "ngx-monaco-editor-v2";
@@ -139,27 +139,25 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 	}
 };
 
-@NgModule({
-	declarations: [
-		AppComponent,
-		ContainerComponent,
-		ConnectionComponent,
-		ConfigDialog,
-		LogsDialog,
-		CreateDatabaseDialog,
-		FirstVisitDialog,
-		TablesComponent,
-		CreateTableDialog,
-		TopRightComponent,
-		EditConnectionComponent,
-		StatsDialogComponent,
-		ProcessDialogComponent,
-		MigrateComponent,
-		EditQueryDialog,
-		VariableDialogComponent
-	],
-    imports: [
-        AppRoutingModule,
+@NgModule({ declarations: [
+        AppComponent,
+        ContainerComponent,
+        ConnectionComponent,
+        ConfigDialog,
+        LogsDialog,
+        CreateDatabaseDialog,
+        FirstVisitDialog,
+        TablesComponent,
+        CreateTableDialog,
+        TopRightComponent,
+        EditConnectionComponent,
+        StatsDialogComponent,
+        ProcessDialogComponent,
+        MigrateComponent,
+        EditQueryDialog,
+        VariableDialogComponent
+    ],
+    bootstrap: [AppComponent], imports: [AppRoutingModule,
         BrowserModule,
         BrowserAnimationsModule,
         MonacoEditorModule.forRoot(monacoConfig),
@@ -181,7 +179,6 @@ export const monacoConfig: NgxMonacoEditorConfig = {
         ReactiveFormsModule,
         MatDialogModule,
         MatSelectModule,
-        HttpClientModule,
         MatSnackBarModule,
         MatSlideToggleModule,
         FormsModule,
@@ -197,10 +194,6 @@ export const monacoConfig: NgxMonacoEditorConfig = {
         NgChartsModule,
         MatChipsModule,
         MatPaginatorModule,
-        CoreModule
-    ],
-	providers,
-	bootstrap: [AppComponent]
-})
+        CoreModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
 export class AppModule {
 }
