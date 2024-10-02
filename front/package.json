@@ -9,7 +9,7 @@
   "type": "module",
   "dependencies": {
     "@angular-builders/custom-webpack": "^16.0.1",
-    "@angular-devkit/build-angular": "^16.2.16",
+    "@angular-devkit/build-angular": "^17.3.10",
     "@angular/animations": "^16.2.12",
     "@angular/cdk": "^16.2.14",
     "@angular/cli": "^17.3.10",
