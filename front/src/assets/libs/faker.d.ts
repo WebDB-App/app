@@ -7909,6 +7909,7 @@ export declare function generateMersenne32Randomizer(): Randomizer;
 export declare function generateMersenne53Randomizer(): Randomizer;
 
 export {
+	// @ts-ignore
 	Casing$1 as Casing,
 	faker as fakerEN,
 	faker$1 as fakerAF_ZA,
