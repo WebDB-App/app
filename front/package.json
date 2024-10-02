@@ -15,7 +15,7 @@
     "@angular/cli": "^17.3.10",
     "@angular/common": "^17.3.12",
     "@angular/compiler": "^17.3.12",
-    "@angular/compiler-cli": "^17.3.12",
+    "@angular/compiler-cli": "^18.2.7",
     "@angular/core": "^17.3.12",
     "@angular/forms": "^17.3.12",
     "@angular/material": "^17.3.10",
