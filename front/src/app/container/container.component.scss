@@ -47,18 +47,18 @@ mat-drawer {
 	border-bottom: none;
 	flex: 1;
 
-	::ng-deep .mat-tab-links {
+	::ng-deep .mat-mdc-tab-links {
 		justify-content: center;
 	}
 
-	.mat-tab-link {
+	.mat-mdc-tab-link {
 		min-width: inherit;
 		height: 56px;
 		color: #1de9b6;
 		padding: 0px 20px;
 	}
 
-	::ng-deep .mat-ink-bar {
+	::ng-deep .mat-mdc-ink-bar {
 		top: 0;
 		bottom: inherit;
 	}

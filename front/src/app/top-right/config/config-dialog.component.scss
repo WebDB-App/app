@@ -36,25 +36,25 @@
 
 :host ::ng-deep {
 
-	.mat-tab-labels {
+	.mat-mdc-tab-labels {
 		justify-content: space-between;
 
-		> .mat-tab-label:not(:last-child) {
+		> .mat-mdc-tab-label:not(:last-child) {
 			width: 100%;
 		}
 
-		> .mat-tab-label:last-child {
+		> .mat-mdc-tab-label:last-child {
 			width: 0px;
 			min-width: 0px;
 		}
 	}
 
-	.mat-tab-body-wrapper {
+	.mat-mdc-tab-body-wrapper {
 		max-height: 65vh;
 		width: 650px;
 	}
 
-	.mat-card-header-text {
+	.mat-mdc-card-header-text {
 		width: 100%;
 	}
 

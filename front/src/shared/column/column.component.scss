@@ -3,13 +3,13 @@
 	display: flex;
 }
 
-.mat-card {
+.mat-mdc-card {
 	min-width: 400px;
 	margin: 20px 12px 16px 12px;
 	display: flex;
 	flex-direction: column;
 
-	.mat-card-content {
+	.mat-mdc-card-content {
 
 		.default {
 			margin-bottom: 18px;
@@ -34,7 +34,7 @@
 			justify-content: space-around;
 			gap: 12px;
 
-			.mat-form-field {
+			.mat-mdc-form-field {
 				flex: 1;
 			}
 
@@ -43,7 +43,7 @@
 				resize: vertical;
 			}
 
-			.mat-select.hide {
+			.mat-mdc-select.hide {
 				width: 0;
 				visibility: hidden;
 			}

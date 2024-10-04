@@ -15,10 +15,10 @@
 			overflow-x: hidden;
 			overflow-y: auto;
 
-			::ng-deep .mat-list-item-content {
+			::ng-deep .mat-mdc-list-item-content {
 				padding: 0px;
 
-				.mat-list-text {
+				.mat-mdc-list-text {
 					padding: 0px;
 
 					a {
@@ -33,7 +33,7 @@
 				display: flex;
 				flex-direction: column;
 
-				.mat-list-item {
+				.mat-mdc-list-item {
 					font-size: 15px;
 				}
 
@@ -63,10 +63,10 @@
 		padding: 0px 6px;
 		width: 100%;
 
-		.mat-row {
+		.mat-mdc-row {
 			height: 30px;
 
-			.mat-cell {
+			.mat-mdc-cell {
 				font-size: 12px;
 				padding: 0px !important;
 				min-width: inherit;

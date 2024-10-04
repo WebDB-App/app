@@ -57,7 +57,7 @@
 						<mat-list-option
 							(keyup.enter)="goTo(table.name)"
 							(keyup.space)="goTo(table.name)"
-							[class.mat-list-single-selected-option]="selectedTable?.name === table.name"
+							[class.mat-mdc-list-single-selected-option]="selectedTable?.name === table.name"
 							[style.font-style]="table.view ? 'italic' : 'normal'"
 							[value]="table.name">
 							<a href="{{changeTable(table.name)}}">

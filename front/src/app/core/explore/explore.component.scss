@@ -1,19 +1,14 @@
 .table {
-	.mat-header-cell .mat-form-field {
+	.mat-mdc-header-cell .mat-mdc-form-field {
 		width: 100%;
 		margin: 0.3em 0 -0.6em 0;
 
-		::ng-deep .mat-form-field-infix {
+		::ng-deep .mat-mdc-form-field-infix {
 			width: inherit;
 		}
 	}
 
-	::ng-deep .mat-chip-list-wrapper {
-		max-height: 50px;
-		overflow: auto;
-	}
-
-	::ng-deep .mat-paginator-range-label {
+	::ng-deep .mat-mdc-paginator-range-label {
 		min-width: 120px;
 	}
 }

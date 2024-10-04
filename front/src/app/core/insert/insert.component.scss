@@ -14,15 +14,15 @@
 		background-color: #f44336;
 	}
 
-	::ng-deep .mat-tab-body-wrapper, ::ng-deep .mat-tab-body {
+	::ng-deep .mat-mdc-tab-body-wrapper, ::ng-deep .mat-mdc-tab-body {
 		overflow: visible;
 	}
 
-	::ng-deep .mat-tab-label {
+	::ng-deep .mat-mdc-tab-label {
 		min-width: 90px;
 	}
 
-	.mat-tab-group {
+	.mat-mdc-tab-group {
 		box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
 	}
 

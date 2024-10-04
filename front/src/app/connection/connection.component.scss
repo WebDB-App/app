@@ -4,7 +4,7 @@
 	.servers {
 		display: flex;
 
-		.mat-card-content {
+		.mat-mdc-card-content {
 			display: flex;
 			width: 100%;
 
@@ -20,7 +20,7 @@
 					gap: 20px;
 					display: flex;
 
-					.mat-form-field, button {
+					.mat-mdc-form-field, button {
 						width: 250px;
 					}
 				}
@@ -42,7 +42,7 @@
 				}
 			}
 
-			.mat-list-base {
+			.mat-mdc-list-base {
 				min-width: 280px;
 				overflow: auto;
 				height: 100%;
@@ -66,7 +66,7 @@
 				}
 			}
 
-			.mat-list-option {
+			.mat-mdc-list-option {
 				max-width: 375px;
 				margin: 0px auto;
 			}
@@ -92,24 +92,24 @@
 		}
 	}
 
-	::ng-deep .mat-tab-body:first-child {
-		.mat-card {
+	::ng-deep .mat-mdc-tab-body:first-child {
+		.mat-mdc-card {
 			height: 240px !important;
 		}
 	}
 
-	::ng-deep .mat-card-header-text {
+	::ng-deep .mat-mdc-card-header-text {
 		margin: 0px;
 		width: 100%;
 	}
 
-	::ng-deep .mat-tab-body-wrapper {
+	::ng-deep .mat-mdc-tab-body-wrapper {
 		overflow: auto;
 		height: calc(100vh - 126px);
 	}
 
-	::ng-deep .mat-tab-labels {
-		.mat-tab-label-content {
+	::ng-deep .mat-mdc-tab-labels {
+		.mat-mdc-tab-label-content {
 			gap: 4px;
 		}
 
@@ -119,7 +119,7 @@
 		}
 	}
 
-	::ng-deep .mat-tab-body-content {
+	::ng-deep .mat-mdc-tab-body-content {
 		height: inherit;
 		overflow: inherit;
 	}
@@ -129,7 +129,7 @@
 	#container {
 		padding: 0px;
 
-		::ng-deep .mat-tab-body-wrapper {
+		::ng-deep .mat-mdc-tab-body-wrapper {
 			height: calc(100vh - 106px) !important;
 		}
 	}
@@ -143,7 +143,7 @@
 	}
 
 	.nonConnected {
-		.mat-form-field, button {
+		.mat-mdc-form-field, button {
 			width: 170px !important;
 		}
 	}

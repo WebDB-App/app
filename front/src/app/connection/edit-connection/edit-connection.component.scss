@@ -28,14 +28,14 @@
 	display: flex;
 	align-items: center;
 
-	.mat-form-field, button {
+	.mat-mdc-form-field, button {
 		width: 250px;
 	}
 }
 
 @media (max-width: 1200px) {
 	.login {
-		.mat-form-field, button {
+		.mat-mdc-form-field, button {
 			width: 170px !important;
 		}
 	}
