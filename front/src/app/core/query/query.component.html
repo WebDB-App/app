@@ -191,9 +191,7 @@
 		<div id="results">
 			<table [dataSource]="dataSource!" class="table" mat-table range-selection>
 				@for (column of displayedColumns; track column) {
-					<ng-container
-						matColumnDef="{{column}}"
-					>
+					<ng-container matColumnDef="{{column}}">
 						<th *matHeaderCellDef
 							[style.min-width]="column.length * 8 + 'px'"
 							class="resizeColumn"

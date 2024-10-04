@@ -1,5 +1,5 @@
 <mat-toolbar class="spaceBetweenCenter">
-	<mat-form-field appearance="outline" class="searchField" style="width: 200px" subscriptSizing="dynamic">
+	<mat-form-field appearance="fill" class="searchField" style="width: 200px" subscriptSizing="dynamic">
 		<input
 			#filter
 			(keyup)="filterChanged(filter.value)"
@@ -55,8 +55,7 @@
 			@if (loading === LoadingStatus.ERROR) {
 				<app-unreachable
 					(reloadPage)="ngOnInit(true)"
-				>
-				</app-unreachable>
+				></app-unreachable>
 			}
 		</div>
 	</div>
@@ -203,7 +202,7 @@
 										<div (keyup.enter)="loginBtn._elementRef.nativeElement.click()"
 											 class="nonConnected">
 											<div>
-												<mat-form-field appearance="outline" style="margin-bottom: -1.75em;">
+												<mat-form-field appearance="outline">
 													<mat-label>User</mat-label>
 													<input
 														#user

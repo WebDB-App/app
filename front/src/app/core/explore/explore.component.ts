@@ -195,8 +195,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 				row,
 				updateInPlace: true
 			},
-			id: (this.params.pageSize * this.params.page + i).toString(),
-			hasBackdrop: false
+			id: (this.params.pageSize * this.params.page + i).toString()
 		});
 
 		dialogRef.afterClosed().subscribe(async result => {
@@ -250,8 +249,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 
 	batchUpdate() {
 		const dialogRef = this.dialog.open(BatchUpdateDialog, {
-			data: this.selection.selected,
-			hasBackdrop: false
+			data: this.selection.selected
 		});
 
 		dialogRef.afterClosed().subscribe(async (result) => {
@@ -270,8 +268,7 @@ export class ExploreComponent implements OnInit, OnDestroy {
 
 	exportRows() {
 		this.dialog.open(ExportResultDialog, {
-			data: this.selection.selected,
-			hasBackdrop: false
+			data: this.selection.selected
 		});
 	}
 }

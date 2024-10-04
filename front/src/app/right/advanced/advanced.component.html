@@ -110,9 +110,8 @@
 					</span>
 					Duplicate Database
 					@if (dbCopy.value !== selectedDatabase!.name.split(' | ')[0] && !nameValid(dbCopy.value)) {
-						<mat-error
-						>Name
-							already taken or containing special characters
+						<mat-error>
+							Name already taken or containing special characters
 						</mat-error>
 					}
 				</button>

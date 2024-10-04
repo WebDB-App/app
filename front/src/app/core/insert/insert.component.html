@@ -9,7 +9,7 @@
 				Generate rows
 			</button>
 
-			<mat-form-field style="width: 65px; text-align: right; margin-bottom: -0.5em;">
+			<mat-form-field style="width: 65px; text-align: right;">
 				<input #addGenNb matInput min="1" type="number" value="1">
 			</mat-form-field>
 		</div>
@@ -213,9 +213,7 @@
 	<div class="scrollDiv mat-elevation-z8">
 		<table [dataSource]="dataSource" class="table" mat-table range-selection>
 			@for (column of displayedColumns; track column) {
-				<ng-container
-					matColumnDef="{{column}}"
-				>
+				<ng-container matColumnDef="{{column}}">
 					@if (column === actionColum) {
 						<th *matHeaderCellDef mat-header-cell style="width: 0px;">
 							<button (click)="removeRows()"

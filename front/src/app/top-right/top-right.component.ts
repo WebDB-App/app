@@ -44,14 +44,13 @@ export class TopRightComponent {
 
 	showLogs() {
 		this.dialog.open(LogsDialog, {
-			id: "logs",
-			hasBackdrop: false
+			id: "logs"
 		});
 	}
 
 	showProcess() {
 		this.dialog.open(ProcessDialogComponent, {
-			hasBackdrop: false,
+
 			id: 'process',
 			data: JSON.parse(JSON.stringify(Server.getSelected())),
 		});
@@ -59,7 +58,7 @@ export class TopRightComponent {
 
 	showStats() {
 		this.dialog.open(StatsDialogComponent, {
-			hasBackdrop: false,
+
 			id: 'stats',
 			data: JSON.parse(JSON.stringify(Server.getSelected())),
 		});
@@ -67,7 +66,7 @@ export class TopRightComponent {
 
 	showVariables() {
 		this.dialog.open(VariableDialogComponent, {
-			hasBackdrop: false,
+
 			id: 'variable',
 			data: JSON.parse(JSON.stringify(Server.getSelected())),
 		});
@@ -84,7 +83,6 @@ export class LogsDialog implements OnDestroy {
 	filter = "";
 	interval?: NodeJS.Timeout | number;
 	atBottom = true;
-	protected readonly environment = environment;
 	@ViewChild('scrollContainer') private scrollContainer!: ElementRef;
 
 	constructor(

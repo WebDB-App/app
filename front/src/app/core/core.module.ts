@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CoreRoutingModule } from './core-routing.module';
 import { MatSidenavModule } from "@angular/material/sidenav";
-import { MatFormFieldModule } from "@angular/material/form-field";
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule } from "@angular/material/form-field";
 import { MatSelectModule } from "@angular/material/select";
 import { MatListModule } from "@angular/material/list";
 import { MatIconModule } from "@angular/material/icon";
@@ -29,7 +29,7 @@ import {
 	UpdateColumnDialog,
 } from './structure/structure.component';
 import { MatButtonToggleModule } from "@angular/material/button-toggle";
-import { MatDialogModule } from "@angular/material/dialog";
+import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from "@angular/material/dialog";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatCardModule } from "@angular/material/card";
@@ -48,6 +48,21 @@ import { HighlightLineNumbers } from "ngx-highlightjs/line-numbers";
 
 
 @NgModule({
+	providers: [
+		{
+			provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+			useValue: {
+				subscriptSizing: 'dynamic'
+			}
+		},
+		{
+			provide: MAT_DIALOG_DEFAULT_OPTIONS,
+			useValue: {
+				closeOnNavigation: false,
+				hasBackdrop: false
+			}
+		}
+	],
 	declarations: [
 		ExploreComponent,
 		QueryComponent,

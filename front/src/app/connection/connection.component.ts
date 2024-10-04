@@ -207,7 +207,7 @@ export class ConnectionComponent implements OnInit, OnDestroy {
 
 	processServer(server: Server) {
 		this.dialog.open(ProcessDialogComponent, {
-			hasBackdrop: false,
+
 			id: 'process-' + server.name,
 			data: server,
 		});
@@ -215,7 +215,7 @@ export class ConnectionComponent implements OnInit, OnDestroy {
 
 	statsServer(server: Server) {
 		this.dialog.open(StatsDialogComponent, {
-			hasBackdrop: false,
+
 			id: 'stats-' + server.name,
 			data: server,
 		});
@@ -223,7 +223,7 @@ export class ConnectionComponent implements OnInit, OnDestroy {
 
 	variableServer(server: Server) {
 		this.dialog.open(VariableDialogComponent, {
-			hasBackdrop: false,
+
 			id: 'vars-' + server.name,
 			data: JSON.parse(JSON.stringify(server)),
 		});

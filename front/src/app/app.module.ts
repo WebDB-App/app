@@ -22,7 +22,7 @@ import { MatListModule } from "@angular/material/list";
 import { MatExpansionModule } from "@angular/material/expansion";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogConfig, MatDialogModule } from "@angular/material/dialog";
+import { MatDialogModule } from "@angular/material/dialog";
 import { MatSelectModule } from "@angular/material/select";
 import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
@@ -60,12 +60,6 @@ let providers: Provider[] = [
 	}), {
 		provide: MatPaginatorIntl,
 		useClass: CustomPaginatorIntl
-	}, {
-		provide: MAT_DIALOG_DEFAULT_OPTIONS,
-		useValue: {
-			...new MatDialogConfig(),
-			closeOnNavigation: false
-		} as MatDialogConfig,
 	}
 ];
 if (environment.production) {
@@ -92,7 +86,7 @@ if (environment.production) {
 declare var monaco: any;
 
 export const monacoConfig: NgxMonacoEditorConfig = {
-	baseUrl: window.location.origin + "/assets",
+	baseUrl: window.location.origin + "/assets/monaco/min/vs",
 	defaultOptions: {
 		padding: {top: 10},
 		minimap: {enabled: false},
@@ -154,7 +148,9 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 		EditQueryDialog,
 		VariableDialogComponent
 	],
-	bootstrap: [AppComponent], imports: [AppRoutingModule,
+	bootstrap: [AppComponent],
+	imports: [
+		AppRoutingModule,
 		BrowserModule,
 		BrowserAnimationsModule,
 		MonacoEditorModule.forRoot(monacoConfig),

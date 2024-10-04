@@ -58,9 +58,7 @@ export class RequestService {
 				this.lastError = {
 					time: Date.now(),
 					ref: this.bottomSheet.open(ErrorComponent, {
-						data: {error: result, context: data},
-						hasBackdrop: false
-					})
+						data: {error: result, context: data}})
 				};
 				throw new HttpErrorResponse({error: result});
 			} else if (this.configuration.getByName('autoCloseError')?.value && this.lastError) {

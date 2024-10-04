@@ -24,9 +24,9 @@ body {
 
 .mat-mdc-tooltip, .mat-mdc-select-panel, .mat-mdc-menu-panel {
 	white-space: pre-line !important;
-	background-color: rgba(30, 30, 30, 0.93);
-	backdrop-filter: blur(1px);
-	border: 1px solid rgba(255, 255, 255, 0.12);
+//	background-color: rgba(30, 30, 30, 0.93);
+//	backdrop-filter: blur(1px);
+//	border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 [hidden] {
@@ -42,9 +42,9 @@ body {
 	}
 }
 
-.mat-mdc-drawer, .mat-mdc-sidenav {
-	background-color: #303030;
-}
+//.mat-mdc-drawer, .mat-mdc-sidenav {
+//	background-color: #303030;
+//}
 
 .table {
 	width: 100%;
@@ -184,21 +184,25 @@ a {
 .mat-mdc-dialog-container {
 	padding: 0px !important;
 	overflow: inherit !important;
-	filter: brightness(0.7);
+	filter: brightness(0.7) drop-shadow(0px 0px 4px #00000073);
 	transition: filter 0.1s linear;
 	min-width: 250px;
 
 	&:focus, &:active, &:focus-within, &:hover, &:has(iframe) {
-		filter: brightness(1);
+		filter: brightness(1) drop-shadow(0px 0px 4px #00000073);
 	}
 
 	.mat-mdc-dialog-title {
-		border-radius: 3px 3px 0px 0px;
 		display: flex !important;
 		justify-content: space-between;
 		margin: 0px;
 		gap: 20px;
 		align-items: center;
+		padding: 0px 12px;
+
+		&::before {
+			display: none !important;
+		}
 
 		> div {
 			display: flex;
@@ -222,7 +226,7 @@ a {
 		max-height: 80vh;
 	}
 
-	.mat-mdc-dialog-actions {
+	.mat-dialog-actions {
 		display: flex;
 		justify-content: space-around;
 		gap: 12px;
@@ -250,6 +254,9 @@ a {
 }
 
 .searchField {
+	.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+		background-color: transparent !important;
+	}
 	.mat-mdc-form-field-suffix {
 		button {
 			width: 1.5em !important;
@@ -324,7 +331,6 @@ app-cell::-webkit-scrollbar {
 }
 
 .goToPage {
-	margin-bottom: -1.25em;
 	width: 90px;
 
 	.mat-mdc-form-field-infix {
@@ -450,6 +456,8 @@ ngx-monaco-editor {
 	--ngx-json-font-family: 'Fira Sans', sans-serif;
 
 	--mat-dialog-container-max-width: inherit;
+	--mdc-elevated-card-container-color: #00000040;
+	--mat-toolbar-container-background-color: #1e1e1e;
 }
 
 #right {

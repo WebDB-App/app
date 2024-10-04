@@ -98,9 +98,7 @@ export class StructureComponent implements OnInit, AfterViewChecked {
 	}
 
 	async addColumn() {
-		const dialogRef = this.dialog.open(AddColumnDialog, {
-			hasBackdrop: false
-		});
+		const dialogRef = this.dialog.open(AddColumnDialog);
 
 		dialogRef.afterClosed().subscribe(async (result) => {
 			if (!result) {
@@ -113,8 +111,7 @@ export class StructureComponent implements OnInit, AfterViewChecked {
 	async updateColumn(row: Column) {
 		const dialogRef = this.dialog.open(UpdateColumnDialog, {
 			data: row,
-			id: JSON.stringify(row),
-			hasBackdrop: false
+			id: JSON.stringify(row)
 		});
 
 		dialogRef.afterClosed().subscribe(async (result) => {
@@ -128,8 +125,7 @@ export class StructureComponent implements OnInit, AfterViewChecked {
 	async harmonizeColumn(row: Column) {
 		const dialogRef = this.dialog.open(UpdateColumnDialog, {
 			data: row,
-			id: JSON.stringify(row),
-			hasBackdrop: false
+			id: JSON.stringify(row)
 		});
 
 		dialogRef.afterClosed().subscribe(async (result) => {
@@ -149,8 +145,7 @@ export class StructureComponent implements OnInit, AfterViewChecked {
 
 	addIndex() {
 		const dialogRef = this.dialog.open(AddIndexDialog, {
-			data: this.selectedTable,
-			hasBackdrop: false
+			data: this.selectedTable
 		});
 
 		dialogRef.afterClosed().subscribe(async (result) => {

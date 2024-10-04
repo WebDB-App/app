@@ -119,9 +119,7 @@ export class TablesComponent implements OnInit {
 	}
 
 	async addTable() {
-		this.dialog.open(CreateTableDialog, {
-			hasBackdrop: false
-		});
+		this.dialog.open(CreateTableDialog);
 	}
 
 	getTableUrl(name: string) {

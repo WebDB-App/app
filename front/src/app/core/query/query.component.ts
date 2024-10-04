@@ -261,15 +261,14 @@ export class QueryComponent implements OnInit, OnDestroy {
 		this.isLoading = false;
 		if (data.length > 0) {
 			this.dialog.open(ExportResultDialog, {
-				data,
-				hasBackdrop: false
+				data
 			});
 		}
 	}
 
 	addView() {
 		this.dialog.open(CreateViewDialog, {
-			hasBackdrop: false,
+
 			data: this.selectedServer?.driver.extractForView(removeComment(this.query))
 		});
 	}

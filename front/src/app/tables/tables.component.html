@@ -33,8 +33,7 @@
 			</mat-list-item>
 
 			@if (!selectedDatabase || !selectedDatabase?.tables || selectedDatabase.tables.length < 1) {
-				<mat-list-item
-				>
+				<mat-list-item>
 					No table
 				</mat-list-item>
 			}
@@ -70,9 +69,7 @@
 							</mat-list-option>
 						</div>
 						@if (tooltips[table.name]) {
-							<div
-								class="columns"
-							>
+							<div class="columns">
 								<div [innerHtml]="tooltips[table.name]"></div>
 								<mat-divider></mat-divider>
 							</div>
