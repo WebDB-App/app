@@ -5,26 +5,27 @@
 				<mat-label>
 					Page
 				</mat-label>
-				<input
-					#page
-					(change)="changePage(page.value); refreshData()"
-					*ngIf="querySize >= 100000"
-					[max]="querySize"
-					[value]="params.page"
-					matInput
-					min="0"
-					type="number">
-				<mat-select
-					(selectionChange)="changePage($event.value); refreshData()"
-					*ngIf="querySize < 100000"
-					[value]="params.page">
-					<ng-container
-						*ngFor="let item of [].constructor(Math.floor(querySize / params.pageSize) + 1); let i = index">
-						<mat-option [value]="i">
-							{{ i }}
-						</mat-option>
-					</ng-container>
-				</mat-select>
+				@if (querySize >= 100000) {
+					<input
+						#page
+						(change)="changePage(page.value); refreshData()"
+						[max]="querySize"
+						[value]="params.page"
+						matInput
+						min="0"
+						type="number">
+				}
+				@if (querySize < 100000) {
+					<mat-select
+						(selectionChange)="changePage($event.value); refreshData()"
+						[value]="params.page">
+						@for (item of [].constructor(Math.floor(querySize / params.pageSize) + 1); track item; let i = $index) {
+							<mat-option [value]="i">
+								{{ i }}
+							</mat-option>
+						}
+					</mat-select>
+				}
 			</mat-form-field>
 			<mat-paginator
 				(page)="changePage($event.pageIndex, $event.pageSize); refreshData()"
@@ -44,9 +45,8 @@
 	</div>
 
 	<mat-chip-grid #chipList style="font-size: 12px;">
-		<ng-container
-			*ngFor="let chips of params.chips.split(';'); let i = index">
-			<ng-container *ngIf="chips">
+		@for (chips of params.chips.split(';'); track chips; let i = $index) {
+			@if (chips) {
 				<mat-chip
 					(removed)="removeChips(chips)"
 					color="primary"
@@ -58,11 +58,11 @@
 						</span>
 					</button>
 				</mat-chip>
-				<ng-container *ngIf="i < (params.chips.split(';').length - 2)">
+				@if (i < (params.chips.split(';').length - 2)) {
 					{{ configuration.getByName("operand")?.value }}
-				</ng-container>
-			</ng-container>
-		</ng-container>
+				}
+			}
+		}
 	</mat-chip-grid>
 
 	<div>
@@ -71,23 +71,25 @@
 			<mat-select
 				(selectionChange)="refreshData()"
 				[(ngModel)]="params.field">
-				<ng-container *ngFor="let column of displayedColumns">
-					<mat-option
-						*ngIf="column !== actionColum"
-						[value]="column">
-						{{ column }}
-					</mat-option>
-				</ng-container>
+				@for (column of displayedColumns; track column) {
+					@if (column !== actionColum) {
+						<mat-option
+							[value]="column">
+							{{ column }}
+						</mat-option>
+					}
+				}
 			</mat-select>
 		</mat-form-field>
-		<mat-button-toggle-group
-			(change)="refreshData()"
-			*ngIf="params.field"
-			[(ngModel)]="params.direction">
-			<mat-button-toggle matTooltip="A → Z" value="asc">↑</mat-button-toggle>
-			<mat-button-toggle matTooltip="Z → A" value="desc">↓</mat-button-toggle>
-			<mat-button-toggle matTooltip="No sort" value="">×</mat-button-toggle>
-		</mat-button-toggle-group>
+		@if (params.field) {
+			<mat-button-toggle-group
+				(change)="refreshData()"
+				[(ngModel)]="params.direction">
+				<mat-button-toggle matTooltip="A → Z" value="asc">↑</mat-button-toggle>
+				<mat-button-toggle matTooltip="Z → A" value="desc">↓</mat-button-toggle>
+				<mat-button-toggle matTooltip="No sort" value="">×</mat-button-toggle>
+			</mat-button-toggle-group>
+		}
 		<button
 			(click)="setAutoUp()"
 			mat-icon-button
@@ -100,99 +102,102 @@
 	</div>
 </mat-toolbar>
 
-<mat-progress-bar *ngIf="isLoading" mode="indeterminate" style="position: absolute; z-index: 10000;"></mat-progress-bar>
+@if (isLoading) {
+	<mat-progress-bar mode="indeterminate" style="position: absolute; z-index: 10000;"></mat-progress-bar>
+}
 
 <div class="scrollDiv" style="height: calc(100vh - 154px);">
 
 	<table [dataSource]="dataSource" class="table mat-elevation-z8" mat-table range-selection>
-		<ng-container
-			*ngFor="let column of displayedColumns; let i = index"
-			[stickyEnd]="column === actionColum"
-			matColumnDef="{{column}}"
-		>
-			<th *matHeaderCellDef
-				[style.min-width]="column.length * 8 + 'px'"
-				class="resizeColumn"
-				mat-header-cell>
-
-				<ng-container *ngIf="column !== actionColum">
-					<mat-form-field>
-						<mat-label>{{ column }}</mat-label>
-						<input (matChipInputTokenEnd)="addChips(column, $event)"
-							   [(ngModel)]="filter[column]"
-							   [matAutocomplete]="autoGroup"
-							   [matChipInputFor]="chipList"
-							   matInput>
-						<mat-autocomplete
-							#autoGroup="matAutocomplete"
-							(optionSelected)="filter[column] = $event.option.value">
-							<mat-option
-								*ngFor="let comp of selectedServer!.driver.language.comparators"
-								[matTooltip]="comp.definition"
-								[value]="comp.symbol + ' ' + comp.example"
-								matTooltipPosition="right">
-								{{ comp.symbol }}
-							</mat-option>
-						</mat-autocomplete>
-					</mat-form-field>
-				</ng-container>
-
-				<div *ngIf="column === actionColum && dataSource.data.length"
-					 style="display: flex; flex-direction: column; align-items: center;">
-					<div>
+		@for (column of displayedColumns; track column; let i = $index) {
+			<ng-container
+				[stickyEnd]="column === actionColum"
+				matColumnDef="{{column}}"
+			>
+				<th *matHeaderCellDef
+					[style.min-width]="column.length * 8 + 'px'"
+					class="resizeColumn"
+					mat-header-cell>
+					@if (column !== actionColum) {
+						<mat-form-field>
+							<mat-label>{{ column }}</mat-label>
+							<input (matChipInputTokenEnd)="addChips(column, $event)"
+								   [(ngModel)]="filter[column]"
+								   [matAutocomplete]="autoGroup"
+								   [matChipInputFor]="chipList"
+								   matInput>
+							<mat-autocomplete
+								#autoGroup="matAutocomplete"
+								(optionSelected)="filter[column] = $event.option.value">
+								@for (comp of selectedServer!.driver.language.comparators; track comp) {
+									<mat-option
+										[matTooltip]="comp.definition"
+										[value]="comp.symbol + ' ' + comp.example"
+										matTooltipPosition="right">
+										{{ comp.symbol }}
+									</mat-option>
+								}
+							</mat-autocomplete>
+						</mat-form-field>
+					}
+					@if (column === actionColum && dataSource.data.length) {
+						<div
+							style="display: flex; flex-direction: column; align-items: center;">
+							<div>
+								<button
+									[disabled]="selection.isEmpty()"
+									[matMenuTriggerFor]="actions"
+									mat-icon-button>
+									<span class="material-symbols-outlined notranslate">
+										more_vert
+									</span>
+								</button>
+								<mat-checkbox
+									(change)="$event ? toggleAllRows() : null"
+									[checked]="selection.hasValue() && isAllSelected()"
+									[indeterminate]="selection.hasValue() && !isAllSelected()"
+									color="primary">
+								</mat-checkbox>
+							</div>
+							@if (selection.selected.length > 0) {
+								<span
+									style="font-size: 12px; margin-top: -2px; color: white">
+									{{ selection.selected.length }} selected
+								</span>
+							}
+						</div>
+					}
+				</th>
+				<td *matCellDef="let row; let i = index"
+					[class.selected-row]="selection.isSelected(row)"
+					mat-cell>
+					@if (column === actionColum) {
 						<button
-							[disabled]="selection.isEmpty()"
-							[matMenuTriggerFor]="actions"
+							(click)="editRow(i, row)"
+							[disableRipple]="true"
 							mat-icon-button>
 							<span class="material-symbols-outlined notranslate">
-								more_vert
+								edit
 							</span>
 						</button>
 						<mat-checkbox
-							(change)="$event ? toggleAllRows() : null"
-							[checked]="selection.hasValue() && isAllSelected()"
-							[indeterminate]="selection.hasValue() && !isAllSelected()"
+							(change)="$event ? selection.toggle(row) : null"
+							(click)="shiftCheckBox($event, row); $event.stopPropagation();"
+							[checked]="selection.isSelected(row)"
+							[disableRipple]="true"
 							color="primary">
 						</mat-checkbox>
-					</div>
-					<span *ngIf="selection.selected.length > 0"
-						  style="font-size: 12px; margin-top: -2px; color: white">
-						{{ selection.selected.length }} selected
-					</span>
-				</div>
-
-			</th>
-			<td *matCellDef="let row; let i = index"
-				[class.selected-row]="selection.isSelected(row)"
-				mat-cell>
-
-				<ng-container *ngIf="column === actionColum">
-					<button
-						(click)="editRow(i, row)"
-						[disableRipple]="true"
-						mat-icon-button>
-						<span class="material-symbols-outlined notranslate">
-							edit
-						</span>
-					</button>
-
-					<mat-checkbox
-						(change)="$event ? selection.toggle(row) : null"
-						(click)="shiftCheckBox($event, row); $event.stopPropagation();"
-						[checked]="selection.isSelected(row)"
-						[disableRipple]="true"
-						color="primary">
-					</mat-checkbox>
-				</ng-container>
-
-				<app-cell
-					*ngIf="column !== actionColum"
-					[column]="column"
-					[stringify]="stringify"
-					[value]="row[column]"
-				></app-cell>
-			</td>
-		</ng-container>
+					}
+					@if (column !== actionColum) {
+						<app-cell
+							[column]="column"
+							[stringify]="stringify"
+							[value]="row[column]"
+						></app-cell>
+					}
+				</td>
+			</ng-container>
+		}
 
 		<tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
 		<tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>

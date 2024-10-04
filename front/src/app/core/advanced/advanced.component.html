@@ -1,123 +1,113 @@
-<div *ngIf="selectedTable" style="height: calc(100vh - 104px)">
-
-	<div class="flexFill" style="place-content: center space-between; align-items: center;">
-
-		<mat-toolbar
-			class="spaceBetweenCenter"
-			style="padding: 20px">
-
-			<span>
-				{{ selectedTable.view ? "View" : "Table" }}: {{ selectedTable.name }}
-			</span>
-
-			<button (click)="truncate()" *ngIf="!selectedTable.view" color="warn" mat-stroked-button>
-				<span class="material-symbols-outlined notranslate">
-				  delete
+@if (selectedTable) {
+	<div style="height: calc(100vh - 104px)">
+		<div class="flexFill" style="place-content: center space-between; align-items: center;">
+			<mat-toolbar
+				class="spaceBetweenCenter"
+				style="padding: 20px">
+				<span>
+					{{ selectedTable.view ? "View" : "Table" }}: {{ selectedTable.name }}
 				</span>
-				Empty
-			</button>
-
-			<button (click)="drop()" color="warn" mat-button>
-				<span class="material-symbols-outlined notranslate">
-					delete_forever
-				</span>
-				Drop
-			</button>
-
-		</mat-toolbar>
-
-		<div style="width: 600px;">
-
-			<ng-container *ngIf="!selectedTable.view">
-
-				<div *ngIf="stats" class="spaceBetweenCenter">
-					<span>Index Size : {{ +stats.index_length  | round }} Mb</span>
-					<span>Data Size : {{ +stats.data_length  | round }} Mb</span>
-				</div>
-
-				<mat-divider></mat-divider>
-
-				<div class="spaceBetweenCenter">
-					<mat-form-field>
-						<mat-label>Copy Name</mat-label>
-						<input
-							#tableCopy
-							[value]="selectedTable.name"
-							autocomplete="off"
-							matInput>
-					</mat-form-field>
-					<button (click)="duplicate(tableCopy.value)"
-							[disabled]="!validName(tableCopy.value)"
-							mat-stroked-button
-							matTooltip="Doesn't duplicate References/Indexes on new table">
+				@if (!selectedTable.view) {
+					<button (click)="truncate()" color="warn" mat-stroked-button>
 						<span class="material-symbols-outlined notranslate">
-							file_copy
+							delete
 						</span>
-						Duplicate
+						Empty
 					</button>
-				</div>
-
-				<mat-divider></mat-divider>
-
-				<div class="spaceBetweenCenter">
-					<mat-form-field>
-						<mat-label>New Name</mat-label>
-						<input
-							#tableRename
-							[value]="selectedTable.name"
-							autocomplete="off"
-							matInput>
-					</mat-form-field>
-					<button (click)="rename(tableRename.value)"
-							[disabled]="!validName(tableRename.value)"
-							mat-stroked-button>
-						<span class="material-symbols-outlined notranslate">
-							match_word
-						</span>
-						Rename
-					</button>
-				</div>
-
-				<mat-divider></mat-divider>
-			</ng-container>
-
-			<ng-container *ngIf="ddl">
-				<pre><code [highlight]="ddl"
-						   lineNumbers
-						   [language]="selectedServer!.driver!.language.id">
-				</code></pre>
-			</ng-container>
-		</div>
-
-		<div>
-			<mat-accordion>
-				<mat-expansion-panel>
-					<mat-expansion-panel-header>
-						<mat-panel-title>
+				}
+				<button (click)="drop()" color="warn" mat-button>
+					<span class="material-symbols-outlined notranslate">
+						delete_forever
+					</span>
+					Drop
+				</button>
+			</mat-toolbar>
+			<div style="width: 600px;">
+				@if (!selectedTable.view) {
+					@if (stats) {
+						<div class="spaceBetweenCenter">
+							<span>Index Size : {{ +stats.index_length  | round }} Mb</span>
+							<span>Data Size : {{ +stats.data_length  | round }} Mb</span>
+						</div>
+					}
+					<mat-divider></mat-divider>
+					<div class="spaceBetweenCenter">
+						<mat-form-field>
+							<mat-label>Copy Name</mat-label>
+							<input
+								#tableCopy
+								[value]="selectedTable.name"
+								autocomplete="off"
+								matInput>
+						</mat-form-field>
+						<button (click)="duplicate(tableCopy.value)"
+								[disabled]="!validName(tableCopy.value)"
+								mat-stroked-button
+								matTooltip="Doesn't duplicate References/Indexes on new table">
 							<span class="material-symbols-outlined notranslate">
-								speed
+								file_copy
 							</span>
-						</mat-panel-title>
-						<mat-panel-description>
-							Performance Tips
-						</mat-panel-description>
-					</mat-expansion-panel-header>
-					• Calculate to most used column and index it (RAM is ~100x speeder than disk)
-					<br>
-					• Specify only needed columns (avoid wildcard)
-					<br>
-					• Use views for pre-calculate queries
-					<br>
-					• Cache almost static data into your backend, Redis or even frontend
-					<br>
-					• Check slow queries and profile them to know why it take time
-					<br>
-					• Use an optimized database for your need (eg. elasticsearch for fulltext search)
-					<br>
-					• Use the AI assistant for more advanced optimizations for a query performance or table structure
-				</mat-expansion-panel>
-			</mat-accordion>
+							Duplicate
+						</button>
+					</div>
+					<mat-divider></mat-divider>
+					<div class="spaceBetweenCenter">
+						<mat-form-field>
+							<mat-label>New Name</mat-label>
+							<input
+								#tableRename
+								[value]="selectedTable.name"
+								autocomplete="off"
+								matInput>
+						</mat-form-field>
+						<button (click)="rename(tableRename.value)"
+								[disabled]="!validName(tableRename.value)"
+								mat-stroked-button>
+							<span class="material-symbols-outlined notranslate">
+								match_word
+							</span>
+							Rename
+						</button>
+					</div>
+					<mat-divider></mat-divider>
+				}
+				@if (ddl) {
+					<pre><code [highlight]="ddl"
+							   lineNumbers
+							   [language]="selectedServer!.driver!.language.id">
+          </code></pre>
+				}
+			</div>
+			<div>
+				<mat-accordion>
+					<mat-expansion-panel>
+						<mat-expansion-panel-header>
+							<mat-panel-title>
+								<span class="material-symbols-outlined notranslate">
+									speed
+								</span>
+							</mat-panel-title>
+							<mat-panel-description>
+								Performance Tips
+							</mat-panel-description>
+						</mat-expansion-panel-header>
+						• Calculate to most used column and index it (RAM is ~100x speeder than disk)
+						<br>
+						• Specify only needed columns (avoid wildcard)
+						<br>
+						• Use views for pre-calculate queries
+						<br>
+						• Cache almost static data into your backend, Redis or even frontend
+						<br>
+						• Check slow queries and profile them to know why it take time
+						<br>
+						• Use an optimized database for your need (eg. elasticsearch for fulltext search)
+						<br>
+						• Use the AI assistant for more advanced optimizations for a query performance or table
+						structure
+					</mat-expansion-panel>
+				</mat-accordion>
+			</div>
 		</div>
 	</div>
-
-</div>
+}

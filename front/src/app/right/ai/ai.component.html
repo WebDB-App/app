@@ -3,34 +3,40 @@
 
 		<div class="spaceBetweenCenter"
 			 style="height: 52px">
-			<h2 *ngIf="showSettings" style="font-size: 18px;">Settings</h2>
+			@if (showSettings) {
+				<h2 style="font-size: 18px;">Settings</h2>
+			}
 
-			<mat-form-field *ngIf="!showSettings" class="searchField" style="margin-bottom: -1.25em">
-				<input
-					#filter
-					(keyup)="filterChanged(filter.value)"
-					autocomplete="off"
-					matInput
-					placeholder="Filter chat">
-				<button
-					(click)="filter.value=''; filterChanged(filter.value)"
-					*ngIf="filter.value"
-					aria-label="Clear"
-					mat-icon-button
-					matSuffix>
-					<span class="material-symbols-outlined notranslate">close</span>
-				</button>
-			</mat-form-field>
+			@if (!showSettings) {
+				<mat-form-field class="searchField" style="margin-bottom: -1.25em">
+					<input
+						#filter
+						(keyup)="filterChanged(filter.value)"
+						autocomplete="off"
+						matInput
+						placeholder="Filter chat">
+					@if (filter.value) {
+						<button
+							(click)="filter.value=''; filterChanged(filter.value)"
+							aria-label="Clear"
+							mat-icon-button
+							matSuffix>
+							<span class="material-symbols-outlined notranslate">close</span>
+						</button>
+					}
+				</mat-form-field>
+			}
 
 			<div>
-				<button
-					(click)="chat = []; saveChat()"
-					*ngIf="chat.length >= 1"
-					mat-button>
-					<span class="material-symbols-outlined notranslate">
-						clear_all
-					</span>
-				</button>
+				@if (chat.length >= 1) {
+					<button
+						(click)="chat = []; saveChat()"
+						mat-button>
+						<span class="material-symbols-outlined notranslate">
+							clear_all
+						</span>
+					</button>
+				}
 				<button
 					(click)="showSettings = !showSettings;"
 					[class.mat-mdc-flat-button]="showSettings"
@@ -43,11 +49,12 @@
 		</div>
 	</mat-toolbar>
 
-	<mat-progress-bar
-		*ngIf="loadingCount > 0"
-		color="accent"
-		mode="indeterminate">
-	</mat-progress-bar>
+	@if (loadingCount > 0) {
+		<mat-progress-bar
+			color="accent"
+			mode="indeterminate">
+		</mat-progress-bar>
+	}
 
 	<div [hidden]="!showSettings" class="container">
 
@@ -59,11 +66,12 @@
 					dense
 					multiple
 					style="height: 250px; width: 45%; overflow: auto;">
-					<mat-list-option
-						*ngFor="let table of selectedDatabase?.tables"
-						[value]="table.name">
-						{{ table.name }}
-					</mat-list-option>
+					@for (table of selectedDatabase?.tables; track table) {
+						<mat-list-option
+							[value]="table.name">
+							{{ table.name }}
+						</mat-list-option>
+					}
 				</mat-selection-list>
 
 				<div
@@ -127,13 +135,14 @@
 				</div>
 			</div>
 
-			<button
-				(click)="showPrompt = true"
-				*ngIf="showPrompt === false"
-				color="accent"
-				mat-button>
-				Show Prompt
-			</button>
+			@if (showPrompt === false) {
+				<button
+					(click)="showPrompt = true"
+					color="accent"
+					mat-button>
+					Show Prompt
+				</button>
+			}
 
 			<div style="position: relative; padding: 0px;">
 				<ngx-monaco-editor
@@ -146,76 +155,87 @@
 		</mat-card>
 
 		<mat-card style="padding: 10px 0px; display: flex; flex-direction: column;">
-			<h3 *ngIf="Object.keys(models).length < 1"
-				style="margin-bottom: 8px; text-align: center; color: #ff9800">
-				Please fill a provider key before selecting a model
-			</h3>
+			@if (Object.keys(models).length < 1) {
+				<h3
+					style="margin-bottom: 8px; text-align: center; color: #ff9800">
+					Please fill a provider key before selecting a model
+				</h3>
+			}
 
-			<mat-form-field
-				*ngIf="Object.keys(models).length"
-				appearance="fill"
-				class="searchField"
-				color="accent"
-				style="padding: 10px 14px 0px; flex: 1;">
-				<mat-label>Model</mat-label>
-				<input
-					#filter
-					[(ngModel)]="config.model"
-					[matAutocomplete]="auto"
-					matInput>
-				<button
-					(click)="config.model = '';"
-					*ngIf="config.model"
-					aria-label="Clear"
-					mat-icon-button
-					matSuffix>
-					<span class="material-symbols-outlined notranslate">close</span>
-				</button>
-				<mat-autocomplete
-					#auto="matAutocomplete"
-					(optionSelected)="configChange()">
-					<mat-optgroup
-						*ngFor="let pEnum of Object.keys(models)"
-						[label]="ProvidersDetail[pEnum].name"
-						class="hasBold">
-						<ng-container *ngFor="let model of models[pEnum]">
-							<mat-option
-								*ngIf="JSON.stringify(model.fullName.toLowerCase()).indexOf(filter.value.toLowerCase()) >= 0"
-								[class.bold]="true"
-								[value]="model.fullName">
-								{{ model.shortName }}
-							</mat-option>
-						</ng-container>
-					</mat-optgroup>
-				</mat-autocomplete>
-			</mat-form-field>
+			@if (Object.keys(models).length) {
+				<mat-form-field
+					appearance="fill"
+					class="searchField"
+					color="accent"
+					style="padding: 10px 14px 0px; flex: 1;">
+					<mat-label>Model</mat-label>
+					<input
+						#filter
+						[(ngModel)]="config.model"
+						[matAutocomplete]="auto"
+						matInput>
+					@if (config.model) {
+						<button
+							(click)="config.model = '';"
+							aria-label="Clear"
+							mat-icon-button
+							matSuffix>
+							<span class="material-symbols-outlined notranslate">close</span>
+						</button>
+					}
+					<mat-autocomplete
+						#auto="matAutocomplete"
+						(optionSelected)="configChange()">
+						@for (pEnum of Object.keys(models); track pEnum) {
+							<mat-optgroup
+								[label]="ProvidersDetail[pEnum].name"
+								class="hasBold">
+								@for (model of models[pEnum]; track model) {
+									@if (JSON.stringify(model.fullName.toLowerCase()).indexOf(filter.value.toLowerCase()) >= 0) {
+										<mat-option
+											[class.bold]="true"
+											[value]="model.fullName">
+											{{ model.shortName }}
+										</mat-option>
+									}
+								}
+							</mat-optgroup>
+						}
+					</mat-autocomplete>
+				</mat-form-field>
+			}
 
 			<mat-divider style="position: relative;"></mat-divider>
 
 			<div style="display: flex;">
 				<div id="tokens">
-					<div *ngFor="let provider of ProvidersDetail | keyvalue">
-						<a [href]="provider.value.url"
-						   mat-button
-						   target="_blank">
-							<mat-icon [svgIcon]="provider.key" style="width: 70px"></mat-icon>
-						</a>
-
-						<mat-form-field appearance="outline">
-							<mat-label>Key</mat-label>
-							<input
-								(change)="goodKey(provider.key) ? configChange() : undefined"
-								[(ngModel)]="config[provider.key]"
-								matInput>
-						</mat-form-field>
-						<mat-error *ngIf="!goodKey(provider.key)">
-							Key doesn't work
-						</mat-error>
-						<mat-error
-							*ngIf="config[provider.key] && models[provider.key] && models[provider.key].length < 1">
-							Models cannot be retrieved
-						</mat-error>
-					</div>
+					@for (provider of ProvidersDetail | keyvalue; track provider) {
+						<div>
+							<a [href]="provider.value.url"
+							   mat-button
+							   target="_blank">
+								<mat-icon [svgIcon]="provider.key" style="width: 70px"></mat-icon>
+							</a>
+							<mat-form-field appearance="outline">
+								<mat-label>Key</mat-label>
+								<input
+									(change)="goodKey(provider.key) ? configChange() : undefined"
+									[(ngModel)]="config[provider.key]"
+									matInput>
+							</mat-form-field>
+							@if (!goodKey(provider.key)) {
+								<mat-error>
+									Key doesn't work
+								</mat-error>
+							}
+							@if (config[provider.key] && models[provider.key] && models[provider.key].length < 1) {
+								<mat-error
+								>
+									Models cannot be retrieved
+								</mat-error>
+							}
+						</div>
+					}
 				</div>
 
 				<div class="centered" style="min-width: 150px;">
@@ -266,150 +286,156 @@
 
 	<div #scrollContainer (scroll)="onScroll($event)" [hidden]="showSettings" class="container">
 
-		<div *ngIf="!chat.length && config.model">
-			<br><br>
-			<h3 style="text-align: center; border-bottom: 1px dashed grey">Some examples</h3>
-			<div id="examples">
-				<button
-					(click)="sendMessage(example);"
-					*ngFor="let example of examples"
-					mat-stroked-button>
-					{{ example }}
-				</button>
+		@if (!chat.length && config.model) {
+			<div>
+				<br><br>
+				<h3 style="text-align: center; border-bottom: 1px dashed grey">Some examples</h3>
+				<div id="examples">
+					@for (example of examples; track example) {
+						<button
+							(click)="sendMessage(example);"
+							mat-stroked-button>
+							{{ example }}
+						</button>
+					}
+				</div>
 			</div>
-		</div>
+		}
 
-		<ng-container *ngIf="chat.length">
-			<mat-card
-				*ngFor="let ch of chat"
-				[hidden]="ch.hide"
-				[style.background-color]="ch.error ? '#f44336' : ch.user === Role.Assistant ? undefined : 'transparent'"
-				[style.margin-bottom]="ch.user === Role.User ? '-18px' : undefined"
-				style="box-shadow: none">
-				<mat-card-content>
-
-					<button
-						(click)="message.value = ch.txt"
-						*ngIf="ch.user === Role.User"
-						color="accent"
-						mat-mini-fab
-						style="float: left; top: -8px; width: 34px; height: 34px; line-height: 34px; margin-right: 10px;">
-						<span class="material-symbols-outlined notranslate" style="font-size: 18px">
-							edit
-						</span>
-					</button>
-
-					<div *ngIf="!ch.error && ch.user === Role.Assistant" class="actions"
-						 style="bottom: 0px; border-bottom: 0px; border-top: 1px solid #1de9b6; border-radius: 0px; border-top-left-radius: 4px; top: inherit;">
-						<button
-							[matTooltip]="JSON.stringify(ch.config)"
-							color="accent"
-							mat-icon-button>
-							<span class="material-symbols-outlined notranslate">
-								info
-							</span>
-						</button>
-						<button
-							(click)="sendMessage('The response ```' + ch.txt + '``` was wrong. Please retry');"
-							color="accent"
-							mat-icon-button>
-							<span class="material-symbols-outlined notranslate">
-								replay
-							</span>
-						</button>
-						<button
-							(click)="sendMessage('Please summarize the response ```' + ch.txt + '```');"
-							color="accent"
-							mat-icon-button>
-							<span class="material-symbols-outlined notranslate">
-								short_text
-							</span>
-						</button>
-						<button
-							(click)="sendMessage('Can you please give me more details about the response: ```' + ch.txt + '```');"
-							color="accent"
-							mat-icon-button>
-							<span class="material-symbols-outlined notranslate">
-								subject
-							</span>
-						</button>
-					</div>
-
-					<div *ngFor="let mrk of ch.marked" class="marked">
-						<div *ngIf="mrk.code && !ch.error" class="responseCode">
-							<div class="sub-actions">
+		@if (chat.length) {
+			@for (ch of chat; track ch) {
+				<mat-card
+					[hidden]="ch.hide"
+					[style.background-color]="ch.error ? '#f44336' : ch.user === Role.Assistant ? undefined : 'transparent'"
+					[style.margin-bottom]="ch.user === Role.User ? '-18px' : undefined"
+					style="box-shadow: none">
+					<mat-card-content>
+						@if (ch.user === Role.User) {
+							<button
+								(click)="message.value = ch.txt"
+								color="accent"
+								mat-mini-fab
+								style="float: left; top: -8px; width: 34px; height: 34px; line-height: 34px; margin-right: 10px;">
+								<span class="material-symbols-outlined notranslate" style="font-size: 18px">
+									edit
+								</span>
+							</button>
+						}
+						@if (!ch.error && ch.user === Role.Assistant) {
+							<div class="actions"
+								 style="bottom: 0px; border-bottom: 0px; border-top: 1px solid #1de9b6; border-radius: 0px; border-top-left-radius: 4px; top: inherit;">
 								<button
-									(click)="runQuery(mrk.code);"
-									color="accent"
-									mat-icon-button
-									matTooltip="Run and send result to IA"
-									matTooltipPosition="left">
-									<span class="material-symbols-outlined notranslate">
-										fast_forward
-									</span>
-								</button>
-								<button
-									(click)="goToQuery(mrk.code);"
+									[matTooltip]="JSON.stringify(ch.config)"
 									color="accent"
 									mat-icon-button>
 									<span class="material-symbols-outlined notranslate">
-										send
+										info
 									</span>
 								</button>
 								<button
-									(click)="snackBar.open('Code copied', '⨉', {duration: 3000})"
-									[cdkCopyToClipboard]="mrk.code"
+									(click)="sendMessage('The response ```' + ch.txt + '``` was wrong. Please retry');"
 									color="accent"
 									mat-icon-button>
 									<span class="material-symbols-outlined notranslate">
-										content_paste
+										replay
+									</span>
+								</button>
+								<button
+									(click)="sendMessage('Please summarize the response ```' + ch.txt + '```');"
+									color="accent"
+									mat-icon-button>
+									<span class="material-symbols-outlined notranslate">
+										short_text
+									</span>
+								</button>
+								<button
+									(click)="sendMessage('Can you please give me more details about the response: ```' + ch.txt + '```');"
+									color="accent"
+									mat-icon-button>
+									<span class="material-symbols-outlined notranslate">
+										subject
 									</span>
 								</button>
 							</div>
-						<pre><code [highlightAuto]="mrk.code" lineNumbers></code></pre>
-						</div>
-
-						<div [innerHTML]="mrk.html"></div>
-					</div>
-
-				</mat-card-content>
-			</mat-card>
-			<mat-card *ngIf="stream !== undefined">
-
-				<ng-container *ngIf="!stream">
-					<mat-progress-bar
-						color="accent"
-						mode="indeterminate"
-					></mat-progress-bar>
-				</ng-container>
-
-				<ng-container *ngIf="stream">
-					<mat-card-content>
-						<div [innerHTML]="stream"></div>
+						}
+						@for (mrk of ch.marked; track mrk) {
+							<div class="marked">
+								@if (mrk.code && !ch.error) {
+									<div class="responseCode">
+										<div class="sub-actions">
+											<button
+												(click)="runQuery(mrk.code);"
+												color="accent"
+												mat-icon-button
+												matTooltip="Run and send result to IA"
+												matTooltipPosition="left">
+												<span class="material-symbols-outlined notranslate">
+													fast_forward
+												</span>
+											</button>
+											<button
+												(click)="goToQuery(mrk.code);"
+												color="accent"
+												mat-icon-button>
+												<span class="material-symbols-outlined notranslate">
+													send
+												</span>
+											</button>
+											<button
+												(click)="snackBar.open('Code copied', '⨉', {duration: 3000})"
+												[cdkCopyToClipboard]="mrk.code"
+												color="accent"
+												mat-icon-button>
+												<span class="material-symbols-outlined notranslate">
+													content_paste
+												</span>
+											</button>
+										</div>
+										<pre><code [highlightAuto]="mrk.code" lineNumbers></code></pre>
+									</div>
+								}
+								<div [innerHTML]="mrk.html"></div>
+							</div>
+						}
 					</mat-card-content>
-					<mat-card-actions style="display: flex; justify-content: space-evenly;">
-						<button
-							(click)="abort = true; alternative()"
+				</mat-card>
+			}
+			@if (stream !== undefined) {
+				<mat-card>
+					@if (!stream) {
+						<mat-progress-bar
 							color="accent"
-							mat-stroked-button>
-							<span class="material-symbols-outlined notranslate">
-								change_circle
-							</span>
-							Alternative
-						</button>
-						<button
-							(click)="abort = true"
-							color="warn"
-							mat-button>
-							<span class="material-symbols-outlined notranslate">
-								stop_circle
-							</span>
-							Abort
-						</button>
-					</mat-card-actions>
-				</ng-container>
-			</mat-card>
-		</ng-container>
+							mode="indeterminate"
+						></mat-progress-bar>
+					}
+					@if (stream) {
+						<mat-card-content>
+							<div [innerHTML]="stream"></div>
+						</mat-card-content>
+						<mat-card-actions style="display: flex; justify-content: space-evenly;">
+							<button
+								(click)="abort = true; alternative()"
+								color="accent"
+								mat-stroked-button>
+								<span class="material-symbols-outlined notranslate">
+									change_circle
+								</span>
+								Alternative
+							</button>
+							<button
+								(click)="abort = true"
+								color="warn"
+								mat-button>
+								<span class="material-symbols-outlined notranslate">
+									stop_circle
+								</span>
+								Abort
+							</button>
+						</mat-card-actions>
+					}
+				</mat-card>
+			}
+		}
 	</div>
 
 	<div [hidden]="showSettings" id="sendInput">

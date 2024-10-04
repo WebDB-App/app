@@ -3,114 +3,62 @@
 		[selectedIndex]="newConnection && !server.ssh.host ? 0 : 1"
 		orientation="vertical"
 		style="flex: 1">
-		<mat-step *ngIf="newConnection">
-			<ng-template matStepLabel>Driver</ng-template>
-
-			<div style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
-				<div (click)="changeWrapper(wrapper)"
-					 *ngFor="let wrapper of driverNames"
-					 [style.border-bottom-color]="wrapper === server.wrapper ? '#2196f3' : 'transparent'"
-					 class="logo">
-					<img src="/assets/drivers/{{wrapper | lowercase}}.svg">
+		@if (newConnection) {
+			<mat-step>
+				<ng-template matStepLabel>Driver</ng-template>
+				<div style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
+					@for (wrapper of driverNames; track wrapper) {
+						<div (click)="changeWrapper(wrapper)"
+							 [style.border-bottom-color]="wrapper === server.wrapper ? '#2196f3' : 'transparent'"
+							 class="logo">
+							<img src="/assets/drivers/{{wrapper | lowercase}}.svg">
+						</div>
+					}
+					<a color="accent"
+					   href="https://webdb.app/compatibility"
+					   mat-flat-button
+					   target="_blank">
+						<span class="material-symbols-outlined notranslate">
+							all_match
+						</span>
+						Compatibility List
+					</a>
 				</div>
+			</mat-step>
+		}
 
-				<a color="accent"
-				   href="https://webdb.app/compatibility"
-				   mat-flat-button
-				   target="_blank">
-					<span class="material-symbols-outlined notranslate">
-						all_match
-					</span>
-					Compatibility List
-				</a>
-			</div>
-		</mat-step>
-
-		<mat-step *ngIf="server.wrapper" optional>
-			<ng-template matStepLabel>SSH Tunnel</ng-template>
-			<div class="login">
-				<mat-form-field appearance="fill">
-					<mat-label>Host / IP</mat-label>
-					<input [(ngModel)]="server.ssh.host" autocomplete="off" matInput>
-				</mat-form-field>
-				<mat-form-field appearance="fill">
-					<mat-label>Port</mat-label>
-					<input [(ngModel)]="server.ssh.port" matInput max="47000" min="1" type="number">
-				</mat-form-field>
-			</div>
-
-			<div class="login">
-				<mat-form-field appearance="outline">
-					<mat-label>User</mat-label>
-					<input [(ngModel)]="server.ssh.user" autocomplete="off" matInput>
-				</mat-form-field>
-			</div>
-
-			<div class="login">
-				<mat-form-field appearance="outline">
-					<mat-label>Private key content</mat-label>
-					<textarea
-						[(ngModel)]="server.ssh.privateKey"
-						cdkTextareaAutosize
-						matInput
-						style="max-height: 100px;">
-						</textarea>
-				</mat-form-field>
-				<mat-form-field appearance="outline">
-					<mat-label>Password</mat-label>
-					<input [(ngModel)]="server.ssh.password"
-						   autocomplete="off"
-						   matInput
-						   type="{{!showPassword ? 'password' : 'text'}}">
-					<span
-						(click)="showPassword = !showPassword"
-						class="material-symbols-outlined notranslate"
-						matSuffix
-						style="cursor: pointer; font-size: 20px; position: absolute; right: 0px; top: -22px">
-						{{ !showPassword ? 'visibility' : 'visibility_off' }}
-					</span>
-				</mat-form-field>
-				<div style="display: flex; gap: 4px">
-					<button
-						(click)="testSSH()"
-						[disabled]="!server.ssh.host || !server.ssh.port || !server.ssh.user"
-						[ngClass]="{'mat-flat-button' : sshStatus === 'notConnected'}"
-						color="accent"
-						mat-button
-						style="width: 200px;">
-						Test SSH
-					</button>
-
-					<mat-progress-spinner
-						*ngIf="sshStatus === 'loading'"
-						[diameter]="30"
-						color="accent"
-						mode="indeterminate">
-					</mat-progress-spinner>
-				</div>
-			</div>
-		</mat-step>
-		<mat-step *ngIf="server.wrapper">
-			<ng-template matStepLabel>Address & Credentials</ng-template>
-			<div>
+		@if (server.wrapper) {
+			<mat-step optional>
+				<ng-template matStepLabel>SSH Tunnel</ng-template>
 				<div class="login">
 					<mat-form-field appearance="fill">
 						<mat-label>Host / IP</mat-label>
-						<input [(ngModel)]="server.host" autocomplete="off" matInput required>
+						<input [(ngModel)]="server.ssh.host" autocomplete="off" matInput>
 					</mat-form-field>
 					<mat-form-field appearance="fill">
 						<mat-label>Port</mat-label>
-						<input [(ngModel)]="server.port" matInput max="47000" min="1" required type="number">
+						<input [(ngModel)]="server.ssh.port" matInput max="47000" min="1" type="number">
 					</mat-form-field>
 				</div>
 				<div class="login">
 					<mat-form-field appearance="outline">
 						<mat-label>User</mat-label>
-						<input [(ngModel)]="server.user" matInput>
+						<input [(ngModel)]="server.ssh.user" autocomplete="off" matInput>
+					</mat-form-field>
+				</div>
+				<div class="login">
+					<mat-form-field appearance="outline">
+						<mat-label>Private key content</mat-label>
+						<textarea
+							[(ngModel)]="server.ssh.privateKey"
+							cdkTextareaAutosize
+							matInput
+							style="max-height: 100px;">
+						</textarea>
 					</mat-form-field>
 					<mat-form-field appearance="outline">
 						<mat-label>Password</mat-label>
-						<input [(ngModel)]="server.password"
+						<input [(ngModel)]="server.ssh.password"
 							   autocomplete="off"
 							   matInput
 							   type="{{!showPassword ? 'password' : 'text'}}">
@@ -122,62 +70,117 @@
 							{{ !showPassword ? 'visibility' : 'visibility_off' }}
 						</span>
 					</mat-form-field>
+					<div style="display: flex; gap: 4px">
+						<button
+							(click)="testSSH()"
+							[disabled]="!server.ssh.host || !server.ssh.port || !server.ssh.user"
+							[ngClass]="{'mat-flat-button' : sshStatus === 'notConnected'}"
+							color="accent"
+							mat-button
+							style="width: 200px;">
+							Test SSH
+						</button>
+						@if (sshStatus === 'loading') {
+							<mat-progress-spinner
+								[diameter]="30"
+								color="accent"
+								mode="indeterminate">
+							</mat-progress-spinner>
+						}
+					</div>
 				</div>
-			</div>
-		</mat-step>
-		<mat-step *ngIf="server.wrapper">
-			<ng-template matStepLabel>Driver Parameters</ng-template>
-
-			<div style="display: flex;">
-				<ngx-monaco-editor
-					[(ngModel)]="params"
-					[options]="editorOptions"
-					style="width: 100%; resize: none;">
-				</ngx-monaco-editor>
-
-				<div style="display: flex; flex-direction: column; gap: 20px; padding: 16px;">
-					<button (click)="useDefault()"
-							color="primary"
-							mat-stroked-button>
-						<span class="material-symbols-outlined notranslate">
-							device_reset
-						</span>
-						Use default
-					</button>
-
-					<a [href]="server.driver ? server.driver.docs.driver : ''"
-					   mat-button
-					   mat-stroked-button
-					   target="_blank">
-						<span class="material-symbols-outlined notranslate">
-							developer_guide
-						</span>
-						{{ server.wrapper }} driver references
-					</a>
-
-					<mat-error
-						*ngIf="strError() !== null"
-						style="width: 250px">
-						<div [innerHtml]="strError()"></div>
-					</mat-error>
+			</mat-step>
+		}
+		@if (server.wrapper) {
+			<mat-step>
+				<ng-template matStepLabel>Address & Credentials</ng-template>
+				<div>
+					<div class="login">
+						<mat-form-field appearance="fill">
+							<mat-label>Host / IP</mat-label>
+							<input [(ngModel)]="server.host" autocomplete="off" matInput required>
+						</mat-form-field>
+						<mat-form-field appearance="fill">
+							<mat-label>Port</mat-label>
+							<input [(ngModel)]="server.port" matInput max="47000" min="1" required type="number">
+						</mat-form-field>
+					</div>
+					<div class="login">
+						<mat-form-field appearance="outline">
+							<mat-label>User</mat-label>
+							<input [(ngModel)]="server.user" matInput>
+						</mat-form-field>
+						<mat-form-field appearance="outline">
+							<mat-label>Password</mat-label>
+							<input [(ngModel)]="server.password"
+								   autocomplete="off"
+								   matInput
+								   type="{{!showPassword ? 'password' : 'text'}}">
+							<span
+								(click)="showPassword = !showPassword"
+								class="material-symbols-outlined notranslate"
+								matSuffix
+								style="cursor: pointer; font-size: 20px; position: absolute; right: 0px; top: -22px">
+								{{ !showPassword ? 'visibility' : 'visibility_off' }}
+							</span>
+						</mat-form-field>
+					</div>
 				</div>
-			</div>
-		</mat-step>
+			</mat-step>
+		}
+		@if (server.wrapper) {
+			<mat-step>
+				<ng-template matStepLabel>Driver Parameters</ng-template>
+				<div style="display: flex;">
+					<ngx-monaco-editor
+						[(ngModel)]="params"
+						[options]="editorOptions"
+						style="width: 100%; resize: none;">
+					</ngx-monaco-editor>
+					<div style="display: flex; flex-direction: column; gap: 20px; padding: 16px;">
+						<button (click)="useDefault()"
+								color="primary"
+								mat-stroked-button>
+							<span class="material-symbols-outlined notranslate">
+								device_reset
+							</span>
+							Use default
+						</button>
+						<a [href]="server.driver ? server.driver.docs.driver : ''"
+						   mat-button
+						   mat-stroked-button
+						   target="_blank">
+							<span class="material-symbols-outlined notranslate">
+								developer_guide
+							</span>
+							{{ server.wrapper }} driver references
+						</a>
+						@if (strError() !== null) {
+							<mat-error
+								style="width: 250px">
+								<div [innerHtml]="strError()"></div>
+							</mat-error>
+						}
+					</div>
+				</div>
+			</mat-step>
+		}
 	</mat-stepper>
 
 	<mat-divider style="margin: -16px 18px;" vertical></mat-divider>
 
 	<div style="width: 200px; display: flex; flex-direction: column; justify-content: space-evenly;">
-		<button
-			(click)="forget()"
-			*ngIf="!newConnection"
-			color="warn"
-			mat-stroked-button>
-			<span class="material-symbols-outlined notranslate">
-				wifi_off
-			</span>
-			Forget
-		</button>
+		@if (!newConnection) {
+			<button
+				(click)="forget()"
+				color="warn"
+				mat-stroked-button>
+				<span class="material-symbols-outlined notranslate">
+					wifi_off
+				</span>
+				Forget
+			</button>
+		}
 
 		<div style="display: flex; align-items: center; gap: 12px;">
 			<button
@@ -192,11 +195,12 @@
 				Test
 			</button>
 
-			<mat-spinner
-				*ngIf="connectionStatus === 'loading'"
-				diameter="30"
-				mode="indeterminate">
-			</mat-spinner>
+			@if (connectionStatus === 'loading') {
+				<mat-spinner
+					diameter="30"
+					mode="indeterminate">
+				</mat-spinner>
+			}
 		</div>
 
 		<button

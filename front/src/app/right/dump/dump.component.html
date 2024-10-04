@@ -1,44 +1,39 @@
-<ng-container *ngIf="selectedDatabase && selectedServer">
+@if (selectedDatabase && selectedServer) {
 	<mat-toolbar style="display: flex; flex-direction: column; height: auto; padding: 8px 16px">
 		<div style="display: flex; width: 100%; justify-content: space-between; align-items: center;">
 			<mat-button-toggle-group
 				[(ngModel)]="fileType">
-				<ng-container *ngFor="let fileT of selectedServer!.driver.connection.fileTypes; let i = index">
+				@for (fileT of selectedServer!.driver.connection.fileTypes; track fileT; let i = $index) {
 					<mat-button-toggle
 						[value]="fileT">
 						{{ fileT.name }}
 					</mat-button-toggle>
-				</ng-container>
+				}
 			</mat-button-toggle-group>
-
-			<mat-progress-spinner
-				*ngIf="isLoading"
-				[diameter]="30"
-				color="accent"
-				mode="indeterminate">
-			</mat-progress-spinner>
-
-			<button (click)="dump()"
-					*ngIf="!isLoading"
-					[disabled]="checklistSelection.isEmpty()"
+			@if (isLoading) {
+				<mat-progress-spinner
+					[diameter]="30"
 					color="accent"
-					mat-raised-button>
-				<span class="material-symbols-outlined notranslate">
-					upload
-				</span>
-				Export
-			</button>
+					mode="indeterminate">
+				</mat-progress-spinner>
+			}
+			@if (!isLoading) {
+				<button (click)="dump()"
+						[disabled]="checklistSelection.isEmpty()"
+						color="accent"
+						mat-raised-button>
+					<span class="material-symbols-outlined notranslate">
+						upload
+					</span>
+					Export
+				</button>
+			}
 		</div>
-
-		<ng-container *ngIf="fileType.native">
+		@if (fileType.native) {
 			<mat-divider style="width: 100%; margin: 12px 0px;"></mat-divider>
-
 			<div style="display: flex; gap: 12px; width: 100%;">
-
 				<div style="display: flex; flex-direction: column; justify-content: space-evenly;">
-
 					<span style="font-size: 16px; text-align: center">Dump options</span>
-
 					<button (click)="useDefault()"
 							color="primary"
 							mat-stroked-button>
@@ -47,7 +42,6 @@
 						</span>
 						Use default
 					</button>
-
 					<a [href]="selectedServer.driver.docs.dump"
 					   mat-button
 					   mat-stroked-button
@@ -58,16 +52,14 @@
 						CLI References
 					</a>
 				</div>
-
 				<ngx-monaco-editor
 					[(ngModel)]="cliOptions"
 					[options]="editorOptions"
 					style="flex: 1; min-height: 200px; width: 350px; position: relative;">
 				</ngx-monaco-editor>
 			</div>
-		</ng-container>
+		}
 	</mat-toolbar>
-
 	<mat-tree [dataSource]="dataSource"
 			  [treeControl]="treeControl"
 			  class="example-tree">
@@ -100,4 +92,4 @@
 			</div>
 		</mat-nested-tree-node>
 	</mat-tree>
-</ng-container>
+}

@@ -20,29 +20,32 @@
 		</mat-button-toggle>
 	</mat-button-toggle-group>
 
-	<div *ngIf="chart && chart.chart">
-		<button (click)="pause = !pause"
+	@if (chart && chart.chart) {
+		<div>
+			<button (click)="pause = !pause"
+					mat-icon-button>
+				<span class="material-symbols-outlined notranslate">
+					{{ pause ? 'play_circle' : 'pause_circle' }}
+				</span>
+			</button>
+			@if (chart.chart.getZoomLevel() > 1) {
+				<button
+					(click)="chart.chart.resetZoom()"
+					mat-icon-button>
+					<span class="material-symbols-outlined">
+						zoom_out
+					</span>
+				</button>
+			}
+			<button
+				(click)="switchAll()"
 				mat-icon-button>
-			<span class="material-symbols-outlined notranslate">
-				{{ pause ? 'play_circle' : 'pause_circle' }}
-			</span>
-		</button>
-		<button
-			(click)="chart.chart.resetZoom()"
-			*ngIf="chart.chart.getZoomLevel() > 1"
-			mat-icon-button>
-			<span class="material-symbols-outlined">
-				zoom_out
-			</span>
-		</button>
-		<button
-			(click)="switchAll()"
-			mat-icon-button>
-			<span class="material-symbols-outlined">
-				toggle_on
-			</span>
-		</button>
-	</div>
+				<span class="material-symbols-outlined">
+					toggle_on
+				</span>
+			</button>
+		</div>
+	}
 
 	<button aria-label="close dialog" mat-dialog-close mat-icon-button>
 		<span class="material-symbols-outlined notranslate">close</span>

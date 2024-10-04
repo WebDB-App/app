@@ -6,12 +6,13 @@
 			   autocomplete="off"
 			   matInput
 			   placeholder="Filter complex or table">
-		<button (click)="filterChanged('')"
-				*ngIf="filter.value"
-				aria-label="Clear" mat-icon-button
-				matSuffix>
-			<span class="material-symbols-outlined notranslate">close</span>
-		</button>
+		@if (filter.value) {
+			<button (click)="filterChanged('')"
+					aria-label="Clear" mat-icon-button
+					matSuffix>
+				<span class="material-symbols-outlined notranslate">close</span>
+			</button>
+		}
 	</mat-form-field>
 
 	<a href="https://docs.webdb.app/complexes"
@@ -24,78 +25,85 @@
 </mat-toolbar>
 
 <mat-tab-group>
-	<mat-tab
-		*ngFor="let type of Object.keys(complexes)"
-		[label]="'[' + Object.values(complexes[type]).length + '] ' + type.charAt(0).toUpperCase() + type.slice(1).toLowerCase().replace('_', ' ')">
-
-		<mat-card *ngFor="let complex of complexes[type]" [hidden]="complex.hide" class="complex">
-			<mat-card-header>
-				<ng-container *ngIf="complex.rename">
-					<div>
-						<mat-form-field style="width: 200px; margin-bottom: -1.25em">
-							<input
-								[(ngModel)]="complex.newName"
-								autocomplete="off"
-								matInput>
-						</mat-form-field>
-					</div>
-					<div>
-						<button
-							(click)="rename(complex, type)"
-							mat-button>
-							<span class="material-symbols-outlined notranslate" style="color: #2196f3;">
-								check_circle
-							</span>
-						</button>
-
-						<button
-							(click)="complex.rename = false"
-							mat-button>
-							<span class="material-symbols-outlined notranslate">
-								cancel
-							</span>
-						</button>
-					</div>
-				</ng-container>
-				<ng-container *ngIf="!complex.rename">
-					<div>
-						<h4>{{ complex.name }}</h4>
-						<div *ngIf="complex.table">
-							on <a
-							[routerLink]="['/' + selectedServer!.name, selectedDatabase!.name, complex.table]">{{ complex.table }}</a>
-							<span *ngIf="complex.column">.{{ complex.column }}</span>
-						</div>
-					</div>
-					<div style="display: flex; gap: 8px;">
-						<button
-							(click)="alter(complex, type)"
-							mat-button
-							mat-stroked-button>
-							Alter
-						</button>
-						<button
-							(click)="complex.rename = true"
-							*ngIf="selectedServer!.driver.renameComplex(complex, type, selectedDatabase!.name)"
-							mat-button
-							mat-stroked-button>
-							Rename
-						</button>
-						<button
-							(click)="drop(complex, type)"
-							color="warn"
-							mat-mini-fab>
-							<span class="material-symbols-outlined notranslate">
-								delete
-							</span>
-						</button>
-					</div>
-				</ng-container>
-			</mat-card-header>
-
-			<pre *ngIf="complex.value"><code
-				[highlightAuto]="complex.value"
-				[languages]="[selectedServer?.driver!.language.id, 'JSON']">
-			</code></pre>
-		</mat-card>
-	</mat-tab>
+	@for (type of Object.keys(complexes); track type) {
+		<mat-tab
+			[label]="'[' + Object.values(complexes[type]).length + '] ' + type.charAt(0).toUpperCase() + type.slice(1).toLowerCase().replace('_', ' ')">
+			@for (complex of complexes[type]; track complex) {
+				<mat-card [hidden]="complex.hide" class="complex">
+					<mat-card-header>
+						@if (complex.rename) {
+							<div>
+								<mat-form-field style="width: 200px; margin-bottom: -1.25em">
+									<input
+										[(ngModel)]="complex.newName"
+										autocomplete="off"
+										matInput>
+								</mat-form-field>
+							</div>
+							<div>
+								<button
+									(click)="rename(complex, type)"
+									mat-button>
+									<span class="material-symbols-outlined notranslate" style="color: #2196f3;">
+										check_circle
+									</span>
+								</button>
+								<button
+									(click)="complex.rename = false"
+									mat-button>
+									<span class="material-symbols-outlined notranslate">
+										cancel
+									</span>
+								</button>
+							</div>
+						}
+						@if (!complex.rename) {
+							<div>
+								<h4>{{ complex.name }}</h4>
+								@if (complex.table) {
+									<div>
+										on <a
+										[routerLink]="['/' + selectedServer!.name, selectedDatabase!.name, complex.table]">{{ complex.table }}</a>
+										@if (complex.column) {
+											<span>.{{ complex.column }}</span>
+										}
+									</div>
+								}
+							</div>
+							<div style="display: flex; gap: 8px;">
+								<button
+									(click)="alter(complex, type)"
+									mat-button
+									mat-stroked-button>
+									Alter
+								</button>
+								@if (selectedServer!.driver.renameComplex(complex, type, selectedDatabase!.name)) {
+									<button
+										(click)="complex.rename = true"
+										mat-button
+										mat-stroked-button>
+										Rename
+									</button>
+								}
+								<button
+									(click)="drop(complex, type)"
+									color="warn"
+									mat-mini-fab>
+									<span class="material-symbols-outlined notranslate">
+										delete
+									</span>
+								</button>
+							</div>
+						}
+					</mat-card-header>
+					@if (complex.value) {
+						<pre><code
+							[highlightAuto]="complex.value"
+							[languages]="[selectedServer?.driver!.language.id, 'JSON']">
+          </code></pre>
+					}
+				</mat-card>
+			}
+		</mat-tab>
+	}
 </mat-tab-group>

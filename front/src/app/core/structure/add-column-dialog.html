@@ -14,25 +14,28 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-	<button (click)="addColumn()"
-			*ngIf="!form.get('old')"
-			color="primary"
-			mat-stroked-button>
-		<span class="material-symbols-outlined notranslate">
-			add
-		</span>
-		Column
-	</button>
+	@if (!form.get('old')) {
+		<button (click)="addColumn()"
+				color="primary"
+				mat-stroked-button>
+			<span class="material-symbols-outlined notranslate">
+				add
+			</span>
+			Column
+		</button>
+	}
 
-	<a *ngIf="selectedServer"
-	   [href]="selectedServer!.driver.docs.types"
-	   mat-button
-	   target="_blank">
-		<span class="material-symbols-outlined notranslate">
-			help
-		</span>
-		{{ selectedServer.wrapper }} Types
-	</a>
+	@if (selectedServer) {
+		<a
+			[href]="selectedServer!.driver.docs.types"
+			mat-button
+			target="_blank">
+			<span class="material-symbols-outlined notranslate">
+				help
+			</span>
+			{{ selectedServer.wrapper }} Types
+		</a>
+	}
 
 	<button (click)="apply()"
 			[disabled]="!form.valid"

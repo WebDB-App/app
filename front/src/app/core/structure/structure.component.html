@@ -7,75 +7,77 @@
 				autocomplete="off"
 				matInput
 				placeholder="Filter column">
-			<button (click)="filter.value=''; applyFilter(filter.value)" *ngIf="filter.value" aria-label="Clear"
-					mat-icon-button
-					matSuffix>
-				<span class="material-symbols-outlined notranslate">close</span>
-			</button>
+			@if (filter.value) {
+				<button (click)="filter.value=''; applyFilter(filter.value)" aria-label="Clear"
+						mat-icon-button
+						matSuffix>
+					<span class="material-symbols-outlined notranslate">close</span>
+				</button>
+			}
 		</mat-form-field>
 	</div>
 
-	<button (click)="addColumn()"
-			*ngIf="!selectedTable?.view"
-			color="primary"
-			mat-stroked-button>
-		<span class="material-symbols-outlined notranslate">
-			add_box
-		</span>
-		Column
-	</button>
+	@if (!selectedTable?.view) {
+		<button (click)="addColumn()"
+				color="primary"
+				mat-stroked-button>
+			<span class="material-symbols-outlined notranslate">
+				add_box
+			</span>
+			Column
+		</button>
+	}
 </mat-toolbar>
 
 <table [dataSource]="structureSource" class="table mat-elevation-z8" mat-table>
-	<ng-container
-		*ngFor="let column of structureColumns"
-		[stickyEnd]="column === actionColum"
-		matColumnDef="{{column}}"
-	>
-		<th *matHeaderCellDef mat-header-cell>
-			{{ column === actionColum ? '' : (column | titlecase) }}
-		</th>
-		<td *matCellDef="let row;" [class]="'hover-' + row['name']" mat-cell>
-			<ng-container *ngIf="column === actionColum">
-
-				<button
-					(click)="updateColumn(row)"
-					color="primary"
-					mat-icon-button>
-					<span class="material-symbols-outlined notranslate">
-						drive_file_rename_outline
-					</span>
-				</button>
-
-				<button
-					(click)="harmonizeColumn(row)"
-					*ngIf="!isSQL()"
-					color="primary"
-					hidden
-					mat-icon-button>
-					<span class="material-symbols-outlined notranslate">
-						equalizer
-					</span>
-				</button>
-
-				<button
-					(click)="deleteStructure(row)"
-					color="warn"
-					mat-icon-button>
-					<span class="material-symbols-outlined notranslate">
-						delete_forever
-					</span>
-				</button>
-			</ng-container>
-
-			<app-cell
-				*ngIf="column !== actionColum"
-				[column]="column"
-				[value]="row[column]"
-				style="max-width: 50vw">
-			</app-cell>
-		</td>
-	</ng-container>
+	@for (column of structureColumns; track column) {
+		<ng-container
+			[stickyEnd]="column === actionColum"
+			matColumnDef="{{column}}"
+		>
+			<th *matHeaderCellDef mat-header-cell>
+				{{ column === actionColum ? '' : (column | titlecase) }}
+			</th>
+			<td *matCellDef="let row;" [class]="'hover-' + row['name']" mat-cell>
+				@if (column === actionColum) {
+					<button
+						(click)="updateColumn(row)"
+						color="primary"
+						mat-icon-button>
+						<span class="material-symbols-outlined notranslate">
+							drive_file_rename_outline
+						</span>
+					</button>
+					@if (!isSQL()) {
+						<button
+							(click)="harmonizeColumn(row)"
+							color="primary"
+							hidden
+							mat-icon-button>
+							<span class="material-symbols-outlined notranslate">
+								equalizer
+							</span>
+						</button>
+					}
+					<button
+						(click)="deleteStructure(row)"
+						color="warn"
+						mat-icon-button>
+						<span class="material-symbols-outlined notranslate">
+							delete_forever
+						</span>
+					</button>
+				}
+				@if (column !== actionColum) {
+					<app-cell
+						[column]="column"
+						[value]="row[column]"
+						style="max-width: 50vw">
+					</app-cell>
+				}
+			</td>
+		</ng-container>
+	}
 
 	<tr *matHeaderRowDef="structureColumns; sticky: true" mat-header-row></tr>
 	<tr *matRowDef="let row; columns: structureColumns;" mat-row></tr>
@@ -97,28 +99,28 @@
 </mat-toolbar>
 
 <table [dataSource]="indexSource" class="table mat-elevation-z8" mat-table>
-	<ng-container
-		*ngFor="let column of indexColumns"
-		[stickyEnd]="column === actionColum"
-		matColumnDef="{{column}}"
-	>
-		<th *matHeaderCellDef mat-header-cell>
-			{{ column === actionColum ? '' : (column | titlecase) }}
-		</th>
-		<td *matCellDef="let row; let i = index" [class]="getClasses(row['columns'])" mat-cell>
-			<ng-container *ngIf="column === actionColum">
-				<button (click)="deleteIndex(row)"
-						color="warn"
-						mat-icon-button>
+	@for (column of indexColumns; track column) {
+		<ng-container
+			[stickyEnd]="column === actionColum"
+			matColumnDef="{{column}}"
+		>
+			<th *matHeaderCellDef mat-header-cell>
+				{{ column === actionColum ? '' : (column | titlecase) }}
+			</th>
+			<td *matCellDef="let row; let i = index" [class]="getClasses(row['columns'])" mat-cell>
+				@if (column === actionColum) {
+					<button (click)="deleteIndex(row)"
+							color="warn"
+							mat-icon-button>
 						<span class="material-symbols-outlined notranslate">
 							delete
 						</span>
-				</button>
-			</ng-container>
-
-			{{ display(row, column) }}
-		</td>
-	</ng-container>
+					</button>
+				}
+				{{ display(row, column) }}
+			</td>
+		</ng-container>
+	}
 
 	<tr *matHeaderRowDef="indexColumns; sticky: true" mat-header-row></tr>
 	<tr *matRowDef="let row; columns: indexColumns;" mat-row></tr>

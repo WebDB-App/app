@@ -6,11 +6,13 @@
 			   autocomplete="off"
 			   matInput
 			   placeholder="Filter history">
-		<button (click)="filter=''" *ngIf="filter" aria-label="Clear"
-				mat-icon-button
-				matSuffix>
-			<span class="material-symbols-outlined notranslate">close</span>
-		</button>
+		@if (filter) {
+			<button (click)="filter=''" aria-label="Clear"
+					mat-icon-button
+					matSuffix>
+				<span class="material-symbols-outlined notranslate">close</span>
+			</button>
+		}
 	</mat-form-field>
 
 	<mat-button-toggle-group
@@ -36,85 +38,92 @@
 	</mat-button-toggle-group>
 </mat-toolbar>
 
-<mat-progress-bar *ngIf="isLoading" color="accent" mode="indeterminate"></mat-progress-bar>
+@if (isLoading) {
+	<mat-progress-bar color="accent" mode="indeterminate"></mat-progress-bar>
+}
 
-<div *ngIf="!isLoading" style="height: calc(100vh - 56px); overflow: auto;">
-
-	<mat-card *ngIf="queryHistory.length < 1">
-		<mat-card-header>
-			<mat-card-title>
-				<br>
-				No history yet
-			</mat-card-title>
-			<mat-card-subtitle>
-				Runned queries with appears here
-			</mat-card-subtitle>
-		</mat-card-header>
-	</mat-card>
-
-	<mat-card *ngFor="let his of queryHistory | sort: order"
-			  [hidden]="his.query.toLowerCase().indexOf(filter.toLowerCase()) < 0"
-			  [style.background-color]="his.star ? 'black' : undefined">
-		<mat-card-content>
-			<div class="actions">
-				<button
-					(click)="goToQuery(his.query)"
-					color="accent"
-					mat-icon-button>
-					<span class="material-symbols-outlined notranslate">send</span>
-				</button>
-
-				<button (click)="changeStar(his)"
-						color="accent"
-						mat-icon-button>
-					<span class="material-symbols-outlined notranslate">star</span>
-				</button>
-
-				<button
-					(click)="snackBar.open('Query copied', '⨉', {duration: 3000})"
-					[cdkCopyToClipboard]="his.query"
-					color="accent"
-					mat-icon-button>
-					<span class="material-symbols-outlined notranslate">
-						content_paste
-					</span>
-				</button>
-
-				<button
-					(click)="remove(his)"
-					color="accent"
-					mat-icon-button>
-					<span class="material-symbols-outlined notranslate">
-						remove
-					</span>
-				</button>
-			</div>
-			<pre><code [highlight]="his.query"
-					   [language]="selectedServer.driver!.language.id"
-					   lineNumbers>
-			</code></pre>
-		</mat-card-content>
-
-		<mat-card-actions>
-			<h4 *ngIf="his.nbResult >= 0">
-				{{ his.nbResult }} rows
-			</h4>
-			<h4 *ngIf="his.nbResult < 0">
-				error
-			</h4>
-
-			<h4 matTooltip="First run"
-				matTooltipPosition="right">
-				{{ his.date | date: 'HH:mm dd/MM' }}
-			</h4>
-
-			<h4 *ngIf="his.occurrence > 1">
-				{{ his.occurrence }} runs
-			</h4>
-			<h4 *ngIf="his.occurrence <= 1">
-				1 run
-			</h4>
-		</mat-card-actions>
-	</mat-card>
-
-</div>
+@if (!isLoading) {
+	<div style="height: calc(100vh - 56px); overflow: auto;">
+		@if (queryHistory.length < 1) {
+			<mat-card>
+				<mat-card-header>
+					<mat-card-title>
+						<br>
+						No history yet
+					</mat-card-title>
+					<mat-card-subtitle>
+						Runned queries with appears here
+					</mat-card-subtitle>
+				</mat-card-header>
+			</mat-card>
+		}
+		@for (his of queryHistory | sort: order; track his) {
+			<mat-card
+				[hidden]="his.query.toLowerCase().indexOf(filter.toLowerCase()) < 0"
+				[style.background-color]="his.star ? 'black' : undefined">
+				<mat-card-content>
+					<div class="actions">
+						<button
+							(click)="goToQuery(his.query)"
+							color="accent"
+							mat-icon-button>
+							<span class="material-symbols-outlined notranslate">send</span>
+						</button>
+						<button (click)="changeStar(his)"
+								color="accent"
+								mat-icon-button>
+							<span class="material-symbols-outlined notranslate">star</span>
+						</button>
+						<button
+							(click)="snackBar.open('Query copied', '⨉', {duration: 3000})"
+							[cdkCopyToClipboard]="his.query"
+							color="accent"
+							mat-icon-button>
+							<span class="material-symbols-outlined notranslate">
+								content_paste
+							</span>
+						</button>
+						<button
+							(click)="remove(his)"
+							color="accent"
+							mat-icon-button>
+							<span class="material-symbols-outlined notranslate">
+								remove
+							</span>
+						</button>
+					</div>
+					<pre><code [highlight]="his.query"
+							   [language]="selectedServer.driver!.language.id"
+							   lineNumbers>
+            </code></pre>
+				</mat-card-content>
+				<mat-card-actions>
+					@if (his.nbResult >= 0) {
+						<h4>
+							{{ his.nbResult }} rows
+						</h4>
+					}
+					@if (his.nbResult < 0) {
+						<h4>
+							error
+						</h4>
+					}
+					<h4 matTooltip="First run"
+						matTooltipPosition="right">
+						{{ his.date | date: 'HH:mm dd/MM' }}
+					</h4>
+					@if (his.occurrence > 1) {
+						<h4>
+							{{ his.occurrence }} runs
+						</h4>
+					}
+					@if (his.occurrence <= 1) {
+						<h4>
+							1 run
+						</h4>
+					}
+				</mat-card-actions>
+			</mat-card>
+		}
+	</div>
+}

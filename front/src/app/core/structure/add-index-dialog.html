@@ -15,21 +15,24 @@
 		<div style="margin: 0px auto;">
 			<mat-button-toggle-group
 				#type="matButtonToggleGroup">
-				<mat-button-toggle
-					*ngFor="let symbol of symbols | keyvalue; let i = index"
-					[checked]="i === 0"
-					[hidden]="!isSQL() && symbol.key === 'PRIMARY'"
-					[value]="symbol.key">
-					{{ symbol.key }} {{ symbol.value }}
-				</mat-button-toggle>
+				@for (symbol of symbols | keyvalue; track symbol; let i = $index) {
+					<mat-button-toggle
+						[checked]="i === 0"
+						[hidden]="!isSQL() && symbol.key === 'PRIMARY'"
+						[value]="symbol.key">
+						{{ symbol.key }} {{ symbol.value }}
+					</mat-button-toggle>
+				}
 			</mat-button-toggle-group>
 		</div>
 		<mat-form-field appearance="fill" style="margin-bottom: -1.25em">
 			<mat-label>Column</mat-label>
 			<mat-select #columns multiple>
-				<mat-option *ngFor="let column of table.columns" [value]="column.name">
-					{{ column.name }}
-				</mat-option>
+				@for (column of table.columns; track column) {
+					<mat-option [value]="column.name">
+						{{ column.name }}
+					</mat-option>
+				}
 			</mat-select>
 		</mat-form-field>
 		<mat-form-field

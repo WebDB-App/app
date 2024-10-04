@@ -18,12 +18,16 @@
 				autocomplete="off"
 				formControlName="name"
 				matInput>
-			<mat-error *ngIf="form.get('name')?.errors && form.get('name')!.errors!['pattern']">
-				Prefer alpha, numeric and "_", "-" with 2 min chars
-			</mat-error>
-			<mat-error *ngIf="form.get('name')?.errors && form.get('name')!.errors!['unique']">
-				Name already used
-			</mat-error>
+			@if (form.get('name')?.errors && form.get('name')!.errors!['pattern']) {
+				<mat-error>
+					Prefer alpha, numeric and "_", "-" with 2 min chars
+				</mat-error>
+			}
+			@if (form.get('name')?.errors && form.get('name')!.errors!['unique']) {
+				<mat-error>
+					Name already used
+				</mat-error>
+			}
 		</mat-form-field>
 	</mat-dialog-content>
 

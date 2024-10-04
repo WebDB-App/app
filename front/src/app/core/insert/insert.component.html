@@ -42,136 +42,133 @@
 		</a>
 	</mat-toolbar>
 
-	<div *ngIf="iframe"
-		 style="height: 300px; display: flex; overflow: auto; resize: vertical;">
-		<iframe [src]="iframe" style="border: none; min-height: 100%; width: 100%;"></iframe>
-	</div>
+	@if (iframe) {
+		<div
+			style="height: 300px; display: flex; overflow: auto; resize: vertical;">
+			<iframe [src]="iframe" style="border: none; min-height: 100%; width: 100%;"></iframe>
+		</div>
+	}
 
 	<mat-tab-group mat-align-tabs="center">
-		<mat-tab
-			*ngFor="let random of randomSource"
-			[labelClass]="random.error ? 'tab-error': ''"
-			[label]="random.column.name"
-		>
-			<div style="display: flex">
-
-				<ngx-monaco-editor
-					(onInit)="initEditor($event, random.column.name)"
-					[(ngModel)]="random.model"
-					[options]="editorOptions"
-					style="flex: 1; resize: vertical">
-				</ngx-monaco-editor>
-
-				<div class="infos">
-					<h2 style="color: #2196f3; text-align: center; overflow: auto; max-height: 120px; width: 260px;">
-						{{ JSON.stringify(random.column.type).replaceAll('"', " ") }}
-						<mat-divider></mat-divider>
-					</h2>
-
-					<button
-						(click)="random.model = beautify('return undefined')"
-						mat-stroked-button>
-						<span class="material-symbols-outlined notranslate">
-							check_box_outline_blank
-						</span>
-						Null / Default
-					</button>
-
-					<button
-						(click)="sampleData(random, true)"
-						color="accent"
-						mat-stroked-button>
-						<span class="material-symbols-outlined notranslate">
-							attach_file
-						</span>
-						Foreign Key / Enum
-					</button>
-
-					<button
-						(click)="random.model = beautify(random.model)"
-						mat-stroked-button>
-						<span class="material-symbols-outlined notranslate">
-							format_indent_increase
-						</span>
-						Format code
-					</button>
-
-					<button
-						[matMenuTriggerFor]="iaFrame"
-						mat-flat-button>
-						<span class="material-symbols-outlined notranslate">
-							support_agent
-						</span>
-						AI suggestion
-					</button>
-					<mat-menu #iaFrame="matMenu" xPosition="before">
-						<button (click)="iaCode(random, 'Falso')"
-								mat-menu-item>
-							Falso
-						</button>
-						<button (click)="iaCode(random, 'FakerJS')"
-								mat-menu-item>
-							FakerJS
-						</button>
-					</mat-menu>
-
-					<button [matMenuTriggerFor]="example" mat-button>
-						<span class="material-symbols-outlined notranslate">
-							code
-						</span>
-						Example
-					</button>
-					<mat-menu #example="matMenu" xPosition="before">
+		@for (random of randomSource; track random) {
+			<mat-tab
+				[labelClass]="random.error ? 'tab-error': ''"
+				[label]="random.column.name"
+			>
+				<div style="display: flex">
+					<ngx-monaco-editor
+						(onInit)="initEditor($event, random.column.name)"
+						[(ngModel)]="random.model"
+						[options]="editorOptions"
+						style="flex: 1; resize: vertical">
+					</ngx-monaco-editor>
+					<div class="infos">
+						<h2 style="color: #2196f3; text-align: center; overflow: auto; max-height: 120px; width: 260px;">
+							{{ JSON.stringify(random.column.type).replaceAll('"', " ") }}
+							<mat-divider></mat-divider>
+						</h2>
 						<button
-							(click)="random.model = 'if (Math.random() < 0.3) {\n\treturn undefined;\n} else {\n\treturn \'70% probability\';\n}'"
-							mat-menu-item>
-							30% Null
-						</button>
-						<button (click)="random.model = 'return faker.address.streetAddress(true)'"
-								mat-menu-item>
-							Address
+							(click)="random.model = beautify('return undefined')"
+							mat-stroked-button>
+							<span class="material-symbols-outlined notranslate">
+								check_box_outline_blank
+							</span>
+							Null / Default
 						</button>
 						<button
-							(click)="random.model = 'return allFakers.ar.person.firstName()'"
-							mat-menu-item>
-							Arabic Name
+							(click)="sampleData(random, true)"
+							color="accent"
+							mat-stroked-button>
+							<span class="material-symbols-outlined notranslate">
+								attach_file
+							</span>
+							Foreign Key / Enum
 						</button>
 						<button
-							(click)="random.model = 'return Array(6).fill(null).map(() => faker.datatype.number())'"
-							mat-menu-item>
-							Array
-						</button>
-						<button (click)="random.model = 'return faker.datatype.datetime()'"
-								mat-menu-item>
-							DateTime
-						</button>
-						<button (click)="random.model = 'return faker.internet.email()'"
-								mat-menu-item>
-							Mail
-						</button>
-						<button (click)="random.model = 'return faker.datatype.number()'"
-								mat-menu-item>
-							Number
+							(click)="random.model = beautify(random.model)"
+							mat-stroked-button>
+							<span class="material-symbols-outlined notranslate">
+								format_indent_increase
+							</span>
+							Format code
 						</button>
 						<button
-							(click)="random.model = 'return {\n\tfirst_name: faker.name.firstName(),\n\tlast_name: faker.name.lastName(),\n\tsex: faker.name.sex()\n}'"
-							mat-menu-item>
-							Object
+							[matMenuTriggerFor]="iaFrame"
+							mat-flat-button>
+							<span class="material-symbols-outlined notranslate">
+								support_agent
+							</span>
+							AI suggestion
 						</button>
-						<button (click)="random.model = 'return faker.datatype.string()'"
+						<mat-menu #iaFrame="matMenu" xPosition="before">
+							<button (click)="iaCode(random, 'Falso')"
+									mat-menu-item>
+								Falso
+							</button>
+							<button (click)="iaCode(random, 'FakerJS')"
+									mat-menu-item>
+								FakerJS
+							</button>
+						</mat-menu>
+						<button [matMenuTriggerFor]="example" mat-button>
+							<span class="material-symbols-outlined notranslate">
+								code
+							</span>
+							Example
+						</button>
+						<mat-menu #example="matMenu" xPosition="before">
+							<button
+								(click)="random.model = 'if (Math.random() < 0.3) {\n\treturn undefined;\n} else {\n\treturn \'70% probability\';\n}'"
 								mat-menu-item>
-							String
-						</button>
-						<button (click)="random.model = 'return Math.floor((new Date()).getTime() / 1000)'"
+								30% Null
+							</button>
+							<button (click)="random.model = 'return faker.address.streetAddress(true)'"
+									mat-menu-item>
+								Address
+							</button>
+							<button
+								(click)="random.model = 'return allFakers.ar.person.firstName()'"
 								mat-menu-item>
-							Timestamp (in sec)
-						</button>
-					</mat-menu>
+								Arabic Name
+							</button>
+							<button
+								(click)="random.model = 'return Array(6).fill(null).map(() => faker.datatype.number())'"
+								mat-menu-item>
+								Array
+							</button>
+							<button (click)="random.model = 'return faker.datatype.datetime()'"
+									mat-menu-item>
+								DateTime
+							</button>
+							<button (click)="random.model = 'return faker.internet.email()'"
+									mat-menu-item>
+								Mail
+							</button>
+							<button (click)="random.model = 'return faker.datatype.number()'"
+									mat-menu-item>
+								Number
+							</button>
+							<button
+								(click)="random.model = 'return {\n\tfirst_name: faker.name.firstName(),\n\tlast_name: faker.name.lastName(),\n\tsex: faker.name.sex()\n}'"
+								mat-menu-item>
+								Object
+							</button>
+							<button (click)="random.model = 'return faker.datatype.string()'"
+									mat-menu-item>
+								String
+							</button>
+							<button (click)="random.model = 'return Math.floor((new Date()).getTime() / 1000)'"
+									mat-menu-item>
+								Timestamp (in sec)
+							</button>
+						</mat-menu>
+					</div>
 				</div>
-			</div>
-
-			<mat-error *ngIf="random.error" style="padding: 10px">{{ random.error }}</mat-error>
-		</mat-tab>
+				@if (random.error) {
+					<mat-error style="padding: 10px">{{ random.error }}</mat-error>
+				}
+			</mat-tab>
+		}
 	</mat-tab-group>
 </div>
 
@@ -215,63 +212,65 @@
 
 	<div class="scrollDiv mat-elevation-z8">
 		<table [dataSource]="dataSource" class="table" mat-table range-selection>
-			<ng-container
-				*ngFor="let column of displayedColumns"
-				matColumnDef="{{column}}"
-			>
-				<ng-container *ngIf="column === actionColum">
-					<th *matHeaderCellDef mat-header-cell style="width: 0px;">
-						<button (click)="removeRows()"
-								[disabled]="selection.isEmpty()"
-								color="warn"
-								mat-icon-button>
-							<span class="material-symbols-outlined notranslate">
-								delete
-							</span>
-						</button>
-						<mat-checkbox
-							(change)="$event ? toggleAllRows() : null"
-							[checked]="selection.hasValue() && isAllSelected()"
-							[indeterminate]="selection.hasValue() && !isAllSelected()"
-							color="warn">
-						</mat-checkbox>
-					</th>
-					<td *matCellDef="let row; let i = index"
-						mat-cell>
-						<button (click)="editRow(i, row)"
-								color="primary"
-								mat-icon-button>
-							<span class="material-symbols-outlined notranslate">
-								edit
-							</span>
-						</button>
-						<mat-checkbox
-							(change)="$event ? selection.toggle(row) : null"
-							(click)="$event.stopPropagation()"
-							[checked]="selection.isSelected(row)"
-							color="warn">
-						</mat-checkbox>
-					</td>
+			@for (column of displayedColumns; track column) {
+				<ng-container
+					matColumnDef="{{column}}"
+				>
+					@if (column === actionColum) {
+						<th *matHeaderCellDef mat-header-cell style="width: 0px;">
+							<button (click)="removeRows()"
+									[disabled]="selection.isEmpty()"
+									color="warn"
+									mat-icon-button>
+								<span class="material-symbols-outlined notranslate">
+									delete
+								</span>
+							</button>
+							<mat-checkbox
+								(change)="$event ? toggleAllRows() : null"
+								[checked]="selection.hasValue() && isAllSelected()"
+								[indeterminate]="selection.hasValue() && !isAllSelected()"
+								color="warn">
+							</mat-checkbox>
+						</th>
+						<td *matCellDef="let row; let i = index"
+							mat-cell>
+							<button (click)="editRow(i, row)"
+									color="primary"
+									mat-icon-button>
+								<span class="material-symbols-outlined notranslate">
+									edit
+								</span>
+							</button>
+							<mat-checkbox
+								(change)="$event ? selection.toggle(row) : null"
+								(click)="$event.stopPropagation()"
+								[checked]="selection.isSelected(row)"
+								color="warn">
+							</mat-checkbox>
+						</td>
+					}
+					@if (column !== actionColum) {
+						<th *matHeaderCellDef
+							[style.min-width]="column.length * 8 + 'px'"
+							class="resizeColumn"
+							mat-header-cell>
+							{{ column }}
+						</th>
+						<td *matCellDef="let row"
+							[class.selected-row]="selection.isSelected(row)"
+							mat-cell>
+							@if (column !== actionColum) {
+								<app-cell
+									[column]="column"
+									[stringify]="true"
+									[value]="row[column]"
+								></app-cell>
+							}
+						</td>
+					}
 				</ng-container>
-				<ng-container *ngIf="column !== actionColum">
-					<th *matHeaderCellDef
-						[style.min-width]="column.length * 8 + 'px'"
-						class="resizeColumn"
-						mat-header-cell>
-						{{ column }}
-					</th>
-					<td *matCellDef="let row"
-						[class.selected-row]="selection.isSelected(row)"
-						mat-cell>
-						<app-cell
-							*ngIf="column !== actionColum"
-							[column]="column"
-							[stringify]="true"
-							[value]="row[column]"
-						></app-cell>
-					</td>
-				</ng-container>
-			</ng-container>
+			}
 
 			<tr *matHeaderRowDef="displayedColumns!; sticky: true" mat-header-row></tr>
 			<tr *matRowDef="let row; columns: displayedColumns!;" mat-row></tr>

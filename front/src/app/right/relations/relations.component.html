@@ -6,50 +6,49 @@
 			autocomplete="off"
 			matInput
 			placeholder="Filter relation">
-		<button (click)="filter.value=''; applyFilter(filter.value)" *ngIf="filter.value" aria-label="Clear"
-				mat-icon-button
-				matSuffix>
-			<span class="material-symbols-outlined notranslate">close</span>
-		</button>
+		@if (filter.value) {
+			<button (click)="filter.value=''; applyFilter(filter.value)" aria-label="Clear"
+					mat-icon-button
+					matSuffix>
+				<span class="material-symbols-outlined notranslate">close</span>
+			</button>
+		}
 	</mat-form-field>
 </mat-toolbar>
 
-<ng-container
-	*ngIf="selectedDatabase && selectedServer">
-
+@if (selectedDatabase && selectedServer) {
 	<div class="scrollDiv mat-elevation-z8">
 		<table [dataSource]="dataSource" class="table" mat-table multiTemplateDataRows>
-			<ng-container
-				*ngFor="let column of displayedColumns"
-				[stickyEnd]="column === actionColum"
-				matColumnDef="{{column}}"
-			>
-				<th *matHeaderCellDef mat-header-cell>
-					{{ column === actionColum ? '' : column.replaceAll('_', ' ') | titlecase }}
-				</th>
-				<td *matCellDef="let row; let i = index" mat-cell>
-					<ng-container *ngIf="column === actionColum">
-					<span
-						(click)="expanded.indexOf(row.name) >= 0 ? expanded.splice(expanded.indexOf(row.name)) : expanded.push(row.name)"
-						class="material-symbols-outlined notranslate"
-						style="cursor: pointer;">
-						{{ expanded.indexOf(row.name) >= 0 ? 'expand_less' : 'expand_more' }}
-					</span>
-					</ng-container>
-
-					<ng-container *ngIf="column !== actionColum">
-						<ng-container *ngIf="column.startsWith('table_')">
-							<a [routerLink]="['/' + selectedServer!.name, selectedDatabase!.name, row[column]]">
+			@for (column of displayedColumns; track column) {
+				<ng-container
+					[stickyEnd]="column === actionColum"
+					matColumnDef="{{column}}"
+				>
+					<th *matHeaderCellDef mat-header-cell>
+						{{ column === actionColum ? '' : column.replaceAll('_', ' ') | titlecase }}
+					</th>
+					<td *matCellDef="let row; let i = index" mat-cell>
+						@if (column === actionColum) {
+							<span
+								(click)="expanded.indexOf(row.name) >= 0 ? expanded.splice(expanded.indexOf(row.name)) : expanded.push(row.name)"
+								class="material-symbols-outlined notranslate"
+								style="cursor: pointer;">
+								{{ expanded.indexOf(row.name) >= 0 ? 'expand_less' : 'expand_more' }}
+							</span>
+						}
+						@if (column !== actionColum) {
+							@if (column.startsWith('table_')) {
+								<a [routerLink]="['/' + selectedServer!.name, selectedDatabase!.name, row[column]]">
+									{{ row[column] }}
+								</a>
+							}
+							@if (!column.startsWith('table_')) {
 								{{ row[column] }}
-							</a>
-						</ng-container>
-						<ng-container *ngIf="!column.startsWith('table_')">
-							{{ row[column] }}
-						</ng-container>
-					</ng-container>
-				</td>
-			</ng-container>
-
+							}
+						}
+					</td>
+				</ng-container>
+			}
 			<ng-container matColumnDef="details">
 				<td *matCellDef="let row" [attr.colspan]="displayedColumns.length" mat-cell>
 					<div>
@@ -77,7 +76,6 @@
 					</div>
 				</td>
 			</ng-container>
-
 			<tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
 			<tr *matRowDef="let row; columns: displayedColumns;" [class.expanded-row]="expanded.indexOf(row.name) >= 0"
 				class="element-row"
@@ -86,106 +84,118 @@
 			<tr *matRowDef="let row; columns: ['details']" [class.expended]="expanded.indexOf(row.name) >= 0"
 				class="details"
 				mat-row></tr>
-
 			<tr *matNoDataRow class="mat-row">
 				<td class="mat-cell" colspan="100%">No Relations</td>
 			</tr>
 		</table>
 	</div>
-
-	<div *ngIf="isSQL()">
-		<table class="new">
-			<tr>
-				<td><h3>Source</h3></td>
-				<td>
-					<mat-form-field appearance="fill">
-						<mat-label>Table</mat-label>
-						<mat-select #sourceTable
-									[compareWith]="tableComparison">
-							<mat-option *ngFor="let table of selectedDatabase?.tables" [value]="table">
-								{{ table.name }}
-							</mat-option>
-						</mat-select>
-					</mat-form-field>
-				</td>
-				<td>
-					<mat-form-field [hidden]="!sourceTable.value" appearance="fill">
-						<mat-label>Column</mat-label>
-						<mat-select #sourceColumn>
-							<ng-container *ngIf="sourceTable.value">
-								<mat-option *ngFor="let column of sourceTable.value.columns" [value]="column.name">
-									{{ column.name }} — {{ column.type }}
-								</mat-option>
-							</ng-container>
-						</mat-select>
-					</mat-form-field>
-				</td>
-				<td rowspan="3" style="text-align: center">
-					<button
-						(click)="add(sourceTable.value, sourceColumn.value, destTable.value, destColumn.value, update_rule.value, delete_row.value)"
-						[disabled]="!sourceColumn.value || !destColumn.value || !update_rule.value || !delete_row.value"
-						color="accent"
-						mat-raised-button>
-					<span class="material-symbols-outlined notranslate">
-						attach_file_add
-					</span>
-						Relation
-					</button>
-				</td>
-			</tr>
-			<tr>
-				<td><h3>Destination</h3></td>
-				<td>
-					<mat-form-field appearance="fill">
-						<mat-label>Table</mat-label>
-						<mat-select #destTable
-									[compareWith]="tableComparison">
-							<mat-option *ngFor="let table of selectedDatabase?.tables"
+	@if (isSQL()) {
+		<div>
+			<table class="new">
+				<tr>
+					<td><h3>Source</h3></td>
+					<td>
+						<mat-form-field appearance="fill">
+							<mat-label>Table</mat-label>
+							<mat-select #sourceTable
+										[compareWith]="tableComparison">
+								@for (table of selectedDatabase?.tables; track table) {
+									<mat-option [value]="table">
+										{{ table.name }}
+									</mat-option>
+								}
+							</mat-select>
+						</mat-form-field>
+					</td>
+					<td>
+						<mat-form-field [hidden]="!sourceTable.value" appearance="fill">
+							<mat-label>Column</mat-label>
+							<mat-select #sourceColumn>
+								@if (sourceTable.value) {
+									@for (column of sourceTable.value.columns; track column) {
+										<mat-option [value]="column.name">
+											{{ column.name }} — {{ column.type }}
+										</mat-option>
+									}
+								}
+							</mat-select>
+						</mat-form-field>
+					</td>
+					<td rowspan="3" style="text-align: center">
+						<button
+							(click)="add(sourceTable.value, sourceColumn.value, destTable.value, destColumn.value, update_rule.value, delete_row.value)"
+							[disabled]="!sourceColumn.value || !destColumn.value || !update_rule.value || !delete_row.value"
+							color="accent"
+							mat-raised-button>
+							<span class="material-symbols-outlined notranslate">
+								attach_file_add
+							</span>
+							Relation
+						</button>
+					</td>
+				</tr>
+				<tr>
+					<td><h3>Destination</h3></td>
+					<td>
+						<mat-form-field appearance="fill">
+							<mat-label>Table</mat-label>
+							<mat-select #destTable
+										[compareWith]="tableComparison">
+								@for (table of selectedDatabase?.tables; track table) {
+									<mat-option
 										[value]="table">
-								{{ table.name }}
-							</mat-option>
-						</mat-select>
-					</mat-form-field>
-				</td>
-				<td>
-					<mat-form-field [hidden]="!destTable.value" appearance="fill">
-						<mat-label>Column</mat-label>
-						<mat-select #destColumn>
-							<ng-container *ngIf="destTable.value">
-								<mat-option *ngFor="let column of destTable.value.columns"
+										{{ table.name }}
+									</mat-option>
+								}
+							</mat-select>
+						</mat-form-field>
+					</td>
+					<td>
+						<mat-form-field [hidden]="!destTable.value" appearance="fill">
+							<mat-label>Column</mat-label>
+							<mat-select #destColumn>
+								@if (destTable.value) {
+									@for (column of destTable.value.columns; track column) {
+										<mat-option
 											[value]="column.name">
-									{{ column.name }} — {{ column.type }}
-								</mat-option>
-							</ng-container>
-						</mat-select>
-					</mat-form-field>
-				</td>
-				<td></td>
-			</tr>
-			<tr>
-				<td><h3>Constraint</h3></td>
-				<td>
-					<mat-form-field appearance="outline">
-						<mat-label>Delete</mat-label>
-						<mat-select #delete_row [value]="constraints![0]">
-							<mat-option *ngFor="let constraint of constraints" [value]="constraint">
-								{{ constraint }}
-							</mat-option>
-						</mat-select>
-					</mat-form-field>
-				</td>
-				<td>
-					<mat-form-field appearance="outline">
-						<mat-label>Update</mat-label>
-						<mat-select #update_rule [value]="constraints![0]">
-							<mat-option *ngFor="let constraint of constraints" [value]="constraint">
-								{{ constraint }}
-							</mat-option>
-						</mat-select>
-					</mat-form-field>
-				</td>
-				<td></td>
-			</tr>
-		</table>
-	</div>
-</ng-container>
+											{{ column.name }} — {{ column.type }}
+										</mat-option>
+									}
+								}
+							</mat-select>
+						</mat-form-field>
+					</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td><h3>Constraint</h3></td>
+					<td>
+						<mat-form-field appearance="outline">
+							<mat-label>Delete</mat-label>
+							<mat-select #delete_row [value]="constraints![0]">
+								@for (constraint of constraints; track constraint) {
+									<mat-option [value]="constraint">
+										{{ constraint }}
+									</mat-option>
+								}
+							</mat-select>
+						</mat-form-field>
+					</td>
+					<td>
+						<mat-form-field appearance="outline">
+							<mat-label>Update</mat-label>
+							<mat-select #update_rule [value]="constraints![0]">
+								@for (constraint of constraints; track constraint) {
+									<mat-option [value]="constraint">
+										{{ constraint }}
+									</mat-option>
+								}
+							</mat-select>
+						</mat-form-field>
+					</td>
+					<td></td>
+				</tr>
+			</table>
+		</div>
+	}
+}

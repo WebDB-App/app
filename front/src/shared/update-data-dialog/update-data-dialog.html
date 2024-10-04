@@ -9,41 +9,48 @@
 	</button>
 </div>
 <div mat-dialog-content>
-	<div *ngIf="Object.keys(relationHelper).length > 0 || Object.keys(datesHelper).length > 0"
-		 style="display: flex; justify-content: space-between; padding: 12px 12px 0px 12px; gap: 20px;">
-		<div *ngFor="let column of relationHelper | keyvalue" style="flex: 1;">
-			<mat-form-field appearance="fill" style="width: 100%">
-				<mat-label>{{ column.key }}</mat-label>
-				<input
-					#filter
-					[matAutocomplete]="auto"
-					[value]="data[column.key]"
-					matInput>
-				<mat-autocomplete
-					#auto="matAutocomplete"
-					(optionSelected)="setValue(column.key, $event.option.value)">
-					<ng-container *ngFor="let suggestion of column.value">
-						<mat-option
-							*ngIf="JSON.stringify(suggestion).indexOf(filter.value) >= 0"
-							[value]="suggestion">
-							{{ suggestion | json }}
-						</mat-option>
-					</ng-container>
-				</mat-autocomplete>
-			</mat-form-field>
+	@if (Object.keys(relationHelper).length > 0 || Object.keys(datesHelper).length > 0) {
+		<div
+			style="display: flex; justify-content: space-between; padding: 12px 12px 0px 12px; gap: 20px;">
+			@for (column of relationHelper | keyvalue; track column) {
+				<div style="flex: 1;">
+					<mat-form-field appearance="fill" style="width: 100%">
+						<mat-label>{{ column.key }}</mat-label>
+						<input
+							#filter
+							[matAutocomplete]="auto"
+							[value]="data[column.key]"
+							matInput>
+						<mat-autocomplete
+							#auto="matAutocomplete"
+							(optionSelected)="setValue(column.key, $event.option.value)">
+							@for (suggestion of column.value; track suggestion) {
+								@if (JSON.stringify(suggestion).indexOf(filter.value) >= 0) {
+									<mat-option
+										[value]="suggestion">
+										{{ suggestion | json }}
+									</mat-option>
+								}
+							}
+						</mat-autocomplete>
+					</mat-form-field>
+				</div>
+			}
+			@for (column of datesHelper | keyvalue; track column) {
+				<div style="flex: 1;">
+					<mat-form-field appearance="fill" style="width: 100%">
+						<mat-label>{{ column.key }}</mat-label>
+						<input
+							#time
+							(change)="setValue(column.key, column.value(time.value))"
+							[value]="data[column.key]"
+							matInput
+							type="datetime-local">
+					</mat-form-field>
+				</div>
+			}
 		</div>
-		<div *ngFor="let column of datesHelper | keyvalue" style="flex: 1;">
-			<mat-form-field appearance="fill" style="width: 100%">
-				<mat-label>{{ column.key }}</mat-label>
-				<input
-					#time
-					(change)="setValue(column.key, column.value(time.value))"
-					[value]="data[column.key]"
-					matInput
-					type="datetime-local">
-			</mat-form-field>
-		</div>
-	</div>
+	}
 	<ngx-monaco-editor
 		[(ngModel)]="str"
 		[options]="editorOptions"
@@ -52,15 +59,17 @@
 </div>
 <mat-dialog-actions>
 
-	<a *ngIf="selectedServer?.driver!.language.extendedJSONDoc"
-	   [href]="selectedServer?.driver!.language.extendedJSONDoc"
-	   mat-button
-	   target="_blank">
-		<span class="material-symbols-outlined notranslate">
-			info
-		</span>
-		JSON Doc
-	</a>
+	@if (selectedServer?.driver!.language.extendedJSONDoc) {
+		<a
+			[href]="selectedServer?.driver!.language.extendedJSONDoc"
+			mat-button
+			target="_blank">
+			<span class="material-symbols-outlined notranslate">
+				info
+			</span>
+			JSON Doc
+		</a>
+	}
 
 	<button
 		(click)="revert()"
@@ -72,20 +81,22 @@
 		Revert
 	</button>
 
-	<mat-error
-		*ngIf="strError() !== null"
-		style="width: 420px">
-		<div [innerHtml]="strError()"></div>
-	</mat-error>
-	<button
-		(click)="update()"
-		*ngIf="strError() === null"
-		[disabled]="!isTouched()"
-		color="primary"
-		mat-flat-button>
-		<span class="material-symbols-outlined notranslate">
-			edit
-		</span>
-		Apply Changes
-	</button>
+	@if (strError() !== null) {
+		<mat-error
+			style="width: 420px">
+			<div [innerHtml]="strError()"></div>
+		</mat-error>
+	}
+	@if (strError() === null) {
+		<button
+			(click)="update()"
+			[disabled]="!isTouched()"
+			color="primary"
+			mat-flat-button>
+			<span class="material-symbols-outlined notranslate">
+				edit
+			</span>
+			Apply Changes
+		</button>
+	}
 </mat-dialog-actions>

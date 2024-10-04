@@ -10,19 +10,22 @@
 </div>
 
 <div mat-dialog-content style="overflow: hidden;">
-	<mat-progress-bar
-		*ngIf="loading >= 1 && loading < 100"
-		[value]="loading"
-		mode="determinate"
-		style="margin-bottom: 14px"
-	></mat-progress-bar>
+	@if (loading >= 1 && loading < 100) {
+		<mat-progress-bar
+			[value]="loading"
+			mode="determinate"
+			style="margin-bottom: 14px"
+		></mat-progress-bar>
+	}
 	<div style="padding: 12px 12px 0px 12px;">
 		<mat-form-field appearance="fill" style="width: 100%">
 			<mat-label>Column to Update</mat-label>
 			<mat-select (selectionChange)="show($event.value)" multiple>
-				<mat-option *ngFor="let column of columns" [value]="column">
-					{{ column }}
-				</mat-option>
+				@for (column of columns; track column) {
+					<mat-option [value]="column">
+						{{ column }}
+					</mat-option>
+				}
 			</mat-select>
 		</mat-form-field>
 	</div>
@@ -33,27 +36,31 @@
 	</ngx-monaco-editor>
 </div>
 <mat-dialog-actions>
-	<a *ngIf="selectedServer?.driver!.language.extendedJSONDoc"
-	   [href]="selectedServer?.driver!.language.extendedJSONDoc"
-	   mat-button
-	   target="_blank">
-		<span class="material-symbols-outlined notranslate">
-			info
-		</span>
-		JSON Doc
-	</a>
+	@if (selectedServer?.driver!.language.extendedJSONDoc) {
+		<a
+			[href]="selectedServer?.driver!.language.extendedJSONDoc"
+			mat-button
+			target="_blank">
+			<span class="material-symbols-outlined notranslate">
+				info
+			</span>
+			JSON Doc
+		</a>
+	}
 
-	<mat-error
-		*ngIf="strError() !== null"
-		style="width: 420px">
-		<div [innerHtml]="strError()"></div>
-	</mat-error>
-	<button
-		(click)="update()"
-		*ngIf="loading >= 100 && strError() === null"
-		cdkFocusInitial
-		color="primary"
-		mat-stroked-button>
-		Update {{ data.length }} Rows
-	</button>
+	@if (strError() !== null) {
+		<mat-error
+			style="width: 420px">
+			<div [innerHtml]="strError()"></div>
+		</mat-error>
+	}
+	@if (loading >= 100 && strError() === null) {
+		<button
+			(click)="update()"
+			cdkFocusInitial
+			color="primary"
+			mat-stroked-button>
+			Update {{ data.length }} Rows
+		</button>
+	}
 </mat-dialog-actions>

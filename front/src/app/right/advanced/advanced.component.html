@@ -1,86 +1,79 @@
-<ng-container *ngIf="selectedServer && selectedDatabase">
+@if (selectedServer && selectedDatabase) {
 	<mat-toolbar
 		class="spaceBetweenCenter"
 		style="padding: 20px">
-
 		<div>
 			<span style="vertical-align: middle;">
 				Database: {{ selectedDatabase!.name }}
 			</span>
 		</div>
-
 		<button (click)="drop()" color="warn" mat-button>
 			<span class="material-symbols-outlined notranslate">
 				dangerous
 			</span>
 			Drop
 		</button>
-
 	</mat-toolbar>
-
 	<div id="content">
-
 		<ngx-monaco-editor
 			(onInit)="initEditor($event)"
 			[(ngModel)]="str"
 			[options]="editorOptions"
 			cdkFocusInitial
 		></ngx-monaco-editor>
-
 		<mat-divider></mat-divider>
-
-		<div *ngIf="stats" class="spaceBetweenCenter">
-			<span>Total Index Size : {{ +stats.index_length | round }} Mb</span>
-			<span>Total Data Size : {{ +stats.data_length | round }} Mb</span>
-		</div>
-
-		<ng-container *ngIf="selectedServer?.wrapper === 'MySQL'">
+		@if (stats) {
+			<div class="spaceBetweenCenter">
+				<span>Total Index Size : {{ +stats.index_length | round }} Mb</span>
+				<span>Total Data Size : {{ +stats.data_length | round }} Mb</span>
+			</div>
+		}
+		@if (selectedServer?.wrapper === 'MySQL') {
 			<mat-divider></mat-divider>
-
 			<div class="spaceBetweenCenter">
 				<mat-form-field color="accent">
 					<mat-label>Collation</mat-label>
 					<mat-select #collation [value]="selectedDatabase!.collation">
-						<mat-option *ngFor="let collation of collations"
-									[value]="collation">{{ collation }}
-						</mat-option>
+						@for (collation of collations; track collation) {
+							<mat-option
+								[value]="collation">{{ collation }}
+							</mat-option>
+						}
 					</mat-select>
 				</mat-form-field>
-
-				<mat-spinner
-					*ngIf="changeColLoading"
-					[diameter]="30"
-					color="primary"
-				></mat-spinner>
-
-				<button
-					(click)="changeCollation(collation.value)"
-					*ngIf="!changeColLoading"
-					[disabled]="!collation.value"
-					color="accent"
-					mat-stroked-button>
-					<span class="material-symbols-outlined notranslate">
-						glyphs
-					</span>
-					Convert entire database
-				</button>
+				@if (changeColLoading) {
+					<mat-spinner
+						[diameter]="30"
+						color="primary"
+					></mat-spinner>
+				}
+				@if (!changeColLoading) {
+					<button
+						(click)="changeCollation(collation.value)"
+						[disabled]="!collation.value"
+						color="accent"
+						mat-stroked-button>
+						<span class="material-symbols-outlined notranslate">
+							glyphs
+						</span>
+						Convert entire database
+					</button>
+				}
 			</div>
-		</ng-container>
-
+		}
 		<mat-divider></mat-divider>
-
 		<div class="spaceBetweenCenter">
-			<button
-				(click)="snackBar.open('Command copied', '⨉', {duration: 3000})"
-				*ngIf="selectedServer.driver.terminalCmd()"
-				[cdkCopyToClipboard]="selectedServer.driver.terminalCmd()"
-				mat-button>
-				<span class="material-symbols-outlined notranslate">
-					terminal
-				</span>
-				CLI
-			</button>
-
+			@if (selectedServer.driver.terminalCmd()) {
+				<button
+					(click)="snackBar.open('Command copied', '⨉', {duration: 3000})"
+					[cdkCopyToClipboard]="selectedServer.driver.terminalCmd()"
+					mat-button>
+					<span class="material-symbols-outlined notranslate">
+						terminal
+					</span>
+					CLI
+				</button>
+			}
 			<button
 				(click)="snackBar.open('URI copied', '⨉', {duration: 3000})"
 				[cdkCopyToClipboard]="selectedServer.uri!"
@@ -91,9 +84,7 @@
 				URI
 			</button>
 		</div>
-
 		<mat-divider></mat-divider>
-
 		<div class="spaceBetweenCenter">
 			<mat-form-field>
 				<mat-label>Copy Name</mat-label>
@@ -103,36 +94,37 @@
 					autocomplete="off"
 					matInput>
 			</mat-form-field>
-
-			<mat-spinner
-				*ngIf="duplicateLoading"
-				[diameter]="30"
-				color="primary"
-			></mat-spinner>
-
-			<button
-				(click)="duplicate(dbCopy.value)"
-				*ngIf="!duplicateLoading"
-				[disabled]="!nameValid(dbCopy.value)"
-				mat-stroked-button>
-				<span class="material-symbols-outlined notranslate">
-					folder_copy
-				</span>
-				Duplicate Database
-				<mat-error
-					*ngIf="dbCopy.value !== selectedDatabase!.name.split(' | ')[0] && !nameValid(dbCopy.value)">Name
-					already taken or containing special characters
-				</mat-error>
-			</button>
+			@if (duplicateLoading) {
+				<mat-spinner
+					[diameter]="30"
+					color="primary"
+				></mat-spinner>
+			}
+			@if (!duplicateLoading) {
+				<button
+					(click)="duplicate(dbCopy.value)"
+					[disabled]="!nameValid(dbCopy.value)"
+					mat-stroked-button>
+					<span class="material-symbols-outlined notranslate">
+						folder_copy
+					</span>
+					Duplicate Database
+					@if (dbCopy.value !== selectedDatabase!.name.split(' | ')[0] && !nameValid(dbCopy.value)) {
+						<mat-error
+						>Name
+							already taken or containing special characters
+						</mat-error>
+					}
+				</button>
+			}
 		</div>
-
 		<mat-accordion style="padding: 20px; display: block;">
 			<mat-expansion-panel>
 				<mat-expansion-panel-header>
 					<mat-panel-title>
-					<span class="material-symbols-outlined notranslate">
-						speed
-					</span>
+						<span class="material-symbols-outlined notranslate">
+							speed
+						</span>
 					</mat-panel-title>
 					<mat-panel-description>
 						Performance Tips
@@ -149,13 +141,12 @@
 				• Sharding, load balancing and replication can help but are not simple to implement and maintain
 				<br>
 			</mat-expansion-panel>
-
 			<mat-expansion-panel>
 				<mat-expansion-panel-header>
 					<mat-panel-title>
-					<span class="material-symbols-outlined notranslate">
-						health_and_safety
-					</span>
+						<span class="material-symbols-outlined notranslate">
+							health_and_safety
+						</span>
 					</mat-panel-title>
 					<mat-panel-description>
 						Security Tips
@@ -170,5 +161,4 @@
 			</mat-expansion-panel>
 		</mat-accordion>
 	</div>
-
-</ng-container>
+}
