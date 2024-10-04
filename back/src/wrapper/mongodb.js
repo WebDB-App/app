@@ -7,6 +7,7 @@ import {loadData} from "../shared/buffer.js";
 import version from "../shared/version.js";
 import {URL} from "url";
 import {complex, mongo_injectAggregate, removeComment} from "../shared/helper.js";
+import Log from "../shared/log.js";
 
 const dirname = new URL(".", import.meta.url).pathname;
 
@@ -45,7 +46,7 @@ export default class MongoDB extends Driver {
 				try {
 					results[table] = loadData(await this.connection.db(database).collection(table).find().toArray());
 				} catch (e) {
-					console.error(e);
+					Log.error(e);
 				}
 			}
 			writeFileSync(path, JSON.stringify({
@@ -103,7 +104,7 @@ export default class MongoDB extends Driver {
 					try {
 						await this.renameTable(database, table.name, table.name.split(".")[1]);
 					} catch (e) {
-						console.error(e);
+						Log.error(e);
 					}
 				}
 			}
@@ -322,7 +323,7 @@ export default class MongoDB extends Driver {
 	}
 
 	async setCollation(database, collate) {
-		console.error("Feature not yet available", database, collate);
+		console.log("Feature not yet available", database, collate);
 		return true;
 	}
 
@@ -568,22 +569,21 @@ export default class MongoDB extends Driver {
 
 	async runCommand(command, database = false) {
 		let db = this.connection;
-		let lgth = -1;
+		if (database) {
+			try {
+				db = await this.connection.db(database);
+			} catch (e) {
+				throw new Error("Loose connection to " + this.makeUri(database));
+			}
+		}
 
+		let lgth = -1;
 		command = removeComment(command);
 		if (!command.trim().startsWith("return")) {
 			command = `return ${command}`;
 		}
 		const cid = bash.startCommand(command, database, this.port);
-
 		try {
-			if (database) {
-				try {
-					db = await this.connection.db(database);
-				} catch (e) {
-					console.table(this.connection);
-				}
-			}
 			const fct = new Function("db", "bson", "mongo", command);
 			const res = await fct(db, BSON, MongoClient);
 			lgth = res.length;
@@ -721,7 +721,7 @@ export default class MongoDB extends Driver {
 						try {
 							samples = await coll.aggregate([{$sample: {size: sampleSize}}]).toArray();
 						} catch (e) {
-							//console.error(e);
+							//Log.error(e);
 						}
 						struct[database.name].tables[coll.collectionName].columns = this.inferColumn(samples);
 					}
@@ -736,8 +736,8 @@ export default class MongoDB extends Driver {
 
 	makeUri(withParams = true) {
 		let url = (this.user && this.password) ?
-			`mongodb://${this.user}:${this.password}@${this.host}:${this.port}/` :
-			`mongodb://${this.host}:${this.port}/`;
+			`mongodb://${encodeURIComponent(this.user)}:${encodeURIComponent(this.password)}@${encodeURIComponent(this.host)}:${this.port}/` :
+			`mongodb://${encodeURIComponent(this.host)}:${this.port}/`;
 
 		if (withParams) {
 			url += "?" + (new URLSearchParams(this.params)).toString();
@@ -755,7 +755,7 @@ export default class MongoDB extends Driver {
 
 			return connection;
 		} catch (e) {
-			return {error: e.message || "Unknown error"};
+			return {error: e.message || "Unknown error of " + this.makeUri(false)};
 		}
 	}
 

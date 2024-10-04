@@ -1,8 +1,9 @@
 - finir complex edit (enum postgre)
 - tester tout les default + extra + postgre
 - tout tester avec user qui n'as pas de droit
+- angulr 18
 
-- mssql
+# MsSQL
 
 
 # Advanced auth
@@ -12,6 +13,10 @@
 - tls
 - SCRAM, X.509, Kerberos, LDAP, proxy
 - ssl-mode: DISABLED PREFERRED REQUIRED VERIFY_CA VERIFY_IDENTITY
+
+
+----------------------------------------------------------------------
+
 
 
 # SQL editor
@@ -47,7 +52,6 @@
 - draw named zones
 
 
-----------------------------------------------------------------------
 
 
 # Comparator

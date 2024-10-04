@@ -3,27 +3,36 @@
 		{{ data.error.error }}
 	</div>
 
-	<div style="margin-right: -12px;">
-		<a href="https://google.com/search?q={{data.error.error}}"
-		   mat-icon-button
-		   target="_blank">
-			<mat-icon style="height: 18px; width: 18px;" svgIcon="google"></mat-icon>
-		</a>
-
-		<button
-			(click)="assistant()"
-			mat-icon-button>
-			<span class="material-symbols-outlined notranslate" style="font-size: 18px">
-				support_agent
-			</span>
-		</button>
-
-		<button
-			(click)="bottomSheetRef.dismiss()"
-			mat-icon-button>
-			<span class="material-symbols-outlined notranslate" style="font-size: 18px">
-				close
-			</span>
-		</button>
-	</div>
+	<table class="actions">
+		<tr>
+			<td>
+				<a href="https://google.com/search?q={{data.error.error}}"
+				   mat-icon-button
+				   target="_blank">
+					<mat-icon style="height: 18px; width: 18px;" svgIcon="google"></mat-icon>
+				</a>
+			</td>
+			<td>
+				<button
+					(click)="assistant()"
+					mat-icon-button>
+					<span class="material-symbols-outlined notranslate" style="font-size: 18px">
+						support_agent
+					</span>
+				</button>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="100%">
+				<button
+					(click)="bottomSheetRef.dismiss()"
+					style="width: 100%;"
+					mat-button>
+					<span class="material-symbols-outlined notranslate" style="font-size: 18px">
+						close
+					</span>
+				</button>
+			</td>
+		</tr>
+	</table>
 </div>

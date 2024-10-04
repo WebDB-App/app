@@ -1,4 +1,5 @@
 import http from "../../shared/http.js";
+import Log from "../../shared/log.js";
 
 class Controller {
 
@@ -8,7 +9,7 @@ class Controller {
 		try {
 			list = await driver.process();
 		} catch (e) {
-			console.error(e);
+			Log.error(e);
 		}
 
 		res.send(list);
@@ -20,7 +21,7 @@ class Controller {
 		try {
 			list = await driver.kill(req.body.pid);
 		} catch (e) {
-			console.error(e);
+			Log.error(e);
 		}
 
 		res.send(list);

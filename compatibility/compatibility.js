@@ -8,10 +8,15 @@ const scenarios = await getScenarios();
 async function runDocker(database, tag) {
 	runBash(`docker rm -f $(docker container ls --format="{{.ID}}\t{{.Ports}}" | grep ${database.credentials.port} | awk '{print $1}') 2> /dev/null || echo`);
 	runBash(`docker pull ${database.docker.name}:${tag} --quiet`);
-	const id = runBash(`docker run -d -p ${database.credentials.port}:${database.internal_port} ${database.docker.env.map(env => ` -e ${env}`).join(" ")} ${database.docker.name}:${tag} ${database.docker.cmd || ""}`);
-	await new Promise(resolve => {
-		setTimeout(resolve, 15_000);
-	});
+	const id = runBash(`docker run -d -p ${database.credentials.port}:${database.internal_port} ${database.docker.env.map(env => ` -e ${env}`).join(" ")} ${database.docker.name}:${tag} ${database.docker.cmd || ""}`).trim();
+
+	const maxTries = process.env.CI ? 40 : 15;
+	let ready = "0";
+	let tries = 0;
+	do {
+		ready = runBash(`sleep 1; docker exec ${id} ${database.waitCmd} 2> /dev/null && echo 1 || echo 0`);
+	} while (ready?.trim() !== "1" && ++tries < maxTries);
+
 	return id;
 }
 
@@ -42,7 +47,7 @@ async function runScenarios(server) {
 						await scenario(config);
 						resolve(true);
 					} catch (e) {
-						console.error(e.message);
+						console.error(e);
 						resolve(false);
 					}
 				});
@@ -55,10 +60,6 @@ async function runScenarios(server) {
 	}
 }
 
-if (process.env.CI) {
-	for (const server of Object.values(list)) {
-		await runScenarios(server);
-	}
-} else {
-	await runScenarios(list.mysql);
+for (const server of Object.values(list)) {
+	await runScenarios(server);
 }

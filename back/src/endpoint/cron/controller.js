@@ -1,6 +1,7 @@
-import {readdirSync, statSync, unlink} from "fs";
+import {readdirSync, statSync, unlinkSync} from "fs";
 import {join} from "path";
 import {URL} from "url";
+import Log from "../../shared/log.js";
 
 const dirname = new URL(".", import.meta.url).pathname;
 const frontPath = join(dirname, "../../../static/");
@@ -13,7 +14,14 @@ class FileCleanup {
 	}
 
 	checkAndCleanup() {
-		const files = readdirSync(this.folderPath).filter(file => !file.startsWith("."));
+		let files;
+		try {
+			files = readdirSync(this.folderPath).filter(file => !file.startsWith("."));
+		} catch (err) {
+			console.log(this.folderPath + " missing");
+			return;
+		}
+
 		const fileStats = files.map((file) => ({
 			name: file,
 			size: statSync(join(this.folderPath, file)).size,
@@ -41,14 +49,14 @@ class FileCleanup {
 	}
 
 	deleteFiles(filesToDelete) {
-		filesToDelete.forEach((file) => {
+		for (const file of filesToDelete) {
 			const filePath = join(this.folderPath, file);
-			unlink(filePath, (err) => {
-				if (err) {
-					console.error(`Error deleting ${file}:`, err);
-				}
-			});
-		});
+			try {
+				unlinkSync(filePath);
+			} catch (e) {
+				Log.error(`Error deleting ${file}`);
+			}
+		}
 	}
 }
 

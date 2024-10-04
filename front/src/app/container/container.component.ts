@@ -64,7 +64,7 @@ export class ContainerComponent implements OnInit, AfterViewInit, OnDestroy {
 		let server;
 
 		try {
-			server = (await this.request.loadServers([await this.request.connectServer(local!)], true))[0];
+			server = (await this.request.loadServers([await this.request.initServer(local!)], true))[0];
 		} catch (e) {
 			this.loading = LoadingStatus.ERROR;
 			return;

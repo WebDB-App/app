@@ -5,14 +5,14 @@ export const base = {
 };
 
 export default {
-	mysql: {
+	mariadb: {
 		internal_port: 3306,
-		external_port: 3307,
+		external_port: 3308,
 		docker: {
-			name: "library/mysql",
-			env: ["MYSQL_ROOT_PASSWORD=notSecureChangeMe"],
-			cmd: "mysqld"
+			name: "library/mariadb",
+			env: ["MYSQL_ROOT_PASSWORD=\"pass#();\""],
 		},
+		waitCmd: "mariadb --user=\"root\" --password=\"pass#();\" --host=\"127.0.0.1\" --port=\"3306\"",
 		base: base.MySQL,
 		wrapper: "MySQL",
 		params: {
@@ -22,13 +22,15 @@ export default {
 			bigNumberStrings: true
 		}
 	},
-	mariadb: {
+	mysql: {
 		internal_port: 3306,
-		external_port: 3308,
+		external_port: 3307,
 		docker: {
-			name: "library/mariadb",
-			env: ["MYSQL_ROOT_PASSWORD=notSecureChangeMe"],
+			name: "library/mysql",
+			env: ["MYSQL_ROOT_PASSWORD=\"pass#();\""],
+			cmd: "mysqld"
 		},
+		waitCmd: "mysql --user=\"root\" --password=\"pass#();\" --host=\"127.0.0.1\" --port=\"3306\"",
 		base: base.MySQL,
 		wrapper: "MySQL",
 		params: {
@@ -44,8 +46,9 @@ export default {
 		docker: {
 			exclusions: ["psmdb-"],
 			name: "library/percona",
-			env: ["MYSQL_ROOT_PASSWORD=notSecureChangeMe"],
+			env: ["MYSQL_ROOT_PASSWORD=\"pass#();\""],
 		},
+		waitCmd: "mysql --user=\"root\" --password=\"pass#();\" --host=\"127.0.0.1\" --port=\"3306\"",
 		base: base.MySQL,
 		wrapper: "MySQL",
 		params: {
@@ -61,7 +64,7 @@ export default {
 		base: "PostgreSQL",
 		docker: {
 			name: "yugabytedb/yugabyte",
-			env: ["YSQL_USER=root", "YSQL_PASSWORD=notSecureChangeMe"],
+			env: ["YSQL_USER=root", "YSQL_PASSWORD=\"pass#();\""],
 			cmd: "bin/yugabyted start --daemon=false"
 		}
 	},*/
@@ -71,8 +74,9 @@ export default {
 		docker: {
 			exclusions: ["windowsservercore", "nanoserver"],
 			name: "library/mongo",
-			env: ["MONGO_INITDB_ROOT_USERNAME=root", "MONGO_INITDB_ROOT_PASSWORD=notSecureChangeMe"],
+			env: ["MONGO_INITDB_ROOT_USERNAME=root", "MONGO_INITDB_ROOT_PASSWORD=\"pass#();\""],
 		},
+		waitCmd: "mongosh \"mongodb://root:pass%23()%3B@127.0.0.1:27017\"",
 		base: base.MongoDB,
 		wrapper: "MongoDB",
 		params: {
@@ -85,9 +89,10 @@ export default {
 		external_port: 5433,
 		base: base.PostgreSQL,
 		wrapper: "PostgreSQL",
+		waitCmd: "psql \"postgresql://root:pass%23()%3B@127.0.0.3:5432\"",
 		docker: {
 			name: "library/postgres",
-			env: ["POSTGRES_USER=root", "POSTGRES_PASSWORD=notSecureChangeMe"]
+			env: ["POSTGRES_USER=root", "POSTGRES_PASSWORD=\"pass#();\""]
 		},
 	},
 	cockroachdb: {
@@ -95,9 +100,10 @@ export default {
 		external_port: 26258,
 		base: base.PostgreSQL,
 		wrapper: "CockroachDB",
+		waitCmd: "psql \"postgresql://root:pass%23()%3B@127.0.0.3:5432\"",
 		docker: {
 			name: "cockroachdb/cockroach",
-			env: ["COCKROACH_USER=root", "COCKROACH_PASSWORD=notSecureChangeMe"],
+			env: ["COCKROACH_USER=root", "COCKROACH_PASSWORD=\"pass#();\""],
 			cmd: "start-single-node --insecure"
 		}
 	}

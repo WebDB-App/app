@@ -58,7 +58,7 @@ export class ConnectionComponent implements OnInit, OnDestroy {
 
 		if (this.demo) {
 			this.defaultUser = "root";
-			this.defaultPass = "notSecureChangeMe";
+			this.defaultPass = "pass#();";
 
 			if (!localStorage.getItem("firstVisit")) {
 				localStorage.setItem("firstVisit", "true");
@@ -104,11 +104,11 @@ export class ConnectionComponent implements OnInit, OnDestroy {
 			return local;
 		});
 
-		const servers = await this.request.loadServers(await Promise.all(locals.map(server => this.request.connectServer(server))), false);
+		const servers = await this.request.loadServers(await Promise.all(locals.map(server => this.request.initServer(server))), false);
 
 		for (const scan of scans) {
 			if (servers.findIndex(server => server.name === scan.name) < 0) {
-				servers.push(scan);
+				servers.push(await this.request.initServer(scan, false));
 			}
 		}
 

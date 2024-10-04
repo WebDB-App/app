@@ -17,6 +17,7 @@
 				<input
 					#filter
 					[matAutocomplete]="auto"
+					[value]="data[column.key]"
 					matInput>
 				<mat-autocomplete
 					(optionSelected)="setValue(column.key, $event.option.value)"
@@ -38,6 +39,7 @@
 					matInput
 					type="datetime-local"
 					#time
+					[value]="data[column.key]"
 					(change)="setValue(column.key, column.value(time.value))">
 			</mat-form-field>
 		</div>
@@ -60,6 +62,16 @@
 		JSON Doc
 	</a>
 
+	<button
+		(click)="revert()"
+		[disabled]="!isTouched()"
+		mat-flat-button>
+		<span class="material-symbols-outlined notranslate">
+			restart_alt
+		</span>
+		Revert
+	</button>
+
 	<mat-error
 		*ngIf="strError() !== null"
 		style="width: 420px">
@@ -69,7 +81,6 @@
 		(click)="update()"
 		*ngIf="strError() === null"
 		[disabled]="!isTouched()"
-		cdkFocusInitial
 		color="primary"
 		mat-flat-button>
 		<span class="material-symbols-outlined notranslate">

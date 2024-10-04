@@ -2,6 +2,7 @@ import {appendFileSync, writeFileSync} from "fs";
 import {randomUUID} from "crypto";
 import {finishedPath, singleLine} from "./helper.js";
 import {exec} from "child_process";
+import Log from "./log.js";
 
 class Bash {
 	commands = {};
@@ -38,6 +39,13 @@ class Bash {
 		delete this.commands[cid];
 	}
 
+	shellEscape(arg, doubleQuoted = false) {
+		if (doubleQuoted) {
+			return arg.replace(/(["])/g, "\\$1");
+		}
+		return arg.replace(/([$!'"();`*?{}[\]<>&%#~@\\])/g, "\\$1");
+	}
+
 	async runBash(cmd) {
 		const cid = this.startCommand(cmd, "", "sh");
 
@@ -45,7 +53,11 @@ class Bash {
 			exec(cmd, {shell: "/bin/bash"}, (err, stdout, stderr) => {
 				const lght = stdout.length || -1;
 				if (err) {
-					console.error(err);
+					if (process.env.PRIVATE_MODE === "true") {
+						Log.error(err, cmd);
+					} else {
+						console.error(err);
+					}
 					resolve({error: err.message ? err.message : err});
 				} else {
 					if (stderr) {

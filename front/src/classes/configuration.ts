@@ -67,6 +67,13 @@ export class Configuration {
 				values: ['preserve', 'upper', 'lower']
 			}
 		];
+		this.configs['Other'] = [
+			{
+				name: 'sentry',
+				description: 'Send anonymous error to Sentry',
+				values: [true, false]
+			}
+		];
 
 		for (const cat of Object.values(this.configs)) {
 			for (const config of cat) {

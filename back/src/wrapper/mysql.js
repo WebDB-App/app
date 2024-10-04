@@ -72,7 +72,7 @@ ${def[0]["VIEW_DEFINITION"]}`
 		const total = await this.runCommand(`SELECT COUNT(DISTINCT TABLE_NAME) as total FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = ${this.escapeValue(database)}`);
 
 		if (exportType === "sql") {
-			const cmd = `mysqldump --user='${this.user}' --port=${this.port} --password='${this.password}' --host='${this.host}' ${database} `;
+			const cmd = `mysqldump --user="${bash.shellEscape(this.user, true)}" --port=${this.port} --password="${bash.shellEscape(this.password, true)}" --host="${bash.shellEscape(this.host, true)}" ${bash.shellEscape(database)} `;
 			const dbOpts = (tables === false || tables.length >= total[0].total) ? "" : ` ${tables.join(" ")}`;
 
 			const result = await bash.runBash(`${cmd} ${dbOpts} ${options} > ${path}`);
@@ -96,7 +96,13 @@ ${def[0]["VIEW_DEFINITION"]}`
 	}
 
 	async saveState(path, database) {
-		return await bash.runBash(`mysqldump --single-transaction --skip-comments --extended-insert --net-buffer-length=16777216 --routines --events --user='${this.user}' --port=${this.port} --password='${this.password}' --host='${this.host}' ${database} | sed 's$VALUES ($VALUES\\n($g' | sed 's$),($),\\n($g' > ${join(path, database)}`);
+		const common = `--single-transaction --skip-comments --extended-insert --net-buffer-length=16777216 --routines --events --user='${this.user}' --port=${this.port} --password='${this.password}' --host='${this.host}' ${database} | sed 's$VALUES ($VALUES\\n($g' | sed 's$),($),\\n($g' > ${join(path, database)}`;
+
+		if (process.platform === "darwin") {
+			return await bash.runBash(`LC_ALL=C mysqldump --column-statistics=0 ${common}`);
+		} else {
+			return await bash.runBash(`mysqldump ${common}`);
+		}
 	}
 
 	async load(files, database) {
@@ -387,16 +393,15 @@ ${def[0]["VIEW_DEFINITION"]}`
 	}
 
 	async runCommand(command, database = false) {
-		const cid = bash.startCommand(sql_cleanQuery(command), database, this.port);
 		let connection;
 		try {
 			connection = await this.connection.promise().getConnection();
 		} catch (e) {
-			console.table(this.connection);
+			throw new Error("Loose connection to " + this.makeUri(database));
 		}
 
+		const cid = bash.startCommand(sql_cleanQuery(command), database, this.port);
 		let lgth = -1;
-
 		try {
 			if (database) {
 				await connection.query(`USE ${this.escapeId(database)}`);
@@ -409,7 +414,9 @@ ${def[0]["VIEW_DEFINITION"]}`
 			return this.foundErrorPos({error: e.sqlMessage}, command);
 		} finally {
 			bash.endCommand(cid, lgth);
-			connection.release();
+			if (connection) {
+				connection.release();
+			}
 		}
 	}
 
@@ -472,7 +479,7 @@ ${def[0]["VIEW_DEFINITION"]}`
 
 			return pool;
 		} catch (e) {
-			return {error: e.sqlMessage || e.message || e.code || "Unknown error"};
+			return {error: e.sqlMessage || e.message || e.code || "Unknown error of " + JSON.stringify(params)};
 		}
 	}
 

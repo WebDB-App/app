@@ -6,7 +6,7 @@
 				(keyup)="applyFilter(filter.value)"
 				autocomplete="off"
 				matInput
-				placeholder="Search column">
+				placeholder="Filter column">
 			<button (click)="filter.value=''; applyFilter(filter.value)" *ngIf="filter.value" aria-label="Clear"
 					mat-icon-button
 					matSuffix>

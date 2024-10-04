@@ -30,7 +30,7 @@ class Controller {
 	}
 
 	async newTunnel(connection, test = false) {
-		const uri = `-p ${connection.ssh.port} ${connection.ssh.user}@${connection.ssh.host}`;
+		const uri = `-p ${connection.ssh.port} ${bash.shellEscape(connection.ssh.user)}@${bash.shellEscape(connection.ssh.host)}`;
 		let common = "ssh -F /dev/null -o ConnectTimeout=2000 -o BatchMode=true -o StrictHostKeyChecking=no ";
 
 		const privateKey = os.tmpdir() + "/" + connection.ssh.host;
@@ -38,13 +38,14 @@ class Controller {
 			const pk = connection.ssh.privateKey.trim() + "\n";
 			fs.writeFileSync(privateKey, pk);
 			fs.chmodSync(privateKey, 0o700);
+			common += `-i ${privateKey} `;
 		}
 
 		if (test) {
 			if (connection.ssh.password) {
-				return await bash.runBash(`sshpass -p "${connection.ssh.password}" ${common} ${uri} true`);
+				return await bash.runBash(`sshpass -p "${bash.shellEscape(connection.ssh.password, true)}" ${common} ${uri} true`);
 			} else {
-				return await bash.runBash(common + `-i ${privateKey} ${uri} true`);
+				return await bash.runBash(common + `${uri} true`);
 			}
 		}
 
@@ -57,11 +58,11 @@ class Controller {
 		});
 
 		let forward;
-		common += `-f -N -L ${freePort}:${connection.host}:${connection.port} `;
+		common += `-f -N -L ${freePort}:${bash.shellEscape(connection.host)}:${connection.port} `;
 		if (connection.ssh.password) {
-			forward = await bash.runBash(`sshpass -p "${connection.ssh.password}" ${common} ${uri}`);
+			forward = await bash.runBash(`sshpass -p "${bash.shellEscape(connection.ssh.password, true)}" ${common} ${uri}`);
 		} else {
-			forward = await bash.runBash(common + `-i ${privateKey} ${uri}`);
+			forward = await bash.runBash(common + uri);
 		}
 		if (forward.error) {
 			return forward;

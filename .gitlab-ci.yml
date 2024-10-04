@@ -10,43 +10,7 @@ stages:
     interruptible: true
     before_script:
         - export TAG=$(date '+%Y.%m.%d')
-        - printenv
-
-.release: &release
-    <<: *common
-    image: docker:latest
-    variables:
-        IMAGE_NAME: webdb/app
-    script:
-        - sed -i "s/PACKAGE_VERSION/${TAG}/g" back/package.json
-        - sed -i "s/PACKAGE_VERSION/${TAG}/g" front/package.json
-        - cd front
-        - pnpm install --prod --frozen-lockfile
-        - pnpm run build
-        - ./changelog.js ./dist/webdb/changelog.html
-        - cp -fr ./dist/webdb/* ../back/static/
-        - cd ../back
-        - docker login -u 'aleluff' -p $DOCKER_PASS
-        - docker buildx create --use
-        - >
-            if [ "$CI_COMMIT_REF_NAME" == "main" ]; then
-                docker buildx build \
-                    --platform linux/arm64,linux/amd64 \
-                    --sbom=true \
-                    --provenance=true \
-                    -t $IMAGE_NAME:$CI_COMMIT_REF_NAME \
-                    -t $IMAGE_NAME:$TAG \
-                    -t $IMAGE_NAME \
-                    --push .
-            else
-                docker buildx build \
-                    --platform linux/arm64,linux/amd64 \
-                    --sbom=true \
-                    --provenance=true \
-                    -t $IMAGE_NAME:$CI_COMMIT_REF_NAME \
-                    --push .
-            fi
-        - docker rm -f $(docker ps -a -q --filter ancestor=moby/buildkit:buildx-stable-1)
+#        - printenv
 
 
 #-----------------------------------------
@@ -73,13 +37,10 @@ clean:
 #-----------------------------------------
 
 
-compatibility:
+.compatibility: &compatibility
     <<: *common
     stage: compatibility
     image: docker:latest
-    rules:
-        -   if: $CI_COMMIT_TAG || $CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "dev"
-            when: on_success
     script:
         - (cd back && npm run docker:build)
         - cd compatibility
@@ -87,23 +48,69 @@ compatibility:
         - npm run test:app
         - npm run test:report || echo
         - npm run fail:junit
+
+short_compatibility:
+    <<: *compatibility
+    rules:
+        -   if: $CI_PIPELINE_SOURCE != "schedule"
+            when: on_success
+
+full_compatibility:
+    <<: *compatibility
+    timeout: 2h
+    stage: compatibility
+    image: docker:latest
+    rules:
+        -   if: $CI_PIPELINE_SOURCE == "schedule"
+            when: on_success
     artifacts:
         expire_in: never
         paths:
             - ./compatibility/report.xml
 
 
-release_manual:
-    <<: *release
-    stage: compatibility
-    when: manual
-
-
 #-----------------------------------------
 
 
 release:
-    <<: *release
-    stage: release
+    <<: *common
     dependencies:
-        - compatibility
+        - short_compatibility
+    stage: release
+    rules:
+        -   if: $CI_PIPELINE_SOURCE != "schedule"
+            when: on_success
+    image: docker:latest
+    variables:
+        IMAGE_NAME: webdb/app
+    script:
+        - sed -i "s/PACKAGE_VERSION/${TAG}/g" back/package.json
+        - sed -i "s/PACKAGE_VERSION/${TAG}/g" front/package.json
+        - cd front
+        - pnpm install --prod --frozen-lockfile
+        - pnpm run build
+        - rm -rf dist/webdb/*.map
+        - ./changelog.js ./dist/webdb/changelog.html
+        - cp -fr ./dist/webdb/* ../back/static/
+        - cd ../back
+        - docker login -u 'aleluff' -p $DOCKER_PASS
+        - docker buildx create --use
+        - >
+            if [ "$CI_COMMIT_REF_NAME" == "main" ]; then
+                docker buildx build \
+                    --platform linux/arm64,linux/amd64 \
+                    --sbom=true \
+                    --provenance=true \
+                    -t $IMAGE_NAME:$CI_COMMIT_REF_NAME \
+                    -t $IMAGE_NAME:$TAG \
+                    -t $IMAGE_NAME \
+                    --push .
+            else
+                docker buildx build \
+                    --platform linux/arm64,linux/amd64 \
+                    --sbom=true \
+                    --provenance=true \
+                    -t $IMAGE_NAME:$CI_COMMIT_REF_NAME \
+                    --push .
+            fi
+        - docker rm -f $(docker ps -a -q --filter ancestor=moby/buildkit:buildx-stable-1)

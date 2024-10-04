@@ -45,7 +45,7 @@ ${def[0]["pg_get_viewdef"]}`
 	async tableDDL(dbSchema, table) {
 		const [database, schema] = dbSchema.split(this.dbToSchemaDelimiter);
 
-		const res = await bash.runBash(`pg_dump ${this.makeUri(database)} -n ${schema} -t ${table} --schema-only`);
+		const res = await bash.runBash(`pg_dump "${this.makeUri(database)}" -n ${schema} -t ${table} --schema-only`);
 		if (res.error) {
 			return res;
 		}
@@ -120,7 +120,7 @@ ${def[0]["pg_get_viewdef"]}`
 		const total = await this.runCommand(`SELECT COUNT(DISTINCT TABLE_NAME) as total FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = ${this.escapeValue(schema)}`, database);
 
 		if (exportType === "sql") {
-			const cmd = `pg_dump ${this.makeUri(database)}`;
+			const cmd = `pg_dump "${this.makeUri(database)}"`;
 			const dbOpts = (tables === false || tables.length.toString() === total[0].total) ? "" : `${tables.map(table => `-t '${table}'`).join(" ")}`;
 
 			const result = await bash.runBash(`${cmd} ${dbOpts} ${options} -n ${schema} > ${path}`);
@@ -145,18 +145,18 @@ ${def[0]["pg_get_viewdef"]}`
 
 	async saveState(path, dbSchema) {
 		const [database] = dbSchema.split(this.dbToSchemaDelimiter);
-		return await bash.runBash(`pg_dump ${this.makeUri(database)} > ${join(path, database)}`);
+		return await bash.runBash(`pg_dump "${this.makeUri(database)}" > ${join(path, database)}`);
 	}
 
 	makeUri(database = false) {
-		return `postgresql://${this.user}:${this.password}@${this.host}:${this.port}` + (database ? ("/" + database) : "");
+		return `postgresql://${encodeURIComponent(this.user)}:${encodeURIComponent(this.password)}@${encodeURIComponent(this.host)}:${this.port}` + (database ? ("/" + database) : "");
 	}
 
 	async load(files, dbSchema) {
 		const [database] = dbSchema.split(this.dbToSchemaDelimiter);
 
 		for (const file of files) {
-			const r = await bash.runBash(`psql ${this.makeUri(database)} < ${file.path}`);
+			const r = await bash.runBash(`psql "${this.makeUri(database)}" < ${file.path}`);
 			if (r.error) {
 				return r;
 			}
@@ -325,7 +325,7 @@ ${def[0]["pg_get_viewdef"]}`
 	}
 
 	async setCollation(database, collate) {
-		console.error("Feature not yet available", database, collate);
+		console.log("Feature not yet available", database, collate);
 		return true;
 	}
 
@@ -566,8 +566,6 @@ ${def[0]["pg_get_viewdef"]}`
 
 	async runCommand(command, database = false) {
 		let schema, connection;
-		let lgth = -1;
-
 		if (database) {
 			[database, schema] = database.split(this.dbToSchemaDelimiter);
 			const co = await this.getConnectionOfDatabase(database);
@@ -577,16 +575,17 @@ ${def[0]["pg_get_viewdef"]}`
 			try {
 				connection = await co.connect();
 			} catch (e) {
-				console.table(co);
+				throw new Error("Loose connection to " + this.makeUri(database));
 			}
 		} else {
 			try {
 				connection = await this.connection.connect();
 			} catch (e) {
-				console.table(this.connection);
+				throw new Error("Loose connection to " + this.makeUri());
 			}
 		}
 
+		let lgth = -1;
 		const cid = bash.startCommand(sql_cleanQuery(command), (database || "") + (schema ? `,${schema}` : ""), this.port);
 		try {
 			if (schema) {
@@ -601,7 +600,9 @@ ${def[0]["pg_get_viewdef"]}`
 			return {error: e.message + ". " + (e.hint || ""), position: e.position};
 		} finally {
 			bash.endCommand(cid, lgth);
-			connection.release();
+			if (connection) {
+				connection.release();
+			}
 		}
 	}
 
@@ -610,23 +611,23 @@ ${def[0]["pg_get_viewdef"]}`
 	}
 
 	async establish(database = false) {
-		try {
-			const creds = {
-				host: this.host,
-				port: this.port,
-				user: this.user,
-				password: this.password,
-				database: database || "postgres",
-				...this.params
-			};
+		const creds = {
+			host: this.host,
+			port: this.port,
+			user: this.user,
+			password: this.password,
+			database: database || "postgres",
+			...this.params
+		};
 
+		try {
 			const pool = new Pool(creds);
 			const connection = await pool.connect();
 			connection.release();
 
 			return pool;
 		} catch (e) {
-			return {error: e.message || "Unknown error"};
+			return {error: e.message || "Unknown error of " + JSON.stringify(creds)};
 		}
 	}
 }

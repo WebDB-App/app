@@ -93,7 +93,6 @@ export class EditConnectionComponent implements OnChanges {
 			this.snackBar.open(data.error, "⨉", {panelClass: 'snack-error'});
 			return;
 		}
-		this.server.host = "localhost";
 		this.snackBar.open("SSH connection valid", "⨉", {duration: 3000});
 		this.sshStatus = 'connected';
 	}
@@ -109,5 +108,14 @@ export class EditConnectionComponent implements OnChanges {
 		Server.remove(this.server.name);
 		Server.add(this.server);
 		this.edited.emit();
+	}
+
+	strError() {
+		try {
+			JSON.parse(this.params);
+		} catch (e) {
+			return e;
+		}
+		return null;
 	}
 }

@@ -10,7 +10,7 @@ await describe("webdb:app", async () => {
 		"method": "GET",
 	})).text();
 	await test("[monitoring] Finished queries list ok", async () => {
-		assert.ok(logs.length > 0);
+		assert.notEqual(logs.length, 0);
 	});
 
 

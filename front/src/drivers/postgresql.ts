@@ -348,7 +348,7 @@ export class PostgreSQL extends SQL {
 	}
 
 	override terminalCmd = () => {
-		return `docker exec -it $(docker ps -a -q --filter ancestor=webdb/app) psql ` + Server.getSelected().uri;
+		return `docker exec -it $(docker ps -a -q --filter ancestor=webdb/app) psql "${Server.getSelected().uri}"`;
 	}
 
 	override alterComplex(complex: Complex, type: string) {
