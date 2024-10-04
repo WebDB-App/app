@@ -1,28 +1,17 @@
 @use '@angular/material' as mat;
+@use './theme';
 
 @import 'highlight.js/scss/base16/materia';
 
-@include mat.core();
-
-$angular-dark-theme: mat.define-theme((
-	color: (
-		theme-type: dark,
-		primary: mat.$violet-palette,
-		tertiary: mat.$blue-palette,
-	),
-	typography: (
-		brand-family: 'Roboto',
-		bold-weight: 400
-	),
-	density: (
-		scale: -2
-	)
-));
-
 $bottom-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
 
+@include mat.core();
+
 html {
-	@include mat.all-component-themes($angular-dark-theme);
+	@include mat.all-component-themes(theme.$dark-theme);
+	font-family: 'Roboto', sans-serif;
+	font-weight: 400;
+	color: white;
 }
 
 html, body {
