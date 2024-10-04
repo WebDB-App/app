@@ -8,18 +8,18 @@
 	box-shadow: inset 0px 25px 50px 20px #1e1e1e;
 }
 
-.mat-card {
+.mat-mdc-card {
 	width: 100%;
 	padding: 0px;
 	margin: 24px 0px 0px 0px;
 	display: flex;
 
-	.mat-card-content {
+	.mat-mdc-card-content {
 		margin-bottom: 0px;
 		width: 100%;
 	}
 
-	.mat-card-actions {
+	.mat-mdc-card-actions {
 		width: 164px;
 		text-align: center;
 		display: flex;

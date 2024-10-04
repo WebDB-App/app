@@ -1,15 +1,15 @@
-.mat-card {
+.mat-mdc-card {
 	padding: 1px;
 	box-shadow: none;
 
-	.mat-card-actions {
+	.mat-mdc-card-actions {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 		padding: 8px 18px 14px;
 	}
 
-	.mat-card-content {
+	.mat-mdc-card-content {
 		margin-bottom: 0px;
 
 		.actions {

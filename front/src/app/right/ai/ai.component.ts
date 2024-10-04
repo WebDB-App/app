@@ -25,7 +25,7 @@ enum ProviderEnum {
 	gorq = "gorq"
 }
 
-const ProvidersDetail: {[key: string]: { name: string; url: string }} = {
+const ProvidersDetail: { [key: string]: { name: string; url: string } } = {
 	[ProviderEnum.openai]: {
 		name: "OpenAI",
 		url: "https://platform.openai.com/api-keys"
@@ -126,7 +126,7 @@ export class AiComponent implements OnInit, OnDestroy {
 		language: "plaintext"
 	};
 	sample = "";
-	config = {
+	config: any = {
 		model: "",
 		[ProviderEnum.openai]: '',
 		[ProviderEnum.together]: '',
@@ -152,6 +152,7 @@ export class AiComponent implements OnInit, OnDestroy {
 	protected readonly Object = Object;
 	protected readonly isSQL = isSQL;
 	protected readonly JSON = JSON;
+	protected readonly ProvidersDetail = ProvidersDetail;
 
 	constructor(
 		private request: RequestService,
@@ -556,6 +557,4 @@ export class AiComponent implements OnInit, OnDestroy {
 			message.value = '';
 		}, 10);
 	}
-
-	protected readonly ProvidersDetail = ProvidersDetail;
 }

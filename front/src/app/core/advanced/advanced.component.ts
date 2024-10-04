@@ -20,7 +20,7 @@ export class TableAdvancedComponent implements OnDestroy {
 	selectedDatabase?: Database;
 	selectedTable?: Table;
 
-	interval?: NodeJS.Timer;
+	interval?: NodeJS.Timeout | number;
 	stats?: Stats;
 	ddl?: string | false;
 	protected readonly isSQL = isSQL;

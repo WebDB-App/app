@@ -3,21 +3,23 @@
 	style="padding: 10px 20px;">
 
 	<div style="display: flex; align-items: center;">
-		<button (click)="runQuery()"
-				*ngIf="!diff"
-				[disabled]="!query || query.trim().length < 1"
+		@if (!diff) {
+			<button (click)="runQuery()"
+					[disabled]="!query || query.trim().length < 1"
+					color="primary"
+					mat-raised-button>
+				<span class="material-symbols-outlined notranslate">send</span>
+			</button>
+		}
+
+		@if (diff) {
+			<button
+				(click)="runQuery()"
 				color="primary"
 				mat-raised-button>
-			<span class="material-symbols-outlined notranslate">send</span>
-		</button>
-
-		<button
-			(click)="runQuery()"
-			*ngIf="diff"
-			color="primary"
-			mat-raised-button>
-			<span class="material-symbols-outlined notranslate">difference</span>
-		</button>
+				<span class="material-symbols-outlined notranslate">difference</span>
+			</button>
+		}
 
 		<div style="width: 12px"></div>
 
@@ -28,24 +30,26 @@
 			<span class="material-symbols-outlined notranslate">format_indent_increase</span>
 		</button>
 
-		<button
-			*ngIf="selectedTable"
-			[matMenuTriggerFor]="templatesMenu"
-			mat-icon-button
-			matTooltip="Prebuilds queries">
-			<span class="material-symbols-outlined notranslate">factory</span>
-		</button>
-		<mat-menu #templatesMenu="matMenu" xPosition="before">
-			<button (click)="loadTemplate(template)"
-					*ngFor="let template of Object.keys(this.selectedServer!.driver.queryTemplates)"
-					mat-menu-item>
-				{{ template }}
+		@if (selectedTable) {
+			<button
+				[matMenuTriggerFor]="templatesMenu"
+				mat-icon-button
+				matTooltip="Prebuilds queries">
+				<span class="material-symbols-outlined notranslate">factory</span>
 			</button>
+		}
+		<mat-menu #templatesMenu="matMenu" xPosition="before">
+			@for (template of Object.keys(this.selectedServer!.driver.queryTemplates); track template) {
+				<button (click)="loadTemplate(template)"
+						mat-menu-item>
+					{{ template }}
+				</button>
+			}
 		</mat-menu>
 
 		<button
 			(click)="diff = !diff; query2 = query;"
-			[class.mat-raised-button]="diff"
+			[class.mat-mdc-raised-button]="diff"
 			mat-icon-button
 			matTooltip="Compare mode">
 			<span class="material-symbols-outlined notranslate">splitscreen_left</span>
@@ -60,7 +64,7 @@
 
 		<button
 			(click)="setAutoUp()"
-			[class.mat-raised-button]="autoUp"
+			[class.mat-mdc-raised-button]="autoUp"
 			mat-icon-button
 			matTooltip="Reload data periodically">
 			<span class="material-symbols-outlined notranslate">
@@ -68,13 +72,14 @@
 			</span>
 		</button>
 
-		<button
-			(click)="editView()"
-			*ngIf="selectedTable?.view"
-			mat-icon-button
-			matTooltip="Edit view">
-			<span class="material-symbols-outlined notranslate">table_view</span>
-		</button>
+		@if (selectedTable?.view) {
+			<button
+				(click)="editView()"
+				mat-icon-button
+				matTooltip="Edit view">
+				<span class="material-symbols-outlined notranslate">table_view</span>
+			</button>
+		}
 
 		<input #inputFile (change)="inputChange($event)" accept=".{{selectedServer!.driver.language.extension}}"
 			   hidden="true"
@@ -88,9 +93,11 @@
 		<mat-menu #advanced="matMenu" xPosition="before">
 			<button (click)="inputFile.click()" mat-menu-item>Load query from file</button>
 			<button (click)="saveToDisk()" mat-menu-item>Save query to file</button>
-			<button (click)="addView()" *ngIf="!selectedTable?.view" [disabled]="!isQuerySelect()" mat-menu-item>
-				Create view from query
-			</button>
+			@if (!selectedTable?.view) {
+				<button (click)="addView()" [disabled]="!isQuerySelect()" mat-menu-item>
+					Create view from query
+				</button>
+			}
 			<button [matMenuTriggerFor]="disclaimer" mat-menu-item>Disclaimer</button>
 		</mat-menu>
 		<mat-menu #disclaimer="matMenu">
@@ -105,37 +112,42 @@
 		</mat-menu>
 	</div>
 
-	<a (click)="request.reloadServer()"
-	   *ngIf="reloadDb"
-	   mat-flat-button>
-		Reload database
-	</a>
+	@if (reloadDb) {
+		<a (click)="request.reloadServer()"
+		   mat-flat-button>
+			Reload database
+		</a>
+	}
 
 	<div style="display: flex; align-items: center">
-		<mat-form-field *ngIf="querySize >= 1" appearance="outline" class="goToPage">
-			<mat-label>
-				Page
-			</mat-label>
-
-			<input
-				#input
-				(change)="page = +input.value; runQuery()"
-				*ngIf="querySize >= 100000"
-				[max]="querySize"
-				[value]="page"
-				matInput
-				min="0"
-				type="number">
-			<mat-select
-				(selectionChange)="page = $event.value; runQuery()"
-				*ngIf="querySize < 100000"
-				[value]="page">
-				<mat-option
-					*ngFor="let item of [].constructor(Math.floor(querySize / pageSize) + 1); let i = index"
-					[value]="i">{{ i }}
-				</mat-option>
-			</mat-select>
-		</mat-form-field>
+		@if (querySize >= 1) {
+			<mat-form-field appearance="outline" class="goToPage">
+				<mat-label>
+					Page
+				</mat-label>
+				@if (querySize >= 100000) {
+					<input
+						#input
+						(change)="page = +input.value; runQuery()"
+						[max]="querySize"
+						[value]="page"
+						matInput
+						min="0"
+						type="number">
+				}
+				@if (querySize < 100000) {
+					<mat-select
+						(selectionChange)="page = $event.value; runQuery()"
+						[value]="page">
+						@for (item of [].constructor(Math.floor(querySize / pageSize) + 1); track item; let i = $index) {
+							<mat-option
+								[value]="i">{{ i }}
+							</mat-option>
+						}
+					</mat-select>
+				}
+			</mat-form-field>
+		}
 
 		<mat-paginator
 			(page)="page = $event.pageIndex; pageSize = $event.pageSize; runQuery()"
@@ -160,7 +172,7 @@
 	style="position: absolute; left: 0px; right: 0px; z-index: 10000000">
 </mat-progress-bar>
 
-<div id="container" [class.diff]="diff">
+<div [class.diff]="diff" id="container">
 
 	<ngx-monaco-editor
 		(onInit)="initEditor($event, 0)"
@@ -175,37 +187,41 @@
 		[options]="editorOptions">
 	</ngx-monaco-editor>
 
-	<div *ngIf="!diff && dataSource?.data && dataSource!.data!.length > 0" id="results">
-		<table [dataSource]="dataSource!" class="table" mat-table range-selection>
-			<ng-container
-				*ngFor="let column of displayedColumns"
-				matColumnDef="{{column}}"
-			>
-				<th *matHeaderCellDef
-					[style.min-width]="column.length * 8 + 'px'"
-					class="resizeColumn"
-					mat-header-cell>
-					{{ column }}
-				</th>
-				<td *matCellDef="let row" mat-cell>
-					<app-cell
-						[column]="column"
-						[stringify]="stringify"
-						[value]="row[column]"
-					></app-cell>
-				</td>
-			</ng-container>
+	@if (!diff && dataSource?.data && dataSource!.data!.length > 0) {
+		<div id="results">
+			<table [dataSource]="dataSource!" class="table" mat-table range-selection>
+				@for (column of displayedColumns; track column) {
+					<ng-container
+						matColumnDef="{{column}}"
+					>
+						<th *matHeaderCellDef
+							[style.min-width]="column.length * 8 + 'px'"
+							class="resizeColumn"
+							mat-header-cell>
+							{{ column }}
+						</th>
+						<td *matCellDef="let row" mat-cell>
+							<app-cell
+								[column]="column"
+								[stringify]="stringify"
+								[value]="row[column]"
+							></app-cell>
+						</td>
+					</ng-container>
+				}
+				<tr *matHeaderRowDef="displayedColumns!; sticky: true" mat-header-row></tr>
+				<tr *matRowDef="let row; columns: displayedColumns!;" mat-row></tr>
+			</table>
+		</div>
+	}
+</div>
 
-			<tr *matHeaderRowDef="displayedColumns!; sticky: true" mat-header-row></tr>
-			<tr *matRowDef="let row; columns: displayedColumns!;" mat-row></tr>
-		</table>
+@if (diff && !isLoading) {
+	<div style="border-top: 2px solid #444444; position: relative;">
+		<ngx-monaco-diff-editor
+			[modifiedModel]="modifiedResult"
+			[options]="diffOptions"
+			[originalModel]="originalResult"
+		></ngx-monaco-diff-editor>
 	</div>
-</div>
-
-<div *ngIf="diff && !isLoading" style="border-top: 2px solid #444444; position: relative;">
-	<ngx-monaco-diff-editor
-		[modifiedModel]="modifiedResult"
-		[options]="diffOptions"
-		[originalModel]="originalResult"
-	></ngx-monaco-diff-editor>
-</div>
+}

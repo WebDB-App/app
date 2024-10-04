@@ -1,6 +1,8 @@
 <mat-drawer-container>
 	<mat-drawer #drawer id="right" mode="over" position="end">
-		<router-outlet *ngIf="loading === LoadingStatus.DONE" name="right"></router-outlet>
+		@if (loading === LoadingStatus.DONE) {
+			<router-outlet name="right"></router-outlet>
+		}
 	</mat-drawer>
 
 	<mat-drawer-content>
@@ -12,19 +14,23 @@
 					<mat-icon style="height: 28px; width: 28px;" svgIcon="webdb"></mat-icon>
 				</a>
 
-				<div *ngIf="selectedServer && selectedDatabase" id="server">
-					<div *ngIf="selectedServer.ssh && selectedServer.ssh.host"
-						 [matTooltip]="selectedServer.ssh | json">
-						<span class="material-symbols-outlined notranslate">
-							subway
-						</span>
+				@if (selectedServer && selectedDatabase) {
+					<div id="server">
+						@if (selectedServer.ssh && selectedServer.ssh.host) {
+							<div
+								[matTooltip]="selectedServer.ssh | json">
+								<span class="material-symbols-outlined notranslate">
+									subway
+								</span>
+							</div>
+						}
+						<div>
+							<span>{{ selectedServer.host }} : {{ selectedServer.port }}</span>
+							&nbsp;
+							<span style="color: #1de9b6;">{{ selectedDatabase.name }}</span>
+						</div>
 					</div>
-					<div>
-						<span>{{ selectedServer.host }} : {{ selectedServer.port }}</span>
-						&nbsp;
-						<span style="color: #1de9b6;">{{ selectedDatabase.name }}</span>
-					</div>
-				</div>
+				}
 			</div>
 
 			<div [hidden]="!selectedServer">
@@ -32,17 +38,18 @@
 					 class="panel"
 					 color="accent"
 					 mat-tab-nav-bar>
-					<a #rla="routerLinkActive"
-					   (click)="drawer.toggle();"
-					   *ngFor="let panel of panels"
-					   [active]="rla.isActive"
-					   [routerLinkActive]="'mat-button-toggle-checked'"
-					   [routerLink]="[{outlets: {right: [panel.link]}}]"
-					   mat-tab-link>
-						<span class="material-symbols-outlined notranslate">
-							{{ panel.icon }}
-						</span>
-					</a>
+					@for (panel of panels; track panel) {
+						<a #rla="routerLinkActive"
+						   (click)="drawer.toggle();"
+						   [active]="rla.isActive"
+						   [routerLinkActive]="'mat-button-toggle-checked'"
+						   [routerLink]="[{outlets: {right: [panel.link]}}]"
+						   mat-tab-link>
+							<span class="material-symbols-outlined notranslate">
+								{{ panel.icon }}
+							</span>
+						</a>
+					}
 				</nav>
 				<mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
 			</div>
@@ -50,25 +57,29 @@
 			<app-top-right></app-top-right>
 		</mat-toolbar>
 
-		<div *ngIf="loading !== LoadingStatus.DONE"
-			 style="height: calc(100vh - 56px); align-self: center; display: flex;">
-			<div style="align-self: center;">
-				<ng-container *ngIf="loading === LoadingStatus.LOADING">
-					<mat-spinner
-						[diameter]="60"
-						color="accent"
-						mode="indeterminate"
-						style="margin: 0px auto;"></mat-spinner>
-					<h3 style="color: #1de9b6">Loading {{ activatedRoute.snapshot.paramMap.get('database') }}</h3>
-				</ng-container>
-
-				<app-unreachable
-					(reloadPage)="ngOnInit()"
-					*ngIf="loading === LoadingStatus.ERROR"
-				></app-unreachable>
+		@if (loading !== LoadingStatus.DONE) {
+			<div
+				style="height: calc(100vh - 56px); align-self: center; display: flex;">
+				<div style="align-self: center;">
+					@if (loading === LoadingStatus.LOADING) {
+						<mat-spinner
+							[diameter]="60"
+							color="accent"
+							mode="indeterminate"
+							style="margin: 0px auto;"></mat-spinner>
+						<h3 style="color: #1de9b6">Loading {{ activatedRoute.snapshot.paramMap.get('database') }}</h3>
+					}
+					@if (loading === LoadingStatus.ERROR) {
+						<app-unreachable
+							(reloadPage)="ngOnInit()"
+						></app-unreachable>
+					}
+				</div>
 			</div>
-		</div>
+		}
 
-		<router-outlet *ngIf="loading === LoadingStatus.DONE"></router-outlet>
+		@if (loading === LoadingStatus.DONE) {
+			<router-outlet></router-outlet>
+		}
 	</mat-drawer-content>
 </mat-drawer-container>

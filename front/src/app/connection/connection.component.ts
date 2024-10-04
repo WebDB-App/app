@@ -185,7 +185,7 @@ export class ConnectionComponent implements OnInit, OnDestroy {
 
 			for (const [indexDatabase, database] of server.dbs.entries()) {
 				this.servers[indexServer].dbs[indexDatabase].hide = database.name.toLowerCase().indexOf(value) === -1;
-				if (this.servers[indexServer].dbs[indexDatabase].hide) {
+				if (!this.servers[indexServer].dbs[indexDatabase].hide) {
 					oneDisplayed = true;
 				}
 			}

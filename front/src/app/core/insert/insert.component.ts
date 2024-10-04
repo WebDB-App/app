@@ -50,7 +50,7 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 	editors: any = {};
 	limit = 300;
 	randomSource: Random[] = [];
-	interval?: NodeJS.Timer;
+	interval?: NodeJS.Timeout | number;
 	iframe?: SafeResourceUrl;
 	codes: any = JSON.parse(localStorage.getItem(getStorageKey("insertCode")) || "{}");
 

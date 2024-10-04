@@ -1,50 +1,43 @@
-<ng-container *ngIf="blob && value">
+@if (blob && value) {
 	<button
-		[matTooltip]="value.substring(0, 100)"
 		(click)="download()"
-		matTooltipPosition="left"
-		mat-icon-button>
+		[matTooltip]="value.substring(0, 100)"
+		mat-icon-button
+		matTooltipPosition="left">
 		<span class="material-symbols-outlined">
 			download
 		</span>
 	</button>
-</ng-container>
+}
 
-<ng-container *ngIf="!blob">
-	<ng-container *ngIf="value === undefined">
+@if (!blob) {
+	@if (value === undefined) {
 		<span style="color: grey">undefined</span>
-	</ng-container>
-	<ng-container *ngIf="value === null">
+	}
+	@if (value === null) {
 		<span style="color: grey">null</span>
-	</ng-container>
-	<ng-container *ngIf="['true', 'Y', 'YES', 'Yes', true].indexOf(value) >= 0">
+	}
+	@if (['true', 'Y', 'YES', 'Yes', true].indexOf(value) >= 0) {
 		<span [matTooltip]="value" matTooltipPosition="right" style="font-size: 12px">✅</span>
-	</ng-container>
-	<ng-container *ngIf="['false', 'N', 'NO', 'No', false].indexOf(value) >= 0">
+	}
+	@if (['false', 'N', 'NO', 'No', false].indexOf(value) >= 0) {
 		<span [matTooltip]="value" matTooltipPosition="right" style="font-size: 10px">❌</span>
-	</ng-container>
-
-	<ng-container *ngIf="[undefined, null, 'true', 'Y', 'YES', 'Yes', true, 'false', 'N', 'NO', 'No', false].indexOf(value) < 0">
-		<ng-container *ngIf="fkLink">
-
+	}
+	@if ([undefined, null, 'true', 'Y', 'YES', 'Yes', true, 'false', 'N', 'NO', 'No', false].indexOf(value) < 0) {
+		@if (fkLink) {
 			<a [routerLink]="[fkLink, fkParams]">
 				{{ value }}
 			</a>
-
-		</ng-container>
-
-		<ng-container *ngIf="!fkLink">
-			<ng-container *ngIf="nested">
-				<ng-container *ngIf="expand">
-
+		}
+		@if (!fkLink) {
+			@if (nested) {
+				@if (expand) {
 					<ngx-json-viewer
 						[expanded]="false"
 						[json]="value">
 					</ngx-json-viewer>
-
-				</ng-container>
-				<ng-container *ngIf="!expand">
-
+				}
+				@if (!expand) {
 					<button
 						(click)="expand = true; ref.nativeElement.style.resize = 'both'"
 						mat-icon-button>
@@ -52,15 +45,11 @@
 							folder_open
 						</span>
 					</button>
-
-				</ng-container>
-			</ng-container>
-			<ng-container
-				*ngIf="!nested">
-
+				}
+			}
+			@if (!nested) {
 				{{ value }}
-
-			</ng-container>
-		</ng-container>
-	</ng-container>
-</ng-container>
+			}
+		}
+	}
+}

@@ -39,6 +39,7 @@ import { VersionComponent } from './version/version.component';
 import { MatListModule } from "@angular/material/list";
 import { ComplexComponent, DropComplexDialog } from './complex/complex.component';
 import { MatTabsModule } from "@angular/material/tabs";
+import { HighlightLineNumbers } from "ngx-highlightjs/line-numbers";
 
 
 @NgModule({
@@ -94,7 +95,8 @@ import { MatTabsModule } from "@angular/material/tabs";
 		MatProgressSpinnerModule,
 		ClipboardModule,
 		MatListModule,
-		MatTabsModule
+		MatTabsModule,
+		HighlightLineNumbers
 	],
 	providers: [
 		CdkColumnDef,

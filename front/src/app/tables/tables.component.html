@@ -10,68 +10,75 @@
 
 		<mat-list style="flex-direction: column; box-sizing: border-box; display: flex;">
 			<mat-list-item style="box-shadow: 0px 0px 0px, 0px 4px 6px -4px rgba(0, 0, 0, 0.6);">
-				<mat-form-field appearance="standard" class="searchField" style="width: 100%">
+				<mat-form-field appearance="outline" class="searchField" style="width: 100%">
 					<input
 						#filter
 						(keyup)="filterChanged(filter.value)"
 						autocomplete="off"
 						matInput
 						placeholder="Filter table / column / type">
-					<button
-						(click)="filter.value=''; filterChanged(filter.value)"
-						*ngIf="filter.value"
-						aria-label="Clear" mat-icon-button
-						matSuffix>
-						<span
-							style="margin-top: 14px"
-							class="material-symbols-outlined notranslate">
-							close
-						</span>
-					</button>
+					@if (filter.value) {
+						<button
+							(click)="filter.value=''; filterChanged(filter.value)"
+							aria-label="Clear" mat-icon-button
+							matSuffix>
+							<span
+								class="material-symbols-outlined notranslate"
+								style="margin-top: 14px">
+								close
+							</span>
+						</button>
+					}
 				</mat-form-field>
 			</mat-list-item>
 
-			<mat-list-item
-				*ngIf="!selectedDatabase || !selectedDatabase?.tables || selectedDatabase.tables.length < 1">
-				No table
-			</mat-list-item>
+			@if (!selectedDatabase || !selectedDatabase?.tables || selectedDatabase.tables.length < 1) {
+				<mat-list-item
+				>
+					No table
+				</mat-list-item>
+			}
 
 			<mat-selection-list
 				[multiple]="false">
-				<div *ngFor="let table of selectedDatabase?.tables"
-					 [hidden]="table.hide"
-					 [style.border-right]="selectedTable?.name === table.name ? '2px solid #2196f3' : undefined"
-					 class="entity">
-					<div style="display: flex">
-						<div [style.background-color]="tooltips[table.name] ? '#1e1e1e' : 'inherit'"
-							 style="display: flex;">
-							<button
-								(click)="getTooltip(table)"
-								mat-icon-button
-								style="zoom: 0.8">
-								<span class="material-symbols-outlined notranslate">
-									{{ tooltips[table.name] ? 'expand_less' : 'expand_more' }}
-								</span>
-							</button>
+				@for (table of selectedDatabase?.tables; track table) {
+					<div
+						[hidden]="table.hide"
+						[style.border-right]="selectedTable?.name === table.name ? '2px solid #2196f3' : undefined"
+						class="entity">
+						<div style="display: flex">
+							<div [style.background-color]="tooltips[table.name] ? '#1e1e1e' : 'inherit'"
+								 style="display: flex;">
+								<button
+									(click)="getTooltip(table)"
+									mat-icon-button
+									style="zoom: 0.8">
+									<span class="material-symbols-outlined notranslate">
+										{{ tooltips[table.name] ? 'expand_less' : 'expand_more' }}
+									</span>
+								</button>
+							</div>
+							<mat-list-option
+								(keyup.enter)="goTo(table.name)"
+								(keyup.space)="goTo(table.name)"
+								[class.mat-mdc-list-single-selected-option]="selectedTable?.name === table.name"
+								[style.font-style]="table.view ? 'italic' : 'normal'"
+								[value]="table.name">
+								<a href="{{changeTable(table.name)}}">
+									{{ table.name }}
+								</a>
+							</mat-list-option>
 						</div>
-						<mat-list-option
-							[class.mat-list-single-selected-option]="selectedTable?.name === table.name"
-							[style.font-style]="table.view ? 'italic' : 'normal'"
-							(keyup.enter)="goTo(table.name)"
-							(keyup.space)="goTo(table.name)"
-							[value]="table.name">
-							<a href="{{changeTable(table.name)}}">
-								{{ table.name }}
-							</a>
-						</mat-list-option>
+						@if (tooltips[table.name]) {
+							<div
+								class="columns"
+							>
+								<div [innerHtml]="tooltips[table.name]"></div>
+								<mat-divider></mat-divider>
+							</div>
+						}
 					</div>
-					<div *ngIf="tooltips[table.name]"
-						 class="columns"
-					>
-						<div [innerHtml]="tooltips[table.name]"></div>
-						<mat-divider></mat-divider>
-					</div>
-				</div>
+				}
 			</mat-selection-list>
 
 			<span style="flex: 1 1 0.0000001px; box-sizing: border-box;"></span>
@@ -90,23 +97,27 @@
 		</mat-list>
 	</mat-sidenav>
 
-	<div id="core" *ngIf="selectedDatabase">
-		<ng-container *ngIf="selectedDatabase.tables.length >= 1">
-			<nav [tabPanel]="tabPanel" mat-tab-nav-bar style="border-bottom: none;">
-				<a *ngFor="let tab of tabs"
-				   [routerLinkActive]="['mat-list-single-selected-option']"
-				   [routerLink]="[tab]"
-				   mat-tab-link
-				   style="width: 100%; height: 42px;">
-					{{ tab | titlecase }}
-				</a>
-			</nav>
-			<mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
-
-			<router-outlet></router-outlet>
-		</ng-container>
-
-		<app-query *ngIf="selectedDatabase.tables.length < 1"></app-query>
-	</div>
+	@if (selectedDatabase) {
+		<div id="core">
+			@if (selectedDatabase.tables.length >= 1) {
+				<nav [tabPanel]="tabPanel" mat-tab-nav-bar style="border-bottom: none;">
+					@for (tab of tabs; track tab) {
+						<a
+							[routerLinkActive]="['mat-list-single-selected-option']"
+							[routerLink]="[tab]"
+							mat-tab-link
+							style="width: 100%; height: 42px;">
+							{{ tab | titlecase }}
+						</a>
+					}
+				</nav>
+				<mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
+				<router-outlet></router-outlet>
+			}
+			@if (selectedDatabase.tables.length < 1) {
+				<app-query></app-query>
+			}
+		</div>
+	}
 
 </mat-sidenav-container>

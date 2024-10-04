@@ -24,14 +24,14 @@ import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogConfig, MatDialogModule } from "@angular/material/dialog";
 import { MatSelectModule } from "@angular/material/select";
-import { HttpClientModule } from "@angular/common/http";
+import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { MonacoEditorModule, NgxMonacoEditorConfig } from "ngx-monaco-editor-v2";
 import { MatButtonToggleModule } from "@angular/material/button-toggle";
 import { MatStepperModule } from "@angular/material/stepper";
 import { ClipboardModule } from "@angular/cdk/clipboard";
-import { HIGHLIGHT_OPTIONS, HighlightModule, HighlightOptions, } from 'ngx-highlightjs';
+import { HighlightModule, provideHighlightOptions } from 'ngx-highlightjs';
 import { Server } from "../classes/server";
 import { MatTabsModule } from "@angular/material/tabs";
 import { DragDropModule } from "@angular/cdk/drag-drop";
@@ -43,7 +43,7 @@ import { environment } from '../environments/environment';
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { EditConnectionComponent } from './connection/edit-connection/edit-connection.component';
 import { MatTableModule } from "@angular/material/table";
-import { NgChartsModule } from 'ng2-charts';
+import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { StatsDialogComponent } from "./stats/stats-dialog.component";
 import { ProcessDialogComponent } from "./process/process-dialog.component";
 import { MatChipsModule } from "@angular/material/chips";
@@ -54,15 +54,10 @@ import { VariableDialogComponent } from "./variable/variable-dialog.component";
 import { CoreModule } from "./core/core.module";
 
 let providers: Provider[] = [
-	{
-		provide: HIGHLIGHT_OPTIONS,
-		useValue: <HighlightOptions>{
-			lineNumbers: true,
-			// @ts-ignore
-			lineNumbersLoader: () => import('highlightjs-line-numbers.js'),
-			fullLibraryLoader: () => import('highlight.js'),
-		}
-	}, {
+	provideHighlightOptions({
+		coreLibraryLoader: () => import('highlight.js/lib/core'),
+		lineNumbersLoader: () => import('ngx-highlightjs/line-numbers')
+	}), {
 		provide: MatPaginatorIntl,
 		useClass: CustomPaginatorIntl
 	}, {
@@ -86,7 +81,8 @@ if (environment.production) {
 		},
 		{
 			provide: APP_INITIALIZER,
-			useFactory: () => () => {},
+			useFactory: () => () => {
+			},
 			deps: [Sentry.TraceService],
 			multi: true,
 		}
@@ -158,49 +154,49 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 		EditQueryDialog,
 		VariableDialogComponent
 	],
-    imports: [
-        AppRoutingModule,
-        BrowserModule,
-        BrowserAnimationsModule,
-        MonacoEditorModule.forRoot(monacoConfig),
-        MatCardModule,
-        HighlightModule,
-        MatToolbarModule,
-        MatButtonModule,
-        MatSidenavModule,
-        MatTooltipModule,
-        MatMenuModule,
-        MatIconModule,
-        MatDividerModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatProgressSpinnerModule,
-        MatListModule,
-        MatExpansionModule,
-        MatProgressBarModule,
-        ReactiveFormsModule,
-        MatDialogModule,
-        MatSelectModule,
-        HttpClientModule,
-        MatSnackBarModule,
-        MatSlideToggleModule,
-        FormsModule,
-        MonacoEditorModule,
-        MatButtonToggleModule,
-        MatStepperModule,
-        ClipboardModule,
-        MatTabsModule,
-        DragDropModule,
-        SharedModule,
-        MatCheckboxModule,
-        MatTableModule,
-        NgChartsModule,
-        MatChipsModule,
-        MatPaginatorModule,
-        CoreModule
-    ],
-	providers,
-	bootstrap: [AppComponent]
+	bootstrap: [AppComponent], imports: [AppRoutingModule,
+		BrowserModule,
+		BrowserAnimationsModule,
+		MonacoEditorModule.forRoot(monacoConfig),
+		MatCardModule,
+		HighlightModule,
+		MatToolbarModule,
+		MatButtonModule,
+		MatSidenavModule,
+		MatTooltipModule,
+		MatMenuModule,
+		MatIconModule,
+		MatDividerModule,
+		MatFormFieldModule,
+		MatInputModule,
+		MatProgressSpinnerModule,
+		MatListModule,
+		MatExpansionModule,
+		MatProgressBarModule,
+		ReactiveFormsModule,
+		MatDialogModule,
+		MatSelectModule,
+		MatSnackBarModule,
+		MatSlideToggleModule,
+		FormsModule,
+		MonacoEditorModule,
+		MatButtonToggleModule,
+		MatStepperModule,
+		ClipboardModule,
+		MatTabsModule,
+		DragDropModule,
+		SharedModule,
+		MatCheckboxModule,
+		MatTableModule,
+		MatChipsModule,
+		MatPaginatorModule,
+		CoreModule,
+		BaseChartDirective
+	],
+	providers: [
+		provideCharts(withDefaultRegisterables()),
+		provideHttpClient(withInterceptorsFromDi()),
+	]
 })
 export class AppModule {
 }

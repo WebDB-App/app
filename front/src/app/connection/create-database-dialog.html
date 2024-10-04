@@ -16,10 +16,12 @@
 			   matInput
 			   required>
 	</mat-form-field>
-	<mat-error
-		*ngIf="name.value && !nameValid(name.value)">
-		Name already taken or containing special characters
-	</mat-error>
+	@if (name.value && !nameValid(name.value)) {
+		<mat-error
+		>
+			Name already taken or containing special characters
+		</mat-error>
+	}
 </div>
 <mat-dialog-actions>
 	<button
@@ -30,9 +32,10 @@
 		Create
 	</button>
 
-	<mat-spinner
-		*ngIf="isLoading"
-		[diameter]="30"
-		color="primary"
-	></mat-spinner>
+	@if (isLoading) {
+		<mat-spinner
+			[diameter]="30"
+			color="primary"
+		></mat-spinner>
+	}
 </mat-dialog-actions>

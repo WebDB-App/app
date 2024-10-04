@@ -1,36 +1,42 @@
 <mat-error>
-	<h3 *ngIf="router.url !== '/'">
-		Can't connect to {{ activatedRoute.snapshot.paramMap.get('server') }}
-		/ {{ activatedRoute.snapshot.paramMap.get('database') }}
-		<br>
-		Common problems are :
-		<ul>
-			<li>Bad connection credentials</li>
-			<li>Database server doesn't respond correctly</li>
-			<li>Backend is unavailable</li>
-		</ul>
-	</h3>
-	<h2 *ngIf="router.url === '/'" style="text-align: center">
-		Backend is unavailable
-	</h2>
+	@if (router.url !== '/') {
+		<h3>
+			Can't connect to {{ activatedRoute.snapshot.paramMap.get('server') }}
+			/ {{ activatedRoute.snapshot.paramMap.get('database') }}
+			<br>
+			Common problems are :
+			<ul>
+				<li>Bad connection credentials</li>
+				<li>Database server doesn't respond correctly</li>
+				<li>Backend is unavailable</li>
+			</ul>
+		</h3>
+	}
+	@if (router.url === '/') {
+		<h2 style="text-align: center">
+			Backend is unavailable
+		</h2>
+	}
 </mat-error>
 
 <mat-divider style="margin: 20px 0px;"></mat-divider>
 
 <div class="btns">
 
-	<div
-		*ngIf="router.url !== '/'">
-		<button
-			color="primary"
-			mat-stroked-button
-			routerLink="/">
-			<span class="material-symbols-outlined notranslate">
-				wifi_find
-			</span>
-			Connection list
-		</button>
-	</div>
+	@if (router.url !== '/') {
+		<div
+		>
+			<button
+				color="primary"
+				mat-stroked-button
+				routerLink="/">
+				<span class="material-symbols-outlined notranslate">
+					wifi_find
+				</span>
+				Connection list
+			</button>
+		</div>
+	}
 
 	<div>
 		<button

@@ -17,7 +17,7 @@
 <mat-dialog-actions>
 	<button
 		(click)="oldValues = !oldValues"
-		[class.mat-raised-button]="oldValues"
+		[class.mat-mdc-raised-button]="oldValues"
 		color="primary"
 		mat-button>
 		<span class="material-symbols-outlined notranslate">
@@ -26,32 +26,36 @@
 		Old values
 	</button>
 
-	<a *ngIf="selectedServer"
-	   [href]="selectedServer!.driver.docs.types"
-	   mat-button
-	   target="_blank">
-		<span class="material-symbols-outlined notranslate">
-			help
-		</span>
-		{{ selectedServer.wrapper }} Types
-	</a>
+	@if (selectedServer) {
+		<a
+			[href]="selectedServer!.driver.docs.types"
+			mat-button
+			target="_blank">
+			<span class="material-symbols-outlined notranslate">
+				help
+			</span>
+			{{ selectedServer.wrapper }} Types
+		</a>
+	}
 
-	<mat-spinner
-		*ngIf="isLoading"
-		[diameter]="30"
-		color="primary"
-	></mat-spinner>
+	@if (isLoading) {
+		<mat-spinner
+			[diameter]="30"
+			color="primary"
+		></mat-spinner>
+	}
 
-	<button
-		(click)="update()"
-		*ngIf="!isLoading"
-		[disabled]="!form.valid || JSON.stringify(form.get('old')?.value) === JSON.stringify(form.get('columns')!.value[0])"
-		cdkFocusInitial
-		color="primary"
-		mat-flat-button>
-		<span class="material-symbols-outlined notranslate">
-			drive_file_rename_outline
-		</span>
-		Apply
-	</button>
+	@if (!isLoading) {
+		<button
+			(click)="update()"
+			[disabled]="!form.valid || JSON.stringify(form.get('old')?.value) === JSON.stringify(form.get('columns')!.value[0])"
+			cdkFocusInitial
+			color="primary"
+			mat-flat-button>
+			<span class="material-symbols-outlined notranslate">
+				drive_file_rename_outline
+			</span>
+			Apply
+		</button>
+	}
 </mat-dialog-actions>

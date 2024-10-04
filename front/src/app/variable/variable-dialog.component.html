@@ -1,117 +1,111 @@
 <div mat-dialog-content>
-	<mat-spinner
-		*ngIf="!variableList.data.length"
-		[diameter]="30"
-		color="primary"
-		style="margin: 30px auto;"
-	></mat-spinner>
+	@if (!variableList.data.length) {
+		<mat-spinner
+			[diameter]="30"
+			color="primary"
+			style="margin: 30px auto;"
+		></mat-spinner>
+	}
 
-	<table
-		*ngIf="variableList.data.length"
-		[dataSource]="variableList"
-		[trackBy]="identify"
-		mat-table>
-
-		<ng-container matColumnDef="name">
-			<th *matHeaderCellDef mat-header-cell style="padding-left: 14px;">
-				<mat-form-field appearance="legacy" class="searchField" style="margin-bottom: -1em; width: 92%;">
-					<input
-						(keyup)="filterChanged()"
-						[(ngModel)]="filter"
-						autocomplete="off"
-						matInput
-						placeholder="Filter name / description / value">
-					<button
-						(click)="filter = ''; filterChanged()"
-						*ngIf="filter"
-						aria-label="Clear"
-						mat-icon-button
-						matSuffix>
+	@if (variableList.data.length) {
+		<table
+			[dataSource]="variableList"
+			[trackBy]="identify"
+			mat-table>
+			<ng-container matColumnDef="name">
+				<th *matHeaderCellDef mat-header-cell style="padding-left: 14px;">
+					<mat-form-field class="searchField" style="margin-bottom: -1em; width: 92%;">
+						<input
+							(keyup)="filterChanged()"
+							[(ngModel)]="filter"
+							autocomplete="off"
+							matInput
+							placeholder="Filter name / description / value">
+						@if (filter) {
+							<button
+								(click)="filter = ''; filterChanged()"
+								aria-label="Clear"
+								mat-icon-button
+								matSuffix>
+								<span class="material-symbols-outlined notranslate">close</span>
+							</button>
+						}
+					</mat-form-field>
+				</th>
+				<td *matCellDef="let element" [matTooltip]="element.description" mat-cell
+					matTooltipPosition="right"> {{ element.name }}
+				</td>
+			</ng-container>
+			<ng-container matColumnDef="value">
+				<th *matHeaderCellDef mat-header-cell> Value</th>
+				<td *matCellDef="let element" mat-cell>
+					@if (!toUpdate[element.name]) {
+						<span>{{ element.value }}</span>
+					}
+					@if (toUpdate[element.name]) {
+						<mat-form-field
+							style="width: 100%; margin-bottom: -1em">
+							<textarea
+								[(ngModel)]="element.value"
+								cdkTextareaAutosize
+								matInput
+								type="text">
+							</textarea>
+						</mat-form-field>
+					}
+				</td>
+			</ng-container>
+			<ng-container matColumnDef="description">
+				<th *matHeaderCellDef mat-header-cell style="text-align: end; padding-right: 14px; width: 85px;">
+					<button aria-label="close dialog" mat-dialog-close mat-icon-button>
 						<span class="material-symbols-outlined notranslate">close</span>
 					</button>
-				</mat-form-field>
-			</th>
-			<td *matCellDef="let element" [matTooltip]="element.description" mat-cell
-				matTooltipPosition="right"> {{ element.name }}
-			</td>
-		</ng-container>
-
-		<ng-container matColumnDef="value">
-			<th *matHeaderCellDef mat-header-cell> Value</th>
-			<td *matCellDef="let element" mat-cell>
-
-				<span *ngIf="!toUpdate[element.name]">{{ element.value }}</span>
-
-				<ng-container *ngIf="toUpdate[element.name]">
-					<mat-form-field
-						appearance="legacy"
-						style="width: 100%; margin-bottom: -1em">
-						<textarea
-							[(ngModel)]="element.value"
-							cdkTextareaAutosize
-							matInput
-							type="text">
-						</textarea>
-					</mat-form-field>
-				</ng-container>
-			</td>
-		</ng-container>
-
-		<ng-container matColumnDef="description">
-			<th *matHeaderCellDef mat-header-cell style="text-align: end; padding-right: 14px; width: 85px;">
-				<button aria-label="close dialog" mat-dialog-close mat-icon-button>
-					<span class="material-symbols-outlined notranslate">close</span>
-				</button>
-			</th>
-			<td *matCellDef="let element" mat-cell>
-				<ng-container *ngIf="server.wrapper !== 'MongoDB'">
-
-					<ng-container *ngIf="!toUpdate[element.name]">
-						<button
-							(click)="toUpdate[element.name] = element.value"
-							mat-icon-button>
-							<span class="material-symbols-outlined notranslate">
-								edit_square
-							</span>
-						</button>
-
-						<a [href]="element.link"
-						   mat-icon-button
-						   target="_blank">
-							<span class="material-symbols-outlined notranslate">
-								developer_guide
-							</span>
-						</a>
-					</ng-container>
-
-					<ng-container *ngIf="toUpdate[element.name]">
-						<button
-							(click)="setVariable(element)"
-							color="primary"
-							mat-icon-button>
-							<span class="material-symbols-outlined notranslate">
-								save
-							</span>
-						</button>
-
-						<button
-							(click)="element.value = toUpdate[element.name]; toUpdate[element.name] = undefined;"
-							color="warn"
-							mat-icon-button>
-							<span class="material-symbols-outlined notranslate">
-								cancel
-							</span>
-						</button>
-					</ng-container>
-				</ng-container>
-			</td>
-		</ng-container>
-
-		<tr *matHeaderRowDef="displayedColumns; sticky: true" cdkDrag cdkDragHandle
-			cdkDragRootElement=".cdk-overlay-pane" mat-header-row></tr>
-		<tr *matRowDef="let row; columns: displayedColumns;" mat-row
-			style="background-color: rgba(0, 0, 0, 0.25);"></tr>
-	</table>
+				</th>
+				<td *matCellDef="let element" mat-cell>
+					@if (server.wrapper !== 'MongoDB') {
+						@if (!toUpdate[element.name]) {
+							<button
+								(click)="toUpdate[element.name] = element.value"
+								mat-icon-button>
+								<span class="material-symbols-outlined notranslate">
+									edit_square
+								</span>
+							</button>
+							<a [href]="element.link"
+							   mat-icon-button
+							   target="_blank">
+								<span class="material-symbols-outlined notranslate">
+									developer_guide
+								</span>
+							</a>
+						}
+						@if (toUpdate[element.name]) {
+							<button
+								(click)="setVariable(element)"
+								color="primary"
+								mat-icon-button>
+								<span class="material-symbols-outlined notranslate">
+									save
+								</span>
+							</button>
+							<button
+								(click)="element.value = toUpdate[element.name]; toUpdate[element.name] = undefined;"
+								color="warn"
+								mat-icon-button>
+								<span class="material-symbols-outlined notranslate">
+									cancel
+								</span>
+							</button>
+						}
+					}
+				</td>
+			</ng-container>
+			<tr *matHeaderRowDef="displayedColumns; sticky: true" cdkDrag cdkDragHandle
+				cdkDragRootElement=".cdk-overlay-pane" mat-header-row></tr>
+			<tr *matRowDef="let row; columns: displayedColumns;" mat-row
+				style="background-color: rgba(0, 0, 0, 0.25);"></tr>
+		</table>
+	}
 </div>
 
 

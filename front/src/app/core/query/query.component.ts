@@ -58,7 +58,7 @@ export class QueryComponent implements OnInit, OnDestroy {
 	pageSize = 50;
 	page = 0;
 	querySize!: number;
-	interval?: NodeJS.Timer;
+	interval?: NodeJS.Timeout | number;
 	isLoading = false;
 	displayedColumns?: string[];
 	dataSource?: MatTableDataSource<any>;

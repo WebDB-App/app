@@ -21,7 +21,7 @@ export class StatsDialogComponent implements OnDestroy {
 	@ViewChild(BaseChartDirective) public chart!: BaseChartDirective;
 
 	configuration = new Configuration();
-	interval!: NodeJS.Timer;
+	interval!: NodeJS.Timeout | number;
 	pause = false;
 	valSize = 1000;
 	labels: string[] = [];

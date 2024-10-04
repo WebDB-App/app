@@ -1,19 +1,20 @@
 <mat-toolbar class="spaceBetweenCenter">
-	<mat-form-field appearance="standard" class="searchField" style="width: 200px">
+	<mat-form-field appearance="outline" class="searchField" style="width: 200px" subscriptSizing="dynamic">
 		<input
 			#filter
 			(keyup)="filterChanged(filter.value)"
 			autocomplete="off"
 			matInput
 			placeholder="Filter server / database">
-		<button
-			(click)="filter.value=''; filterChanged(filter.value)"
-			*ngIf="filter.value"
-			aria-label="Clear"
-			mat-icon-button
-			matSuffix>
-			<span class="material-symbols-outlined notranslate">close</span>
-		</button>
+		@if (filter.value) {
+			<button
+				(click)="filter.value=''; filterChanged(filter.value)"
+				aria-label="Clear"
+				mat-icon-button
+				matSuffix>
+				<span class="material-symbols-outlined notranslate">close</span>
+			</button>
+		}
 	</mat-form-field>
 
 	<button
@@ -27,9 +28,9 @@
 	</button>
 
 	<button
+		[disabled]="getServerByStatus(Status.Connected).length < 1"
 		class="hideOnMobile"
 		mat-button
-		[disabled]="getServerByStatus(Status.Connected).length < 1"
 		routerLink="/migrate">
 		<span class="material-symbols-outlined notranslate">
 			compare
@@ -40,280 +41,281 @@
 	<app-top-right></app-top-right>
 </mat-toolbar>
 
-<div *ngIf="loading !== LoadingStatus.DONE"
-	 style="height: calc(100vh - 56px); justify-content: center; display: flex;">
-	<div style="align-self: center;">
-
-		<ng-container *ngIf="loading === LoadingStatus.LOADING">
-			<mat-spinner
-				[diameter]="60"
-				mode="indeterminate"
-				style="margin: 0px auto;"></mat-spinner>
-			<h3 style="color: #2196f3">Scanning Connections</h3>
-		</ng-container>
-
-		<app-unreachable
-			(reloadPage)="ngOnInit(true)"
-			*ngIf="loading === LoadingStatus.ERROR">
-		</app-unreachable>
+@if (loading !== LoadingStatus.DONE) {
+	<div
+		style="height: calc(100vh - 56px); justify-content: center; display: flex;">
+		<div style="align-self: center;">
+			@if (loading === LoadingStatus.LOADING) {
+				<mat-spinner
+					[diameter]="60"
+					mode="indeterminate"
+					style="margin: 0px auto;"></mat-spinner>
+				<h3 style="color: #2196f3">Scanning Connections</h3>
+			}
+			@if (loading === LoadingStatus.ERROR) {
+				<app-unreachable
+					(reloadPage)="ngOnInit(true)"
+				>
+				</app-unreachable>
+			}
+		</div>
 	</div>
-</div>
+}
 
-<div *ngIf="loading === LoadingStatus.DONE" id="container">
-
-	<mat-tab-group #tabGroup [(selectedIndex)]="selectedIndex">
-		<mat-tab
-			*ngFor="let status of Object.values(Status)"
-			[label]="status + ' (' + getServerByStatus(status).length + ')'">
-
-			<mat-card *ngIf="getServerByStatus(status).length < 1">
-				<h3 style="height: 100%; display: flex; justify-content: center; align-items: center;">
-					No {{ status }} server
-				</h3>
-			</mat-card>
-
-			<mat-card
-				*ngFor="let server of getServerByStatus(status)"
-				[hidden]="server.hide"
-				class="servers">
-
-				<mat-card-content>
-					<div class="infos">
-						<div class="logo">
-							<img src="/assets/drivers/{{server.wrapper.toLowerCase()}}.svg"/>
-						</div>
-						<h4>
-							<span class="material-symbols-outlined notranslate">
-								numbers
-							</span>
-							{{ server.port }}
-						</h4>
-						<h4 *ngIf="server.user">
-							<span class="material-symbols-outlined notranslate">
-								person
-							</span>
-							{{ server.user }}
-						</h4>
-						<h4>
-							<span class="material-symbols-outlined notranslate">
-								signpost
-							</span>
-							{{ server.host }}
-						</h4>
-						<h4 *ngIf="server.ssh && server.ssh.host"
-							[matTooltip]="server.ssh | json">
-							<span
-								class="material-symbols-outlined notranslate">
-								subway
-							</span>
-							SSH
-						</h4>
-					</div>
-
-					<mat-divider style="margin: -16px 20px;" vertical></mat-divider>
-
-					<ng-container *ngIf="server.connected">
-
-						<ng-container
-							[ngTemplateOutletContext]="{server: server, system: false}"
-							[ngTemplateOutlet]="dbList">
-						</ng-container>
-
-						<mat-divider style="margin: -16px 20px;" vertical></mat-divider>
-
-						<ng-container
-							[ngTemplateOutletContext]="{server: server, system: true}"
-							[ngTemplateOutlet]="dbList">
-						</ng-container>
-
-						<mat-divider class="right-divider hideOnMobile" style="margin: -16px 20px;"
-									 vertical></mat-divider>
-
-						<div class="right-actions">
-							<div style="text-align: center">
-								<button
-									(click)="processServer(server)"
-									mat-icon-button
-									matTooltip="Process list"
-									style="justify-self: center">
-									<span class="material-symbols-outlined notranslate">
-										smart_display
-									</span>
-								</button>
-								<button
-									(click)="statsServer(server)"
-									mat-icon-button
-									matTooltip="Server statistics"
-									style="justify-self: center">
-									<span class="material-symbols-outlined notranslate">
-										timeline
-									</span>
-								</button>
-								<button
-									(click)="variableServer(server)"
-									mat-icon-button
-									matTooltip="Server variables"
-									style="justify-self: center">
-									<span class="material-symbols-outlined notranslate">
-										discover_tune
-									</span>
-								</button>
-							</div>
-							<button
-								(click)="editServer = server; tabGroup.selectedIndex = 3"
-								mat-button
-								style="justify-self: center">
-								<span class="material-symbols-outlined notranslate">
-									network_manage
-								</span>
-								Edit connection
-							</button>
-							<button
-								(click)="addDatabase(server)"
-								mat-button
-								style="justify-self: center">
-								<span class="material-symbols-outlined notranslate">
-									database
-								</span>
-								Create database
-							</button>
-						</div>
-					</ng-container>
-
-					<ng-container *ngIf="!server.connected">
-						<ng-container *ngIf="!server.scanned">
-							<div class="nonConnected">
-								<mat-error>
-									Unreachable or bad credentials
-								</mat-error>
-							</div>
-
-							<mat-divider class="right-divider" style="margin: -16px 20px;" vertical></mat-divider>
-
-							<div class="right-actions">
-								<button
-									(click)="editServer = server; tabGroup.selectedIndex = 3"
-									mat-button
-									style="justify-self: center; flex: 1">
-									<span class="material-symbols-outlined notranslate">
-										network_manage
-									</span>
-									Edit connection
-								</button>
-							</div>
-						</ng-container>
-
-						<div (keyup.enter)="loginBtn._elementRef.nativeElement.click()"
-							 *ngIf="server.scanned"
-							 class="nonConnected">
-							<div>
-								<mat-form-field appearance="outline" style="margin-bottom: -1.75em;">
-									<mat-label>User</mat-label>
-									<input
-										#user
-										[value]="defaultUser"
-										matInput>
-								</mat-form-field>
-								<mat-form-field appearance="outline">
-									<mat-label>Password</mat-label>
-									<input
-										#password
-										[value]="defaultPass"
-										autocomplete="off"
-										matInput
-										type="{{!showPassword ? 'password' : 'text'}}">
-									<span
-										(click)="showPassword = !showPassword"
-										class="material-symbols-outlined notranslate"
-										matSuffix
-										style="cursor: pointer; font-size: 20px">
-										{{ !showPassword ? 'visibility' : 'visibility_off' }}
-									</span>
-								</mat-form-field>
-							</div>
-							<div>
-								<button
-									#loginBtn
-									(click)="login(server, user.value, password.value)"
-									color="primary"
-									mat-stroked-button>
-									<span class="material-symbols-outlined notranslate">
-										login
-									</span>
-									Connect
-								</button>
-
-								<mat-spinner
-									*ngIf="server.isLoading"
-									[diameter]="30"
-									color="primary"
-								></mat-spinner>
-
-								<button (click)="guess(server, user.value, password.value)"
-										*ngIf="!server.isLoading"
-										mat-stroked-button>
-									<span class="material-symbols-outlined notranslate">
-										lock_open_right
-									</span>
-									Guess Credentials
-								</button>
-							</div>
-						</div>
-					</ng-container>
-				</mat-card-content>
-			</mat-card>
-		</mat-tab>
-		<mat-tab *ngIf="editServer">
-			<ng-template mat-tab-label>
-				<span class="material-symbols-outlined notranslate">
-					edit
-				</span>
-				Edit {{ editServer.name }}
-			</ng-template>
-			<mat-card>
-				<mat-card-content>
-					<app-edit-connection (edited)="finished(true)" [server]="editServer"></app-edit-connection>
-				</mat-card-content>
-			</mat-card>
-		</mat-tab>
-		<mat-tab>
-			<ng-template mat-tab-label>
-				<span class="material-symbols-outlined notranslate">
-					wifi_add
-				</span>
-				Add
-			</ng-template>
-			<mat-card>
-				<mat-card-content>
-					<app-edit-connection (edited)="finished(false)" [server]="newServer"></app-edit-connection>
-				</mat-card-content>
-			</mat-card>
-		</mat-tab>
-	</mat-tab-group>
-</div>
+@if (loading === LoadingStatus.DONE) {
+	<div id="container">
+		<mat-tab-group #tabGroup [(selectedIndex)]="selectedIndex">
+			@for (status of Object.values(Status); track status) {
+				<mat-tab
+					[label]="status + ' (' + getServerByStatus(status).length + ')'">
+					@if (getServerByStatus(status).length < 1) {
+						<mat-card>
+							<h3 style="height: 100%; display: flex; justify-content: center; align-items: center;">
+								No {{ status }} server
+							</h3>
+						</mat-card>
+					}
+					@for (server of getServerByStatus(status); track server) {
+						<mat-card
+							[hidden]="server.hide"
+							class="servers">
+							<mat-card-content>
+								<div class="infos">
+									<div class="logo">
+										<img src="/assets/drivers/{{server.wrapper.toLowerCase()}}.svg"/>
+									</div>
+									<h4>
+										<span class="material-symbols-outlined notranslate">
+											numbers
+										</span>
+										{{ server.port }}
+									</h4>
+									@if (server.user) {
+										<h4>
+											<span class="material-symbols-outlined notranslate">
+												person
+											</span>
+											{{ server.user }}
+										</h4>
+									}
+									<h4>
+										<span class="material-symbols-outlined notranslate">
+											signpost
+										</span>
+										{{ server.host }}
+									</h4>
+									@if (server.ssh && server.ssh.host) {
+										<h4
+											[matTooltip]="server.ssh | json">
+											<span
+												class="material-symbols-outlined notranslate">
+												subway
+											</span>
+											SSH
+										</h4>
+									}
+								</div>
+								<mat-divider style="margin: -16px 20px;" vertical></mat-divider>
+								@if (server.connected) {
+									<ng-container
+										[ngTemplateOutletContext]="{server: server, system: false}"
+										[ngTemplateOutlet]="dbList">
+									</ng-container>
+									<mat-divider style="margin: -16px 20px;" vertical></mat-divider>
+									<ng-container
+										[ngTemplateOutletContext]="{server: server, system: true}"
+										[ngTemplateOutlet]="dbList">
+									</ng-container>
+									<mat-divider class="right-divider hideOnMobile" style="margin: -16px 20px;"
+												 vertical></mat-divider>
+									<div class="right-actions">
+										<div style="text-align: center">
+											<button
+												(click)="processServer(server)"
+												mat-icon-button
+												matTooltip="Process list"
+												style="justify-self: center">
+												<span class="material-symbols-outlined notranslate">
+													smart_display
+												</span>
+											</button>
+											<button
+												(click)="statsServer(server)"
+												mat-icon-button
+												matTooltip="Server statistics"
+												style="justify-self: center">
+												<span class="material-symbols-outlined notranslate">
+													timeline
+												</span>
+											</button>
+											<button
+												(click)="variableServer(server)"
+												mat-icon-button
+												matTooltip="Server variables"
+												style="justify-self: center">
+												<span class="material-symbols-outlined notranslate">
+													discover_tune
+												</span>
+											</button>
+										</div>
+										<button
+											(click)="editServer = server; tabGroup.selectedIndex = 3"
+											mat-button
+											style="justify-self: center">
+											<span class="material-symbols-outlined notranslate">
+												network_manage
+											</span>
+											Edit connection
+										</button>
+										<button
+											(click)="addDatabase(server)"
+											mat-button
+											style="justify-self: center">
+											<span class="material-symbols-outlined notranslate">
+												database
+											</span>
+											Create database
+										</button>
+									</div>
+								}
+								@if (!server.connected) {
+									@if (!server.scanned) {
+										<div class="nonConnected">
+											<mat-error>
+												Unreachable or bad credentials
+											</mat-error>
+										</div>
+										<mat-divider class="right-divider" style="margin: -16px 20px;"
+													 vertical></mat-divider>
+										<div class="right-actions">
+											<button
+												(click)="editServer = server; tabGroup.selectedIndex = 3"
+												mat-button
+												style="justify-self: center; flex: 1">
+												<span class="material-symbols-outlined notranslate">
+													network_manage
+												</span>
+												Edit connection
+											</button>
+										</div>
+									}
+									@if (server.scanned) {
+										<div (keyup.enter)="loginBtn._elementRef.nativeElement.click()"
+											 class="nonConnected">
+											<div>
+												<mat-form-field appearance="outline" style="margin-bottom: -1.75em;">
+													<mat-label>User</mat-label>
+													<input
+														#user
+														[value]="defaultUser"
+														matInput>
+												</mat-form-field>
+												<mat-form-field appearance="outline">
+													<mat-label>Password</mat-label>
+													<input
+														#password
+														[value]="defaultPass"
+														autocomplete="off"
+														matInput
+														type="{{!showPassword ? 'password' : 'text'}}">
+													<span
+														(click)="showPassword = !showPassword"
+														class="material-symbols-outlined notranslate"
+														matSuffix
+														style="cursor: pointer; font-size: 20px">
+														{{ !showPassword ? 'visibility' : 'visibility_off' }}
+													</span>
+												</mat-form-field>
+											</div>
+											<div>
+												<button
+													#loginBtn
+													(click)="login(server, user.value, password.value)"
+													color="primary"
+													mat-stroked-button>
+													<span class="material-symbols-outlined notranslate">
+														login
+													</span>
+													Connect
+												</button>
+												@if (server.isLoading) {
+													<mat-spinner
+														[diameter]="30"
+														color="primary"
+													></mat-spinner>
+												}
+												@if (!server.isLoading) {
+													<button (click)="guess(server, user.value, password.value)"
+															mat-stroked-button>
+														<span class="material-symbols-outlined notranslate">
+															lock_open_right
+														</span>
+														Guess Credentials
+													</button>
+												}
+											</div>
+										</div>
+									}
+								}
+							</mat-card-content>
+						</mat-card>
+					}
+				</mat-tab>
+			}
+			@if (editServer) {
+				<mat-tab>
+					<ng-template mat-tab-label>
+						<span class="material-symbols-outlined notranslate">
+							edit
+						</span>
+						Edit {{ editServer.name }}
+					</ng-template>
+					<mat-card>
+						<mat-card-content>
+							<app-edit-connection (edited)="finished(true)" [server]="editServer"></app-edit-connection>
+						</mat-card-content>
+					</mat-card>
+				</mat-tab>
+			}
+			<mat-tab>
+				<ng-template mat-tab-label>
+					<span class="material-symbols-outlined notranslate">
+						wifi_add
+					</span>
+					Add
+				</ng-template>
+				<mat-card>
+					<mat-card-content>
+						<app-edit-connection (edited)="finished(false)" [server]="newServer"></app-edit-connection>
+					</mat-card-content>
+				</mat-card>
+			</mat-tab>
+		</mat-tab-group>
+	</div>
+}
 
 <ng-template #dbList let-server='server' let-system='system'>
 	<mat-selection-list
 		[class.hideOnMobile]="system"
 		[multiple]="false">
-		<ng-container *ngFor="let database of server.dbs">
-			<mat-list-option
-				*ngIf="database.system === system"
-				[hidden]="database.hide"
-				(keyup.enter)="goTo(server, database)"
-				(keyup.space)="goTo(server, database)"
-				[style.opacity]="database.system ? '0.5' : 1">
-				<a [href]="'/#/' + server.name + '/' + database.name">
-					<span
-						class="tableCount"
-						matTooltip="Table(s)"
-						matTooltipPosition="left">
-						{{ database.tables.length }}
-					</span>
-
-					{{ database.name }}
-				</a>
-			</mat-list-option>
-		</ng-container>
+		@for (database of server.dbs; track database) {
+			@if (database.system === system) {
+				<mat-list-option
+					(keyup.enter)="goTo(server, database)"
+					(keyup.space)="goTo(server, database)"
+					[hidden]="database.hide"
+					[style.opacity]="database.system ? '0.5' : 1">
+					<a [href]="'/#/' + server.name + '/' + database.name">
+						<span
+							class="tableCount"
+							matTooltip="Table(s)"
+							matTooltipPosition="left">
+							{{ database.tables.length }}
+						</span>
+						{{ database.name }}
+					</a>
+				</mat-list-option>
+			}
+		}
 	</mat-selection-list>
 </ng-template>

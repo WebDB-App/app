@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RoundPipe } from "./round.pipe";
 import { CellComponent } from './cell/cell.component';
 import { NgxJsonViewerModule } from "ngx-json-viewer";
-import { RouterLink, RouterLinkWithHref } from "@angular/router";
+import { RouterLink } from "@angular/router";
 import { UpdateDataDialog } from './update-data-dialog/update-data-dialog';
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatButtonModule } from "@angular/material/button";
@@ -57,7 +57,7 @@ import { RangeSelectionDirective } from "./range-selection.directive";
 	imports: [
 		CommonModule,
 		NgxJsonViewerModule,
-		RouterLinkWithHref,
+		RouterLink,
 		MatAutocompleteModule,
 		MatButtonModule,
 		MatDialogModule,

@@ -39,7 +39,10 @@ export class ComplexComponent implements OnInit {
 
 		for (const [type, complexes] of Object.entries(this.selectedServer.complexes)) {
 			const list = <EditableComplex[]>complexes.filter(complex => this.selectedDatabase!.name === complex.database);
-			this.complexes[type] = list.map(complex => { complex.newName = complex.name; return complex });
+			this.complexes[type] = list.map(complex => {
+				complex.newName = complex.name;
+				return complex
+			});
 		}
 	}
 
@@ -59,7 +62,7 @@ export class ComplexComponent implements OnInit {
 
 	async rename(complex: EditableComplex, type: string) {
 		const query = this.selectedServer!.driver.renameComplex(complex, type, this.selectedDatabase!.name);
-		await this.request.post('query/run', { query });
+		await this.request.post('query/run', {query});
 
 		this.snackBar.open(`Renamed ${complex.name} to ${complex.newName}`, "⨉", {duration: 3000});
 		complex.name = complex.newName!;

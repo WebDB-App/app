@@ -12,8 +12,7 @@
 		</span>
 		Finished queries
 	</a>
-	<ng-container
-		*ngIf="Server.getSelected()">
+	@if (Server.getSelected()) {
 		<a (click)="request.reloadServer()"
 		   mat-menu-item>
 			<span class="material-symbols-outlined notranslate">
@@ -22,15 +21,16 @@
 			Reload Database
 		</a>
 		<mat-divider></mat-divider>
-		<a (click)="showProcess()"
-		   *ngIf="Server.getSelected()"
-		   mat-menu-item
-		   target="_blank">
-			<span class="material-symbols-outlined notranslate">
-				smart_display
-			</span>
-			Process List
-		</a>
+		@if (Server.getSelected()) {
+			<a (click)="showProcess()"
+			   mat-menu-item
+			   target="_blank">
+				<span class="material-symbols-outlined notranslate">
+					smart_display
+				</span>
+				Process List
+			</a>
+		}
 		<a (click)="showStats()"
 		   mat-menu-item
 		   target="_blank">
@@ -47,7 +47,7 @@
 			</span>
 			Server Variables
 		</a>
-	</ng-container>
+	}
 </mat-menu>
 <button [matMenuTriggerFor]="help" mat-icon-button>
 	<span class="material-symbols-outlined notranslate">
@@ -87,21 +87,25 @@
 		</span>
 		Changelog
 	</a>
-	<a *ngIf="isSQL() === false"
-	   href="https://docs.webdb.app/nosql-structure-inferring/limitation"
-	   mat-menu-item
-	   target="_blank">
-		<span class="material-symbols-outlined notranslate">
-			indeterminate_question_box
-		</span>
-		Limitation
-	</a>
+	@if (isSQL() === false) {
+		<a
+			href="https://docs.webdb.app/nosql-structure-inferring/limitation"
+			mat-menu-item
+			target="_blank">
+			<span class="material-symbols-outlined notranslate">
+				indeterminate_question_box
+			</span>
+			Limitation
+		</a>
+	}
 </mat-menu>
 <button (click)="showSettings()" mat-icon-button>
 	<span class="material-symbols-outlined notranslate">
 		settings
 	</span>
-	<span *ngIf="!upToDate" class="notification">
-		●
-	</span>
+	@if (!upToDate) {
+		<span class="notification">
+			●
+		</span>
+	}
 </button>

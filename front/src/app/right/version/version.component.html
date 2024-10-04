@@ -1,120 +1,121 @@
-<mat-toolbar
-	*ngIf="selectedPatch"
-	class="spaceBetweenCenter">
-
-	<div style="display: flex; gap: 26px; font-size: 16px; align-items: center;">
-		<span>
-			{{ selectedPatch.time | date:'MM-dd HH:mm:ss' }}
-		</span>
-
-		<button
-			(click)="snackBar.open('Hash copied', '⨉', {duration: 3000})"
-			[cdkCopyToClipboard]="selectedPatch.hash"
-			mat-button>
-			<span class="material-symbols-outlined notranslate">
-				tag
+@if (selectedPatch) {
+	<mat-toolbar
+		class="spaceBetweenCenter">
+		<div style="display: flex; gap: 26px; font-size: 16px; align-items: center;">
+			<span>
+				{{ selectedPatch.time | date:'MM-dd HH:mm:ss' }}
 			</span>
-			{{ selectedPatch.hash | slice:0:6 }}
-		</button>
-	</div>
+			<button
+				(click)="snackBar.open('Hash copied', '⨉', {duration: 3000})"
+				[cdkCopyToClipboard]="selectedPatch.hash"
+				mat-button>
+				<span class="material-symbols-outlined notranslate">
+					tag
+				</span>
+				{{ selectedPatch.hash | slice:0:6 }}
+			</button>
+		</div>
+		<div style="display: flex; align-items: center; gap: 15px;">
+			<button
+				(click)="download()"
+				[cdkCopyToClipboard]="selectedPatch.raw"
+				mat-button>
+				<span class="material-symbols-outlined notranslate">
+					download
+				</span>
+				Download
+			</button>
+			<button
+				(click)="snackBar.open('Patch copied', '⨉', {duration: 3000})"
+				[cdkCopyToClipboard]="selectedPatch.raw"
+				mat-button>
+				<span class="material-symbols-outlined notranslate">
+					content_copy
+				</span>
+				Copy
+			</button>
+			<button
+				(click)="reset(selectedPatch)"
+				[disabled]="isResetting || selectedPatch.isLoading"
+				color="accent"
+				mat-stroked-button>
+				<span class="material-symbols-outlined notranslate">
+					restart_alt
+				</span>
+				Reset
+			</button>
+			@if (isResetting) {
+				<mat-progress-spinner
+					[diameter]="30"
+					color="accent"
+					mode="indeterminate">
+				</mat-progress-spinner>
+			}
+		</div>
+	</mat-toolbar>
+}
 
-	<div style="display: flex; align-items: center; gap: 15px;">
-
-		<button
-			(click)="download()"
-			[cdkCopyToClipboard]="selectedPatch.raw"
-			mat-button>
-			<span class="material-symbols-outlined notranslate">
-				download
-			</span>
-			Download
-		</button>
-
-		<button
-			(click)="snackBar.open('Patch copied', '⨉', {duration: 3000})"
-			[cdkCopyToClipboard]="selectedPatch.raw"
-			mat-button>
-			<span class="material-symbols-outlined notranslate">
-				content_copy
-			</span>
-			Copy
-		</button>
-
-		<button
-			(click)="reset(selectedPatch)"
-			[disabled]="isResetting || selectedPatch.isLoading"
-			color="accent"
-			mat-stroked-button>
-			<span class="material-symbols-outlined notranslate">
-				restart_alt
-			</span>
-			Reset
-		</button>
-
-		<mat-progress-spinner
-			*ngIf="isResetting"
-			[diameter]="30"
-			color="accent"
-			mode="indeterminate">
-		</mat-progress-spinner>
-	</div>
-
-</mat-toolbar>
-
-<mat-progress-bar
-	*ngIf="isLoading"
-	color="accent"
-	mode="indeterminate"
-	style="position: absolute; left: 0px; right: 0px; z-index: 10000000">
-</mat-progress-bar>
+@if (isLoading) {
+	<mat-progress-bar
+		color="accent"
+		mode="indeterminate"
+		style="position: absolute; left: 0px; right: 0px; z-index: 10000000">
+	</mat-progress-bar>
+}
 
 <div style="height: calc(100vh - 56px); overflow: auto;">
 
-	<mat-card *ngIf="selectedDatabase?.system || selectedServer?.wrapper === 'CockroachDB'">
-		<mat-card-header>
-			<mat-card-subtitle>
-				<br>
-				Database Versioning is not available for {{ selectedServer?.wrapper }}
-			</mat-card-subtitle>
-		</mat-card-header>
-	</mat-card>
-	<mat-card *ngIf="selectedServer?.ssh && selectedServer?.ssh?.host">
-		<mat-card-header>
-			<mat-card-subtitle>
-				<br>
-				Database Versioning is not available for tunneled connection
-			</mat-card-subtitle>
-		</mat-card-header>
-	</mat-card>
-
-	<ng-container
-		*ngIf="!selectedDatabase?.system && selectedServer?.wrapper !== 'CockroachDB' && !(selectedServer?.ssh && selectedServer?.ssh?.host)">
-
-		<mat-card *ngIf="patches.length < 1">
+	@if (selectedDatabase?.system || selectedServer?.wrapper === 'CockroachDB') {
+		<mat-card>
 			<mat-card-header>
 				<mat-card-subtitle>
 					<br>
-					No version yet, make a modification to your database to see one
+					Database Versioning is not available for {{ selectedServer?.wrapper }}
 				</mat-card-subtitle>
 			</mat-card-header>
 		</mat-card>
+	}
+	@if (selectedServer?.ssh && selectedServer?.ssh?.host) {
+		<mat-card>
+			<mat-card-header>
+				<mat-card-subtitle>
+					<br>
+					Database Versioning is not available for tunneled connection
+				</mat-card-subtitle>
+			</mat-card-header>
+		</mat-card>
+	}
 
+	@if (!selectedDatabase?.system && selectedServer?.wrapper !== 'CockroachDB' && !(selectedServer?.ssh && selectedServer?.ssh?.host)) {
+		@if (patches.length < 1) {
+			<mat-card>
+				<mat-card-header>
+					<mat-card-subtitle>
+						<br>
+						No version yet, make a modification to your database to see one
+					</mat-card-subtitle>
+				</mat-card-header>
+			</mat-card>
+		}
 		<mat-tab-group
 			(selectedTabChange)="selectedPatch = patches[$event.index]; loadDiff()">
-			<mat-tab
-				*ngFor="let patch of patches; trackBy:identify"
-				[label]="patch.ago + ' ago'">
-
-				<div *ngIf="selectedPatch?.hash === patch.hash">
-					<ngx-monaco-diff-editor
-						*ngIf="patch.right.code || patch.left.code"
-						[modifiedModel]="patch.right"
-						[options]="editorOptions"
-						[originalModel]="patch.left"
-						style="height: calc(100vh - 105px)"
-					></ngx-monaco-diff-editor>
-				</div>
-			</mat-tab>
+			@for (patch of patches; track identify($index, patch)) {
+				<mat-tab
+					[label]="patch.ago + ' ago'">
+					@if (selectedPatch?.hash === patch.hash) {
+						<div>
+							@if (patch.right.code || patch.left.code) {
+								<ngx-monaco-diff-editor
+									[modifiedModel]="patch.right"
+									[options]="editorOptions"
+									[originalModel]="patch.left"
+									style="height: calc(100vh - 105px)"
+								></ngx-monaco-diff-editor>
+							}
+						</div>
+					}
+				</mat-tab>
+			}
 		</mat-tab-group>
-	</ng-container>
+	}
 </div>

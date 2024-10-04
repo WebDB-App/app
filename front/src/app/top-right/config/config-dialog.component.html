@@ -2,56 +2,69 @@
 	<mat-tab-group (selectedTabChange)="$event.index === 3 ? dialogRef.close() : undefined">
 		<mat-tab label="Parameters">
 			<table class="settings">
-				<ng-container *ngFor="let cat of Object.keys(configuration.configs)">
-					<tr *ngIf="cat.length">
-						<td colspan="100%">
-							<div style="display: flex; width: 100%; align-items: center;">
-								<mat-divider style="flex: 1;"></mat-divider>
-								<h4 style="margin: 12px;">{{ cat }}</h4>
-								<mat-divider style="flex: 1;"></mat-divider>
-							</div>
-						</td>
-					</tr>
-
-					<tr *ngFor="let config of configuration.configs[cat]">
-						<td>{{ config.description }}</td>
-						<td>
-							<mat-button-toggle-group
-								(change)="update(config.name, $event.value)"
-								[value]="configuration.getByName(config.name)?.value">
-								<mat-button-toggle
-									*ngFor="let value of config.values"
-									[value]="value">
-									{{ value }}
-								</mat-button-toggle>
-							</mat-button-toggle-group>
-						</td>
-					</tr>
-				</ng-container>
+				@for (cat of Object.keys(configuration.configs); track cat) {
+					@if (cat.length) {
+						<tr>
+							<td colspan="100%">
+								<div style="display: flex; width: 100%; align-items: center;">
+									<mat-divider style="flex: 1;"></mat-divider>
+									<h4 style="margin: 12px;">{{ cat }}</h4>
+									<mat-divider style="flex: 1;"></mat-divider>
+								</div>
+							</td>
+						</tr>
+					}
+					@for (config of configuration.configs[cat]; track config) {
+						<tr>
+							<td>{{ config.description }}</td>
+							<td>
+								<mat-button-toggle-group
+									(change)="update(config.name, $event.value)"
+									[value]="configuration.getByName(config.name)?.value">
+									@for (value of config.values; track value) {
+										<mat-button-toggle
+											[value]="value">
+											{{ value }}
+										</mat-button-toggle>
+									}
+								</mat-button-toggle-group>
+							</td>
+						</tr>
+					}
+				}
 			</table>
 		</mat-tab>
 		<mat-tab label="Shortcuts">
-			<div class="shortcuts" *ngFor="let cat of Object.keys(shortcuts)">
-				<h4 *ngIf="cat.length">
-					<mat-divider style="flex: 1;"></mat-divider>
-					<span style="margin: 12px;">{{ cat }}</span>
-					<mat-divider style="flex: 1;"></mat-divider>
-				</h4>
-
-				<div class="keys" *ngFor="let shortcut of Object.keys(shortcuts[cat])">
-					<span>{{ shortcut }}</span>
-					<div *ngFor="let keys of shortcuts[cat][shortcut]">
-						{{ keys }}
-					</div>
+			@for (cat of Object.keys(shortcuts); track cat) {
+				<div class="shortcuts">
+					@if (cat.length) {
+						<h4>
+							<mat-divider style="flex: 1;"></mat-divider>
+							<span style="margin: 12px;">{{ cat }}</span>
+							<mat-divider style="flex: 1;"></mat-divider>
+						</h4>
+					}
+					@for (shortcut of Object.keys(shortcuts[cat]); track shortcut) {
+						<div class="keys">
+							<span>{{ shortcut }}</span>
+							@for (keys of shortcuts[cat][shortcut]; track keys) {
+								<div>
+									{{ keys }}
+								</div>
+							}
+						</div>
+					}
 				</div>
-			</div>
+			}
 		</mat-tab>
 		<mat-tab>
 			<ng-template mat-tab-label>
 				About
-				<span *ngIf="!data.upToDate" class="notification" style="top: 6px; right: inherit; margin-left: 55px;">
-					●
-				</span>
+				@if (!data.upToDate) {
+					<span class="notification" style="top: 6px; right: inherit; margin-left: 55px;">
+						●
+					</span>
+				}
 			</ng-template>
 			<div style="text-align: center">
 				<div style="font-weight: 300; font-size: 30px;">

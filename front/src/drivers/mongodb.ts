@@ -1,11 +1,10 @@
-import { Driver, Group, QueryParams } from "../classes/driver";
+import { Driver, Group } from "../classes/driver";
 import { Column } from "../classes/column";
 import { Table } from "../classes/table";
 import { Relation } from "../classes/relation";
 import { HttpClient } from "@angular/common/http";
 import { Database } from "../classes/database";
 import { loadLibAsset, mongo_injectAggregate } from "../shared/helper";
-import { Server } from "../classes/server";
 import { Configuration } from "../classes/configuration";
 import * as bson from "bson";
 import jsbeautifier from "js-beautify";
@@ -108,7 +107,9 @@ export class MongoDB implements Driver {
 					id: "Date",
 					bold: true,
 					description: "64-bit integer that represents the number of milliseconds since the Unix epoch",
-					toTimestamp: (date: string) => { return {"$date": new Date(date)} }
+					toTimestamp: (date: string) => {
+						return {"$date": new Date(date)}
+					}
 				}]
 			},
 			{

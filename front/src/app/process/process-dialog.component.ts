@@ -13,7 +13,7 @@ export class ProcessDialogComponent implements OnInit, OnDestroy {
 
 	displayedColumns = ['db', 'duration', 'query', 'kill'];
 	processList = new MatTableDataSource();
-	interval!: NodeJS.Timer;
+	interval!: NodeJS.Timeout | number;
 
 	constructor(
 		private request: RequestService,

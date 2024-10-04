@@ -45,35 +45,37 @@
 			</mat-menu>
 		</div>
 
-		<div *ngIf="diagramController" style="display: flex; align-items: center; gap: 8px;">
-			<button (click)="openFullscreen()" mat-button>
-				<span class="material-symbols-outlined notranslate">
-					{{ full ? 'fullscreen_exit' : 'fullscreen' }}
-				</span>
-			</button>
-
-			<div class="slider">
-				<div>
-					<span>Zoom</span>
-					<span>{{ Math.floor(diagramController.fontSize * 100) }}</span>
+		@if (diagramController) {
+			<div style="display: flex; align-items: center; gap: 8px;">
+				<button (click)="openFullscreen()" mat-button>
+					<span class="material-symbols-outlined notranslate">
+						{{ full ? 'fullscreen_exit' : 'fullscreen' }}
+					</span>
+				</button>
+				<div class="slider">
+					<div>
+						<span>Zoom</span>
+						<span>{{ Math.floor(diagramController.fontSize * 100) }}</span>
+					</div>
+					<mat-slider
+						color="accent"
+						max="1.5"
+						min="0.1"
+						step="0.05">
+						<input
+							(change)="diagramController.applyFontSize()"
+							[(ngModel)]="diagramController.fontSize"
+							matSliderThumb>
+					</mat-slider>
 				</div>
-				<mat-slider
-					(input)="diagramController.fontSize = $event.value!; diagramController.applyFontSize()"
-					[value]="diagramController.fontSize"
-					color="accent"
-					max="1.5"
-					min="0.1"
-					step="0.05">
-				</mat-slider>
+				<mat-slide-toggle
+					(click)="toggleDetail()"
+					checked
+					color="accent">
+					Details
+				</mat-slide-toggle>
 			</div>
-
-			<mat-slide-toggle
-				(click)="toggleDetail()"
-				checked
-				color="accent">
-				Details
-			</mat-slide-toggle>
-		</div>
+		}
 
 		<div>
 			<button (click)="exportPng()" mat-button>
@@ -94,9 +96,11 @@
 
 	<div #container
 		 id="containerDiagram">
-		<mat-progress-bar *ngIf="diagramController?.isAutoMoving"
-						  color="accent"
-						  mode="indeterminate"></mat-progress-bar>
+		@if (diagramController?.isAutoMoving) {
+			<mat-progress-bar
+				color="accent"
+				mode="indeterminate"></mat-progress-bar>
+		}
 		<div #scrollable
 			 [ngClass]="{'hideDetails' : !showDetails}"
 			 id="scrollableDiagram"

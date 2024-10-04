@@ -19,62 +19,61 @@
 
 <div class="spaceBetweenCenter" style="flex-direction: column; padding: 0px 20px">
 
-	<mat-card *ngFor="let file of files; let i = index">
-
-		<mat-card-content style="min-width: 500px;">
-			<div *ngIf="files[i].text.length > 20000000"
-				 style="height: 100%; display: flex; justify-content: center; align-items: center;">
-				Preview not available
-			</div>
-
-			<ngx-monaco-editor
-				*ngIf="files[i].text.length < 20000000"
-				[(ngModel)]="files[i].text"
-				[options]="files[i].editorOptions">
-			</ngx-monaco-editor>
-		</mat-card-content>
-
-		<mat-card-actions>
-			<mat-form-field
-				appearance="outline"
-				style="width: 100%; margin-bottom: -1.25em">
-				<mat-label>File name</mat-label>
-				<input [(ngModel)]="file.name"
-					   autocomplete="off"
-					   matInput
-					   required>
-			</mat-form-field>
-
-			<button
-				(click)="arrayMove(files, i, i - 1)"
-				[hidden]="i === 0"
-				mat-button>
-				<span class="material-symbols-outlined notranslate">
-					arrow_upward
-				</span>
-				Import before
-			</button>
-
-			<button
-				(click)="arrayMove(files, i, i + 1)"
-				[hidden]="i === files.length -1"
-				mat-button>
-				<span class="material-symbols-outlined notranslate">
-					arrow_downward
-				</span>
-				Import after
-			</button>
-
-			<button
-				(click)="files.splice(i, 1)"
-				mat-button>
-				<span class="material-symbols-outlined notranslate">
-					remove
-				</span>
-				Remove
-			</button>
-		</mat-card-actions>
-	</mat-card>
+	@for (file of files; track file; let i = $index) {
+		<mat-card>
+			<mat-card-content style="min-width: 500px;">
+				@if (files[i].text.length > 20000000) {
+					<div
+						style="height: 100%; display: flex; justify-content: center; align-items: center;">
+						Preview not available
+					</div>
+				}
+				@if (files[i].text.length < 20000000) {
+					<ngx-monaco-editor
+						[(ngModel)]="files[i].text"
+						[options]="files[i].editorOptions">
+					</ngx-monaco-editor>
+				}
+			</mat-card-content>
+			<mat-card-actions>
+				<mat-form-field
+					appearance="outline"
+					style="width: 100%; margin-bottom: -1.25em">
+					<mat-label>File name</mat-label>
+					<input [(ngModel)]="file.name"
+						   autocomplete="off"
+						   matInput
+						   required>
+				</mat-form-field>
+				<button
+					(click)="arrayMove(files, i, i - 1)"
+					[hidden]="i === 0"
+					mat-button>
+					<span class="material-symbols-outlined notranslate">
+						arrow_upward
+					</span>
+					Import before
+				</button>
+				<button
+					(click)="arrayMove(files, i, i + 1)"
+					[hidden]="i === files.length -1"
+					mat-button>
+					<span class="material-symbols-outlined notranslate">
+						arrow_downward
+					</span>
+					Import after
+				</button>
+				<button
+					(click)="files.splice(i, 1)"
+					mat-button>
+					<span class="material-symbols-outlined notranslate">
+						remove
+					</span>
+					Remove
+				</button>
+			</mat-card-actions>
+		</mat-card>
+	}
 
 	<mat-divider style="width: 100%; margin: 30px 0px 20px;"></mat-divider>
 
@@ -91,11 +90,12 @@
 			Load into
 		</button>
 
-		<mat-spinner
-			*ngIf="isLoading"
-			[diameter]="30"
-			color="accent"
-		></mat-spinner>
+		@if (isLoading) {
+			<mat-spinner
+				[diameter]="30"
+				color="accent"
+			></mat-spinner>
+		}
 
 		<mat-form-field style="margin-bottom: -1.25em">
 			<input

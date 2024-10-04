@@ -14,23 +14,28 @@
 		<mat-form-field appearance="fill" style="width: 100%">
 			<mat-label>Hide Column</mat-label>
 			<mat-select #columnList (selectionChange)="show($event.value)" [ngModel]="columns" multiple>
-				<mat-option *ngFor="let column of columns" [value]="column">
-					{{ column }}
-				</mat-option>
+				@for (column of columns; track column) {
+					<mat-option [value]="column">
+						{{ column }}
+					</mat-option>
+				}
 			</mat-select>
 		</mat-form-field>
 	</div>
-	<ng-container *ngIf="!isLoading">
-		<ngx-monaco-editor
-			*ngIf="str.length < 20000000"
-			[(ngModel)]="str"
-			[options]="editorOptions">
-		</ngx-monaco-editor>
-		<div *ngIf="str.length > 20000000"
-			 style="height: 100%; display: flex; justify-content: center; align-items: center;">
-			Preview not available
-		</div>
-	</ng-container>
+	@if (!isLoading) {
+		@if (str.length < 20000000) {
+			<ngx-monaco-editor
+				[(ngModel)]="str"
+				[options]="editorOptions">
+			</ngx-monaco-editor>
+		}
+		@if (str.length > 20000000) {
+			<div
+				style="height: 100%; display: flex; justify-content: center; align-items: center;">
+				Preview not available
+			</div>
+		}
+	}
 </div>
 <mat-dialog-actions>
 	<mat-button-toggle-group (change)="show(columnList.value)" [(ngModel)]="type">
