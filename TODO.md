@@ -3,14 +3,6 @@
 - tout tester avec user qui n'as pas de droit
 
 
-
-
-
-https://stackoverflow.com/questions/53684763/how-to-remove-space-bottom-mat-form-field
-revoir tous les commits
-
-
-
 # Advanced auth
 - ssh passphrase
 - cloud (google sql / atlas / rds / aurora)
