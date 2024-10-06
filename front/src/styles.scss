@@ -33,18 +33,16 @@ body {
 	display: none !important;
 }
 
-.mdc-button {
-	.mdc-button__label {
-		display: flex;
-		align-content: center;
-		align-items: center;
-		gap: 6px;
-	}
+.mdc-button .mdc-button__label, .mat-mdc-tab-group .mdc-tab__text-label {
+	display: flex;
+	align-content: center;
+	align-items: center;
+	gap: 6px;
 }
 
-//.mat-mdc-drawer, .mat-mdc-sidenav {
-//	background-color: #303030;
-//}
+.mat-mdc-list-base .mdc-list-item__end {
+	display: none;
+}
 
 .table {
 	width: 100%;
@@ -210,13 +208,13 @@ a {
 		}
 
 		h3, h4, h5 {
+			font-size: 70%;
+			align-self: center;
+			margin: 4px 10px 4px 8px !important;
 
 			.mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
 				line-height: 34px;
 			}
-
-			align-self: center;
-			margin: 0px 0px 0px 10px !important;
 		}
 	}
 
@@ -254,9 +252,12 @@ a {
 }
 
 .searchField {
+	display: block;
+
 	.mdc-text-field--filled:not(.mdc-text-field--disabled) {
 		background-color: transparent !important;
 	}
+
 	.mat-mdc-form-field-suffix {
 		button {
 			width: 1.5em !important;
@@ -458,6 +459,7 @@ ngx-monaco-editor {
 	--mat-dialog-container-max-width: inherit;
 	--mdc-elevated-card-container-color: #00000040;
 	--mat-toolbar-container-background-color: #1e1e1e;
+	--mat-stepper-container-color: transparent;
 }
 
 #right {

@@ -14,7 +14,7 @@
 			mat-table>
 			<ng-container matColumnDef="name">
 				<th *matHeaderCellDef mat-header-cell style="padding-left: 14px;">
-					<mat-form-field class="searchField" style="margin-bottom: -1em; width: 92%;">
+					<mat-form-field class="searchField" appearance="fill" style="width: 92%;">
 						<input
 							(keyup)="filterChanged()"
 							[(ngModel)]="filter"

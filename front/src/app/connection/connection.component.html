@@ -66,7 +66,7 @@
 		<mat-tab-group #tabGroup [(selectedIndex)]="selectedIndex">
 			@for (status of Object.values(Status); track status) {
 				<mat-tab
-					[label]="status + ' (' + getServerByStatus(status).length + ')'">
+					[label]="status + ' [' + getServerByStatus(status).length + ']'">
 					@if (getServerByStatus(status).length < 1) {
 						<mat-card>
 							<h3 style="height: 100%; display: flex; justify-content: center; align-items: center;">
@@ -186,11 +186,11 @@
 										</div>
 										<mat-divider class="right-divider" style="margin: -16px 20px;"
 													 vertical></mat-divider>
-										<div class="right-actions">
+										<div class="right-actions"
+											 style="justify-content: center;">
 											<button
 												(click)="editServer = server; tabGroup.selectedIndex = 3"
-												mat-button
-												style="justify-self: center; flex: 1">
+												mat-button>
 												<span class="material-symbols-outlined notranslate">
 													network_manage
 												</span>

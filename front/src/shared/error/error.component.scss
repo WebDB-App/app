@@ -11,7 +11,19 @@
 	}
 
 	.actions {
-		margin: -10px -16px -8px 10px;
-		background-color: #303030;
+		margin: -6px -14px -8px 10px;
+		border-left: 1px solid var(--mat-divider-color, var(--mat-app-outline));
+	}
+
+	#google {
+		height: 18px;
+		width: 18px;
+		vertical-align: middle;
+
+		::ng-deep > svg {
+			height: 100%;
+			width: 100%;
+			vertical-align: super;
+		}
 	}
 }

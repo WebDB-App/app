@@ -1,6 +1,6 @@
 <mat-error>
 	@if (router.url !== '/') {
-		<h3>
+		<h4>
 			Can't connect to {{ activatedRoute.snapshot.paramMap.get('server') }}
 			/ {{ activatedRoute.snapshot.paramMap.get('database') }}
 			<br>
@@ -10,7 +10,7 @@
 				<li>Database server doesn't respond correctly</li>
 				<li>Backend is unavailable</li>
 			</ul>
-		</h3>
+		</h4>
 	}
 	@if (router.url === '/') {
 		<h2 style="text-align: center">
@@ -23,21 +23,20 @@
 
 <div class="btns">
 
-	@if (router.url !== '/') {
-		<div>
-			<button
-				color="primary"
-				mat-stroked-button
-				routerLink="/">
-				<span class="material-symbols-outlined notranslate">
-					wifi_find
-				</span>
-				Connection list
-			</button>
-		</div>
-	}
-
 	<div>
+		@if (router.url !== '/') {
+			<div>
+				<button
+					color="primary"
+					mat-stroked-button
+					routerLink="/">
+					<span class="material-symbols-outlined notranslate">
+						wifi_find
+					</span>
+					Connection list
+				</button>
+			</div>
+		}
 		<button
 			(click)="reloadPage.emit()"
 			color="accent"
@@ -45,9 +44,11 @@
 			<span class="material-symbols-outlined notranslate">
 				refresh
 			</span>
-			Reload page
+			Retry
 		</button>
+	</div>
 
+	<div>
 		<a href="https://github.com/WebDB-App/app/issues/new"
 		   mat-stroked-button
 		   style="color: white"
@@ -55,12 +56,8 @@
 			<span class="material-symbols-outlined notranslate">
 				bug_report
 			</span>
-			Send report
+			Report a bug
 		</a>
-	</div>
-
-	<div>
-
 		<button
 			(click)="snackBar.open('Code copied', '⨉', {duration: 3000})"
 			[cdkCopyToClipboard]="'docker logs $(docker ps -a -q --filter ancestor=webdb/app)'"
@@ -68,15 +65,6 @@
 			mat-stroked-button>
 			<mat-icon svgIcon="docker"></mat-icon>
 			Get logs
-		</button>
-
-		<button
-			(click)="snackBar.open('Code copied', '⨉', {duration: 3000})"
-			[cdkCopyToClipboard]="'docker restart $(docker ps -a -q --filter ancestor=webdb/app)'"
-			color="primary"
-			mat-stroked-button>
-			<mat-icon svgIcon="docker"></mat-icon>
-			Restart container
 		</button>
 	</div>
 </div>

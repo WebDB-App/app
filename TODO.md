@@ -3,6 +3,13 @@
 - tout tester avec user qui n'as pas de droit
 
 
+
+
+- show error when backend is unreachable
+- bug MAT_FORM_FIELD_DEFAULT_OPTIONS, MAT_DIALOG_DEFAULT_OPTIONS dans core
+
+
+
 # Advanced auth
 - ssh passphrase
 - cloud (google sql / atlas / rds / aurora)
