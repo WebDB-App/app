@@ -4,7 +4,7 @@
 			<mat-card class="oldValues" formGroupName="old">
 				<mat-card-content>
 					<div>
-						<mat-form-field appearance="outline" style="width: 100%;">
+						<mat-form-field style="width: 100%;">
 							<mat-label>Column Name</mat-label>
 							<input autocomplete="off"
 								   formControlName="name"
@@ -17,7 +17,7 @@
 						</mat-slide-toggle>
 					</div>
 					<div>
-						<mat-form-field appearance="outline">
+						<mat-form-field>
 							<mat-label>Type</mat-label>
 							<textarea
 								cdkTextareaAutosize
@@ -37,7 +37,7 @@
 					</div>
 					@if (extraAttributes.length) {
 						<div>
-							<mat-form-field appearance="outline" style="margin-bottom: -1.25em">
+							<mat-form-field style="margin-bottom: -1.25em">
 								<mat-label>Extras</mat-label>
 								<mat-select formControlName="extra" multiple></mat-select>
 							</mat-form-field>
@@ -54,7 +54,7 @@
 				[formGroupName]="i">
 				<mat-card-content>
 					<div>
-						<mat-form-field appearance="outline" style="width: 100%;">
+						<mat-form-field style="width: 100%;">
 							<mat-label>Column Name</mat-label>
 							<input autocomplete="off"
 								   formControlName="name"
@@ -77,7 +77,7 @@
 						</mat-slide-toggle>
 					</div>
 					<div>
-						<mat-form-field appearance="outline">
+						<mat-form-field>
 							<mat-label>Type</mat-label>
 							<textarea
 								cdkTextareaAutosize
@@ -148,7 +148,7 @@
 						</div>
 					</div>
 					<div class="default">
-						<mat-form-field appearance="fill" style="margin-bottom: -1.25em">
+						<mat-form-field style="margin-bottom: -1.25em">
 							<mat-label>Default Value</mat-label>
 							<mat-select>
 								@if (isSQL(selectedServer)) {
@@ -190,9 +190,7 @@
 					</div>
 					<div>
 						@if (extraAttributes.length) {
-							<mat-form-field
-								appearance="outline"
-								style="margin-bottom: -1.25em">
+							<mat-form-field>
 								<mat-label>Extras</mat-label>
 								<mat-select formControlName="extra" multiple>
 									@for (ext of extraAttributes; track ext) {

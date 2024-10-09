@@ -14,7 +14,7 @@
 			style="display: flex; justify-content: space-between; padding: 12px 12px 0px 12px; gap: 20px;">
 			@for (column of relationHelper | keyvalue; track column) {
 				<div style="flex: 1;">
-					<mat-form-field appearance="fill" style="width: 100%">
+					<mat-form-field style="width: 100%">
 						<mat-label>{{ column.key }}</mat-label>
 						<input
 							#filter
@@ -38,7 +38,7 @@
 			}
 			@for (column of datesHelper | keyvalue; track column) {
 				<div style="flex: 1;">
-					<mat-form-field appearance="fill" style="width: 100%">
+					<mat-form-field style="width: 100%">
 						<mat-label>{{ column.key }}</mat-label>
 						<input
 							#time

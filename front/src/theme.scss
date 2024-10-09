@@ -135,7 +135,7 @@ $_rest: (
 $_primary: map.merge(map.get($_palettes, primary), $_rest);
 $_tertiary: map.merge(map.get($_palettes, tertiary), $_rest);
 
-$dark-theme: mat.define-theme((
+$theme: mat.define-theme((
 	color: (
 		theme-type: dark,
 		primary: $_primary,
@@ -149,3 +149,30 @@ $dark-theme: mat.define-theme((
 		scale: -2
 	)
 ));
+
+:root {
+	--ngx-json-array: #eaeaea;
+	--ngx-json-object: #eaeaea;
+	--ngx-json-toggler: white;
+	--ngx-json-key: #2196f3;
+	--ngx-json-separator: white;
+	--ngx-json-value: white;
+
+	--ngx-json-string: white;
+	--ngx-json-number: white;
+	--ngx-json-boolean: white;
+	--ngx-json-date: white;
+	--ngx-json-null: white;
+	--ngx-json-undefined: white;
+
+	--ngx-json-font-family: 'Fira Sans', sans-serif;
+
+	--mat-dialog-container-max-width: inherit;
+	--mdc-elevated-card-container-color: #00000040;
+	--mat-toolbar-container-background-color: #1e1e1e;
+	--mat-stepper-container-color: transparent;
+}
+
+.tertiary-spinner {
+	@include mat.progress-spinner-color($theme, $color-variant: tertiary);
+}

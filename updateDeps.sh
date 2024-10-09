@@ -34,7 +34,7 @@ cd ../
 
 ###############
 
-cd static/world-populator
+cd dbms/world-populator
 rm -fr ./node_modules || echo
 rm -fr package-lock.json
 npm i

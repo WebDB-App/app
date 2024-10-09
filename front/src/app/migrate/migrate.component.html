@@ -106,7 +106,7 @@
 <ng-template #connection let-side='side'>
 	@if (type === 'variable') {
 		<div>
-			<mat-form-field appearance="fill">
+			<mat-form-field>
 				<mat-label>Server</mat-label>
 				<mat-select required>
 					@for (server of servers; track server) {
@@ -122,11 +122,11 @@
 	}
 	@if (type !== 'variable') {
 		<div>
-			<mat-form-field appearance="fill">
+			<mat-form-field>
 				<mat-label>Server</mat-label>
 				<input [value]="side.server?.name" disabled matInput>
 			</mat-form-field>
-			<mat-form-field appearance="fill">
+			<mat-form-field>
 				<mat-label>Database</mat-label>
 				<mat-select required>
 					@for (server of servers; track server) {
@@ -147,7 +147,7 @@
 	}
 	@if (type === 'data' && side.database) {
 		<div>
-			<mat-form-field appearance="outline">
+			<mat-form-field>
 				<mat-label>Table</mat-label>
 				<mat-select required>
 					@for (table of side.database.tables; track table) {
@@ -160,7 +160,7 @@
 				</mat-select>
 			</mat-form-field>
 			@if (side.table) {
-				<mat-form-field appearance="outline">
+				<mat-form-field>
 					<mat-label>Hide columns</mat-label>
 					<mat-select [(ngModel)]="side.columnsToHide" multiple>
 						@for (column of side.table.columns; track column) {

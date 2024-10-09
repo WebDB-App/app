@@ -52,7 +52,8 @@ import { HighlightLineNumbers } from "ngx-highlightjs/line-numbers";
 		{
 			provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
 			useValue: {
-				subscriptSizing: 'dynamic'
+				subscriptSizing: 'dynamic',
+				appearance: "outline"
 			}
 		},
 		{

@@ -64,7 +64,7 @@
 					@if (loading === LoadingStatus.LOADING) {
 						<mat-spinner
 							[diameter]="60"
-							color="accent"
+							class="tertiary-spinner"
 							mode="indeterminate"
 							style="margin: 0px auto;"></mat-spinner>
 						<h3 style="color: #1de9b6">Loading {{ activatedRoute.snapshot.paramMap.get('database') }}</h3>

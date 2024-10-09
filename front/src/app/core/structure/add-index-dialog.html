@@ -25,7 +25,7 @@
 				}
 			</mat-button-toggle-group>
 		</div>
-		<mat-form-field appearance="fill" style="margin-bottom: -1.25em">
+		<mat-form-field style="margin-bottom: -1.25em">
 			<mat-label>Column</mat-label>
 			<mat-select #columns multiple>
 				@for (column of table.columns; track column) {
@@ -35,8 +35,7 @@
 				}
 			</mat-select>
 		</mat-form-field>
-		<mat-form-field
-			appearance="outline">
+		<mat-form-field>
 			<mat-label>Name</mat-label>
 			<input #name
 				   [value]="type.value === 'PRIMARY' ? 'PRIMARY' : type.value?.toLowerCase() + '_' + table.name + '_' + columns.value?.join('_')"

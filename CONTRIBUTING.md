@@ -40,12 +40,12 @@ cd front && npm run dev:front
 ##### Databases Server
 
 ```
-cd static && docker compose up -d
+cd dbms && docker compose up -d
 ```
 
 #### Dataset
 
-You can found the world dataset sample on the [demo](https://demo.webdb.app) or [here](./static/)
+You can found the world dataset sample on the [demo](https://demo.webdb.app) or [here](./dbms/)
 
 Here is other sample dataset
 

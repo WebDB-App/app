@@ -6,7 +6,7 @@ import {multipart, post} from "../api.js";
 
 async function run(config) {
 
-	const files = await iterateDir(`../static/world-${config.base.toLowerCase()}/`);
+	const files = await iterateDir(`../dbms/world-${config.base.toLowerCase()}/`);
 	const form_data = new FormData();
 	for (const file of files) {
 		form_data.append("files[]", new Blob([await readFile(file)]));

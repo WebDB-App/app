@@ -35,7 +35,7 @@ export class EditConnectionComponent implements OnChanges {
 	ngOnChanges(changes: SimpleChanges) {
 		if (changes['server']) {
 			this.server.ssh = this.server.ssh || new SSH();
-			if (!this.server.wrapper) {
+			if (!this.server.name) {
 				this.newConnection = true;
 			}
 			this.params = JSON.stringify(this.server.params, null, "\t");

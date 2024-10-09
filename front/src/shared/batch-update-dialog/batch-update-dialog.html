@@ -18,7 +18,7 @@
 		></mat-progress-bar>
 	}
 	<div style="padding: 12px 12px 0px 12px;">
-		<mat-form-field appearance="fill" style="width: 100%">
+		<mat-form-field style="width: 100%">
 			<mat-label>Column to Update</mat-label>
 			<mat-select (selectionChange)="show($event.value)" multiple>
 				@for (column of columns; track column) {

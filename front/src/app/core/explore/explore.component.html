@@ -1,7 +1,7 @@
 <mat-toolbar class="spaceBetweenCenter" style="box-shadow: none">
 	<div style="display: flex; align-items: center;">
 		<div style="display: flex; align-items: center;">
-			<mat-form-field appearance="outline" class="goToPage">
+			<mat-form-field class="goToPage">
 				<mat-label>
 					Page
 				</mat-label>
@@ -66,7 +66,7 @@
 	</mat-chip-grid>
 
 	<div>
-		<mat-form-field appearance="outline">
+		<mat-form-field>
 			<mat-label>Sort By</mat-label>
 			<mat-select
 				(selectionChange)="refreshData()"
@@ -119,12 +119,12 @@
 					class="resizeColumn"
 					mat-header-cell>
 					@if (column !== actionColum) {
-						<mat-form-field>
-							<mat-label>{{ column }}</mat-label>
+						<mat-form-field appearance="fill">
 							<input (matChipInputTokenEnd)="addChips(column, $event)"
 								   [(ngModel)]="filter[column]"
 								   [matAutocomplete]="autoGroup"
 								   [matChipInputFor]="chipList"
+								   [placeholder]="column"
 								   matInput>
 							<mat-autocomplete
 								#autoGroup="matAutocomplete"

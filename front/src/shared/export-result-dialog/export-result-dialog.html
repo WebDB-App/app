@@ -11,7 +11,7 @@
 
 <div mat-dialog-content style="overflow: hidden;">
 	<div style="padding: 12px 12px 0px 12px;">
-		<mat-form-field appearance="fill" style="width: 100%">
+		<mat-form-field style="width: 100%">
 			<mat-label>Hide Column</mat-label>
 			<mat-select #columnList (selectionChange)="show($event.value)" [ngModel]="columns" multiple>
 				@for (column of columns; track column) {
@@ -50,7 +50,7 @@
 		mat-stroked-button>
 		Copy
 	</button>
-	<button (click)="download()" color="primary" mat-flat-button>
+	<button (click)="download()" mat-flat-button>
 		Download
 	</button>
 </mat-dialog-actions>

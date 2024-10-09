@@ -50,7 +50,7 @@ async function run(config) {
 
 	const req = await fetch(listenAddr + dump.path);
 	const file = await req.blob();
-	const files = await iterateDir(`../static/world-${config.base.toLowerCase()}/`);
+	const files = await iterateDir(`../dbms/world-${config.base.toLowerCase()}/`);
 	const origin = new Blob([await readFile(files[0])]);
 
 	await test("[dump] Dump size match original one", () => {
