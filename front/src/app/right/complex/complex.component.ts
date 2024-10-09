@@ -64,7 +64,7 @@ export class ComplexComponent implements OnInit {
 		const query = this.selectedServer!.driver.renameComplex(complex, type, this.selectedDatabase!.name);
 		await this.request.post('query/run', {query});
 
-		this.snackBar.open(`Renamed ${complex.name} to ${complex.newName}`, "⨉", {duration: 3000});
+		this.snackBar.open(`Renamed ${complex.name} to ${complex.newName}`, "⨉");
 		complex.name = complex.newName!;
 		complex.rename = false;
 	}
@@ -85,7 +85,7 @@ export class ComplexComponent implements OnInit {
 				return;
 			}
 			await this.request.post('complex/drop', {complex, type});
-			this.snackBar.open(`Dropped ${complex.name}`, "⨉", {duration: 3000});
+			this.snackBar.open(`Dropped ${complex.name}`, "⨉");
 			await this.request.reloadServer();
 		});
 	}

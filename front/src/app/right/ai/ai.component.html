@@ -51,7 +51,7 @@
 
 	@if (loadingCount > 0) {
 		<mat-progress-bar
-			color="accent"
+			color="tertiary-progress"
 			mode="indeterminate">
 		</mat-progress-bar>
 	}
@@ -77,7 +77,7 @@
 				<div
 					style="height: 250px; display: flex; flex-direction: column; justify-content: space-around; margin: 0px auto;">
 					<div>
-						<mat-form-field color="accent" style="margin-bottom: -1.25em">
+						<mat-form-field class="tertiary-field" style="margin-bottom: -1.25em">
 							<mat-label>Anonymize</mat-label>
 							<mat-select
 								(selectionChange)="preSentChange()"
@@ -101,7 +101,7 @@
 							<span>{{ preSent.count }}</span>
 						</div>
 						<mat-slider
-							color="accent"
+							class="tertiary-slider"
 							max="200"
 							min="5"
 							step="1">
@@ -118,7 +118,7 @@
 							<span>{{ preSent.deep }}</span>
 						</div>
 						<mat-slider
-							color="accent"
+							class="tertiary-slider"
 							max="15"
 							min="0"
 							step="1">
@@ -138,7 +138,7 @@
 			@if (showPrompt === false) {
 				<button
 					(click)="showPrompt = true"
-					color="accent"
+					class="tertiary-button"
 					mat-button>
 					Show Prompt
 				</button>
@@ -164,8 +164,7 @@
 
 			@if (Object.keys(models).length) {
 				<mat-form-field
-					class="searchField"
-					color="accent"
+					class="searchField tertiary-field"
 					style="padding: 10px 14px 0px; flex: 1;">
 					<mat-label>Model</mat-label>
 					<input
@@ -245,7 +244,7 @@
 							<span>{{ config.temperature }}</span>
 						</div>
 						<mat-slider
-							color="accent"
+							class="tertiary-slider"
 							max="2"
 							min="0"
 							step="0.1">
@@ -265,7 +264,7 @@
 							<span>{{ config.top_p }}</span>
 						</div>
 						<mat-slider
-							color="accent"
+							class="tertiary-slider"
 							max="2"
 							min="0"
 							step="0.1">
@@ -311,7 +310,7 @@
 						@if (ch.user === Role.User) {
 							<button
 								(click)="message.value = ch.txt"
-								color="accent"
+								class="tertiary-button"
 								mat-mini-fab
 								style="float: left; top: -8px; width: 34px; height: 34px; line-height: 34px; margin-right: 10px;">
 								<span class="material-symbols-outlined notranslate" style="font-size: 18px">
@@ -324,7 +323,7 @@
 								 style="bottom: 0px; border-bottom: 0px; border-top: 1px solid #1de9b6; border-radius: 0px; border-top-left-radius: 4px; top: inherit;">
 								<button
 									[matTooltip]="JSON.stringify(ch.config)"
-									color="accent"
+									class="tertiary-button"
 									mat-icon-button>
 									<span class="material-symbols-outlined notranslate">
 										info
@@ -332,7 +331,7 @@
 								</button>
 								<button
 									(click)="sendMessage('The response ```' + ch.txt + '``` was wrong. Please retry');"
-									color="accent"
+									class="tertiary-button"
 									mat-icon-button>
 									<span class="material-symbols-outlined notranslate">
 										replay
@@ -340,7 +339,7 @@
 								</button>
 								<button
 									(click)="sendMessage('Please summarize the response ```' + ch.txt + '```');"
-									color="accent"
+									class="tertiary-button"
 									mat-icon-button>
 									<span class="material-symbols-outlined notranslate">
 										short_text
@@ -348,7 +347,7 @@
 								</button>
 								<button
 									(click)="sendMessage('Can you please give me more details about the response: ```' + ch.txt + '```');"
-									color="accent"
+									class="tertiary-button"
 									mat-icon-button>
 									<span class="material-symbols-outlined notranslate">
 										subject
@@ -363,7 +362,7 @@
 										<div class="sub-actions">
 											<button
 												(click)="runQuery(mrk.code);"
-												color="accent"
+												class="tertiary-button"
 												mat-icon-button
 												matTooltip="Run and send result to IA"
 												matTooltipPosition="left">
@@ -373,16 +372,16 @@
 											</button>
 											<button
 												(click)="goToQuery(mrk.code);"
-												color="accent"
+												class="tertiary-button"
 												mat-icon-button>
 												<span class="material-symbols-outlined notranslate">
 													send
 												</span>
 											</button>
 											<button
-												(click)="snackBar.open('Code copied', '⨉', {duration: 3000})"
+												(click)="snackBar.open('Code copied', '⨉')"
 												[cdkCopyToClipboard]="mrk.code"
-												color="accent"
+												class="tertiary-button"
 												mat-icon-button>
 												<span class="material-symbols-outlined notranslate">
 													content_paste
@@ -402,7 +401,7 @@
 				<mat-card>
 					@if (!stream) {
 						<mat-progress-bar
-							color="accent"
+							color="tertiary-progress"
 							mode="indeterminate"
 						></mat-progress-bar>
 					}
@@ -413,7 +412,7 @@
 						<mat-card-actions style="display: flex; justify-content: space-evenly;">
 							<button
 								(click)="abort = true; alternative()"
-								color="accent"
+								class="tertiary-button"
 								mat-stroked-button>
 								<span class="material-symbols-outlined notranslate">
 									change_circle
@@ -439,7 +438,7 @@
 	<div [hidden]="showSettings" id="sendInput">
 		<mat-form-field
 			appearance="fill"
-			color="accent">
+			class="tertiary-field">
 			<mat-label>Ask anything about <i>{{ selectedDatabase?.name }}</i></mat-label>
 			<textarea
 				#message

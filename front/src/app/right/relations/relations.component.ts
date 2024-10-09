@@ -70,7 +70,7 @@ export class RelationsComponent implements OnDestroy {
 
 	async delete(relation: Relation) {
 		await this.request.post('relation/drop', {relation});
-		this.snackBar.open(`Dropped ${relation.name}`, "⨉", {duration: 3000});
+		this.snackBar.open(`Dropped ${relation.name}`, "⨉");
 		await this.request.reloadServer(Server.getSelected(), false);
 		await this.refreshData();
 	}
@@ -88,7 +88,7 @@ export class RelationsComponent implements OnDestroy {
 		};
 
 		await this.request.post('relation/add', {relation});
-		this.snackBar.open(`Added relation ${relation.name}`, "⨉", {duration: 3000});
+		this.snackBar.open(`Added relation ${relation.name}`, "⨉");
 		await this.request.reloadServer(Server.getSelected(), false);
 		await this.refreshData();
 	}

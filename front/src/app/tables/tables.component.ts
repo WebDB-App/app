@@ -51,7 +51,7 @@ export class TablesComponent implements OnInit {
 			let table = this.selectedDatabase.tables.find(table => table.name === tableName);
 			if (this.activatedRoute.snapshot.paramMap.get('table') && !table) {
 				await this.router.navigate(['/', this.selectedServer.name, this.selectedDatabase.name], {relativeTo: this.activatedRoute});
-				this.snackBar.open(`Can't access to ${tableName}`, "⨉", {panelClass: 'snack-error'});
+				this.snackBar.open(`Can't access to ${tableName}`, "⨉", {panelClass: 'snack-error', duration: 0});
 				return;
 			}
 
@@ -195,7 +195,7 @@ export class CreateTableDialog {
 			this.form.get('name')?.value,
 			'structure']);
 
-		this.snackBar.open(`Table ${this.form.get('name')?.value} created`, "⨉", {duration: 3000});
+		this.snackBar.open(`Table ${this.form.get('name')?.value} created`, "⨉");
 		this.dialogRef.close(true);
 	}
 }

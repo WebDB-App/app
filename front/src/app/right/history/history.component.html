@@ -37,7 +37,7 @@
 </mat-toolbar>
 
 @if (isLoading) {
-	<mat-progress-bar color="accent" mode="indeterminate"></mat-progress-bar>
+	<mat-progress-bar color="tertiary-progress" mode="indeterminate"></mat-progress-bar>
 }
 
 @if (!isLoading) {
@@ -63,19 +63,19 @@
 					<div class="actions">
 						<button
 							(click)="goToQuery(his.query)"
-							color="accent"
+							class="tertiary-button"
 							mat-icon-button>
 							<span class="material-symbols-outlined notranslate">send</span>
 						</button>
 						<button (click)="changeStar(his)"
-								color="accent"
+								class="tertiary-button"
 								mat-icon-button>
 							<span class="material-symbols-outlined notranslate">star</span>
 						</button>
 						<button
-							(click)="snackBar.open('Query copied', '⨉', {duration: 3000})"
+							(click)="snackBar.open('Query copied', '⨉')"
 							[cdkCopyToClipboard]="his.query"
-							color="accent"
+							class="tertiary-button"
 							mat-icon-button>
 							<span class="material-symbols-outlined notranslate">
 								content_paste
@@ -83,7 +83,7 @@
 						</button>
 						<button
 							(click)="remove(his)"
-							color="accent"
+							class="tertiary-button"
 							mat-icon-button>
 							<span class="material-symbols-outlined notranslate">
 								remove

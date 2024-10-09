@@ -56,6 +56,10 @@ body {
 			font-size: 15px;
 			border: none;
 
+			.mat-mdc-form-field {
+				font-size: var(--mat-table-header-headline-size, var(--mat-app-title-small-size, 14px));
+			}
+
 			input {
 				width: 100%;
 				margin: 0px;
@@ -134,17 +138,14 @@ a {
 	color: #1de9b6;
 }
 
-.mat-mdc-bottom-sheet-container, .snack-error {
-	color: white;
-	background-color: #424242;
+.mat-bottom-sheet-container, .snack-error .mat-mdc-snackbar-surface {
 	border-top: 1px solid rgb(244, 67, 54);
 	border-left: 1px solid rgb(244, 67, 54);
 	border-right: 1px solid rgb(244, 67, 54);
-	box-shadow: 0px 0px 8px rgb(244, 67, 54);
+	box-shadow: 0px 0px 8px rgb(244, 67, 54) !important;
 }
 
 .mat-mdc-paginator {
-	background-color: inherit;
 
 	.mat-mdc-paginator-container {
 		flex-direction: row-reverse;
@@ -250,6 +251,7 @@ a {
 
 .searchField {
 	display: block;
+	font-size: 14px !important;
 
 	.mdc-text-field--filled:not(.mdc-text-field--disabled) {
 		background-color: transparent !important;

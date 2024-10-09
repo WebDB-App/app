@@ -91,7 +91,7 @@ export class DumpComponent {
 			});
 
 			if (result.error) {
-				this.snackBar.open(result.error, "⨉", {panelClass: 'snack-error'})
+				this.snackBar.open(result.error, "⨉", {panelClass: 'snack-error', duration: 0})
 			} else {
 				saveAs(environment.rootUrl + result.path, result.path.split('/')[1]);
 			}

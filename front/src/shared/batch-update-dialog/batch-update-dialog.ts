@@ -72,15 +72,12 @@ export class BatchUpdateDialog {
 				new_data
 			}, this.selectedTable, this.selectedDatabase, this.selectedServer);
 			if (r.error) {
-				this.snackBar.open(`Error while updating: ${r.error}`, "⨉", {
-					duration: 3000,
-					panelClass: 'snack-error'
-				});
+				this.snackBar.open(`Error while updating: ${r.error}`, "⨉", {panelClass: 'snack-error'});
 				return;
 			}
 		}
 
-		this.snackBar.open(`${nb} row(s) updated`, "⨉", {duration: 3000});
+		this.snackBar.open(`${nb} row(s) updated`, "⨉");
 		this.dialogRef.close(true);
 	}
 

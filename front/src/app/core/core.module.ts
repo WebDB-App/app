@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CoreRoutingModule } from './core-routing.module';
 import { MatSidenavModule } from "@angular/material/sidenav";
-import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule } from "@angular/material/form-field";
+import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatSelectModule } from "@angular/material/select";
 import { MatListModule } from "@angular/material/list";
 import { MatIconModule } from "@angular/material/icon";
@@ -29,7 +29,7 @@ import {
 	UpdateColumnDialog,
 } from './structure/structure.component';
 import { MatButtonToggleModule } from "@angular/material/button-toggle";
-import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from "@angular/material/dialog";
+import { MatDialogModule } from "@angular/material/dialog";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatCardModule } from "@angular/material/card";
@@ -41,29 +41,13 @@ import { SharedModule } from "../../shared/shared.module";
 import { NgxJsonViewerModule } from "ngx-json-viewer";
 import { MatExpansionModule } from "@angular/material/expansion";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
-import { HighlightModule } from "ngx-highlightjs";
+import { HighlightModule, provideHighlightOptions } from "ngx-highlightjs";
 import { OverlayModule } from "@angular/cdk/overlay";
 import { MonacoEditorModule } from "ngx-monaco-editor-v2";
 import { HighlightLineNumbers } from "ngx-highlightjs/line-numbers";
 
 
 @NgModule({
-	providers: [
-		{
-			provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
-			useValue: {
-				subscriptSizing: 'dynamic',
-				appearance: "outline"
-			}
-		},
-		{
-			provide: MAT_DIALOG_DEFAULT_OPTIONS,
-			useValue: {
-				closeOnNavigation: false,
-				hasBackdrop: false
-			}
-		}
-	],
 	declarations: [
 		ExploreComponent,
 		QueryComponent,

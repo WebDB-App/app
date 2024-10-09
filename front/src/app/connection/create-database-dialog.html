@@ -26,7 +26,6 @@
 	<button
 		(click)="createDb(name.value)"
 		[disabled]="!name.value || !nameValid(name.value) || isLoading"
-		color="primary"
 		mat-raised-button>
 		Create
 	</button>
@@ -34,7 +33,6 @@
 	@if (isLoading) {
 		<mat-spinner
 			[diameter]="30"
-			color="primary"
 		></mat-spinner>
 	}
 </mat-dialog-actions>

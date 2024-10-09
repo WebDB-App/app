@@ -230,7 +230,6 @@
 												<button
 													#loginBtn
 													(click)="login(server, user.value, password.value)"
-													color="primary"
 													mat-stroked-button>
 													<span class="material-symbols-outlined notranslate">
 														login
@@ -240,7 +239,6 @@
 												@if (server.isLoading) {
 													<mat-spinner
 														[diameter]="30"
-														color="primary"
 													></mat-spinner>
 												}
 												@if (!server.isLoading) {

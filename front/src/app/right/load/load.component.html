@@ -10,7 +10,7 @@
 		type="file"/>
 	<button
 		(click)="inputFile.click()"
-		color="accent"
+		class="tertiary-button"
 		mat-stroked-button
 		style="width: 100%">
 		{{ acceptedExt.join(' ') }}
@@ -80,7 +80,7 @@
 		<button
 			(click)="importFiles(database.value)"
 			[disabled]="files.length < 1 || isLoading"
-			color="accent"
+			class="tertiary-button"
 			mat-raised-button
 			style="width: 200px;">
 			<span class="material-symbols-outlined notranslate">
@@ -92,7 +92,7 @@
 		@if (isLoading) {
 			<mat-spinner
 				[diameter]="30"
-				color="accent"
+				color="tertiary-spinner"
 			></mat-spinner>
 		}
 

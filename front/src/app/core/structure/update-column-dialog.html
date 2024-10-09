@@ -18,7 +18,6 @@
 	<button
 		(click)="oldValues = !oldValues"
 		[class.mat-mdc-raised-button]="oldValues"
-		color="primary"
 		mat-button>
 		<span class="material-symbols-outlined notranslate">
 			preview
@@ -41,7 +40,6 @@
 	@if (isLoading) {
 		<mat-spinner
 			[diameter]="30"
-			color="primary"
 		></mat-spinner>
 	}
 
@@ -50,7 +48,6 @@
 			(click)="update()"
 			[disabled]="!form.valid || JSON.stringify(form.get('old')?.value) === JSON.stringify(form.get('columns')!.value[0])"
 			cdkFocusInitial
-			color="primary"
 			mat-flat-button>
 			<span class="material-symbols-outlined notranslate">
 				drive_file_rename_outline

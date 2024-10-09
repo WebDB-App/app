@@ -22,5 +22,13 @@
 		td:last-child {
 			text-align: right;
 		}
+
+		.lowOpacity {
+			opacity: 0.2;
+		}
+
+		tr:hover .lowOpacity {
+			opacity: 1;
+		}
 	}
 }

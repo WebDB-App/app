@@ -11,7 +11,6 @@
 								   matInput>
 						</mat-form-field>
 						<mat-slide-toggle
-							color="primary"
 							formControlName="nullable">
 							Nullable
 						</mat-slide-toggle>
@@ -71,7 +70,6 @@
 							}
 						</mat-form-field>
 						<mat-slide-toggle
-							color="primary"
 							formControlName="nullable">
 							Nullable
 						</mat-slide-toggle>
@@ -103,9 +101,7 @@
 						</mat-form-field>
 						<div>
 							<button (click)="typeSuggestion.open()"
-									color="primary"
-									mat-icon-button
-									mat-stroked-button
+									mat-mini-fab
 									matTooltip="Choose from type list">
 								<span class="material-symbols-outlined notranslate">
 									list
@@ -137,7 +133,6 @@
 								<button
 									(click)="column.get('type')!.patchValue(column.get('type')?.value && column.get('type')!.value.endsWith('[]') ? column.get('type')!.value.substring(0, column.get('type')!.value.indexOf('[]')) : column.get('type')!.value + '[]')"
 									[class.mat-mdc-raised-button]="column.get('type')?.value && !isNested(column.get('type')?.value) && column.get('type')!.value.endsWith('[]')"
-									color="primary"
 									mat-icon-button
 									matTooltip="Set type an array of">
 									<span class="material-symbols-outlined notranslate">
@@ -206,7 +201,6 @@
 					@if (!form.get('old')) {
 						<div class="actions">
 							<button (click)="copyColumn(column.value)"
-									color="primary"
 									mat-icon-button
 									matTooltip="Duplicate Column">
 								<span class="material-symbols-outlined notranslate">

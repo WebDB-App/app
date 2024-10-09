@@ -2,7 +2,6 @@
 	@if (!variableList.data.length) {
 		<mat-spinner
 			[diameter]="30"
-			color="primary"
 			style="margin: 30px auto;"
 		></mat-spinner>
 	}
@@ -39,11 +38,12 @@
 			<ng-container matColumnDef="value">
 				<th *matHeaderCellDef mat-header-cell> Value</th>
 				<td *matCellDef="let element" mat-cell>
-					@if (!toUpdate[element.name]) {
+					@if (toUpdate[element.name] === undefined) {
 						<span>{{ element.value }}</span>
 					}
-					@if (toUpdate[element.name]) {
+					@if (toUpdate[element.name] !== undefined) {
 						<mat-form-field
+							appearance="fill"
 							style="width: 100%;">
 							<textarea
 								[(ngModel)]="element.value"
@@ -63,8 +63,9 @@
 				</th>
 				<td *matCellDef="let element" mat-cell>
 					@if (server.wrapper !== 'MongoDB') {
-						@if (!toUpdate[element.name]) {
+						@if (toUpdate[element.name] === undefined) {
 							<button
+								class="lowOpacity"
 								(click)="toUpdate[element.name] = element.value"
 								mat-icon-button>
 								<span class="material-symbols-outlined notranslate">
@@ -72,6 +73,7 @@
 								</span>
 							</button>
 							<a [href]="element.link"
+							   class="lowOpacity"
 							   mat-icon-button
 							   target="_blank">
 								<span class="material-symbols-outlined notranslate">
@@ -79,10 +81,9 @@
 								</span>
 							</a>
 						}
-						@if (toUpdate[element.name]) {
+						@if (toUpdate[element.name] !== undefined) {
 							<button
 								(click)="setVariable(element)"
-								color="primary"
 								mat-icon-button>
 								<span class="material-symbols-outlined notranslate">
 									save

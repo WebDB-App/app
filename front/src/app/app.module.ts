@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, ErrorHandler, NgModule, Provider } from "@angular/core";
+import { APP_INITIALIZER, EnvironmentProviders, ErrorHandler, NgModule, Provider } from "@angular/core";
 import { Router } from "@angular/router";
 import * as Sentry from "@sentry/angular";
 import { BrowserModule } from '@angular/platform-browser';
@@ -15,20 +15,20 @@ import { MatMenuModule } from "@angular/material/menu";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { ConnectionComponent, CreateDatabaseDialog, FirstVisitDialog } from "./connection/connection.component";
-import { MatFormFieldModule } from "@angular/material/form-field";
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatListModule } from "@angular/material/list";
 import { MatExpansionModule } from "@angular/material/expansion";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { MatDialogModule } from "@angular/material/dialog";
+import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from "@angular/material/dialog";
 import { MatSelectModule } from "@angular/material/select";
 import { provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
-import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 import { MonacoEditorModule, NgxMonacoEditorConfig } from "ngx-monaco-editor-v2";
-import { MatButtonToggleModule } from "@angular/material/button-toggle";
+import { MAT_BUTTON_TOGGLE_DEFAULT_OPTIONS, MatButtonToggleModule } from "@angular/material/button-toggle";
 import { MatStepperModule } from "@angular/material/stepper";
 import { ClipboardModule } from "@angular/cdk/clipboard";
 import { HighlightModule, provideHighlightOptions } from 'ngx-highlightjs';
@@ -53,11 +53,37 @@ import { CustomPaginatorIntl } from "../shared/paginator.transform";
 import { VariableDialogComponent } from "./variable/variable-dialog.component";
 import { CoreModule } from "./core/core.module";
 
-let providers: Provider[] = [
+let providers: Provider|EnvironmentProviders[] = [
 	provideHighlightOptions({
 		coreLibraryLoader: () => import('highlight.js/lib/core'),
 		lineNumbersLoader: () => import('ngx-highlightjs/line-numbers')
-	}), {
+	}),
+	provideCharts(withDefaultRegisterables()),
+	provideHttpClient(withInterceptorsFromDi()),
+	{
+		provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+		useValue: {
+			subscriptSizing: 'dynamic',
+			appearance: "outline"
+		}
+	}, {
+		provide: MAT_BUTTON_TOGGLE_DEFAULT_OPTIONS,
+		useValue: {
+			hideSingleSelectionIndicator: true,
+			hideMultipleSelectionIndicator: true,
+		}
+	}, {
+		provide: MAT_DIALOG_DEFAULT_OPTIONS,
+		useValue: {
+			closeOnNavigation: false,
+			hasBackdrop: false
+		}
+	}, {
+		provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
+		useValue: {
+			duration: 3000
+		}
+	}, {
 		provide: MatPaginatorIntl,
 		useClass: CustomPaginatorIntl
 	}
@@ -189,10 +215,7 @@ export const monacoConfig: NgxMonacoEditorConfig = {
 		CoreModule,
 		BaseChartDirective
 	],
-	providers: [
-		provideCharts(withDefaultRegisterables()),
-		provideHttpClient(withInterceptorsFromDi()),
-	]
+	providers
 })
 export class AppModule {
 }

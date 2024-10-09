@@ -70,16 +70,16 @@ export class EditConnectionComponent implements OnChanges {
 			const data = await firstValueFrom(this.http.post<any>(environment.apiRootUrl + 'server/connect', Server.getShallow(this.server)));
 			if (data.error) {
 				this.connectionStatus = 'notConnected';
-				this.snackBar.open(data.error, "⨉", {duration: 3000, panelClass: 'snack-error'});
+				this.snackBar.open(data.error, "⨉", {duration: 0, panelClass: 'snack-error'});
 				return;
 			}
 		} catch (err: any) {
 			this.connectionStatus = 'notConnected';
-			this.snackBar.open(err.statusText, "⨉", {duration: 3000, panelClass: 'snack-error'});
+			this.snackBar.open(err.statusText, "⨉", {panelClass: 'snack-error'});
 			return;
 		}
 
-		this.snackBar.open("Connection valid", "⨉", {duration: 3000});
+		this.snackBar.open("Connection valid", "⨉");
 		this.connectionStatus = 'connected';
 	}
 
@@ -90,16 +90,16 @@ export class EditConnectionComponent implements OnChanges {
 
 		if (data.error) {
 			this.sshStatus = 'notConnected';
-			this.snackBar.open(data.error, "⨉", {panelClass: 'snack-error'});
+			this.snackBar.open(data.error, "⨉", {panelClass: 'snack-error', duration: 0});
 			return;
 		}
-		this.snackBar.open("SSH connection valid", "⨉", {duration: 3000});
+		this.snackBar.open("SSH connection valid", "⨉");
 		this.sshStatus = 'connected';
 	}
 
 	forget() {
 		Server.remove(this.server!.name);
-		this.snackBar.open(this.server!.name + " forgot", "⨉", {duration: 3000});
+		this.snackBar.open(this.server!.name + " forgot", "⨉");
 		this.edited.emit();
 	}
 

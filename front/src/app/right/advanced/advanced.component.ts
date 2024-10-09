@@ -94,7 +94,7 @@ export class AdvancedComponent implements OnDestroy {
 				}
 			}
 
-			this.snackBar.open(`${result.databaseName} dropped`, "⨉", {duration: 3000});
+			this.snackBar.open(`${result.databaseName} dropped`, "⨉");
 
 			await this.request.reloadServer();
 			await this.router.navigate(['/']);
@@ -107,7 +107,7 @@ export class AdvancedComponent implements OnDestroy {
 
 		await this.request.reloadServer();
 		this.changeColLoading = false;
-		this.snackBar.open(`Switched collation to ${collation}`, "⨉", {duration: 3000});
+		this.snackBar.open(`Switched collation to ${collation}`, "⨉");
 	}
 
 	async duplicate(copyName: string) {
@@ -116,7 +116,7 @@ export class AdvancedComponent implements OnDestroy {
 		await this.request.reloadServer();
 		this.duplicateLoading = false;
 
-		this.snackBar.open(`${this.selectedDatabase?.name} duplicated to ${copyName}`, "⨉", {duration: 3000});
+		this.snackBar.open(`${this.selectedDatabase?.name} duplicated to ${copyName}`, "⨉");
 	}
 
 	nameValid(name: string) {

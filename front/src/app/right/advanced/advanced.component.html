@@ -31,7 +31,7 @@
 		@if (selectedServer?.wrapper === 'MySQL') {
 			<mat-divider></mat-divider>
 			<div class="spaceBetweenCenter">
-				<mat-form-field color="accent">
+				<mat-form-field class="tertiary-field">
 					<mat-label>Collation</mat-label>
 					<mat-select #collation [value]="selectedDatabase!.collation">
 						@for (collation of collations; track collation) {
@@ -44,14 +44,13 @@
 				@if (changeColLoading) {
 					<mat-spinner
 						[diameter]="30"
-						color="primary"
 					></mat-spinner>
 				}
 				@if (!changeColLoading) {
 					<button
 						(click)="changeCollation(collation.value)"
 						[disabled]="!collation.value"
-						color="accent"
+						class="tertiary-button"
 						mat-stroked-button>
 						<span class="material-symbols-outlined notranslate">
 							glyphs
@@ -65,7 +64,7 @@
 		<div class="spaceBetweenCenter">
 			@if (selectedServer.driver.terminalCmd()) {
 				<button
-					(click)="snackBar.open('Command copied', '⨉', {duration: 3000})"
+					(click)="snackBar.open('Command copied', '⨉')"
 					[cdkCopyToClipboard]="selectedServer.driver.terminalCmd()"
 					mat-button>
 					<span class="material-symbols-outlined notranslate">
@@ -75,7 +74,7 @@
 				</button>
 			}
 			<button
-				(click)="snackBar.open('URI copied', '⨉', {duration: 3000})"
+				(click)="snackBar.open('URI copied', '⨉')"
 				[cdkCopyToClipboard]="selectedServer.uri!"
 				mat-button>
 				<span class="material-symbols-outlined notranslate">
@@ -97,7 +96,6 @@
 			@if (duplicateLoading) {
 				<mat-spinner
 					[diameter]="30"
-					color="primary"
 				></mat-spinner>
 			}
 			@if (!duplicateLoading) {

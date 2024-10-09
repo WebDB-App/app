@@ -43,10 +43,9 @@
 		<mat-button-toggle value="JSON">JSON</mat-button-toggle>
 	</mat-button-toggle-group>
 	<button
-		(click)="snackBar.open('Rows copied', '⨉', {duration: 3000})"
+		(click)="snackBar.open('Rows copied', '⨉')"
 		[cdkCopyToClipboard]="str"
 		cdkFocusInitial
-		color="primary"
 		mat-stroked-button>
 		Copy
 	</button>

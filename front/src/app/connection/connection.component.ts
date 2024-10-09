@@ -148,12 +148,12 @@ export class ConnectionComponent implements OnInit, OnDestroy {
 
 		const guessed: any = await firstValueFrom(this.http.post(environment.apiRootUrl + 'server/guess', Server.getShallow(server)))
 		if (guessed.error) {
-			this.snackBar.open(guessed.error, "⨉", {panelClass: 'snack-error'})
+			this.snackBar.open(guessed.error, "⨉", {panelClass: 'snack-error', duration: 0})
 		} else if (guessed.length) {
-			this.snackBar.open("Credentials found: " + guessed.map((guess: Server) => `${guess.user} | ${guess.password}`).join(', '), "⨉", {duration: 3000})
+			this.snackBar.open("Credentials found: " + guessed.map((guess: Server) => `${guess.user} | ${guess.password}`).join(', '), "⨉")
 			await this.postLogged(server, guessed[0]);
 		} else {
-			this.snackBar.open("Guess failed", "⨉", {duration: 3000});
+			this.snackBar.open("Guess failed", "⨉");
 		}
 
 		this.servers[indexServer].isLoading = false;
@@ -166,7 +166,7 @@ export class ConnectionComponent implements OnInit, OnDestroy {
 		const data = await firstValueFrom(this.http.post<any>(environment.apiRootUrl + 'server/connect', Server.getShallow(server)));
 
 		if (data.error) {
-			this.snackBar.open(data.error, "⨉", {duration: 3000, panelClass: 'snack-error'});
+			this.snackBar.open(data.error, "⨉", {panelClass: 'snack-error'});
 			return;
 		}
 		await this.postLogged(server, data);

@@ -130,7 +130,7 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 		}
 
 		if (userDemand) {
-			this.snackBar.open(`Found ${values ? values.length : fks.length} possible data`, "⨉", {duration: 3000})
+			this.snackBar.open(`Found ${values ? values.length : fks.length} possible data`, "⨉")
 		}
 
 		random.model = this.beautify(random.model || `return faker.datatype.string();`);
@@ -173,7 +173,7 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 
 	async insert() {
 		const result = await this.request.post('data/insert', this.dataSource.data);
-		this.snackBar.open(`${result} affected Rows`, "⨉", {duration: 3000});
+		this.snackBar.open(`${result} affected Rows`, "⨉");
 	}
 
 	removeRows() {
@@ -252,7 +252,7 @@ export class InsertComponent implements OnInit, OnDestroy, AfterViewInit {
 			data = this.csvToJSON(data);
 		}
 		if (!data || data.length < 1 || !Array.isArray(data)) {
-			this.snackBar.open("File not compatible.\nIf you try to import JSON file, it has to be a array of object corresponding to table structure", "⨉", {panelClass: 'snack-error'});
+			this.snackBar.open("File not compatible.\nIf you try to import JSON file, it has to be a array of object corresponding to table structure", "⨉", {panelClass: 'snack-error', duration: 0});
 			return;
 		}
 

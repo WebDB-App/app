@@ -6,8 +6,7 @@
 
 
 - show error when backend is unreachable
-- bug MAT_FORM_FIELD_DEFAULT_OPTIONS, MAT_DIALOG_DEFAULT_OPTIONS dans core
-
+- bug tunnel
 
 
 # Advanced auth

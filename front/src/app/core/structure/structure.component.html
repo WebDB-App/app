@@ -19,7 +19,6 @@
 
 	@if (!selectedTable?.view) {
 		<button (click)="addColumn()"
-				color="primary"
 				mat-stroked-button>
 			<span class="material-symbols-outlined notranslate">
 				add_box
@@ -42,7 +41,6 @@
 				@if (column === actionColum) {
 					<button
 						(click)="updateColumn(row)"
-						color="primary"
 						mat-icon-button>
 						<span class="material-symbols-outlined notranslate">
 							drive_file_rename_outline
@@ -51,7 +49,6 @@
 					@if (!isSQL()) {
 						<button
 							(click)="harmonizeColumn(row)"
-							color="primary"
 							hidden
 							mat-icon-button>
 							<span class="material-symbols-outlined notranslate">

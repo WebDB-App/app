@@ -27,7 +27,6 @@
 		@if (router.url !== '/') {
 			<div>
 				<button
-					color="primary"
 					mat-stroked-button
 					routerLink="/">
 					<span class="material-symbols-outlined notranslate">
@@ -39,7 +38,7 @@
 		}
 		<button
 			(click)="reloadPage.emit()"
-			color="accent"
+			class="tertiary-button"
 			mat-stroked-button>
 			<span class="material-symbols-outlined notranslate">
 				refresh
@@ -59,9 +58,8 @@
 			Report a bug
 		</a>
 		<button
-			(click)="snackBar.open('Code copied', '⨉', {duration: 3000})"
+			(click)="snackBar.open('Code copied', '⨉')"
 			[cdkCopyToClipboard]="'docker logs $(docker ps -a -q --filter ancestor=webdb/app)'"
-			color="primary"
 			mat-stroked-button>
 			<mat-icon svgIcon="docker"></mat-icon>
 			Get logs

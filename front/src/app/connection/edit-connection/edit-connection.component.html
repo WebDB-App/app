@@ -14,7 +14,7 @@
 							<img src="/assets/drivers/{{wrapper | lowercase}}.svg">
 						</div>
 					}
-					<a color="accent"
+					<a class="tertiary-button"
 					   href="https://webdb.app/compatibility"
 					   mat-flat-button
 					   target="_blank">
@@ -75,7 +75,7 @@
 							(click)="testSSH()"
 							[disabled]="!server.ssh.host || !server.ssh.port || !server.ssh.user"
 							[ngClass]="{'mat-flat-button' : sshStatus === 'notConnected'}"
-							color="accent"
+							class="tertiary-button"
 							mat-button
 							style="width: 200px;">
 							Test SSH
@@ -139,7 +139,6 @@
 					</ngx-monaco-editor>
 					<div style="display: flex; flex-direction: column; gap: 20px; padding: 16px;">
 						<button (click)="useDefault()"
-								color="primary"
 								mat-stroked-button>
 							<span class="material-symbols-outlined notranslate">
 								device_reset
@@ -187,7 +186,6 @@
 			<button
 				(click)="testServer()"
 				[disabled]="!server.host || !server.port || connectionStatus === 'loading'"
-				color="primary"
 				mat-stroked-button
 				style="flex: 1;">
 				<span class="material-symbols-outlined notranslate">
@@ -207,7 +205,6 @@
 		<button
 			(click)="saveConnection()"
 			[disabled]="connectionStatus !== 'connected'"
-			color="primary"
 			mat-flat-button>
 			<span class="material-symbols-outlined notranslate">
 				wifi_add

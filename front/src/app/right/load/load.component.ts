@@ -86,9 +86,9 @@ export class LoadComponent {
 		try {
 			const response = await this.request.post('server/load', formData, undefined, <Database>{name: database});
 			if (response.error) {
-				this.snackBar.open(response.error, "⨉", {panelClass: 'snack-error'})
+				this.snackBar.open(response.error, "⨉", {panelClass: 'snack-error', duration: 0})
 			} else {
-				this.snackBar.open("Import succeed", "⨉", {duration: 3000})
+				this.snackBar.open("Import succeed", "⨉")
 				await this.request.reloadServer();
 			}
 		} catch (err: unknown) {
@@ -106,7 +106,7 @@ export class LoadComponent {
 			});
 		});
 		if (files.length < 1) {
-			this.snackBar.open("No file format supported", "⨉", {panelClass: 'snack-error'})
+			this.snackBar.open("No file format supported", "⨉", {panelClass: 'snack-error', duration: 0})
 			return;
 		}
 		files.sort((a, b) => a.name.localeCompare(b.name));

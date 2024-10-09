@@ -171,8 +171,29 @@ $theme: mat.define-theme((
 	--mdc-elevated-card-container-color: #00000040;
 	--mat-toolbar-container-background-color: #1e1e1e;
 	--mat-stepper-container-color: transparent;
+	--mat-toolbar-standard-height: 55px;
+	--mat-paginator-container-background-color: transparent;
+	--mat-bottom-sheet-container-text-size: 0.9rem;
 }
 
 .tertiary-spinner {
 	@include mat.progress-spinner-color($theme, $color-variant: tertiary);
+}
+.tertiary-checkbox {
+	@include mat.checkbox-color($theme, $color-variant: tertiary);
+}
+.tertiary-progress {
+	@include mat.progress-bar-color($theme, $color-variant: tertiary);
+}
+.tertiary-button {
+	@include mat.button-color($theme, $color-variant: tertiary);
+}
+.tertiary-field {
+	@include mat.form-field-color($theme, $color-variant: tertiary);
+}
+.tertiary-slider {
+	@include mat.slider-color($theme, $color-variant: tertiary);
+}
+.tertiary-toggle {
+	@include mat.slide-toggle-color($theme, $color-variant: tertiary);
 }

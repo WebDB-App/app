@@ -6,7 +6,7 @@
 				{{ selectedPatch.time | date:'MM-dd HH:mm:ss' }}
 			</span>
 			<button
-				(click)="snackBar.open('Hash copied', '⨉', {duration: 3000})"
+				(click)="snackBar.open('Hash copied', '⨉')"
 				[cdkCopyToClipboard]="selectedPatch.hash"
 				mat-button>
 				<span class="material-symbols-outlined notranslate">
@@ -26,7 +26,7 @@
 				Download
 			</button>
 			<button
-				(click)="snackBar.open('Patch copied', '⨉', {duration: 3000})"
+				(click)="snackBar.open('Patch copied', '⨉')"
 				[cdkCopyToClipboard]="selectedPatch.raw"
 				mat-button>
 				<span class="material-symbols-outlined notranslate">
@@ -37,7 +37,7 @@
 			<button
 				(click)="reset(selectedPatch)"
 				[disabled]="isResetting || selectedPatch.isLoading"
-				color="accent"
+				class="tertiary-button"
 				mat-stroked-button>
 				<span class="material-symbols-outlined notranslate">
 					restart_alt
@@ -47,7 +47,7 @@
 			@if (isResetting) {
 				<mat-progress-spinner
 					[diameter]="30"
-					color="accent"
+					color="tertiary-spinner"
 					mode="indeterminate">
 				</mat-progress-spinner>
 			}
@@ -57,7 +57,7 @@
 
 @if (isLoading) {
 	<mat-progress-bar
-		color="accent"
+		color="tertiary-spinner"
 		mode="indeterminate"
 		style="position: absolute; left: 0px; right: 0px; z-index: 10000000">
 	</mat-progress-bar>

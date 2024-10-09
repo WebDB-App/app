@@ -55,7 +55,7 @@ export class VariableDialogComponent {
 	async setVariable(element: Variable) {
 		try {
 			await this.request.post('variable/set', element, undefined, undefined, this.server);
-			this.snackBar.open(`Set ${element.name} to ${element.value}`, "⨉", {duration: 3000});
+			this.snackBar.open(`Set ${element.name} to ${element.value}`, "⨉");
 			this.toUpdate[element.name] = undefined;
 		} catch (e: any) {
 		}

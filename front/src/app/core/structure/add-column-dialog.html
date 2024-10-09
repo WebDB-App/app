@@ -16,7 +16,6 @@
 <mat-dialog-actions>
 	@if (!form.get('old')) {
 		<button (click)="addColumn()"
-				color="primary"
 				mat-stroked-button>
 			<span class="material-symbols-outlined notranslate">
 				add
@@ -40,7 +39,6 @@
 	<button (click)="apply()"
 			[disabled]="!form.valid"
 			cdkFocusInitial
-			color="primary"
 			mat-flat-button>
 		<span class="material-symbols-outlined notranslate">
 			view_column_2

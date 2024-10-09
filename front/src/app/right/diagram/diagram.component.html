@@ -58,7 +58,7 @@
 						<span>{{ Math.floor(diagramController.fontSize * 100) }}</span>
 					</div>
 					<mat-slider
-						color="accent"
+						class="tertiary-slider"
 						max="1.5"
 						min="0.1"
 						step="0.05">
@@ -71,7 +71,7 @@
 				<mat-slide-toggle
 					(click)="toggleDetail()"
 					checked
-					color="accent">
+					class="tertiary-slide-toggle">
 					Details
 				</mat-slide-toggle>
 			</div>
@@ -98,7 +98,7 @@
 		 id="containerDiagram">
 		@if (diagramController?.isAutoMoving) {
 			<mat-progress-bar
-				color="accent"
+				color="tertiary-progress"
 				mode="indeterminate"></mat-progress-bar>
 		}
 		<div #scrollable

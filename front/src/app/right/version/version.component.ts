@@ -133,7 +133,7 @@ export class VersionComponent implements OnInit, OnDestroy {
 		patch.isLoading = this.isResetting = true;
 
 		await this.request.post('version/reset', patch);
-		this.snackBar.open(`Database reset to ${patch.hash}`, '⨉', {duration: 3000});
+		this.snackBar.open(`Database reset to ${patch.hash}`, '⨉');
 
 		await this.request.reloadServer();
 		await this.router.navigate([
