@@ -7,10 +7,6 @@
 	.selected-tab {
 		background-color: var(--mat-toolbar-container-background-color, var(--mat-app-surface));
 	}
-
-	::ng-deep .mat-mdc-tab-link-container {
-		border-bottom: none;
-	}
 }
 
 #tableList {

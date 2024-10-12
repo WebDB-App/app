@@ -7,6 +7,7 @@
 
 - show error when backend is unreachable
 - bug tunnel
+- bug selection cells -> ralentissement de la page
 
 
 # Advanced auth

@@ -55,7 +55,7 @@ import { CoreModule } from "./core/core.module";
 
 let providers: Provider|EnvironmentProviders[] = [
 	provideHighlightOptions({
-		coreLibraryLoader: () => import('highlight.js/lib/core'),
+		fullLibraryLoader: () => import('highlight.js'),
 		lineNumbersLoader: () => import('ngx-highlightjs/line-numbers')
 	}),
 	provideCharts(withDefaultRegisterables()),

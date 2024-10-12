@@ -53,9 +53,16 @@ mat-drawer {
 
 	.mat-mdc-tab-link {
 		min-width: inherit;
-		height: 56px;
-		color: #1de9b6;
+		height: 55px;
 		padding: 0px 20px;
+
+		::ng-deep .mdc-tab__text-label {
+			color: #1de9b6;
+		}
+
+		::ng-deep .mdc-tab-indicator__content {
+			border-color: #1de9b6;
+		}
 	}
 
 	::ng-deep .mat-mdc-ink-bar {
