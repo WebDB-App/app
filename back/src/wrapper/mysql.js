@@ -232,11 +232,11 @@ ${def[0]["VIEW_DEFINITION"]}`
 		for (const routine of routines) {
 			if (routine.type.toLowerCase() === "function") {
 				const def = await this.runCommand(`SHOW CREATE FUNCTION ${this.escapeId(routine.name)}`, routine.database);
-				routine.value = def[0]["Create Function"];
+				routine.value = def[0] ? def[0]["Create Function"] : "Error while reading definition";
 				complexes["FUNCTION"].push(routine);
 			} else if (routine.type.toLowerCase() === "procedure") {
 				const def = await this.runCommand(`SHOW CREATE PROCEDURE ${this.escapeId(routine.name)}`, routine.database);
-				routine.value = def[0]["Create Procedure"];
+				routine.value = def[0] ? def[0]["Create Procedure"] : "Error while reading definition";
 				complexes["PROCEDURE"].push(routine);
 			}
 		}
