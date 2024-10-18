@@ -8,30 +8,30 @@
 		mode="side"
 		opened>
 
-		<mat-list style="flex-direction: column; box-sizing: border-box; display: flex;">
-			<mat-list-item style="box-shadow: 0px 0px 0px, 0px 4px 6px -4px rgba(0, 0, 0, 0.6);">
-				<mat-form-field appearance="fill" class="searchField" style="width: 100%">
-					<input
-						#filter
-						(keyup)="filterChanged(filter.value)"
-						autocomplete="off"
-						matInput
-						placeholder="Filter table / column / type">
-					@if (filter.value) {
-						<button
-							(click)="filter.value=''; filterChanged(filter.value)"
-							aria-label="Clear" mat-icon-button
-							matSuffix>
-							<span
-								class="material-symbols-outlined notranslate"
-								style="margin-top: 14px">
-								close
-							</span>
-						</button>
-					}
-				</mat-form-field>
-			</mat-list-item>
+		<div>
+			<mat-form-field appearance="fill" class="searchField" style="width: 100%">
+				<input
+					#filter
+					(keyup)="filterChanged(filter.value)"
+					autocomplete="off"
+					matInput
+					placeholder="Filter table / column / type">
+				@if (filter.value) {
+					<button
+						(click)="filter.value=''; filterChanged(filter.value)"
+						aria-label="Clear" mat-icon-button
+						matSuffix>
+						<span
+							class="material-symbols-outlined notranslate"
+							style="margin-top: 14px">
+							close
+						</span>
+					</button>
+				}
+			</mat-form-field>
+		</div>
 
+		<mat-list>
 			@if (!selectedDatabase || !selectedDatabase?.tables || selectedDatabase.tables.length < 1) {
 				<mat-list-item>
 					No table
@@ -43,7 +43,7 @@
 				@for (table of selectedDatabase?.tables; track table) {
 					<div
 						[hidden]="table.hide"
-						[style.border-right]="selectedTable?.name === table.name ? '2px solid #2196f3' : undefined"
+						[class.selected]="selectedTable?.name === table.name"
 						class="entity">
 						<div style="display: flex">
 							<div [style.background-color]="tooltips[table.name] ? '#1e1e1e' : 'inherit'"
@@ -79,18 +79,16 @@
 			</mat-selection-list>
 
 			<span style="flex: 1 1 0.0000001px; box-sizing: border-box;"></span>
-
-			<mat-list-item style="box-shadow: 0px -4px 6px -4px rgba(0, 0, 0, 0.6);">
-				<button (click)="addTable()"
-						mat-button
-						style="flex: 1">
-					<span class="material-symbols-outlined notranslate">
-						add_box
-					</span>
-					Table
-				</button>
-			</mat-list-item>
 		</mat-list>
+
+		<div>
+			<button (click)="addTable()" mat-button style="width: 100%">
+				<span class="material-symbols-outlined notranslate">
+					add_box
+				</span>
+				Table
+			</button>
+		</div>
 	</mat-sidenav>
 
 	@if (selectedDatabase) {

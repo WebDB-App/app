@@ -106,7 +106,7 @@ body {
 	}
 
 	tbody {
-		.mat-icon-button, .mat-mdc-checkbox {
+		.mat-mdc-icon-button, .mat-mdc-checkbox {
 			opacity: 0.3;
 		}
 
@@ -115,7 +115,7 @@ body {
 		}
 
 		.mat-mdc-row:hover .mat-mdc-cell, .mat-mdc-cell.selected-row, .mat-mdc-cell.selected-cell {
-			.mat-icon-button, .mat-mdc-checkbox {
+			.mat-mdc-icon-button, .mat-mdc-checkbox {
 				opacity: 1;
 			}
 		}
@@ -234,11 +234,6 @@ a {
 .mat-mdc-menu-content .material-symbols-outlined {
 	margin-right: 16px;
 	vertical-align: middle;
-}
-
-.mat-mdc-list-item, .mat-mdc-menu-item, .mat-mdc-option {
-	height: 42px !important;
-	line-height: 42px !important;
 }
 
 .mat-mdc-autocomplete-panel, .mat-mdc-select-panel {
@@ -372,7 +367,7 @@ pre {
 
 .mat-mdc-cell, .mat-mdc-card .actions, .mat-mdc-card .sub-actions {
 
-	.mat-icon-button {
+	.mat-mdc-icon-button {
 		width: 32px;
 		height: 32px;
 		line-height: 32px;

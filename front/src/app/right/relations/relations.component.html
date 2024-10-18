@@ -84,8 +84,8 @@
 			<tr *matRowDef="let row; columns: ['details']" [class.expended]="expanded.indexOf(row.name) >= 0"
 				class="details"
 				mat-row></tr>
-			<tr *matNoDataRow class="mat-row">
-				<td class="mat-cell" colspan="100%">No Relations</td>
+			<tr *matNoDataRow class="mat-mdc-row">
+				<td class="mat-mdc-cell" colspan="100%">No Relations</td>
 			</tr>
 		</table>
 	</div>

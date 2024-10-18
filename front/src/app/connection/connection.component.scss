@@ -44,7 +44,6 @@
 			}
 
 			.mat-mdc-list-base {
-				min-width: 280px;
 				overflow: auto;
 				height: 100%;
 				display: flex;
@@ -52,24 +51,24 @@
 				flex-wrap: wrap;
 				flex: 1;
 
-				a {
-					flex: 1;
-					text-decoration: none;
-					color: inherit;
-					font-size: 15px;
-					display: flex;
-					gap: 10px;
+				.mdc-list-item {
+					padding-left: 0px;
 
-					.tableCount {
-						width: 28px;
-						text-align: right;
+					a {
+						align-items: center;
+						text-decoration: none;
+						color: inherit;
+						font-size: 15px;
+						display: flex;
+						gap: 10px;
+						height: 42px;
+
+						.tableCount {
+							width: 42px;
+							text-align: right;
+						}
 					}
 				}
-			}
-
-			.mat-mdc-list-option {
-				max-width: 375px;
-				margin: 0px auto;
 			}
 
 			.right-actions {
