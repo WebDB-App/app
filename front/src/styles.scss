@@ -151,16 +151,20 @@ a {
 		flex-direction: row-reverse;
 
 		.mat-mdc-paginator-page-size {
-			line-height: 0px;
 			flex-direction: column;
 
+			.mat-mdc-form-field-infix {
+				padding: 2px;
+				min-height: inherit;
+			}
+
 			.mat-mdc-paginator-page-size-label {
-				margin: 0 4px -12px 0px;
+
 				font-size: 10px;
 			}
 
 			.mat-mdc-paginator-page-size-select {
-				margin-bottom: -1.25em;
+				min-height: inherit;
 			}
 		}
 
@@ -289,6 +293,7 @@ app-cell::-webkit-scrollbar {
 
 ::-webkit-scrollbar-thumb {
 	background: #555;
+	border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -326,10 +331,11 @@ app-cell::-webkit-scrollbar {
 }
 
 .goToPage {
-	width: 90px;
+	width: 96px;
 
 	.mat-mdc-form-field-infix {
-		padding: 0.5em 0;
+		padding: 0.3em 0 !important;
+		min-height: inherit;
 	}
 }
 
@@ -362,19 +368,6 @@ pre {
 		flex-direction: column;
 		border-bottom-left-radius: 4px;
 		border-top-right-radius: 4px;
-	}
-}
-
-.mat-mdc-cell, .mat-mdc-card .actions, .mat-mdc-card .sub-actions {
-
-	.mat-mdc-icon-button {
-		width: 32px;
-		height: 32px;
-		line-height: 32px;
-
-		.material-symbols-outlined {
-			font-size: 18px;
-		}
 	}
 }
 
