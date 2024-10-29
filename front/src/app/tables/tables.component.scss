@@ -12,6 +12,7 @@
 #tableList {
 	width: 17vw;
 	resize: horizontal;
+	border-right: 1px solid #444444;
 
 	::ng-deep .mat-drawer-inner-container {
 		display: flex;
@@ -24,17 +25,18 @@
 		overflow-y: auto;
 
 		mat-selection-list {
-			padding: 0;
+			padding: 0 2px;
 
 			.entity {
+				border-radius: 18px;
 				display: flex;
 				flex-direction: column;
 
 				&.selected {
-					border-right: 2px solid #2196f3;
+					background-color: #00497d;
 
 					.mat-mdc-list-option {
-						background-color: #1e1e1e;
+						#background-color: #1e1e1e;
 					}
 				}
 
@@ -70,6 +72,11 @@
 					opacity: 0.3;
 					align-self: center;
 				}
+
+				.openedTooltip {
+					background-color: #1e1e1e;
+					border-top-left-radius: 18px;
+				}
 			}
 		}
 	}
@@ -77,6 +84,8 @@
 
 ::ng-deep .columns {
 	background-color: #1e1e1e;
+	border-bottom-right-radius: 18px;
+	border-bottom-left-radius: 18px;
 
 	table {
 		padding: 0px 6px;

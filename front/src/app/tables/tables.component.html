@@ -46,7 +46,7 @@
 						[class.selected]="selectedTable?.name === table.name"
 						class="entity">
 						<div style="display: flex">
-							<div [style.background-color]="tooltips[table.name] ? '#1e1e1e' : 'inherit'"
+							<div [class.openedTooltip]="tooltips[table.name]"
 								 style="display: flex;">
 								<button
 									(click)="getTooltip(table)"
@@ -71,7 +71,6 @@
 						@if (tooltips[table.name]) {
 							<div class="columns">
 								<div [innerHtml]="tooltips[table.name]"></div>
-								<mat-divider></mat-divider>
 							</div>
 						}
 					</div>

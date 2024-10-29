@@ -159,7 +159,6 @@ a {
 			}
 
 			.mat-mdc-paginator-page-size-label {
-
 				font-size: 10px;
 			}
 
@@ -409,10 +408,10 @@ code, .hljs {
 	}
 }
 
-.mat-mdc-list-single-selected-option, .mat-mdc-list-single-selected-option:hover, .mat-mdc-list-single-selected-option:focus {
-	background-color: #212121;
-	opacity: 1 !important;
-}
+//.mat-mdc-list-single-selected-option, .mat-mdc-list-single-selected-option:hover, .mat-mdc-list-single-selected-option:focus {
+//	background-color: #212121;
+//	opacity: 1 !important;
+//}
 
 ngx-monaco-editor {
 	min-height: 330px;
