@@ -4,7 +4,7 @@
 		(click)="saveWidth(sidenav._getWidth())"
 		[style.width]="width + 'px'"
 		disableClose
-		id="tableList"
+		id="sidenav"
 		mode="side"
 		opened>
 
@@ -39,6 +39,7 @@
 			}
 
 			<mat-selection-list
+				#tableList
 				[multiple]="false">
 				@for (table of selectedDatabase?.tables; track table) {
 					<div

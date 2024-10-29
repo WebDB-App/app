@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { Server } from "../../classes/server";
 import { Database } from "../../classes/database";
@@ -11,6 +11,7 @@ import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { uniqueValidator } from "../../shared/unique.validator";
 import { validName } from "../../shared/helper";
+import { MatSelectionList } from "@angular/material/list";
 
 const localStorageTableWidthKey = "tableWidth";
 
@@ -19,7 +20,7 @@ const localStorageTableWidthKey = "tableWidth";
 	templateUrl: './tables.component.html',
 	styleUrls: ['./tables.component.scss']
 })
-export class TablesComponent implements OnInit {
+export class TablesComponent implements OnInit, AfterViewInit {
 
 	selectedDatabase?: Database;
 	selectedServer?: Server;
@@ -29,6 +30,8 @@ export class TablesComponent implements OnInit {
 	tooltips: { [key: string]: string } = {};
 	tabs!: string[];
 
+	@ViewChild('tableList') private tableList!: MatSelectionList;
+
 	constructor(
 		private router: Router,
 		private titleService: Title,
@@ -36,6 +39,11 @@ export class TablesComponent implements OnInit {
 		private dialog: MatDialog,
 		private activatedRoute: ActivatedRoute
 	) {
+	}
+
+	ngAfterViewInit(): void {
+		const tableRef = this.tableList._element.nativeElement.querySelector('.selected');
+		tableRef?.scrollIntoView({ behavior: 'smooth' });
 	}
 
 	async ngOnInit() {
