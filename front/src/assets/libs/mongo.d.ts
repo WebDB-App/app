@@ -326,7 +326,7 @@ export declare class Admin {
 /* Excluded from this release type: AdminPrivate */
 /* Excluded from this release type: AggregateOperation */
 /** @public */
-export declare interface AggregateOptions extends CommandOperationOptions {
+export declare interface AggregateOptions extends Omit<CommandOperationOptions, "explain"> {
 	/** allowDiskUse lets the server know if it can use disk to store temporary results for the aggregation (requires mongodb 2.6 \>). */
 	allowDiskUse?: boolean;
 	/** The number of documents to return per batch. See [aggregation documentation](https://www.mongodb.com/docs/manual/reference/command/aggregate). */
@@ -346,6 +346,12 @@ export declare interface AggregateOptions extends CommandOperationOptions {
 	/** Map of parameter names and values that can be accessed using $$var (requires MongoDB 5.0). */
 	let?: Document;
 	out?: string;
+	/**
+	 * Specifies the verbosity mode for the explain output.
+	 * @deprecated This API is deprecated in favor of `collection.aggregate().explain()`
+	 * or `db.aggregate().explain()`.
+	 */
+	explain?: ExplainOptions["explain"];
 }
 /**
  * The **AggregationCursor** class is an internal class that embodies an aggregation cursor on MongoDB
@@ -362,7 +368,7 @@ export declare class AggregationCursor<TSchema = any> extends AbstractCursor<TSc
 	map<T>(transform: (doc: TSchema) => T): AggregationCursor<T>;
 	/* Excluded from this release type: _initialize */
 	/** Execute the explain for the cursor */
-	explain(verbosity?: ExplainVerbosityLike): Promise<Document>;
+	explain(verbosity?: ExplainVerbosityLike | ExplainCommandOptions): Promise<Document>;
 	/** Add a stage to the aggregation pipeline
 	 * @example
 	 * ```
@@ -467,6 +473,12 @@ export declare type AnyBulkWriteOperation<TSchema extends Document = Document> =
 } | {
 	deleteMany: DeleteManyModel<TSchema>;
 };
+/**
+ * Used to represent any of the client bulk write models that can be passed as an array
+ * to MongoClient#bulkWrite.
+ * @public
+ */
+export declare type AnyClientBulkWriteModel<TSchema extends Document> = ClientInsertOneModel<TSchema> | ClientReplaceOneModel<TSchema> | ClientUpdateOneModel<TSchema> | ClientUpdateManyModel<TSchema> | ClientDeleteOneModel<TSchema> | ClientDeleteManyModel<TSchema>;
 /** @public */
 export declare type AnyError = MongoError | Error;
 /** @public */
@@ -1348,6 +1360,130 @@ export declare interface ChangeStreamUpdateDocument<TSchema extends Document = D
 	 */
 	fullDocumentBeforeChange?: TSchema;
 }
+/** @public */
+export declare interface ClientBulkWriteError {
+	code: number;
+	message: string;
+}
+/**
+ * A mapping of namespace strings to collections schemas.
+ * @public
+ *
+ * @example
+ * ```ts
+ * type MongoDBSchemas = {
+ *   'db.books': Book;
+ *   'db.authors': Author;
+ * }
+ *
+ * const model: ClientBulkWriteModel<MongoDBSchemas> = {
+ *   namespace: 'db.books'
+ *   name: 'insertOne',
+ *   document: { title: 'Practical MongoDB Aggregations', authorName: 3 } // error `authorName` cannot be number
+ * };
+ * ```
+ *
+ * The type of the `namespace` field narrows other parts of the BulkWriteModel to use the correct schema for type assertions.
+ *
+ */
+export declare type ClientBulkWriteModel<SchemaMap extends Record<string, Document> = Record<string, Document>> = {
+	[Namespace in keyof SchemaMap]: AnyClientBulkWriteModel<SchemaMap[Namespace]> & {
+		namespace: Namespace;
+	};
+}[keyof SchemaMap];
+/** @public */
+export declare interface ClientBulkWriteOptions extends CommandOperationOptions {
+	/**
+	 * If true, when an insert fails, don't execute the remaining writes.
+	 * If false, continue with remaining inserts when one fails.
+	 * @defaultValue `true` - inserts are ordered by default
+	 */
+	ordered?: boolean;
+	/**
+	 * Allow driver to bypass schema validation.
+	 * @defaultValue `false` - documents will be validated by default
+	 **/
+	bypassDocumentValidation?: boolean;
+	/** Map of parameter names and values that can be accessed using $$var (requires MongoDB 5.0). */
+	let?: Document;
+	/**
+	 * Whether detailed results for each successful operation should be included in the returned
+	 * BulkWriteResult.
+	 */
+	verboseResults?: boolean;
+}
+/** @public */
+export declare interface ClientBulkWriteResult {
+	/**
+	 * Whether the bulk write was acknowledged.
+	 */
+	readonly acknowledged: boolean;
+	/**
+	 * The total number of documents inserted across all insert operations.
+	 */
+	readonly insertedCount: number;
+	/**
+	 * The total number of documents upserted across all update operations.
+	 */
+	readonly upsertedCount: number;
+	/**
+	 * The total number of documents matched across all update operations.
+	 */
+	readonly matchedCount: number;
+	/**
+	 * The total number of documents modified across all update operations.
+	 */
+	readonly modifiedCount: number;
+	/**
+	 * The total number of documents deleted across all delete operations.
+	 */
+	readonly deletedCount: number;
+	/**
+	 * The results of each individual insert operation that was successfully performed.
+	 */
+	readonly insertResults?: ReadonlyMap<number, ClientInsertOneResult>;
+	/**
+	 * The results of each individual update operation that was successfully performed.
+	 */
+	readonly updateResults?: ReadonlyMap<number, ClientUpdateResult>;
+	/**
+	 * The results of each individual delete operation that was successfully performed.
+	 */
+	readonly deleteResults?: ReadonlyMap<number, ClientDeleteResult>;
+}
+/** @public */
+export declare interface ClientDeleteManyModel<TSchema> extends ClientWriteModel {
+	name: "deleteMany";
+	/**
+	 * The filter used to determine if a document should be deleted.
+	 * For a deleteMany operation, all matches are removed.
+	 */
+	filter: Filter<TSchema>;
+	/** Specifies a collation. */
+	collation?: CollationOptions;
+	/** The index to use. If specified, then the query system will only consider plans using the hinted index. */
+	hint?: Hint;
+}
+/** @public */
+export declare interface ClientDeleteOneModel<TSchema> extends ClientWriteModel {
+	name: "deleteOne";
+	/**
+	 * The filter used to determine if a document should be deleted.
+	 * For a deleteOne operation, the first match is removed.
+	 */
+	filter: Filter<TSchema>;
+	/** Specifies a collation. */
+	collation?: CollationOptions;
+	/** The index to use. If specified, then the query system will only consider plans using the hinted index. */
+	hint?: Hint;
+}
+/** @public */
+export declare interface ClientDeleteResult {
+	/**
+	 * The number of documents that were deleted.
+	 */
+	deletedCount: number;
+}
 /**
  * @public
  * The public interface for explicit in-use encryption
@@ -1759,6 +1895,19 @@ export declare type ClientEncryptionSocketOptions = Pick<MongoClientOptions, "au
  * These options are not included in the type, and are ignored if provided.
  */
 export declare type ClientEncryptionTlsOptions = Pick<MongoClientOptions, "tlsCAFile" | "tlsCertificateKeyFile" | "tlsCertificateKeyFilePassword">;
+/** @public */
+export declare interface ClientInsertOneModel<TSchema> extends ClientWriteModel {
+	name: "insertOne";
+	/** The document to insert. */
+	document: OptionalId<TSchema>;
+}
+/** @public */
+export declare interface ClientInsertOneResult {
+	/**
+	 * The _id of the inserted document.
+	 */
+	insertedId: any;
+}
 /**
  * @public
  * @see https://github.com/mongodb/specifications/blob/master/source/mongodb-handshake/handshake.rst#hello-command
@@ -1796,6 +1945,23 @@ export declare interface ClientMetadataOptions {
 	};
 	appName?: string;
 }
+/** @public */
+export declare interface ClientReplaceOneModel<TSchema> extends ClientWriteModel {
+	name: "replaceOne";
+	/**
+	 * The filter used to determine if a document should be replaced.
+	 * For a replaceOne operation, the first match is replaced.
+	 */
+	filter: Filter<TSchema>;
+	/** The document with which to replace the matched document. */
+	replacement: WithoutId<TSchema>;
+	/** Specifies a collation. */
+	collation?: CollationOptions;
+	/** The index to use. If specified, then the query system will only consider plans using the hinted index. */
+	hint?: Hint;
+	/** When true, creates a new document if no document matches the query. */
+	upsert?: boolean;
+}
 /**
  * A class representing a client session on the server
  *
@@ -1816,6 +1982,7 @@ export declare class ClientSession extends TypedEventEmitter<ClientSessionEvents
 	/* Excluded from this release type: owner */
 	defaultTransactionOptions: TransactionOptions;
 	transaction: Transaction;
+	/* Excluded from this release type: commitAttempted */
 	/* Excluded from this release type: [kServerSession] */
 	/* Excluded from this release type: [kSnapshotTime] */
 	/* Excluded from this release type: [kSnapshotEnabled] */
@@ -1942,6 +2109,87 @@ export declare interface ClientSessionOptions {
 	snapshot?: boolean;
 	/** The default TransactionOptions to use for transactions started on this session. */
 	defaultTransactionOptions?: TransactionOptions;
+}
+/** @public */
+export declare interface ClientUpdateManyModel<TSchema> extends ClientWriteModel {
+	name: "updateMany";
+	/**
+	 * The filter used to determine if a document should be updated.
+	 * For an updateMany operation, all matches are updated.
+	 */
+	filter: Filter<TSchema>;
+	/**
+	 * The modifications to apply. The value can be either:
+	 * UpdateFilter<Document> - A document that contains update operator expressions,
+	 * Document[] - an aggregation pipeline.
+	 */
+	update: UpdateFilter<TSchema> | Document[];
+	/** A set of filters specifying to which array elements an update should apply. */
+	arrayFilters?: Document[];
+	/** Specifies a collation. */
+	collation?: CollationOptions;
+	/** The index to use. If specified, then the query system will only consider plans using the hinted index. */
+	hint?: Hint;
+	/** When true, creates a new document if no document matches the query. */
+	upsert?: boolean;
+}
+/** @public */
+export declare interface ClientUpdateOneModel<TSchema> extends ClientWriteModel {
+	name: "updateOne";
+	/**
+	 * The filter used to determine if a document should be updated.
+	 * For an updateOne operation, the first match is updated.
+	 */
+	filter: Filter<TSchema>;
+	/**
+	 * The modifications to apply. The value can be either:
+	 * UpdateFilter<Document> - A document that contains update operator expressions,
+	 * Document[] - an aggregation pipeline.
+	 */
+	update: UpdateFilter<TSchema> | Document[];
+	/** A set of filters specifying to which array elements an update should apply. */
+	arrayFilters?: Document[];
+	/** Specifies a collation. */
+	collation?: CollationOptions;
+	/** The index to use. If specified, then the query system will only consider plans using the hinted index. */
+	hint?: Hint;
+	/** When true, creates a new document if no document matches the query. */
+	upsert?: boolean;
+}
+/** @public */
+export declare interface ClientUpdateResult {
+	/**
+	 * The number of documents that matched the filter.
+	 */
+	matchedCount: number;
+	/**
+	 * The number of documents that were modified.
+	 */
+	modifiedCount: number;
+	/**
+	 * The _id field of the upserted document if an upsert occurred.
+	 *
+	 * It MUST be possible to discern between a BSON Null upserted ID value and this field being
+	 * unset. If necessary, drivers MAY add a didUpsert boolean field to differentiate between
+	 * these two cases.
+	 */
+	upsertedId?: any;
+	/**
+	 * Determines if the upsert did include an _id, which includes the case of the _id being null.
+	 */
+	didUpsert: boolean;
+}
+/** @public */
+export declare interface ClientWriteModel {
+	/**
+	 * The namespace for the write.
+	 *
+	 * A namespace is a combination of the database name and the name of the collection: `<database-name>.<collection>`.
+	 * All documents belong to a namespace.
+	 *
+	 * @see https://www.mongodb.com/docs/manual/reference/limits/#std-label-faq-dev-namespace
+	 */
+	namespace: string;
 }
 /**
  * @public
@@ -3096,7 +3344,7 @@ export declare class Db {
 	 */
 	command(command: Document, options?: RunCommandOptions): Promise<Document>;
 	/**
-	 * Execute an aggregation framework pipeline against the database, needs MongoDB \>= 3.6
+	 * Execute an aggregation framework pipeline against the database.
 	 *
 	 * @param pipeline - An array of aggregation stages to be executed
 	 * @param options - Optional settings for the command
@@ -3352,9 +3600,44 @@ export declare type EventEmitterWithState = {};
 export declare type EventsDescription = Record<string, GenericListener>;
 /* Excluded from this release type: Explain */
 /** @public */
+export declare interface ExplainCommandOptions {
+	/** The explain verbosity for the command. */
+	verbosity: ExplainVerbosity;
+	/** The maxTimeMS setting for the command. */
+	maxTimeMS?: number;
+}
+/**
+ * @public
+ *
+ * When set, this configures an explain command.  Valid values are boolean (for legacy compatibility,
+ * see {@link ExplainVerbosityLike}), a string containing the explain verbosity, or an object containing the verbosity and
+ * an optional maxTimeMS.
+ *
+ * Examples of valid usage:
+ *
+ * ```typescript
+ * collection.find({ name: 'john doe' }, { explain: true });
+ * collection.find({ name: 'john doe' }, { explain: false });
+ * collection.find({ name: 'john doe' }, { explain: 'queryPlanner' });
+ * collection.find({ name: 'john doe' }, { explain: { verbosity: 'queryPlanner' } });
+ * ```
+ *
+ * maxTimeMS can be configured to limit the amount of time the server
+ * spends executing an explain by providing an object:
+ *
+ * ```typescript
+ * // limits the `explain` command to no more than 2 seconds
+ * collection.find({ name: 'john doe' }, {
+ *   explain:  {
+ *    verbosity: 'queryPlanner',
+ *    maxTimeMS: 2000
+ *  }
+ * });
+ * ```
+ */
 export declare interface ExplainOptions {
 	/** Specifies the verbosity mode for the explain output. */
-	explain?: ExplainVerbosityLike;
+	explain?: ExplainVerbosityLike | ExplainCommandOptions;
 }
 /** @public */
 export declare const ExplainVerbosity: Readonly<{
@@ -3367,8 +3650,7 @@ export declare const ExplainVerbosity: Readonly<{
 export declare type ExplainVerbosity = string;
 /**
  * For backwards compatibility, true is interpreted as "allPlansExecution"
- * and false as "queryPlanner". Prior to server version 3.6, aggregate()
- * ignores the verbosity parameter and executes in "queryPlanner".
+ * and false as "queryPlanner".
  * @public
  */
 export declare type ExplainVerbosityLike = ExplainVerbosity | boolean;
@@ -3437,7 +3719,7 @@ export declare class FindCursor<TSchema = any> extends AbstractCursor<TSchema> {
 	 */
 	count(options?: CountOptions): Promise<number>;
 	/** Execute the explain for the cursor */
-	explain(verbosity?: ExplainVerbosityLike): Promise<Document>;
+	explain(verbosity?: ExplainVerbosityLike | ExplainCommandOptions): Promise<Document>;
 	/** Set the cursor query */
 	filter(filter: Document): this;
 	/**
@@ -3662,7 +3944,7 @@ export declare class FindOperators {
  * @public
  * @typeParam TSchema - Unused schema definition, deprecated usage, only specify `FindOptions` with no generic
  */
-export declare interface FindOptions<TSchema extends Document = Document> extends Omit<CommandOperationOptions, "writeConcern"> {
+export declare interface FindOptions<TSchema extends Document = Document> extends Omit<CommandOperationOptions, "writeConcern" | "explain"> {
 	/** Sets the limit of documents returned in the query. */
 	limit?: number;
 	/** Set to sort the documents coming back from the query. Array of indexes, `[['a', 1]]` etc. */
@@ -3710,6 +3992,11 @@ export declare interface FindOptions<TSchema extends Document = Document> extend
 	 * @deprecated Starting from MongoDB 4.4 this flag is not needed and will be ignored.
 	 */
 	oplogReplay?: boolean;
+	/**
+	 * Specifies the verbosity mode for the explain output.
+	 * @deprecated This API is deprecated in favor of `collection.find().explain()`.
+	 */
+	explain?: ExplainOptions["explain"];
 }
 /** @public */
 export declare type Flatten<Type> = Type extends ReadonlyArray<infer Item> ? Item : Type;
@@ -4613,6 +4900,13 @@ export declare class MongoClient extends TypedEventEmitter<MongoClientEvents> im
 	get readPreference(): ReadPreference;
 	get bsonOptions(): BSONSerializeOptions;
 	/**
+	 * Executes a client bulk write operation, available on server 8.0+.
+	 * @param models - The client bulk write models.
+	 * @param options - The client bulk write options.
+	 * @returns A ClientBulkWriteResult for acknowledged writes and ok: 1 for unacknowledged writes.
+	 */
+	bulkWrite<SchemaMap extends Record<string, Document> = Record<string, Document>>(models: ReadonlyArray<ClientBulkWriteModel<SchemaMap>>, options?: ClientBulkWriteOptions): Promise<ClientBulkWriteResult>;
+	/**
 	 * Connect to MongoDB using a url
 	 *
 	 * @see docs.mongodb.org/manual/reference/connection-string/
@@ -4685,6 +4979,77 @@ export declare class MongoClient extends TypedEventEmitter<MongoClientEvents> im
 	watch<TSchema extends Document = Document, TChange extends Document = ChangeStreamDocument<TSchema>>(pipeline?: Document[], options?: ChangeStreamOptions): ChangeStream<TSchema, TChange>;
 }
 /* Excluded from this release type: MongoClientAuthProviders */
+/**
+ * An error indicating that an error occurred when processing bulk write results.
+ *
+ * @public
+ * @category Error
+ */
+export declare class MongoClientBulkWriteCursorError extends MongoRuntimeError {
+	/**
+	 * **Do not use this constructor!**
+	 *
+	 * Meant for internal use only.
+	 *
+	 * @remarks
+	 * This class is only meant to be constructed within the driver. This constructor is
+	 * not subject to semantic versioning compatibility guarantees and may change at any time.
+	 *
+	 * @public
+	 **/
+	constructor(message: string);
+	get name(): string;
+}
+/**
+ * An error indicating that an error occurred when executing the bulk write.
+ *
+ * @public
+ * @category Error
+ */
+export declare class MongoClientBulkWriteError extends MongoServerError {
+	/**
+	 * Write concern errors that occurred while executing the bulk write. This list may have
+	 * multiple items if more than one server command was required to execute the bulk write.
+	 */
+	writeConcernErrors: Document[];
+	/**
+	 * Errors that occurred during the execution of individual write operations. This map will
+	 * contain at most one entry if the bulk write was ordered.
+	 */
+	writeErrors: Map<number, ClientBulkWriteError>;
+	/**
+	 * The results of any successful operations that were performed before the error was
+	 * encountered.
+	 */
+	partialResult?: ClientBulkWriteResult;
+	/**
+	 * Initialize the client bulk write error.
+	 * @param message - The error message.
+	 */
+	constructor(message: ErrorDescription);
+	get name(): string;
+}
+/**
+ * An error indicating that an error occurred on the client when executing a client bulk write.
+ *
+ * @public
+ * @category Error
+ */
+export declare class MongoClientBulkWriteExecutionError extends MongoRuntimeError {
+	/**
+	 * **Do not use this constructor!**
+	 *
+	 * Meant for internal use only.
+	 *
+	 * @remarks
+	 * This class is only meant to be constructed within the driver. This constructor is
+	 * not subject to semantic versioning compatibility guarantees and may change at any time.
+	 *
+	 * @public
+	 **/
+	constructor(message: string);
+	get name(): string;
+}
 /** @public */
 export declare type MongoClientEvents = Pick<TopologyEvents, (typeof MONGO_CLIENT_EVENTS)[number]> & {
 	open(mongoClient: MongoClient): void;
@@ -5297,7 +5662,9 @@ export declare class MongoInvalidArgumentError extends MongoAPIError {
 	 *
 	 * @public
 	 **/
-	constructor(message: string);
+	constructor(message: string, options?: {
+		cause?: Error;
+	});
 	get name(): string;
 }
 /**
@@ -6434,6 +6801,12 @@ export declare class ServerDescription {
 	setVersion: number | null;
 	electionId: ObjectId | null;
 	logicalSessionTimeoutMinutes: number | null;
+	/** The max message size in bytes for the server. */
+	maxMessageSizeBytes: number | null;
+	/** The max number of writes in a bulk write command. */
+	maxWriteBatchSize: number | null;
+	/** The max bson object size. */
+	maxBsonObjectSize: number | null;
 	$clusterTime?: ClusterTime;
 	/* Excluded from this release type: __constructor */
 	get hostAddress(): HostAddress;
@@ -6928,7 +7301,7 @@ export declare class TypedEventEmitter<Events extends EventsDescription> extends
 /** @public */
 export declare class UnorderedBulkOperation extends BulkOperationBase {
 	/* Excluded from this release type: __constructor */
-	handleWriteError(callback: Callback, writeResult: BulkWriteResult): boolean;
+	handleWriteError(writeResult: BulkWriteResult): void;
 	addToOperationsList(batchType: BatchType, document: Document | UpdateStatement | DeleteStatement): this;
 }
 /** @public */
@@ -7115,7 +7488,10 @@ export declare type WithTransactionCallback<T = any> = (session: ClientSession) 
  * @see https://www.mongodb.com/docs/manual/reference/write-concern/
  */
 export declare class WriteConcern {
-	/** Request acknowledgment that the write operation has propagated to a specified number of mongod instances or to mongod instances with specified tags. */
+	/**
+	 * Request acknowledgment that the write operation has propagated to a specified number of mongod instances or to mongod instances with specified tags.
+	 * If w is 0 and is set on a write operation, the server will not send a response.
+	 */
 	readonly w?: W;
 	/** Request acknowledgment that the write operation has been written to the on-disk journal */
 	readonly journal?: boolean;
