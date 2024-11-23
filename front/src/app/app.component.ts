@@ -32,7 +32,9 @@ export class AppComponent {
 				release: packageJson.version,
 				integrations: [
 					Sentry.browserTracingIntegration(),
-					Sentry.replayIntegration(),
+					Sentry.replayIntegration({
+						maskAllText: false
+					}),
 				],
 				tracesSampleRate: 1.0,
 				replaysOnErrorSampleRate: 1.0,
