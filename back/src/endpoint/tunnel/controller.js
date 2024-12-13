@@ -30,10 +30,10 @@ class Controller {
 	}
 
 	async newTunnel(connection, test = false) {
-		const uri = `-p ${connection.ssh.port} ${bash.shellEscape(connection.ssh.user)}@${bash.shellEscape(connection.ssh.host)}`;
+		const uri = `-p ${bash.shellEscape(connection.ssh.port)} ${bash.shellEscape(connection.ssh.user)}@${bash.shellEscape(connection.ssh.host)}`;
 		let common = "ssh -F /dev/null -o ConnectTimeout=2000 -o BatchMode=true -o StrictHostKeyChecking=no ";
 
-		const privateKey = os.tmpdir() + "/" + connection.ssh.host;
+		const privateKey = os.tmpdir() + "/" + bash.shellEscape(connection.ssh.host);
 		if (connection.ssh.privateKey) {
 			const pk = connection.ssh.privateKey.trim() + "\n";
 			fs.writeFileSync(privateKey, pk);
@@ -73,7 +73,7 @@ class Controller {
 
 	async test(req, res) {
 		if (process.env.PROTECTED_MODE === "true") {
-			return res.send({error: "Dump is disable by backend configuration"});
+			return res.send({error: "Tunnel is disable by backend configuration"});
 		}
 
 		const tunnel = await this.newTunnel(req.body, true);

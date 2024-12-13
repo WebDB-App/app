@@ -164,14 +164,16 @@ class Controller {
 			return res.send({error: "Driver not yet implemented"});
 		}
 
-		try {
-			const forwardPort = await Tunnel.handleSsh(req.body);
-			if (forwardPort) {
-				req.body.port = forwardPort;
-				req.body.host = "127.0.0.1";
+		if (process.env.PROTECTED_MODE !== "true") {
+			try {
+				const forwardPort = await Tunnel.handleSsh(req.body);
+				if (forwardPort) {
+					req.body.port = forwardPort;
+					req.body.host = "127.0.0.1";
+				}
+			} catch (error) {
+				return res.send(error);
 			}
-		} catch (error) {
-			return res.send(error);
 		}
 
 		const driver = new driverClass(req.body.port, req.body.host, req.body.user, req.body.password, req.body.params, req.body.ssh);
