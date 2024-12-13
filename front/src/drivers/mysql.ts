@@ -1,7 +1,6 @@
 import { SQL } from "./sql";
-import { Group, QueryParams } from "../classes/driver";
+import { Group } from "../classes/driver";
 import { Server } from "../classes/server";
-import { Database } from "../classes/database";
 import { format } from "sql-formatter";
 import { escape, escapeId } from "sqlstring";
 import { EditableComplex } from "../classes/complex";
@@ -345,7 +344,7 @@ export class MySQL extends SQL {
 	}
 
 	override wrapStructure(structure: string) {
-		return escapeId(structure);
+		return escapeId(structure, true);
 	}
 
 	override renameComplex(complex: EditableComplex, type: string, database: string): string | false {
