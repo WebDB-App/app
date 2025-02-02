@@ -468,7 +468,7 @@ export declare function randBird<Options extends FakeOptions = never>(options?: 
  * randBitcoinAddress({ length: 10 })
  *
  */
-export declare function randBitcoinAddress<Options extends FakeOptions = never>(options?: Options): Return<string, Options>;
+export declare function randBitcoinAddress<Options extends FakeOptions = never>(options?: Options): Return<string[], Options>;
 export interface BookOptions extends FakeOptions {
 	category?: "Comedy" | "Crime" | "Family and Self" | "Love" | "Science Fiction and Fantasy" | "State of the Nation" | "War and Travel";
 }
@@ -1569,6 +1569,7 @@ export interface ImgOptions extends FakeOptions {
 	width?: number;
 	height?: number;
 	grayscale?: boolean;
+	random?: boolean;
 }
 /**
  * Generate a random img.
@@ -1594,6 +1595,10 @@ export interface ImgOptions extends FakeOptions {
  * @example
  *
  * randImg({ grayscale: true }) // return a grayscale image (default is false)
+ *
+ * @example
+ *
+ * randImg({ random: true }) // default is true, prevent the image from being cached
  *
  */
 export declare function randImg<Options extends ImgOptions = never>(options?: Options): Return<string, Options>;
@@ -2122,7 +2127,7 @@ export interface PasswordOptions extends FakeOptions {
  * randPassword({ size: 10 }) // default is 15
  *
  */
-export declare function randPassword<Options extends PasswordOptions = never>(options?: Options): Return<string, Options>;
+export declare function randPassword<Options extends PasswordOptions = never>(options?: Options): Return<string[], Options>;
 export interface PastOptions extends FakeOptions {
 	years?: number;
 }
@@ -2665,14 +2670,13 @@ export declare function randSemver<Options extends SemverOptions = never>(option
  *
  */
 export declare function randSentence<Options extends FakeOptions = never>(options?: Options): Return<string, Options>;
-export type RandomSequenceOptions = {
-	size?: number;
-	chars?: string;
-} & FakeOptions;
+export type CharTypes = "numeric" | "alpha" | "alphaNumeric" | "special";
 export type RandomSequenceOptions2 = {
 	size?: number;
-	charType?: "numeric" | "alpha" | "alphaNumeric" | "special";
+	charType?: CharTypes;
+	chars?: string;
 } & FakeOptions;
+export type ReturnTypeFromCharType<CharType extends CharTypes | undefined> = CharType extends "numeric" | "alpha" | "alphaNumeric" | "special" ? string : string[];
 /**
  * Generate a random sequence.
  *
@@ -2692,15 +2696,14 @@ export type RandomSequenceOptions2 = {
  *
  * @example
  *
- * randSequence({ charType: 'numeric' }) // numeric | alpha | alphaNumeric | special
+ * randSequence({ charType: 'numeric' })
  *
  * @example
  *
  * randSequence({ length: 10 })
  *
  */
-export declare function randSequence<Options extends RandomSequenceOptions = never>(options?: RandomSequenceOptions): Return<string, Options>;
-export declare function randSequence<Options extends RandomSequenceOptions2 = never>(options?: RandomSequenceOptions2): Return<string, Options>;
+export declare function randSequence<Options extends RandomSequenceOptions2 = never>(options?: Options): Return<ReturnTypeFromCharType<Options["charType"]>, Options>;
 /**
  * Generate a random shape.
  *

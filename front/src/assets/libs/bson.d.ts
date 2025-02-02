@@ -28,10 +28,57 @@ export declare class Binary extends BSONValue {
 	static readonly SUBTYPE_COLUMN = 7;
 	/** Sensitive BSON type */
 	static readonly SUBTYPE_SENSITIVE = 8;
+	/** Vector BSON type */
+	static readonly SUBTYPE_VECTOR = 9;
 	/** User BSON type */
 	static readonly SUBTYPE_USER_DEFINED = 128;
+	/** datatype of a Binary Vector (subtype: 9) */
+	static readonly VECTOR_TYPE: Readonly<{
+		readonly Int8: 3;
+		readonly Float32: 39;
+		readonly PackedBit: 16;
+	}>;
+	/**
+	 * The bytes of the Binary value.
+	 *
+	 * The format of a Binary value in BSON is defined as:
+	 * ```txt
+	 * binary	::= int32 subtype (byte*)
+	 * ```
+	 *
+	 * This `buffer` is the "(byte*)" segment.
+	 *
+	 * Unless the value is subtype 2, then deserialize will read the first 4 bytes as an int32 and set this to the remaining bytes.
+	 *
+	 * ```txt
+	 * binary	::= int32 unsigned_byte(2) int32 (byte*)
+	 * ```
+	 *
+	 * @see https://bsonspec.org/spec.html
+	 */
 	buffer: Uint8Array;
+	/**
+	 * The binary subtype.
+	 *
+	 * Current defined values are:
+	 *
+	 * - `unsigned_byte(0)` Generic binary subtype
+	 * - `unsigned_byte(1)` Function
+	 * - `unsigned_byte(2)` Binary (Deprecated)
+	 * - `unsigned_byte(3)` UUID (Deprecated)
+	 * - `unsigned_byte(4)` UUID
+	 * - `unsigned_byte(5)` MD5
+	 * - `unsigned_byte(6)` Encrypted BSON value
+	 * - `unsigned_byte(7)` Compressed BSON column
+	 * - `unsigned_byte(8)` Sensitive
+	 * - `unsigned_byte(9)` Vector
+	 * - `unsigned_byte(128)` - `unsigned_byte(255)` User defined
+	 */
 	sub_type: number;
+	/**
+	 * The Binary's `buffer` can be larger than the Binary's content.
+	 * This property is used to determine where the content ends in the buffer.
+	 */
 	position: number;
 	/**
 	 * Create a new Binary instance.
@@ -53,12 +100,12 @@ export declare class Binary extends BSONValue {
 	 */
 	write(sequence: BinarySequence, offset: number): void;
 	/**
-	 * Reads **length** bytes starting at **position**.
+	 * Returns a view of **length** bytes starting at **position**.
 	 *
 	 * @param position - read from the given position in the Binary.
 	 * @param length - the number of bytes to read.
 	 */
-	read(position: number, length: number): BinarySequence;
+	read(position: number, length: number): Uint8Array;
 	/** returns a view of the binary value as a Uint8Array */
 	value(): Uint8Array;
 	/** the length of the binary sequence */
@@ -73,6 +120,56 @@ export declare class Binary extends BSONValue {
 	static createFromBase64(base64: string, subType?: number): Binary;
 	/* Excluded from this release type: fromExtendedJSON */
 	inspect(depth?: number, options?: unknown, inspect?: InspectFn): string;
+	/**
+	 * If this Binary represents a Int8 Vector (`binary.buffer[0] === Binary.VECTOR_TYPE.Int8`),
+	 * returns a copy of the bytes in a new Int8Array.
+	 *
+	 * If the Binary is not a Vector, or the datatype is not Int8, an error is thrown.
+	 */
+	toInt8Array(): Int8Array;
+	/**
+	 * If this Binary represents a Float32 Vector (`binary.buffer[0] === Binary.VECTOR_TYPE.Float32`),
+	 * returns a copy of the bytes in a new Float32Array.
+	 *
+	 * If the Binary is not a Vector, or the datatype is not Float32, an error is thrown.
+	 */
+	toFloat32Array(): Float32Array;
+	/**
+	 * If this Binary represents packed bit Vector (`binary.buffer[0] === Binary.VECTOR_TYPE.PackedBit`),
+	 * returns a copy of the bytes that are packed bits.
+	 *
+	 * Use `toBits` to get the unpacked bits.
+	 *
+	 * If the Binary is not a Vector, or the datatype is not PackedBit, an error is thrown.
+	 */
+	toPackedBits(): Uint8Array;
+	/**
+	 * If this Binary represents a Packed bit Vector (`binary.buffer[0] === Binary.VECTOR_TYPE.PackedBit`),
+	 * returns a copy of the bit unpacked into a new Int8Array.
+	 *
+	 * Use `toPackedBits` to get the bits still in packed form.
+	 *
+	 * If the Binary is not a Vector, or the datatype is not PackedBit, an error is thrown.
+	 */
+	toBits(): Int8Array;
+	/**
+	 * Constructs a Binary representing an Int8 Vector.
+	 * @param array - The array to store as a view on the Binary class
+	 */
+	static fromInt8Array(array: Int8Array): Binary;
+	/** Constructs a Binary representing an Float32 Vector. */
+	static fromFloat32Array(array: Float32Array): Binary;
+	/**
+	 * Constructs a Binary representing a packed bit Vector.
+	 *
+	 * Use `fromBits` to pack an array of 1s and 0s.
+	 */
+	static fromPackedBits(array: Uint8Array, padding?: number): Binary;
+	/**
+	 * Constructs a Binary representing an Packed Bit Vector.
+	 * @param array - The array of 1s and 0s to pack into the Binary instance
+	 */
+	static fromBits(bits: ArrayLike<number>): Binary;
 }
 /** @public */
 export declare interface BinaryExtended {
@@ -91,6 +188,8 @@ export declare type BinarySequence = Uint8Array | number[];
 export declare namespace BSON {
 	export { setInternalBufferSize, serialize, serializeWithBufferAndIndex, deserialize, calculateObjectSize, deserializeStream, UUIDExtended, BinaryExtended, BinaryExtendedLegacy, BinarySequence, CodeExtended, DBRefLike, Decimal128Extended, DoubleExtended, EJSONOptions, Int32Extended, LongExtended, MaxKeyExtended, MinKeyExtended, ObjectIdExtended, ObjectIdLike, BSONRegExpExtended, BSONRegExpExtendedLegacy, BSONSymbolExtended, LongWithoutOverrides, TimestampExtended, TimestampOverrides, LongWithoutOverridesClass, SerializeOptions, DeserializeOptions, Code, BSONSymbol, DBRef, Binary, ObjectId, UUID, Long, Timestamp, Double, Int32, MinKey, MaxKey, BSONRegExp, Decimal128, BSONValue, BSONError, BSONVersionError, BSONRuntimeError, BSONOffsetError, BSONType, EJSON, onDemand, OnDemand, Document$1, CalculateObjectSizeOptions };
 }
+/* Excluded from this release type: BSON_MAJOR_VERSION */
+/* Excluded from this release type: BSON_VERSION_SYMBOL */
 /**
  * @public
  * @experimental
@@ -240,6 +339,7 @@ export declare type BSONType = (typeof BSONType)[keyof typeof BSONType];
 export declare abstract class BSONValue {
 	/** @public */
 	abstract get _bsontype(): string;
+	/* Excluded from this release type: [BSON_VERSION_SYMBOL] */
 	/**
 	 * @public
 	 * Prints a human-readable string of BSON value information
@@ -293,6 +393,8 @@ export declare type ByteUtils = {
 	encodeUTF8Into: (destination: Uint8Array, source: string, byteOffset: number) => number;
 	/** Generate a Uint8Array filled with random bytes with byteLength */
 	randomBytes: (byteLength: number) => Uint8Array;
+	/** Interprets `buffer` as an array of 32-bit values and swaps the byte order in-place. */
+	swap32: (buffer: Uint8Array) => Uint8Array;
 };
 /* Excluded declaration from this release type: ByteUtils */
 /**
@@ -1089,6 +1191,8 @@ export declare interface MinKeyExtended {
  * A collection of functions that get or set various numeric types and bit widths from a Uint8Array.
  */
 export declare type NumberUtils = {
+	/** Is true if the current system is big endian. */
+	isBigEndian: boolean;
 	/**
 	 * Parses a signed int32 at offset. Throws a `RangeError` if value is negative.
 	 */
@@ -1114,7 +1218,6 @@ export declare class ObjectId extends BSONValue {
 	/* Excluded from this release type: index */
 	static cacheHexString: boolean;
 	/* Excluded from this release type: buffer */
-	/* Excluded from this release type: __id */
 	/**
 	 * Create ObjectId from a number.
 	 *
@@ -1160,6 +1263,7 @@ export declare class ObjectId extends BSONValue {
 	 */
 	get id(): Uint8Array;
 	set id(value: Uint8Array);
+	/* Excluded from this release type: validateHexString */
 	/** Returns the ObjectId id as a 24 lowercase character hex string representation */
 	toHexString(): string;
 	/* Excluded from this release type: getInc */
@@ -1208,6 +1312,7 @@ export declare class ObjectId extends BSONValue {
 	static isValid(id: string | number | ObjectId | ObjectIdLike | Uint8Array): boolean;
 	/* Excluded from this release type: toExtendedJSON */
 	/* Excluded from this release type: fromExtendedJSON */
+	/* Excluded from this release type: isCached */
 	/**
 	 * Converts to a string representation of this Id.
 	 *
@@ -1297,10 +1402,20 @@ declare function stringify(value: any, replacer?: (number | string)[] | ((this: 
 /**
  * @public
  * @category BSONType
+ *
+ * A special type for _internal_ MongoDB use and is **not** associated with the regular Date type.
  */
 export declare class Timestamp extends LongWithoutOverridesClass {
 	get _bsontype(): "Timestamp";
 	static readonly MAX_VALUE: Long;
+	/**
+	 * An incrementing ordinal for operations within a given second.
+	 */
+	get i(): number;
+	/**
+	 * A `time_t` value measuring seconds since the Unix epoch
+	 */
+	get t(): number;
 	/**
 	 * @param int - A 64-bit bigint representing the Timestamp.
 	 */

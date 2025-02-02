@@ -8,6 +8,43 @@ import { Readable, Writable } from 'stream';
 import { ConnectionOptions as ConnectionOptions_2, TLSSocket, TLSSocketOptions } from 'tls';
 
 /** @public */
+export declare type Abortable = {
+	/**
+	 * @experimental
+	 * When provided, the corresponding `AbortController` can be used to abort an asynchronous action.
+	 *
+	 * The `signal.reason` value is used as the error thrown.
+	 *
+	 * @remarks
+	 * **NOTE:** If an abort signal aborts an operation while the driver is writing to the underlying
+	 * socket or reading the response from the server, the socket will be closed.
+	 * If signals are aborted at a high rate during socket read/writes this can lead to a high rate of connection reestablishment.
+	 *
+	 * We plan to mitigate this in a future release, please follow NODE-6062 (`timeoutMS` expiration suffers the same limitation).
+	 *
+	 * AbortSignals are likely a best fit for human interactive interruption (ex. ctrl-C) where the frequency
+	 * of cancellation is reasonably low. If a signal is programmatically aborted for 100s of operations you can empty
+	 * the driver's connection pool.
+	 *
+	 * @example
+	 * ```js
+	 * const controller = new AbortController();
+	 * const { signal } = controller;
+	 * process.on('SIGINT', () => controller.abort(new Error('^C pressed')));
+	 *
+	 * try {
+	 *   const res = await fetch('...', { signal });
+	 *   await collection.findOne(await res.json(), { signal });
+	 * catch (error) {
+	 *   if (error === signal.reason) {
+	 *     // signal abort error handling
+	 *   }
+	 * }
+	 * ```
+	 */
+	signal?: AbortSignal | undefined;
+};
+/** @public */
 export declare abstract class AbstractCursor<TSchema = any, CursorEvents extends AbstractCursorEvents = AbstractCursorEvents> extends TypedEventEmitter<CursorEvents> implements AsyncDisposable_2 {
 	/* Excluded from this release type: cursorId */
 	/* Excluded from this release type: cursorSession */
@@ -20,9 +57,12 @@ export declare abstract class AbstractCursor<TSchema = any, CursorEvents extends
 	/* Excluded from this release type: isClosed */
 	/* Excluded from this release type: isKilled */
 	/* Excluded from this release type: cursorOptions */
+	/* Excluded from this release type: timeoutContext */
 	/** @event */
 	static readonly CLOSE: "close";
 	/* Excluded from this release type: deserializationOptions */
+	protected signal: AbortSignal | undefined;
+	private abortListener;
 	/* Excluded from this release type: __constructor */
 	/**
 	 * The cursor has no id until it receives a response from the initial cursor creating command.
@@ -52,6 +92,8 @@ export declare abstract class AbstractCursor<TSchema = any, CursorEvents extends
 	get loadBalanced(): boolean;
 	/* Excluded from this release type: [Symbol.asyncDispose] */
 	/* Excluded from this release type: asyncDispose */
+	/** Adds cursor to client's tracking so it will be closed by MongoClient.close() */
+	private trackCursor;
 	/** Returns current buffered documents length */
 	bufferedCount(): number;
 	/** Returns current buffered documents */
@@ -77,7 +119,9 @@ export declare abstract class AbstractCursor<TSchema = any, CursorEvents extends
 	/**
 	 * Frees any client-side resources used by the cursor.
 	 */
-	close(): Promise<void>;
+	close(options?: {
+		timeoutMS?: number;
+	}): Promise<void>;
 	/**
 	 * Returns an array of documents. The caller is responsible for making sure that there
 	 * is enough memory to store the results. Note that the array only contains partial
@@ -217,6 +261,38 @@ export declare interface AbstractCursorOptions extends BSONSerializeOptions {
 	 */
 	awaitData?: boolean;
 	noCursorTimeout?: boolean;
+	/** Specifies the time an operation will run until it throws a timeout error. See {@link AbstractCursorOptions.timeoutMode} for more details on how this option applies to cursors. */
+	timeoutMS?: number;
+	/**
+	 * @public
+	 * @experimental
+	 * Specifies how `timeoutMS` is applied to the cursor. Can be either `'cursorLifeTime'` or `'iteration'`
+	 * When set to `'iteration'`, the deadline specified by `timeoutMS` applies to each call of
+	 * `cursor.next()`.
+	 * When set to `'cursorLifetime'`, the deadline applies to the life of the entire cursor.
+	 *
+	 * Depending on the type of cursor being used, this option has different default values.
+	 * For non-tailable cursors, this value defaults to `'cursorLifetime'`
+	 * For tailable cursors, this value defaults to `'iteration'` since tailable cursors, by
+	 * definition can have an arbitrarily long lifetime.
+	 *
+	 * @example
+	 * ```ts
+	 * const cursor = collection.find({}, {timeoutMS: 100, timeoutMode: 'iteration'});
+	 * for await (const doc of cursor) {
+	 *  // process doc
+	 *  // This will throw a timeout error if any of the iterator's `next()` calls takes more than 100ms, but
+	 *  // will continue to iterate successfully otherwise, regardless of the number of batches.
+	 * }
+	 * ```
+	 *
+	 * @example
+	 * ```ts
+	 * const cursor = collection.find({}, { timeoutMS: 1000, timeoutMode: 'cursorLifetime' });
+	 * const docs = await cursor.toArray(); // This entire line will throw a timeout error if all batches are not fetched and returned within 1000ms.
+	 * ```
+	 */
+	timeoutMode?: CursorTimeoutMode;
 }
 /* Excluded from this release type: AbstractOperation */
 /** @public */
@@ -335,7 +411,9 @@ export declare interface AggregateOptions extends Omit<CommandOperationOptions, 
 	bypassDocumentValidation?: boolean;
 	/** Return the query as cursor, on 2.6 \> it returns as a real cursor on pre 2.6 it returns as an emulated cursor. */
 	cursor?: Document;
-	/** specifies a cumulative time limit in milliseconds for processing operations on the cursor. MongoDB interrupts the operation at the earliest following interrupt point. */
+	/**
+	 * Specifies a cumulative time limit in milliseconds for processing operations on the cursor. MongoDB interrupts the operation at the earliest following interrupt point.
+	 */
 	maxTimeMS?: number;
 	/** The maximum amount of time for the server to wait on new documents to satisfy a tailable cursor query. */
 	maxAwaitTimeMS?: number;
@@ -360,7 +438,7 @@ export declare interface AggregateOptions extends Omit<CommandOperationOptions, 
  * or higher stream
  * @public
  */
-export declare class AggregationCursor<TSchema = any> extends AbstractCursor<TSchema> {
+export declare class AggregationCursor<TSchema = any> extends ExplainableCursor<TSchema> {
 	readonly pipeline: Document[];
 	/* Excluded from this release type: aggregateOptions */
 	/* Excluded from this release type: __constructor */
@@ -368,7 +446,14 @@ export declare class AggregationCursor<TSchema = any> extends AbstractCursor<TSc
 	map<T>(transform: (doc: TSchema) => T): AggregationCursor<T>;
 	/* Excluded from this release type: _initialize */
 	/** Execute the explain for the cursor */
-	explain(verbosity?: ExplainVerbosityLike | ExplainCommandOptions): Promise<Document>;
+	explain(): Promise<Document>;
+	explain(verbosity: ExplainVerbosityLike | ExplainCommandOptions): Promise<Document>;
+	explain(options: {
+		timeoutMS?: number;
+	}): Promise<Document>;
+	explain(verbosity: ExplainVerbosityLike | ExplainCommandOptions, options: {
+		timeoutMS?: number;
+	}): Promise<Document>;
 	/** Add a stage to the aggregation pipeline
 	 * @example
 	 * ```
@@ -529,7 +614,7 @@ export declare interface AuthMechanismProperties extends Document {
 	/** A user provided OIDC human interacted callback function. */
 	OIDC_HUMAN_CALLBACK?: OIDCCallbackFunction;
 	/** The OIDC environment. Note that 'test' is for internal use only. */
-	ENVIRONMENT?: "test" | "azure" | "gcp";
+	ENVIRONMENT?: "test" | "azure" | "gcp" | "k8s";
 	/** Allowed hosts that OIDC auth can connect to. */
 	ALLOWED_HOSTS?: string[];
 	/** The resource token for OIDC auth in Azure and GCP. */
@@ -960,9 +1045,9 @@ export declare class ChangeStream<TSchema extends Document = Document, TChange e
 	type: symbol;
 	/* Excluded from this release type: cursor */
 	streamOptions?: CursorStreamOptions;
-	/* Excluded from this release type: [kCursorStream] */
-	/* Excluded from this release type: [kClosed] */
-	/* Excluded from this release type: [kMode] */
+	/* Excluded from this release type: cursorStream */
+	/* Excluded from this release type: isClosed */
+	/* Excluded from this release type: mode */
 	/** @event */
 	static readonly RESPONSE: "response";
 	/** @event */
@@ -987,8 +1072,14 @@ export declare class ChangeStream<TSchema extends Document = Document, TChange e
 	 * @event
 	 */
 	static readonly RESUME_TOKEN_CHANGED: "resumeTokenChanged";
+	private timeoutContext?;
+	/**
+	 * Note that this property is here to uniquely identify a ChangeStream instance as the owner of
+	 * the {@link CursorTimeoutContext} instance (see {@link ChangeStream._createChangeStreamCursor}) to ensure
+	 * that {@link AbstractCursor.close} does not mutate the timeoutContext.
+	 */
+	private contextOwner;
 	/* Excluded from this release type: __constructor */
-	/* Excluded from this release type: cursorStream */
 	/** The cached resume token that is used to resume after the most recently returned change. */
 	get resumeToken(): ResumeToken;
 	/** Check if there is any document still available in the Change Stream */
@@ -1015,6 +1106,16 @@ export declare class ChangeStream<TSchema extends Document = Document, TChange e
 	 * @throws MongoChangeStreamError if the underlying cursor or the change stream is closed
 	 */
 	stream(options?: CursorStreamOptions): Readable & AsyncIterable<TChange>;
+	/* Excluded from this release type: _setIsEmitter */
+	/* Excluded from this release type: _setIsIterator */
+	/* Excluded from this release type: _createChangeStreamCursor */
+	/* Excluded from this release type: _closeEmitterModeWithError */
+	/* Excluded from this release type: _streamEvents */
+	/* Excluded from this release type: _endStream */
+	/* Excluded from this release type: _processChange */
+	/* Excluded from this release type: _processErrorStreamMode */
+	/* Excluded from this release type: _processErrorIteratorMode */
+	private _resume;
 }
 /**
  * Only present when the `showExpandedEvents` flag is enabled.
@@ -1175,7 +1276,14 @@ export declare type ChangeStreamEvents<TSchema extends Document = Document, TCha
 	end(): void;
 	error(error: Error): void;
 	change(change: TChange): void;
-} & AbstractCursorEvents;
+	/**
+	 * @remarks Note that the `close` event is currently emitted whenever the internal `ChangeStreamCursor`
+	 * instance is closed, which can occur multiple times for a given `ChangeStream` instance.
+	 *
+	 * TODO(NODE-6434): address this issue in NODE-6434
+	 */
+	close(): void;
+};
 /**
  * @public
  * @see https://www.mongodb.com/docs/manual/reference/change-events/#insert-event
@@ -1495,6 +1603,7 @@ export declare class ClientEncryption {
 	/* Excluded from this release type: _proxyOptions */
 	/* Excluded from this release type: _tlsOptions */
 	/* Excluded from this release type: _kmsProviders */
+	/* Excluded from this release type: _timeoutMS */
 	/* Excluded from this release type: _mongoCrypt */
 	/* Excluded from this release type: getMongoCrypt */
 	/**
@@ -1859,6 +1968,38 @@ export declare interface ClientEncryptionOptions {
 	 * TLS options for kms providers to use.
 	 */
 	tlsOptions?: CSFLEKMSTlsOptions;
+	/**
+	 * @experimental
+	 *
+	 * The timeout setting to be used for all the operations on ClientEncryption.
+	 *
+	 * When provided, `timeoutMS` is used as the timeout for each operation executed on
+	 * the ClientEncryption object.  For example:
+	 *
+	 * ```typescript
+	 * const clientEncryption = new ClientEncryption(client, {
+	 *  timeoutMS: 1_000
+	 *  kmsProviders: { local: { key: '<KEY>' } }
+	 * });
+	 *
+	 * // `1_000` is used as the timeout for createDataKey call
+	 * await clientEncryption.createDataKey('local');
+	 * ```
+	 *
+	 * If `timeoutMS` is configured on the provided client, the client's `timeoutMS` value
+	 * will be used unless `timeoutMS` is also provided as a client encryption option.
+	 *
+	 * ```typescript
+	 * const client = new MongoClient('<uri>', { timeoutMS: 2_000 });
+	 *
+	 * // timeoutMS is set to 1_000 on clientEncryption
+	 * const clientEncryption = new ClientEncryption(client, {
+	 *  timeoutMS: 1_000
+	 *  kmsProviders: { local: { key: '<KEY>' } }
+	 * });
+	 * ```
+	 */
+	timeoutMS?: number;
 }
 /**
  * @public
@@ -1910,7 +2051,7 @@ export declare interface ClientInsertOneResult {
 }
 /**
  * @public
- * @see https://github.com/mongodb/specifications/blob/master/source/mongodb-handshake/handshake.rst#hello-command
+ * @see https://github.com/mongodb/specifications/blob/master/source/mongodb-handshake/handshake.md#hello-command
  */
 export declare interface ClientMetadata {
 	driver: {
@@ -1972,7 +2113,7 @@ export declare class ClientSession extends TypedEventEmitter<ClientSessionEvents
 	/* Excluded from this release type: client */
 	/* Excluded from this release type: sessionPool */
 	hasEnded: boolean;
-	clientOptions?: MongoOptions;
+	clientOptions: MongoOptions;
 	supports: {
 		causalConsistency: boolean;
 	};
@@ -1983,20 +2124,22 @@ export declare class ClientSession extends TypedEventEmitter<ClientSessionEvents
 	defaultTransactionOptions: TransactionOptions;
 	transaction: Transaction;
 	/* Excluded from this release type: commitAttempted */
-	/* Excluded from this release type: [kServerSession] */
-	/* Excluded from this release type: [kSnapshotTime] */
-	/* Excluded from this release type: [kSnapshotEnabled] */
-	/* Excluded from this release type: [kPinnedConnection] */
-	/* Excluded from this release type: [kTxnNumberIncrement] */
-	/* Excluded from this release type: timeoutMS */
+	readonly snapshotEnabled: boolean;
+	/* Excluded from this release type: _serverSession */
+	/* Excluded from this release type: snapshotTime */
+	/* Excluded from this release type: pinnedConnection */
+	/* Excluded from this release type: txnNumberIncrement */
+	/**
+	 * @experimental
+	 * Specifies the time an operation in a given `ClientSession` will run until it throws a timeout error
+	 */
+	timeoutMS?: number;
+	/* Excluded from this release type: timeoutContext */
 	/* Excluded from this release type: __constructor */
 	/** The server id associated with this session */
 	get id(): ServerSessionId | undefined;
 	get serverSession(): ServerSession;
-	/** Whether or not this session is configured for snapshot reads */
-	get snapshotEnabled(): boolean;
 	get loadBalanced(): boolean;
-	/* Excluded from this release type: pinnedConnection */
 	/* Excluded from this release type: pin */
 	/* Excluded from this release type: unpin */
 	get isPinned(): boolean;
@@ -2053,12 +2196,21 @@ export declare class ClientSession extends TypedEventEmitter<ClientSessionEvents
 	startTransaction(options?: TransactionOptions): void;
 	/**
 	 * Commits the currently active transaction in this session.
+	 *
+	 * @param options - Optional options, can be used to override `defaultTimeoutMS`.
 	 */
-	commitTransaction(): Promise<void>;
+	commitTransaction(options?: {
+		timeoutMS?: number;
+	}): Promise<void>;
 	/**
 	 * Aborts the currently active transaction in this session.
+	 *
+	 * @param options - Optional options, can be used to override `defaultTimeoutMS`.
 	 */
-	abortTransaction(): Promise<void>;
+	abortTransaction(options?: {
+		timeoutMS?: number;
+	}): Promise<void>;
+	/* Excluded from this release type: abortTransaction */
 	/**
 	 * This is here to ensure that ClientSession is never serialized to BSON.
 	 */
@@ -2071,6 +2223,9 @@ export declare class ClientSession extends TypedEventEmitter<ClientSessionEvents
 	 * **IMPORTANT:** Running operations in parallel is not supported during a transaction. The use of `Promise.all`,
 	 * `Promise.allSettled`, `Promise.race`, etc to parallelize operations inside a transaction is
 	 * undefined behaviour.
+	 *
+	 * **IMPORTANT:** When running an operation inside a `withTransaction` callback, if it is not
+	 * provided the explicit session in its options, it will not be part of the transaction and it will not respect timeoutMS.
 	 *
 	 *
 	 * @remarks
@@ -2095,7 +2250,16 @@ export declare class ClientSession extends TypedEventEmitter<ClientSessionEvents
 	 * @param options - optional settings for the transaction
 	 * @returns A raw command response or undefined
 	 */
-	withTransaction<T = any>(fn: WithTransactionCallback<T>, options?: TransactionOptions): Promise<T>;
+	withTransaction<T = any>(fn: WithTransactionCallback<T>, options?: TransactionOptions & {
+		/**
+		 * Configures a timeoutMS expiry for the entire withTransactionCallback.
+		 *
+		 * @remarks
+		 * - The remaining timeout will not be applied to callback operations that do not use the ClientSession.
+		 * - Overriding timeoutMS for operations executed using the explicit session inside the provided callback will result in a client-side error.
+		 */
+		timeoutMS?: number;
+	}): Promise<T>;
 }
 /** @public */
 export declare type ClientSessionEvents = {
@@ -2109,6 +2273,13 @@ export declare interface ClientSessionOptions {
 	snapshot?: boolean;
 	/** The default TransactionOptions to use for transactions started on this session. */
 	defaultTransactionOptions?: TransactionOptions;
+	/**
+	 * @public
+	 * @experimental
+	 * An overriding timeoutMS value to use for a client-side timeout.
+	 * If not provided the session uses the timeoutMS specified on the MongoClient.
+	 */
+	defaultTimeoutMS?: number;
 }
 /** @public */
 export declare interface ClientUpdateManyModel<TSchema> extends ClientWriteModel {
@@ -2296,6 +2467,7 @@ export declare class Collection<TSchema extends Document = Document> {
 	/** The current index hint for the collection */
 	get hint(): Hint | undefined;
 	set hint(v: Hint | undefined);
+	get timeoutMS(): number | undefined;
 	/**
 	 * Inserts a single document into MongoDB. If documents passed in do not contain the **_id** field,
 	 * one will be added to each of the documents missing it by the driver, mutating the document. This behavior
@@ -2404,18 +2576,18 @@ export declare class Collection<TSchema extends Document = Document> {
 	 */
 	findOne(): Promise<WithId<TSchema> | null>;
 	findOne(filter: Filter<TSchema>): Promise<WithId<TSchema> | null>;
-	findOne(filter: Filter<TSchema>, options: FindOptions): Promise<WithId<TSchema> | null>;
+	findOne(filter: Filter<TSchema>, options: Omit<FindOptions, "timeoutMode"> & Abortable): Promise<WithId<TSchema> | null>;
 	findOne<T = TSchema>(): Promise<T | null>;
 	findOne<T = TSchema>(filter: Filter<TSchema>): Promise<T | null>;
-	findOne<T = TSchema>(filter: Filter<TSchema>, options?: FindOptions): Promise<T | null>;
+	findOne<T = TSchema>(filter: Filter<TSchema>, options?: Omit<FindOptions, "timeoutMode"> & Abortable): Promise<T | null>;
 	/**
 	 * Creates a cursor for a filter that can be used to iterate over results from MongoDB
 	 *
 	 * @param filter - The filter predicate. If unspecified, then all documents in the collection will match the predicate
 	 */
 	find(): FindCursor<WithId<TSchema>>;
-	find(filter: Filter<TSchema>, options?: FindOptions): FindCursor<WithId<TSchema>>;
-	find<T extends Document>(filter: Filter<TSchema>, options?: FindOptions): FindCursor<T>;
+	find(filter: Filter<TSchema>, options?: FindOptions & Abortable): FindCursor<WithId<TSchema>>;
+	find<T extends Document>(filter: Filter<TSchema>, options?: FindOptions & Abortable): FindCursor<T>;
 	/**
 	 * Returns the options of the collection.
 	 *
@@ -2545,6 +2717,9 @@ export declare class Collection<TSchema extends Document = Document> {
 	/**
 	 * Gets the number of documents matching the filter.
 	 * For a fast count of the total documents in a collection see {@link Collection#estimatedDocumentCount| estimatedDocumentCount}.
+	 *
+	 * Due to countDocuments using the $match aggregation pipeline stage, certain query operators cannot be used in countDocuments. This includes the $where and $near query operators, among others. Details can be found in the documentation for the $match aggregation pipeline stage.
+	 *
 	 * **Note**: When migrating from {@link Collection#count| count} to {@link Collection#countDocuments| countDocuments}
 	 * the following query operators must be replaced:
 	 *
@@ -2567,7 +2742,7 @@ export declare class Collection<TSchema extends Document = Document> {
 	 * @see https://www.mongodb.com/docs/manual/reference/operator/query/center/#op._S_center
 	 * @see https://www.mongodb.com/docs/manual/reference/operator/query/centerSphere/#op._S_centerSphere
 	 */
-	countDocuments(filter?: Filter<TSchema>, options?: CountDocumentsOptions): Promise<number>;
+	countDocuments(filter?: Filter<TSchema>, options?: CountDocumentsOptions & Abortable): Promise<number>;
 	/**
 	 * The distinct command returns a list of distinct values for the given key across a collection.
 	 *
@@ -2644,7 +2819,7 @@ export declare class Collection<TSchema extends Document = Document> {
 	 * @param pipeline - An array of aggregation pipelines to execute
 	 * @param options - Optional settings for the command
 	 */
-	aggregate<T extends Document = Document>(pipeline?: Document[], options?: AggregateOptions): AggregationCursor<T>;
+	aggregate<T extends Document = Document>(pipeline?: Document[], options?: AggregateOptions & Abortable): AggregationCursor<T>;
 	/**
 	 * Create a new Change Stream, watching for new changes (insertions, updates, replacements, deletions, and invalidations) in this collection.
 	 *
@@ -2676,6 +2851,59 @@ export declare class Collection<TSchema extends Document = Document> {
 	 *     // No need to narrow in code because the generics did that for us!
 	 *     expectType<Schema>(change.fullDocument);
 	 *   });
+	 * ```
+	 *
+	 * @remarks
+	 * When `timeoutMS` is configured for a change stream, it will have different behaviour depending
+	 * on whether the change stream is in iterator mode or emitter mode. In both cases, a change
+	 * stream will time out if it does not receive a change event within `timeoutMS` of the last change
+	 * event.
+	 *
+	 * Note that if a change stream is consistently timing out when watching a collection, database or
+	 * client that is being changed, then this may be due to the server timing out before it can finish
+	 * processing the existing oplog. To address this, restart the change stream with a higher
+	 * `timeoutMS`.
+	 *
+	 * If the change stream times out the initial aggregate operation to establish the change stream on
+	 * the server, then the client will close the change stream. If the getMore calls to the server
+	 * time out, then the change stream will be left open, but will throw a MongoOperationTimeoutError
+	 * when in iterator mode and emit an error event that returns a MongoOperationTimeoutError in
+	 * emitter mode.
+	 *
+	 * To determine whether or not the change stream is still open following a timeout, check the
+	 * {@link ChangeStream.closed} getter.
+	 *
+	 * @example
+	 * In iterator mode, if a next() call throws a timeout error, it will attempt to resume the change stream.
+	 * The next call can just be retried after this succeeds.
+	 * ```ts
+	 * const changeStream = collection.watch([], { timeoutMS: 100 });
+	 * try {
+	 *     await changeStream.next();
+	 * } catch (e) {
+	 *     if (e instanceof MongoOperationTimeoutError && !changeStream.closed) {
+	 *       await changeStream.next();
+	 *     }
+	 *     throw e;
+	 * }
+	 * ```
+	 *
+	 * @example
+	 * In emitter mode, if the change stream goes `timeoutMS` without emitting a change event, it will
+	 * emit an error event that returns a MongoOperationTimeoutError, but will not close the change
+	 * stream unless the resume attempt fails. There is no need to re-establish change listeners as
+	 * this will automatically continue emitting change events once the resume attempt completes.
+	 *
+	 * ```ts
+	 * const changeStream = collection.watch([], { timeoutMS: 100 });
+	 * changeStream.on('change', console.log);
+	 * changeStream.on('error', e => {
+	 *     if (e instanceof MongoOperationTimeoutError && !changeStream.closed) {
+	 *         // do nothing
+	 *     } else {
+	 *         changeStream.close();
+	 *     }
+	 * });
 	 * ```
 	 *
 	 * @param pipeline - An array of {@link https://www.mongodb.com/docs/manual/reference/operator/aggregation-pipeline/|aggregation pipeline stages} through which to pass change stream documents. This allows for filtering (using $match) and manipulating the change stream documents.
@@ -2786,6 +3014,11 @@ export declare interface CollectionOptions extends BSONSerializeOptions, WriteCo
 	readConcern?: ReadConcernLike;
 	/** The preferred read preference (ReadPreference.PRIMARY, ReadPreference.PRIMARY_PREFERRED, ReadPreference.SECONDARY, ReadPreference.SECONDARY_PREFERRED, ReadPreference.NEAREST). */
 	readPreference?: ReadPreferenceLike;
+	/**
+	 * @experimental
+	 * Specifies the time an operation will run until it throws a timeout error
+	 */
+	timeoutMS?: number;
 }
 /* Excluded from this release type: CollectionPrivate */
 /* Excluded from this release type: COMMAND_FAILED */
@@ -2821,6 +3054,9 @@ export declare interface CommandOperationOptions extends OperationOptions, Write
 	readConcern?: ReadConcernLike;
 	/** Collation */
 	collation?: CollationOptions;
+	/**
+	 * maxTimeMS is a server-side time limit in milliseconds for processing an operation.
+	 */
 	maxTimeMS?: number;
 	/**
 	 * Comment to apply to the operation.
@@ -3127,7 +3363,9 @@ export declare interface CountOptions extends CommandOperationOptions {
 	skip?: number;
 	/** The maximum amounts to count before aborting. */
 	limit?: number;
-	/** Number of milliseconds to wait before aborting the query. */
+	/**
+	 * Number of milliseconds to wait before aborting the query.
+	 */
 	maxTimeMS?: number;
 	/** An index name hint for the query. */
 	hint?: string | Document;
@@ -3220,6 +3458,8 @@ export declare type CSFLEKMSTlsOptions = {
 	azure?: ClientEncryptionTlsOptions;
 	[key: string]: ClientEncryptionTlsOptions | undefined;
 };
+/* Excluded from this release type: CSOTTimeoutContext */
+/* Excluded from this release type: CSOTTimeoutContextOptions */
 /** @public */
 export declare const CURSOR_FLAGS: readonly [
 	"tailable",
@@ -3237,6 +3477,45 @@ export declare interface CursorStreamOptions {
 	/** A transformation method applied to each document emitted by the stream */
 	transform?(this: void, doc: Document): Document;
 }
+/* Excluded from this release type: CursorTimeoutContext */
+/**
+ * @public
+ * @experimental
+ * Specifies how `timeoutMS` is applied to the cursor. Can be either `'cursorLifeTime'` or `'iteration'`
+ * When set to `'iteration'`, the deadline specified by `timeoutMS` applies to each call of
+ * `cursor.next()`.
+ * When set to `'cursorLifetime'`, the deadline applies to the life of the entire cursor.
+ *
+ * Depending on the type of cursor being used, this option has different default values.
+ * For non-tailable cursors, this value defaults to `'cursorLifetime'`
+ * For tailable cursors, this value defaults to `'iteration'` since tailable cursors, by
+ * definition can have an arbitrarily long lifetime.
+ *
+ * @example
+ * ```ts
+ * const cursor = collection.find({}, {timeoutMS: 100, timeoutMode: 'iteration'});
+ * for await (const doc of cursor) {
+ *  // process doc
+ *  // This will throw a timeout error if any of the iterator's `next()` calls takes more than 100ms, but
+ *  // will continue to iterate successfully otherwise, regardless of the number of batches.
+ * }
+ * ```
+ *
+ * @example
+ * ```ts
+ * const cursor = collection.find({}, { timeoutMS: 1000, timeoutMode: 'cursorLifetime' });
+ * const docs = await cursor.toArray(); // This entire line will throw a timeout error if all batches are not fetched and returned within 1000ms.
+ * ```
+ */
+export declare const CursorTimeoutMode: Readonly<{
+	readonly ITERATION: "iteration";
+	readonly LIFETIME: "cursorLifetime";
+}>;
+/**
+ * @public
+ * @experimental
+ */
+export declare type CursorTimeoutMode = (typeof CursorTimeoutMode)[keyof typeof CursorTimeoutMode];
 /**
  * @public
  * The schema for a DataKey in the key vault collection.
@@ -3307,6 +3586,7 @@ export declare class Db {
 	get bsonOptions(): BSONSerializeOptions;
 	get writeConcern(): WriteConcern | undefined;
 	get namespace(): string;
+	get timeoutMS(): number | undefined;
 	/**
 	 * Create a new collection on a server with the specified options. Use this to create capped collections.
 	 * More information about command options available at https://www.mongodb.com/docs/manual/reference/command/create/
@@ -3342,7 +3622,7 @@ export declare class Db {
 	 * @param command - The command to run
 	 * @param options - Optional settings for the command
 	 */
-	command(command: Document, options?: RunCommandOptions): Promise<Document>;
+	command(command: Document, options?: RunCommandOptions & Abortable): Promise<Document>;
 	/**
 	 * Execute an aggregation framework pipeline against the database.
 	 *
@@ -3375,11 +3655,11 @@ export declare class Db {
 	 */
 	listCollections(filter: Document, options: Exclude<ListCollectionsOptions, "nameOnly"> & {
 		nameOnly: true;
-	}): ListCollectionsCursor<Pick<CollectionInfo, "name" | "type">>;
+	} & Abortable): ListCollectionsCursor<Pick<CollectionInfo, "name" | "type">>;
 	listCollections(filter: Document, options: Exclude<ListCollectionsOptions, "nameOnly"> & {
 		nameOnly: false;
-	}): ListCollectionsCursor<CollectionInfo>;
-	listCollections<T extends Pick<CollectionInfo, "name" | "type"> | CollectionInfo = Pick<CollectionInfo, "name" | "type"> | CollectionInfo>(filter?: Document, options?: ListCollectionsOptions): ListCollectionsCursor<T>;
+	} & Abortable): ListCollectionsCursor<CollectionInfo>;
+	listCollections<T extends Pick<CollectionInfo, "name" | "type"> | CollectionInfo = Pick<CollectionInfo, "name" | "type"> | CollectionInfo>(filter?: Document, options?: ListCollectionsOptions & Abortable): ListCollectionsCursor<T>;
 	/**
 	 * Rename a collection.
 	 *
@@ -3462,6 +3742,58 @@ export declare class Db {
 	 * - The first is to provide the schema that may be defined for all the collections within this database
 	 * - The second is to override the shape of the change stream document entirely, if it is not provided the type will default to ChangeStreamDocument of the first argument
 	 *
+	 * @remarks
+	 * When `timeoutMS` is configured for a change stream, it will have different behaviour depending
+	 * on whether the change stream is in iterator mode or emitter mode. In both cases, a change
+	 * stream will time out if it does not receive a change event within `timeoutMS` of the last change
+	 * event.
+	 *
+	 * Note that if a change stream is consistently timing out when watching a collection, database or
+	 * client that is being changed, then this may be due to the server timing out before it can finish
+	 * processing the existing oplog. To address this, restart the change stream with a higher
+	 * `timeoutMS`.
+	 *
+	 * If the change stream times out the initial aggregate operation to establish the change stream on
+	 * the server, then the client will close the change stream. If the getMore calls to the server
+	 * time out, then the change stream will be left open, but will throw a MongoOperationTimeoutError
+	 * when in iterator mode and emit an error event that returns a MongoOperationTimeoutError in
+	 * emitter mode.
+	 *
+	 * To determine whether or not the change stream is still open following a timeout, check the
+	 * {@link ChangeStream.closed} getter.
+	 *
+	 * @example
+	 * In iterator mode, if a next() call throws a timeout error, it will attempt to resume the change stream.
+	 * The next call can just be retried after this succeeds.
+	 * ```ts
+	 * const changeStream = collection.watch([], { timeoutMS: 100 });
+	 * try {
+	 *     await changeStream.next();
+	 * } catch (e) {
+	 *     if (e instanceof MongoOperationTimeoutError && !changeStream.closed) {
+	 *       await changeStream.next();
+	 *     }
+	 *     throw e;
+	 * }
+	 * ```
+	 *
+	 * @example
+	 * In emitter mode, if the change stream goes `timeoutMS` without emitting a change event, it will
+	 * emit an error event that returns a MongoOperationTimeoutError, but will not close the change
+	 * stream unless the resume attempt fails. There is no need to re-establish change listeners as
+	 * this will automatically continue emitting change events once the resume attempt completes.
+	 *
+	 * ```ts
+	 * const changeStream = collection.watch([], { timeoutMS: 100 });
+	 * changeStream.on('change', console.log);
+	 * changeStream.on('error', e => {
+	 *     if (e instanceof MongoOperationTimeoutError && !changeStream.closed) {
+	 *         // do nothing
+	 *     } else {
+	 *         changeStream.close();
+	 *     }
+	 * });
+	 * ```
 	 * @param pipeline - An array of {@link https://www.mongodb.com/docs/manual/reference/operator/aggregation-pipeline/|aggregation pipeline stages} through which to pass change stream documents. This allows for filtering (using $match) and manipulating the change stream documents.
 	 * @param options - Optional settings for the command
 	 * @typeParam TSchema - Type of the data being detected by the change stream
@@ -3494,6 +3826,11 @@ export declare interface DbOptions extends BSONSerializeOptions, WriteConcernOpt
 	readConcern?: ReadConcern;
 	/** Should retry failed writes */
 	retryWrites?: boolean;
+	/**
+	 * @experimental
+	 * Specifies the time an operation will run until it throws a timeout error
+	 */
+	timeoutMS?: number;
 }
 /** @public */
 export declare interface DbStatsOptions extends CommandOperationOptions {
@@ -3571,6 +3908,8 @@ export declare interface EndSessionOptions {
 	/* Excluded from this release type: error */
 	force?: boolean;
 	forceClear?: boolean;
+	/** Specifies the time an operation will run until it throws a timeout error */
+	timeoutMS?: number;
 }
 /** TypeScript Omit (Exclude to be specific) does not work for objects with an "any" indexed type, and breaks discriminated unions @public */
 export declare type EnhancedOmit<TRecordOrUnion, KeyUnion> = string extends keyof TRecordOrUnion ? TRecordOrUnion : TRecordOrUnion extends any ? Pick<TRecordOrUnion, Exclude<keyof TRecordOrUnion, KeyUnion>> : never;
@@ -3599,6 +3938,37 @@ export declare type EventEmitterWithState = {};
  */
 export declare type EventsDescription = Record<string, GenericListener>;
 /* Excluded from this release type: Explain */
+/**
+ * @public
+ *
+ * A base class for any cursors that have `explain()` methods.
+ */
+export declare abstract class ExplainableCursor<TSchema> extends AbstractCursor<TSchema> {
+	/** Execute the explain for the cursor */
+	abstract explain(): Promise<Document>;
+	abstract explain(verbosity: ExplainVerbosityLike | ExplainCommandOptions): Promise<Document>;
+	abstract explain(options: {
+		timeoutMS?: number;
+	}): Promise<Document>;
+	abstract explain(verbosity: ExplainVerbosityLike | ExplainCommandOptions, options: {
+		timeoutMS?: number;
+	}): Promise<Document>;
+	abstract explain(verbosity?: ExplainVerbosityLike | ExplainCommandOptions | {
+		timeoutMS?: number;
+	}, options?: {
+		timeoutMS?: number;
+	}): Promise<Document>;
+	protected resolveExplainTimeoutOptions(verbosity?: ExplainVerbosityLike | ExplainCommandOptions | {
+		timeoutMS?: number;
+	}, options?: {
+		timeoutMS?: number;
+	}): {
+		timeout?: {
+			timeoutMS?: number;
+		};
+		explain?: ExplainVerbosityLike | ExplainCommandOptions;
+	};
+}
 /** @public */
 export declare interface ExplainCommandOptions {
 	/** The explain verbosity for the command. */
@@ -3704,7 +4074,7 @@ export declare interface FilterOperators<TValue> extends NonObjectIdLikeDocument
 	$rand?: Record<string, never>;
 }
 /** @public */
-export declare class FindCursor<TSchema = any> extends AbstractCursor<TSchema> {
+export declare class FindCursor<TSchema = any> extends ExplainableCursor<TSchema> {
 	/* Excluded from this release type: cursorFilter */
 	/* Excluded from this release type: numReturned */
 	/* Excluded from this release type: findOptions */
@@ -3719,7 +4089,14 @@ export declare class FindCursor<TSchema = any> extends AbstractCursor<TSchema> {
 	 */
 	count(options?: CountOptions): Promise<number>;
 	/** Execute the explain for the cursor */
-	explain(verbosity?: ExplainVerbosityLike | ExplainCommandOptions): Promise<Document>;
+	explain(): Promise<Document>;
+	explain(verbosity: ExplainVerbosityLike | ExplainCommandOptions): Promise<Document>;
+	explain(options: {
+		timeoutMS?: number;
+	}): Promise<Document>;
+	explain(verbosity: ExplainVerbosityLike | ExplainCommandOptions, options: {
+		timeoutMS?: number;
+	}): Promise<Document>;
 	/** Set the cursor query */
 	filter(filter: Document): this;
 	/**
@@ -3944,7 +4321,7 @@ export declare class FindOperators {
  * @public
  * @typeParam TSchema - Unused schema definition, deprecated usage, only specify `FindOptions` with no generic
  */
-export declare interface FindOptions<TSchema extends Document = Document> extends Omit<CommandOperationOptions, "writeConcern" | "explain"> {
+export declare interface FindOptions<TSchema extends Document = Document> extends Omit<CommandOperationOptions, "writeConcern" | "explain">, AbstractCursorOptions {
 	/** Sets the limit of documents returned in the query. */
 	limit?: number;
 	/** Set to sort the documents coming back from the query. Array of indexes, `[['a', 1]]` etc. */
@@ -4091,7 +4468,9 @@ export declare class GridFSBucket extends TypedEventEmitter<GridFSBucketEvents> 
 	 *
 	 * @param id - The id of the file doc
 	 */
-	delete(id: ObjectId): Promise<void>;
+	delete(id: ObjectId, options?: {
+		timeoutMS: number;
+	}): Promise<void>;
 	/** Convenience wrapper around find on the files collection */
 	find(filter?: Filter<GridFSFile>, options?: FindOptions): FindCursor<GridFSFile>;
 	/**
@@ -4108,9 +4487,13 @@ export declare class GridFSBucket extends TypedEventEmitter<GridFSBucketEvents> 
 	 * @param id - the id of the file to rename
 	 * @param filename - new name for the file
 	 */
-	rename(id: ObjectId, filename: string): Promise<void>;
+	rename(id: ObjectId, filename: string, options?: {
+		timeoutMS: number;
+	}): Promise<void>;
 	/** Removes this bucket's files collection, followed by its chunks collection. */
-	drop(): Promise<void>;
+	drop(options?: {
+		timeoutMS: number;
+	}): Promise<void>;
 }
 /** @public */
 export declare type GridFSBucketEvents = {
@@ -4124,6 +4507,12 @@ export declare interface GridFSBucketOptions extends WriteConcernOptions {
 	chunkSizeBytes?: number;
 	/** Read preference to be passed to read operations */
 	readPreference?: ReadPreference;
+	/**
+	 * @experimental
+	 * Specifies the lifetime duration of a gridFS stream. If any async operations are in progress
+	 * when this timeout expires, the stream will throw a timeout error.
+	 */
+	timeoutMS?: number;
 }
 /* Excluded from this release type: GridFSBucketPrivate */
 /**
@@ -4177,6 +4566,11 @@ export declare interface GridFSBucketReadStreamOptions {
 	 * to be returned by the stream. `end` is non-inclusive
 	 */
 	end?: number;
+	/**
+	 * @experimental
+	 * Specifies the time an operation will run until it throws a timeout error
+	 */
+	timeoutMS?: number;
 }
 /** @public */
 export declare interface GridFSBucketReadStreamOptionsWithRevision extends GridFSBucketReadStreamOptions {
@@ -4244,6 +4638,7 @@ export declare class GridFSBucketWriteStream extends Writable {
 	 * ```
 	 */
 	gridFSFile: GridFSFile | null;
+	/* Excluded from this release type: timeoutContext */
 	/* Excluded from this release type: __constructor */
 	/* Excluded from this release type: _construct */
 	/* Excluded from this release type: _write */
@@ -4272,6 +4667,11 @@ export declare interface GridFSBucketWriteStreamOptions extends WriteConcernOpti
 	 * @deprecated Will be removed in the next major version. Add an aliases field to the metadata document instead.
 	 */
 	aliases?: string[];
+	/**
+	 * @experimental
+	 * Specifies the time an operation will run until it throws a timeout error
+	 */
+	timeoutMS?: number;
 }
 /** @public */
 export declare interface GridFSChunk {
@@ -4465,18 +4865,7 @@ export declare type Join<T extends unknown[], D extends string> = T extends [
 	...infer R
 ] ? `${T[0]}${D}${Join<R, D>}` : string;
 /* Excluded from this release type: JSTypeOf */
-/* Excluded from this release type: kBeforeHandshake */
-/* Excluded from this release type: kCancellationToken */
-/* Excluded from this release type: kCancellationToken_2 */
-/* Excluded from this release type: kCancelled */
-/* Excluded from this release type: kCancelled_2 */
-/* Excluded from this release type: kCheckedOut */
-/* Excluded from this release type: kClosed */
-/* Excluded from this release type: kConnectionCounter */
-/* Excluded from this release type: kConnections */
-/* Excluded from this release type: kCursorStream */
 /* Excluded from this release type: kDecorateResult */
-/* Excluded from this release type: kErrorLabels */
 /** @public */
 export declare type KeysOfAType<TSchema, Type> = {
 	[key in keyof TSchema]: NonNullable<TSchema[key]> extends Type ? key : never;
@@ -4485,10 +4874,6 @@ export declare type KeysOfAType<TSchema, Type> = {
 export declare type KeysOfOtherType<TSchema, Type> = {
 	[key in keyof TSchema]: NonNullable<TSchema[key]> extends Type ? never : key;
 }[keyof TSchema];
-/* Excluded from this release type: kGeneration */
-/* Excluded from this release type: kInternalClient */
-/* Excluded from this release type: kMetrics */
-/* Excluded from this release type: kMinPoolSizeTimer */
 /**
  * @public
  * Configuration options for making a KMIP encryption key
@@ -4520,8 +4905,6 @@ export declare interface KMIPKMSProviderConfiguration {
 	 */
 	endpoint?: string;
 }
-/* Excluded from this release type: kMode */
-/* Excluded from this release type: kMonitorId */
 /**
  * @public
  * Configuration options that are used by specific KMS providers during key generation, encryption, and decryption.
@@ -4555,22 +4938,8 @@ export declare interface KMSProviders {
 	gcp?: GCPKMSProviderConfiguration | Record<string, never>;
 	[key: `gcp:${string}`]: GCPKMSProviderConfiguration;
 }
-/* Excluded from this release type: kOptions */
-/* Excluded from this release type: kPending */
-/* Excluded from this release type: kPinnedConnection */
-/* Excluded from this release type: kPoolState */
-/* Excluded from this release type: kProcessingWaitQueue */
-/* Excluded from this release type: kServer */
-/* Excluded from this release type: kServer_2 */
-/* Excluded from this release type: kServerError */
-/* Excluded from this release type: kServerSession */
-/* Excluded from this release type: kServiceGenerations */
-/* Excluded from this release type: kSession */
-/* Excluded from this release type: kSnapshotEnabled */
-/* Excluded from this release type: kSnapshotTime */
-/* Excluded from this release type: kTxnNumberIncrement */
-/* Excluded from this release type: kWaitQueue */
-/* Excluded from this release type: kWaitQueue_2 */
+/* Excluded from this release type: LegacyTimeoutContext */
+/* Excluded from this release type: LegacyTimeoutContextOptions */
 /** @public */
 export declare const LEGAL_TCP_SOCKET_OPTIONS: readonly [
 	"autoSelectFamily",
@@ -4606,12 +4975,12 @@ export declare const LEGAL_TLS_SOCKET_OPTIONS: readonly [
 export declare class ListCollectionsCursor<T extends Pick<CollectionInfo, "name" | "type"> | CollectionInfo = Pick<CollectionInfo, "name" | "type"> | CollectionInfo> extends AbstractCursor<T> {
 	parent: Db;
 	filter: Document;
-	options?: ListCollectionsOptions;
-	constructor(db: Db, filter: Document, options?: ListCollectionsOptions);
+	options?: ListCollectionsOptions & Abortable;
+	constructor(db: Db, filter: Document, options?: ListCollectionsOptions & Abortable);
 	clone(): ListCollectionsCursor<T>;
 }
 /** @public */
-export declare interface ListCollectionsOptions extends Omit<CommandOperationOptions, "writeConcern"> {
+export declare interface ListCollectionsOptions extends Omit<CommandOperationOptions, "writeConcern">, Abortable {
 	/** Since 4.0: If true, will only return the collection name in the response, and will omit additional info */
 	nameOnly?: boolean;
 	/** Since 4.0: If true and nameOnly is true, allows a user without the required privilege (i.e. listCollections action on the database) to run the command when access control is enforced. */
@@ -4647,7 +5016,7 @@ export declare class ListIndexesCursor extends AbstractCursor {
 	clone(): ListIndexesCursor;
 }
 /** @public */
-export declare type ListIndexesOptions = AbstractCursorOptions;
+export declare type ListIndexesOptions = AbstractCursorOptions & {};
 /** @public */
 export declare class ListSearchIndexesCursor extends AggregationCursor<{
 	name: string;
@@ -4662,6 +5031,28 @@ export declare interface LocalKMSProviderConfiguration {
 	 * A 96-byte long Buffer or base64 encoded string.
 	 */
 	key: Binary | Uint8Array | string;
+}
+/** @public */
+export declare interface Log extends Record<string, any> {
+	t: Date;
+	c: MongoLoggableComponent;
+	s: SeverityLevel;
+	message?: string;
+}
+/** @public */
+export declare interface LogComponentSeveritiesClientOptions {
+	/** Optional severity level for command component */
+	command?: SeverityLevel;
+	/** Optional severity level for topology component */
+	topology?: SeverityLevel;
+	/** Optional severity level for server selection component */
+	serverSelection?: SeverityLevel;
+	/** Optional severity level for connection component */
+	connection?: SeverityLevel;
+	/** Optional severity level for client component */
+	client?: SeverityLevel;
+	/** Optional default severity level to be used if any of the above are unset */
+	default?: SeverityLevel;
 }
 /** @public */
 export declare type MatchKeysAndValues<TSchema> = Readonly<Partial<TSchema>> & Record<string, any>;
@@ -4884,13 +5275,15 @@ export declare class MongoClient extends TypedEventEmitter<MongoClientEvents> im
 	/* Excluded from this release type: topology */
 	/* Excluded from this release type: mongoLogger */
 	/* Excluded from this release type: connectionLock */
-	/* Excluded from this release type: [kOptions] */
+	/* Excluded from this release type: closeLock */
+	/**
+	 * The consolidate, parsed, transformed and merged options.
+	 */
+	readonly options: Readonly<Omit<MongoOptions, "monitorCommands" | "ca" | "crl" | "key" | "cert">> & Pick<MongoOptions, "monitorCommands" | "ca" | "crl" | "key" | "cert">;
 	constructor(url: string, options?: MongoClientOptions);
 	/* Excluded from this release type: [Symbol.asyncDispose] */
 	/* Excluded from this release type: asyncDispose */
 	/* Excluded from this release type: checkForNonGenuineHosts */
-	/** @see MongoOptions */
-	get options(): Readonly<MongoOptions>;
 	get serverApi(): Readonly<ServerApi | undefined>;
 	/* Excluded from this release type: monitorCommands */
 	/* Excluded from this release type: monitorCommands */
@@ -4899,6 +5292,7 @@ export declare class MongoClient extends TypedEventEmitter<MongoClientEvents> im
 	get writeConcern(): WriteConcern | undefined;
 	get readPreference(): ReadPreference;
 	get bsonOptions(): BSONSerializeOptions;
+	get timeoutMS(): number | undefined;
 	/**
 	 * Executes a client bulk write operation, available on server 8.0+.
 	 * @param models - The client bulk write models.
@@ -4908,6 +5302,17 @@ export declare class MongoClient extends TypedEventEmitter<MongoClientEvents> im
 	bulkWrite<SchemaMap extends Record<string, Document> = Record<string, Document>>(models: ReadonlyArray<ClientBulkWriteModel<SchemaMap>>, options?: ClientBulkWriteOptions): Promise<ClientBulkWriteResult>;
 	/**
 	 * Connect to MongoDB using a url
+	 *
+	 * @remarks
+	 * Calling `connect` is optional since the first operation you perform will call `connect` if it's needed.
+	 * `timeoutMS` will bound the time any operation can take before throwing a timeout error.
+	 * However, when the operation being run is automatically connecting your `MongoClient` the `timeoutMS` will not apply to the time taken to connect the MongoClient.
+	 * This means the time to setup the `MongoClient` does not count against `timeoutMS`.
+	 * If you are using `timeoutMS` we recommend connecting your client explicitly in advance of any operation to avoid this inconsistent execution time.
+	 *
+	 * @remarks
+	 * The driver will look up corresponding SRV and TXT records if the connection string starts with `mongodb+srv://`.
+	 * If those look ups throw a DNS Timeout error, the driver will retry the look up once.
 	 *
 	 * @see docs.mongodb.org/manual/reference/connection-string/
 	 */
@@ -4927,6 +5332,7 @@ export declare class MongoClient extends TypedEventEmitter<MongoClientEvents> im
 	 * @param force - Force close, emitting no events
 	 */
 	close(force?: boolean): Promise<void>;
+	private _close;
 	/**
 	 * Create a new Db instance sharing the current socket connections.
 	 *
@@ -4938,7 +5344,18 @@ export declare class MongoClient extends TypedEventEmitter<MongoClientEvents> im
 	 * Connect to MongoDB using a url
 	 *
 	 * @remarks
+	 * Calling `connect` is optional since the first operation you perform will call `connect` if it's needed.
+	 * `timeoutMS` will bound the time any operation can take before throwing a timeout error.
+	 * However, when the operation being run is automatically connecting your `MongoClient` the `timeoutMS` will not apply to the time taken to connect the MongoClient.
+	 * This means the time to setup the `MongoClient` does not count against `timeoutMS`.
+	 * If you are using `timeoutMS` we recommend connecting your client explicitly in advance of any operation to avoid this inconsistent execution time.
+	 *
+	 * @remarks
 	 * The programmatically provided options take precedence over the URI options.
+	 *
+	 * @remarks
+	 * The driver will look up corresponding SRV and TXT records if the connection string starts with `mongodb+srv://`.
+	 * If those look ups throw a DNS Timeout error, the driver will retry the look up once.
 	 *
 	 * @see https://www.mongodb.com/docs/manual/reference/connection-string/
 	 */
@@ -4971,6 +5388,58 @@ export declare class MongoClient extends TypedEventEmitter<MongoClientEvents> im
 	 * - The first is to provide the schema that may be defined for all the data within the current cluster
 	 * - The second is to override the shape of the change stream document entirely, if it is not provided the type will default to ChangeStreamDocument of the first argument
 	 *
+	 * @remarks
+	 * When `timeoutMS` is configured for a change stream, it will have different behaviour depending
+	 * on whether the change stream is in iterator mode or emitter mode. In both cases, a change
+	 * stream will time out if it does not receive a change event within `timeoutMS` of the last change
+	 * event.
+	 *
+	 * Note that if a change stream is consistently timing out when watching a collection, database or
+	 * client that is being changed, then this may be due to the server timing out before it can finish
+	 * processing the existing oplog. To address this, restart the change stream with a higher
+	 * `timeoutMS`.
+	 *
+	 * If the change stream times out the initial aggregate operation to establish the change stream on
+	 * the server, then the client will close the change stream. If the getMore calls to the server
+	 * time out, then the change stream will be left open, but will throw a MongoOperationTimeoutError
+	 * when in iterator mode and emit an error event that returns a MongoOperationTimeoutError in
+	 * emitter mode.
+	 *
+	 * To determine whether or not the change stream is still open following a timeout, check the
+	 * {@link ChangeStream.closed} getter.
+	 *
+	 * @example
+	 * In iterator mode, if a next() call throws a timeout error, it will attempt to resume the change stream.
+	 * The next call can just be retried after this succeeds.
+	 * ```ts
+	 * const changeStream = collection.watch([], { timeoutMS: 100 });
+	 * try {
+	 *     await changeStream.next();
+	 * } catch (e) {
+	 *     if (e instanceof MongoOperationTimeoutError && !changeStream.closed) {
+	 *       await changeStream.next();
+	 *     }
+	 *     throw e;
+	 * }
+	 * ```
+	 *
+	 * @example
+	 * In emitter mode, if the change stream goes `timeoutMS` without emitting a change event, it will
+	 * emit an error event that returns a MongoOperationTimeoutError, but will not close the change
+	 * stream unless the resume attempt fails. There is no need to re-establish change listeners as
+	 * this will automatically continue emitting change events once the resume attempt completes.
+	 *
+	 * ```ts
+	 * const changeStream = collection.watch([], { timeoutMS: 100 });
+	 * changeStream.on('change', console.log);
+	 * changeStream.on('error', e => {
+	 *     if (e instanceof MongoOperationTimeoutError && !changeStream.closed) {
+	 *         // do nothing
+	 *     } else {
+	 *         changeStream.close();
+	 *     }
+	 * });
+	 * ```
 	 * @param pipeline - An array of {@link https://www.mongodb.com/docs/manual/reference/operator/aggregation-pipeline/|aggregation pipeline stages} through which to pass change stream documents. This allows for filtering (using $match) and manipulating the change stream documents.
 	 * @param options - Optional settings for the command
 	 * @typeParam TSchema - Type of the data being detected by the change stream
@@ -5062,7 +5531,11 @@ export declare type MongoClientEvents = Pick<TopologyEvents, (typeof MONGO_CLIEN
 export declare interface MongoClientOptions extends BSONSerializeOptions, SupportedNodeConnectionOptions {
 	/** Specifies the name of the replica set, if the mongod is a member of a replica set. */
 	replicaSet?: string;
-	/* Excluded from this release type: timeoutMS */
+	/**
+	 * @experimental
+	 * Specifies the time an operation will run until it throws a timeout error
+	 */
+	timeoutMS?: number;
 	/** Enables or disables TLS/SSL for the connection. */
 	tls?: boolean;
 	/** A boolean to enable or disables TLS/SSL for the connection. (The ssl option is equivalent to the tls option.) */
@@ -5182,7 +5655,7 @@ export declare interface MongoClientOptions extends BSONSerializeOptions, Suppor
 	 *
 	 * @remarks
 	 *  Automatic encryption is an enterprise only feature that only applies to operations on a collection. Automatic encryption is not supported for operations on a database or view, and operations that are not bypassed will result in error
-	 *  (see [libmongocrypt: Auto Encryption Allow-List](https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/client-side-encryption.rst#libmongocrypt-auto-encryption-allow-list)). To bypass automatic encryption for all operations, set bypassAutoEncryption=true in AutoEncryptionOpts.
+	 *  (see [libmongocrypt: Auto Encryption Allow-List](https://github.com/mongodb/specifications/blob/master/source/client-side-encryption/client-side-encryption.md#libmongocrypt-auto-encryption-allow-list)). To bypass automatic encryption for all operations, set bypassAutoEncryption=true in AutoEncryptionOpts.
 	 *
 	 *  Automatic encryption requires the authenticated user to have the [listCollections privilege action](https://www.mongodb.com/docs/manual/reference/command/listCollections/#dbcmd.listCollections).
 	 *
@@ -5205,6 +5678,22 @@ export declare interface MongoClientOptions extends BSONSerializeOptions, Suppor
 	proxyPassword?: string;
 	/** Instructs the driver monitors to use a specific monitoring mode */
 	serverMonitoringMode?: ServerMonitoringMode;
+	/**
+	 * @public
+	 * Specifies the destination of the driver's logging. The default is stderr.
+	 */
+	mongodbLogPath?: "stderr" | "stdout" | MongoDBLogWritable;
+	/**
+	 * @public
+	 * Enable logging level per component or use `default` to control any unset components.
+	 */
+	mongodbLogComponentSeverities?: LogComponentSeveritiesClientOptions;
+	/**
+	 * @public
+	 * All BSON documents are stringified to EJSON. This controls the maximum length of those strings.
+	 * It is defaulted to 1000.
+	 */
+	mongodbLogMaxDocumentLength?: number;
 }
 /* Excluded from this release type: MongoClientPrivate */
 /**
@@ -5433,7 +5922,30 @@ export declare class MongoDBCollectionNamespace extends MongoDBNamespace {
 	constructor(db: string, collection: string);
 	static fromString(namespace?: string): MongoDBCollectionNamespace;
 }
-/* Excluded from this release type: MongoDBLogWritable */
+/**
+ * @public
+ *
+ * A custom destination for structured logging messages.
+ */
+export declare interface MongoDBLogWritable {
+	/**
+	 * This function will be called for every enabled log message.
+	 *
+	 * It can be sync or async:
+	 * - If it is synchronous it will block the driver from proceeding until this method returns.
+	 * - If it is asynchronous the driver will not await the returned promise. It will attach fulfillment handling (`.then`).
+	 *   If the promise rejects the logger will write an error message to stderr and stop functioning.
+	 *   If the promise resolves the driver proceeds to the next log message (or waits for new ones to occur).
+	 *
+	 * Tips:
+	 * - We recommend writing an async `write` function that _never_ rejects.
+	 *   Instead handle logging errors as necessary to your use case and make the write function a noop, until it can be recovered.
+	 * - The Log messages are structured but **subject to change** since the intended purpose is informational.
+	 *   Program against this defensively and err on the side of stringifying whatever is passed in to write in some form or another.
+	 *
+	 */
+	write(log: Log): PromiseLike<unknown> | unknown;
+}
 /** @public */
 export declare class MongoDBNamespace {
 	db: string;
@@ -5504,7 +6016,8 @@ export declare class MongoDriverError extends MongoError {
  * mongodb-client-encryption has a dependency on this error, it uses the constructor with a string argument
  */
 export declare class MongoError extends Error {
-	/* Excluded from this release type: [kErrorLabels] */
+	/* Excluded from this release type: errorLabelSet */
+	get errorLabels(): string[];
 	/**
 	 * This is a number in MongoServerError and a string in MongoDriverError
 	 * @privateRemarks
@@ -5540,7 +6053,6 @@ export declare class MongoError extends Error {
 	 */
 	hasErrorLabel(label: string): boolean;
 	addErrorLabel(label: string): void;
-	get errorLabels(): string[];
 }
 /** @public */
 export declare const MongoErrorLabel: Readonly<{
@@ -5689,7 +6201,16 @@ export declare class MongoKerberosError extends MongoRuntimeError {
 	constructor(message: string);
 	get name(): string;
 }
-/* Excluded from this release type: MongoLoggableComponent */
+/** @public */
+export declare const MongoLoggableComponent: Readonly<{
+	readonly COMMAND: "command";
+	readonly TOPOLOGY: "topology";
+	readonly SERVER_SELECTION: "serverSelection";
+	readonly CONNECTION: "connection";
+	readonly CLIENT: "client";
+}>;
+/** @public */
+export declare type MongoLoggableComponent = (typeof MongoLoggableComponent)[keyof typeof MongoLoggableComponent];
 /* Excluded from this release type: MongoLogger */
 /* Excluded from this release type: MongoLoggerEnvOptions */
 /* Excluded from this release type: MongoLoggerMongoClientOptions */
@@ -5750,7 +6271,7 @@ export declare class MongoMissingDependencyError extends MongoAPIError {
  * @category Error
  */
 export declare class MongoNetworkError extends MongoError {
-	/* Excluded from this release type: [kBeforeHandshake] */
+	/* Excluded from this release type: beforeHandshake */
 	/**
 	 * **Do not use this constructor!**
 	 *
@@ -5839,6 +6360,28 @@ export declare class MongoOIDCError extends MongoRuntimeError {
 	get name(): string;
 }
 /**
+ * @public
+ * @category Error
+ *
+ * The `MongoOperationTimeoutError` class represents an error that occurs when an operation could not be completed within the specified `timeoutMS`.
+ * It is generated by the driver in support of the "client side operation timeout" feature so inherits from `MongoDriverError`.
+ * When `timeoutMS` is enabled `MongoServerError`s relating to `MaxTimeExpired` errors will be converted to `MongoOperationTimeoutError`
+ *
+ * @example
+ * ```ts
+ * try {
+ *   await blogs.insertOne(blogPost, { timeoutMS: 60_000 })
+ * } catch (error) {
+ *   if (error instanceof MongoOperationTimeoutError) {
+ *     console.log(`Oh no! writer's block!`, error);
+ *   }
+ * }
+ * ```
+ */
+export declare class MongoOperationTimeoutError extends MongoDriverError {
+	get name(): string;
+}
+/**
  * Parsed Mongo Client Options.
  *
  * User supplied options are documented by `MongoClientOptions`.
@@ -5923,6 +6466,9 @@ export declare interface MongoOptions extends Required<Pick<MongoClientOptions, 
 	tlsCAFile?: string;
 	tlsCRLFile?: string;
 	tlsCertificateKeyFile?: string;
+	/* Excluded from this release type: mongoLoggerOptions */
+	/* Excluded from this release type: mongodbLogPath */
+	timeoutMS?: number;
 }
 /**
  * An error used when attempting to parse a value (like a connection string)
@@ -5946,7 +6492,7 @@ export declare class MongoParseError extends MongoDriverError {
 }
 /**
  * An error generated when the driver encounters unexpected input
- * or reaches an unexpected/invalid internal state
+ * or reaches an unexpected/invalid internal state.
  *
  * @privateRemarks
  * Should **never** be directly instantiated.
@@ -6039,6 +6585,29 @@ export declare class MongoServerSelectionError extends MongoSystemError {
 	 * @public
 	 **/
 	constructor(message: string, reason: TopologyDescription);
+	get name(): string;
+}
+/**
+ * An error generated when a primary server is marked stale, never directly thrown
+ *
+ * @public
+ * @category Error
+ */
+export declare class MongoStalePrimaryError extends MongoRuntimeError {
+	/**
+	 * **Do not use this constructor!**
+	 *
+	 * Meant for internal use only.
+	 *
+	 * @remarks
+	 * This class is only meant to be constructed within the driver. This constructor is
+	 * not subject to semantic versioning compatibility guarantees and may change at any time.
+	 *
+	 * @public
+	 **/
+	constructor(serverDescription: ServerDescription, maxSetVersion: number | null, maxElectionId: ObjectId | null, options?: {
+		cause?: Error;
+	});
 	get name(): string;
 }
 /**
@@ -6332,6 +6901,12 @@ export declare interface OperationOptions extends BSONSerializeOptions {
 	readPreference?: ReadPreferenceLike;
 	/* Excluded from this release type: bypassPinningCheck */
 	omitReadPreference?: boolean;
+	/* Excluded from this release type: omitMaxTimeMS */
+	/**
+	 * @experimental
+	 * Specifies the time an operation will run until it throws a timeout error
+	 */
+	timeoutMS?: number;
 }
 /* Excluded from this release type: OperationParent */
 /**
@@ -6673,7 +7248,7 @@ export declare class RunCommandCursor extends AbstractCursor {
 	setMaxTimeMS(maxTimeMS: number): this;
 	/**
 	 * Controls the `getMore.batchSize` field
-	 * @param maxTimeMS - the number documents to return in the `nextBatch`
+	 * @param batchSize - the number documents to return in the `nextBatch`
 	 */
 	setBatchSize(batchSize: number): this;
 	/** Unsupported for RunCommandCursor */
@@ -6682,7 +7257,9 @@ export declare class RunCommandCursor extends AbstractCursor {
 	withReadConcern(_: ReadConcernLike): never;
 	/** Unsupported for RunCommandCursor: various cursor flags must be configured directly on command document */
 	addCursorFlag(_: string, __: boolean): never;
-	/** Unsupported for RunCommandCursor: maxTimeMS must be configured directly on command document */
+	/**
+	 * Unsupported for RunCommandCursor: maxTimeMS must be configured directly on command document
+	 */
 	maxTimeMS(_: number): never;
 	/** Unsupported for RunCommandCursor: batchSize must be configured directly on command document */
 	batchSize(_: number): never;
@@ -6693,11 +7270,55 @@ export declare type RunCommandOptions = {
 	session?: ClientSession;
 	/** The read preference */
 	readPreference?: ReadPreferenceLike;
+	/**
+	 * @experimental
+	 * Specifies the time an operation will run until it throws a timeout error
+	 */
+	timeoutMS?: number;
 } & BSONSerializeOptions;
 /** @public */
 export declare type RunCursorCommandOptions = {
 	readPreference?: ReadPreferenceLike;
 	session?: ClientSession;
+	/**
+	 * @experimental
+	 * Specifies the time an operation will run until it throws a timeout error. Note that if
+	 * `maxTimeMS` is provided in the command in addition to setting `timeoutMS` in the options, then
+	 * the original value of `maxTimeMS` will be overwritten.
+	 */
+	timeoutMS?: number;
+	/**
+	 * @public
+	 * @experimental
+	 * Specifies how `timeoutMS` is applied to the cursor. Can be either `'cursorLifeTime'` or `'iteration'`
+	 * When set to `'iteration'`, the deadline specified by `timeoutMS` applies to each call of
+	 * `cursor.next()`.
+	 * When set to `'cursorLifetime'`, the deadline applies to the life of the entire cursor.
+	 *
+	 * Depending on the type of cursor being used, this option has different default values.
+	 * For non-tailable cursors, this value defaults to `'cursorLifetime'`
+	 * For tailable cursors, this value defaults to `'iteration'` since tailable cursors, by
+	 * definition can have an arbitrarily long lifetime.
+	 *
+	 * @example
+	 * ```ts
+	 * const cursor = collection.find({}, {timeoutMS: 100, timeoutMode: 'iteration'});
+	 * for await (const doc of cursor) {
+	 *  // process doc
+	 *  // This will throw a timeout error if any of the iterator's `next()` calls takes more than 100ms, but
+	 *  // will continue to iterate successfully otherwise, regardless of the number of batches.
+	 * }
+	 * ```
+	 *
+	 * @example
+	 * ```ts
+	 * const cursor = collection.find({}, { timeoutMS: 1000, timeoutMode: 'cursorLifetime' });
+	 * const docs = await cursor.toArray(); // This entire line will throw a timeout error if all batches are not fetched and returned within 1000ms.
+	 * ```
+	 */
+	timeoutMode?: CursorTimeoutMode;
+	tailable?: boolean;
+	awaitData?: boolean;
 } & BSONSerializeOptions;
 /** @public */
 export declare type SchemaMember<T, V> = {
@@ -6773,6 +7394,7 @@ export declare class ServerClosedEvent {
 	/** The address (host/port pair) of the server */
 	address: string;
 }
+/* Excluded from this release type: ServerCommandOptions */
 /**
  * The client's view of a single server, based on the most recent hello outcome.
  *
@@ -6807,6 +7429,8 @@ export declare class ServerDescription {
 	maxWriteBatchSize: number | null;
 	/** The max bson object size. */
 	maxBsonObjectSize: number | null;
+	/** Indicates server is a mongocryptd instance. */
+	iscryptd: boolean;
 	$clusterTime?: ClusterTime;
 	/* Excluded from this release type: __constructor */
 	get hostAddress(): HostAddress;
@@ -6820,8 +7444,8 @@ export declare class ServerDescription {
 	get host(): string;
 	get port(): number;
 	/**
-	 * Determines if another `ServerDescription` is equal to this one per the rules defined
-	 * in the {@link https://github.com/mongodb/specifications/blob/master/source/server-discovery-and-monitoring/server-discovery-and-monitoring.rst#serverdescription|SDAM spec}
+	 * Determines if another `ServerDescription` is equal to this one per the rules defined in the SDAM specification.
+	 * @see https://github.com/mongodb/specifications/blob/master/source/server-discovery-and-monitoring/server-discovery-and-monitoring.md
 	 */
 	equals(other?: ServerDescription | null): boolean;
 }
@@ -6972,7 +7596,25 @@ export declare type SetFields<TSchema> = ({
 };
 /** @public */
 export declare type SetProfilingLevelOptions = CommandOperationOptions;
-/* Excluded from this release type: SeverityLevel */
+/**
+ * @public
+ * Severity levels align with unix syslog.
+ * Most typical driver functions will log to debug.
+ */
+export declare const SeverityLevel: Readonly<{
+	readonly EMERGENCY: "emergency";
+	readonly ALERT: "alert";
+	readonly CRITICAL: "critical";
+	readonly ERROR: "error";
+	readonly WARNING: "warn";
+	readonly NOTICE: "notice";
+	readonly INFORMATIONAL: "info";
+	readonly DEBUG: "debug";
+	readonly TRACE: "trace";
+	readonly OFF: "off";
+}>;
+/** @public */
+export declare type SeverityLevel = (typeof SeverityLevel)[keyof typeof SeverityLevel];
 /** @public */
 export declare type Sort = string | Exclude<SortDirection, {
 	$meta: string;
@@ -7092,7 +7734,8 @@ export declare type TagSet = {
 	[key: string]: string;
 };
 /* Excluded from this release type: Timeout */
-/* Excluded from this release type: TimerQueue */
+/* Excluded from this release type: TimeoutContext */
+/* Excluded from this release type: TimeoutContextOptions */
 /** @public
  * Configuration options for timeseries collections
  * @see https://www.mongodb.com/docs/manual/core/timeseries-collections/
@@ -7246,7 +7889,7 @@ export declare class Transaction {
  * Configuration options for a transaction.
  * @public
  */
-export declare interface TransactionOptions extends CommandOperationOptions {
+export declare interface TransactionOptions extends Omit<CommandOperationOptions, "timeoutMS"> {
 	/** A default read concern for commands in this transaction */
 	readConcern?: ReadConcernLike;
 	/** A default writeConcern for commands in this transaction */
@@ -7495,7 +8138,9 @@ export declare class WriteConcern {
 	readonly w?: W;
 	/** Request acknowledgment that the write operation has been written to the on-disk journal */
 	readonly journal?: boolean;
-	/** Specify a time limit to prevent write operations from blocking indefinitely */
+	/**
+	 * Specify a time limit to prevent write operations from blocking indefinitely.
+	 */
 	readonly wtimeoutMS?: number;
 	/**
 	 * Specify a time limit to prevent write operations from blocking indefinitely.
@@ -7533,7 +8178,7 @@ export declare class WriteConcern {
  * @category Error
  */
 export declare class WriteConcernError {
-	/* Excluded from this release type: [kServerError] */
+	/* Excluded from this release type: serverError */
 	constructor(error: WriteConcernErrorData);
 	/** Write concern error code. */
 	get code(): number | undefined;
@@ -7575,7 +8220,9 @@ export declare interface WriteConcernOptions {
 export declare interface WriteConcernSettings {
 	/** The write concern */
 	w?: W;
-	/** The write concern timeout */
+	/**
+	 * The write concern timeout.
+	 */
 	wtimeoutMS?: number;
 	/** The journal write concern */
 	journal?: boolean;
@@ -7586,7 +8233,6 @@ export declare interface WriteConcernSettings {
 	j?: boolean;
 	/**
 	 * The write concern timeout.
-	 * @deprecated Will be removed in the next major version. Please use the wtimeoutMS option.
 	 */
 	wtimeout?: number;
 	/**
