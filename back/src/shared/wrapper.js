@@ -45,14 +45,16 @@ class Wrapper {
 	}
 
 	async getDriver(connection, test = false) {
-		try {
-			const forwardPort = await Tunnel.handleSsh(connection);
-			if (forwardPort) {
-				connection.port = forwardPort;
-				connection.host = "127.0.0.1";
+		if (process.env.PROTECTED_MODE !== "true") {
+			try {
+				const forwardPort = await Tunnel.handleSsh(connection);
+				if (forwardPort) {
+					connection.port = forwardPort;
+					connection.host = "127.0.0.1";
+				}
+			} catch (error) {
+				return false;
 			}
-		} catch (error) {
-			return false;
 		}
 
 		const hash = JSON.stringify(connection);

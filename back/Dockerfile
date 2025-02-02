@@ -22,7 +22,7 @@ COPY . .
 
 RUN cp .env.production .env
 
-RUN apt remove --purge -y gnupg lsb-release wget ca-certificates python3 make g++
+RUN apt autoremove --purge -y gnupg lsb-release wget ca-certificates python3 make g++
 RUN apt autoremove -y
 RUN apt clean
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*

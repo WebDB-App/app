@@ -735,12 +735,16 @@ export default class MongoDB extends Driver {
 	}
 
 	makeUri(withParams = true) {
-		let url = (this.user && this.password) ?
-			`mongodb://${encodeURIComponent(this.user)}:${encodeURIComponent(this.password)}@${encodeURIComponent(this.host)}:${this.port}/` :
-			`mongodb://${encodeURIComponent(this.host)}:${this.port}/`;
+		const useSrv = this.host.includes(".mongodb.net"); // Automatically detect if SRV is needed
+		const protocol = useSrv ? "mongodb+srv" : "mongodb";
+		const portSegment = useSrv ? "" : `:${this.port}`;
+		const credentials = (this.user && this.password) ?
+			`${encodeURIComponent(this.user)}:${encodeURIComponent(this.password)}@` : "";
 
-		if (withParams) {
-			url += "?" + (new URLSearchParams(this.params)).toString();
+		let url = `${protocol}://${credentials}${encodeURIComponent(this.host)}${portSegment}/`;
+
+		if (withParams && this.params) {
+			url += "?" + new URLSearchParams(this.params).toString();
 		}
 
 		return url;

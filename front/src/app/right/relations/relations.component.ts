@@ -10,6 +10,10 @@ import { isSQL } from "../../../shared/helper";
 import { DrawerService } from "../../../shared/drawer.service";
 import { Subscription } from "rxjs";
 
+class ExtendedRelation extends Relation {
+	id!: string;
+}
+
 @Component({
 	selector: 'app-relations',
 	templateUrl: './relations.component.html',
@@ -24,8 +28,8 @@ export class RelationsComponent implements OnDestroy {
 	drawerObs!: Subscription;
 	constraints?: string[];
 	actionColum = "##ACTION##";
-	displayedColumns: string[] = [];
-	dataSource!: MatTableDataSource<Relation>;
+	displayedColumns: {[key: string]: string} = {};
+	dataSource!: MatTableDataSource<ExtendedRelation>;
 	expanded: string[] = [];
 
 	protected readonly isSQL = isSQL;
@@ -52,12 +56,20 @@ export class RelationsComponent implements OnDestroy {
 		this.selectedServer = Server.getSelected();
 		this.constraints = this.selectedServer?.driver.language.constraints;
 
-		this.displayedColumns = ['column_source', 'table_source', 'table_dest', 'column_dest'];
+		this.displayedColumns = {
+			'table_source': 'Table',
+			'column_source': 'Column',
+			'table_dest': "Referenced Table",
+			'column_dest': "Referenced Column"
+		};
 		if (isSQL()) {
-			this.displayedColumns.push(this.actionColum);
+			this.displayedColumns[this.actionColum] = this.actionColum;
 		}
 		this.relations = this.selectedServer?.relations.filter(relation => relation.database === this.selectedDatabase?.name);
-		this.dataSource = new MatTableDataSource(this.relations);
+		this.dataSource = new MatTableDataSource(<ExtendedRelation[]>this.relations?.map(re => {
+			(<ExtendedRelation>re).id = JSON.stringify(re);
+			return re;
+		}));
 	}
 
 	tableComparison(t1: Table, t2?: Table): boolean {
@@ -92,4 +104,6 @@ export class RelationsComponent implements OnDestroy {
 		await this.request.reloadServer(Server.getSelected(), false);
 		await this.refreshData();
 	}
+
+	protected readonly Object = Object;
 }

@@ -350,7 +350,7 @@ export class MySQL extends SQL {
 	}
 
 	override wrapStructure(structure: string) {
-		return escapeId(structure);
+		return escapeId(structure, true);
 	}
 
 	override renameComplex(complex: EditableComplex, type: string, database: string): string | false {

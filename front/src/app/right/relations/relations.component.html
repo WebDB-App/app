@@ -19,38 +19,38 @@
 @if (selectedDatabase && selectedServer) {
 	<div class="scrollDiv mat-elevation-z8">
 		<table [dataSource]="dataSource" class="table" mat-table multiTemplateDataRows>
-			@for (column of displayedColumns; track column) {
+			@for (column of displayedColumns | keyvalue; track column) {
 				<ng-container
-					[stickyEnd]="column === actionColum"
-					matColumnDef="{{column}}"
+					[stickyEnd]="column.key === actionColum"
+					matColumnDef="{{column.key}}"
 				>
 					<th *matHeaderCellDef mat-header-cell>
-						{{ column === actionColum ? '' : column.replaceAll('_', ' ') | titlecase }}
+						{{ column.key === actionColum ? '' : column.value }}
 					</th>
 					<td *matCellDef="let row; let i = index" mat-cell>
-						@if (column === actionColum) {
+						@if (column.key === actionColum) {
 							<span
-								(click)="expanded.indexOf(row.name) >= 0 ? expanded.splice(expanded.indexOf(row.name)) : expanded.push(row.name)"
+								(click)="expanded.indexOf(row.id) >= 0 ? expanded.splice(expanded.indexOf(row.id)) : expanded.push(row.id)"
 								class="material-symbols-outlined notranslate"
 								style="cursor: pointer;">
-								{{ expanded.indexOf(row.name) >= 0 ? 'expand_less' : 'expand_more' }}
+								{{ expanded.indexOf(row.id) >= 0 ? 'expand_less' : 'expand_more' }}
 							</span>
 						}
-						@if (column !== actionColum) {
-							@if (column.startsWith('table_')) {
-								<a [routerLink]="['/' + selectedServer!.name, selectedDatabase!.name, row[column]]">
-									{{ row[column] }}
+						@if (column.key !== actionColum) {
+							@if (column.key.startsWith('table_')) {
+								<a [routerLink]="['/' + selectedServer!.name, selectedDatabase!.name, row[column.key]]">
+									{{ row[column.key] }}
 								</a>
 							}
-							@if (!column.startsWith('table_')) {
-								{{ row[column] }}
+							@if (!column.key.startsWith('table_')) {
+								{{ row[column.key] }}
 							}
 						}
 					</td>
 				</ng-container>
 			}
 			<ng-container matColumnDef="details">
-				<td *matCellDef="let row" [attr.colspan]="displayedColumns.length" mat-cell>
+				<td *matCellDef="let row" [attr.colspan]="Object.keys(displayedColumns).length" mat-cell>
 					<div>
 						<div>
 							<span>Name</span><br>
@@ -76,12 +76,12 @@
 					</div>
 				</td>
 			</ng-container>
-			<tr *matHeaderRowDef="displayedColumns; sticky: true" mat-header-row></tr>
-			<tr *matRowDef="let row; columns: displayedColumns;" [class.expanded-row]="expanded.indexOf(row.name) >= 0"
+			<tr *matHeaderRowDef="Object.keys(displayedColumns); sticky: true" mat-header-row></tr>
+			<tr *matRowDef="let row; columns: Object.keys(displayedColumns);" [class.expanded-row]="expanded.indexOf(row.id) >= 0"
 				class="element-row"
 				mat-row>
 			</tr>
-			<tr *matRowDef="let row; columns: ['details']" [class.expended]="expanded.indexOf(row.name) >= 0"
+			<tr *matRowDef="let row; columns: ['details']" [class.expended]="expanded.indexOf(row.id) >= 0"
 				class="details"
 				mat-row></tr>
 			<tr *matNoDataRow class="mat-mdc-row">
@@ -93,7 +93,7 @@
 		<div>
 			<table class="new">
 				<tr>
-					<td><h3>Source</h3></td>
+					<td><h3>Referencing</h3></td>
 					<td>
 						<mat-form-field>
 							<mat-label>Table</mat-label>
@@ -135,7 +135,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td><h3>Destination</h3></td>
+					<td><h3>Referenced</h3></td>
 					<td>
 						<mat-form-field>
 							<mat-label>Table</mat-label>
