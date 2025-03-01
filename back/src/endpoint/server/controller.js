@@ -35,6 +35,12 @@ class Controller {
 
 	async getStructure(req, res) {
 		const driver = await wrapperModel.getDriver(req.body);
+		if (!driver) {
+			const err = "Problem while connecting to " + JSON.stringify(req.body);
+			Log.error(err);
+			res.send({error: err});
+			return;
+		}
 		const final = {
 			dbs: [],
 			indexes: [],
