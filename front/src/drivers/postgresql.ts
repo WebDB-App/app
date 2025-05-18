@@ -210,11 +210,7 @@ export class PostgreSQL extends SQL {
 							id: "bytea",
 							bold: true,
 							description: "Binary data (“byte array”)"
-						},
-						{
-							id: "jsonb",
-							description: "Binary JSON data, decomposed"
-						},
+						}
 					]
 				}, {
 					name: Group.Complex,
@@ -226,7 +222,12 @@ export class PostgreSQL extends SQL {
 						{
 							id: "json",
 							bold: true,
-							description: 'Textual JSON data'
+							description: "Textual JSON data"
+						},
+						{
+							id: "jsonb",
+							bold: true,
+							description: "Binary JSON data"
 						}
 					]
 				}, {
