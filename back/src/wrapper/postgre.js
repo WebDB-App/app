@@ -283,6 +283,9 @@ ${def[0]["pg_get_viewdef"]}`
 				if (Array.isArray(obj)) {
 					row[index] = `{${JSON.stringify(obj).slice(1, -1)}}`;
 				}
+				if (obj !== null && typeof obj === "object") {
+					row[index] = JSON.stringify(obj);
+				}
 			}
 			return row;
 		};
