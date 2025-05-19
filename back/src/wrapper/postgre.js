@@ -278,17 +278,24 @@ ${def[0]["pg_get_viewdef"]}`
 	}
 
 	async update(db, table, old_data, new_data) {
+		let jsonUpdate = false;
 		const transform = (row) => {
 			for (const [index, obj] of Object.entries(row)) {
 				if (Array.isArray(obj)) {
 					row[index] = `{${JSON.stringify(obj).slice(1, -1)}}`;
 				}
 				if (obj !== null && typeof obj === "object") {
-					row[index] = JSON.stringify(obj);
+					jsonUpdate = true;
 				}
 			}
 			return row;
 		};
+		old_data = transform(old_data);
+		new_data = transform(new_data);
+
+		if (jsonUpdate) {
+			return {error: "JSON(b) update is not supported. Please write the query manually"};
+		}
 		return await super.update(db, table, transform(old_data), transform(new_data));
 	}
 
@@ -300,6 +307,9 @@ ${def[0]["pg_get_viewdef"]}`
 				}
 				if (typeof obj === "string") {
 					row[index] = this.escapeValue(obj);
+				}
+				if (obj !== null && typeof obj === "object") {
+					row[index] = this.escapeValue(JSON.stringify(obj));
 				}
 			}
 			return row;
