@@ -77,6 +77,8 @@ export interface Driver {
 	loadExtraLib: (http: HttpClient) => Promise<void>;
 	terminalCmd: () => string;
 
+	validName: RegExp;
+
 	extractForView: (query: string) => string | false;
 	extractEnum: (col: Column) => string[] | false;
 	format: (code: string) => string;

@@ -7,7 +7,7 @@ import { HistoryService } from "../shared/history.service";
 import { Relation } from "../classes/relation";
 import { Configuration } from "../classes/configuration";
 import { HttpClient } from "@angular/common/http";
-import { singleLine, sql_cleanQuery, sql_isSelect } from "../shared/helper";
+import { sql_cleanQuery, sql_isSelect } from "../shared/helper";
 import { Complex } from "../classes/complex";
 
 const sugCache: any = {};
@@ -37,6 +37,8 @@ export class SQL implements Driver {
 		language: "https://www.w3schools.com/sql/sql_quickref.asp",
 		dump: ""
 	}
+
+	validName = /^[\p{L}0-9\-_+=@#&$€£:;/\\]{1,63}$/u;
 
 	language: {
 		comparators: Comparator[],

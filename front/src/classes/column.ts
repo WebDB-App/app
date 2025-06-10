@@ -4,7 +4,7 @@ import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators }
 import { uniqueValidator } from "../shared/unique.validator";
 import { Table } from "./table";
 import { Server } from "./server";
-import { isNested, isSQL, validName } from "../shared/helper";
+import { isNested, isSQL } from "../shared/helper";
 import { Driver } from "./driver";
 
 export class Column {
@@ -76,7 +76,7 @@ export class Column {
 			}
 		}
 
-		const nameValidators = [Validators.required, Validators.pattern(validName)];
+		const nameValidators = [Validators.required, Validators.pattern(Server.getSelected().driver.validName)];
 		if (table) {
 			nameValidators.push(uniqueValidator('name', table.columns.filter(col => col.name !== from?.name).map(col => col.name)));
 		}

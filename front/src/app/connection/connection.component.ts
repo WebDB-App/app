@@ -11,7 +11,6 @@ import { DomSanitizer, Title } from "@angular/platform-browser";
 import { MatIconRegistry } from "@angular/material/icon";
 import { ProcessDialogComponent } from "../process/process-dialog.component";
 import { StatsDialogComponent } from "../stats/stats-dialog.component";
-import { validName } from "../../shared/helper";
 import { Database } from "../../classes/database";
 import { Router } from "@angular/router";
 import { VariableDialogComponent } from "../variable/variable-dialog.component";
@@ -274,7 +273,7 @@ export class CreateDatabaseDialog {
 	}
 
 	nameValid(value: string) {
-		if (!value.match(validName)) {
+		if (!value.match(this.server.driver.validName)) {
 			return false;
 		}
 		return !this.server.dbs.find(db => db.name === value);

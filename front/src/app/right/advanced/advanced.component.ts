@@ -6,7 +6,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { RequestService } from "../../../shared/request.service";
 import { Router } from "@angular/router";
 import { DrawerService } from "../../../shared/drawer.service";
-import { getStorageKey, validName } from "../../../shared/helper";
+import { getStorageKey } from "../../../shared/helper";
 import { Stats } from "../../../classes/stats";
 import { Subscription } from "rxjs";
 
@@ -120,7 +120,7 @@ export class AdvancedComponent implements OnDestroy {
 	}
 
 	nameValid(name: string) {
-		if (!name.match(validName)) {
+		if (!name.match(this.selectedServer!.driver.validName)) {
 			return false;
 		}
 		return name.length > 1 && !this.selectedServer?.dbs?.find(db => db.name.split(' | ')[0] === name);
