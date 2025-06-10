@@ -125,7 +125,7 @@ export class TablesComponent implements OnInit {
 	}
 
 	getTableUrl(name: string) {
-		let url = this.router.url;
+		let url = decodeURI(this.router.url);
 		if (url.indexOf(`/(${this.selectedTable!.name}/`) >= 0) {
 			url = url.replace(`/(${this.selectedTable!.name}/`, `/(${name}/`);
 		} else {
