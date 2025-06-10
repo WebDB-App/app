@@ -278,9 +278,13 @@ export class AiComponent implements OnInit, OnDestroy {
 			promises.push(new Promise(resolve => {
 				this.gemini = new GoogleGenerativeAI(this.config[ProviderEnum.gemini]);
 				this.models[ProviderEnum.gemini] = [
-					{shortName: "gemini-1.0-pro", fullName: "gemini-1.0-pro"},
-					{shortName: "gemini-1.5-flash-latest", fullName: "gemini-1.5-flash-latest"},
-					{shortName: "gemini-1.5-pro-latest", fullName: "gemini-1.5-pro-latest"},
+					{shortName: "Gemini 2.5 Pro", fullName: "gemini-2.5-pro-preview-06-05"},
+					{shortName: "Gemini 2.5 Flash", fullName: "gemini-2.5-flash-preview-05-20"},
+					{shortName: "Gemini 2.0 Flash", fullName: "gemini-2.0-flash"},
+					{shortName: "Gemma 3 1B", fullName: "gemma-3-1b-it"},
+					{shortName: "Gemma 3 4B", fullName: "gemma-3-4b-it"},
+					{shortName: "Gemma 3 12B", fullName: "gemma-3-12b-it"},
+					{shortName: "Gemma 3 27B", fullName: "gemma-3-27b-it"},
 				];
 				resolve(true);
 			}));

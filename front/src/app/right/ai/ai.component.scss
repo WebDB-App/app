@@ -8,6 +8,10 @@
 			display: block;
 		}
 	}
+
+	::ng-deep p {
+		display: contents;
+	}
 }
 
 #examples {
